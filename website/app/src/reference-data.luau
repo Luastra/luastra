@@ -5757,6 +5757,11 @@ local ReferenceData: any = {
                     ["description"] = "Autofill hint.",
                 },
                 {
+                    ["name"] = "placeholder",
+                    ["values"] = "string",
+                    ["description"] = "Short hint shown while the controlled value is empty.",
+                },
+                {
                     ["name"] = "value",
                     ["values"] = "string",
                     ["description"] = "Controlled value.",
@@ -10659,6 +10664,11 @@ local ReferenceData: any = {
                             ["name"] = "autoComplete",
                             ["values"] = "supported token",
                             ["description"] = "Autofill hint.",
+                        },
+                        {
+                            ["name"] = "placeholder",
+                            ["values"] = "string",
+                            ["description"] = "Short hint shown while the controlled value is empty.",
                         },
                         {
                             ["name"] = "value",

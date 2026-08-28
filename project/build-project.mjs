@@ -99,9 +99,13 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
     if (target === "web") {
       const hostHtml = (await readFile(resolve(phase5Host, "index.html"), "utf8"))
         .replace("<title>Luastra Preview</title>", "<title>Luastra Application</title>")
-        .replace('aria-label="Luastra development host"', 'aria-label="Luastra"')
-        .replace("        <span>Luastra</span>\n", "")
-        .replace('<span id="status" role="status" aria-live="polite">Starting…</span>', '<span id="status" role="status" aria-live="polite" hidden>Starting…</span>');
+        .replace(`      <header class="luastra-host-brand" aria-label="Luastra development host">
+        <img src="./brand/luastra-mark.svg" alt="" />
+        <span>Luastra</span>
+        <span id="status" role="status" aria-live="polite">Starting…</span>
+      </header>
+`, `      <span id="status" role="status" aria-live="polite" hidden></span>
+`);
       await writeFile(resolve(output, "index.html"), hostHtml);
       await copyFile(resolve(phase5Host, "phase5-ui.css"), resolve(output, "platform/phase5-ui.css"));
     }

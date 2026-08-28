@@ -24,8 +24,10 @@ The local build is ad-hoc signed and verified automatically. This is suitable
 for the owner's local machine; it is not Developer ID signing or notarization
 for public distribution.
 
-The production website is deployed from the exact published release tag by
-the repository's GitHub Pages workflow. Ordinary pushes do not publish it.
+The production website is deployed from an exact published release tag by the
+repository's GitHub Pages workflow. A separately reviewed documentation-only
+correction may be deployed manually from one exact 40-character commit SHA.
+Ordinary pushes do not publish it.
 
 ## Source-of-truth boundary
 

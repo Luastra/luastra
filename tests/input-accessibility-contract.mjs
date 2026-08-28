@@ -13,6 +13,7 @@ test("TextInput carries bounded native keyboard and credential hints", () => {
     inputMode: "email",
     enterKeyHint: "next",
     autoComplete: "email",
+    placeholder: "name@example.com",
     required: true,
   });
   assert.deepEqual(
@@ -21,10 +22,12 @@ test("TextInput carries bounded native keyboard and credential hints", () => {
       inputmode: input.attributes.inputmode,
       enterkeyhint: input.attributes.enterkeyhint,
       autocomplete: input.attributes.autocomplete,
+      placeholder: input.attributes.placeholder,
     },
-    { type: "email", inputmode: "email", enterkeyhint: "next", autocomplete: "email" },
+    { type: "email", inputmode: "email", enterkeyhint: "next", autocomplete: "email", placeholder: "name@example.com" },
   );
   assert.ok(Protocol.renderer.attributes.includes("inputmode"));
+  assert.ok(Protocol.renderer.attributes.includes("placeholder"));
   assert.ok(validateRendererTree({
     type: "TextInput",
     id: "form/email",
@@ -34,6 +37,7 @@ test("TextInput carries bounded native keyboard and credential hints", () => {
       inputMode: "email",
       inputType: "email",
       label: "Email",
+      placeholder: "name@example.com",
     },
     children: [],
   }));
@@ -43,6 +47,7 @@ test("TextInput rejects unsupported host keyboard hints", () => {
   assert.throws(() => component("TextInput", { id: "form/value", inputMode: "arbitrary" }), /invalid inputMode/);
   assert.throws(() => component("TextInput", { id: "form/value", enterKeyHint: "arbitrary" }), /invalid enterKeyHint/);
   assert.throws(() => component("TextInput", { id: "form/value", autoComplete: "arbitrary" }), /invalid autoComplete/);
+  assert.throws(() => component("TextInput", { id: "form/value", placeholder: "x".repeat(161) }), /invalid placeholder/);
 });
 
 test("preview shell leaves the single main landmark to the Luastra Screen", async () => {

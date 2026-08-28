@@ -4,6 +4,12 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Exact reviewed 40-character commit SHA to publish
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,7 +21,10 @@ concurrency:
 jobs:
   publish:
     name: publish-luastra-dev
-    if: github.repository == 'Luastra/luastra' && startsWith(github.event.release.tag_name, 'v')
+    if: >-
+      github.repository == 'Luastra/luastra' &&
+      ((github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v')) ||
+      github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     environment:
@@ -27,10 +36,21 @@ jobs:
       id-token: write
 
     steps:
-      - name: Check out the published release tag
+      - name: Check out the published release tag or reviewed correction
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.event.release.tag_name || inputs.source_sha }}
+
+      - name: Verify the manually reviewed correction SHA
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          if ! printf '%s' "$SOURCE_SHA" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo 'source_sha must be one exact lowercase 40-character commit SHA' >&2
+            exit 1
+          fi
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
 
       - name: Select supported Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
@@ -56,4 +76,3 @@ jobs:
       - name: Deploy the exact Pages artifact
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
-

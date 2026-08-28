@@ -10,8 +10,12 @@ bundle as a GitHub Pages artifact, and deploys that artifact.
 
 - Ordinary pushes and pull requests never deploy the website.
 - Draft releases never deploy the website.
-- The deployment workflow runs only when a release in `Luastra/luastra` is
-  published and its tag begins with `v`.
+- The deployment workflow normally runs when a release in `Luastra/luastra`
+  is published and its tag begins with `v`.
+- A maintainer may manually publish an owner-reviewed documentation correction
+  by supplying the exact lowercase 40-character commit SHA. The workflow
+  checks out that immutable commit and rejects branch names, tags, abbreviated
+  hashes, and any checkout whose resolved SHA differs from the supplied value.
 - Publishing a tagged release, enabling Pages, and changing DNS are explicit
   maintainer-controlled release actions; ordinary CI cannot perform them.
 - The `github-pages` environment records the production deployment and must
@@ -37,7 +41,8 @@ Actions publishing uses the Pages repository setting as the domain source.
 
 ## Verification and rollback
 
-The deployment must report the exact release tag and commit it checked out.
+The deployment must report the exact release tag or manually supplied commit
+SHA and the commit it checked out.
 The generated site must pass the SDK-reference validator, application tests,
 clean-candidate audit, responsive browser checks, link checks, and HTTPS smoke
 checks. If the first deployment is not correct, unpublish the Pages deployment

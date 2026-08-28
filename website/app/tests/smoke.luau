@@ -36,6 +36,17 @@ assert(tree.type == "Screen")
 assert(tree.id == "docs/root")
 assert(#tree.children >= 2)
 assert((tree.properties :: any).documentLanguage == "en")
+assert(string.find((findNode(tree, "docs/header/menu").properties :: any).className, "luastra-site-menu-button", 1, true) ~= nil)
+assert((findNode(tree, "docs/search").properties :: any).placeholder == "Find a component or function…")
+
+Application.handle("docs.toggle-theme", "docs/header/theme", "")
+local darkTree = Application.render()
+assert((darkTree.properties :: any).backgroundColor == "#0E201D")
+Application.handle("docs.toggle-theme", "docs/header/theme", "")
+
+Application.handle("docs.toggle-navigation", "docs/header/menu", "")
+assert(string.find((findNode(Application.render(), "docs/sidebar").properties :: any).className, "luastra-site-sidebar-open", 1, true) ~= nil)
+Application.handle("docs.close-navigation", "docs/navigation-scrim", "")
 
 Application.handle("example.increment", "live/increment", "")
 assert(Application.render().type == "Screen")

@@ -123,6 +123,7 @@ export const Protocol = Object.freeze({
       "href",
       "inputmode",
       "loading",
+      "placeholder",
       "rel",
       "required",
       "role",
@@ -417,6 +418,7 @@ export const Protocol = Object.freeze({
           "label",
           "motion",
           "onInput",
+          "placeholder",
           "required",
           "value"
         ]

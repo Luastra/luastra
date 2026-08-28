@@ -53,9 +53,10 @@ required checks.
 ## GitHub Pages and `luastra.dev`
 
 - Use GitHub Actions as the Pages publishing source.
-- Deploy only from the exact tag of a published GitHub Release through
-  `.github/workflows/publish-luastra-dev.yml`; ordinary pushes and pull
-  requests must not publish the site.
+- Deploy a release from its exact published tag. A separately owner-reviewed
+  documentation correction may be deployed manually from one exact lowercase
+  40-character commit SHA through `.github/workflows/publish-luastra-dev.yml`.
+  Ordinary pushes and pull requests must not publish the site.
 - Use the `github-pages` environment for the production deployment.
 - Set `luastra.dev` as the custom domain, require successful organization and
   DNS verification, and enforce HTTPS before announcing the site.

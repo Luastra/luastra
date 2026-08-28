@@ -93,6 +93,222 @@ h1, h2, h3, p { margin-block: 0; overflow-wrap: anywhere; }
 #error { width: min(100%, 1180px); margin: 0 auto var(--luastra-space-md); white-space: pre-wrap; overflow-wrap: anywhere; color: var(--luastra-color-danger-text); }
 #host-root { width: 100%; }
 
+/* Website composition primitives. They intentionally build on ordinary
+   Luastra Row/Column/Input/Button nodes so the same render tree remains useful
+   to web, desktop, and mobile hosts. */
+.luastra-host:has(.luastra-site) {
+  padding: 0 clamp(12px, 2vw, 28px);
+}
+.luastra-host:has(.luastra-site) > .luastra-host-brand {
+  display: none;
+}
+.luastra-site {
+  min-height: 100vh;
+  min-height: 100dvh;
+  border-inline: 1px solid var(--luastra-color-border);
+}
+.luastra-row.luastra-site-topbar {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: minmax(190px, 224px) minmax(240px, 620px) auto 44px;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 24px;
+  border-block-end: 1px solid var(--luastra-color-border);
+  background: color-mix(in srgb, var(--luastra-color-bg) 90%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+.luastra-site-brand {
+  position: relative;
+  width: max-content;
+  min-height: 44px;
+  padding-inline-start: 56px;
+  justify-content: center;
+  color: var(--luastra-color-text);
+  line-height: 1.05;
+}
+.luastra-site-brand::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 2px;
+  top: 5px;
+  width: 42px;
+  height: 34px;
+  border-radius: 3px;
+  background: var(--luastra-color-accent);
+  clip-path: polygon(18% 0, 46% 0, 35% 56%, 70% 56%, 100% 100%, 0 100%);
+}
+.luastra-site-brand::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 19px;
+  top: 20px;
+  width: 8px;
+  height: 8px;
+  background: var(--luastra-color-highlight);
+  transform: rotate(45deg);
+}
+.luastra-site-brand-name {
+  color: var(--luastra-color-text) !important;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.luastra-site-brand-subtitle {
+  margin-block-start: 4px;
+  color: var(--luastra-color-muted) !important;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.luastra-site-search {
+  min-width: 0;
+}
+.luastra-site-search .luastra-input {
+  min-height: 48px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgb(22 52 46 / 5%);
+}
+.luastra-site-version {
+  width: max-content;
+  justify-self: end;
+  border-radius: 999px;
+  padding: 6px 11px;
+  color: var(--luastra-color-accent-strong) !important;
+  background: color-mix(in srgb, var(--luastra-color-accent) 14%, var(--luastra-color-surface));
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.luastra-button.luastra-site-icon-button {
+  min-width: 44px;
+  width: 44px;
+  min-height: 44px;
+  height: 44px;
+  max-height: 44px;
+  align-self: center;
+  padding: 0;
+  border-color: var(--luastra-color-border);
+  color: var(--luastra-color-text);
+  background: var(--luastra-color-surface-raised);
+  font-size: 1.15rem;
+}
+.luastra-site-menu-button {
+  display: none;
+}
+.luastra-row.luastra-site-layout {
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  align-items: start;
+}
+.luastra-site-sidebar {
+  position: sticky;
+  z-index: 20;
+  top: 76px;
+  height: calc(100vh - 76px);
+  height: calc(100dvh - 76px);
+  padding: 24px 18px;
+  border-inline-end: 1px solid var(--luastra-color-border);
+  overflow-y: auto;
+  background: var(--luastra-color-bg);
+}
+.luastra-site-nav-group {
+  margin-block-end: 22px;
+}
+.luastra-site-nav-label {
+  margin: 0 10px 7px;
+  color: var(--luastra-color-muted) !important;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.luastra-site-nav-link {
+  display: block;
+  min-height: 38px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  color: var(--luastra-color-muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.luastra-site-nav-link:hover,
+.luastra-site-nav-link[aria-current="page"] {
+  color: var(--luastra-color-text);
+  background: color-mix(in srgb, var(--luastra-color-accent) 10%, transparent);
+}
+.luastra-site-note {
+  margin-block-start: auto;
+  border: 1px solid var(--luastra-color-border);
+  border-radius: 12px;
+  padding: 14px;
+  background: var(--luastra-color-surface);
+}
+.luastra-column.luastra-site-main {
+  width: min(100% - 48px, 1040px);
+  margin-inline: auto;
+  padding-block: 48px 96px;
+}
+.luastra-site-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--luastra-color-border);
+  border-radius: var(--luastra-radius-lg);
+  padding: clamp(28px, 6vw, 62px);
+  background: linear-gradient(135deg, var(--luastra-color-surface-raised), color-mix(in srgb, var(--luastra-color-accent) 10%, var(--luastra-color-surface)));
+  box-shadow: var(--luastra-shadow-card);
+}
+.luastra-site-hero > h1 {
+  max-width: 760px;
+}
+.luastra-site-reference-card {
+  border: 1px solid var(--luastra-color-border);
+  border-radius: var(--luastra-radius-md);
+  padding: 20px;
+  background: var(--luastra-color-surface);
+  box-shadow: 0 4px 18px rgb(22 52 46 / 4%);
+}
+.luastra-site-use-when {
+  border-inline-start: 4px solid var(--luastra-color-highlight);
+  border-radius: 4px var(--luastra-radius-sm) var(--luastra-radius-sm) 4px;
+  padding: var(--luastra-space-md);
+  background: color-mix(in srgb, var(--luastra-color-highlight) 12%, var(--luastra-color-surface));
+}
+.luastra-site-eyebrow {
+  color: var(--luastra-color-accent-strong) !important;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.luastra-row.luastra-site-badges {
+  flex-wrap: wrap;
+}
+.luastra-site-badge {
+  width: max-content;
+  border: 1px solid var(--luastra-color-border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--luastra-color-accent-strong) !important;
+  background: color-mix(in srgb, var(--luastra-color-accent) 10%, var(--luastra-color-surface));
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+.luastra-site-scrim {
+  display: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: transparent;
+  background: transparent;
+  font-size: 0;
+}
+
 .luastra-screen { width: 100%; min-width: 0; color: var(--luastra-color-text); background: var(--luastra-color-bg); }
 .luastra-column, .luastra-stack { display: flex; min-width: 0; flex-direction: column; }
 .luastra-row { display: flex; min-width: 0; align-items: center; }
@@ -377,9 +593,60 @@ th.luastra-table-cell { color: var(--luastra-color-text); background: color-mix(
     padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
       max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
   }
+  .luastra-host:has(.luastra-site) {
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+      max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
   .luastra-responsive.luastra-row { flex-direction: column; align-items: stretch; }
   .luastra-columns-two, .luastra-columns-three { grid-template-columns: 1fr; }
   .luastra-host-brand > span:not(#status) { display: none; }
+}
+
+@media (max-width: 980px) {
+  .luastra-row.luastra-site-topbar {
+    grid-template-columns: 44px minmax(88px, 160px) minmax(180px, 1fr) auto 44px;
+    gap: 12px;
+    padding: 10px 16px;
+  }
+  .luastra-site-menu-button { display: block; }
+  .luastra-site-brand { width: 56px; padding-inline-start: 50px; }
+  .luastra-site-brand-name, .luastra-site-brand-subtitle { display: none; }
+  .luastra-row.luastra-site-layout { grid-template-columns: 1fr; }
+  .luastra-site-sidebar {
+    position: fixed;
+    inset: 76px auto 0 clamp(12px, 2vw, 28px);
+    width: min(82vw, 264px);
+    height: calc(100vh - 76px);
+    height: calc(100dvh - 76px);
+    transform: translateX(-105%);
+    transition: transform 180ms ease;
+    box-shadow: var(--luastra-shadow-card);
+  }
+  .luastra-site-sidebar-open { transform: translateX(0); }
+  .luastra-site-scrim-open {
+    position: fixed;
+    z-index: 15;
+    inset: 76px clamp(12px, 2vw, 28px) 0;
+    display: block;
+    background: rgb(0 0 0 / 34%);
+  }
+}
+
+@media (max-width: 700px) {
+  .luastra-row.luastra-site-topbar {
+    min-height: 68px;
+    grid-template-columns: 42px minmax(70px, 104px) minmax(0, 1fr) 42px;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  .luastra-site-version { display: none; }
+  .luastra-site-brand { width: 42px; padding-inline-start: 42px; }
+  .luastra-site-brand-name { display: none; }
+  .luastra-site-search .luastra-input { min-height: 44px; }
+  .luastra-site-sidebar { inset-block-start: 68px; height: calc(100dvh - 68px); }
+  .luastra-site-scrim-open { inset-block-start: 68px; }
+  .luastra-column.luastra-site-main { width: min(100% - 28px, 1040px); padding-block: 26px 72px; }
+  .luastra-site-hero { border-radius: 18px; }
 }
 
 @media (prefers-color-scheme: dark) {

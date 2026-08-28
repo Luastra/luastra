@@ -7,7 +7,7 @@ local UI = require("luastra/ui")
 
 local Application = {}
 
-local theme: UI.Theme = {
+local lightTheme: UI.Theme = {
     backgroundColor = "#F4EFE3",
     textColor = "#16342E",
     accentColor = "#2F7568",
@@ -18,11 +18,24 @@ local theme: UI.Theme = {
     dangerColor = "#9C3C32",
 }
 
+local darkTheme: UI.Theme = {
+    backgroundColor = "#0E201D",
+    textColor = "#F4EFE3",
+    accentColor = "#65AD9F",
+    mutedColor = "#B6C7C1",
+    surfaceColor = "#18332E",
+    successColor = "#8FD2BF",
+    warningColor = "#EFB944",
+    dangerColor = "#EF8C80",
+}
+
 local query = ""
 local selectedSection = "overview"
 local selectedPageId: string? = nil
 local exampleCounter = 0
 local learningStep = 1
+local darkMode = false
+local navigationOpen = false
 local copyStatusByPage: {[string]: string} = {}
 local pendingCopy: {[number]: string} = {}
 local targetPages: {[string]: string} = {}
@@ -77,13 +90,14 @@ local function link(id: string, text: string, pageId: string): UI.Node
     }
 end
 
-local function sectionLink(id: string, text: string, sectionId: string): UI.Node
+local function sectionLink(id: string, text: string, sectionId: string, className: string?): UI.Node
     targetSections[id] = sectionId
     return UI.Link {
         id = id,
         text = text,
         href = "#docs/content",
         onTap = "docs.open-section",
+        className = className,
     }
 end
 
@@ -106,23 +120,106 @@ local function renderPageLinks(sectionId: string): UI.Node
 end
 
 local function renderNavigation(): UI.Node
-    local items: any = {
-        id = "docs/nav/items",
-        gap = "md",
-        flow = "nowrap",
+    local navigation: any = {
+        id = "docs/nav",
+        label = "Documentation sections",
+        role = "navigation",
+        gap = "none",
     }
     for groupIndex, group in ReferenceData.navigationGroups do
+        local items: any = {
+            id = `docs/nav/group-{groupIndex}`,
+            className = "luastra-site-nav-group",
+            gap = "none",
+        }
+        table.insert(items, UI.Text {
+            id = `docs/nav/group-{groupIndex}/label`,
+            text = group.label,
+            className = "luastra-site-nav-label",
+        })
         for itemIndex, item in group.items do
             local sectionId = item[1]
-            table.insert(items, sectionLink(`docs/nav/group-{groupIndex}/item-{itemIndex}`, item[2], sectionId))
+            table.insert(items, sectionLink(
+                `docs/nav/group-{groupIndex}/item-{itemIndex}`,
+                item[2],
+                sectionId,
+                "luastra-site-nav-link"
+            ))
         end
+        table.insert(navigation, UI.Column(items))
     end
-    return UI.Scroll {
-        id = "docs/nav",
-        width = "full",
-        scroll = "horizontal",
-        paddingY = "sm",
-        UI.Row(items),
+    return UI.Column(navigation)
+end
+
+local function renderSidebar(): UI.Node
+    return UI.Column {
+        id = "docs/sidebar",
+        className = navigationOpen and "luastra-site-sidebar luastra-site-sidebar-open" or "luastra-site-sidebar",
+        role = "complementary",
+        label = "SDK reference navigation",
+        renderNavigation(),
+        UI.Card {
+            id = "docs/sidebar/note",
+            className = "luastra-site-note",
+            width = "full",
+            gap = "xs",
+            UI.Text { id = "docs/sidebar/note/title", text = "Source alpha", variant = "subheading" },
+            UI.Text {
+                id = "docs/sidebar/note/text",
+                text = "This reference is version-bound. APIs may change between pre-release versions.",
+                tone = "muted",
+            },
+        },
+    }
+end
+
+local function renderHeader(): UI.Node
+    return UI.Row {
+        id = "docs/header",
+        className = "luastra-site-topbar",
+        role = "banner",
+        UI.Button {
+            id = "docs/header/menu",
+            className = "luastra-site-icon-button luastra-site-menu-button",
+            text = "☰",
+            label = navigationOpen and "Close navigation" or "Open navigation",
+            appearance = "secondary",
+            onTap = "docs.toggle-navigation",
+        },
+        UI.Column {
+            id = "docs/header/brand",
+            className = "luastra-site-brand",
+            gap = "none",
+            UI.Text { id = "docs/header/brand/name", className = "luastra-site-brand-name", text = "Luastra" },
+            UI.Text { id = "docs/header/brand/subtitle", className = "luastra-site-brand-subtitle", text = "SDK Reference" },
+        },
+        UI.Column {
+            id = "docs/header/search",
+            className = "luastra-site-search",
+            width = "full",
+            UI.TextInput {
+                id = "docs/search",
+                label = "Search the SDK",
+                value = query,
+                placeholder = "Find a component or function…",
+                onInput = "docs.search",
+                inputMode = "search",
+                enterKeyHint = "search",
+            },
+        },
+        UI.Text {
+            id = "docs/header/version",
+            className = "luastra-site-version",
+            text = ReferenceData.release.version,
+        },
+        UI.Button {
+            id = "docs/header/theme",
+            className = "luastra-site-icon-button",
+            text = darkMode and "☀" or "◐",
+            label = darkMode and "Use light theme" or "Use dark theme",
+            appearance = "secondary",
+            onTap = "docs.toggle-theme",
+        },
     }
 end
 
@@ -140,6 +237,7 @@ local function renderSearchResults(): UI.Node
             if count <= 40 then
                 table.insert(input, UI.Card {
                     id = `docs/search/result-{index}`,
+                    className = "luastra-site-reference-card",
                     width = "full",
                     padding = "md",
                     gap = "xs",
@@ -158,7 +256,18 @@ local function renderSearchResults(): UI.Node
 end
 
 local function renderOverview(section: any): UI.Node
-    local input: any = { id = "docs/section", gap = "lg" }
+    local input: any = {
+        id = "docs/section",
+        gap = "lg",
+        className = section.id == "overview" and "luastra-site-hero" or "luastra-site-reference-card",
+    }
+    if section.eyebrow ~= nil then
+        table.insert(input, UI.Text {
+            id = "docs/section/eyebrow",
+            className = "luastra-site-eyebrow",
+            text = section.eyebrow,
+        })
+    end
     table.insert(input, UI.Text { id = "docs/section/title", text = section.title, variant = "title" })
     if section.module ~= nil then table.insert(input, UI.Code { id = "docs/section/module", code = section.module, language = "Luau" }) end
     if section.summary ~= nil then table.insert(input, UI.Text { id = "docs/section/summary", text = section.summary }) end
@@ -167,6 +276,22 @@ local function renderOverview(section: any): UI.Node
     end
     for index, note in section.notes or {} do
         table.insert(input, UI.Text { id = `docs/section/note-{index}`, text = note, tone = "muted" })
+    end
+    if section.badges ~= nil and #section.badges > 0 then
+        local badges: any = {
+            id = "docs/section/badges",
+            className = "luastra-site-badges",
+            gap = "xs",
+            flow = "wrap",
+        }
+        for index, badge in section.badges do
+            table.insert(badges, UI.Text {
+                id = `docs/section/badge-{index}`,
+                className = "luastra-site-badge",
+                text = badge,
+            })
+        end
+        table.insert(input, UI.Row(badges))
     end
     for index, item in section.links or {} do
         table.insert(input, UI.Link {
@@ -261,8 +386,8 @@ local function renderDetail(page: any): UI.Node
     if page.useWhen ~= nil then
         table.insert(input, UI.Card {
             id = "docs/detail/use-when",
+            className = "luastra-site-use-when",
             width = "full",
-            surface = "accent",
             padding = "md",
             gap = "xs",
             UI.Text { id = "docs/detail/use-when/title", text = "When to use it", variant = "subheading" },
@@ -327,47 +452,37 @@ function Application.render(): UI.Node
     targetSections = {}
     return UI.Screen {
         id = "docs/root",
-        theme = theme,
+        theme = darkMode and darkTheme or lightTheme,
+        className = "luastra-site",
         width = "full",
-        padding = "responsive",
-        gap = "lg",
+        padding = "none",
+        gap = "none",
         documentTitle = "Luastra — Build apps like games",
         documentDescription = "Version-bound Luastra documentation, tutorials, and live examples.",
         documentLanguage = "en",
 
+        renderHeader(),
         UI.Row {
-            id = "docs/header",
-            width = "full",
-            align = "center",
-            justify = "between",
-            responsive = true,
-            gap = "md",
+            id = "docs/layout",
+            className = "luastra-site-layout",
+            align = "start",
+            renderSidebar(),
             UI.Column {
-                id = "docs/identity",
-                gap = "xs",
-                UI.Text { id = "docs/title", text = "Luastra documentation", variant = "heading" },
-                UI.Text { id = "docs/version", text = `${ReferenceData.release.version} · SOURCE ALPHA`, tone = "muted" },
-            },
-            UI.Column {
-                id = "docs/search-field",
-                gap = "xs",
-                UI.Text { id = "docs/search-label", text = "Search the SDK" },
-                UI.TextInput {
-                    id = "docs/search",
-                    label = "Search the SDK",
-                    value = query,
-                    onInput = "docs.search",
-                    inputMode = "search",
-                    enterKeyHint = "search",
-                },
+                id = "docs/content",
+                className = "luastra-site-main",
+                role = "main",
+                width = "full",
+                gap = "lg",
+                renderContent(),
             },
         },
-        renderNavigation(),
-        UI.Column {
-            id = "docs/content",
-            width = "full",
-            gap = "lg",
-            renderContent(),
+        UI.Button {
+            id = "docs/navigation-scrim",
+            className = navigationOpen and "luastra-site-scrim luastra-site-scrim-open" or "luastra-site-scrim",
+            text = "Close navigation",
+            label = "Close navigation",
+            appearance = "ghost",
+            onTap = "docs.close-navigation",
         },
     }
 end
@@ -376,11 +491,13 @@ function Application.handle(action: string, target: string, value: string)
     if action == "docs.search" and target == "docs/search" then
         query = value
         selectedPageId = nil
+        navigationOpen = false
     elseif action == "docs.open-page" then
         local pageId = targetPages[target]
         if pageId ~= nil then
             query = ""
             selectedPageId = pageId
+            navigationOpen = false
         end
     elseif action == "docs.open-section" then
         local sectionId = targetSections[target]
@@ -388,7 +505,14 @@ function Application.handle(action: string, target: string, value: string)
             query = ""
             selectedPageId = nil
             selectedSection = sectionId
+            navigationOpen = false
         end
+    elseif action == "docs.toggle-navigation" and target == "docs/header/menu" then
+        navigationOpen = not navigationOpen
+    elseif action == "docs.close-navigation" and target == "docs/navigation-scrim" then
+        navigationOpen = false
+    elseif action == "docs.toggle-theme" and target == "docs/header/theme" then
+        darkMode = not darkMode
     elseif action == "docs.copy" and target == "docs/detail/copy" then
         local page = selectedPage()
         if page ~= nil and page.code ~= nil then

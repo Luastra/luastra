@@ -100,6 +100,10 @@ export function component(type, properties = {}, children = [], { resolveAsset =
     if (properties.inputMode !== undefined) attributes.inputmode = properties.inputMode;
     if (properties.enterKeyHint !== undefined) attributes.enterkeyhint = properties.enterKeyHint;
     if (properties.autoComplete !== undefined) attributes.autocomplete = properties.autoComplete;
+    if (properties.placeholder !== undefined) {
+      if (typeof properties.placeholder !== "string" || new TextEncoder().encode(properties.placeholder).byteLength > 160) fail("TextInput has an invalid placeholder");
+      attributes.placeholder = properties.placeholder;
+    }
   }
   if (properties.label !== undefined && type !== "Image") attributes["aria-label"] = properties.label;
   if (properties.className !== undefined) attributes.class = properties.className;

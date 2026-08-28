@@ -40,8 +40,8 @@
   "protocolFiles": [
     {
       "path": "protocol.hpp",
-      "bytes": 6887,
-      "sha256": "dd3f00fd3f6c27ad60be4d2cbe1277f062efcb3d940a5778253dd64008fbf450"
+      "bytes": 6902,
+      "sha256": "af40da452e23800375485a1f63ade9262e131fe710c7d0152f13d5bc142d4cb1"
     }
   ],
   "targets": [
