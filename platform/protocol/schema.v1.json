@@ -30,7 +30,7 @@
   "renderer": {
     "patchKinds": ["append", "attribute", "create", "event", "focus", "modal", "place", "remove", "remove-attribute", "text"],
     "semanticTags": ["a", "button", "code", "dialog", "div", "h1", "h2", "h3", "hr", "img", "input", "label", "li", "main", "p", "pre", "section", "span", "table", "td", "th", "tr", "ul"],
-    "attributes": ["alt", "aria-busy", "aria-controls", "aria-describedby", "aria-expanded", "aria-hidden", "aria-invalid", "aria-label", "aria-live", "autocomplete", "class", "data-language", "data-luastra-aspect-ratio", "data-luastra-background-color", "data-luastra-corner-radius", "data-luastra-document-description", "data-luastra-document-language", "data-luastra-document-title", "data-luastra-fill", "data-luastra-height", "data-luastra-stroke", "data-luastra-stroke-width", "data-luastra-text-color", "data-luastra-theme-accent", "data-luastra-theme-background", "data-luastra-theme-danger", "data-luastra-theme-muted", "data-luastra-theme-success", "data-luastra-theme-surface", "data-luastra-theme-text", "data-luastra-theme-warning", "data-luastra-width", "decoding", "disabled", "enterkeyhint", "hidden", "href", "inputmode", "loading", "rel", "required", "role", "scope", "src", "target", "type", "value"],
+    "attributes": ["alt", "aria-busy", "aria-controls", "aria-describedby", "aria-expanded", "aria-hidden", "aria-invalid", "aria-label", "aria-live", "autocomplete", "class", "data-language", "data-luastra-aspect-ratio", "data-luastra-background-color", "data-luastra-corner-radius", "data-luastra-document-description", "data-luastra-document-language", "data-luastra-document-title", "data-luastra-fill", "data-luastra-height", "data-luastra-stroke", "data-luastra-stroke-width", "data-luastra-text-color", "data-luastra-theme-accent", "data-luastra-theme-background", "data-luastra-theme-danger", "data-luastra-theme-muted", "data-luastra-theme-success", "data-luastra-theme-surface", "data-luastra-theme-text", "data-luastra-theme-warning", "data-luastra-width", "decoding", "disabled", "enterkeyhint", "hidden", "href", "inputmode", "loading", "placeholder", "rel", "required", "role", "scope", "src", "target", "type", "value"],
     "events": ["click", "dismiss", "input"],
     "maximumTreeNodes": 10000,
     "maximumTreeDepth": 64,
@@ -67,7 +67,7 @@
       "TableCell": { "properties": ["backgroundColor", "className", "header", "hidden", "motion", "scope", "text", "textColor"] },
       "TableRow": { "properties": ["className", "hidden", "motion"] },
       "Text": { "properties": ["backgroundColor", "className", "hidden", "motion", "role", "text", "textColor", "variant"] },
-      "TextInput": { "properties": ["autoComplete", "className", "disabled", "enterKeyHint", "errorId", "hidden", "inputMode", "inputType", "label", "motion", "onInput", "required", "value"] }
+      "TextInput": { "properties": ["autoComplete", "className", "disabled", "enterKeyHint", "errorId", "hidden", "inputMode", "inputType", "label", "motion", "onInput", "placeholder", "required", "value"] }
     }
   },
   "rpc": {

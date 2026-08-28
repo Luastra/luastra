@@ -177,7 +177,12 @@ end
 
 local function customClasses(classes: { string }, value: any)
     assert(type(value) == "string" and #value <= 256, "className must be a string of at most 256 bytes")
-    assert(string.match(value, "^[a-z][a-z0-9-]*( [a-z][a-z0-9-]*)*$") ~= nil, "className contains an invalid token")
+    local count = 0
+    for token in string.gmatch(value, "[^ ]+") do
+        assert(string.match(token, "^[a-z][a-z0-9-]*$") ~= nil, "className contains an invalid token")
+        count += 1
+    end
+    assert(count > 0 and not string.find(value, "  ", 1, true), "className contains an invalid token")
     appendClass(classes, value)
 end
 
@@ -225,6 +230,9 @@ local function make(componentType: string, input: any, semanticClass: string?): 
         elseif key == "variant" and componentType == "Text" then
             assert(value == "title" or value == "heading" or value == "subheading" or value == "body", "Text variant must be title, heading, subheading or body")
             properties.variant = value
+        elseif key == "placeholder" then
+            assert(componentType == "TextInput" and type(value) == "string" and #value <= 160, "TextInput placeholder must be a string of at most 160 bytes")
+            properties.placeholder = value
         elseif key == "documentTitle" then
             assert(componentType == "Screen" and type(value) == "string" and #value >= 1 and #value <= 160, "Screen documentTitle must contain 1 to 160 bytes")
             properties.documentTitle = value

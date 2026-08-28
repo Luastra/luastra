@@ -1,5 +1,5 @@
 {
-  "contentSha256": "79f8cce8529144844e4ff2323f35bc7d652bb27720c3dae3c62600004183ebf2",
+  "contentSha256": "8d25f182ba3cd48fea6b84c572fca89580daa25c2e8fb7e84da900234c119893",
   "files": [
     {
       "bytes": 182,
@@ -32,10 +32,10 @@
       "sha256": "fec7a4b969a6f4d5ae3c58e6f7cb4b1d4e841b49aae3e1aaebe4cf2b9ffcf595"
     },
     {
-      "bytes": 2296,
+      "bytes": 2646,
       "mode": 420,
       "path": ".github/PAGES_DEPLOYMENT.md",
-      "sha256": "b3a4bb5517f50ffe76f7909b6f886d7c81b6a59658dc21cad45a73e3d1b1dbbf"
+      "sha256": "10c1fcb6cb6b6a1727f5a75074f7f4d6ec3fbf4309bdd31d816eddd8a787368d"
     },
     {
       "bytes": 954,
@@ -44,10 +44,10 @@
       "sha256": "7829c971c6f261190b3e63308d32e796e99077382a94b6b427045e6f5ccac821"
     },
     {
-      "bytes": 4040,
+      "bytes": 4155,
       "mode": 420,
       "path": ".github/REPOSITORY_SETTINGS.md",
-      "sha256": "67ea923e7ecdb3f42eb8853ffcacc79ff26e0d69ae6a4bc99e66ffce27a3194b"
+      "sha256": "436e0b53b07878332bcdf7e2d85cbb3f94fcb7470da2ae06beb8656867e277ed"
     },
     {
       "bytes": 1819,
@@ -56,10 +56,10 @@
       "sha256": "b63b8f9cfa07b2f03c4f5a98055ac26f53b0917984fe9e692d7eafb57400f39b"
     },
     {
-      "bytes": 1608,
+      "bytes": 2355,
       "mode": 420,
       "path": ".github/workflows/publish-luastra-dev.yml",
-      "sha256": "29cfb185bd499137da9074f0e57a1c245288b75e87e35b80179f035bcad11a0c"
+      "sha256": "65d7ad19ea072bb8578576e6f21e2dfde7b3df1087e58cc9a8eb3a2363811c60"
     },
     {
       "bytes": 4962,
@@ -536,10 +536,10 @@
       "sha256": "67428494735ae5686c913bc3eae57d75d65079d744e74cfe36be340731c8dc74"
     },
     {
-      "bytes": 21867,
+      "bytes": 29676,
       "mode": 420,
       "path": "host/phase5-ui.css",
-      "sha256": "21b42e1665f44d57aa2ae0f3cc1948fa20113506934f94433b83f4c7243841cb"
+      "sha256": "e4c2016373efee556fd9e4e77fe1c7cadfbbf0ceb499fe6f9ea090616210fff0"
     },
     {
       "bytes": 98,
@@ -1940,22 +1940,22 @@
       "sha256": "cbb2c1426304dbc12b11dcfab7c5d2b6893b4962b04b18c85344a1f528721b49"
     },
     {
-      "bytes": 6887,
+      "bytes": 6902,
       "mode": 420,
       "path": "platform/protocol/generated/protocol.hpp",
-      "sha256": "dd3f00fd3f6c27ad60be4d2cbe1277f062efcb3d940a5778253dd64008fbf450"
+      "sha256": "af40da452e23800375485a1f63ade9262e131fe710c7d0152f13d5bc142d4cb1"
     },
     {
-      "bytes": 8262,
+      "bytes": 8286,
       "mode": 420,
       "path": "platform/protocol/generated/protocol.luau",
-      "sha256": "5d82e30eb32446fa66ececaf65d5766cdebe45cc6a0e9e140b3c5831defd3889"
+      "sha256": "c117d7eae551b3765e0e532eafaa6a7eb8a56f559a35f3e16cd63042916e00df"
     },
     {
-      "bytes": 24504,
+      "bytes": 24550,
       "mode": 420,
       "path": "platform/protocol/generated/protocol.mjs",
-      "sha256": "deef80ccaf51bd2bd6e77d3f1cb31309983722d83d66119ba3dd2e3e20081635"
+      "sha256": "207e93030b5def6fb15a28a3bce0c5ce6c3e91d314b443aa156969fc90ad5703"
     },
     {
       "bytes": 2702,
@@ -1964,10 +1964,10 @@
       "sha256": "712d9a712d1fca60304bac35255938c6388a9bbdf8174b930025874206dbf448"
     },
     {
-      "bytes": 5998,
+      "bytes": 6028,
       "mode": 420,
       "path": "platform/protocol/schema.v1.json",
-      "sha256": "9afc35874361511da4dba76dc7ad7a3d35e688f3462c8339bd71877cc385f2e3"
+      "sha256": "55168f33cc02feefc9b284c6dc7bda7dce7b1a49b82b5911fa955d7b878ba481"
     },
     {
       "bytes": 6559,
@@ -2000,10 +2000,10 @@
       "sha256": "b7a9d58df994e0bb23b88925abe797a0a60f95617415cbde209e9dd8cd76f396"
     },
     {
-      "bytes": 15780,
+      "bytes": 16058,
       "mode": 420,
       "path": "platform/renderer/reconciler.mjs",
-      "sha256": "e05462e445007c4ca8391afe29322425d8aa7baa11b257d1fff85e9ab022e1d6"
+      "sha256": "70d93cf756b8e09ad48317de9a58f74886e30bbc8c72aad6e8ecad435e7014ed"
     },
     {
       "bytes": 1511,
@@ -2093,7 +2093,7 @@
       "bytes": 2272,
       "mode": 420,
       "path": "platform/source-build/source-build-contract.v1.json",
-      "sha256": "fdb69294500840142c6713937773c2c98539d2f565e107c4b402e67563e37d7b"
+      "sha256": "2f8b7deb02ea1bffee13321d1d57acaf5b4ebb8402fa2b194185d9be82afd857"
     },
     {
       "bytes": 3981,
@@ -2120,10 +2120,10 @@
       "sha256": "e0ebb99a9ee219a7a64fb066678eb504e56c8d22efccbf2ec7796bb3daa00f42"
     },
     {
-      "bytes": 6979,
+      "bytes": 7026,
       "mode": 420,
       "path": "project/build-project.mjs",
-      "sha256": "aa94b25bf528267a6385f87ca5b22d32a3c82aef48e169c8c52eeb2be8dfba5d"
+      "sha256": "1976a1af98972b8ae1f1a885e6a3e164ddfd80492266755a6f00144cdadc7a96"
     },
     {
       "bytes": 7630,
@@ -2189,19 +2189,19 @@
       "bytes": 3002,
       "mode": 420,
       "path": "release-artifacts/0.1.0-alpha/luastra-release.v1.json",
-      "sha256": "f69cb0d891d02c2bef55498605fd9286f772cac5c3cd6f99e22aa75523316ac4"
+      "sha256": "b89a5dc4532b1f34990f5da7b504a36bda31cda9191b8c8a8c2ca1bf67d89595"
     },
     {
-      "bytes": 8582817,
+      "bytes": 8591526,
       "mode": 420,
       "path": "release-artifacts/0.1.0-alpha/luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz",
-      "sha256": "f1a1fd28415c34c920237d083c5a29942057624e1f80c168464d1c1f4ea016dd"
+      "sha256": "2e5fc2c01c3060a07d58dc0a029d072803ecbf879a3c6327b1ae4169e540bed5"
     },
     {
-      "bytes": 8914111,
+      "bytes": 8922815,
       "mode": 420,
       "path": "release-artifacts/0.1.0-alpha/luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz",
-      "sha256": "806f8a6d14b1b52579408645964ed68ee8659f354bc770eb566e820e2e53b72e"
+      "sha256": "eac6664d062b4731a722023ec2a7d07607357b539c382a451971b5d7fbc743fa"
     },
     {
       "bytes": 88092,
@@ -2210,10 +2210,10 @@
       "sha256": "0918b5510b7cc331b87d68767b748b04faae6d8eaff9624881b66a76748139ad"
     },
     {
-      "bytes": 9496807,
+      "bytes": 9505516,
       "mode": 420,
       "path": "release-artifacts/0.1.0-alpha/luastra-sdk-0.1.0-alpha-linux-x64.tar.gz",
-      "sha256": "2b19ca41a3a74b1d3333d356f0b6cac42f034672c626b01ab390c3e92dace042"
+      "sha256": "c2d0f766830ea5ebee03206e78f82fac48fe9ec5cffaf19689e6fd22bc885a29"
     },
     {
       "bytes": 1463,
@@ -2222,10 +2222,10 @@
       "sha256": "c41726b8bf3b4dafcfdf2776408a55a7fd8cd91636037c20165ab3505a0757b4"
     },
     {
-      "bytes": 5288871,
+      "bytes": 5297575,
       "mode": 420,
       "path": "release-artifacts/0.1.0-alpha/luastra-sdk-0.1.0-alpha-win32-x64.tar.gz",
-      "sha256": "73aa69810480436365431b24aa3f6cf264d6f604fdda2da35b8a582d3adc498c"
+      "sha256": "78b29e6c1a909178e72ea4aeb5e30ad6fa7186bcfd97220c5689d0b61a26257c"
     },
     {
       "bytes": 1819,
@@ -2237,13 +2237,13 @@
       "bytes": 1030,
       "mode": 420,
       "path": "release-artifacts/0.1.0-alpha/SHA256SUMS",
-      "sha256": "cb31e9d9456d0b5c57ede5e470bf966ae44d184953d2384764f0bb56f6eebe84"
+      "sha256": "a02f882ecbebbf3a4313919582fd616c8bf23f970c68c1e47d5add5ef3491066"
     },
     {
-      "bytes": 7651,
+      "bytes": 7839,
       "mode": 420,
       "path": "release/audit-public-candidate.mjs",
-      "sha256": "2a8e0cb2eab0c485fe6f4fddce5b74945e71747c9f2666ef88f8caf8a01678ce"
+      "sha256": "8f3a9a50a2ad069b1babbd9a7e55d4668d2f57a3b406d69877c193882d255009"
     },
     {
       "bytes": 18775,
@@ -2315,7 +2315,7 @@
       "bytes": 1986,
       "mode": 420,
       "path": "release/sdk-release-admission.v1.json",
-      "sha256": "95486fed85e448db5f4339bf1fe37f73a156f94f21df55b79d11fd365cee7f0f"
+      "sha256": "67513ce18b21ac65a127397bd391b35daa4baeff039fc565760ac8547f39385b"
     },
     {
       "bytes": 1574,
@@ -2462,10 +2462,10 @@
       "sha256": "24ffd753a93464a488532096c72277c42d62b84503020be08a7f2461c4818fd7"
     },
     {
-      "bytes": 18288,
+      "bytes": 18715,
       "mode": 420,
       "path": "sdk/luastra/ui.luau",
-      "sha256": "fe50ee20a68e5c3c167beb91c521ee87d298dccfc93ebe55b4c98616cb0cdda7"
+      "sha256": "38b79f2dc2ef610c8e935b53d69fb68415cb26cba935f3fd08671b07a9b835f6"
     },
     {
       "bytes": 4222,
@@ -2477,7 +2477,7 @@
       "bytes": 2697,
       "mode": 420,
       "path": "sdk/source-manifest.v1.json",
-      "sha256": "2f0925a6b7dc60b54db0aea63074f5b73ce8c3f2ede3c965d8455699fedcc05f"
+      "sha256": "52f0c025dd09d4f68a834118abde168266a6d5a34d17575a512db34f081049bb"
     },
     {
       "bytes": 1622,
@@ -2666,10 +2666,10 @@
       "sha256": "b223fb3e60e2dd61f805abc7daec8d567ecef3615b76194ba5f696317b9dfddc"
     },
     {
-      "bytes": 2851,
+      "bytes": 3198,
       "mode": 420,
       "path": "tests/input-accessibility-contract.mjs",
-      "sha256": "1fbc48788b8368520445c6e0bcaba730be4042f7f11304ccc69306e8c87d03b9"
+      "sha256": "e8d1389d906145312d271667bdfbbe4e7a94711784b8cbdcea6801e9ee9c2902"
     },
     {
       "bytes": 2873,
@@ -2738,10 +2738,10 @@
       "sha256": "b652fa3113d68f70c514f43347160bdf42b4b8d504881e730148797c895ffb42"
     },
     {
-      "bytes": 13338,
+      "bytes": 13284,
       "mode": 420,
       "path": "tests/project-v2-workflow.mjs",
-      "sha256": "da08b228016a6d7ce23fe4e103dd52b3fe6384145a4be14a15cbe3462b9067c8"
+      "sha256": "08e98f69c2108f591e03e14badcf562679efde7eddfcb4ddb3c3191c32c3b299"
     },
     {
       "bytes": 11621,
@@ -2942,16 +2942,16 @@
       "sha256": "fe661d9460047575b458fd7eaa0900129febc70f145923c75298de0df984ac93"
     },
     {
-      "bytes": 17468,
+      "bytes": 21990,
       "mode": 420,
       "path": "website/app/src/main.luau",
-      "sha256": "1d18d3bc723b8f4480caee3657aea949f3b6ff93d11bc86b5a574845afb7b78f"
+      "sha256": "a85b43c049aeaf956444d3b7a4d5e4468889bc6a41c7c50aca78d5a9b62f8215"
     },
     {
-      "bytes": 699795,
+      "bytes": 700277,
       "mode": 420,
       "path": "website/app/src/reference-data.luau",
-      "sha256": "cc541ed2869305dd17331cb7977aa3c821ed04eb82abf483cbc38d059873dd17"
+      "sha256": "ba4592598cc94ea1a6ec537cb6ba50d9f7e2ecee909980e7173d93de6adc5a1e"
     },
     {
       "bytes": 3734,
@@ -2960,10 +2960,10 @@
       "sha256": "ac54dc0d5f0069280c7c73fd2ca2115ddbc62bf9f68f37df9a4a008ef8102e82"
     },
     {
-      "bytes": 3350,
+      "bytes": 4108,
       "mode": 420,
       "path": "website/app/tests/smoke.luau",
-      "sha256": "02523a1a60769c6bffa0837305300e4a1c80e529424ac94fb627fd26dd9ece03"
+      "sha256": "4174eb3471d04e516b16a3fb01fa0b155900fc43d705bf68e167dd4678a83de3"
     },
     {
       "bytes": 7496,
@@ -2978,10 +2978,10 @@
       "sha256": "b778102422d6d11db6b4eabe29ef7679a280a00584d99c0eed55a6ab9530ee65"
     },
     {
-      "bytes": 1743,
+      "bytes": 1859,
       "mode": 420,
       "path": "website/README.md",
-      "sha256": "c6e0513d674ca068d5f879fb48a20dcf0929ba4f5e730fbc4b611b2eb900b6e7"
+      "sha256": "58cfc4088e035c168d2e2e46ff45ada89b77bfd04afbf6489a2b523cd933ca3e"
     },
     {
       "bytes": 1725,
@@ -3014,10 +3014,10 @@
       "sha256": "267ca678291a5adefe91721e742a206a3600f2bcb8bc141557bd9d59820ce5ca"
     },
     {
-      "bytes": 387140,
+      "bytes": 387295,
       "mode": 420,
       "path": "website/site/generated-reference-data.js",
-      "sha256": "5e12b87d73e7d4d788c0e47ebc9e98d1ae1f1b4f3e24ac603a6bf1c37b7710e7"
+      "sha256": "0b6dac249e7b3f6d138376dff08d4bfc70bb12ca94f53fa7f6895eec777d474a"
     },
     {
       "bytes": 2322,
@@ -3026,10 +3026,10 @@
       "sha256": "d714c8913010418be3834d18b44d26e533ee1b5b31f43c30e6ab9124f8c4d744"
     },
     {
-      "bytes": 101241,
+      "bytes": 101328,
       "mode": 420,
       "path": "website/site/reference-data.js",
-      "sha256": "0ca0b50dc07f391eab0b9bcade6cd10e3e227c29feeb8416c58f9fe8d3a8bfcd"
+      "sha256": "f0a30e792e03199a47bf117267b6df01e0cd9e8b41296855a3090cb205e138b7"
     },
     {
       "bytes": 14665,

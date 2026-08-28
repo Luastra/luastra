@@ -5220,6 +5220,11 @@ export const generatedPages = Object.freeze([
         "description": "Autofill hint."
       },
       {
+        "name": "placeholder",
+        "values": "string",
+        "description": "Short hint shown while the controlled value is empty."
+      },
+      {
         "name": "value",
         "values": "string",
         "description": "Controlled value."

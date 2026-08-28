@@ -96,9 +96,8 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     const webHtml = await readFile(resolve(project, "dist/web-a/index.html"), "utf8");
     assert.match(webHtml, /Content-Security-Policy/);
     assert.match(webHtml, /platform\/phase5-ui\.css/);
-    assert.match(webHtml, /aria-label="Luastra"/);
+    assert.doesNotMatch(webHtml, /luastra-host-brand/);
     assert.match(webHtml, /id="status"[^>]*hidden/);
-    assert.doesNotMatch(webHtml, /<span>Luastra<\/span>/);
     assert.doesNotMatch(webHtml, /Luastra development host/);
 
     const changedCover = Buffer.from(coverBytes);

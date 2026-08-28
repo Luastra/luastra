@@ -115,7 +115,9 @@ export async function auditCleanCandidate({ root = resolve(dirname(fileURLToPath
   }
   const pages = await readFile(resolve(candidate, ".github/workflows/publish-luastra-dev.yml"), "utf8");
   if (!/^  release:\n    types:\n      - published$/mu.test(pages) || /^  push:/mu.test(pages) ||
-      !/ref: \$\{\{ github\.event\.release\.tag_name \}\}/u.test(pages) ||
+      !/^  workflow_dispatch:\n    inputs:\n      source_sha:/mu.test(pages) ||
+      !/ref: \$\{\{ github\.event\.release\.tag_name \|\| inputs\.source_sha \}\}/u.test(pages) ||
+      !/\^\[0-9a-f\]\{40\}\$/u.test(pages) || !/git rev-parse HEAD/u.test(pages) ||
       !/^      pages: write$/mu.test(pages) || !/^      id-token: write$/mu.test(pages)) {
     fail("unsafe or incomplete luastra.dev publishing workflow");
   }

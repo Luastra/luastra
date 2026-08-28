@@ -1,10 +1,10 @@
 0918b5510b7cc331b87d68767b748b04faae6d8eaff9624881b66a76748139ad  luastra-sdk-0.1.0-alpha-licenses.tar.gz
-2b19ca41a3a74b1d3333d356f0b6cac42f034672c626b01ab390c3e92dace042  luastra-sdk-0.1.0-alpha-linux-x64.tar.gz
+2e5fc2c01c3060a07d58dc0a029d072803ecbf879a3c6327b1ae4169e540bed5  luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz
 4229aa6bc03aad753ec5f3e562e5d58f2c667d2295198255218e4d1697ccf004  luastra-0.1.0-alpha-RELEASE_NOTES.md
 538b1cf4fcd90467e25533ded88ea9521def8fd2265a4bcd1a9877fdc800a66d  luastra-sdk-0.1.0-alpha.spdx.json
 60d3ace667691eaf98e58f14625400d39b2f2c6592c2c423aa9658bc942d9200  luastra-install.mjs
-73aa69810480436365431b24aa3f6cf264d6f604fdda2da35b8a582d3adc498c  luastra-sdk-0.1.0-alpha-win32-x64.tar.gz
-806f8a6d14b1b52579408645964ed68ee8659f354bc770eb566e820e2e53b72e  luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz
+78b29e6c1a909178e72ea4aeb5e30ad6fa7186bcfd97220c5689d0b61a26257c  luastra-sdk-0.1.0-alpha-win32-x64.tar.gz
+b89a5dc4532b1f34990f5da7b504a36bda31cda9191b8c8a8c2ca1bf67d89595  luastra-release.v1.json
+c2d0f766830ea5ebee03206e78f82fac48fe9ec5cffaf19689e6fd22bc885a29  luastra-sdk-0.1.0-alpha-linux-x64.tar.gz
 c41726b8bf3b4dafcfdf2776408a55a7fd8cd91636037c20165ab3505a0757b4  luastra-sdk-0.1.0-alpha-THIRD_PARTY_NOTICES.md
-f1a1fd28415c34c920237d083c5a29942057624e1f80c168464d1c1f4ea016dd  luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz
-f69cb0d891d02c2bef55498605fd9286f772cac5c3cd6f99e22aa75523316ac4  luastra-release.v1.json
+eac6664d062b4731a722023ec2a7d07607357b539c382a451971b5d7fbc743fa  luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz
