@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "types": {
+    "Meditation": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "durationMs": "number",
+      "locked": "boolean",
+      "accessible": "boolean",
+      "favorite": "boolean"
+    }
+  },
+  "functions": {
+    "auth.login.v1": {
+      "clientName": "login",
+      "authorization": "public",
+      "mutation": true,
+      "idempotency": "required",
+      "input": { "email": "string", "password": "string" },
+      "result": { "token": "string", "expiresAt": "number", "userName": "string" }
+    },
+    "auth.logout.v1": {
+      "clientName": "logout",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": {},
+      "result": { "revoked": "boolean" }
+    },
+    "auth.session.v1": {
+      "clientName": "sessionInfo",
+      "authorization": "user",
+      "mutation": false,
+      "idempotency": "none",
+      "input": {},
+      "result": { "userName": "string", "expiresAt": "number" }
+    },
+    "catalog.list.v1": {
+      "clientName": "listMeditations",
+      "authorization": "public",
+      "mutation": false,
+      "idempotency": "none",
+      "input": {},
+      "result": { "meditations": "Meditation[]" }
+    },
+    "content.access.v1": {
+      "clientName": "accessMeditation",
+      "authorization": "public",
+      "mutation": false,
+      "idempotency": "none",
+      "input": { "meditationId": "string" },
+      "result": { "itemId": "string", "source": "string", "title": "string", "artist": "string", "resumePositionMs": "number", "downloadAllowed": "boolean" }
+    },
+    "library.favorite.v1": {
+      "clientName": "setFavorite",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": { "meditationId": "string", "favorite": "boolean" },
+      "result": { "meditationId": "string", "favorite": "boolean" }
+    },
+    "progress.save.v1": {
+      "clientName": "saveProgress",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": { "meditationId": "string", "positionMs": "number" },
+      "result": { "meditationId": "string", "positionMs": "number" }
+    }
+  }
+}

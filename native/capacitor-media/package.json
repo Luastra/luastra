@@ -1,0 +1,28 @@
+{
+  "name": "@luastra/capacitor-media",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "files": [
+    "android/src/main/",
+    "android/build.gradle",
+    "dist/",
+    "ios/Sources/",
+    "Package.swift"
+  ],
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "@capacitor/core": ">=8.0.0"
+  },
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  }
+}

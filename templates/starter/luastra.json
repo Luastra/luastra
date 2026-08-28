@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.starter",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/ui"]
+    },
+    {
+      "id": "app/tests/smoke",
+      "source": "tests/smoke.luau",
+      "dependencies": ["luastra/ui"]
+    }
+  ],
+  "tests": ["app/tests/smoke"]
+}

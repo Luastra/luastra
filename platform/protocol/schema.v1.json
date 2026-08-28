@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "identity": "luastra-host-protocol",
+  "supportedVersions": [1],
+  "limits": {
+    "envelopeBytes": 65536,
+    "stringBytes": 4096,
+    "traceIdBytes": 64,
+    "nestingDepth": 16,
+    "collectionItems": 1024,
+    "objectProperties": 128,
+    "inFlightRequests": 16,
+    "minimumDeadlineMs": 1,
+    "maximumDeadlineMs": 30000,
+    "rendererBatchPatches": 4096
+  },
+  "capability": {
+    "requestKinds": ["app.launchurl.get", "clipboard.write", "media.command", "navigation.history", "rpc.call", "storage.get", "storage.set", "timer.control", "timer.sleep"],
+    "resultStatuses": ["ok", "error", "cancelled", "deadline"],
+    "publicErrorCodes": [
+      "CANCELLED",
+      "DEADLINE",
+      "FORBIDDEN",
+      "INTERNAL",
+      "NETWORK",
+      "UNAUTHORIZED",
+      "VALIDATION"
+    ]
+  },
+  "renderer": {
+    "patchKinds": ["append", "attribute", "create", "event", "focus", "modal", "place", "remove", "remove-attribute", "text"],
+    "semanticTags": ["a", "button", "code", "dialog", "div", "h1", "h2", "h3", "hr", "img", "input", "label", "li", "main", "p", "pre", "section", "span", "table", "td", "th", "tr", "ul"],
+    "attributes": ["alt", "aria-busy", "aria-controls", "aria-describedby", "aria-expanded", "aria-hidden", "aria-invalid", "aria-label", "aria-live", "autocomplete", "class", "data-language", "data-luastra-aspect-ratio", "data-luastra-background-color", "data-luastra-corner-radius", "data-luastra-document-description", "data-luastra-document-language", "data-luastra-document-title", "data-luastra-fill", "data-luastra-height", "data-luastra-stroke", "data-luastra-stroke-width", "data-luastra-text-color", "data-luastra-theme-accent", "data-luastra-theme-background", "data-luastra-theme-danger", "data-luastra-theme-muted", "data-luastra-theme-success", "data-luastra-theme-surface", "data-luastra-theme-text", "data-luastra-theme-warning", "data-luastra-width", "decoding", "disabled", "enterkeyhint", "hidden", "href", "inputmode", "loading", "rel", "required", "role", "scope", "src", "target", "type", "value"],
+    "events": ["click", "dismiss", "input"],
+    "maximumTreeNodes": 10000,
+    "maximumTreeDepth": 64,
+    "motion": {
+      "durationMs": { "minimum": 0, "maximum": 60000 },
+      "easing": ["linear", "easeOutCubic", "easeInOutCubic"],
+      "properties": {
+        "opacity": { "minimum": 0, "maximum": 1 },
+        "rotationDeg": { "minimum": -360000, "maximum": 360000 },
+        "rotationYDeg": { "minimum": -360000, "maximum": 360000 },
+        "scaleX": { "minimum": 0, "maximum": 100 },
+        "scaleY": { "minimum": 0, "maximum": 100 },
+        "translateX": { "minimum": -100000, "maximum": 100000 },
+        "translateY": { "minimum": -100000, "maximum": 100000 }
+      }
+    },
+    "components": {
+      "Button": { "properties": ["backgroundColor", "busy", "className", "disabled", "hidden", "label", "motion", "onTap", "text", "textColor"] },
+      "Code": { "properties": ["backgroundColor", "className", "hidden", "language", "motion", "text", "textColor"] },
+      "CodeBlock": { "properties": ["backgroundColor", "className", "hidden", "language", "motion", "text", "textColor"] },
+      "Column": { "properties": ["backgroundColor", "className", "hidden", "label", "motion", "role", "textColor"] },
+      "Divider": { "properties": ["className", "hidden", "label", "motion"] },
+      "FlipCard": { "properties": ["aspectRatio", "className", "height", "hidden", "label", "motion", "role", "width"] },
+      "Image": { "properties": ["aspectRatio", "className", "cornerRadius", "height", "hidden", "label", "motion", "source", "width"] },
+      "Layer": { "properties": ["backgroundColor", "className", "hidden", "label", "motion", "role", "textColor"] },
+      "Link": { "properties": ["backgroundColor", "className", "external", "hidden", "href", "label", "motion", "onTap", "text", "textColor"] },
+      "List": { "properties": ["backgroundColor", "busy", "className", "hidden", "label", "motion", "textColor"] },
+      "ListItem": { "properties": ["backgroundColor", "className", "hidden", "motion", "text", "textColor"] },
+      "Modal": { "properties": ["backgroundColor", "className", "label", "motion", "onDismiss", "open", "textColor"] },
+      "Row": { "properties": ["backgroundColor", "className", "hidden", "label", "motion", "role", "textColor"] },
+      "Screen": { "properties": ["accentColor", "backgroundColor", "className", "dangerColor", "documentDescription", "documentLanguage", "documentTitle", "hidden", "label", "motion", "mutedColor", "role", "successColor", "surfaceColor", "textColor", "warningColor"] },
+      "Shape": { "properties": ["className", "cornerRadius", "fill", "height", "hidden", "label", "motion", "stroke", "strokeWidth", "width"] },
+      "Table": { "properties": ["backgroundColor", "className", "hidden", "label", "motion", "textColor"] },
+      "TableCell": { "properties": ["backgroundColor", "className", "header", "hidden", "motion", "scope", "text", "textColor"] },
+      "TableRow": { "properties": ["className", "hidden", "motion"] },
+      "Text": { "properties": ["backgroundColor", "className", "hidden", "motion", "role", "text", "textColor", "variant"] },
+      "TextInput": { "properties": ["autoComplete", "className", "disabled", "enterKeyHint", "errorId", "hidden", "inputMode", "inputType", "label", "motion", "onInput", "required", "value"] }
+    }
+  },
+  "rpc": {
+    "operations": {
+      "server.call.v1": { "authorization": "public", "result": "ServerCallResult" },
+      "tasks.admin.v1": { "authorization": "admin", "result": "TaskList" },
+      "tasks.fail.v1": { "authorization": "user", "result": "TaskList" },
+      "tasks.list.v1": { "authorization": "user", "result": "TaskList" },
+      "tasks.slow.v1": { "authorization": "user", "result": "TaskList" }
+    },
+    "types": {
+      "ServerCallResult": { "payload": "string" },
+      "Task": { "id": "string", "title": "string" },
+      "TaskList": { "tasks": "Task[]" }
+    }
+  }
+}

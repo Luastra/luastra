@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.animated-catalogue",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["app.launchurl.get", "navigation.history", "storage.get", "storage.set", "ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/host", "luastra/motion", "luastra/navigation", "luastra/state", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/catalogue",
+      "source": "src/test.luau",
+      "dependencies": ["app/main"]
+    },
+    {
+      "id": "app/tests/navigation-state",
+      "source": "src/test-navigation-state.luau",
+      "dependencies": ["luastra/navigation", "luastra/state"]
+    }
+  ],
+  "tests": ["app/tests/catalogue", "app/tests/navigation-state"]
+}

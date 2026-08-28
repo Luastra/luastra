@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "LOCAL_LOCKED_CARGO_COMPLIANCE",
+  "packageCount": 428,
+  "crateTextCount": 388,
+  "spdxFallbackCount": 40,
+  "missingTextCount": 0,
+  "missingPackages": [],
+  "admissionStatus": "ADMITTED"
+}

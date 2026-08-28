@@ -1,0 +1,63 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+
+static String sha256(File file) {
+    MessageDigest digest = MessageDigest.getInstance("SHA-256")
+    file.withInputStream { stream ->
+        byte[] buffer = new byte[65536]
+        int read
+        while ((read = stream.read(buffer)) != -1) digest.update(buffer, 0, read)
+    }
+    return digest.digest().encodeHex().toString()
+}
+
+gradle.projectsEvaluated {
+    Project app = gradle.rootProject.findProject(":app")
+    if (app == null) throw new GradleException("Android app project not found")
+    app.tasks.register("luastraRuntimeInventory") {
+        doLast {
+            String destination = app.findProperty("luastraInventoryOutput")
+            if (!destination) throw new GradleException("-PluastraInventoryOutput is required")
+            def configuration = app.configurations.getByName("debugRuntimeClasspath")
+            def artifactsByCoordinate = [:].withDefault { [] }
+            def externalArtifacts = configuration.incoming.artifactView {
+                componentFilter { identifier -> identifier instanceof ModuleComponentIdentifier }
+            }.artifacts
+            externalArtifacts.artifacts.each { artifact ->
+                def module = artifact.id.componentIdentifier
+                String coordinate = "${module.group}:${module.module}:${module.version}"
+                artifactsByCoordinate[coordinate] << [
+                    name: artifact.file.name,
+                    bytes: artifact.file.length(),
+                    sha256: sha256(artifact.file),
+                ]
+            }
+            def modules = configuration.incoming.resolutionResult.allComponents
+                .findAll { it.id instanceof ModuleComponentIdentifier }
+                .collect { component ->
+                    String coordinate = "${component.id.group}:${component.id.module}:${component.id.version}"
+                    [
+                        group: component.id.group,
+                        name: component.id.module,
+                        version: component.id.version,
+                        coordinate: coordinate,
+                        artifacts: artifactsByCoordinate[coordinate]
+                            .unique { artifact -> "${artifact.name}:${artifact.sha256}" }
+                            .sort { a, b -> a.name <=> b.name },
+                    ]
+                }
+                .sort { a, b -> a.coordinate <=> b.coordinate }
+            def output = [
+                schemaVersion: 1,
+                configuration: "debugRuntimeClasspath",
+                offlineResolution: true,
+                modules: modules,
+            ]
+            File outputFile = app.file(destination)
+            outputFile.parentFile.mkdirs()
+            outputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(output)) + "\n"
+            println "Luastra Android runtime inventory: ${modules.size()} modules -> ${outputFile}"
+        }
+    }
+}

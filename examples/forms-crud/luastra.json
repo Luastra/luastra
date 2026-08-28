@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.forms-crud",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["rpc.call", "ui.render"],
+  "backend": {
+    "declaration": "backend/functions.json",
+    "handler": "backend/handlers.mjs",
+    "generatedClient": "src/generated/server-functions.luau",
+    "generatedModule": "app/server-functions"
+  },
+  "modules": [
+    {
+      "id": "app/model",
+      "source": "src/model.luau",
+      "dependencies": ["luastra/data"]
+    },
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["app/model", "app/server-functions", "luastra/ui"]
+    },
+    {
+      "id": "app/server-functions",
+      "source": "src/generated/server-functions.luau",
+      "dependencies": ["luastra/server"]
+    },
+    {
+      "id": "app/tests/model",
+      "source": "src/test-model.luau",
+      "dependencies": ["app/model", "luastra/data"]
+    },
+    {
+      "id": "app/tests/crud",
+      "source": "src/test-crud.luau",
+      "dependencies": ["app/main"]
+    },
+    {
+      "id": "app/tests/backend-client",
+      "source": "src/test-backend-client.luau",
+      "dependencies": ["app/server-functions"]
+    }
+  ],
+  "tests": ["app/tests/model", "app/tests/crud", "app/tests/backend-client"]
+}

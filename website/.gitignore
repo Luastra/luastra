@@ -1,0 +1,4 @@
+node_modules/
+luastra-site/
+src-tauri/gen/
+src-tauri/target/

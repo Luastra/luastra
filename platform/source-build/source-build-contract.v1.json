@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "identity": "luastra-runtime-source-build/phase5-alpha-8",
+  "sourceDateEpoch": 1787529600,
+  "luau": {
+    "tag": "0.731",
+    "commit": "f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
+    "tree": "79d7345da1396fb7cf5e136f696978269dc16b2a",
+    "archiveUrl": "https://github.com/luau-lang/luau/archive/refs/tags/0.731.tar.gz",
+    "archiveBytes": 2836856,
+    "archiveSha256": "c5cd8883a49b99170d66c6e791aacb8d15e1d96c3690b0eb5dde2b0037ac0733",
+    "extractedDirectory": "luau-0.731"
+  },
+  "emscripten": {
+    "version": "6.0.6",
+    "commit": "ce75e06884093bcefb86a6b8fd56a5d62a4cc245"
+  },
+  "sourceFiles": [
+    {
+      "path": "runtime/CMakeLists.txt",
+      "bytes": 4287,
+      "sha256": "4ed9e13ac05c5dc873fe36816649a2737468db5830e88dfb250834cd54617a21"
+    },
+    {
+      "path": "runtime/analyze.cpp",
+      "bytes": 8790,
+      "sha256": "c505eda52383bfa4c84080981b6573fe96389bcccf936c4f1390e4758d5911b2"
+    },
+    {
+      "path": "runtime/compile.cpp",
+      "bytes": 2172,
+      "sha256": "435cf81e30e59b04b07ded1a32ab75953cee5d4fe6b15509f393361ceb3eb053"
+    },
+    {
+      "path": "runtime/vm_wasm.cpp",
+      "bytes": 43428,
+      "sha256": "318c7c98b90ad37837e6d3aa4f046b0af6be369cd2f4715e4659b4512a586635"
+    }
+  ],
+  "protocolFiles": [
+    {
+      "path": "protocol.hpp",
+      "bytes": 6887,
+      "sha256": "dd3f00fd3f6c27ad60be4d2cbe1277f062efcb3d940a5778253dd64008fbf450"
+    }
+  ],
+  "targets": [
+    {
+      "id": "darwin-x64",
+      "platform": "darwin",
+      "architecture": "x64",
+      "kind": "NATIVE_TOOLS",
+      "status": "LOCALLY_REPRODUCIBLE"
+    },
+    {
+      "id": "darwin-arm64",
+      "platform": "darwin",
+      "architecture": "arm64",
+      "kind": "NATIVE_TOOLS",
+      "status": "CI_REPRODUCIBLE"
+    },
+    {
+      "id": "linux-x64",
+      "platform": "linux",
+      "architecture": "x64",
+      "kind": "NATIVE_TOOLS",
+      "status": "CI_REPRODUCIBLE"
+    },
+    {
+      "id": "win32-x64",
+      "platform": "win32",
+      "architecture": "x64",
+      "kind": "NATIVE_TOOLS",
+      "status": "CI_REPRODUCIBLE"
+    },
+    {
+      "id": "wasm32-emscripten",
+      "platform": "portable",
+      "architecture": "wasm32",
+      "kind": "WEB_RUNTIME",
+      "status": "LOCALLY_REPRODUCIBLE"
+    }
+  ]
+}

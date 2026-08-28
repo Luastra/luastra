@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.sdk-reference",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": [
+    "clipboard.write",
+    "timer.control",
+    "ui.render"
+  ],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": [
+        "app/examples",
+        "app/reference-data",
+        "luastra/host",
+        "luastra/timer",
+        "luastra/ui"
+      ]
+    },
+    {
+      "id": "app/examples",
+      "source": "src/examples.luau",
+      "dependencies": ["luastra/ui"]
+    },
+    {
+      "id": "app/reference-data",
+      "source": "src/reference-data.luau",
+      "dependencies": []
+    },
+    {
+      "id": "app/tests/smoke",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    },
+    {
+      "id": "app/tests/reference-data",
+      "source": "tests/reference-data.luau",
+      "dependencies": ["app/reference-data"]
+    }
+  ],
+  "tests": [
+    "app/tests/smoke",
+    "app/tests/reference-data"
+  ]
+}

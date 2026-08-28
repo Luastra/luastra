@@ -1,0 +1,61 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "creationInfo": {
+    "created": "2026-08-28T00:00:00Z",
+    "creators": [
+      "Tool: Luastra SDK release builder v1"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentDescribes": [
+    "SPDXRef-luastra-core",
+    "SPDXRef-luastra-templates",
+    "SPDXRef-luau",
+    "SPDXRef-emscripten-runtime"
+  ],
+  "documentNamespace": "https://luastra.dev/spdx/sdk/0.1.0-alpha",
+  "name": "Luastra SDK 0.1.0-alpha release inventory",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-luastra-core",
+      "copyrightText": "Copyright 2026 Viacheslav Beliaev",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "name": "Luastra SDK and CLI",
+      "versionInfo": "0.1.0-alpha"
+    },
+    {
+      "SPDXID": "SPDXRef-luastra-templates",
+      "copyrightText": "Copyright 2026 Viacheslav Beliaev",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "0BSD",
+      "licenseDeclared": "0BSD",
+      "name": "Luastra starter templates",
+      "versionInfo": "0.1.0-alpha"
+    },
+    {
+      "SPDXID": "SPDXRef-luau",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "Luau",
+      "versionInfo": "0.731+f8ca77acdcb50241e3da21af663f8ef97b4b5ce4"
+    },
+    {
+      "SPDXID": "SPDXRef-emscripten-runtime",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "(MIT OR NCSA)",
+      "licenseDeclared": "(MIT OR NCSA)",
+      "name": "Emscripten generated runtime",
+      "versionInfo": "6.0.6"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

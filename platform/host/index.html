@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F4EFE3" />
+    <link rel="icon" href="./brand/favicon.svg" type="image/svg+xml" />
+    <title>Luastra Preview</title>
+    <style>
+      :root { font-family: system-ui, sans-serif; font-size: 100%; line-height: 1.5; color: #16342e; background: #f4efe3; }
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
+          max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+        font: -apple-system-body;
+        font-family: system-ui, sans-serif;
+      }
+      .luastra-preview-shell { width: 100%; max-width: 900px; margin: auto; padding: 24px; border-radius: 20px; background: #fffdf7; }
+      .luastra-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; color: #16342e; font-weight: 750; letter-spacing: 0.01em; }
+      .luastra-brand img { width: 42px; height: 38px; object-fit: contain; }
+      #status { display: inline-block; padding: 5px 10px; border-radius: 999px; background: #e4ad3a; font-weight: 700; }
+      #status.pass { color: white; background: #2f7568; }
+      #status.fail { color: white; background: #9c3c32; }
+      #host-root { margin-top: 20px; padding-top: 20px; border-top: 1px solid #d8ddd6; }
+      #error { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; color: #9c3c32; }
+      input, button { max-width: 100%; min-height: 44px; font: inherit; }
+      input { width: min(100%, 32rem); scroll-margin-block: 16px; }
+      :focus-visible { outline: 3px solid #2f7568; outline-offset: 3px; }
+      h1, h2, p { overflow-wrap: anywhere; }
+      @media (max-width: 480px) {
+        body {
+          padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+            max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        }
+        .luastra-preview-shell { padding: 16px; border-radius: 16px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="luastra-preview-shell">
+      <div class="luastra-brand" aria-label="Luastra">
+        <img src="./brand/luastra-mark.svg" alt="" />
+        <span>Luastra</span>
+      </div>
+      <p id="status" role="status" aria-live="polite">Starting Luastra…</p>
+      <pre id="error" hidden></pre>
+      <div id="host-root"></div>
+    </div>
+    <script src="./bootstrap-errors.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

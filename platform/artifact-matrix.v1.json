@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "identity": "luastra-artifact-matrix/phase5-alpha-8",
+  "runtimeSdkIdentity": "luastra-runtime-sdk/phase5-alpha-8",
+  "sourceBuildIdentity": "luastra-runtime-source-build/phase5-alpha-8",
+  "targets": [
+    {
+      "id": "darwin-x64",
+      "status": "AVAILABLE_REPRODUCIBLE",
+      "artifacts": [
+        {
+          "role": "analyzer",
+          "path": "artifacts/darwin-x64/luastra_analyze",
+          "bytes": 6662408,
+          "sha256": "3a2f2f5bf3162e07304b83d6b8f85aab9f368978ac12d1a486f0e25623c88594"
+        },
+        {
+          "role": "compiler",
+          "path": "artifacts/darwin-x64/luastra_compile",
+          "bytes": 796576,
+          "sha256": "162e2a903de169b1918edb5e32d191b1f03bddf042d424e70b6093bb4f55a3e8"
+        }
+      ]
+    },
+    {
+      "id": "darwin-arm64",
+      "status": "AVAILABLE_REPRODUCIBLE",
+      "artifacts": [
+        {
+          "role": "analyzer",
+          "path": "artifacts/darwin-arm64/luastra_analyze",
+          "bytes": 6338656,
+          "sha256": "371b8cc50a0f2df3a1d91278192c7799525e659ed9eef0cb268959d7c151375f"
+        },
+        {
+          "role": "compiler",
+          "path": "artifacts/darwin-arm64/luastra_compile",
+          "bytes": 788800,
+          "sha256": "ab5b646882f3bf5b5d781eed110cfbb9bc78398979e56302e21aeaf089bde1f6"
+        }
+      ]
+    },
+    {
+      "id": "linux-x64",
+      "status": "AVAILABLE_REPRODUCIBLE",
+      "artifacts": [
+        {
+          "role": "analyzer",
+          "path": "artifacts/linux-x64/luastra_analyze",
+          "bytes": 7136184,
+          "sha256": "9d2df26cfe717e5b9915bff88d58f6aeee1f9fa5c45e0e9a3cd8ec21f7824104"
+        },
+        {
+          "role": "compiler",
+          "path": "artifacts/linux-x64/luastra_compile",
+          "bytes": 905560,
+          "sha256": "74c0dee5d65b7d6b034935a6cf9751d047e351374e18ad4c37f088fc705ebb7d"
+        }
+      ]
+    },
+    {
+      "id": "win32-x64",
+      "status": "AVAILABLE_REPRODUCIBLE",
+      "artifacts": [
+        {
+          "role": "analyzer",
+          "path": "artifacts/win32-x64/luastra_analyze.exe",
+          "bytes": 3333632,
+          "sha256": "d8adb0236ab6a89d31c5c86475bf59024fe530eb11e56a1832d4c4411e82797f"
+        },
+        {
+          "role": "compiler",
+          "path": "artifacts/win32-x64/luastra_compile.exe",
+          "bytes": 500736,
+          "sha256": "9db7a0934f41d68550223326611ad9b2064c5525d872c7fe3787d3e8eab119b9"
+        }
+      ]
+    },
+    {
+      "id": "wasm32-emscripten",
+      "status": "AVAILABLE_REPRODUCIBLE",
+      "artifacts": [
+        {
+          "role": "runtimeJavaScript",
+          "path": "artifacts/vm-wasm/luastra-vm.js",
+          "bytes": 26435,
+          "sha256": "f0ef7e8d096aa7760c366ef8203fd8d985baf7ce6927b67524278252568c5400"
+        },
+        {
+          "role": "runtimeWasm",
+          "path": "artifacts/vm-wasm/luastra-vm.wasm",
+          "bytes": 481949,
+          "sha256": "ceaf6eb5637e79af0ecf51f86ba7d18e72909da14fa91d2640b717dd4d4503c0"
+        }
+      ]
+    }
+  ]
+}

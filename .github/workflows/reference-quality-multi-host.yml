@@ -1,0 +1,113 @@
+name: Exact clean candidate multi-host
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: exact-clean-candidate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  exact-candidate:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: darwin-arm64
+            runner: macos-15
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: win32-x64
+            runner: windows-2025
+
+    steps:
+      - name: Check out admitted sources
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Select supported Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+
+      - name: Verify exact runner host
+        shell: pwsh
+        env:
+          EXPECTED_TARGET: ${{ matrix.target }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+          node -e 'const actual=`${process.platform}-${process.arch}`; if(actual!==process.env.EXPECTED_TARGET) throw new Error(`expected ${process.env.EXPECTED_TARGET}, received ${actual}`); console.log(actual)'
+          node --version
+
+      - name: Select the exact clean candidate
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+          $materializer = "release/materialize-public-candidate.mjs"
+          if (Test-Path $materializer) {
+            $candidate = Join-Path $env:RUNNER_TEMP "luastra-clean-candidate"
+            node $materializer --output $candidate
+          } elseif (Test-Path "CLEAN_EXPORT_MANIFEST.json") {
+            $candidate = (Get-Location).Path
+          } else {
+            throw "neither the private materializer nor a clean candidate manifest is present"
+          }
+          $env:CANDIDATE = $candidate
+          "CANDIDATE=$candidate" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          node -e 'const fs=require("node:fs"); const p=require("node:path"); const manifest=JSON.parse(fs.readFileSync(p.join(process.env.CANDIDATE,"CLEAN_EXPORT_MANIFEST.json"),"utf8")); if(manifest.publicationAuthorized!==false) throw new Error("publication must remain unauthorized"); console.log(JSON.stringify({result:"PASS",files:manifest.files.length+1,contentSha256:manifest.contentSha256}))'
+
+      - name: Install dependencies and verify the clean tree
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+          Set-Location "$env:CANDIDATE"
+          npm ci
+          npm run alpha:audit
+          npm test
+          npm run docs:check
+          npm --prefix website run reference:build
+          npm run alpha:audit
+
+      - name: Install and consume the exact host SDK release
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+          $manager = Join-Path $env:RUNNER_TEMP "luastra-manager"
+          $project = Join-Path $env:RUNNER_TEMP "luastra-fresh-project"
+          $webOut = Join-Path $env:RUNNER_TEMP "luastra-fresh-web"
+          Set-Location "$env:CANDIDATE"
+          node release/luastra-install.mjs --manifest=release-artifacts/0.1.0-alpha/luastra-release.v1.json --root="$manager"
+          node "$manager/shim.mjs" version
+          node "$manager/shim.mjs" doctor --root="$manager"
+          node "$manager/shim.mjs" create "$project"
+          node "$manager/shim.mjs" check --project="$project"
+          node "$manager/shim.mjs" test --project="$project"
+          node "$manager/shim.mjs" build web --project="$project" --out="$webOut"
+          $proof = Join-Path $env:RUNNER_TEMP "luastra-clean-proof"
+          New-Item -ItemType Directory -Path $proof | Out-Null
+          Copy-Item "CLEAN_EXPORT_MANIFEST.json" "$proof/CLEAN_EXPORT_MANIFEST.json"
+          Copy-Item "release-artifacts/0.1.0-alpha/luastra-release.v1.json" "$proof/luastra-release.v1.json"
+          Copy-Item "release-artifacts/0.1.0-alpha/SHA256SUMS" "$proof/SHA256SUMS"
+          Copy-Item "website/luastra-site/asset-manifest.json" "$proof/website-asset-manifest.json"
+          Copy-Item "$manager/state.v1.json" "$proof/manager-state.v1.json"
+          Copy-Item "$webOut/asset-manifest.json" "$proof/fresh-web-asset-manifest.json"
+
+      - name: Retain exact candidate proof
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: luastra-clean-candidate-${{ matrix.target }}
+          path: ${{ runner.temp }}/luastra-clean-proof
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

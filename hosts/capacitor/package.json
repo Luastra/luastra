@@ -1,0 +1,26 @@
+{
+  "name": "luastra-phase5-capacitor-host",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "compliance:notices": "node compliance/capture-runtime-notices.mjs",
+    "compliance:sbom": "node compliance/generate-native-sboms.mjs --write",
+    "sync": "cap sync",
+    "sync:ios": "cap sync ios",
+    "sync:android": "cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.4.1",
+    "@capacitor/app": "8.1.1",
+    "@capacitor/core": "8.4.1",
+    "@capacitor/ios": "8.4.1",
+    "@capacitor/preferences": "8.0.1",
+    "@luastra/capacitor-media": "file:../../native/capacitor-media",
+    "@luastra/capacitor-secure-credentials": "file:../../native/capacitor-secure-credentials"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.4.1"
+  }
+}

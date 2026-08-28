@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "identity": "luastra-source-sdk/phase5-contract-10",
+  "compatibility": {
+    "analyzer": "luau-analysis/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
+    "compiler": "luau/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
+    "vm": "luau/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
+    "protocol": 1
+  },
+  "modules": [
+    {
+      "id": "luastra/assets",
+      "source": "luastra/assets.luau",
+      "dependencies": [],
+      "bytes": 1300,
+      "sha256": "6787c85d5569d06005e93af88137efed77aaed2fd465cb998edab3fa950464e9"
+    },
+    {
+      "id": "luastra/data",
+      "source": "luastra/data.luau",
+      "dependencies": [],
+      "bytes": 9753,
+      "sha256": "bbe3a0667d56c4e736a43609546ac1383947a183a7ca0e88162b351a7ff9ef2e"
+    },
+    {
+      "id": "luastra/debug",
+      "source": "luastra/debug.luau",
+      "dependencies": [],
+      "bytes": 321,
+      "sha256": "5f92a98fe912f6748c75ee7dac2846b0c2c7ebdc21457e3762a53b16bf198030"
+    },
+    {
+      "id": "luastra/host",
+      "source": "luastra/host.luau",
+      "dependencies": [],
+      "bytes": 4346,
+      "sha256": "bb805e110914458485639ebba929c5b4cbae8668683953e69ff8828ae6f5a055"
+    },
+    {
+      "id": "luastra/media",
+      "source": "luastra/media.luau",
+      "dependencies": [],
+      "bytes": 9061,
+      "sha256": "5f0285389b1cb51ae7246a14843e2c150171e328490972df9ea1972fa814ffc1"
+    },
+    {
+      "id": "luastra/motion",
+      "source": "luastra/motion.luau",
+      "dependencies": [],
+      "bytes": 7914,
+      "sha256": "77b8563919ec5b80e7702cd4540cd9a7f1ad7a8eaddd19c3a4b0d9184e532989"
+    },
+    {
+      "id": "luastra/navigation",
+      "source": "luastra/navigation.luau",
+      "dependencies": [],
+      "bytes": 31271,
+      "sha256": "f8fa5eb649130644a1a7b776a79033b30ee1d35672b31df552b9d1a16f95d3c3"
+    },
+    {
+      "id": "luastra/server",
+      "source": "luastra/server.luau",
+      "dependencies": [],
+      "bytes": 5247,
+      "sha256": "c9d894b7cdde5ecf015add2258f42f40fdddba3e7b2b21194f84d587f7a2f8f1"
+    },
+    {
+      "id": "luastra/state",
+      "source": "luastra/state.luau",
+      "dependencies": [],
+      "bytes": 7626,
+      "sha256": "1c773034e95005b55725fc0d95de97e3bd5697edb7fed77de9e90b8b5c625d48"
+    },
+    {
+      "id": "luastra/timer",
+      "source": "luastra/timer.luau",
+      "dependencies": [],
+      "bytes": 2215,
+      "sha256": "24ffd753a93464a488532096c72277c42d62b84503020be08a7f2461c4818fd7"
+    },
+    {
+      "id": "luastra/ui",
+      "source": "luastra/ui.luau",
+      "dependencies": [],
+      "bytes": 18288,
+      "sha256": "fe50ee20a68e5c3c167beb91c521ee87d298dccfc93ebe55b4c98616cb0cdda7"
+    }
+  ]
+}

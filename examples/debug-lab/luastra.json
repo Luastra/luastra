@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.debug-lab",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/debug", "luastra/ui"]
+    }
+  ],
+  "tests": []
+}

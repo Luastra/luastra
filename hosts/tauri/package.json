@@ -1,0 +1,17 @@
+{
+  "name": "luastra-phase5-tauri-host",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "web:sync": "node scripts/sync-web.mjs",
+    "compliance": "node scripts/generate-cargo-compliance.mjs",
+    "dev": "npm run web:sync && tauri dev",
+    "build": "npm run web:sync && tauri build --no-bundle",
+    "build:bundle": "npm run web:sync && tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4"
+  }
+}

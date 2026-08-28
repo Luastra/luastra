@@ -1,0 +1,2 @@
+-- Intentionally empty. Reference users, entitlements and private object mappings
+-- are created by isolated integration-test setup, never by a committed shared secret.

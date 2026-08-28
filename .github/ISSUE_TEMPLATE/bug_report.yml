@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a reproducible Luastra defect
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Do not report vulnerabilities here. Use the private route in SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Luastra version or commit
+      placeholder: 0.1.0-alpha or exact commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Evidence environment
+      options:
+        - Web browser
+        - Desktop host
+        - Mobile simulator or emulator
+        - Physical mobile device
+        - CI
+        - SDK or CLI only
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Host OS, architecture, target, browser or WebView, and relevant tool versions.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include exact commands or a minimal repository. Remove secrets and personal paths.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and complete error
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I removed credentials, tokens, personal data, and private paths.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

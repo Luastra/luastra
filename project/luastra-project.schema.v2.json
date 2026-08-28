@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://luastra.dev/schemas/project/v2.json",
+  "title": "Luastra project manifest v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "project", "sdk", "capabilities", "modules"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "entry"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$" },
+        "entry": { "$ref": "#/$defs/moduleId" }
+      }
+    },
+    "sdk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract"],
+      "properties": {
+        "contract": { "const": 1 }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$" }
+    },
+    "assets": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "source", "mediaType"],
+        "properties": {
+          "id": { "$ref": "#/$defs/moduleId" },
+          "source": { "type": "string", "pattern": "^assets/.+" },
+          "mediaType": { "enum": ["audio/mpeg", "audio/mp4", "audio/ogg", "audio/wav", "font/woff2", "image/avif", "image/jpeg", "image/png", "image/webp"] }
+        }
+      }
+    },
+    "backend": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declaration", "handler", "generatedClient", "generatedModule"],
+      "properties": {
+        "declaration": { "type": "string", "pattern": "^.+\\.json$" },
+        "handler": { "type": "string", "pattern": "^.+\\.mjs$" },
+        "generatedClient": { "type": "string", "pattern": "^.+\\.luau$" },
+        "generatedModule": { "$ref": "#/$defs/moduleId" },
+        "authentication": { "enum": ["development", "session"] },
+        "database": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "path"],
+          "properties": {
+            "provider": { "const": "sqlite" },
+            "path": { "type": "string", "pattern": "^[^/].*\\.sqlite$" }
+          }
+        },
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider"],
+          "properties": {
+            "provider": { "enum": ["local-password", "supabase"] }
+          }
+        },
+        "content": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "source", "mediaType"],
+            "properties": {
+              "id": { "$ref": "#/$defs/moduleId" },
+              "source": { "type": "string", "pattern": "^content/.+" },
+              "mediaType": { "enum": ["audio/mpeg", "audio/mp4", "audio/ogg", "audio/wav", "image/avif", "image/jpeg", "image/png", "image/webp"] }
+            }
+          }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "source", "dependencies"],
+        "properties": {
+          "id": { "$ref": "#/$defs/moduleId" },
+          "source": { "type": "string", "minLength": 1 },
+          "dependencies": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "$ref": "#/$defs/moduleId" }
+          }
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/moduleId" }
+    }
+  },
+  "$defs": {
+    "moduleId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*(/[a-z][a-z0-9_-]*)*$"
+    }
+  }
+}

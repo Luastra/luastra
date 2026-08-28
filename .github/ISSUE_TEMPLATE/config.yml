@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Luastra/luastra/security/advisories/new
+    about: Report suspected vulnerabilities privately. Do not create a public issue.
+  - name: Usage and design questions
+    url: https://github.com/orgs/Luastra/discussions
+    about: Ask a question after organization Discussions are enabled.

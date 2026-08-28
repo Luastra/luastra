@@ -1,0 +1,21 @@
+{
+  "name": "luastra",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "sh scripts/test-all-local.sh",
+    "docs:check": "node website/scripts/validate-reference.mjs && node cli/luastra.mjs check --project=website/app/luastra.json && node cli/luastra.mjs test --project=website/app/luastra.json",
+    "alpha:audit": "node release/audit-public-candidate.mjs",
+    "sdk:release": "node release/build-sdk-release.mjs",
+    "runtime:package": "node platform/packaging/package-runtime-sdk.mjs",
+    "runtime:archive": "node platform/packaging/build-runtime-archives.mjs"
+  },
+  "devDependencies": {
+    "supabase": "2.114.0"
+  }
+}

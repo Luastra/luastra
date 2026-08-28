@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "identity": "luastra-capacitor-host-closure/phase5-alpha-3",
+  "host": {
+    "capacitor": "8.4.1",
+    "appPlugin": "8.1.1",
+    "preferencesPlugin": "8.0.1",
+    "mediaAdapter": "0.1.0"
+  },
+  "inputs": [
+    {
+      "path": "package-lock.json",
+      "bytes": 42362,
+      "sha256": "33167be523189c59a71253c8d906b55d1423dd6561cdfa12c745bc1a6e20cfbb"
+    },
+    {
+      "path": "ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",
+      "bytes": 408,
+      "sha256": "9cd6f74c56ed9dc2359e62c73ea2795822a9af31acddb046b1dbe0628ffd51f1"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "bytes": 1887,
+      "sha256": "8b3c50a34f1fdb875290fbeb80e972df676b2eeed283916588d1b0ff007b9e6d"
+    },
+    {
+      "path": "android/app/src/main/res/values/strings.xml",
+      "bytes": 290,
+      "sha256": "1a61aeab9f0977e3034ccd187c30551eda5b70525b43f8aa6053660a4da919b4"
+    }
+  ],
+  "compliance": [
+    {
+      "path": "compliance/android/gradle-runtime.v1.json",
+      "bytes": 29362,
+      "sha256": "8f95f96d61300edbfce3fc59c914f87022d7c6dedd2b881a9985170c74d72e44"
+    },
+    {
+      "path": "compliance/android/maven-license-evidence.v1.json",
+      "bytes": 34432,
+      "sha256": "4780dbaea530e78a175013dff2d32c8b5b8fba20a6974eff6960131a425675ab"
+    },
+    {
+      "path": "compliance/notices/native-runtime-notices.v1.json",
+      "bytes": 38674,
+      "sha256": "28c58b425b9f2939aef0ff1a5f8b5d7390838568fef71d3ca62735ac747ee267"
+    },
+    {
+      "path": "compliance/sbom/capacitor-ios-runtime.spdx.json",
+      "bytes": 4870,
+      "sha256": "e15308dd600bef3dab7d37c5f75e4b8711977c554bc1794945c0dace6e0268a2"
+    },
+    {
+      "path": "compliance/sbom/capacitor-android-runtime.spdx.json",
+      "bytes": 60064,
+      "sha256": "1c1959c4aecc2f5073e34491daabe06197c2ea83c2b826c80d5998c95d976067"
+    }
+  ],
+  "builds": {
+    "iosSimulator": {
+      "result": "PASS",
+      "xcode": "26",
+      "destination": "generic/platform=iOS Simulator",
+      "architectures": ["arm64", "x86_64"],
+      "codeSigning": "DISABLED"
+    },
+    "androidDebug": {
+      "result": "PASS",
+      "gradleTask": ":app:assembleDebug",
+      "jdk": "Temurin 21.0.12+8",
+      "apkBytes": 7507210,
+      "apkSha256": "f2ce07ecb9114ffc1d4409154b672519f534aeb6a2f84deb06b13a0d419c87d1",
+      "artifactRetained": false
+    },
+    "androidNavigationEmulator": {
+      "result": "PASS",
+      "device": "sdk_gphone16k_x86_64",
+      "os": "Android 17",
+      "webContentSha256": "cf990b01add6c55c69132c3150d0feceddea2f7b2b47565bf27a569d990cd5dc",
+      "deepLink": "luastra://detail/focus",
+      "detailToCatalogueBack": "PASS",
+      "rootExit": "PASS"
+    },
+    "androidNavigationPhysical": {
+      "result": "PASS",
+      "device": "Pixel 7 Pro",
+      "os": "Android 17",
+      "apkBytes": 7766395,
+      "apkSha256": "9c6127552fc966d17d861f3029db684f07f3579bf27d3c57e0d71b8f03f55a6a",
+      "webContentSha256": "cf990b01add6c55c69132c3150d0feceddea2f7b2b47565bf27a569d990cd5dc",
+      "deepLink": "luastra://detail/focus",
+      "detailToCatalogueBack": "PASS",
+      "rootExit": "PASS",
+      "artifactRetained": false
+    }
+  },
+  "boundary": "This proves compile and dependency/license/notice closure plus fragment deep-link and system-Back behavior for one Android emulator and one Pixel 7 Pro. It does not claim HTTPS App Links, arbitrary/nested routing, iOS Universal Links, signing, store acceptance, system media controls, interruption handling or energy behavior."
+}

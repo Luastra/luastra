@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+**/.luastra/
+**/dist/
+!native/capacitor-media/dist/
+!native/capacitor-media/dist/**
+**/target/
+**/src-tauri/gen/
+website/luastra-site/
+hosts/tauri/www/
+hosts/capacitor/www/
+!hosts/capacitor/www/
+!hosts/capacitor/www/**

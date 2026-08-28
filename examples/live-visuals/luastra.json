@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.live-visuals",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["ui.render"],
+  "assets": [
+    {
+      "id": "image/luastra-mark",
+      "source": "assets/luastra-mark.png",
+      "mediaType": "image/png"
+    }
+  ],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/assets", "luastra/motion", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/live-visuals",
+      "source": "src/test.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/live-visuals"]
+}

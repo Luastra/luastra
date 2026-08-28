@@ -1,0 +1,11 @@
+# Repository-wide ownership for the first source alpha.
+* @viachb-projects
+
+# Security and release boundaries require explicit owner review.
+/.github/ @viachb-projects
+/SECURITY.md @viachb-projects
+/LICENSING.md @viachb-projects
+/LICENSE @viachb-projects
+/NOTICE @viachb-projects
+/THIRD_PARTY_NOTICES.md @viachb-projects
+/release/ @viachb-projects

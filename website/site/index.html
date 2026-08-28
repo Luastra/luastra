@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Versioned Luastra SDK reference">
+    <title>Luastra SDK Reference</title>
+    <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to documentation</a>
+    <header class="topbar">
+      <button class="icon-button menu-button" id="menu-button" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <a class="brand" href="#overview" aria-label="Luastra SDK Reference">
+        <img src="assets/mark.svg" alt="" width="42" height="42">
+        <span><strong>Luastra</strong><small>SDK Reference</small></span>
+      </a>
+      <div class="search" role="search">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+        <input id="search" type="search" aria-label="Search the reference" placeholder="Find a component or function…" autocomplete="off" spellcheck="false">
+        <kbd aria-hidden="true">/</kbd>
+      </div>
+      <span class="version" id="version-badge">alpha</span>
+      <button class="icon-button" id="theme-button" type="button" aria-label="Toggle theme">◐</button>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar" aria-label="Reference sections">
+        <nav id="navigation-menu"></nav>
+        <div class="sidebar-note">
+          <span class="status-dot"></span>
+          <p><strong>Source alpha</strong><br>This reference is version-bound. APIs may change between pre-release versions.</p>
+        </div>
+      </aside>
+
+      <main id="content" tabindex="-1">
+        <div id="reference-root"></div>
+        <section class="empty-state" id="empty-state" hidden>
+          <h2>No results</h2>
+          <p>Try a module, component, function, or parameter name.</p>
+          <button id="clear-search" type="button">Clear search</button>
+        </section>
+      </main>
+    </div>
+    <div class="scrim" id="scrim" hidden></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

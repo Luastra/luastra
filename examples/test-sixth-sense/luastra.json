@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.test-sixth-sense",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": [
+    "timer.control",
+    "ui.render"
+  ],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": [
+        "luastra/ui",
+        "luastra/motion",
+        "luastra/navigation",
+        "luastra/assets",
+        "luastra/timer"
+      ]
+    },
+    {
+      "id": "app/tests/smoke",
+      "source": "tests/smoke.luau",
+      "dependencies": [
+        "luastra/ui"
+      ]
+    },
+    {
+      "id": "app/tests/game-flow",
+      "source": "tests/game-flow.luau",
+      "dependencies": [
+        "app/main"
+      ]
+    }
+  ],
+  "assets": [
+    { "id": "image/card-back", "source": "assets/images/card-back.png", "mediaType": "image/png" }
+  ],
+  "tests": [
+    "app/tests/smoke",
+    "app/tests/game-flow"
+  ]
+}

@@ -1,0 +1,43 @@
+name: Feature proposal
+description: Propose a general Luastra capability or improvement
+title: "[Proposal]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the application-author problem without prescribing an implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current workaround
+      description: Explain what application authors must do today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed public contract
+      description: Show a small Luau example when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: portability
+    attributes:
+      label: Cross-host and compatibility impact
+      description: Consider web, desktop, mobile, accessibility, state, security, and migrations.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope checks
+      options:
+        - label: The proposal is general-purpose rather than specific to one reference application.
+          required: true
+        - label: I reviewed ROADMAP.md and COMPATIBILITY.md.
+          required: true

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Luastra light app icon source</title>
+  <desc id="desc">The Crafted L mark on a natural-paper square.</desc>
+  <rect width="1024" height="1024" fill="#F4EFE3"/>
+  <g transform="translate(123 166) scale(2.7)">
+    <path fill="#16342E" d="M69 24h73l-36 121H33L69 24Z"/>
+    <path fill="#2F7568" d="M33 145h158c18 0 32 9 41 25l31 56H54C37 226 16.1 200.9 20 188L33 145Z"/>
+    <path fill="#E4AD3A" d="M99 131c3.5 11.5 10.5 18.5 22 22-11.5 3.5-18.5 10.5-22 22-3.5-11.5-10.5-18.5-22-22 11.5-3.5 18.5-10.5 22-22Z"/>
+  </g>
+</svg>

@@ -1,0 +1,3 @@
+# Generated Luastra web package. Keep only the bounded placeholder tracked.
+www/*
+!www/index.html

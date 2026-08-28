@@ -1,0 +1,99 @@
+name: Runtime installation multi-host
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: runtime-installation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  installed-runtime:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: darwin-arm64
+            runner: macos-15
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: win32-x64
+            runner: windows-2025
+
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Check out admitted sources
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Select supported Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+
+      - name: Verify exact runner host
+        shell: pwsh
+        env:
+          EXPECTED_TARGET: ${{ matrix.target }}
+        run: |
+          node -e 'const actual=`${process.platform}-${process.arch}`; if(actual!==process.env.EXPECTED_TARGET) throw new Error(`expected ${process.env.EXPECTED_TARGET}, received ${actual}`); console.log(actual)'
+          node --version
+
+      - name: Materialize admitted archive set
+        shell: pwsh
+        run: node platform/packaging/build-runtime-archives.mjs --output "${{ runner.temp }}/luastra-runtime-archives"
+
+      - name: Install exact host SDK into a new prefix
+        shell: pwsh
+        run: node cli/luastra.mjs sdk install --archive-set="${{ runner.temp }}/luastra-runtime-archives" --out="${{ runner.temp }}/luastra-runtime-sdk"
+
+      - name: Consume installed analyzer compiler and Wasm runtime
+        shell: pwsh
+        env:
+          LUASTRA_RUNTIME_SDK_ROOT: ${{ runner.temp }}/luastra-runtime-sdk
+        run: |
+          node cli/luastra.mjs check --project=examples/animated-catalogue
+          node cli/luastra.mjs test --project=examples/animated-catalogue
+          node cli/luastra.mjs build web --project=examples/animated-catalogue --out="${{ runner.temp }}/luastra-installed-web"
+
+      - name: Materialize admitted full SDK release
+        shell: pwsh
+        run: node release/build-sdk-release.mjs --output "${{ runner.temp }}/luastra-sdk-release"
+
+      - name: Install and select exact full SDK for this host
+        shell: pwsh
+        run: node release/luastra-install.mjs --manifest="${{ runner.temp }}/luastra-sdk-release/luastra-release.v1.json" --root="${{ runner.temp }}/luastra-manager"
+
+      - name: Consume the selected SDK through its stable shim
+        shell: pwsh
+        run: |
+          node "${{ runner.temp }}/luastra-manager/shim.mjs" doctor
+          node "${{ runner.temp }}/luastra-manager/shim.mjs" create "${{ runner.temp }}/luastra-sdk-project"
+          node "${{ runner.temp }}/luastra-manager/shim.mjs" check --project="${{ runner.temp }}/luastra-sdk-project"
+          node "${{ runner.temp }}/luastra-manager/shim.mjs" test --project="${{ runner.temp }}/luastra-sdk-project"
+          node "${{ runner.temp }}/luastra-manager/shim.mjs" build web --project="${{ runner.temp }}/luastra-sdk-project" --out="${{ runner.temp }}/luastra-sdk-web"
+
+      - name: Retain installation receipt and installed-runtime web proof
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: luastra-installed-runtime-${{ matrix.target }}
+          path: |
+            ${{ runner.temp }}/luastra-runtime-sdk/runtime-install.v1.json
+            ${{ runner.temp }}/luastra-installed-web/asset-manifest.json
+            ${{ runner.temp }}/luastra-manager/state.v1.json
+            ${{ runner.temp }}/luastra-sdk-web/asset-manifest.json
+            ${{ runner.temp }}/luastra-sdk-release/luastra-release.v1.json
+            ${{ runner.temp }}/luastra-sdk-release/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

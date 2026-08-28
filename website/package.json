@@ -1,0 +1,18 @@
+{
+  "name": "luastra-sdk-reference",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-reference.mjs",
+    "serve": "node scripts/serve.mjs",
+    "reference:generate": "node ./app/scripts/generate-reference-data.mjs",
+    "reference:build": "npm run reference:generate && node ../cli/luastra.mjs build web --project=./app/luastra.json --out=../luastra-site",
+    "desktop:dev": "npm run validate && npm run reference:build && tauri dev",
+    "desktop:build": "npm run validate && npm run reference:build && tauri build && node scripts/sign-macos.mjs"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4"
+  }
+}

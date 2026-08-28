@@ -1,0 +1,132 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "creationInfo": {
+    "created": "2026-08-16T00:00:00Z",
+    "creators": [
+      "Tool: Luastra Phase 5 native SBOM generator v1"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentDescribes": [
+    "SPDXRef-NPM-IOS--capacitor-app-8.1.1-0",
+    "SPDXRef-NPM-IOS--capacitor-core-8.4.1-1",
+    "SPDXRef-NPM-IOS--capacitor-ios-8.4.1-2",
+    "SPDXRef-NPM-IOS--capacitor-preferences-8.0.1-3",
+    "SPDXRef-NPM-IOS-tslib-2.8.1-4",
+    "SPDXRef-Swift-capacitor-swift-pm-8.4.1",
+    "SPDXRef-Luastra-Capacitor-Media"
+  ],
+  "documentNamespace": "https://luastra.dev/spdx/phase5/capacitor-ios-runtime/2026-08-16",
+  "name": "Luastra Phase 5 Capacitor iOS runtime closure",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-NPM-IOS--capacitor-app-8.1.1-0",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "c4cd994d7e632bad2d16d9a3b2626ff82763d50b1be8d71abe4aa67449c23d005ec9af682a16a6649c583a740d8f566f70933bb167c6e8112d48bc78da98ac6c"
+        }
+      ],
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://registry.npmjs.org/@capacitor/app/-/app-8.1.1.tgz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "@capacitor/app",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "8.1.1"
+    },
+    {
+      "SPDXID": "SPDXRef-NPM-IOS--capacitor-core-8.4.1-1",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "c6a84e18b6d301878e58af880d43528d02403daa508d11eb21c824f4f629e76a2bf7315369a324a37d6e362d7a37a5be09127c56b46b6a6e9f39820b9011b61e"
+        }
+      ],
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://registry.npmjs.org/@capacitor/core/-/core-8.4.1.tgz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "@capacitor/core",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "8.4.1"
+    },
+    {
+      "SPDXID": "SPDXRef-NPM-IOS--capacitor-ios-8.4.1-2",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "12070093b35885e1cc4f23f7094ac0eb9a8ab380f650400a830e381c8e94937753c3a2a32d091d2ce416bdb7919dc1da67682495f3a88d4a1ce43952c3696162"
+        }
+      ],
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://registry.npmjs.org/@capacitor/ios/-/ios-8.4.1.tgz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "@capacitor/ios",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "8.4.1"
+    },
+    {
+      "SPDXID": "SPDXRef-NPM-IOS--capacitor-preferences-8.0.1-3",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "4fa9e8dde6e2efd5c90a4f75537269fe588953080176f1d1faceaf86f3e43f14ae721ef3df3c7946fd5b75633ab16aee371fa9562b841aa66f6df09dc81bdc1d"
+        }
+      ],
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://registry.npmjs.org/@capacitor/preferences/-/preferences-8.0.1.tgz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "@capacitor/preferences",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "8.0.1"
+    },
+    {
+      "SPDXID": "SPDXRef-NPM-IOS-tslib-2.8.1-4",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "a0916ef781d06fe29576e49440bef09e99aa9df98bb0e03f9c087a6fa107d30084a0ad3f98f79753a737c0a0d5f373243ae1cf447b525ca294f7d2016b34bfdb"
+        }
+      ],
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "0BSD",
+      "licenseDeclared": "0BSD",
+      "name": "tslib",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.8.1"
+    },
+    {
+      "SPDXID": "SPDXRef-Swift-capacitor-swift-pm-8.4.1",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/ionic-team/capacitor-swift-pm.git",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "capacitor-swift-pm",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "8.4.1+2231987d85b8b0b289320b1d0947b4ae8345cde4"
+    },
+    {
+      "SPDXID": "SPDXRef-Luastra-Capacitor-Media",
+      "comment": "Owner-approved under Apache-2.0 on 2026-08-16; publication remains separately unauthorized.",
+      "copyrightText": "Copyright 2026 Viacheslav Beliaev",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "name": "@luastra/capacitor-media",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.1.0"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

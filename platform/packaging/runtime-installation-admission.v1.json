@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "identity": "luastra-runtime-installation-admission/phase5-alpha-2",
+  "installationIdentity": "luastra-runtime-installation/phase5-alpha-2",
+  "sdkIdentity": "luastra-runtime-sdk/phase5-alpha-8",
+  "archiveSetIdentity": "luastra-runtime-archives/phase5-alpha-3",
+  "targets": [
+    {
+      "id": "darwin-x64",
+      "contentSha256": "3e30076725b3b6b14b1799a80753a52b051e085d25ed58dbc84d507aed169d68"
+    },
+    {
+      "id": "darwin-arm64",
+      "contentSha256": "8ca7f76bb3b389c4b831408137c873458fd1786a815ed25ebc728203d11ed045"
+    },
+    {
+      "id": "linux-x64",
+      "contentSha256": "11f93e742847abe89f6896ae97fd8cf96990c0324c2448ba5e1af93887bfbfa1"
+    },
+    {
+      "id": "win32-x64",
+      "contentSha256": "344fbdb512ba92b63d0d93b9fc2e70a60ac7ed5ac070ef238966533f1937b42d"
+    }
+  ]
+}

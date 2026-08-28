@@ -1,0 +1,106 @@
+name: Tauri desktop multi-host
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/tauri-desktop-multi-host.yml"
+      - "hosts/tauri/**"
+      - "tests/tauri-host-closure.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tauri-desktop-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  desktop-host:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: darwin-arm64
+            runner: macos-15
+            binary: src-tauri/target/release/luastra-phase5-desktop-host
+          - target: linux-x64
+            runner: ubuntu-24.04
+            binary: src-tauri/target/release/luastra-phase5-desktop-host
+          - target: win32-x64
+            runner: windows-2025
+            binary: src-tauri/target/release/luastra-phase5-desktop-host.exe
+
+    defaults:
+      run:
+        working-directory: hosts/tauri
+
+    steps:
+      - name: Check out admitted sources
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install official Linux host prerequisites
+        if: matrix.target == 'linux-x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev xvfb gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+
+      - name: Select exact Rust toolchain
+        shell: pwsh
+        run: |
+          rustup toolchain install 1.97.1 --profile minimal
+          rustup override set 1.97.1
+          rustc --version
+          cargo --version
+
+      - name: Install exact Tauri CLI
+        shell: pwsh
+        run: npm ci
+
+      - name: Verify Tauri host and compliance contract
+        shell: pwsh
+        run: node ../../tests/tauri-host-closure.mjs
+
+      - name: Build exact Luastra media fixture
+        shell: pwsh
+        run: node ../../cli/luastra.mjs build web --project=../../examples/media-player
+
+      - name: Build exact unsigned desktop executable
+        shell: pwsh
+        run: npm run build
+
+      - name: Generate exact Cargo compliance closure
+        shell: pwsh
+        run: npm run compliance
+
+      - name: Run Linux host in a real WebKitGTK display
+        if: matrix.target == 'linux-x64'
+        env:
+          PROOF_BINARY: ${{ matrix.binary }}
+          PROOF_TARGET: ${{ matrix.target }}
+          PROOF_OUT: ${{ runner.temp }}/luastra-tauri-${{ matrix.target }}.json
+        run: xvfb-run -a node scripts/probe-desktop-runtime.mjs --binary="$PROOF_BINARY" --target="$PROOF_TARGET" --out="$PROOF_OUT"
+
+      - name: Run native desktop host
+        if: matrix.target != 'linux-x64'
+        shell: pwsh
+        env:
+          PROOF_BINARY: ${{ matrix.binary }}
+          PROOF_TARGET: ${{ matrix.target }}
+          PROOF_OUT: ${{ runner.temp }}/luastra-tauri-${{ matrix.target }}.json
+        run: node scripts/probe-desktop-runtime.mjs --binary="$env:PROOF_BINARY" --target="$env:PROOF_TARGET" --out="$env:PROOF_OUT"
+
+      - name: Retain desktop host proof and compliance summary
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: luastra-tauri-${{ matrix.target }}
+          path: |
+            ${{ runner.temp }}/luastra-tauri-${{ matrix.target }}.json
+            hosts/tauri/compliance/cargo-compliance-report.v1.json
+            hosts/tauri/compliance/cargo-sbom.cdx.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

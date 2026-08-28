@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 2,
+  "identity": "luastra-runtime-sdk/phase5-alpha-8",
+  "sourceBuildIdentity": "luastra-runtime-source-build/phase5-alpha-8",
+  "artifactMatrix": {
+    "path": "artifact-matrix.v1.json",
+    "bytes": 3031,
+    "sha256": "7fb783ab74adfd4065959117bb1ab94bc466a9b1cd7f627c6313bb603876a532"
+  },
+  "supportedHosts": [
+    {
+      "id": "darwin-x64",
+      "platform": "darwin",
+      "architecture": "x64"
+    },
+    {
+      "id": "darwin-arm64",
+      "platform": "darwin",
+      "architecture": "arm64"
+    },
+    {
+      "id": "linux-x64",
+      "platform": "linux",
+      "architecture": "x64"
+    },
+    {
+      "id": "win32-x64",
+      "platform": "win32",
+      "architecture": "x64"
+    }
+  ],
+  "portableTarget": "wasm32-emscripten"
+}

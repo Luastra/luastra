@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.media-player", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["media.command", "ui.render"],
+  "assets": [
+    { "id": "audio/focus", "source": "assets/focus.wav", "mediaType": "audio/wav" },
+    { "id": "audio/rest", "source": "assets/rest.wav", "mediaType": "audio/wav" }
+  ],
+  "modules": [
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["luastra/assets", "luastra/media", "luastra/ui"] },
+    { "id": "app/tests/media", "source": "src/test-media.luau", "dependencies": ["luastra/media"] }
+  ],
+  "tests": ["app/tests/media"]
+}

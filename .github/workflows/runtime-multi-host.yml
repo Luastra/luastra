@@ -1,0 +1,122 @@
+name: Runtime multi-host reproducibility
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: runtime-multi-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  runtime-archives:
+    name: archive-contract-${{ matrix.host }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - host: darwin-arm64
+            runner: macos-15
+          - host: linux-x64
+            runner: ubuntu-24.04
+          - host: win32-x64
+            runner: windows-2025
+
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Check out admitted sources
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Verify archive contract and negative controls
+        shell: pwsh
+        run: node --test tests/runtime-archives.mjs
+
+      - name: Materialize exact unsigned archive set
+        shell: pwsh
+        run: node platform/packaging/build-runtime-archives.mjs --output "${{ runner.temp }}/luastra-runtime-archives"
+
+      - name: Retain archive proof
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: luastra-runtime-archives-${{ matrix.host }}
+          path: ${{ runner.temp }}/luastra-runtime-archives
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+  native-tools:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: darwin-arm64
+            runner: macos-15
+            generator: Ninja
+          - target: linux-x64
+            runner: ubuntu-24.04
+            generator: Unix Makefiles
+          - target: win32-x64
+            runner: windows-2025
+            generator: Visual Studio 18 2026
+
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Check out admitted sources
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Verify runner and toolchain prerequisites
+        shell: pwsh
+        env:
+          EXPECTED_TARGET: ${{ matrix.target }}
+        run: |
+          node -e 'const actual=`${process.platform}-${process.arch}`; if(actual!==process.env.EXPECTED_TARGET) throw new Error(`expected ${process.env.EXPECTED_TARGET}, received ${actual}`); console.log(actual)'
+          node --version
+          cmake --version
+          if ('${{ matrix.generator }}' -eq 'Ninja') { ninja --version }
+
+      - name: Fetch exact admitted Luau source archive
+        shell: pwsh
+        run: node platform/source-build/fetch-pinned-luau.mjs "${{ runner.temp }}/luau-0.731.tar.gz"
+
+      - name: Build native tools twice from clean directories
+        shell: pwsh
+        run: |
+          if ('${{ matrix.target }}' -eq 'win32-x64') {
+            node platform/source-build/build-runtime-sdk.mjs --archive "${{ runner.temp }}/luau-0.731.tar.gz" --work "${{ runner.temp }}/luastra-work" --output "${{ runner.temp }}/luastra-out" --generator '${{ matrix.generator }}' --native-only
+            Move-Item "${{ runner.temp }}/luastra-out" "${{ runner.temp }}/luastra-out-a"
+            Remove-Item -Recurse -Force "${{ runner.temp }}/luastra-work"
+            node platform/source-build/build-runtime-sdk.mjs --archive "${{ runner.temp }}/luau-0.731.tar.gz" --work "${{ runner.temp }}/luastra-work" --output "${{ runner.temp }}/luastra-out-b" --generator '${{ matrix.generator }}' --native-only
+          } else {
+            node platform/source-build/build-runtime-sdk.mjs --archive "${{ runner.temp }}/luau-0.731.tar.gz" --work "${{ runner.temp }}/luastra-work-a" --output "${{ runner.temp }}/luastra-out-a" --generator '${{ matrix.generator }}' --native-only
+            node platform/source-build/build-runtime-sdk.mjs --archive "${{ runner.temp }}/luau-0.731.tar.gz" --work "${{ runner.temp }}/luastra-work-b" --output "${{ runner.temp }}/luastra-out-b" --generator '${{ matrix.generator }}' --native-only
+          }
+
+      - name: Prove byte identity and record provenance
+        shell: pwsh
+        env:
+          LUASTRA_RUNNER_IMAGE: ${{ matrix.runner }}
+        run: node platform/source-build/verify-reproducible-host-build.mjs "${{ runner.temp }}/luastra-out-a/build-report.v1.json" "${{ runner.temp }}/luastra-out-b/build-report.v1.json" "${{ runner.temp }}/reproducibility-proof.v1.json" '${{ matrix.target }}'
+
+      - name: Upload checksummed tools and proof
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: luastra-runtime-${{ matrix.target }}
+          path: |
+            ${{ runner.temp }}/luastra-out-a
+            ${{ runner.temp }}/reproducibility-proof.v1.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

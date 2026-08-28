@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.meditation",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["media.command", "rpc.call", "storage.get", "storage.set", "ui.render"],
+  "backend": {
+    "declaration": "backend/functions.json",
+    "handler": "backend/handlers.mjs",
+    "generatedClient": "src/generated/server-functions.luau",
+    "generatedModule": "app/server-functions",
+    "authentication": "session",
+    "database": {
+      "provider": "sqlite",
+      "path": ".luastra/data/backend.sqlite"
+    },
+    "identity": {
+      "provider": "local-password"
+    },
+    "content": [
+      { "id": "audio/focus", "source": "content/focus.wav", "mediaType": "audio/wav" },
+      { "id": "audio/rest", "source": "content/rest.wav", "mediaType": "audio/wav" }
+    ]
+  },
+  "modules": [
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["app/server-functions", "luastra/host", "luastra/media", "luastra/ui"] },
+    { "id": "app/server-functions", "source": "src/generated/server-functions.luau", "dependencies": ["luastra/server"] },
+    { "id": "app/tests/flow", "source": "src/test-flow.luau", "dependencies": ["app/main"] }
+  ],
+  "tests": ["app/tests/flow"]
+}

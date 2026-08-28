@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "types": {
+    "Record": {
+      "id": "string",
+      "title": "string",
+      "details": "string"
+    }
+  },
+  "functions": {
+    "records.admin.v1": {
+      "clientName": "adminReport",
+      "authorization": "admin",
+      "mutation": false,
+      "idempotency": "none",
+      "input": {},
+      "result": {
+        "count": "number"
+      }
+    },
+    "records.create.v1": {
+      "clientName": "createRecord",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": {
+        "title": "string",
+        "details": "string"
+      },
+      "result": {
+        "record": "Record"
+      }
+    },
+    "records.delete.v1": {
+      "clientName": "deleteRecord",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": {
+        "id": "string"
+      },
+      "result": {
+        "deletedId": "string"
+      }
+    },
+    "records.fail.v1": {
+      "clientName": "failSafely",
+      "authorization": "user",
+      "mutation": false,
+      "idempotency": "none",
+      "input": {},
+      "result": {
+        "count": "number"
+      }
+    },
+    "records.list.v1": {
+      "clientName": "listRecords",
+      "authorization": "user",
+      "mutation": false,
+      "idempotency": "none",
+      "input": {},
+      "result": {
+        "records": "Record[]"
+      }
+    },
+    "records.update.v1": {
+      "clientName": "updateRecord",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": {
+        "id": "string",
+        "title": "string",
+        "details": "string"
+      },
+      "result": {
+        "record": "Record"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.routing-lab",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/navigation", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/routing",
+      "source": "src/test.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/routing"]
+}
