@@ -124,6 +124,9 @@ See [compatibility and limitations](./COMPATIBILITY.md) before adopting it.
 - [`CHANGELOG.md`](./CHANGELOG.md) — public release-facing changes.
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md) — contribution workflow and validation rules.
 - [`SECURITY.md`](./SECURITY.md) — supported versions and vulnerability reporting.
+- [`SUPPORT.md`](./SUPPORT.md) — support channels and evidence to include.
+- [`CONTACT.md`](./CONTACT.md) — general, support, security, privacy, and legal contacts.
+- [`PRIVACY.md`](./PRIVACY.md) — website and direct-contact privacy notice.
 
 The repository uses product-oriented directories such as `cli/`, `sdk/`,
 `platform/`, `hosts/`, `templates/`, `examples/`, `docs/`, and `tests/`.
@@ -138,6 +141,10 @@ require a Developer Certificate of Origin sign-off. Use [`SUPPORT.md`](./SUPPORT
 for questions and reproducible defects, and follow [`SECURITY.md`](./SECURITY.md)
 for vulnerabilities. Community participation is governed by
 [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
+
+General project enquiries may be sent to
+`hello@luastra.dev`. Use the dedicated routes in
+[`CONTACT.md`](./CONTACT.md) for support, security, privacy, and legal matters.
 
 ## Licensing
 

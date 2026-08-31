@@ -4,6 +4,8 @@
 # Security and release boundaries require explicit owner review.
 /.github/ @viachb-projects
 /SECURITY.md @viachb-projects
+/PRIVACY.md @viachb-projects
+/CONTACT.md @viachb-projects
 /LICENSING.md @viachb-projects
 /LICENSE @viachb-projects
 /NOTICE @viachb-projects

@@ -37,6 +37,11 @@ SBOMs for the admitted distribution surfaces.
 The Luastra name, logos, wordmarks, icons, domains and visual identity are not
 licensed under Apache-2.0 or 0BSD. See [`TRADEMARKS.md`](./TRADEMARKS.md).
 
+Questions about the licensing boundary may be sent to
+`legal@luastra.dev`. An email response does not amend
+the repository licenses or grant trademark permission unless it expressly says
+so in writing.
+
 ## Public and private material
 
 Licensing and publication are separate decisions. Apache-2.0 and 0BSD apply to

@@ -18,8 +18,10 @@ Use GitHub private vulnerability reporting at:
 
 <https://github.com/Luastra/luastra/security/advisories/new>
 
-If that route is unexpectedly unavailable, contact the repository owner
-`@viachb-projects` through GitHub without opening a public issue.
+If that route is unexpectedly unavailable, email
+`security@luastra.dev` without opening a public
+issue. Email is an alternate intake route, not a promise of encrypted delivery
+or a response deadline.
 
 Include:
 

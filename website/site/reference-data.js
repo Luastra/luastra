@@ -702,5 +702,85 @@ return Application` })] },
   { id: "cli", title: "Command line", module: "bin/luastra", summary: "Machine-readable success and actionable failure output.", tables: [{ title: "Alpha commands", rows: ["version", "create", "check", "test", "conformance", "generate", "run", "build web", "build bundle", "sdk install"].map((name) => row(name, "command", `Runs the ${name} workflow.`)) }] },
   { id: "manifest", title: "Project manifest", module: "luastra.json · schema v2", summary: "Declares entry, dependencies, capabilities, assets, tests, and backend.", cards: [entry("Minimal manifest", "schemaVersion: 2", "check enforces this explicit contract.", { language: "JSON", code: `{\n  "schemaVersion": 2,\n  "project": {\n    "id": "dev.luastra.example",\n    "entry": "app/main"\n  },\n  "sdk": { "contract": 1 },\n  "capabilities": ["ui.render"],\n  "modules": [\n    {\n      "id": "app/main",\n      "source": "src/main.luau",\n      "dependencies": ["luastra/ui"]\n    }\n  ]\n}` }), entry("Assets", "assets[]", "Admitted project files.", { language: "JSON", code: `"assets": [\n  {\n    "id": "image/card-back",\n    "source": "assets/card-back.png",\n    "mediaType": "image/png"\n  }\n]` }), entry("Capabilities", "capabilities[]", "Explicit host privileges.", { language: "JSON", code: `"capabilities": [\n  "ui.render",\n  "storage.get",\n  "storage.set"\n]` }), entry("Backend", "backend{}", "Trusted operations and generated clients.", { language: "JSON", code: `"backend": {\n  "declaration": "backend/functions.json",\n  "handler": "backend/handlers.mjs",\n  "generatedClient": "src/generated/server-functions.luau",\n  "generatedModule": "app/server-functions"\n}` })] },
   { id: "support", title: "Support and boundaries", summary: "Keep SDK contract, host evidence, and public promises separate.", tables: [{ title: "Source alpha status", rows: [row("Core runtime and web", "Verified", "check, test, run, and build."), row("UI, IME, accessibility", "Verified", "Recorded cross-host evidence."), row("Motion and Timer", "Verified", "Lifecycle and cancellation coverage."), row("Media", "Host-dependent", "Production packaging remains separate."), row("Public release", "Source alpha", "Pre-release APIs may change; production stability is not promised.")] }], callout: "A green source build is not evidence of signing, notarization, store admission, or production-service readiness." },
-  { id: "policies", title: "Project policies", summary: "Read these policy summaries before adopting, contributing, or reporting a vulnerability.", guide: ["These pages are bundled into the documentation application for offline access.", "The canonical policy files live at the root of the Luastra GitHub repository."], cards: [entry("Security policy", "SECURITY.md", "How to report a suspected vulnerability without exposing it publicly.", { kind: "guide", useWhen: "Read this before reporting a suspected vulnerability or sharing a security proof of concept.", points: ["Do not open a public issue for a suspected vulnerability.", "Use GitHub private vulnerability reporting for confidential coordination.", "Include the exact version or commit, affected hosts, safe reproduction steps, expected impact, and known preconditions.", "Never include real credentials, personal data, production tokens, or unrelated private source."] }), entry("Support policy", "SUPPORT.md", "Best-effort support boundaries for pre-release software.", { kind: "guide", useWhen: "Read this before requesting help, filing a reproducible defect, or proposing a bounded feature.", points: ["The source alpha has no service-level, response-time, production, or compatibility commitment.", "A defect report should include the exact version, host and target, minimal reproduction, expected and actual behavior, and sanitized error output.", "Public issues are for reproducible defects; Discussions are for usage and design questions.", "Commercial support, hosted services, and paid plans are not implied by the open-source license."] }), entry("Licensing boundary", "LICENSING.md", "Which project-owned files use Apache-2.0 or 0BSD and which rights remain separate.", { kind: "guide", useWhen: "Read this before redistributing Luastra, starter fragments, generated output, or a Luastra-built application.", points: ["Project-owned platform code and technical documentation use Apache-2.0 unless a file says otherwise.", "Starter templates and scaffolding fragments use 0BSD so generated applications are not forced to be open source.", "User-authored applications and content remain owned by their respective rights holders.", "Third-party materials retain their upstream licenses, while brand assets remain outside the software licenses."] }), entry("Trademark policy", "TRADEMARKS.md", "Rules for the Luastra name, logo, wordmark, domains, and product identity.", { kind: "guide", useWhen: "Read this before using Luastra branding in a product name, domain, logo, certification claim, or commercial material.", points: ["Apache-2.0 and 0BSD do not grant rights to Luastra brand assets.", "Truthful nominative references such as built with Luastra are intended to be allowed when they do not imply endorsement.", "Product names, domains, confusingly similar logos, merchandise, certification claims, and modified brand assets require separate written permission.", "Forks must use a distinct product identity unless the owner grants permission."] }), entry("Releases", "0.1.0-alpha", "The tagged source-alpha release binds source, host archives, checksums, notices, SBOMs, and installation instructions.", { kind: "guide", useWhen: "Read this when selecting a downloadable release or checking what stability and compatibility the source alpha promises.", points: ["The current release is pre-release software, not a stable production promise.", "Verify downloaded files against the release manifest before installation.", "Use the compatibility and support policies to distinguish verified targets from host-dependent claims."] })], callout: "The bundled summaries remain readable offline; the repository copies are canonical when they differ." },
+  {
+    id: "policies",
+    title: "Project policies",
+    summary: "Read these policy summaries before adopting, contributing, requesting support, or reporting a vulnerability.",
+    guide: [
+      "These pages are bundled into the documentation application for offline access.",
+      "The canonical policy and contact files live at the root of the Luastra GitHub repository.",
+    ],
+    cards: [
+      entry("Contact routes", "CONTACT.md", "Dedicated addresses for general, support, security, privacy, and legal enquiries.", {
+        kind: "guide",
+        useWhen: "Read this when a message should be private or when you need to select the correct Luastra contact route.",
+        points: [
+          "General project enquiries: hello@luastra.dev.",
+          "Private user support: support@luastra.dev.",
+          "Security reports: security@luastra.dev; prefer GitHub private vulnerability reporting when available.",
+          "Privacy enquiries: privacy@luastra.dev. Licensing, trademark, and legal enquiries: legal@luastra.dev.",
+        ],
+      }),
+      entry("Security policy", "SECURITY.md", "How to report a suspected vulnerability without exposing it publicly.", {
+        kind: "guide",
+        useWhen: "Read this before reporting a suspected vulnerability or sharing a security proof of concept.",
+        points: [
+          "Do not open a public issue for a suspected vulnerability.",
+          "Use GitHub private vulnerability reporting for confidential coordination; use security@luastra.dev if that route is unavailable.",
+          "Include the exact version or commit, affected hosts, safe reproduction steps, expected impact, and known preconditions.",
+          "Never include real credentials, personal data, production tokens, or unrelated private source.",
+        ],
+      }),
+      entry("Support policy", "SUPPORT.md", "Best-effort support boundaries for pre-release software.", {
+        kind: "guide",
+        useWhen: "Read this before requesting help, filing a reproducible defect, or proposing a bounded feature.",
+        points: [
+          "The source alpha has no service-level, response-time, production, or compatibility commitment.",
+          "A defect report should include the exact version, host and target, minimal reproduction, expected and actual behavior, and sanitized error output.",
+          "Public issues are for reproducible defects; Discussions are for usage and design questions.",
+          "Use support@luastra.dev only when a support or conduct enquiry contains context that should not be public.",
+        ],
+      }),
+      entry("Privacy notice", "PRIVACY.md", "Limited data handling for the official documentation site and direct project correspondence.", {
+        kind: "guide",
+        useWhen: "Read this before sending personal information to a Luastra contact address or when asking how the official website handles visitor data.",
+        points: [
+          "The project does not intentionally operate advertising, behavioural analytics, user accounts, or a contact form on luastra.dev.",
+          "A local presentation preference may remain on the visitor's device; GitHub Pages may process technical request information under GitHub's own terms.",
+          "Direct email provides the sender address, message, attachments, and any information the sender chooses to include.",
+          "Privacy questions and requests concerning information sent to the project may be addressed to privacy@luastra.dev.",
+        ],
+      }),
+      entry("Licensing boundary", "LICENSING.md", "Which project-owned files use Apache-2.0 or 0BSD and which rights remain separate.", {
+        kind: "guide",
+        useWhen: "Read this before redistributing Luastra, starter fragments, generated output, or a Luastra-built application.",
+        points: [
+          "Project-owned platform code and technical documentation use Apache-2.0 unless a file says otherwise.",
+          "Starter templates and scaffolding fragments use 0BSD so generated applications are not forced to be open source.",
+          "User-authored applications and content remain owned by their respective rights holders.",
+          "Send licensing questions to legal@luastra.dev; an email response changes no license unless it expressly says so in writing.",
+        ],
+      }),
+      entry("Trademark policy", "TRADEMARKS.md", "Rules for the Luastra name, logo, wordmark, domains, and product identity.", {
+        kind: "guide",
+        useWhen: "Read this before using Luastra branding in a product name, domain, logo, certification claim, or commercial material.",
+        points: [
+          "Apache-2.0 and 0BSD do not grant rights to Luastra brand assets.",
+          "Truthful nominative references such as built with Luastra are intended to be allowed when they do not imply endorsement.",
+          "Product names, domains, confusingly similar logos, merchandise, certification claims, and modified brand assets require separate written permission.",
+          "Send permission requests to legal@luastra.dev; sending an enquiry does not itself grant permission.",
+        ],
+      }),
+      entry("Releases", "0.1.0-alpha", "The tagged source-alpha release binds source, host archives, checksums, notices, SBOMs, and installation instructions.", {
+        kind: "guide",
+        useWhen: "Read this when selecting a downloadable release or checking what stability and compatibility the source alpha promises.",
+        points: [
+          "The current release is pre-release software, not a stable production promise.",
+          "Verify downloaded files against the release manifest before installation.",
+          "Use the compatibility and support policies to distinguish verified targets from host-dependent claims.",
+        ],
+      }),
+    ],
+    callout: "The bundled summaries remain readable offline; the repository copies are canonical when they differ.",
+  },
 ]);
