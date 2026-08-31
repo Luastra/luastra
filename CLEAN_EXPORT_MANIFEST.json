@@ -1,5 +1,5 @@
 {
-  "contentSha256": "8d25f182ba3cd48fea6b84c572fca89580daa25c2e8fb7e84da900234c119893",
+  "contentSha256": "61087d4744d952b977de3f8a20dbb0d5c437e0c38c9e70f8673d2f0586110508",
   "files": [
     {
       "bytes": 182,
@@ -8,10 +8,10 @@
       "sha256": "94eee180f8b80e7e68cfece065a15f320cc5ca3ce5f7256c31601f35778cc389"
     },
     {
-      "bytes": 348,
+      "bytes": 406,
       "mode": 420,
       "path": ".github/CODEOWNERS",
-      "sha256": "856a1d4bf7336464808225d05885737336adf6730135aa167974db9d154a97ec"
+      "sha256": "750efdebea2981046b72fa63028dd2d39a5903bda3f36174a623002dbdb1e9c8"
     },
     {
       "bytes": 1683,
@@ -44,10 +44,10 @@
       "sha256": "7829c971c6f261190b3e63308d32e796e99077382a94b6b427045e6f5ccac821"
     },
     {
-      "bytes": 4155,
+      "bytes": 4189,
       "mode": 420,
       "path": ".github/REPOSITORY_SETTINGS.md",
-      "sha256": "436e0b53b07878332bcdf7e2d85cbb3f94fcb7470da2ae06beb8656867e277ed"
+      "sha256": "5e69b1b4c66384b5f47af229931e42f88a6d61c8a514d52e375be38760e50a23"
     },
     {
       "bytes": 1819,
@@ -200,16 +200,22 @@
       "sha256": "5face66196d5858224d91ce2506feec92c942e0fa467528d748b765b13467176"
     },
     {
-      "bytes": 1838,
+      "bytes": 1893,
       "mode": 420,
       "path": "CODE_OF_CONDUCT.md",
-      "sha256": "07fed04d5449de1d3b9aad40fde8d82802abe5dc9ffd02ca76bd1cf3b4b10792"
+      "sha256": "33d4f42c0e80f446d4ecac28cc6a9faac4e0046e5e739371077d9dd4d2ddfb77"
     },
     {
       "bytes": 3698,
       "mode": 420,
       "path": "COMPATIBILITY.md",
       "sha256": "7ffea92ddffa87b95ae51aef6a1fecee39092575ddfb8b2b9c9a0a2d6a3bc2ed"
+    },
+    {
+      "bytes": 1186,
+      "mode": 420,
+      "path": "CONTACT.md",
+      "sha256": "e97b353c76c63b01813630c96cae838bd85004082596c7a00966323402d2e68a"
     },
     {
       "bytes": 2670,
@@ -1544,10 +1550,10 @@
       "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
     },
     {
-      "bytes": 1897,
+      "bytes": 2100,
       "mode": 420,
       "path": "LICENSING.md",
-      "sha256": "791029216fbf24a5917d0a66944d19e86ed09a0d5d7df2717711ccb5bff65bfc"
+      "sha256": "892da135560d823b3701aa4abf75bc9a19b859721f5209626d5b8b85efed05cc"
     },
     {
       "bytes": 2827,
@@ -2120,6 +2126,12 @@
       "sha256": "e0ebb99a9ee219a7a64fb066678eb504e56c8d22efccbf2ec7796bb3daa00f42"
     },
     {
+      "bytes": 2619,
+      "mode": 420,
+      "path": "PRIVACY.md",
+      "sha256": "cda6d981a88cbf7b2738750bb31dfc104c3b6414ce78a0bfabd004e5d3b27ed5"
+    },
+    {
       "bytes": 7026,
       "mode": 420,
       "path": "project/build-project.mjs",
@@ -2168,10 +2180,10 @@
       "sha256": "d8cc179c563448d678cb4a0505e9ef3f9b3acc083b5b8dc5f608f4f6f95ba8f0"
     },
     {
-      "bytes": 5797,
+      "bytes": 6215,
       "mode": 420,
       "path": "README.md",
-      "sha256": "0ee5df7ab86d88d941aa910abd4248dba8fe7b7cf4fbe508781e380895af41f3"
+      "sha256": "c53eb1e7945cb0f07596da8edc2211deae2fd06c445960972f1ef19e36a8cdbe"
     },
     {
       "bytes": 587,
@@ -2480,10 +2492,10 @@
       "sha256": "52f0c025dd09d4f68a834118abde168266a6d5a34d17575a512db34f081049bb"
     },
     {
-      "bytes": 1622,
+      "bytes": 1684,
       "mode": 420,
       "path": "SECURITY.md",
-      "sha256": "93c743dbb0a58d351c90678a6474fa561dcb434c1a2116a65ece9f54563758ff"
+      "sha256": "19b6444a3766fdea031686303d65e86410580cf2e6603c17ff8e74a92aed5ae9"
     },
     {
       "bytes": 72,
@@ -2534,10 +2546,10 @@
       "sha256": "4620b86473d594c75976dd29d48e96263dd6dff439528295d645659207f2df4d"
     },
     {
-      "bytes": 1135,
+      "bytes": 1306,
       "mode": 420,
       "path": "SUPPORT.md",
-      "sha256": "72a92f12ba63f2b34c9ee8c06cba235388843ebe32887ebbe6c5dfa0e7d363dc"
+      "sha256": "96fe9b7b0d83f9f61818aec43006d91af6e7ff8e09bfa37c9cd0ae3ce9816025"
     },
     {
       "bytes": 18,
@@ -2948,16 +2960,16 @@
       "sha256": "a85b43c049aeaf956444d3b7a4d5e4468889bc6a41c7c50aca78d5a9b62f8215"
     },
     {
-      "bytes": 700277,
+      "bytes": 704989,
       "mode": 420,
       "path": "website/app/src/reference-data.luau",
-      "sha256": "ba4592598cc94ea1a6ec537cb6ba50d9f7e2ecee909980e7173d93de6adc5a1e"
+      "sha256": "0584696b8754c3d23324e3def7056568ad7d81cef48eba2802bf96e028854846"
     },
     {
-      "bytes": 3734,
+      "bytes": 3770,
       "mode": 420,
       "path": "website/app/tests/reference-data.luau",
-      "sha256": "ac54dc0d5f0069280c7c73fd2ca2115ddbc62bf9f68f37df9a4a008ef8102e82"
+      "sha256": "72e793d6c2fcbac3b399261b6f13cd97575250dd137c95e84ad727b574433dfd"
     },
     {
       "bytes": 4108,
@@ -2996,10 +3008,10 @@
       "sha256": "37c243c59e671c01f3177b828c8d0d4963bb4bac2a17017ee27b98cfaa945f1a"
     },
     {
-      "bytes": 10813,
+      "bytes": 11073,
       "mode": 420,
       "path": "website/scripts/validate-reference.mjs",
-      "sha256": "ea08d710cc535df3cb3d6382caee1dab9bdf2df18381c5091b25609e4f78547d"
+      "sha256": "54f5b04edab3c34a9ee92bf7e479e254329a869e5c5e6e7e5422bc12d78ebb9f"
     },
     {
       "bytes": 12459,
@@ -3014,10 +3026,10 @@
       "sha256": "267ca678291a5adefe91721e742a206a3600f2bcb8bc141557bd9d59820ce5ca"
     },
     {
-      "bytes": 387295,
+      "bytes": 389392,
       "mode": 420,
       "path": "website/site/generated-reference-data.js",
-      "sha256": "0b6dac249e7b3f6d138376dff08d4bfc70bb12ca94f53fa7f6895eec777d474a"
+      "sha256": "71512de393b4f406851f24e8e30ee541c8edc540299a217a5f7e03dbc9da4331"
     },
     {
       "bytes": 2322,
@@ -3026,10 +3038,10 @@
       "sha256": "d714c8913010418be3834d18b44d26e533ee1b5b31f43c30e6ab9124f8c4d744"
     },
     {
-      "bytes": 101328,
+      "bytes": 103526,
       "mode": 420,
       "path": "website/site/reference-data.js",
-      "sha256": "f0a30e792e03199a47bf117267b6df01e0cd9e8b41296855a3090cb205e138b7"
+      "sha256": "d211a7f85bb4ecc50e868cbc1ef984560c02d298fa85e7d7eae9ed237a558016"
     },
     {
       "bytes": 14665,

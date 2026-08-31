@@ -8773,6 +8773,27 @@ export const generatedPages = Object.freeze([
     "sectionTitle": "Project policies",
     "module": null,
     "callable": false,
+    "useWhen": "Read this when a message should be private or when you need to select the correct Luastra contact route.",
+    "code": null,
+    "signature": "CONTACT.md",
+    "parameters": [],
+    "returns": null,
+    "name": "Contact routes",
+    "description": "Dedicated addresses for general, support, security, privacy, and legal enquiries.",
+    "points": [
+      "General project enquiries: hello@luastra.dev.",
+      "Private user support: support@luastra.dev.",
+      "Security reports: security@luastra.dev; prefer GitHub private vulnerability reporting when available.",
+      "Privacy enquiries: privacy@luastra.dev. Licensing, trademark, and legal enquiries: legal@luastra.dev."
+    ]
+  },
+  {
+    "id": "policies/item-2",
+    "kind": "guide",
+    "sectionId": "policies",
+    "sectionTitle": "Project policies",
+    "module": null,
+    "callable": false,
     "useWhen": "Read this before reporting a suspected vulnerability or sharing a security proof of concept.",
     "code": null,
     "signature": "SECURITY.md",
@@ -8782,13 +8803,13 @@ export const generatedPages = Object.freeze([
     "description": "How to report a suspected vulnerability without exposing it publicly.",
     "points": [
       "Do not open a public issue for a suspected vulnerability.",
-      "Use GitHub private vulnerability reporting for confidential coordination.",
+      "Use GitHub private vulnerability reporting for confidential coordination; use security@luastra.dev if that route is unavailable.",
       "Include the exact version or commit, affected hosts, safe reproduction steps, expected impact, and known preconditions.",
       "Never include real credentials, personal data, production tokens, or unrelated private source."
     ]
   },
   {
-    "id": "policies/item-2",
+    "id": "policies/item-3",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8805,11 +8826,32 @@ export const generatedPages = Object.freeze([
       "The source alpha has no service-level, response-time, production, or compatibility commitment.",
       "A defect report should include the exact version, host and target, minimal reproduction, expected and actual behavior, and sanitized error output.",
       "Public issues are for reproducible defects; Discussions are for usage and design questions.",
-      "Commercial support, hosted services, and paid plans are not implied by the open-source license."
+      "Use support@luastra.dev only when a support or conduct enquiry contains context that should not be public."
     ]
   },
   {
-    "id": "policies/item-3",
+    "id": "policies/item-4",
+    "kind": "guide",
+    "sectionId": "policies",
+    "sectionTitle": "Project policies",
+    "module": null,
+    "callable": false,
+    "useWhen": "Read this before sending personal information to a Luastra contact address or when asking how the official website handles visitor data.",
+    "code": null,
+    "signature": "PRIVACY.md",
+    "parameters": [],
+    "returns": null,
+    "name": "Privacy notice",
+    "description": "Limited data handling for the official documentation site and direct project correspondence.",
+    "points": [
+      "The project does not intentionally operate advertising, behavioural analytics, user accounts, or a contact form on luastra.dev.",
+      "A local presentation preference may remain on the visitor's device; GitHub Pages may process technical request information under GitHub's own terms.",
+      "Direct email provides the sender address, message, attachments, and any information the sender chooses to include.",
+      "Privacy questions and requests concerning information sent to the project may be addressed to privacy@luastra.dev."
+    ]
+  },
+  {
+    "id": "policies/item-5",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8826,11 +8868,11 @@ export const generatedPages = Object.freeze([
       "Project-owned platform code and technical documentation use Apache-2.0 unless a file says otherwise.",
       "Starter templates and scaffolding fragments use 0BSD so generated applications are not forced to be open source.",
       "User-authored applications and content remain owned by their respective rights holders.",
-      "Third-party materials retain their upstream licenses, while brand assets remain outside the software licenses."
+      "Send licensing questions to legal@luastra.dev; an email response changes no license unless it expressly says so in writing."
     ]
   },
   {
-    "id": "policies/item-4",
+    "id": "policies/item-6",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8847,11 +8889,11 @@ export const generatedPages = Object.freeze([
       "Apache-2.0 and 0BSD do not grant rights to Luastra brand assets.",
       "Truthful nominative references such as built with Luastra are intended to be allowed when they do not imply endorsement.",
       "Product names, domains, confusingly similar logos, merchandise, certification claims, and modified brand assets require separate written permission.",
-      "Forks must use a distinct product identity unless the owner grants permission."
+      "Send permission requests to legal@luastra.dev; sending an enquiry does not itself grant permission."
     ]
   },
   {
-    "id": "policies/item-5",
+    "id": "policies/item-7",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",

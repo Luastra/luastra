@@ -37,7 +37,7 @@ assert(pageByName["Type casts with ::"] ~= nil)
 assert(string.find(pageByName["Type casts with ::"].code, "::", 1, true) ~= nil)
 assert(pageByName["Runtime immutability with table.freeze"] ~= nil)
 assert(string.find(pageByName["Runtime immutability with table.freeze"].code, "table.freeze", 1, true) ~= nil)
-for _, name in { "Security policy", "Support policy", "Licensing boundary", "Trademark policy", "Releases" } do
+for _, name in { "Contact routes", "Security policy", "Support policy", "Privacy notice", "Licensing boundary", "Trademark policy", "Releases" } do
     local page = pageByName[name]
     assert(page ~= nil and page.kind == "guide")
     assert(type(page.points) == "table" and #page.points >= 3)

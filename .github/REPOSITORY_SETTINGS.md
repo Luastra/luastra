@@ -76,7 +76,8 @@ required checks.
 ## Community and release
 
 - Public profile exposes README, license, contribution guide, code of conduct,
-  security policy, support policy, issue forms, and pull-request template.
+  security policy, support policy, contact routes, privacy notice, issue forms,
+  and pull-request template.
 - Publish a release only after its exact candidate artifacts, checksums, SBOMs,
   notices, and release notes pass the release gates. Packages remain disabled
   until a separately documented package contract exists.

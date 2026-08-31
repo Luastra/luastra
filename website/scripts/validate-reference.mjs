@@ -90,8 +90,11 @@ if (typing.cards.find((card) => card.name === "Runtime immutability with table.f
 
 const policies = sections.find((section) => section.id === "policies");
 if ((policies.links ?? []).length !== 0) fail("bundled policy navigation must not depend on external GitHub links");
-if (policies.cards.length !== 5 || policies.cards.some((card) => card.kind !== "guide" || !Array.isArray(card.points) || card.points.length < 3))
+if (policies.cards.length !== 7 || policies.cards.some((card) => card.kind !== "guide" || !Array.isArray(card.points) || card.points.length < 3))
   fail("project policies must be complete internal guide pages");
+const policyText = JSON.stringify(policies);
+for (const address of ["hello@luastra.dev", "support@luastra.dev", "security@luastra.dev", "privacy@luastra.dev", "legal@luastra.dev"])
+  if (!policyText.includes(address)) fail(`project policies miss ${address}`);
 const moduleResults = [];
 for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
   const moduleName = moduleId.slice("luastra/".length);

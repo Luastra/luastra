@@ -8,10 +8,14 @@ commitment.
 
 - Use a GitHub issue for a reproducible defect or a bounded feature proposal.
 - Use GitHub Discussions for usage and design questions.
+- Email `support@luastra.dev` when a support enquiry
+  contains private context that should not be placed in a public issue or
+  discussion. Remove credentials, tokens, and unrelated personal data first.
 - Use [`SECURITY.md`](./SECURITY.md) for suspected vulnerabilities; never place
   them in a public issue or discussion.
-- For a private conduct report, contact the repository owner `@viachb-projects`
-  through GitHub without exposing the incident publicly.
+- For a private conduct report, email
+  `support@luastra.dev` without exposing the
+  incident publicly.
 
 ## What to include in a defect
 

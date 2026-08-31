@@ -28,7 +28,8 @@ reviews, project events, and public spaces where someone represents Luastra.
 ## Reporting and enforcement
 
 Do not report conduct incidents in a public issue when that would expose the
-affected person. Use the private contact route described in
+affected person. Use `support@luastra.dev` as the
+private conduct-report route and follow the handling boundary in
 [`SUPPORT.md`](./SUPPORT.md). Security vulnerabilities follow
 [`SECURITY.md`](./SECURITY.md) instead.
 
