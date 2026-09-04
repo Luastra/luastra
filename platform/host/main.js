@@ -22,11 +22,16 @@ import { createProjectAssetRegistry } from "/platform/host/asset-registry.mjs";
 import { createLifecycleBridge, createSerializedEventQueue } from "/platform/host/lifecycle-bridge.mjs";
 import { createKeyboardViewportManager } from "/platform/host/keyboard-viewport-manager.mjs";
 import { waitForFirstPaint } from "/platform/host/first-paint-gate.mjs";
+import { createOrbitController } from "/platform/host/orbit-controller.mjs";
 
 const status = document.querySelector("#status");
 const errorOutput = document.querySelector("#error");
 const hostRoot = document.querySelector("#host-root");
 const moduleIdPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const orbitStylesheet = document.createElement("link");
+orbitStylesheet.rel = "stylesheet";
+orbitStylesheet.href = "/platform/host/orbit.css";
+document.head.append(orbitStylesheet);
 
 /* LUASTRA_RPC_PROOF_START */
 /* LUASTRA_RPC_PROOF_END */
@@ -149,6 +154,7 @@ async function start() {
   let tree = null;
   let adapter;
   let motionSession;
+  let orbitController;
   const ledger = new RequestLedger();
   const platformCapabilities = createPlatformCapabilities(bundle.project.id);
   const rpcCapabilities = createRpcCapabilities({ authorizationToken: () => platformCapabilities.cached("session.token") });
@@ -202,6 +208,7 @@ async function start() {
     }
   };
   adapter = new DomAdapter(hostRoot, {
+    deferModalClose: (surface, complete) => orbitController?.deferFocusSurfaceClose(surface, complete) ?? false,
     dispatch({ action, target, value }) {
       try {
         renderResponse(JSON.parse(dispatchSession(handle, action, target, value)));
@@ -210,6 +217,11 @@ async function start() {
     },
   });
   const keyboardViewport = createKeyboardViewportManager({ root: hostRoot });
+  const diagnosticsEnabled = new URLSearchParams(location.search).get("luastraDiagnostics") === "1";
+  orbitController = createOrbitController({
+    root: hostRoot,
+    measureTime: diagnosticsEnabled ? () => performance.now() : null,
+  });
   const scheduler = new EventFrameScheduler({
     requestFrame: (callback) => requestAnimationFrame(callback),
     cancelFrame: (handle) => cancelAnimationFrame(handle),
@@ -221,7 +233,7 @@ async function start() {
     reducedMotion: () => matchMedia("(prefers-reduced-motion: reduce)").matches,
   });
   let clearDiagnostics = () => {};
-  if (new URLSearchParams(location.search).get("luastraDiagnostics") === "1") {
+  if (diagnosticsEnabled) {
     const diagnostics = Object.freeze({
       snapshot() {
         return Object.freeze({
@@ -233,6 +245,7 @@ async function start() {
           framePending: scheduler.framePending,
           wasmMemoryBytes: memoryBytes(),
           domNodeCount: hostRoot.querySelectorAll("*").length,
+          orbitLayout: orbitController.diagnostics(),
         });
       },
     });
@@ -244,6 +257,7 @@ async function start() {
       const patches = reconcile(tree, nextTree);
       adapter.applyBatch(patches);
       tree = nextTree;
+      orbitController.sync();
       return patches;
     },
     dispose() { scheduler.dispose(); },
@@ -344,6 +358,7 @@ async function start() {
     mediaCapabilities.dispose();
     unsubscribeTimer();
     timerCapabilities.dispose();
+    orbitController.destroy();
     keyboardViewport.dispose();
     ledger.dispose();
     destroySession(handle);

@@ -14,7 +14,7 @@ the `luastra.dev` source and a web-application dogfood fixture.
   content in `../site/reference-data.js`.
 - `scripts/generate-reference-data.mjs` creates the Luau snapshot and rejects a
   public SDK symbol without exactly one complete detail page.
-- `tests/reference-data.luau` protects the 85-function/component and 60-exported-type inventories, candidate SDK
+- `tests/reference-data.luau` protects the 95-function/component and 60-exported-type inventories, candidate SDK
   identities, tutorials, learning path, and per-component page contract.
 
 Each public UI component has its own page with a signature, purpose and mental

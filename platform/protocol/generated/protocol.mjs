@@ -104,6 +104,8 @@ export const Protocol = Object.freeze({
       "data-luastra-document-title",
       "data-luastra-fill",
       "data-luastra-height",
+      "data-luastra-orbit-related-to",
+      "data-luastra-orbit-signal-icon",
       "data-luastra-stroke",
       "data-luastra-stroke-width",
       "data-luastra-text-color",
@@ -192,6 +194,8 @@ export const Protocol = Object.freeze({
           "label",
           "motion",
           "onTap",
+          "orbitRelatedTo",
+          "orbitSignalIcon",
           "text",
           "textColor"
         ]

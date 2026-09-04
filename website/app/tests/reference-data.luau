@@ -61,7 +61,7 @@ for moduleName, items in ReferenceData.inventoryPages do
         end
     end
 end
-assert(inventoryCount == 85)
+assert(inventoryCount == 95)
 
 local typeInventoryCount = 0
 for moduleName, items in ReferenceData.typeInventoryPages do

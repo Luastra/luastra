@@ -368,6 +368,303 @@ UI.TableCell = function(input: any): Node
     return make("TableCell", input)
 end
 UI.Modal = function(input: any): Node return make("Modal", input) end
+local function addSemanticClass(input: any, semanticClass: string): any
+    assert(type(input) == "table", "semantic UI component requires a table")
+    local customClass = input.className
+    assert(customClass == nil or type(customClass) == "string", "className must be a string")
+    local normalized = table.clone(input)
+    normalized.className = customClass == nil and semanticClass or (customClass :: string) .. " " .. semanticClass
+    return normalized
+end
+
+local function hasClass(node: Node, className: string): boolean
+    return string.find(" " .. node.properties.className .. " ", " " .. className .. " ", 1, true) ~= nil
+end
+
+local orbitThemes: { [string]: boolean } = {
+    abyss = true, arcade = true, arctic = true, atlas = true, bauhaus = true, biolume = true,
+    candy = true, copper = true, editorial = true, luastra = true, sakura = true,
+}
+
+local function orbitRelatedTargets(componentType: string, input: any): string?
+    local relatedTo = input.relatedTo
+    if relatedTo == nil then return nil end
+    assert(type(relatedTo) == "table", componentType .. " relatedTo must be an array of node IDs")
+    local count = 0
+    for key, _ in pairs(relatedTo) do
+        assert(type(key) == "number" and key % 1 == 0 and key >= 1 and key <= 8, componentType .. " relatedTo must contain at most 8 contiguous targets")
+        count += 1
+    end
+    assert(count == #relatedTo and count <= 8, componentType .. " relatedTo must contain at most 8 contiguous targets")
+    if count == 0 then return nil end
+    local seen: { [string]: boolean } = {}
+    local targets: { string } = {}
+    for _, target in relatedTo do
+        assert(validIdentifier(target), componentType .. " relatedTo contains an invalid node ID")
+        assert(target ~= input.id, componentType .. " cannot relate to itself")
+        assert(seen[target] ~= true, componentType .. " relatedTo contains a duplicate target")
+        seen[target] = true
+        table.insert(targets, target)
+    end
+    return table.concat(targets, ",")
+end
+
+UI.Orbit = function(input: any): Node
+    assert(type(input) == "table", "Orbit requires a table")
+    local presentation = input.presentation == nil and "auto" or input.presentation
+    local orbitTheme = input.orbitTheme == nil and "luastra" or input.orbitTheme
+    local orbitMotion = input.orbitMotion == nil and "system" or input.orbitMotion
+    local maxVisible = input.maxVisible == nil and 12 or input.maxVisible
+    assert(presentation == "auto" or presentation == "spatial" or presentation == "list", "Orbit presentation must be auto, spatial or list")
+    assert(type(orbitTheme) == "string" and orbitThemes[orbitTheme] == true, "Orbit orbitTheme is not supported")
+    assert(orbitMotion == "system" or orbitMotion == "off", "Orbit orbitMotion must be system or off")
+    assert(type(maxVisible) == "number" and maxVisible % 1 == 0 and maxVisible >= 4 and maxVisible <= 32, "Orbit maxVisible must be an integer between 4 and 32")
+    local normalized = table.clone(input)
+    normalized.presentation = nil
+    normalized.orbitTheme = nil
+    normalized.orbitMotion = nil
+    normalized.maxVisible = nil
+    normalized = addSemanticClass(normalized, "luastra-orbit luastra-orbit-presentation-" .. presentation .. " luastra-orbit-theme-" .. orbitTheme .. " luastra-orbit-motion-" .. orbitMotion .. " luastra-orbit-max-" .. tostring(maxVisible))
+    local node = make("Column", normalized)
+    local constellationCount = 0
+    for _, child in node.children do
+        assert(hasClass(child, "luastra-orbit-path") or hasClass(child, "luastra-orbit-search") or hasClass(child, "luastra-constellation") or hasClass(child, "luastra-focus-surface"), "Orbit children must be OrbitPath, OrbitSearch, Constellation or FocusSurface nodes")
+        if hasClass(child, "luastra-constellation") then constellationCount += 1 end
+    end
+    assert(constellationCount > 0, "Orbit requires at least one Constellation")
+    return node
+end
+UI.OrbitPath = function(input: any): Node
+    local normalized = addSemanticClass(input, "luastra-orbit-path")
+    if normalized.role == nil then normalized.role = "navigation" end
+    local node = make("Row", normalized)
+    for _, child in node.children do assert(child.type == "Button" or child.type == "Text", "OrbitPath children must be Button or Text nodes") end
+    return node
+end
+UI.OrbitSearch = function(input: any): Node
+    assert(type(input) == "table", "OrbitSearch requires a table")
+    local query = input.query == nil and "" or input.query
+    local resultCount = input.resultCount
+    local totalCount = input.totalCount
+    local label = input.label == nil and "Search this constellation" or input.label
+    local placeholder = input.placeholder == nil and label or input.placeholder
+    assert(type(query) == "string" and #query <= 160, "OrbitSearch query must be a string of at most 160 bytes")
+    assert(type(resultCount) == "number" and resultCount % 1 == 0 and resultCount >= 0, "OrbitSearch resultCount must be a non-negative integer")
+    assert(type(totalCount) == "number" and totalCount % 1 == 0 and totalCount >= resultCount, "OrbitSearch totalCount must be an integer at least as large as resultCount")
+    assert(type(label) == "string" and #label >= 1 and #label <= 160, "OrbitSearch label must contain 1 to 160 bytes")
+    assert(type(placeholder) == "string" and #placeholder <= 160, "OrbitSearch placeholder must be a string of at most 160 bytes")
+    assert(validAction(input.onInput), "OrbitSearch onInput must be a valid action")
+    local normalized = table.clone(input)
+    normalized.query = nil
+    normalized.resultCount = nil
+    normalized.totalCount = nil
+    normalized.label = nil
+    normalized.placeholder = nil
+    normalized.onInput = nil
+    normalized = addSemanticClass(normalized, "luastra-orbit-search")
+    if query ~= "" and resultCount == 0 then normalized = addSemanticClass(normalized, "luastra-orbit-search-empty") end
+    local node = make("Column", normalized)
+    assert(#node.children == 0, "OrbitSearch creates its children and does not accept explicit children")
+    table.insert(node.children, make("TextInput", {
+        id = node.id .. "/input",
+        label = label,
+        placeholder = placeholder,
+        value = query,
+        inputMode = "search",
+        enterKeyHint = "search",
+        autoComplete = "off",
+        onInput = input.onInput,
+    }))
+    local status = query == "" and tostring(totalCount) .. (totalCount == 1 and " node available" or " nodes available")
+        or (resultCount == 0 and "No matching nodes. Press Escape to clear." or tostring(resultCount) .. (resultCount == 1 and " matching node" or " matching nodes"))
+    table.insert(node.children, make("Text", { id = node.id .. "/status", text = status, role = "status" }))
+    return node
+end
+UI.Constellation = function(input: any): Node
+    assert(type(input) == "table", "Constellation requires a table")
+    local layerState = input.layerState == nil and "active" or input.layerState
+    local depth = input.depth == nil and 0 or input.depth
+    assert(layerState == "active" or layerState == "behind" or layerState == "ahead", "Constellation layerState must be active, behind or ahead")
+    assert(type(depth) == "number" and depth % 1 == 0 and depth >= 0 and depth <= 32, "Constellation depth must be an integer between 0 and 32")
+    local normalized = table.clone(input)
+    normalized.layerState = nil
+    normalized.depth = nil
+    normalized = addSemanticClass(normalized, "luastra-constellation luastra-constellation-state-" .. layerState .. " luastra-constellation-depth-" .. tostring(depth))
+    local node = make("Layer", normalized)
+    local centerCount = 0
+    local orbitNodeCount = 0
+    local orbitNodeIds: { [string]: boolean } = {}
+    for _, child in node.children do
+        assert(hasClass(child, "luastra-orbit-center") or hasClass(child, "luastra-orbit-node"), "Constellation children must be OrbitCenter or OrbitNode nodes")
+        if hasClass(child, "luastra-orbit-center") then
+            centerCount += 1
+        else
+            orbitNodeCount += 1
+            orbitNodeIds[child.id] = true
+        end
+    end
+    assert(centerCount == 1, "Constellation requires exactly one OrbitCenter")
+    assert(orbitNodeCount > 0 and orbitNodeCount <= 64, "Constellation requires between 1 and 64 OrbitNode children")
+    for _, child in node.children do
+        local relatedTo = child.properties.orbitRelatedTo
+        if hasClass(child, "luastra-orbit-node") and type(relatedTo) == "string" then
+            for target in string.gmatch(relatedTo, "[^,]+") do
+                assert(orbitNodeIds[target] == true, "Constellation relationship target must reference a node in the same constellation")
+            end
+        end
+    end
+    return node
+end
+
+local function orbitTextComponent(componentType: string, input: any): Node
+    assert(type(input) == "table", componentType .. " requires a table")
+    assert(type(input.title) == "string" and #input.title >= 1 and #input.title <= 160, componentType .. " title must contain 1 to 160 bytes")
+    assert(input.description == nil or (type(input.description) == "string" and #input.description <= 320), componentType .. " description must be a string of at most 320 bytes")
+    local normalized = table.clone(input)
+    local title = normalized.title
+    local description = normalized.description
+    normalized.title = nil
+    normalized.description = nil
+    local primitiveType = componentType == "OrbitNode" and "Button" or "Column"
+    normalized = addSemanticClass(normalized, componentType == "OrbitNode" and "luastra-orbit-node" or "luastra-orbit-center")
+    local node = make(primitiveType, normalized)
+    assert(#node.children == 0, componentType .. " creates its text children and does not accept explicit children")
+    table.insert(node.children, make("Text", { id = node.id .. "/title", text = title, variant = componentType == "OrbitCenter" and "heading" or "subheading" }))
+    if description ~= nil and #description > 0 then
+        table.insert(node.children, make("Text", { id = node.id .. "/description", text = description }))
+    end
+    return node
+end
+
+UI.OrbitCenter = function(input: any): Node return orbitTextComponent("OrbitCenter", input) end
+local function orbitStatus(componentType: string, input: any): (string?, string?)
+    local status = input.status
+    local statusTone = input.statusTone
+    if status == nil then
+        assert(statusTone == nil, componentType .. " statusTone requires status")
+        return nil, nil
+    end
+    if statusTone == nil then statusTone = "neutral" end
+    assert(type(status) == "string" and #status >= 1 and #status <= 80 and string.match(status, "%c") == nil, componentType .. " status must contain 1 to 80 non-control bytes")
+    assert(statusTone == "neutral" or statusTone == "active" or statusTone == "success" or statusTone == "warning" or statusTone == "error", componentType .. " statusTone must be neutral, active, success, warning or error")
+    return status, statusTone
+end
+local orbitSignalIcons: { [string]: boolean } = {
+    bolt = true,
+    book = true,
+    check = true,
+    compass = true,
+    gauge = true,
+    grid = true,
+    play = true,
+    rocket = true,
+    search = true,
+    settings = true,
+    spark = true,
+    star = true,
+}
+table.freeze(orbitSignalIcons)
+local function orbitSignalIcon(componentType: string, input: any): string?
+    local icon = input.signalIcon
+    assert(icon == nil or orbitSignalIcons[icon] == true, componentType .. " signalIcon must be bolt, book, check, compass, gauge, grid, play, rocket, search, settings, spark or star")
+    return icon
+end
+UI.OrbitNode = function(input: any): Node
+    assert(type(input) == "table", "OrbitNode requires a table")
+    local nodeKind = input.nodeKind == nil and "leaf" or input.nodeKind
+    local priority = input.priority == nil and 2 or input.priority
+    local ring = input.ring
+    local relatedTo = orbitRelatedTargets("OrbitNode", input)
+    local signalIcon = orbitSignalIcon("OrbitNode", input)
+    local status, statusTone = orbitStatus("OrbitNode", input)
+    assert(nodeKind == "constellation" or nodeKind == "leaf" or nodeKind == "action", "OrbitNode nodeKind must be constellation, leaf or action")
+    assert(type(priority) == "number" and priority % 1 == 0 and priority >= 1 and priority <= 3, "OrbitNode priority must be an integer between 1 and 3")
+    assert(ring == nil or (type(ring) == "number" and ring % 1 == 0 and ring >= 1 and ring <= 3), "OrbitNode ring must be an integer between 1 and 3")
+    assert(input.selected == nil or type(input.selected) == "boolean", "OrbitNode selected must be a boolean")
+    local normalized = table.clone(input)
+    normalized.nodeKind = nil
+    normalized.priority = nil
+    normalized.ring = nil
+    normalized.relatedTo = nil
+    normalized.signalIcon = nil
+    normalized.status = nil
+    normalized.statusTone = nil
+    normalized.orbitRelatedTo = relatedTo
+    normalized.orbitSignalIcon = signalIcon
+    normalized.selected = nil
+    normalized = addSemanticClass(normalized, "luastra-orbit-kind-" .. nodeKind .. " luastra-orbit-priority-" .. tostring(priority))
+    if statusTone ~= nil then normalized = addSemanticClass(normalized, "luastra-orbit-status-" .. statusTone) end
+    if ring ~= nil then normalized = addSemanticClass(normalized, "luastra-orbit-ring-" .. tostring(ring)) end
+    if input.selected == true then normalized = addSemanticClass(normalized, "luastra-orbit-selected") end
+    local node = orbitTextComponent("OrbitNode", normalized)
+    if status ~= nil then
+        table.insert(node.children, make("Text", { id = node.id .. "/status", text = status, className = "luastra-orbit-node-status luastra-orbit-status-" .. (statusTone :: string) }))
+    end
+    return node
+end
+UI.OrbitCluster = function(input: any): Node
+    assert(type(input) == "table", "OrbitCluster requires a table")
+    assert(type(input.title) == "string" and #input.title >= 1 and #input.title <= 160, "OrbitCluster title must contain 1 to 160 bytes")
+    assert(type(input.count) == "number" and input.count % 1 == 0 and input.count >= 1 and input.count <= 9999, "OrbitCluster count must be an integer between 1 and 9999")
+    local priority = input.priority == nil and 2 or input.priority
+    local ring = input.ring
+    local relatedTo = orbitRelatedTargets("OrbitCluster", input)
+    local signalIcon = orbitSignalIcon("OrbitCluster", input)
+    local status, statusTone = orbitStatus("OrbitCluster", input)
+    assert(type(priority) == "number" and priority % 1 == 0 and priority >= 1 and priority <= 3, "OrbitCluster priority must be an integer between 1 and 3")
+    assert(ring == nil or (type(ring) == "number" and ring % 1 == 0 and ring >= 1 and ring <= 3), "OrbitCluster ring must be an integer between 1 and 3")
+    local normalized = table.clone(input)
+    local title = normalized.title
+    local count = normalized.count
+    normalized.title = nil
+    normalized.count = nil
+    normalized.priority = nil
+    normalized.ring = nil
+    normalized.relatedTo = nil
+    normalized.signalIcon = nil
+    normalized.status = nil
+    normalized.statusTone = nil
+    normalized.orbitRelatedTo = relatedTo
+    normalized.orbitSignalIcon = signalIcon
+    normalized = addSemanticClass(normalized, "luastra-orbit-node luastra-orbit-cluster luastra-orbit-kind-cluster luastra-orbit-priority-" .. tostring(priority))
+    if statusTone ~= nil then normalized = addSemanticClass(normalized, "luastra-orbit-status-" .. statusTone) end
+    if ring ~= nil then normalized = addSemanticClass(normalized, "luastra-orbit-ring-" .. tostring(ring)) end
+    local node = make("Button", normalized)
+    assert(#node.children == 0, "OrbitCluster creates its text children and does not accept explicit children")
+    table.insert(node.children, make("Text", { id = node.id .. "/title", text = title, variant = "subheading" }))
+    table.insert(node.children, make("Text", {
+        id = node.id .. "/count",
+        text = tostring(count) .. (count == 1 and " item" or " items"),
+        className = "luastra-orbit-cluster-count",
+    }))
+    if status ~= nil then
+        table.insert(node.children, make("Text", { id = node.id .. "/status", text = status, className = "luastra-orbit-node-status luastra-orbit-status-" .. (statusTone :: string) }))
+    end
+    return node
+end
+UI.FocusSurface = function(input: any): Node
+    local normalized = addSemanticClass(input, "luastra-focus-surface")
+    if normalized.open == nil then normalized.open = false end
+    return make("Modal", normalized)
+end
+UI.FocusHeader = function(input: any): Node
+    local node = make("Row", addSemanticClass(input, "luastra-focus-header"))
+    local textCount = 0
+    local buttonCount = 0
+    for _, child in node.children do
+        assert(child.type == "Text" or child.type == "Button", "FocusHeader children must be Text or Button nodes")
+        if child.type == "Text" then
+            assert(child.properties.variant == "heading" and child.properties.hidden ~= true, "FocusHeader Text must be a visible heading")
+            textCount += 1
+        else
+            assert(child.properties.hidden ~= true and child.properties.disabled ~= true, "FocusHeader Button must be available")
+            buttonCount += 1
+        end
+    end
+    assert(textCount == 1 and buttonCount == 1, "FocusHeader requires exactly one Text and one Button")
+    return node
+end
+UI.OrbitReturn = function(input: any): Node return make("Button", addSemanticClass(input, "luastra-orbit-return")) end
 UI.Stack = function(input: any): Node return make("Column", input, "luastra-stack") end
 UI.Grid = function(input: any): Node return make("Row", input, "luastra-grid") end
 UI.Scroll = function(input: any): Node return make("Column", input, "luastra-scroll") end

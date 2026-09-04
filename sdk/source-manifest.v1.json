@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "identity": "luastra-source-sdk/phase5-contract-10",
+  "identity": "luastra-source-sdk/phase5-contract-13",
   "compatibility": {
     "analyzer": "luau-analysis/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
     "compiler": "luau/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
@@ -82,8 +82,8 @@
       "id": "luastra/ui",
       "source": "luastra/ui.luau",
       "dependencies": [],
-      "bytes": 18715,
-      "sha256": "38b79f2dc2ef610c8e935b53d69fb68415cb26cba935f3fd08671b07a9b835f6"
+      "bytes": 36291,
+      "sha256": "ce56197d2048168cf57d556fa63e82436357b606cea03b0fbd231d83ffa552dc"
     }
   ]
 }

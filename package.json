@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test": "sh scripts/test-all-local.sh",
+    "benchmark:orbit": "node scripts/benchmark-orbit.mjs",
     "docs:check": "node website/scripts/validate-reference.mjs && node cli/luastra.mjs check --project=website/app/luastra.json && node cli/luastra.mjs test --project=website/app/luastra.json",
     "alpha:audit": "node release/audit-public-candidate.mjs",
     "sdk:release": "node release/build-sdk-release.mjs",

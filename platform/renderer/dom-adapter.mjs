@@ -56,10 +56,12 @@ export class DomAdapter {
   #enterKeyListeners = new WeakMap();
   #modalState = new WeakMap();
   #modalOrigins = new WeakMap();
+  #pendingModalClosures = new WeakMap();
   #dispatch;
+  #deferModalClose;
   #initialMetadata;
 
-  constructor(root, { dispatch = null } = {}) {
+  constructor(root, { dispatch = null, deferModalClose = null } = {}) {
     if (!root?.ownerDocument) fail("DOM root is required");
     this.#document = root.ownerDocument;
     this.#initialMetadata = {
@@ -68,7 +70,9 @@ export class DomAdapter {
       description: this.#document.querySelector?.('meta[name="description"]')?.getAttribute("content") ?? "",
     };
     if (dispatch !== null && typeof dispatch !== "function") fail("DOM event dispatch must be a function");
+    if (deferModalClose !== null && typeof deferModalClose !== "function") fail("Deferred modal close handler must be a function");
     this.#dispatch = dispatch;
+    this.#deferModalClose = deferModalClose;
     this.#nodes.set("host-root", root);
   }
 
@@ -179,10 +183,35 @@ export class DomAdapter {
   #setModal(target, state) {
     this.#modalState.set(target, state);
     if (state === "open") {
+      const pending = this.#pendingModalClosures.get(target);
+      if (pending) {
+        this.#pendingModalClosures.delete(target);
+        pending.cancel?.();
+      }
       if (!this.#modalOrigins.has(target)) this.#modalOrigins.set(target, this.#document.activeElement ?? null);
       this.#openModal(target);
       return;
     }
+    if (target.open && this.#deferModalClose) {
+      const pending = {};
+      this.#pendingModalClosures.set(target, pending);
+      const complete = () => {
+        if (this.#pendingModalClosures.get(target) !== pending || this.#modalState.get(target) !== "closed") return false;
+        this.#pendingModalClosures.delete(target);
+        this.#finishModalClose(target);
+        return true;
+      };
+      const cancellation = this.#deferModalClose(target, complete);
+      if (cancellation !== false) {
+        pending.cancel = typeof cancellation === "function" ? cancellation : null;
+        return;
+      }
+      if (this.#pendingModalClosures.get(target) === pending) this.#pendingModalClosures.delete(target);
+    }
+    this.#finishModalClose(target);
+  }
+
+  #finishModalClose(target) {
     if (typeof target.close === "function" && target.open) target.close();
     else target.removeAttribute("open");
     const origin = this.#modalOrigins.get(target);
@@ -373,6 +402,11 @@ export class DomAdapter {
       if (removedIds.some((id) => key.startsWith(`${id}:`))) this.#listeners.delete(key);
     }
     for (const removed of [node, ...descendants]) {
+      const pending = this.#pendingModalClosures.get(removed);
+      if (pending) {
+        this.#pendingModalClosures.delete(removed);
+        pending.cancel?.();
+      }
       this.#removeEnterKeyListener(removed);
     }
   }

@@ -121,6 +121,7 @@ See [compatibility and limitations](./COMPATIBILITY.md) before adopting it.
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — layers, ownership, and trust boundaries.
 - [`COMPATIBILITY.md`](./COMPATIBILITY.md) — exact alpha host and feature matrix.
 - [`ROADMAP.md`](./ROADMAP.md) — ordered work after the first source alpha.
+- [`docs/constellation-orbit.md`](./docs/constellation-orbit.md) — experimental spatial UI components and performance contract.
 - [`CHANGELOG.md`](./CHANGELOG.md) — public release-facing changes.
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md) — contribution workflow and validation rules.
 - [`SECURITY.md`](./SECURITY.md) — supported versions and vulnerability reporting.

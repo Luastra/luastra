@@ -1,0 +1,493 @@
+.luastra-orbit {
+  --luastra-orbit-bg: #f1ede1;
+  --luastra-orbit-ink: #16342e;
+  --luastra-orbit-muted: #667b76;
+  --luastra-orbit-accent: #e4ad3a;
+  --luastra-orbit-hero: #16342e;
+  --luastra-orbit-on-hero: #fffdf7;
+  --luastra-orbit-line: rgb(47 117 104 / 24%);
+  --luastra-orbit-node-bg: rgb(255 253 247 / 96%);
+  --luastra-orbit-node-border: rgb(47 117 104 / 52%);
+  --luastra-orbit-pattern: radial-gradient(circle at 12% 10%, rgb(228 173 58 / 12%), transparent 28%), radial-gradient(circle at 88% 88%, rgb(47 117 104 / 10%), transparent 32%);
+  --luastra-orbit-shadow: rgb(22 52 46 / 16%);
+  --luastra-orbit-glow: rgb(228 173 58 / 28%);
+  --luastra-orbit-shell-radius: 28px;
+  --luastra-orbit-node-radius: 18px;
+  --luastra-orbit-list-node-radius: 18px;
+  --luastra-orbit-center-radius: 50%;
+  --luastra-orbit-list-center-radius: 999px;
+  --luastra-orbit-focus-radius: 22px;
+  --luastra-orbit-control-radius: 999px;
+  --luastra-orbit-line-style: dashed;
+  --luastra-orbit-display: "Iowan Old Style", Georgia, serif;
+  --luastra-orbit-sans: "Avenir Next", system-ui, sans-serif;
+  --luastra-orbit-node-width: clamp(8.5rem, 18vw, 11rem);
+  --luastra-orbit-node-height: 5.25rem;
+  --luastra-orbit-node-start-padding: .9rem;
+  --luastra-orbit-camera-duration: 520ms;
+  --luastra-orbit-focus-duration: 620ms;
+  --luastra-orbit-origin-x: 50%;
+  --luastra-orbit-origin-y: 50%;
+  --luastra-orbit-status-neutral: #526b65;
+  --luastra-orbit-status-active: #704b00;
+  --luastra-orbit-status-success: #17633a;
+  --luastra-orbit-status-warning: #694900;
+  --luastra-orbit-status-error: #8f2535;
+  position: relative;
+  min-height: min(42rem, calc(100dvh - 8rem));
+  overflow: clip;
+  border: 1px solid var(--luastra-orbit-line);
+  border-radius: var(--luastra-orbit-shell-radius);
+  color: var(--luastra-orbit-ink);
+  font-family: var(--luastra-orbit-sans);
+  background:
+    var(--luastra-orbit-pattern),
+    radial-gradient(ellipse at center, transparent 0 27%, var(--luastra-orbit-line) 27.15% 27.4%, transparent 27.55% 42%, var(--luastra-orbit-line) 42.15% 42.4%, transparent 42.55%),
+    var(--luastra-orbit-bg);
+  isolation: isolate;
+}
+
+.luastra-orbit:where(.luastra-orbit-theme-abyss, [data-luastra-orbit-theme="abyss"], .luastra-orbit-theme-biolume, [data-luastra-orbit-theme="biolume"], .luastra-orbit-theme-arcade, [data-luastra-orbit-theme="arcade"], .luastra-orbit-theme-copper, [data-luastra-orbit-theme="copper"]) {
+  --luastra-orbit-status-neutral: #b9d6dc;
+  --luastra-orbit-status-active: #ffd166;
+  --luastra-orbit-status-success: #82e6a9;
+  --luastra-orbit-status-warning: #ffd166;
+  --luastra-orbit-status-error: #ff9eae;
+}
+
+.luastra-orbit[data-luastra-orbit-theme="abyss"] { --luastra-orbit-bg:#03151d; --luastra-orbit-ink:#e7fbff; --luastra-orbit-muted:#9abcc3; --luastra-orbit-accent:#ffd166; --luastra-orbit-hero:#07576a; --luastra-orbit-on-hero:#f1fdff; --luastra-orbit-line:rgb(69 211 223 / 23%); --luastra-orbit-node-bg:rgb(10 43 54 / 94%); --luastra-orbit-node-border:rgb(69 211 223 / 55%); --luastra-orbit-pattern:radial-gradient(circle at 20% 20%,rgb(69 211 223 / 12%),transparent 24%),radial-gradient(circle at 76% 70%,rgb(20 103 128 / 28%),transparent 35%); --luastra-orbit-shadow:rgb(0 0 0 / 42%); --luastra-orbit-glow:rgb(69 211 223 / 28%); --luastra-orbit-shell-radius:24px; --luastra-orbit-node-radius:14px; --luastra-orbit-focus-radius:18px; --luastra-orbit-control-radius:12px; --luastra-orbit-line-style:solid; }
+.luastra-orbit[data-luastra-orbit-theme="sakura"] { --luastra-orbit-bg:#f3e7e4; --luastra-orbit-ink:#412c33; --luastra-orbit-muted:#806a70; --luastra-orbit-accent:#e58d9d; --luastra-orbit-hero:#762641; --luastra-orbit-on-hero:#fff8f5; --luastra-orbit-line:rgb(167 61 97 / 22%); --luastra-orbit-node-bg:rgb(255 250 247 / 95%); --luastra-orbit-node-border:rgb(167 61 97 / 50%); --luastra-orbit-pattern:radial-gradient(ellipse at 15% 15%,rgb(229 141 157 / 18%),transparent 18%),radial-gradient(ellipse at 82% 74%,rgb(167 61 97 / 10%),transparent 24%); --luastra-orbit-shadow:rgb(74 32 45 / 14%); --luastra-orbit-glow:rgb(229 141 157 / 30%); --luastra-orbit-shell-radius:34px; --luastra-orbit-node-radius:28px 12px 28px 12px; --luastra-orbit-center-radius:46% 54% 48% 52%; --luastra-orbit-focus-radius:32px 14px 32px 14px; --luastra-orbit-line-style:dotted; }
+.luastra-orbit[data-luastra-orbit-theme="atlas"] { --luastra-orbit-bg:#d9c09a; --luastra-orbit-ink:#402b22; --luastra-orbit-muted:#725f50; --luastra-orbit-accent:#18766d; --luastra-orbit-hero:#6d321f; --luastra-orbit-on-hero:#fff2d7; --luastra-orbit-line:rgb(109 50 31 / 24%); --luastra-orbit-node-bg:rgb(246 228 198 / 95%); --luastra-orbit-node-border:rgb(109 50 31 / 54%); --luastra-orbit-pattern:repeating-linear-gradient(24deg,rgb(109 50 31 / 3.5%) 0 1px,transparent 1px 22px),radial-gradient(circle at 85% 12%,rgb(159 77 45 / 16%),transparent 28%); --luastra-orbit-shadow:rgb(72 42 25 / 18%); --luastra-orbit-glow:rgb(24 118 109 / 28%); --luastra-orbit-shell-radius:10px; --luastra-orbit-node-radius:8px; --luastra-orbit-focus-radius:8px; --luastra-orbit-control-radius:4px; }
+.luastra-orbit[data-luastra-orbit-theme="arctic"] { --luastra-orbit-bg:#dcecf2; --luastra-orbit-ink:#18323f; --luastra-orbit-muted:#627d88; --luastra-orbit-accent:#ff7254; --luastra-orbit-hero:#12576c; --luastra-orbit-on-hero:#f4fdff; --luastra-orbit-line:rgb(19 125 156 / 22%); --luastra-orbit-node-bg:rgb(247 253 255 / 90%); --luastra-orbit-node-border:rgb(19 125 156 / 50%); --luastra-orbit-pattern:linear-gradient(120deg,rgb(255 255 255 / 50%),transparent 34%),radial-gradient(circle at 82% 18%,rgb(19 125 156 / 12%),transparent 27%); --luastra-orbit-shadow:rgb(24 72 88 / 14%); --luastra-orbit-glow:rgb(255 114 84 / 25%); --luastra-orbit-shell-radius:20px; --luastra-orbit-node-radius:10px; --luastra-orbit-center-radius:22%; --luastra-orbit-focus-radius:14px; --luastra-orbit-control-radius:10px; --luastra-orbit-line-style:solid; }
+.luastra-orbit[data-luastra-orbit-theme="biolume"] { --luastra-orbit-bg:#06140f; --luastra-orbit-ink:#e6fbe9; --luastra-orbit-muted:#9bbca4; --luastra-orbit-accent:#d8ff59; --luastra-orbit-hero:#123f29; --luastra-orbit-on-hero:#effff0; --luastra-orbit-line:rgb(87 227 147 / 22%); --luastra-orbit-node-bg:rgb(13 43 30 / 94%); --luastra-orbit-node-border:rgb(87 227 147 / 52%); --luastra-orbit-pattern:radial-gradient(ellipse at 18% 25%,rgb(87 227 147 / 13%),transparent 20%),radial-gradient(ellipse at 78% 76%,rgb(216 255 89 / 8%),transparent 18%); --luastra-orbit-shadow:rgb(0 0 0 / 42%); --luastra-orbit-glow:rgb(216 255 89 / 26%); --luastra-orbit-shell-radius:42px 20px 42px 20px; --luastra-orbit-node-radius:50% 18px 50% 18px; --luastra-orbit-center-radius:44% 56% 48% 52%; --luastra-orbit-focus-radius:34px 14px 34px 14px; --luastra-orbit-line-style:dotted; }
+.luastra-orbit[data-luastra-orbit-theme="arcade"] { --luastra-orbit-bg:#100519; --luastra-orbit-ink:#fff2ff; --luastra-orbit-muted:#c5a9cf; --luastra-orbit-accent:#ff3f9f; --luastra-orbit-hero:#48165d; --luastra-orbit-on-hero:#fff4ff; --luastra-orbit-line:rgb(37 230 255 / 26%); --luastra-orbit-node-bg:rgb(36 15 48 / 96%); --luastra-orbit-node-border:rgb(37 230 255 / 58%); --luastra-orbit-pattern:linear-gradient(rgb(37 230 255 / 3.5%) 1px,transparent 1px),linear-gradient(90deg,rgb(255 63 159 / 3.5%) 1px,transparent 1px),radial-gradient(circle at 80% 15%,rgb(169 120 255 / 22%),transparent 28%); --luastra-orbit-shadow:rgb(0 0 0 / 54%); --luastra-orbit-glow:rgb(255 63 159 / 36%); --luastra-orbit-shell-radius:14px; --luastra-orbit-node-radius:6px 24px 6px 24px; --luastra-orbit-center-radius:18%; --luastra-orbit-focus-radius:8px 32px 8px 32px; --luastra-orbit-control-radius:4px; --luastra-orbit-line-style:solid; background-size:38px 38px,38px 38px,auto,auto,auto; }
+.luastra-orbit[data-luastra-orbit-theme="bauhaus"] { --luastra-orbit-bg:#e5dcc6; --luastra-orbit-ink:#171717; --luastra-orbit-muted:#5c574d; --luastra-orbit-accent:#d23b31; --luastra-orbit-hero:#174ea6; --luastra-orbit-on-hero:#fff8e7; --luastra-orbit-line:rgb(23 23 23 / 30%); --luastra-orbit-node-bg:#fff8e7; --luastra-orbit-node-border:rgb(23 23 23 / 72%); --luastra-orbit-pattern:linear-gradient(90deg,rgb(23 78 166 / 8%) 25%,transparent 25%),linear-gradient(rgb(210 59 49 / 6%) 25%,transparent 25%); --luastra-orbit-shadow:rgb(23 23 23 / 18%); --luastra-orbit-glow:rgb(210 59 49 / 24%); --luastra-orbit-shell-radius:2px; --luastra-orbit-node-radius:0; --luastra-orbit-center-radius:0; --luastra-orbit-list-center-radius:0; --luastra-orbit-focus-radius:0; --luastra-orbit-control-radius:0; --luastra-orbit-line-style:solid; background-size:80px 80px,80px 80px,auto,auto; }
+.luastra-orbit[data-luastra-orbit-theme="editorial"] { --luastra-orbit-bg:#e7e5df; --luastra-orbit-ink:#111; --luastra-orbit-muted:#66625d; --luastra-orbit-accent:#c1121f; --luastra-orbit-hero:#111; --luastra-orbit-on-hero:#fff; --luastra-orbit-line:rgb(17 17 17 / 22%); --luastra-orbit-node-bg:#fbfaf7; --luastra-orbit-node-border:rgb(17 17 17 / 68%); --luastra-orbit-pattern:repeating-linear-gradient(0deg,rgb(17 17 17 / 2.5%) 0 1px,transparent 1px 5px); --luastra-orbit-shadow:rgb(17 17 17 / 12%); --luastra-orbit-glow:rgb(193 18 31 / 20%); --luastra-orbit-shell-radius:0; --luastra-orbit-node-radius:0; --luastra-orbit-center-radius:0; --luastra-orbit-list-center-radius:0; --luastra-orbit-focus-radius:0; --luastra-orbit-control-radius:0; --luastra-orbit-line-style:solid; --luastra-orbit-display:"Didot","Bodoni 72",Georgia,serif; --luastra-orbit-sans:"Helvetica Neue",sans-serif; }
+.luastra-orbit[data-luastra-orbit-theme="copper"] { --luastra-orbit-bg:#201914; --luastra-orbit-ink:#f2e3d2; --luastra-orbit-muted:#b6a291; --luastra-orbit-accent:#6db0a1; --luastra-orbit-hero:#693b27; --luastra-orbit-on-hero:#fff0df; --luastra-orbit-line:rgb(198 118 73 / 25%); --luastra-orbit-node-bg:rgb(54 39 31 / 96%); --luastra-orbit-node-border:rgb(198 118 73 / 58%); --luastra-orbit-pattern:repeating-linear-gradient(90deg,rgb(255 255 255 / 1.8%) 0 1px,transparent 1px 7px),radial-gradient(circle at 78% 18%,rgb(198 118 73 / 16%),transparent 28%); --luastra-orbit-shadow:rgb(0 0 0 / 43%); --luastra-orbit-glow:rgb(109 176 161 / 28%); --luastra-orbit-shell-radius:12px; --luastra-orbit-node-radius:5px; --luastra-orbit-center-radius:14%; --luastra-orbit-focus-radius:7px; --luastra-orbit-control-radius:4px; }
+.luastra-orbit[data-luastra-orbit-theme="candy"] { --luastra-orbit-bg:#ffeed7; --luastra-orbit-ink:#302d4c; --luastra-orbit-muted:#746f89; --luastra-orbit-accent:#20bea9; --luastra-orbit-hero:#5b4fb4; --luastra-orbit-on-hero:#fffaff; --luastra-orbit-line:rgb(91 79 180 / 20%); --luastra-orbit-node-bg:rgb(255 250 253 / 96%); --luastra-orbit-node-border:rgb(91 79 180 / 48%); --luastra-orbit-pattern:radial-gradient(circle at 12% 16%,rgb(255 95 125 / 16%) 0 6%,transparent 6.5%),radial-gradient(circle at 84% 76%,rgb(32 190 169 / 13%) 0 7%,transparent 7.5%); --luastra-orbit-shadow:rgb(80 61 128 / 14%); --luastra-orbit-glow:rgb(255 95 125 / 26%); --luastra-orbit-shell-radius:40px; --luastra-orbit-node-radius:30px; --luastra-orbit-focus-radius:36px; --luastra-orbit-line-style:dotted; --luastra-orbit-sans:"Avenir Next Rounded","Trebuchet MS",sans-serif; }
+
+.luastra-orbit[data-luastra-orbit-theme="abyss"] { --luastra-orbit-list-node-radius: 14px; }
+.luastra-orbit[data-luastra-orbit-theme="sakura"] { --luastra-orbit-list-node-radius: 24px 12px; }
+.luastra-orbit[data-luastra-orbit-theme="atlas"] { --luastra-orbit-list-node-radius: 8px; }
+.luastra-orbit[data-luastra-orbit-theme="arctic"] { --luastra-orbit-list-node-radius: 10px; }
+.luastra-orbit[data-luastra-orbit-theme="biolume"] { --luastra-orbit-list-node-radius: 24px 12px; }
+.luastra-orbit[data-luastra-orbit-theme="biolume"] { --luastra-orbit-node-start-padding: 2rem; }
+.luastra-orbit[data-luastra-orbit-theme="arcade"] { --luastra-orbit-list-node-radius: 6px 24px; }
+.luastra-orbit[data-luastra-orbit-theme="bauhaus"],
+.luastra-orbit[data-luastra-orbit-theme="editorial"] { --luastra-orbit-list-node-radius: 0; }
+.luastra-orbit[data-luastra-orbit-theme="copper"] { --luastra-orbit-list-node-radius: 5px; }
+.luastra-orbit[data-luastra-orbit-theme="candy"] { --luastra-orbit-list-node-radius: 24px; }
+
+.luastra-orbit:is(.luastra-orbit-theme-luastra, [data-luastra-orbit-theme="luastra"]) { --luastra-orbit-focus-bg:#fffdf7; --luastra-orbit-focus-ink:#16342e; --luastra-orbit-focus-muted:#526b65; --luastra-orbit-focus-control-bg:#e4ad3a; --luastra-orbit-focus-control-ink:#16342e; --luastra-orbit-focus-border:#16342e; }
+.luastra-orbit:is(.luastra-orbit-theme-abyss, [data-luastra-orbit-theme="abyss"]) { --luastra-orbit-focus-bg:#0a2b36; --luastra-orbit-focus-ink:#e7fbff; --luastra-orbit-focus-muted:#b0d2d8; --luastra-orbit-focus-control-bg:#ffd166; --luastra-orbit-focus-control-ink:#03151d; --luastra-orbit-focus-border:#e7fbff; }
+.luastra-orbit:is(.luastra-orbit-theme-sakura, [data-luastra-orbit-theme="sakura"]) { --luastra-orbit-focus-bg:#fffaf7; --luastra-orbit-focus-ink:#412c33; --luastra-orbit-focus-muted:#6f565e; --luastra-orbit-focus-control-bg:#e58d9d; --luastra-orbit-focus-control-ink:#301f25; --luastra-orbit-focus-border:#412c33; }
+.luastra-orbit:is(.luastra-orbit-theme-atlas, [data-luastra-orbit-theme="atlas"]) { --luastra-orbit-focus-bg:#f6e4c6; --luastra-orbit-focus-ink:#402b22; --luastra-orbit-focus-muted:#665145; --luastra-orbit-focus-control-bg:#18766d; --luastra-orbit-focus-control-ink:#fff2d7; --luastra-orbit-focus-border:#402b22; }
+.luastra-orbit:is(.luastra-orbit-theme-arctic, [data-luastra-orbit-theme="arctic"]) { --luastra-orbit-focus-bg:#f7fdff; --luastra-orbit-focus-ink:#18323f; --luastra-orbit-focus-muted:#4f6974; --luastra-orbit-focus-control-bg:#12576c; --luastra-orbit-focus-control-ink:#f4fdff; --luastra-orbit-focus-border:#18323f; }
+.luastra-orbit:is(.luastra-orbit-theme-biolume, [data-luastra-orbit-theme="biolume"]) { --luastra-orbit-focus-bg:#0d2b1e; --luastra-orbit-focus-ink:#e6fbe9; --luastra-orbit-focus-muted:#b2d5bb; --luastra-orbit-focus-control-bg:#d8ff59; --luastra-orbit-focus-control-ink:#06140f; --luastra-orbit-focus-border:#e6fbe9; }
+.luastra-orbit:is(.luastra-orbit-theme-arcade, [data-luastra-orbit-theme="arcade"]) { --luastra-orbit-focus-bg:#240f30; --luastra-orbit-focus-ink:#fff2ff; --luastra-orbit-focus-muted:#d5b8df; --luastra-orbit-focus-control-bg:#ff3f9f; --luastra-orbit-focus-control-ink:#100519; --luastra-orbit-focus-border:#fff2ff; }
+.luastra-orbit:is(.luastra-orbit-theme-bauhaus, [data-luastra-orbit-theme="bauhaus"]) { --luastra-orbit-focus-bg:#fff8e7; --luastra-orbit-focus-ink:#171717; --luastra-orbit-focus-muted:#514c43; --luastra-orbit-focus-control-bg:#174ea6; --luastra-orbit-focus-control-ink:#fff8e7; --luastra-orbit-focus-border:#171717; }
+.luastra-orbit:is(.luastra-orbit-theme-editorial, [data-luastra-orbit-theme="editorial"]) { --luastra-orbit-focus-bg:#fbfaf7; --luastra-orbit-focus-ink:#111111; --luastra-orbit-focus-muted:#55514c; --luastra-orbit-focus-control-bg:#111111; --luastra-orbit-focus-control-ink:#ffffff; --luastra-orbit-focus-border:#111111; }
+.luastra-orbit:is(.luastra-orbit-theme-copper, [data-luastra-orbit-theme="copper"]) { --luastra-orbit-focus-bg:#36271f; --luastra-orbit-focus-ink:#f2e3d2; --luastra-orbit-focus-muted:#cbb6a2; --luastra-orbit-focus-control-bg:#6db0a1; --luastra-orbit-focus-control-ink:#201914; --luastra-orbit-focus-border:#f2e3d2; }
+.luastra-orbit:is(.luastra-orbit-theme-candy, [data-luastra-orbit-theme="candy"]) { --luastra-orbit-focus-bg:#fffafd; --luastra-orbit-focus-ink:#302d4c; --luastra-orbit-focus-muted:#605b78; --luastra-orbit-focus-control-bg:#5b4fb4; --luastra-orbit-focus-control-ink:#fffaff; --luastra-orbit-focus-border:#302d4c; }
+
+.luastra-orbit-path {
+  position: relative;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 3.5rem;
+  height: 3.5rem;
+  padding: .6rem .85rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.luastra-orbit-path > * { flex: 0 0 auto; margin: 0; }
+.luastra-orbit-path .luastra-button { min-height: 2.5rem; padding: .4rem .75rem; border-color: var(--luastra-orbit-line); border-radius: var(--luastra-orbit-control-radius); color: var(--luastra-orbit-ink); background: var(--luastra-orbit-node-bg); white-space: nowrap; }
+.luastra-orbit-path .luastra-button:hover { border-color: var(--luastra-orbit-accent); box-shadow: 0 0 0 3px var(--luastra-orbit-glow); }
+#host-root .luastra-orbit-path .luastra-text { max-width: min(14rem, 35vw); overflow: hidden; color: var(--luastra-orbit-ink); font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+
+.luastra-orbit-search {
+  position: relative;
+  z-index: 35;
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) auto;
+  align-items: center;
+  gap: .5rem .75rem;
+  padding: .45rem .85rem .75rem;
+}
+#host-root .luastra-orbit-search .luastra-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--luastra-orbit-node-border);
+  border-radius: var(--luastra-orbit-control-radius);
+  color: var(--luastra-orbit-ink);
+  background: var(--luastra-orbit-node-bg);
+}
+#host-root .luastra-orbit-search .luastra-input:focus-visible { outline: 3px solid var(--luastra-orbit-accent); outline-offset: 2px; }
+#host-root .luastra-orbit-search .luastra-input::placeholder { color: var(--luastra-orbit-ink); opacity: 1; }
+#host-root .luastra-orbit-search .luastra-text { margin: 0; color: var(--luastra-orbit-ink); font-size: .9rem; font-weight: 650; white-space: nowrap; }
+#host-root .luastra-orbit-search-empty .luastra-text { font-weight: 750; }
+.luastra-orbit:has(> .luastra-orbit-search) > .luastra-constellation { inset-block-start: 7.75rem; }
+
+.luastra-constellation {
+  position: absolute;
+  z-index: 20;
+  inset: 3.5rem 0 0;
+  opacity: 1;
+  transform: scale(1);
+  transform-origin: var(--luastra-orbit-origin-x) var(--luastra-orbit-origin-y);
+  transition: opacity var(--luastra-orbit-camera-duration) cubic-bezier(.2, .75, .2, 1), transform var(--luastra-orbit-camera-duration) cubic-bezier(.2, .75, .2, 1);
+}
+.luastra-constellation[data-luastra-constellation-state="behind"] { z-index: 10; opacity: .12; transform: scale(.72); pointer-events: none; }
+.luastra-constellation[data-luastra-constellation-state="active"] { z-index: 20; }
+.luastra-constellation[data-luastra-constellation-state="ahead"] { z-index: 30; opacity: 0; transform: scale(.32); pointer-events: none; }
+.luastra-constellation[data-luastra-orbit-transition="entering-ahead"] {
+  animation: luastra-orbit-enter-ahead var(--luastra-orbit-camera-duration) cubic-bezier(.2, .75, .2, 1) both;
+  will-change: opacity, transform;
+}
+.luastra-constellation[data-luastra-orbit-transition="entering-behind"] {
+  animation: luastra-orbit-enter-behind var(--luastra-orbit-camera-duration) cubic-bezier(.2, .75, .2, 1) both;
+  will-change: opacity, transform;
+}
+@keyframes luastra-orbit-enter-ahead { from { opacity: 0; transform: scale(.32); } to { opacity: 1; transform: scale(1); } }
+@keyframes luastra-orbit-enter-behind { from { opacity: .12; transform: scale(.72); } to { opacity: 1; transform: scale(1); } }
+
+.luastra-orbit .luastra-constellation > .luastra-orbit-center {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: min(15rem, 42%);
+  height: 9rem;
+  margin: auto;
+  display: grid;
+  place-content: center;
+  gap: .35rem;
+  padding: 1rem;
+  border: 1px solid var(--luastra-orbit-node-border);
+  border-radius: var(--luastra-orbit-center-radius);
+  color: var(--luastra-orbit-on-hero);
+  text-align: center;
+  background: var(--luastra-orbit-hero);
+  box-shadow: 0 1rem 3rem var(--luastra-orbit-shadow), 0 0 0 .45rem var(--luastra-orbit-line);
+}
+#host-root .luastra-orbit-center > * { width: min(100%, 12rem); margin: 0; justify-self: center; color: inherit; }
+.luastra-orbit-center .luastra-text:first-child { font-family: var(--luastra-orbit-display); font-size: 1.15rem; font-weight: 700; }
+.luastra-orbit-center .luastra-text:last-child:not(:first-child) { display: -webkit-box; overflow: hidden; color: inherit; font-size: .9rem; font-weight: 500; opacity: .92; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+
+.luastra-orbit-connections {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  pointer-events: none;
+}
+.luastra-orbit-connections[hidden] { display: none; }
+.luastra-orbit-connections line { stroke: var(--luastra-orbit-line); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.luastra-orbit-relation-description { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.luastra-orbit .luastra-constellation > .luastra-orbit-node {
+  position: absolute;
+  z-index: 4;
+  inset: auto;
+  left: var(--luastra-orbit-x, 50%);
+  top: var(--luastra-orbit-y, 50%);
+  translate: -50% -50%;
+  width: var(--luastra-orbit-node-width);
+  height: auto;
+  min-height: var(--luastra-orbit-node-height);
+  display: grid;
+  align-content: center;
+  gap: .28rem;
+  padding: .8rem .9rem;
+  padding-inline-start: var(--luastra-orbit-node-start-padding);
+  border: 1px solid var(--luastra-orbit-node-border);
+  border-radius: var(--luastra-orbit-node-radius);
+  color: inherit;
+  text-align: start;
+  background: var(--luastra-orbit-node-bg);
+  box-shadow: 0 .7rem 2rem var(--luastra-orbit-shadow);
+  cursor: pointer;
+  transform-origin: center;
+  transition: border-color 160ms ease, box-shadow 160ms ease, opacity 180ms ease, transform 180ms ease;
+  contain: layout paint style;
+}
+.luastra-orbit-node:hover { border-color: var(--luastra-orbit-accent); box-shadow: 0 0 0 3px var(--luastra-orbit-glow), 0 .9rem 2.4rem var(--luastra-orbit-shadow); transform: translateY(-2px); }
+.luastra-orbit-node:disabled { opacity: .58; cursor: not-allowed; filter: saturate(.55); }
+.luastra-orbit-node:disabled:hover { border-color: var(--luastra-orbit-node-border); box-shadow: 0 .7rem 2rem var(--luastra-orbit-shadow); transform: none; }
+.luastra-orbit-node[aria-current="page"] { border-color: var(--luastra-orbit-accent); box-shadow: 0 0 0 3px var(--luastra-orbit-glow), 0 .8rem 2rem var(--luastra-orbit-shadow); }
+.luastra-orbit-node[data-luastra-orbit-node-kind="constellation"]::after { content: "→"; position: absolute; inset-inline-end: .7rem; inset-block-start: .45rem; color: var(--luastra-orbit-muted); }
+.luastra-orbit-cluster { border-width: 3px; border-style: double; }
+.luastra-orbit-cluster::after { content: "+"; position: absolute; inset-inline-end: .7rem; inset-block-start: .35rem; color: var(--luastra-orbit-muted); font-size: 1.2rem; font-weight: 800; }
+.luastra-orbit .luastra-constellation > :is(.luastra-orbit-node[data-luastra-orbit-node-kind="constellation"], .luastra-orbit-cluster):not([data-luastra-orbit-detail="signal"]) { padding-inline-end: 2.65rem; }
+#host-root .luastra-orbit-cluster .luastra-orbit-cluster-count {
+  justify-self: start;
+  margin-block-start: .18rem;
+  padding: .1rem .45rem;
+  border: 1px solid var(--luastra-orbit-accent);
+  border-radius: var(--luastra-orbit-control-radius);
+  color: var(--luastra-orbit-ink);
+  font-size: .78rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+.luastra-orbit-node.luastra-orbit-priority-1 { border-width: 2px; }
+.luastra-orbit-node.luastra-orbit-priority-3 { --luastra-orbit-node-width: clamp(8rem, 16vw, 10rem); opacity: .9; }
+.luastra-orbit-node > * { margin: 0; pointer-events: none; }
+.luastra-orbit-node .luastra-text:first-child { font-family: var(--luastra-orbit-display); font-weight: 700; }
+#host-root .luastra-orbit-node > .luastra-text:not(:first-child):not(.luastra-orbit-node-status) { display: -webkit-box; overflow: hidden; color: var(--luastra-orbit-ink); font-size: .82rem; font-weight: 550; line-height: 1.25; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.luastra-orbit .luastra-constellation > .luastra-orbit-node[data-luastra-orbit-detail="identity"] { min-height: 4.25rem; }
+.luastra-orbit-node[data-luastra-orbit-detail="identity"] > .luastra-text:not(:first-child):not(.luastra-orbit-cluster-count):not(.luastra-orbit-node-status),
+.luastra-orbit-node[data-luastra-orbit-detail="signal"] > .luastra-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.luastra-orbit .luastra-constellation > .luastra-orbit-node[data-luastra-orbit-detail="signal"] { width: 4.25rem; min-height: 4.25rem; place-content: center; padding: .5rem; text-align: center; }
+.luastra-orbit-signal-icon { display: none; width: 1.6rem; height: 1.6rem; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.luastra-orbit-node[data-luastra-orbit-detail="signal"] > .luastra-orbit-signal-icon { position: relative; inset-block-start: .4rem; inset-inline-end: .4rem; display: block; }
+.luastra-orbit-node[data-luastra-orbit-detail="signal"]:is([data-luastra-orbit-node-kind="constellation"], .luastra-orbit-cluster)::after { display: none; }
+.luastra-orbit-signal-reveal {
+  position: absolute;
+  z-index: 8;
+  inset-block-start: calc(100% + .45rem);
+  inset-inline-start: 50%;
+  width: max-content;
+  max-width: min(14rem, 60vw);
+  padding: .35rem .55rem;
+  border: 1px solid var(--luastra-orbit-node-border);
+  border-radius: var(--luastra-orbit-control-radius);
+  color: var(--luastra-orbit-ink);
+  font-family: var(--luastra-orbit-sans);
+  font-size: .72rem;
+  font-weight: 750;
+  line-height: 1.25;
+  text-align: center;
+  background: var(--luastra-orbit-node-bg);
+  box-shadow: 0 .45rem 1rem var(--luastra-orbit-shadow);
+  opacity: 0;
+  transform: translate(-50%, -.25rem);
+  visibility: hidden;
+}
+.luastra-orbit-node[data-luastra-orbit-detail="signal"]:is(:hover, :focus-visible) { z-index: 40; contain: layout style; }
+.luastra-orbit-node[data-luastra-orbit-detail="signal"]:is(:hover, :focus-visible) > .luastra-orbit-signal-reveal { opacity: 1; transform: translate(-50%, 0); visibility: visible; }
+.luastra-orbit-busy-indicator {
+  position: absolute;
+  inset-block-end: .4rem;
+  inset-inline-end: .4rem;
+  width: .9rem;
+  height: .9rem;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: luastra-orbit-spin .7s linear infinite;
+}
+@keyframes luastra-orbit-spin { to { rotate: 1turn; } }
+.luastra-orbit-node-status { --luastra-orbit-status-color: var(--luastra-orbit-status-neutral); }
+#host-root .luastra-orbit-node > .luastra-orbit-node-status {
+  justify-self: start;
+  width: max-content;
+  max-width: 100%;
+  margin-block-start: .18rem;
+  padding: .08rem .4rem;
+  overflow: hidden;
+  border: 1px solid var(--luastra-orbit-status-color);
+  border-radius: var(--luastra-orbit-control-radius);
+  color: var(--luastra-orbit-status-color);
+  font-size: .72rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.luastra-orbit-node-status::before { margin-inline-end: .25rem; }
+.luastra-orbit-node.luastra-orbit-status-active,
+.luastra-orbit-node .luastra-orbit-status-active { --luastra-orbit-status-color: var(--luastra-orbit-status-active); }
+.luastra-orbit-node.luastra-orbit-status-success,
+.luastra-orbit-node .luastra-orbit-status-success { --luastra-orbit-status-color: var(--luastra-orbit-status-success); }
+.luastra-orbit-node.luastra-orbit-status-warning,
+.luastra-orbit-node .luastra-orbit-status-warning { --luastra-orbit-status-color: var(--luastra-orbit-status-warning); }
+.luastra-orbit-node.luastra-orbit-status-error,
+.luastra-orbit-node .luastra-orbit-status-error { --luastra-orbit-status-color: var(--luastra-orbit-status-error); }
+.luastra-orbit-node .luastra-orbit-status-neutral::before { content: "•"; }
+.luastra-orbit-node .luastra-orbit-status-active::before { content: "◆"; }
+.luastra-orbit-node .luastra-orbit-status-success::before { content: "✓"; }
+.luastra-orbit-node .luastra-orbit-status-warning::before { content: "!"; }
+.luastra-orbit-node .luastra-orbit-status-error::before { content: "×"; }
+.luastra-orbit-status-indicator {
+  --luastra-orbit-status-color: var(--luastra-orbit-status-neutral);
+  position: absolute;
+  inset-block-start: .18rem;
+  inset-inline-end: .18rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: none;
+  place-content: center;
+  border: 2px solid var(--luastra-orbit-status-color);
+  border-radius: 50%;
+  color: var(--luastra-orbit-status-color);
+  font-family: var(--luastra-orbit-sans);
+  font-size: .82rem;
+  font-weight: 900;
+  line-height: 1;
+  background: var(--luastra-orbit-node-bg);
+}
+.luastra-orbit-node[data-luastra-orbit-detail="signal"] > .luastra-orbit-status-indicator { display: grid; }
+.luastra-orbit-node[data-luastra-orbit-status-tone="active"] > .luastra-orbit-status-indicator { --luastra-orbit-status-color: var(--luastra-orbit-status-active); border-radius: 25%; }
+.luastra-orbit-node[data-luastra-orbit-status-tone="success"] > .luastra-orbit-status-indicator { --luastra-orbit-status-color: var(--luastra-orbit-status-success); border-style: double; }
+.luastra-orbit-node[data-luastra-orbit-status-tone="warning"] > .luastra-orbit-status-indicator { --luastra-orbit-status-color: var(--luastra-orbit-status-warning); border-style: dashed; }
+.luastra-orbit-node[data-luastra-orbit-status-tone="error"] > .luastra-orbit-status-indicator { --luastra-orbit-status-color: var(--luastra-orbit-status-error); border-width: 3px; }
+.luastra-orbit :is(.luastra-button, .luastra-orbit-node):focus-visible { outline: 3px solid var(--luastra-orbit-accent); outline-offset: 3px; }
+
+.luastra-orbit:not([data-luastra-orbit-ready="true"]) .luastra-constellation,
+.luastra-orbit[data-luastra-orbit-mode="list"] .luastra-constellation {
+  position: relative;
+  inset: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: .75rem;
+  max-height: min(34rem, calc(100dvh - 12rem));
+  padding: 1rem;
+  overflow-y: auto;
+}
+.luastra-orbit:not([data-luastra-orbit-ready="true"]) .luastra-constellation:not([data-luastra-constellation-state="active"]),
+.luastra-orbit[data-luastra-orbit-mode="list"] .luastra-constellation:not([data-luastra-constellation-state="active"]) { display: none; }
+.luastra-orbit:not([data-luastra-orbit-ready="true"]) .luastra-constellation:not(.luastra-constellation-state-active) { display: none; }
+.luastra-orbit:not([data-luastra-orbit-ready="true"]) .luastra-constellation > .luastra-orbit-center,
+.luastra-orbit[data-luastra-orbit-mode="list"] .luastra-constellation > .luastra-orbit-center { position: relative; inset: auto; width: 100%; height: auto; grid-column: 1 / -1; border-radius: var(--luastra-orbit-list-center-radius); }
+.luastra-orbit:not([data-luastra-orbit-ready="true"]) .luastra-orbit-node,
+.luastra-orbit[data-luastra-orbit-mode="list"] .luastra-orbit-node { position: relative; inset: auto; width: 100%; min-height: 4.75rem; padding-inline-start: .9rem; border-radius: var(--luastra-orbit-list-node-radius); translate: none; }
+
+.luastra-focus-surface {
+  --luastra-orbit-focus-padding: clamp(1rem, 3vw, 2rem);
+  width: min(42rem, calc(100% - 2rem));
+  max-height: min(40rem, calc(100dvh - 3rem));
+  padding: var(--luastra-orbit-focus-padding);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  border: 1px solid var(--luastra-orbit-focus-border, #16342e);
+  border-radius: var(--luastra-orbit-focus-radius, 1.5rem);
+  color: var(--luastra-orbit-focus-ink, #16342e);
+  background: var(--luastra-orbit-focus-bg, #fffdf7);
+  box-shadow: 0 2rem 5rem var(--luastra-orbit-shadow, rgb(4 20 18 / 30%));
+}
+.luastra-focus-header {
+  position: sticky;
+  z-index: 2;
+  top: calc(0px - var(--luastra-orbit-focus-padding));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: calc(0px - var(--luastra-orbit-focus-padding)) calc(0px - var(--luastra-orbit-focus-padding)) 0;
+  padding: var(--luastra-orbit-focus-padding);
+  border-block-end: 1px solid var(--luastra-orbit-focus-border, #16342e);
+  color: var(--luastra-orbit-focus-ink, #16342e);
+  background: var(--luastra-orbit-focus-bg, #fffdf7);
+}
+.luastra-focus-header .luastra-text { min-width: 0; margin: 0; }
+.luastra-focus-header .luastra-button { flex: none; }
+.luastra-focus-surface::backdrop { background: rgb(4 20 18 / 56%); }
+#host-root .luastra-focus-surface .luastra-text { color: var(--luastra-orbit-focus-muted, #526b65); }
+#host-root .luastra-focus-surface :is(h1, h2, h3, h4, h5, h6).luastra-text { color: var(--luastra-orbit-focus-ink, #16342e); }
+#host-root .luastra-focus-surface .luastra-button {
+  min-height: 44px;
+  border-color: var(--luastra-orbit-focus-border, #16342e);
+  border-radius: var(--luastra-orbit-control-radius, 999px);
+  color: var(--luastra-orbit-focus-control-ink, #16342e);
+  background: var(--luastra-orbit-focus-control-bg, #e4ad3a);
+}
+#host-root .luastra-focus-surface .luastra-button:hover { background: var(--luastra-orbit-focus-control-bg, #e4ad3a); filter: brightness(.92); }
+#host-root .luastra-focus-surface .luastra-button:focus-visible { outline: 3px solid var(--luastra-orbit-focus-border, #16342e); outline-offset: 3px; }
+.luastra-focus-surface[data-luastra-orbit-transition] { will-change: transform, opacity, border-radius; }
+.luastra-focus-surface[data-luastra-orbit-transition="closing"] { pointer-events: none; }
+.luastra-focus-surface[data-luastra-orbit-transition="closing"] > :not(.luastra-focus-transition-copy) { visibility: hidden; }
+.luastra-focus-transition-copy {
+  position: absolute;
+  z-index: 3;
+  inset: 1px;
+  box-sizing: border-box;
+  padding: inherit;
+  overflow: hidden;
+  border-radius: inherit;
+  color: inherit;
+  background: var(--luastra-orbit-focus-bg, #fffdf7);
+  pointer-events: none;
+}
+
+.luastra-orbit[data-luastra-orbit-motion="off"] :is(.luastra-constellation, .luastra-orbit-node) { transition: none; }
+.luastra-orbit[data-luastra-orbit-motion="off"] .luastra-constellation[data-luastra-orbit-transition] { animation: none; }
+.luastra-orbit[data-luastra-orbit-motion="off"] .luastra-orbit-node:hover { transform: none; }
+.luastra-orbit[data-luastra-orbit-motion="off"] .luastra-orbit-busy-indicator { animation: none; border-inline-end-color: currentColor; }
+
+body:has(.luastra-orbit) .luastra-preview-shell { max-width: 80rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .luastra-constellation, .luastra-orbit-node { transition: none; }
+  .luastra-constellation[data-luastra-orbit-transition] { animation: none; }
+  .luastra-orbit-node:hover { transform: none; }
+  .luastra-orbit-busy-indicator { animation: none; border-inline-end-color: currentColor; }
+}
+
+@media (max-height: 480px) {
+  .luastra-focus-surface { --luastra-orbit-focus-padding: 1rem; max-height: calc(100dvh - 1rem); }
+}
+
+@media (max-width: 420px) {
+  .luastra-orbit-search { grid-template-columns: minmax(0, 1fr); }
+  #host-root .luastra-orbit-search .luastra-text { white-space: normal; }
+  .luastra-focus-header { align-items: stretch; flex-direction: column; gap: .75rem; }
+  .luastra-focus-header .luastra-button { width: 100%; }
+}
+
+@media (forced-colors: active) {
+  .luastra-orbit, .luastra-focus-surface, .luastra-focus-transition-copy { forced-color-adjust: auto; }
+  .luastra-orbit {
+    --luastra-orbit-bg: Canvas;
+    --luastra-orbit-ink: CanvasText;
+    --luastra-orbit-muted: CanvasText;
+    --luastra-orbit-accent: Highlight;
+    --luastra-orbit-hero: Highlight;
+    --luastra-orbit-on-hero: HighlightText;
+    --luastra-orbit-line: CanvasText;
+    --luastra-orbit-node-bg: ButtonFace;
+    --luastra-orbit-node-border: ButtonText;
+    --luastra-orbit-focus-bg: Canvas;
+    --luastra-orbit-focus-ink: CanvasText;
+    --luastra-orbit-focus-muted: CanvasText;
+    --luastra-orbit-focus-control-bg: ButtonFace;
+    --luastra-orbit-focus-control-ink: ButtonText;
+    --luastra-orbit-focus-border: CanvasText;
+    --luastra-orbit-shadow: transparent;
+    --luastra-orbit-glow: transparent;
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+  #host-root .luastra-orbit-node > .luastra-orbit-node-status,
+  .luastra-orbit-status-indicator { --luastra-orbit-status-color: ButtonText; }
+  .luastra-orbit-status-indicator { color: ButtonText; border-color: ButtonText; background: ButtonFace; }
+  .luastra-orbit-center { border: 2px solid Highlight; color: HighlightText; background: Highlight; box-shadow: none; }
+  #host-root .luastra-orbit-search .luastra-input { border: 2px solid FieldText; color: FieldText; background: Field; }
+  #host-root .luastra-orbit-search .luastra-input:focus-visible { outline-color: Highlight; }
+  .luastra-orbit .luastra-orbit-node { border: 2px solid ButtonText; color: ButtonText; background: ButtonFace; box-shadow: none; }
+  .luastra-orbit .luastra-orbit-node[aria-current="page"] { border-color: Highlight; outline: 2px solid Highlight; outline-offset: 2px; }
+  .luastra-orbit :is(.luastra-button, .luastra-orbit-node):focus-visible { outline-color: Highlight; }
+  .luastra-focus-surface { border: 2px solid CanvasText; color: CanvasText; background: Canvas; box-shadow: none; }
+  #host-root .luastra-focus-surface .luastra-text { color: CanvasText; }
+  #host-root .luastra-focus-surface .luastra-button { border: 2px solid ButtonText; color: ButtonText; background: ButtonFace; }
+  .luastra-orbit-path .luastra-button:hover,
+  #host-root .luastra-focus-surface .luastra-button:hover { filter: none; box-shadow: none; }
+  #host-root .luastra-focus-surface .luastra-button:focus-visible { outline-color: Highlight; }
+  .luastra-focus-transition-copy { color: CanvasText; background: Canvas; }
+}

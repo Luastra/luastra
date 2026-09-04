@@ -98,6 +98,8 @@ export async function packageWeb({ manifestPath, outputDirectory, rpcProof = fal
 
   const copies = [
     [resolve(platformRoot, "host/bootstrap-errors.js"), "bootstrap-errors.js"],
+    [resolve(platformRoot, "host/orbit.css"), "platform/host/orbit.css"],
+    [resolve(platformRoot, "host/orbit-controller.mjs"), "platform/host/orbit-controller.mjs"],
     [resolve(brandAssets, "favicon.svg"), "brand/favicon.svg"],
     [resolve(brandAssets, "app-icon.svg"), "brand/app-icon.svg"],
     [resolve(brandAssets, "mark.svg"), "brand/luastra-mark.svg"],

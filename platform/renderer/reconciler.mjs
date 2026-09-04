@@ -28,6 +28,7 @@ const colorPattern = /^#[0-9a-fA-F]{6}$/;
 const colorTokens = new Set(["accent", "danger", "muted", "surface", "success", "text", "transparent", "warning"]);
 const fragmentPattern = /^#[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const languagePattern = /^[A-Za-z0-9_+.-]{1,32}$/;
+const orbitIdentifierPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const screenThemeAttributes = Object.freeze({
   accentColor: "data-luastra-theme-accent",
   backgroundColor: "data-luastra-theme-background",
@@ -107,6 +108,17 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   }
   if (properties.label !== undefined && type !== "Image") attributes["aria-label"] = properties.label;
   if (properties.className !== undefined) attributes.class = properties.className;
+  if (properties.orbitRelatedTo !== undefined) {
+    const targets = typeof properties.orbitRelatedTo === "string" ? properties.orbitRelatedTo.split(",") : [];
+    if (type !== "Button" || targets.length < 1 || targets.length > 8 || new Set(targets).size !== targets.length ||
+        targets.some((target) => !orbitIdentifierPattern.test(target) || target === id)) fail("Button has invalid Orbit relationship targets");
+    attributes["data-luastra-orbit-related-to"] = properties.orbitRelatedTo;
+  }
+  if (properties.orbitSignalIcon !== undefined) {
+    const icons = new Set(["bolt", "book", "check", "compass", "gauge", "grid", "play", "rocket", "search", "settings", "spark", "star"]);
+    if (type !== "Button" || !icons.has(properties.orbitSignalIcon)) fail("Button has an invalid Orbit signal icon");
+    attributes["data-luastra-orbit-signal-icon"] = properties.orbitSignalIcon;
+  }
   if (properties.busy !== undefined) attributes["aria-busy"] = properties.busy ? "true" : "false";
   if (properties.errorId !== undefined) {
     attributes["aria-invalid"] = "true";

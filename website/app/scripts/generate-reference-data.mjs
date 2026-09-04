@@ -575,6 +575,77 @@ UI.Image {
     UI.Text { id = "help/title", text = "Help", variant = "heading" },
     UI.Button { id = "help/close", text = "Close", onTap = "help.close" },
 }`,
+  "UI.Orbit": `UI.Orbit {
+    id = "map",
+    label = "Application map",
+    UI.Constellation {
+        id = "map/root",
+        UI.OrbitCenter { id = "map/root/center", title = "My app" },
+        UI.OrbitNode { id = "map/start", title = "Start", onTap = "start" },
+    },
+}`,
+  "UI.OrbitPath": `UI.OrbitPath {
+    id = "map/path",
+    label = "Orbit path",
+    UI.OrbitReturn { id = "map/back", text = "Back", onTap = "back" },
+    UI.Text { id = "map/current", text = "Build" },
+}`,
+  "UI.OrbitSearch": `UI.OrbitSearch {
+    id = "map/search",
+    query = query,
+    resultCount = resultCount,
+    totalCount = #nodes,
+    onInput = "search",
+}`,
+  "UI.Constellation": `UI.Constellation {
+    id = "map/root",
+    layerState = "active",
+    UI.OrbitCenter { id = "map/root/center", title = "My app" },
+    UI.OrbitNode { id = "map/start", title = "Start", onTap = "start" },
+}`,
+  "UI.OrbitCenter": `UI.OrbitCenter {
+    id = "map/root/center",
+    title = "My app",
+    description = "Choose a direction.",
+}`,
+  "UI.OrbitNode": `UI.OrbitNode {
+    id = "map/build",
+    title = "Build",
+    description = "Compose the interface.",
+    nodeKind = "constellation",
+    signalIcon = "spark",
+    priority = 1,
+    onTap = "open-build",
+}`,
+  "UI.OrbitCluster": `UI.OrbitCluster {
+    id = "map/examples",
+    title = "Examples",
+    count = 48,
+    signalIcon = "grid",
+    onTap = "open-examples",
+}`,
+  "UI.FocusSurface": `UI.FocusSurface {
+    id = "map/focus",
+    label = "Build details",
+    open = focused,
+    onDismiss = "close-focus",
+    UI.FocusHeader {
+        id = "map/focus/header",
+        UI.Text { id = "map/focus/title", text = "Build", variant = "heading" },
+        UI.Button { id = "map/focus/close", text = "Back", onTap = "close-focus" },
+    },
+}`,
+  "UI.FocusHeader": `UI.FocusHeader {
+    id = "map/focus/header",
+    UI.Text { id = "map/focus/title", text = "Build", variant = "heading" },
+    UI.Button { id = "map/focus/close", text = "Back", onTap = "close-focus" },
+}`,
+  "UI.OrbitReturn": `UI.OrbitReturn {
+    id = "map/back",
+    text = "Back",
+    onTap = "back",
+    disabled = atRoot,
+}`,
 });
 
 const apiExamples = Object.freeze({
@@ -707,6 +778,16 @@ const uiAllowedInheritedParameters = Object.freeze({
   "UI.List": [...containerParameters],
   "UI.ListItem": [...containerParameters],
   "UI.Modal": [...boxParameters, "onDismiss", "label", "hidden", "busy", "textColor", "backgroundColor", "Color tokens", ...motionParameters],
+  "UI.Orbit": [...containerParameters],
+  "UI.OrbitPath": [...containerParameters],
+  "UI.OrbitSearch": [...boxParameters, "hidden"],
+  "UI.Constellation": [...framedParameters, "label", "hidden"],
+  "UI.OrbitCenter": [...boxParameters, "hidden"],
+  "UI.OrbitNode": [...boxParameters, "onTap", "label", "hidden", "disabled", "busy"],
+  "UI.OrbitCluster": [...boxParameters, "onTap", "label", "hidden", "disabled", "busy"],
+  "UI.FocusSurface": [...boxParameters, "onDismiss", "label", "hidden", "busy"],
+  "UI.FocusHeader": [...containerParameters],
+  "UI.OrbitReturn": [...boxParameters, "onTap", "label", "hidden", "disabled", "busy"],
 });
 
 const direct = (name, values, description) => ({ name, values, description });
@@ -743,6 +824,16 @@ const uiDirectParameters = Object.freeze({
   "UI.List": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.ListItem[]", "List items only.")],
   "UI.ListItem": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Short text; children may be supplied instead.")],
   "UI.Modal": [direct("id", "lowercase path, required", "Unique dialog ID."), direct("open", "boolean, required", "Shows or hides the modal."), direct("label", "string, required", "Accessible dialog name."), direct("children", "UI.Node[]", "Heading, content, and close action.")],
+  "UI.Orbit": [direct("id", "lowercase path, required", "Unique Orbit ID."), direct("presentation", "auto | spatial | list?", "Preferred presentation; unsafe spatial geometry still falls back to list."), direct("orbitTheme", "built-in theme ID?", "One of the curated Orbit themes."), direct("orbitMotion", "system | off?", "Orbit-owned motion preference."), direct("maxVisible", "integer 4…32?", "Density bound before list fallback."), direct("children", "OrbitPath | OrbitSearch | Constellation | FocusSurface[]", "Orbit experience content with at least one constellation.")],
+  "UI.OrbitPath": [direct("id", "lowercase path, required", "Unique path ID."), direct("children", "Button | Text[]", "Return controls, current depth, and stable Orbit preferences.")],
+  "UI.OrbitSearch": [direct("id", "lowercase path, required", "Unique search ID."), direct("query", "string ≤ 160 bytes?", "Controlled local query."), direct("resultCount", "non-negative integer, required", "Visible matching node count."), direct("totalCount", "integer ≥ resultCount, required", "Total node count before filtering."), direct("label", "string?", "Accessible input name."), direct("placeholder", "string?", "Visible empty-query hint."), direct("onInput", "action string, required", "Committed query action.")],
+  "UI.Constellation": [direct("id", "lowercase path, required", "Unique constellation ID."), direct("layerState", "active | behind | ahead?", "Current transition and accessibility state."), direct("depth", "integer 0…32?", "Semantic navigation depth."), direct("children", "one OrbitCenter + 1…64 OrbitNode or OrbitCluster", "Complete content of this navigation depth.")],
+  "UI.OrbitCenter": [direct("id", "lowercase path, required", "Unique center ID."), direct("title", "string 1…160 bytes, required", "Current constellation identity."), direct("description", "string ≤ 320 bytes?", "Optional supporting summary.")],
+  "UI.OrbitNode": [direct("id", "lowercase path, required", "Unique node ID."), direct("title", "string 1…160 bytes, required", "Stable node identity."), direct("description", "string ≤ 320 bytes?", "Supporting Preview content."), direct("nodeKind", "constellation | leaf | action?", "Semantic activation kind."), direct("priority", "integer 1…3?", "Detail and placement importance; one is highest."), direct("ring", "integer 1…3?", "Optional authoritative ring hint."), direct("relatedTo", "component ID[] 1…8?", "Neutral same-constellation relationships."), direct("signalIcon", "bounded icon name?", "Host-rendered compact Signal icon."), direct("status", "string 1…80 bytes?", "Human-readable state."), direct("statusTone", "neutral | active | success | warning | error?", "Redundant visual state treatment."), direct("selected", "boolean?", "Current leaf selection."), direct("onTap", "action string, required", "Semantic activation action.")],
+  "UI.OrbitCluster": [direct("id", "lowercase path, required", "Unique cluster ID."), direct("title", "string 1…160 bytes, required", "Stable group identity."), direct("count", "integer 1…9999, required", "Authored group item count."), direct("priority", "integer 1…3?", "Detail and placement importance."), direct("ring", "integer 1…3?", "Optional authoritative ring hint."), direct("relatedTo", "component ID[] 1…8?", "Neutral same-constellation relationships."), direct("signalIcon", "bounded icon name?", "Host-rendered compact Signal icon."), direct("status", "string 1…80 bytes?", "Human-readable state."), direct("statusTone", "neutral | active | success | warning | error?", "Redundant visual state treatment."), direct("onTap", "action string, required", "Opens the authored local constellation.")],
+  "UI.FocusSurface": [direct("id", "lowercase path, required", "Unique focus dialog ID."), direct("open", "boolean?", "Whether the Focus Surface is visible."), direct("label", "string, required", "Accessible dialog name."), direct("onDismiss", "action string, required", "Dismissal action shared by host gestures and application controls."), direct("children", "UI.Node[]", "FocusHeader followed by full leaf content.")],
+  "UI.FocusHeader": [direct("id", "lowercase path, required", "Unique header ID."), direct("children", "one heading Text + one available Button", "Sticky visible identity and return action.")],
+  "UI.OrbitReturn": [direct("id", "lowercase path, required", "Unique return-control ID."), direct("text", "string, required", "Visible ancestor label."), direct("onTap", "action string, required", "Canonical return action.")],
 });
 
 const uiAccessibility = Object.freeze({
@@ -753,6 +844,14 @@ const uiAccessibility = Object.freeze({
   "UI.TextInput": "label is required. required, disabled, and errorId expose state to screen readers; an error hint should be a visible role=alert.",
   "UI.Image": "label is required; use an empty string only for a genuinely decorative image.",
   "UI.Modal": "The host traps focus inside the open dialog, Escape invokes onDismiss, and closing restores focus to the trigger.",
+  "UI.Orbit": "The host preserves one semantic model across spatial and list presentations and isolates every inactive constellation from interaction.",
+  "UI.OrbitSearch": "The generated result summary is a live status; Escape clears a non-empty query before it performs Orbit return navigation.",
+  "UI.Constellation": "Only the active layer remains interactive and exposed to assistive technology; source order remains the list and reading order.",
+  "UI.OrbitNode": "The complete title, description, status, relationships, and native button semantics remain accessible at every semantic zoom tier.",
+  "UI.OrbitCluster": "The group title and item count form one accessible button name; cluster membership and navigation remain application-authored.",
+  "UI.FocusSurface": "The host names the dialog from its visible heading, traps focus, supports Escape, and restores focus to the originating node.",
+  "UI.FocusHeader": "The heading precedes the available return button in reading and focus order even while the header remains visually sticky.",
+  "UI.OrbitReturn": "Uses native button semantics and the same Luau action that the host invokes for an eligible Escape return.",
   "UI.Table": "TableRow and TableCell create a real table; header and scope associate headers with columns and rows.",
   "UI.TableRow": "Does not create a separate accessible name; its header cells establish the row meaning.",
   "UI.TableCell": "For a header, set header=true and the appropriate scope=col or scope=row.",
@@ -773,6 +872,14 @@ const uiMistakes = Object.freeze({
   "UI.Button": ["Using uppercase letters or spaces in the onTap action.", "Duplicating the same id across render branches."],
   "UI.TextInput": ["Changing value outside application state.", "Treating intermediate IME composition as committed text."],
   "UI.Modal": ["Removing the close button and relying only on Escape.", "Rendering interactive content outside and above an open modal."],
+  "UI.Orbit": ["Adding application-owned absolute coordinates.", "Assuming spatial mode is guaranteed when bounds require the list fallback."],
+  "UI.OrbitSearch": ["Filtering only the visual layer while leaving hidden nodes interactive.", "Putting the query into host-only state instead of Luau state."],
+  "UI.Constellation": ["Rendering more than one center.", "Referencing a related node outside the same constellation."],
+  "UI.OrbitNode": ["Using a single letter instead of a bounded signalIcon.", "Encoding essential status only through statusTone color."],
+  "UI.OrbitCluster": ["Using a cluster as visual decoration without a semantic group.", "Supplying a count that does not match the authored destination."],
+  "UI.FocusSurface": ["Opening it outside navigation state.", "Removing the explicit return control and relying only on Escape."],
+  "UI.FocusHeader": ["Using a non-heading Text for the title.", "Disabling or hiding the required return button."],
+  "UI.OrbitReturn": ["Keeping it enabled at the root without a return destination.", "Using a different action from system or keyboard Back."],
 });
 
 function uiGuidance(name) {

@@ -3901,6 +3901,1328 @@ export const generatedPages = Object.freeze([
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Orbit experience content with at least one constellation.",
+    "accessibility": "The host preserves one semantic model across spatial and list presentations and isolates every inactive constellation from interaction.",
+    "commonMistakes": [
+      "Adding application-owned absolute coordinates.",
+      "Assuming spatial mode is guaranteed when bounds require the list fallback."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.Orbit when an application benefits from spatial discovery while still requiring a complete list fallback, stable navigation state, keyboard access, and identical meaning across host presentations.",
+    "code": "UI.Orbit {\n    id = \"map\",\n    label = \"Application map\",\n    UI.Constellation {\n        id = \"map/root\",\n        UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n        UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n    },\n}",
+    "signature": "UI.Orbit(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique Orbit ID."
+      },
+      {
+        "name": "presentation",
+        "values": "auto | spatial | list?",
+        "description": "Preferred presentation; unsafe spatial geometry still falls back to list."
+      },
+      {
+        "name": "orbitTheme",
+        "values": "built-in theme ID?",
+        "description": "One of the curated Orbit themes."
+      },
+      {
+        "name": "orbitMotion",
+        "values": "system | off?",
+        "description": "Orbit-owned motion preference."
+      },
+      {
+        "name": "maxVisible",
+        "values": "integer 4…32?",
+        "description": "Density bound before list fallback."
+      },
+      {
+        "name": "children",
+        "values": "OrbitPath | OrbitSearch | Constellation | FocusSurface[]",
+        "description": "Orbit experience content with at least one constellation."
+      },
+      {
+        "name": "gap",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Space between children. Group: Layout and surfaces."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "align",
+        "values": "start | center | end | stretch | between",
+        "description": "Cross-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "justify",
+        "values": "start | center | end | between",
+        "description": "Main-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "flow",
+        "values": "wrap | nowrap",
+        "description": "Flex wrapping. Group: Layout and surfaces."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean",
+        "description": "Narrow-screen adaptation. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "tone",
+        "values": "muted | error | success",
+        "description": "Semantic text tone. Group: State and semantics."
+      },
+      {
+        "name": "appearance",
+        "values": "primary | secondary | danger | ghost",
+        "description": "Action appearance. Group: State and semantics."
+      },
+      {
+        "name": "variant",
+        "values": "body | subheading | heading | title",
+        "description": "Body text or h3, h2, and h1 heading semantics. Group: State and semantics."
+      },
+      {
+        "name": "role",
+        "values": "alert | group | status",
+        "description": "Supported ARIA role. Group: State and semantics."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      },
+      {
+        "name": "required",
+        "values": "boolean",
+        "description": "Required input state. Group: State and semantics."
+      },
+      {
+        "name": "errorId",
+        "values": "component id",
+        "description": "Associates a visible role=alert. Group: State and semantics."
+      },
+      {
+        "name": "textColor",
+        "values": "token | #RRGGBB",
+        "description": "Local or inherited foreground. Group: Text and local colors."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "token | #RRGGBB",
+        "description": "Component-box background. Group: Text and local colors."
+      },
+      {
+        "name": "Color tokens",
+        "values": "accent | danger | muted | surface | success | text | transparent | warning",
+        "description": "Current Screen theme colors. Group: Text and local colors."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.Orbit",
+    "description": "Creates the bounded root for Constellation Orbit navigation and delegates geometry, semantic zoom, focus movement, inactive-depth isolation, themes, and reduced-motion behavior to the host.",
+    "props": [
+      "layout",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-25",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Return controls, current depth, and stable Orbit preferences.",
+    "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
+    "commonMistakes": [
+      "Using a duplicate id or an uppercase path segment.",
+      "Passing a shared-group parameter that is not listed on this component page."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitPath for ancestor return controls, the current depth label, and Orbit-wide preferences that must remain available without being duplicated inside every constellation.",
+    "code": "UI.OrbitPath {\n    id = \"map/path\",\n    label = \"Orbit path\",\n    UI.OrbitReturn { id = \"map/back\", text = \"Back\", onTap = \"back\" },\n    UI.Text { id = \"map/current\", text = \"Build\" },\n}",
+    "signature": "UI.OrbitPath(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique path ID."
+      },
+      {
+        "name": "children",
+        "values": "Button | Text[]",
+        "description": "Return controls, current depth, and stable Orbit preferences."
+      },
+      {
+        "name": "gap",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Space between children. Group: Layout and surfaces."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "align",
+        "values": "start | center | end | stretch | between",
+        "description": "Cross-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "justify",
+        "values": "start | center | end | between",
+        "description": "Main-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "flow",
+        "values": "wrap | nowrap",
+        "description": "Flex wrapping. Group: Layout and surfaces."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean",
+        "description": "Narrow-screen adaptation. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "tone",
+        "values": "muted | error | success",
+        "description": "Semantic text tone. Group: State and semantics."
+      },
+      {
+        "name": "appearance",
+        "values": "primary | secondary | danger | ghost",
+        "description": "Action appearance. Group: State and semantics."
+      },
+      {
+        "name": "variant",
+        "values": "body | subheading | heading | title",
+        "description": "Body text or h3, h2, and h1 heading semantics. Group: State and semantics."
+      },
+      {
+        "name": "role",
+        "values": "alert | group | status",
+        "description": "Supported ARIA role. Group: State and semantics."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      },
+      {
+        "name": "required",
+        "values": "boolean",
+        "description": "Required input state. Group: State and semantics."
+      },
+      {
+        "name": "errorId",
+        "values": "component id",
+        "description": "Associates a visible role=alert. Group: State and semantics."
+      },
+      {
+        "name": "textColor",
+        "values": "token | #RRGGBB",
+        "description": "Local or inherited foreground. Group: Text and local colors."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "token | #RRGGBB",
+        "description": "Component-box background. Group: Text and local colors."
+      },
+      {
+        "name": "Color tokens",
+        "values": "accent | danger | muted | surface | success | text | transparent | warning",
+        "description": "Current Screen theme colors. Group: Text and local colors."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitPath",
+    "description": "Creates the stable navigation and preference rail above an Orbit, containing only semantic buttons and text while the active constellation and Focus Surface change beneath it.",
+    "props": [
+      "layout",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-26",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "The generated result summary is a live status; Escape clears a non-empty query before it performs Orbit return navigation.",
+    "commonMistakes": [
+      "Filtering only the visual layer while leaving hidden nodes interactive.",
+      "Putting the query into host-only state instead of Luau state."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitSearch when the active constellation can become difficult to scan. Keep the query in Luau state, preserve stable node IDs, and hide non-matching nodes instead of creating a parallel result model.",
+    "code": "UI.OrbitSearch {\n    id = \"map/search\",\n    query = query,\n    resultCount = resultCount,\n    totalCount = #nodes,\n    onInput = \"search\",\n}",
+    "signature": "UI.OrbitSearch(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique search ID."
+      },
+      {
+        "name": "query",
+        "values": "string ≤ 160 bytes?",
+        "description": "Controlled local query."
+      },
+      {
+        "name": "resultCount",
+        "values": "non-negative integer, required",
+        "description": "Visible matching node count."
+      },
+      {
+        "name": "totalCount",
+        "values": "integer ≥ resultCount, required",
+        "description": "Total node count before filtering."
+      },
+      {
+        "name": "label",
+        "values": "string?",
+        "description": "Accessible input name."
+      },
+      {
+        "name": "placeholder",
+        "values": "string?",
+        "description": "Visible empty-query hint."
+      },
+      {
+        "name": "onInput",
+        "values": "action string, required",
+        "description": "Committed query action."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitSearch",
+    "description": "Creates a controlled local-constellation search input plus a live result summary. The application owns filtering and supplies both the current result count and total count.",
+    "props": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-27",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Complete content of this navigation depth.",
+    "accessibility": "Only the active layer remains interactive and exposed to assistive technology; source order remains the list and reading order.",
+    "commonMistakes": [
+      "Rendering more than one center.",
+      "Referencing a related node outside the same constellation."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.Constellation for each root or nested content space in an Orbit. Keep inactive neighbours as behind or ahead only when they are needed for bounded transitions.",
+    "code": "UI.Constellation {\n    id = \"map/root\",\n    layerState = \"active\",\n    UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n    UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n}",
+    "signature": "UI.Constellation(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique constellation ID."
+      },
+      {
+        "name": "layerState",
+        "values": "active | behind | ahead?",
+        "description": "Current transition and accessibility state."
+      },
+      {
+        "name": "depth",
+        "values": "integer 0…32?",
+        "description": "Semantic navigation depth."
+      },
+      {
+        "name": "children",
+        "values": "one OrbitCenter + 1…64 OrbitNode or OrbitCluster",
+        "description": "Complete content of this navigation depth."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.Constellation",
+    "description": "Creates one Orbit navigation depth with exactly one semantic center and between one and sixty-four nodes or clusters. The host owns spatial placement and list fallback.",
+    "props": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-28",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
+    "commonMistakes": [
+      "Using a duplicate id or an uppercase path segment.",
+      "Passing a shared-group parameter that is not listed on this component page."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitCenter exactly once in each UI.Constellation to name the current semantic space. Do not use it as an action or encode application coordinates in its content.",
+    "code": "UI.OrbitCenter {\n    id = \"map/root/center\",\n    title = \"My app\",\n    description = \"Choose a direction.\",\n}",
+    "signature": "UI.OrbitCenter(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique center ID."
+      },
+      {
+        "name": "title",
+        "values": "string 1…160 bytes, required",
+        "description": "Current constellation identity."
+      },
+      {
+        "name": "description",
+        "values": "string ≤ 320 bytes?",
+        "description": "Optional supporting summary."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitCenter",
+    "description": "Creates the non-interactive identity at the center of a constellation from a required title and optional description. The host preserves it in both spatial and list presentations.",
+    "props": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-29",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "The complete title, description, status, relationships, and native button semantics remain accessible at every semantic zoom tier.",
+    "commonMistakes": [
+      "Using a single letter instead of a bounded signalIcon.",
+      "Encoding essential status only through statusTone color."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitNode for every individually actionable concept in a constellation. Supply stable meaning and state; let the host select coordinates and the visible Signal, Identity, or Preview tier.",
+    "code": "UI.OrbitNode {\n    id = \"map/build\",\n    title = \"Build\",\n    description = \"Compose the interface.\",\n    nodeKind = \"constellation\",\n    signalIcon = \"spark\",\n    priority = 1,\n    onTap = \"open-build\",\n}",
+    "signature": "UI.OrbitNode(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique node ID."
+      },
+      {
+        "name": "title",
+        "values": "string 1…160 bytes, required",
+        "description": "Stable node identity."
+      },
+      {
+        "name": "description",
+        "values": "string ≤ 320 bytes?",
+        "description": "Supporting Preview content."
+      },
+      {
+        "name": "nodeKind",
+        "values": "constellation | leaf | action?",
+        "description": "Semantic activation kind."
+      },
+      {
+        "name": "priority",
+        "values": "integer 1…3?",
+        "description": "Detail and placement importance; one is highest."
+      },
+      {
+        "name": "ring",
+        "values": "integer 1…3?",
+        "description": "Optional authoritative ring hint."
+      },
+      {
+        "name": "relatedTo",
+        "values": "component ID[] 1…8?",
+        "description": "Neutral same-constellation relationships."
+      },
+      {
+        "name": "signalIcon",
+        "values": "bounded icon name?",
+        "description": "Host-rendered compact Signal icon."
+      },
+      {
+        "name": "status",
+        "values": "string 1…80 bytes?",
+        "description": "Human-readable state."
+      },
+      {
+        "name": "statusTone",
+        "values": "neutral | active | success | warning | error?",
+        "description": "Redundant visual state treatment."
+      },
+      {
+        "name": "selected",
+        "values": "boolean?",
+        "description": "Current leaf selection."
+      },
+      {
+        "name": "onTap",
+        "values": "action string, required",
+        "description": "Semantic activation action."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitNode",
+    "description": "Creates an interactive leaf, constellation destination, or bounded action with priority, optional ring hint, relationships, compact icon, status, selection, busy, and disabled semantics.",
+    "props": [
+      "action",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-30",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "The group title and item count form one accessible button name; cluster membership and navigation remain application-authored.",
+    "commonMistakes": [
+      "Using a cluster as visual decoration without a semantic group.",
+      "Supplying a count that does not match the authored destination."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitCluster when several nodes have a real domain grouping and a local destination constellation. Do not group items only because their current screen coordinates happen to be close.",
+    "code": "UI.OrbitCluster {\n    id = \"map/examples\",\n    title = \"Examples\",\n    count = 48,\n    signalIcon = \"grid\",\n    onTap = \"open-examples\",\n}",
+    "signature": "UI.OrbitCluster(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique cluster ID."
+      },
+      {
+        "name": "title",
+        "values": "string 1…160 bytes, required",
+        "description": "Stable group identity."
+      },
+      {
+        "name": "count",
+        "values": "integer 1…9999, required",
+        "description": "Authored group item count."
+      },
+      {
+        "name": "priority",
+        "values": "integer 1…3?",
+        "description": "Detail and placement importance."
+      },
+      {
+        "name": "ring",
+        "values": "integer 1…3?",
+        "description": "Optional authoritative ring hint."
+      },
+      {
+        "name": "relatedTo",
+        "values": "component ID[] 1…8?",
+        "description": "Neutral same-constellation relationships."
+      },
+      {
+        "name": "signalIcon",
+        "values": "bounded icon name?",
+        "description": "Host-rendered compact Signal icon."
+      },
+      {
+        "name": "status",
+        "values": "string 1…80 bytes?",
+        "description": "Human-readable state."
+      },
+      {
+        "name": "statusTone",
+        "values": "neutral | active | success | warning | error?",
+        "description": "Redundant visual state treatment."
+      },
+      {
+        "name": "onTap",
+        "values": "action string, required",
+        "description": "Opens the authored local constellation."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitCluster",
+    "description": "Creates one semantic entry for an application-authored group and exposes its bounded item count. It participates in relationships, priority placement, semantic zoom, and list fallback as one button.",
+    "props": [
+      "action",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-31",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "FocusHeader followed by full leaf content.",
+    "accessibility": "The host names the dialog from its visible heading, traps focus, supports Escape, and restores focus to the originating node.",
+    "commonMistakes": [
+      "Opening it outside navigation state.",
+      "Removing the explicit return control and relying only on Escape."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.FocusSurface for focused leaf content that belongs to the current Orbit route. Keep open state and dismissal in Luau navigation so Back, direct links, and visible controls reach the same outcome.",
+    "code": "UI.FocusSurface {\n    id = \"map/focus\",\n    label = \"Build details\",\n    open = focused,\n    onDismiss = \"close-focus\",\n    UI.FocusHeader {\n        id = \"map/focus/header\",\n        UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n        UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n    },\n}",
+    "signature": "UI.FocusSurface(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique focus dialog ID."
+      },
+      {
+        "name": "open",
+        "values": "boolean?",
+        "description": "Whether the Focus Surface is visible."
+      },
+      {
+        "name": "label",
+        "values": "string, required",
+        "description": "Accessible dialog name."
+      },
+      {
+        "name": "onDismiss",
+        "values": "action string, required",
+        "description": "Dismissal action shared by host gestures and application controls."
+      },
+      {
+        "name": "children",
+        "values": "UI.Node[]",
+        "description": "FocusHeader followed by full leaf content."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.FocusSurface",
+    "description": "Creates the full-detail dialog opened from an Orbit leaf while retaining deterministic focus restoration, host-owned transition geometry, bounded scrolling, and reduced-motion behavior.",
+    "props": [
+      "modal",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-32",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Sticky visible identity and return action.",
+    "accessibility": "The heading precedes the available return button in reading and focus order even while the header remains visually sticky.",
+    "commonMistakes": [
+      "Using a non-heading Text for the title.",
+      "Disabling or hiding the required return button."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.FocusHeader at the beginning of every scrollable Focus Surface so the current leaf title and explicit return action remain visible without changing dialog focus order.",
+    "code": "UI.FocusHeader {\n    id = \"map/focus/header\",\n    UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n    UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n}",
+    "signature": "UI.FocusHeader(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique header ID."
+      },
+      {
+        "name": "children",
+        "values": "one heading Text + one available Button",
+        "description": "Sticky visible identity and return action."
+      },
+      {
+        "name": "gap",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Space between children. Group: Layout and surfaces."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "align",
+        "values": "start | center | end | stretch | between",
+        "description": "Cross-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "justify",
+        "values": "start | center | end | between",
+        "description": "Main-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "flow",
+        "values": "wrap | nowrap",
+        "description": "Flex wrapping. Group: Layout and surfaces."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean",
+        "description": "Narrow-screen adaptation. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "tone",
+        "values": "muted | error | success",
+        "description": "Semantic text tone. Group: State and semantics."
+      },
+      {
+        "name": "appearance",
+        "values": "primary | secondary | danger | ghost",
+        "description": "Action appearance. Group: State and semantics."
+      },
+      {
+        "name": "variant",
+        "values": "body | subheading | heading | title",
+        "description": "Body text or h3, h2, and h1 heading semantics. Group: State and semantics."
+      },
+      {
+        "name": "role",
+        "values": "alert | group | status",
+        "description": "Supported ARIA role. Group: State and semantics."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      },
+      {
+        "name": "required",
+        "values": "boolean",
+        "description": "Required input state. Group: State and semantics."
+      },
+      {
+        "name": "errorId",
+        "values": "component id",
+        "description": "Associates a visible role=alert. Group: State and semantics."
+      },
+      {
+        "name": "textColor",
+        "values": "token | #RRGGBB",
+        "description": "Local or inherited foreground. Group: Text and local colors."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "token | #RRGGBB",
+        "description": "Component-box background. Group: Text and local colors."
+      },
+      {
+        "name": "Color tokens",
+        "values": "accent | danger | muted | surface | success | text | transparent | warning",
+        "description": "Current Screen theme colors. Group: Text and local colors."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.FocusHeader",
+    "description": "Creates the sticky identity and return rail inside a Focus Surface. It requires exactly one visible heading Text and one available Button in a stable reading order.",
+    "props": [
+      "layout",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-33",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "Uses native button semantics and the same Luau action that the host invokes for an eligible Escape return.",
+    "commonMistakes": [
+      "Keeping it enabled at the root without a return destination.",
+      "Using a different action from system or keyboard Back."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitReturn for returning from a nested constellation. Disable the root control when no ancestor exists, and do not add a second hidden Back implementation.",
+    "code": "UI.OrbitReturn {\n    id = \"map/back\",\n    text = \"Back\",\n    onTap = \"back\",\n    disabled = atRoot,\n}",
+    "signature": "UI.OrbitReturn(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique return-control ID."
+      },
+      {
+        "name": "text",
+        "values": "string, required",
+        "description": "Visible ancestor label."
+      },
+      {
+        "name": "onTap",
+        "values": "action string, required",
+        "description": "Canonical return action."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitReturn",
+    "description": "Creates the canonical semantic return button used by an Orbit path. The host can route Escape through the same declared action, preserving one application-owned navigation outcome.",
+    "props": [
+      "action",
+      "semantic"
+    ]
+  },
+  {
+    "id": "ui/item-34",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Vertical stack; semantically equivalent to Column.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
     "commonMistakes": [
@@ -4067,7 +5389,7 @@ export const generatedPages = Object.freeze([
     ]
   },
   {
-    "id": "ui/item-25",
+    "id": "ui/item-35",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4245,7 +5567,7 @@ export const generatedPages = Object.freeze([
     ]
   },
   {
-    "id": "ui/item-26",
+    "id": "ui/item-36",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4423,7 +5745,7 @@ export const generatedPages = Object.freeze([
     ]
   },
   {
-    "id": "ui/item-27",
+    "id": "ui/item-37",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4602,7 +5924,7 @@ export const generatedPages = Object.freeze([
     ]
   },
   {
-    "id": "ui/item-28",
+    "id": "ui/item-38",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4775,7 +6097,7 @@ export const generatedPages = Object.freeze([
     ]
   },
   {
-    "id": "ui/item-29",
+    "id": "ui/item-39",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
