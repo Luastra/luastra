@@ -295,6 +295,14 @@ The initial unmeasured frame is a readable list, avoiding hidden or misplaced
 controls before host layout is ready. The system and application motion
 preferences both disable Orbit transitions when requested.
 
+When container dimensions or node count already guarantee list presentation,
+the host skips spatial-only text and metadata inspection. List layout also
+avoids rewriting unused spatial coordinates, unchanged ARIA state, and
+decorative or relationship DOM for nodes that do not declare those features.
+These are execution fast paths only: authored content, focus behavior,
+relationships, semantic detail, and the resulting DOM attributes remain under
+the same public contract.
+
 Applications should retain only the active constellation and, when a return
 transition needs it, one neighboring visual layer. The reference keeps the
 root plus the active or most recently visited child; it does not retain the

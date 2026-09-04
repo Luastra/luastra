@@ -331,6 +331,9 @@ test("Constellation Orbit reference compiles, tests and packages its host-owned 
     assert.match(orbitController, /EventConstructor\("cancel"/);
     assert.match(orbitController, /prefers-reduced-motion/);
     assert.match(orbitController, /orbit\.clientHeight - pathHeight/, "initial list presentation must not trap layout measurement in list mode");
+    assert.match(orbitController, /unconditionallyUsesList/, "guaranteed list presentation should skip spatial-only inspection");
+    assert.match(orbitController, /if \(layout\.mode === ["']spatial["']\)/, "list presentation should not rewrite unused spatial coordinates");
+    assert.match(orbitController, /if \(!elements\.some\(\(element\) => \(element\.dataset\.luastraOrbitRelatedTo/, "unrelated nodes should skip relationship graph construction");
     assert.match(orbitController, /averageLayoutDurationMs/);
     assert.match(orbitController, /lastConstellationCount/);
     assert.match(orbitController, /luastraOrbitLayoutLastMs/);

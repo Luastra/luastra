@@ -111,6 +111,12 @@ function listLayout(nodes) {
   });
 }
 
+function unconditionallyUsesList(width, height, nodeCount, presentation, maxVisible) {
+  const constrained = width < 560 || height < 520;
+  const estimatedCapacity = Math.max(4, Math.floor(((width * height) - 32000) / 39000));
+  return presentation === "list" || constrained || nodeCount > maxVisible || nodeCount > estimatedCapacity;
+}
+
 export function resolveOrbitRelationships(nodes) {
   if (!Array.isArray(nodes)) fail("Orbit relationships require a node array");
   const nodeById = new Map(nodes.filter((node) => typeof node?.id === "string").map((node) => [node.id, node]));
@@ -214,14 +220,22 @@ export function resolveOrbitSemanticDetail({ width, height, mode, nodes, placeme
   }));
 }
 
-function syncOrbitSemanticDetail(elements, pointById) {
+function syncOrbitSemanticDetail(elements, pointById, layoutMode) {
   for (const element of elements) {
-    const point = pointById.get(element.dataset.luastraId);
+    const point = pointById?.get(element.dataset.luastraId);
     const detail = point?.detail === "signal" || point?.detail === "identity" ? point.detail : "preview";
-    element.dataset.luastraOrbitDetail = detail;
+    if (layoutMode === "list") {
+      if (element.dataset.luastraOrbitDetail !== undefined) delete element.dataset.luastraOrbitDetail;
+    }
+    else element.dataset.luastraOrbitDetail = detail;
     const iconName = element.dataset.luastraOrbitSignalIcon ?? "";
+    const hasSignalIcon = iconName in orbitSignalIconPaths;
+    const statusTone = element.className.includes("luastra-orbit-status-") ? classValue(element, "luastra-orbit-status-", "") : "";
+    const hasStatusTone = statusTone in orbitStatusSymbols;
+    const busy = element.getAttribute("aria-busy") === "true";
+    if (!hasSignalIcon && !hasStatusTone && !busy && element.dataset.luastraOrbitDecorated !== "true") continue;
     let signal = element.querySelector(":scope > .luastra-orbit-signal-icon");
-    if (!(iconName in orbitSignalIconPaths)) signal?.remove();
+    if (!hasSignalIcon) signal?.remove();
     else if (!signal || signal.dataset.icon !== iconName) {
       signal?.remove();
       signal = element.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -237,9 +251,9 @@ function syncOrbitSemanticDetail(elements, pointById) {
       element.append(signal);
     }
     let reveal = element.querySelector(":scope > .luastra-orbit-signal-reveal");
-    const title = element.querySelector(":scope > .luastra-text:first-child")?.textContent?.trim() ?? "";
-    const status = element.querySelector(":scope > .luastra-orbit-node-status")?.textContent?.trim() ?? "";
-    if (iconName in orbitSignalIconPaths && title.length > 0) {
+    const title = hasSignalIcon ? element.querySelector(":scope > .luastra-text:first-child")?.textContent?.trim() ?? "" : "";
+    const status = hasSignalIcon ? element.querySelector(":scope > .luastra-orbit-node-status")?.textContent?.trim() ?? "" : "";
+    if (hasSignalIcon && title.length > 0) {
       if (!reveal) {
         reveal = element.ownerDocument.createElement("span");
         reveal.className = "luastra-orbit-signal-reveal";
@@ -248,9 +262,8 @@ function syncOrbitSemanticDetail(elements, pointById) {
       }
       reveal.textContent = status.length > 0 ? `${title} · ${status}` : title;
     } else reveal?.remove();
-    const statusTone = classValue(element, "luastra-orbit-status-", "");
     let statusIndicator = element.querySelector(":scope > .luastra-orbit-status-indicator");
-    if (!(statusTone in orbitStatusSymbols)) {
+    if (!hasStatusTone) {
       delete element.dataset.luastraOrbitStatusTone;
       statusIndicator?.remove();
     } else {
@@ -264,7 +277,7 @@ function syncOrbitSemanticDetail(elements, pointById) {
       statusIndicator.textContent = orbitStatusSymbols[statusTone];
     }
     let busyIndicator = element.querySelector(":scope > .luastra-orbit-busy-indicator");
-    if (element.getAttribute("aria-busy") === "true") {
+    if (busy) {
       if (!busyIndicator) {
         busyIndicator = element.ownerDocument.createElement("span");
         busyIndicator.className = "luastra-orbit-busy-indicator";
@@ -272,17 +285,44 @@ function syncOrbitSemanticDetail(elements, pointById) {
         element.append(busyIndicator);
       }
     } else busyIndicator?.remove();
+    if (hasSignalIcon || hasStatusTone || busy) element.dataset.luastraOrbitDecorated = "true";
+    else delete element.dataset.luastraOrbitDecorated;
   }
 }
 
 function syncOrbitRelationships(constellation, elements, layout, pointById) {
-  const nodeById = new Map(elements.map((element) => [element.dataset.luastraId, element]));
+  let layer = constellation.querySelector(":scope > .luastra-orbit-connections");
+  if (!elements.some((element) => (element.dataset.luastraOrbitRelatedTo ?? "").length > 0)) {
+    if (layer) {
+      layer.replaceChildren();
+      layer.hidden = true;
+    }
+    for (const element of elements) {
+      const descriptionId = `${element.id}--orbit-relations`;
+      if (element.getAttribute("aria-describedby") !== descriptionId) continue;
+      element.querySelector(":scope > .luastra-orbit-relation-description")?.remove();
+      element.removeAttribute("aria-describedby");
+    }
+    return;
+  }
   const nodes = elements.map((element) => ({
     id: element.dataset.luastraId,
     relatedTo: (element.dataset.luastraOrbitRelatedTo ?? "").split(",").filter(Boolean),
   }));
   const edges = resolveOrbitRelationships(nodes);
-  let layer = constellation.querySelector(":scope > .luastra-orbit-connections");
+  if (edges.length === 0) {
+    if (layer) {
+      layer.replaceChildren();
+      layer.hidden = true;
+    }
+    for (const element of elements) {
+      const descriptionId = `${element.id}--orbit-relations`;
+      if (element.getAttribute("aria-describedby") !== descriptionId) continue;
+      element.querySelector(":scope > .luastra-orbit-relation-description")?.remove();
+      element.removeAttribute("aria-describedby");
+    }
+    return;
+  }
   if (!layer) {
     layer = constellation.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "svg");
     layer.classList.add("luastra-orbit-connections");
@@ -383,10 +423,9 @@ export function computeOrbitLayout({ width, height, nodes, presentation = "auto"
   const safeWidth = Math.max(0, finite(width, 0));
   const safeHeight = Math.max(0, finite(height, 0));
   const limit = boundedInteger(maxVisible, 12, 4, 32);
-  const constrained = safeWidth < 560 || safeHeight < 520;
+  if (unconditionallyUsesList(safeWidth, safeHeight, nodes.length, presentation, limit)) return listLayout(nodes);
   const contentPressure = nodes.some((node) => finite(node.titleUnits, 0) > 34);
-  const estimatedCapacity = Math.max(4, Math.floor(((safeWidth * safeHeight) - 32000) / 39000));
-  if (presentation === "list" || constrained || contentPressure || nodes.length > limit || nodes.length > estimatedCapacity) return listLayout(nodes);
+  if (contentPressure) return listLayout(nodes);
 
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
   const placements = resolveOrbitSemanticOrder(nodes);
@@ -654,16 +693,18 @@ export function createOrbitController({
     for (const element of orbit.querySelectorAll(".luastra-orbit-node")) {
       const nodeKind = classValue(element, "luastra-orbit-kind-", "leaf");
       const selected = element.classList.contains("luastra-orbit-selected");
-      element.dataset.luastraOrbitNodeKind = nodeKind;
-      element.removeAttribute("aria-pressed");
-      if (selected) element.setAttribute("aria-current", "page");
-      else element.removeAttribute("aria-current");
+      if (element.dataset.luastraOrbitNodeKind !== nodeKind) element.dataset.luastraOrbitNodeKind = nodeKind;
+      if (element.hasAttribute("aria-pressed")) element.removeAttribute("aria-pressed");
+      if (selected) {
+        if (element.getAttribute("aria-current") !== "page") element.setAttribute("aria-current", "page");
+      } else if (element.hasAttribute("aria-current")) element.removeAttribute("aria-current");
       if (nodeKind === "leaf") {
-        element.setAttribute("aria-haspopup", "dialog");
-        element.setAttribute("aria-expanded", selected && focusSurfaceOpen ? "true" : "false");
+        if (element.getAttribute("aria-haspopup") !== "dialog") element.setAttribute("aria-haspopup", "dialog");
+        const expanded = selected && focusSurfaceOpen ? "true" : "false";
+        if (element.getAttribute("aria-expanded") !== expanded) element.setAttribute("aria-expanded", expanded);
       } else {
-        element.removeAttribute("aria-haspopup");
-        element.removeAttribute("aria-expanded");
+        if (element.hasAttribute("aria-haspopup")) element.removeAttribute("aria-haspopup");
+        if (element.hasAttribute("aria-expanded")) element.removeAttribute("aria-expanded");
       }
       const status = element.querySelector(":scope > .luastra-orbit-node-status");
       if (nodeKind === "action" && status) status.setAttribute("role", "status");
@@ -678,37 +719,43 @@ export function createOrbitController({
     const focusableElements = interactiveNodes(constellation);
     const pathHeight = orbit.querySelector(":scope > .luastra-orbit-path")?.clientHeight ?? 0;
     const searchHeight = orbit.querySelector(":scope > .luastra-orbit-search")?.clientHeight ?? 0;
+    const layoutWidth = orbit.clientWidth;
+    const layoutHeight = Math.max(0, orbit.clientHeight - pathHeight - searchHeight);
+    const simpleList = unconditionallyUsesList(layoutWidth, layoutHeight, elements.length, presentation, maxVisible);
+    const nodes = simpleList ? elements.map((element) => ({ id: element.dataset.luastraId })) : elements.map((element) => {
+      const labels = [...element.querySelectorAll(":scope > .luastra-text")];
+      const units = (value) => [...String(value ?? "").trim()].length;
+      const titleUnits = units(labels[0]?.textContent);
+      const descriptionUnits = labels.slice(1).reduce((total, label) => total + units(label.textContent), 0);
+      return {
+        id: element.dataset.luastraId,
+        ring: Number(classValue(element, "luastra-orbit-ring-", "0")),
+        priority: Number(classValue(element, "luastra-orbit-priority-", "2")),
+        relatedTo: (element.dataset.luastraOrbitRelatedTo ?? "").split(",").filter(Boolean),
+        signalIcon: element.dataset.luastraOrbitSignalIcon,
+        hasStatus: [...element.classList].some((name) => name.startsWith("luastra-orbit-status-")),
+        titleUnits,
+        descriptionUnits,
+        labelUnits: titleUnits + descriptionUnits,
+      };
+    });
     const layout = computeOrbitLayout({
-      width: orbit.clientWidth,
-      height: Math.max(0, orbit.clientHeight - pathHeight - searchHeight),
-      nodes: elements.map((element) => {
-        const labels = [...element.querySelectorAll(":scope > .luastra-text")];
-        const units = (value) => [...String(value ?? "").trim()].length;
-        const titleUnits = units(labels[0]?.textContent);
-        const descriptionUnits = labels.slice(1).reduce((total, label) => total + units(label.textContent), 0);
-        return {
-          id: element.dataset.luastraId,
-          ring: Number(classValue(element, "luastra-orbit-ring-", "0")),
-          priority: Number(classValue(element, "luastra-orbit-priority-", "2")),
-          relatedTo: (element.dataset.luastraOrbitRelatedTo ?? "").split(",").filter(Boolean),
-          signalIcon: element.dataset.luastraOrbitSignalIcon,
-          hasStatus: [...element.classList].some((name) => name.startsWith("luastra-orbit-status-")),
-          titleUnits,
-          descriptionUnits,
-          labelUnits: titleUnits + descriptionUnits,
-        };
-      }),
+      width: layoutWidth,
+      height: layoutHeight,
+      nodes,
       presentation,
       maxVisible,
     });
     const pointById = new Map(layout.points.map((point) => [point.id, point]));
-    for (const element of elements) {
-      const point = pointById.get(element.dataset.luastraId);
-      element.style.setProperty("--luastra-orbit-x", `${point.x}px`);
-      element.style.setProperty("--luastra-orbit-y", `${point.y}px`);
-      element.dataset.luastraOrbitRingResolved = String(point.ring);
+    if (layout.mode === "spatial") {
+      for (const element of elements) {
+        const point = pointById.get(element.dataset.luastraId);
+        element.style.setProperty("--luastra-orbit-x", `${point.x}px`);
+        element.style.setProperty("--luastra-orbit-y", `${point.y}px`);
+        element.dataset.luastraOrbitRingResolved = String(point.ring);
+      }
     }
-    syncOrbitSemanticDetail(elements, pointById);
+    syncOrbitSemanticDetail(elements, pointById, layout.mode);
     syncOrbitRelationships(constellation, elements, layout, pointById);
     const previousMode = orbitState.mode;
     orbit.dataset.luastraOrbitMode = layout.mode;
@@ -727,7 +774,10 @@ export function createOrbitController({
       rememberedId: constellationId === null ? null : orbitState.focusByConstellation.get(constellationId),
       selectedElement: selected,
     });
-    for (const element of elements) element.tabIndex = element === tabStop ? 0 : -1;
+    for (const element of elements) {
+      const tabIndex = element === tabStop ? 0 : -1;
+      if (element.tabIndex !== tabIndex) element.tabIndex = tabIndex;
+    }
     if (activeConstellationChanged && tabStop && !orbit.querySelector(":scope > .luastra-focus-surface[open]")) {
       tabStop.focus({ preventScroll: true });
     }
