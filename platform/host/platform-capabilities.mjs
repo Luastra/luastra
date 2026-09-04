@@ -2,7 +2,7 @@ const keyPattern = /^[a-z][a-z0-9._-]{0,127}$/;
 const maximumValueBytes = 4096;
 const maximumLocationBytes = 1024;
 const encoder = new TextEncoder();
-const locationPattern = /^#\/[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/;
+const locationPattern = /^#\/[A-Za-z0-9%._~!$&'()*+,;=:@/?-]*$/;
 
 function admittedAppUrl(value, allowedOrigin = "") {
   if (typeof value !== "string" || encoder.encode(value).byteLength > maximumValueBytes) return "";
@@ -60,7 +60,7 @@ export function createPlatformCapabilities(projectId, environment = {}) {
     const body = input.slice(separator + 1);
     const location = body.slice(0, length);
     const token = body.slice(length);
-    if (location.length !== length || !locationPattern.test(location) || encoder.encode(location).byteLength > maximumLocationBytes ||
+    if (location.length !== length || location.startsWith("#//") || !locationPattern.test(location) || encoder.encode(location).byteLength > maximumLocationBytes ||
         token.length === 0 || encoder.encode(token).byteLength > maximumValueBytes) return null;
     return { location, token };
   };

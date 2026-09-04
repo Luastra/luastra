@@ -108,6 +108,14 @@
 .luastra-orbit-path .luastra-button:hover { border-color: var(--luastra-orbit-accent); box-shadow: 0 0 0 3px var(--luastra-orbit-glow); }
 #host-root .luastra-orbit-path .luastra-text { max-width: min(14rem, 35vw); overflow: hidden; color: var(--luastra-orbit-ink); font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
 
+.luastra-orbit-theme-picker {
+  width: min(92vw, 28rem);
+  max-height: min(82dvh, 44rem);
+  padding: 1rem;
+  overflow: auto;
+}
+.luastra-orbit-theme-picker .luastra-button { width: 100%; text-align: left; }
+
 .luastra-orbit-search {
   position: relative;
   z-index: 35;

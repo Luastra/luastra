@@ -57,8 +57,12 @@ test("protocol admits semantic documentation primitives and metadata", () => {
 
 test("documentation primitives reject unsafe links and malformed table semantics", () => {
   const link = tree.children[1].children[0];
+  assert.doesNotThrow(() => materializeRendererTree({ ...tree, children: [{ ...link, properties: { ...link.properties, href: "#/docs/quickstart", external: false } }] }));
+  assert.doesNotThrow(() => materializeRendererTree({ ...tree, children: [{ ...link, properties: { ...link.properties, href: "#/reference/ui%2Fitem-9", external: false } }] }));
   assert.equal(validateRendererTree({ ...tree, children: [{ ...link, properties: { ...link.properties, href: "javascript:alert(1)" } }] }), false);
   assert.equal(validateRendererTree({ ...tree, children: [{ ...link, properties: { ...link.properties, href: "https://user:secret@example.com/" } }] }), false);
+  assert.throws(() => materializeRendererTree({ ...tree, children: [{ ...link, properties: { ...link.properties, href: "#/docs/%ZZ" } }] }), /invalid property: href/);
+  assert.throws(() => materializeRendererTree({ ...tree, children: [{ ...link, properties: { ...link.properties, href: "#//example.test" } }] }), /invalid property: href/);
   const table = tree.children[3];
   assert.equal(validateRendererTree({ ...tree, children: [{ ...table, children: [tree.children[0]] }] }), true, "protocol validates shape; reconciler enforces table child semantics");
   assert.throws(() => materializeRendererTree({ ...tree, children: [{ ...table, children: [tree.children[0]] }] }), /Table children/);

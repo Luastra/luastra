@@ -9,6 +9,7 @@ local retainedSection: string? = nil
 local selectedId: string? = nil
 local motion = "system"
 local themeIndex = 1
+local themePickerOpen = false
 local searches: {[string]: string} = { root = "", product = "", examples = "" }
 
 local themes = {
@@ -139,10 +140,14 @@ function Landing.render(): UI.Node
             UI.Text { id = "landing/path/separator", text = "/", hidden = depth == 0 },
             UI.Text { id = "landing/path/current", text = currentTitle, hidden = depth == 0 },
             UI.Button { id = "landing/path/docs", text = "Documentation", onTap = "landing.open-reference" },
-            UI.Button { id = "landing/path/theme-previous", text = "Previous theme", onTap = "landing.previous-theme" },
-            UI.Text { id = "landing/path/theme", text = theme.name },
-            UI.Button { id = "landing/path/theme-next", text = "Next theme", onTap = "landing.next-theme" },
-            UI.Button { id = "landing/path/motion", text = motion == "system" and "Motion: System" or "Motion: Off", onTap = "landing.toggle-motion" },
+            UI.Button {
+                id = "landing/path/theme", text = "◐", onTap = "landing.open-theme-picker",
+                label = "Choose a theme. Current theme: " .. theme.name,
+            },
+            UI.Button {
+                id = "landing/path/motion", text = motion == "system" and "〰" or "⊘", onTap = "landing.toggle-motion",
+                label = motion == "system" and "Disable interface motion" or "Use the system motion preference",
+            },
         },
         UI.OrbitSearch {
             id = "landing/search", label = section == "root" and "Search Luastra" or `Search {currentTitle}`,
@@ -181,6 +186,22 @@ function Landing.render(): UI.Node
         },
         UI.Stack { id = "landing/focus/content", gap = "md", table.unpack(detail and focusChildren(detail) or {}) },
     })
+    local themeChoices: {UI.Node} = {
+        UI.Text { id = "landing/theme-picker/title", text = "Choose a theme", variant = "heading" },
+        UI.Text { id = "landing/theme-picker/current", text = "Current theme: " .. theme.name, role = "status" },
+    }
+    for index, choice in themes do
+        table.insert(themeChoices, UI.Button {
+            id = "landing/theme-picker/choice-" .. tostring(index),
+            text = index == themeIndex and "✓ " .. choice.name or choice.name,
+            label = index == themeIndex and choice.name .. ", selected" or "Use " .. choice.name,
+            appearance = index == themeIndex and "primary" or "secondary",
+            onTap = "landing.choose-theme",
+        })
+    end
+    table.insert(themeChoices, UI.Button {
+        id = "landing/theme-picker/close", text = "Close", appearance = "ghost", onTap = "landing.close-theme-picker",
+    })
     return UI.Screen {
         id = "site/landing", width = "wide", documentLanguage = "en",
         documentTitle = "Luastra — Build apps like games",
@@ -189,6 +210,12 @@ function Landing.render(): UI.Node
             id = "landing/orbit", label = "Luastra product and example map", presentation = "auto",
             orbitTheme = theme.id, orbitMotion = motion, maxVisible = 12,
             table.unpack(orbitChildren),
+        },
+        UI.Modal {
+            id = "landing/theme-picker", label = "Theme picker", open = themePickerOpen,
+            className = "luastra-orbit-theme-picker",
+            onDismiss = "landing.close-theme-picker",
+            UI.Column { id = "landing/theme-picker/options", gap = "sm", table.unpack(themeChoices) },
         },
     }
 end
@@ -217,18 +244,38 @@ function Landing.handle(action: string, target: string, value: string): string?
         if detail ~= nil then return detail.docs end
     elseif action == "landing.search" and target == "landing/search/input" then
         searches[section] = string.sub(value, 1, 160)
-    elseif action == "landing.next-theme" then
-        themeIndex = themeIndex % #themes + 1
-    elseif action == "landing.previous-theme" then
-        themeIndex = (themeIndex - 2) % #themes + 1
+    elseif action == "landing.open-theme-picker" and target == "landing/path/theme" then
+        themePickerOpen = true
+    elseif action == "landing.close-theme-picker" then
+        themePickerOpen = false
+    elseif action == "landing.choose-theme" then
+        local chosen = tonumber(string.match(target, "^landing/theme%-picker/choice%-([1-9][0-9]*)$"))
+        if chosen ~= nil and themes[chosen] ~= nil then
+            themeIndex = chosen
+            themePickerOpen = false
+        end
     elseif action == "landing.toggle-motion" then
         motion = motion == "system" and "off" or "system"
     end
     return nil
 end
 
+function Landing.restore(nextSection: string, nextSelectedId: string?): boolean
+    if nextSection ~= "root" and nextSection ~= "product" and nextSection ~= "examples" then return false end
+    if nextSelectedId ~= nil and details[nextSelectedId] == nil then return false end
+    if nextSelectedId ~= nil then
+        local expectedPrefix = nextSection == "root" and "landing/" or "landing/" .. nextSection .. "/"
+        if string.find(nextSelectedId, expectedPrefix, 1, true) ~= 1 then return false end
+    end
+    section = nextSection
+    selectedId = nextSelectedId
+    if nextSection ~= "root" then retainedSection = nextSection end
+    themePickerOpen = false
+    return true
+end
+
 function Landing.snapshot()
-    return { section = section, selectedId = selectedId, theme = themes[themeIndex].id, motion = motion, query = searches[section] }
+    return { section = section, selectedId = selectedId, theme = themes[themeIndex].id, themePickerOpen = themePickerOpen, motion = motion, query = searches[section] }
 end
 
 return Landing

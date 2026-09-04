@@ -1892,7 +1892,7 @@ export const generatedPages = Object.freeze([
       "Passing a shared-group parameter that is not listed on this component page."
     ],
     "callable": true,
-    "useWhen": "Use UI.Link when activation changes location or opens a documented resource. Use UI.Button when the action modifies current application state without navigating.",
+    "useWhen": "Use UI.Link when activation changes location or opens a documented resource. Use a canonical #/ route for application navigation, a # fragment for one rendered node, and UI.Button when the action only modifies current state.",
     "code": "UI.Link {\n    id = \"docs/button\",\n    text = \"UI.Button\",\n    href = \"#docs/button\",\n    onTap = \"docs.open-button\",\n}",
     "signature": "UI.Link(input: any): Node",
     "parameters": [
@@ -1908,8 +1908,8 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "href",
-        "values": "#fragment | HTTPS URL, required",
-        "description": "Safe internal fragment or external HTTPS destination."
+        "values": "#fragment | #/route | HTTPS URL, required",
+        "description": "Safe internal fragment, canonical application hash route, or external HTTPS destination."
       },
       {
         "name": "external",
@@ -2004,7 +2004,7 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
     "name": "UI.Link",
-    "description": "Creates a semantic link for an admitted internal destination or safe external HTTPS location. Hosts preserve link navigation and accessibility behavior instead of treating it as a generic tap action.",
+    "description": "Creates a semantic link for an admitted node fragment, canonical hash route, or safe external HTTPS location. Hosts preserve link navigation and accessibility behavior instead of treating it as a generic tap action.",
     "props": [
       "action",
       "text-style",

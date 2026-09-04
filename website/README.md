@@ -6,8 +6,14 @@ application and generated `luastra.dev` site run the same Luastra project.
 The private post-alpha candidate dogfoods Constellation Orbit for the landing
 experience, product map, and example discovery. Documentation and API-reference
 content deliberately remain in a conventional searchable reading layout. The
-current public site remains the rollback baseline until route, content, SEO,
+current public site remains the rollback baseline until content, SEO,
 accessibility, responsive, and performance parity are audited separately.
+
+The candidate exposes canonical `#/` application routes for the landing,
+product, examples, documentation, and individual reference surfaces. Browser
+History state restores the matching Luau navigation stack. The Orbit path uses
+a compact theme-picker dialog and one icon button for Motion so its controls
+remain usable at phone widths.
 
 ## Commands
 

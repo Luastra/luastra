@@ -11,7 +11,8 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 - Private `luastra.dev` dogfood candidate using Constellation Orbit for the
   landing experience, product map, and real-example discovery while retaining
   the conventional searchable SDK documentation and API-reference reading
-  surface.
+  surface, canonical direct-link hash routes with browser History restoration,
+  a compact eleven-option theme picker, and a single-icon Motion control.
 - English public repository, architecture, compatibility, roadmap, governance,
   support, security, and community surfaces.
 - Experimental Constellation Orbit semantic UI components, deterministic

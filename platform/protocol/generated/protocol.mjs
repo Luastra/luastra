@@ -630,6 +630,12 @@ function validComponentProperty(componentName, name, value) {
   if (name === "href") {
     if (typeof value !== "string" || encoder.encode(value).byteLength > 2048) return false;
     if (/^#[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/.test(value)) return true;
+    if (value.startsWith("#/") && !value.startsWith("#//") && /^#[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/.test(value)) {
+      for (let index = value.indexOf("%"); index !== -1; index = value.indexOf("%", index + 3)) {
+        if (!/^[0-9A-Fa-f]{2}$/.test(value.slice(index + 1, index + 3))) return false;
+      }
+      return true;
+    }
     try { const url = new URL(value); return url.protocol === "https:" && url.username === "" && url.password === ""; } catch { return false; }
   }
   if (name === "language") return typeof value === "string" && /^[A-Za-z0-9_+.-]{1,32}$/.test(value);

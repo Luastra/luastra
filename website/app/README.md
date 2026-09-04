@@ -7,7 +7,10 @@ the `luastra.dev` source and a web-application dogfood fixture.
 ## What is here
 
 - `src/main.luau` owns search, navigation, detail pages, copy feedback and live
-  examples.
+  examples. Canonical hash routes and opaque History state keep direct links,
+  reloads and browser Back aligned with the rendered Luau state.
+- `src/landing.luau` owns the Constellation Orbit product map, its compact
+  modal theme picker and the single-icon Motion preference control.
 - `src/examples.luau` contains compiled examples that really execute in the
   current runtime. Documentation text is never evaluated as Luau.
 - `src/reference-data.luau` is generated from the versioned human-readable
@@ -37,3 +40,16 @@ node ../../cli/luastra.mjs build web --project=luastra.json
 The macOS wrapper and its build commands live in
 `..`. Production deployment is controlled by the
 repository-level GitHub Pages workflow, not by this application project.
+
+## Addressable routes
+
+- `#/` opens the Orbit landing constellation.
+- `#/product` and `#/examples` open child constellations.
+- `#/product/:topic`, `#/examples/:example`, and `#/about/:topic` open Focus
+  Surfaces directly.
+- `#/docs/:section` opens one conventional documentation section.
+- `#/reference/:page` opens one API-reference page using its encoded page ID.
+
+The previous `#docs/content` location remains a compatibility alias for
+`#/docs/overview`. Unknown routes and unknown reference page IDs do not enter
+application state.

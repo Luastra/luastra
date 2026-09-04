@@ -159,6 +159,17 @@ end
 local function validLink(value: any): boolean
     if type(value) ~= "string" or #value < 2 or #value > 2048 then return false end
     if string.match(value, "^#[a-z][a-z0-9_/-]*$") ~= nil then return true end
+    if string.sub(value, 1, 2) == "#/" then
+        local route = string.sub(value, 3)
+        if string.sub(route, 1, 1) == "/" or string.find(route, "//", 1, true) ~= nil or string.match(route, "^[%w_/%-%.%%~?&=]*$") == nil then return false end
+        local cursor = 1
+        while true do
+            local escaped = string.find(route, "%", cursor, true)
+            if escaped == nil then return true end
+            if escaped + 2 > #route or string.match(string.sub(route, escaped + 1, escaped + 2), "^[0-9A-Fa-f][0-9A-Fa-f]$") == nil then return false end
+            cursor = escaped + 3
+        end
+    end
     if string.match(value, "^https://[^%s]+$") == nil then return false end
     return string.find(value, "@", 1, true) == nil
 end
@@ -312,7 +323,7 @@ UI.Button = function(input: any): Node return make("Button", input) end
 UI.Link = function(input: any): Node
     assert(type(input) == "table", "Link requires a table")
     assert(type(input.text) == "string", "Link requires string text")
-    assert(validLink(input.href), "Link href must be a safe node fragment or HTTPS URL without credentials")
+    assert(validLink(input.href), "Link href must be a safe node fragment, canonical hash route, or HTTPS URL without credentials")
     if input.external ~= nil then assert(type(input.external) == "boolean", "Link external must be a boolean") end
     local node = make("Link", input)
     assert(#node.children == 0, "Link does not accept children")

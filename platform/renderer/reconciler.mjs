@@ -27,6 +27,7 @@ const assetImagePattern = /^asset:image\/[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/
 const colorPattern = /^#[0-9a-fA-F]{6}$/;
 const colorTokens = new Set(["accent", "danger", "muted", "surface", "success", "text", "transparent", "warning"]);
 const fragmentPattern = /^#[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const routeFragmentPattern = /^#[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/;
 const languagePattern = /^[A-Za-z0-9_+.-]{1,32}$/;
 const orbitIdentifierPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const screenThemeAttributes = Object.freeze({
@@ -53,6 +54,12 @@ function patch(kind, target, name = "", value = "") {
 function safeHref(value) {
   if (typeof value !== "string" || new TextEncoder().encode(value).byteLength > 2048) return false;
   if (fragmentPattern.test(value)) return true;
+  if (value.startsWith("#/") && !value.startsWith("#//") && routeFragmentPattern.test(value)) {
+    for (let index = value.indexOf("%"); index !== -1; index = value.indexOf("%", index + 3)) {
+      if (!/^[0-9A-Fa-f]{2}$/.test(value.slice(index + 1, index + 3))) return false;
+    }
+    return true;
+  }
   try {
     const url = new URL(value);
     return url.protocol === "https:" && url.username === "" && url.password === "";
@@ -77,7 +84,7 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   if (properties.onDismiss !== undefined) events.dismiss = String(properties.onDismiss);
   if (type === "Button") attributes.type ??= "button";
   if (type === "Link") {
-    if (!safeHref(properties.href) || typeof properties.text !== "string") fail("Link requires string text and a safe fragment or HTTPS href");
+    if (!safeHref(properties.href) || typeof properties.text !== "string") fail("Link requires string text and a safe fragment, hash route, or HTTPS href");
     attributes.href = properties.href;
     if (properties.external === true) {
       if (!properties.href.startsWith("https://")) fail("Only an HTTPS Link can be external");

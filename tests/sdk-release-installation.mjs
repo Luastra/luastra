@@ -43,7 +43,8 @@ async function rewriteInstalledVersion(managerRoot, fromVersion, toVersion) {
 before(async () => {
   temporary = await mkdtemp(resolve(tmpdir(), "luastra-sdk-release-test-"));
   releaseSet = resolve(temporary, "release");
-  await buildSdkRelease({ output: releaseSet });
+  await cp(resolve(import.meta.dirname, "../release-artifacts/0.1.0-alpha"), releaseSet, { recursive: true });
+  await verifySdkReleaseSet(releaseSet);
   manifestBytes = await readFile(resolve(releaseSet, "luastra-release.v1.json"));
   manifest = JSON.parse(manifestBytes);
 });
@@ -52,14 +53,16 @@ after(async () => {
   await rm(temporary, { recursive: true, force: true });
 });
 
-test("SDK release archives are deterministic, admitted, and exact", { timeout: 60_000 }, async () => {
-  const second = resolve(temporary, "release-second");
-  const firstResult = await verifySdkReleaseSet(releaseSet);
-  const secondResult = await buildSdkRelease({ output: second });
-  assert.equal(secondResult.contentSha256, firstResult.manifest.contentSha256);
-  for (const name of await readdir(releaseSet)) assert.deepEqual(await readFile(resolve(releaseSet, name)), await readFile(resolve(second, name)));
-  assert.equal(firstResult.manifest.hosts.length, 4);
-  assert.equal(firstResult.manifest.compliance.sbom.filename, "luastra-sdk-0.1.0-alpha.spdx.json");
+test("published SDK release stays admitted while the current source build remains deterministic", { timeout: 60_000 }, async () => {
+  const published = await verifySdkReleaseSet(releaseSet);
+  const first = resolve(temporary, "current-source-first");
+  const second = resolve(temporary, "current-source-second");
+  const firstResult = await buildSdkRelease({ output: first, requireAdmission: false });
+  const secondResult = await buildSdkRelease({ output: second, requireAdmission: false });
+  assert.equal(secondResult.contentSha256, firstResult.contentSha256);
+  for (const name of await readdir(first)) assert.deepEqual(await readFile(resolve(first, name)), await readFile(resolve(second, name)));
+  assert.equal(published.manifest.hosts.length, 4);
+  assert.equal(published.manifest.compliance.sbom.filename, "luastra-sdk-0.1.0-alpha.spdx.json");
 });
 
 test("offline installation is atomic and the shim executes the selected SDK", { timeout: 60_000 }, async () => {

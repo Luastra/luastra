@@ -80,9 +80,11 @@ test("history location operations bind a safe fragment to the same opaque projec
   const environment = fakeEnvironment();
   const platform = createPlatformCapabilities("dev.luastra.catalogue", environment);
   try {
-    assert.equal((await platform.handle(request(1, "replace-location", locationPayload("#/catalogue", "state-0")))).response.status, "ok");
+    assert.equal((await platform.handle(request(1, "replace-location", locationPayload("#/", "state-root")))).response.status, "ok");
+    assert.equal((await platform.handle(request(8, "replace-location", locationPayload("#/catalogue", "state-0")))).response.status, "ok");
     assert.equal((await platform.handle(request(2, "push-location", locationPayload("#/detail/focus", "state-1")))).response.status, "ok");
     assert.deepEqual(environment.calls, [
+      { operation: "replace", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-root" } }, title: "", location: "#/" },
       { operation: "replace", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-0" } }, title: "", location: "#/catalogue" },
       { operation: "push", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-1" } }, title: "", location: "#/detail/focus" },
     ]);
@@ -92,6 +94,7 @@ test("history location operations bind a safe fragment to the same opaque projec
       [5, locationPayload("#/detail/💥", "state")],
       [6, "9999:#/shortstate"],
       [7, locationPayload("#/detail/focus", "")],
+      [9, locationPayload("#//example.test", "state")],
     ]) assert.equal((await platform.handle(request(id, "push-location", input))).response.payload.code, "VALIDATION");
   } finally { platform.dispose(); }
 });

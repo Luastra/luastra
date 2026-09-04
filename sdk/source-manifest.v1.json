@@ -33,8 +33,8 @@
       "id": "luastra/host",
       "source": "luastra/host.luau",
       "dependencies": [],
-      "bytes": 4346,
-      "sha256": "bb805e110914458485639ebba929c5b4cbae8668683953e69ff8828ae6f5a055"
+      "bytes": 4381,
+      "sha256": "2f9c941c2a3706412b725d8a5fc27f896001d19993710033b1f722ec85175f3d"
     },
     {
       "id": "luastra/media",
@@ -82,8 +82,8 @@
       "id": "luastra/ui",
       "source": "luastra/ui.luau",
       "dependencies": [],
-      "bytes": 36291,
-      "sha256": "ce56197d2048168cf57d556fa63e82436357b606cea03b0fbd231d83ffa552dc"
+      "bytes": 36933,
+      "sha256": "8a29302bc84efa356f6fec10702b0bdb87322f6465693f29d8de806c6dced261"
     }
   ]
 }

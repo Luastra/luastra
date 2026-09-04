@@ -8,7 +8,9 @@
     "contract": 1
   },
   "capabilities": [
+    "app.launchurl.get",
     "clipboard.write",
+    "navigation.history",
     "timer.control",
     "ui.render"
   ],
@@ -21,6 +23,7 @@
         "app/landing",
         "app/reference-data",
         "luastra/host",
+        "luastra/navigation",
         "luastra/timer",
         "luastra/ui"
       ]
@@ -48,17 +51,23 @@
     {
       "id": "app/tests/landing",
       "source": "tests/landing.luau",
-      "dependencies": ["app/landing"]
+      "dependencies": ["app/landing", "luastra/ui"]
     },
     {
       "id": "app/tests/reference-data",
       "source": "tests/reference-data.luau",
       "dependencies": ["app/reference-data"]
+    },
+    {
+      "id": "app/tests/routes",
+      "source": "tests/routes.luau",
+      "dependencies": ["app/main"]
     }
   ],
   "tests": [
     "app/tests/smoke",
     "app/tests/landing",
-    "app/tests/reference-data"
+    "app/tests/reference-data",
+    "app/tests/routes"
   ]
 }

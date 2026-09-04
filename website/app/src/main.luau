@@ -4,6 +4,7 @@ local Examples = require("app/examples")
 local Landing = require("app/landing")
 local ReferenceData = require("app/reference-data")
 local Host = require("luastra/host")
+local Navigation = require("luastra/navigation")
 local UI = require("luastra/ui")
 
 local Application = {}
@@ -42,6 +43,32 @@ local copyStatusByPage: {[string]: string} = {}
 local pendingCopy: {[number]: string} = {}
 local targetPages: {[string]: string} = {}
 local targetSections: {[string]: string} = {}
+
+local sectionIds: {string} = {}
+local pageById: {[string]: boolean} = {}
+for _, section in ReferenceData.sections do table.insert(sectionIds, section.id) end
+for _, page in ReferenceData.pages do pageById[page.id] = true end
+
+local routeCompiler = Navigation.compile {
+    { name = "home", path = "/" },
+    { name = "product", path = "/product" },
+    { name = "examples", path = "/examples" },
+    { name = "about", path = "/about/:topic", params = { topic = { type = "enum", values = { "why", "targets", "source" } } } },
+    { name = "product-detail", path = "/product/:topic", params = { topic = { type = "enum", values = { "install", "quickstart", "learn", "ui", "state", "hosts" } } } },
+    { name = "example-detail", path = "/examples/:example", params = { example = { type = "enum", values = { "catalogue", "orbit", "meditation", "forms", "media", "routing", "visuals", "debug" } } } },
+    { name = "docs", path = "/docs/:section", params = { section = { type = "enum", values = sectionIds } } },
+    { name = "reference", path = "/reference/:page", params = { page = { type = "string", maximumLength = 128 } } },
+}
+local homeEntry = table.freeze({ name = "home", params = table.freeze({}), query = table.freeze({}) })
+local navigation = Navigation.createRouter { compiler = routeCompiler, initial = homeEntry }
+local launchUrlRequest: number? = nil
+local historyCurrentRequest: number? = nil
+local launchResolved = false
+local historyResolved = false
+local launchPayload = ""
+local currentHistoryToken: string? = nil
+local pendingStartupUrl = ""
+local historyEstablished = false
 local propertyGroups: {[string]: string} = {
     action = "ui-properties-events",
     columns = "ui-properties-layout",
@@ -82,12 +109,134 @@ local function sectionById(id: string): any?
     return nil
 end
 
+local function applyRoute(): boolean
+    local entry = navigation.current() :: any
+    query = ""
+    navigationOpen = false
+    if entry.name == "home" then
+        showingLanding = true
+        return Landing.restore("root", nil)
+    elseif entry.name == "product" then
+        showingLanding = true
+        return Landing.restore("product", nil)
+    elseif entry.name == "examples" then
+        showingLanding = true
+        return Landing.restore("examples", nil)
+    elseif entry.name == "about" then
+        showingLanding = true
+        return Landing.restore("root", "landing/" .. tostring(entry.params.topic))
+    elseif entry.name == "product-detail" then
+        showingLanding = true
+        return Landing.restore("product", "landing/product/" .. tostring(entry.params.topic))
+    elseif entry.name == "example-detail" then
+        showingLanding = true
+        return Landing.restore("examples", "landing/examples/" .. tostring(entry.params.example))
+    elseif entry.name == "docs" then
+        showingLanding = false
+        selectedPageId = nil
+        selectedSection = tostring(entry.params.section)
+        return sectionById(selectedSection) ~= nil
+    elseif entry.name == "reference" then
+        local pageId = tostring(entry.params.page)
+        if pageById[pageId] ~= true then return false end
+        showingLanding = false
+        selectedPageId = pageId
+        return true
+    end
+    return false
+end
+
+local function applyRouteOrHome()
+    if applyRoute() then return end
+    local fallback = navigation.replace(homeEntry)
+    assert(fallback.success and applyRoute(), "site fallback route did not resolve")
+end
+
+local function locationFor(): string
+    return "#" .. navigation.currentLocation()
+end
+
+local function pushEntry(entry: any)
+    local result = navigation.push(entry)
+    if not result.success then return end
+    assert(applyRoute(), "site route did not resolve")
+    if result.changed and historyEstablished then Host.historyPushLocation(locationFor(), navigation.encode()) end
+end
+
+local function replaceEntry(entry: any)
+    local result = navigation.replace(entry)
+    if not result.success then return end
+    assert(applyRoute(), "site route did not resolve")
+    if historyEstablished then Host.historyReplaceLocation(locationFor(), navigation.encode()) end
+end
+
+local function locationFromUrl(value: string): string?
+    if string.match(value, "#docs/content$") ~= nil then return "/docs/overview" end
+    return string.match(value, "#(/[^#]*)$")
+end
+
+local function applyUrl(value: string, appendHistory: boolean): boolean
+    local location = locationFromUrl(value)
+    local matched = location and routeCompiler.match(location) or nil
+    if matched == nil or not matched.success or matched.entry == nil then return false end
+    local entry = matched.entry :: any
+    local params = entry.params :: any
+    if entry.name == "reference" and pageById[tostring(params.page)] ~= true then return false end
+    local result = appendHistory and navigation.push(entry) or navigation.replace(entry)
+    if not result.success or not applyRoute() then return false end
+    if historyEstablished then
+        if appendHistory and result.changed then Host.historyPushLocation(locationFor(), navigation.encode())
+        else Host.historyReplaceLocation(locationFor(), navigation.encode()) end
+    end
+    return true
+end
+
+local function finalizeStartup()
+    if historyEstablished or not launchResolved or not historyResolved then return end
+    if currentHistoryToken ~= nil and currentHistoryToken ~= "" then navigation.restoreEncoded(currentHistoryToken) end
+    local applied = launchPayload ~= "" and applyUrl(launchPayload, false)
+    if not applied and pendingStartupUrl ~= "" then applied = applyUrl(pendingStartupUrl, false) end
+    if not applied then applyRouteOrHome() end
+    pendingStartupUrl = ""
+    historyEstablished = true
+    Host.historyReplaceLocation(locationFor(), navigation.encode())
+end
+
+local function landingEntry(target: string): any?
+    if target == "landing/product" then return { name = "product", params = {}, query = {} } end
+    if target == "landing/examples" then return { name = "examples", params = {}, query = {} } end
+    local about = string.match(target, "^landing/([a-z]+)$")
+    if about == "why" or about == "targets" or about == "source" then return { name = "about", params = { topic = about }, query = {} } end
+    local product = string.match(target, "^landing/product/([a-z]+)$")
+    if product ~= nil then return { name = "product-detail", params = { topic = product }, query = {} } end
+    local example = string.match(target, "^landing/examples/([a-z]+)$")
+    if example ~= nil then return { name = "example-detail", params = { example = example }, query = {} } end
+    return nil
+end
+
+local function hrefFor(entry: any): string
+    local generated = routeCompiler.generate(entry)
+    assert(generated.success and generated.location ~= nil, "site link route is invalid")
+    return "#" .. (generated.location :: string)
+end
+
+local function navigateBack(fallback: any)
+    if not navigation.canBack() then
+        replaceEntry(fallback)
+    elseif historyEstablished then
+        Host.historyBack()
+    else
+        navigation.back()
+        assert(applyRoute(), "previous site route did not resolve")
+    end
+end
+
 local function link(id: string, text: string, pageId: string): UI.Node
     targetPages[id] = pageId
     return UI.Link {
         id = id,
         text = text,
-        href = "#docs/content",
+        href = hrefFor({ name = "reference", params = { page = pageId }, query = {} }),
         onTap = "docs.open-page",
     }
 end
@@ -97,7 +246,7 @@ local function sectionLink(id: string, text: string, sectionId: string, classNam
     return UI.Link {
         id = id,
         text = text,
-        href = "#docs/content",
+        href = hrefFor({ name = "docs", params = { section = sectionId }, query = {} }),
         onTap = "docs.open-section",
         className = className,
     }
@@ -499,20 +648,45 @@ function Application.render(): UI.Node
 end
 
 function Application.handle(action: string, target: string, value: string)
-    if action == "site.open-home" then
-        Landing.handle("landing.return-root", "landing/path/root", "")
-        showingLanding = true
-        navigationOpen = false
+    if action == "lifecycle" and target == "app" and value == "launch" and launchUrlRequest == nil then
+        launchUrlRequest = Host.launchUrl()
+        historyCurrentRequest = Host.historyCurrent()
+        return
+    elseif action == "history" and target == "app" then
+        if navigation.restoreEncoded(value).success then applyRouteOrHome() end
+        return
+    elseif action == "open_url" and (target == "app" or target == "browser") then
+        if not historyEstablished then pendingStartupUrl = value
+        else applyUrl(value, target == "app") end
+        return
+    elseif action == "system_back" and target == "app" then
+        local intent = tonumber(string.match(value, "^([1-9][0-9]*):[01]$"))
+        if intent ~= nil then
+            if navigation.canBack() then Host.systemBackHistory(intent) else Host.systemBackExit(intent) end
+        end
+        return
+    elseif action == "site.open-home" then
+        pushEntry(homeEntry)
         return
     end
     if showingLanding then
-        local destination = Landing.handle(action, target, value)
-        if destination ~= nil then
-            showingLanding = false
-            query = ""
-            selectedPageId = nil
-            selectedSection = destination
-            navigationOpen = false
+        if action == "landing.open-product" or action == "landing.open-examples" or action == "landing.open-focus" then
+            local entry = landingEntry(target)
+            if entry ~= nil then pushEntry(entry) end
+        elseif action == "landing.open-reference" then
+            pushEntry({ name = "docs", params = { section = "overview" }, query = {} })
+        elseif action == "landing.open-focus-docs" then
+            local destination = Landing.handle(action, target, value)
+            if destination ~= nil then pushEntry({ name = "docs", params = { section = destination }, query = {} }) end
+        elseif action == "landing.return-root" then
+            navigateBack(homeEntry)
+        elseif action == "landing.close-focus" then
+            local routeName = navigation.current().name
+            if routeName == "product-detail" then navigateBack({ name = "product", params = {}, query = {} })
+            elseif routeName == "example-detail" then navigateBack({ name = "examples", params = {}, query = {} })
+            else navigateBack(homeEntry) end
+        else
+            Landing.handle(action, target, value)
         end
         return
     end
@@ -522,19 +696,10 @@ function Application.handle(action: string, target: string, value: string)
         navigationOpen = false
     elseif action == "docs.open-page" then
         local pageId = targetPages[target]
-        if pageId ~= nil then
-            query = ""
-            selectedPageId = pageId
-            navigationOpen = false
-        end
+        if pageId ~= nil then pushEntry({ name = "reference", params = { page = pageId }, query = {} }) end
     elseif action == "docs.open-section" then
         local sectionId = targetSections[target]
-        if sectionId ~= nil then
-            query = ""
-            selectedPageId = nil
-            selectedSection = sectionId
-            navigationOpen = false
-        end
+        if sectionId ~= nil then pushEntry({ name = "docs", params = { section = sectionId }, query = {} }) end
     elseif action == "docs.toggle-navigation" and target == "docs/header/menu" then
         navigationOpen = not navigationOpen
     elseif action == "docs.close-navigation" and target == "docs/navigation-scrim" then
@@ -562,10 +727,37 @@ function Application.handle(action: string, target: string, value: string)
 end
 
 function Application.resolve(id: number, success: boolean, _payload: string, _code: string, _message: string)
+    if launchUrlRequest == id then
+        launchUrlRequest = nil
+        launchResolved = true
+        launchPayload = success and _payload or ""
+        finalizeStartup()
+        return
+    elseif historyCurrentRequest == id then
+        historyCurrentRequest = nil
+        historyResolved = true
+        currentHistoryToken = success and _payload or ""
+        finalizeStartup()
+        return
+    end
     local pageId = pendingCopy[id]
     if pageId == nil then return end
     pendingCopy[id] = nil
     copyStatusByPage[pageId] = success and "Example copied." or "Could not copy the example."
+end
+
+function Application.snapshot()
+    return {
+        route = navigation.current().name,
+        location = navigation.currentLocation(),
+        encodedState = navigation.encode(),
+        canBack = navigation.canBack(),
+        historyEstablished = historyEstablished,
+        showingLanding = showingLanding,
+        selectedSection = selectedSection,
+        selectedPageId = selectedPageId,
+        landing = Landing.snapshot(),
+    }
 end
 
 return Application

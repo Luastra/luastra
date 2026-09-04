@@ -1,6 +1,7 @@
 --!strict
 
 local Landing = require("app/landing")
+local UI = require("luastra/ui")
 
 local function findNode(node: any, id: string): any?
     if node.id == id then return node end
@@ -15,10 +16,22 @@ local root = Landing.render()
 assert(root.id == "site/landing")
 assert(findNode(root, "landing/root") ~= nil)
 assert((findNode(root, "landing/focus").properties :: any).open == false)
+local validRoute = pcall(function() UI.Link { id = "route/valid", text = "Quick start", href = "#/docs/quickstart" } end)
+local validEncodedRoute = pcall(function() UI.Link { id = "route/encoded", text = "Reference", href = "#/reference/ui%2Fitem-4" } end)
+local invalidEscape = pcall(function() UI.Link { id = "route/bad-escape", text = "Bad", href = "#/docs/%ZZ" } end)
+local invalidSlash = pcall(function() UI.Link { id = "route/bad-slash", text = "Bad", href = "#//example.test" } end)
+assert(validRoute)
+assert(validEncodedRoute)
+assert(not invalidEscape)
+assert(not invalidSlash)
 
-Landing.handle("landing.next-theme", "landing/path/theme-next", "")
+Landing.handle("landing.open-theme-picker", "landing/path/theme", "")
+assert(Landing.snapshot().themePickerOpen == true)
+Landing.handle("landing.choose-theme", "landing/theme-picker/choice-2", "")
 assert(Landing.snapshot().theme == "abyss")
-for _ = 1, 10 do Landing.handle("landing.next-theme", "landing/path/theme-next", "") end
+assert(Landing.snapshot().themePickerOpen == false)
+Landing.handle("landing.open-theme-picker", "landing/path/theme", "")
+Landing.handle("landing.choose-theme", "landing/theme-picker/choice-1", "")
 assert(Landing.snapshot().theme == "luastra")
 Landing.handle("landing.toggle-motion", "landing/path/motion", "")
 assert(Landing.snapshot().motion == "off")
