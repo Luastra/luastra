@@ -1,6 +1,7 @@
 --!strict
 
 local Examples = require("app/examples")
+local Landing = require("app/landing")
 local ReferenceData = require("app/reference-data")
 local Host = require("luastra/host")
 local UI = require("luastra/ui")
@@ -36,6 +37,7 @@ local exampleCounter = 0
 local learningStep = 1
 local darkMode = false
 local navigationOpen = false
+local showingLanding = true
 local copyStatusByPage: {[string]: string} = {}
 local pendingCopy: {[number]: string} = {}
 local targetPages: {[string]: string} = {}
@@ -178,6 +180,14 @@ local function renderHeader(): UI.Node
         id = "docs/header",
         className = "luastra-site-topbar",
         role = "banner",
+        UI.Button {
+            id = "docs/header/home",
+            className = "luastra-site-icon-button",
+            text = "✦",
+            label = "Return to the Luastra home experience",
+            appearance = "secondary",
+            onTap = "site.open-home",
+        },
         UI.Button {
             id = "docs/header/menu",
             className = "luastra-site-icon-button luastra-site-menu-button",
@@ -448,6 +458,7 @@ local function renderContent(): UI.Node
 end
 
 function Application.render(): UI.Node
+    if showingLanding then return Landing.render() end
     targetPages = {}
     targetSections = {}
     return UI.Screen {
@@ -488,6 +499,23 @@ function Application.render(): UI.Node
 end
 
 function Application.handle(action: string, target: string, value: string)
+    if action == "site.open-home" then
+        Landing.handle("landing.return-root", "landing/path/root", "")
+        showingLanding = true
+        navigationOpen = false
+        return
+    end
+    if showingLanding then
+        local destination = Landing.handle(action, target, value)
+        if destination ~= nil then
+            showingLanding = false
+            query = ""
+            selectedPageId = nil
+            selectedSection = destination
+            navigationOpen = false
+        end
+        return
+    end
     if action == "docs.search" and target == "docs/search" then
         query = value
         selectedPageId = nil

@@ -18,6 +18,7 @@
       "source": "src/main.luau",
       "dependencies": [
         "app/examples",
+        "app/landing",
         "app/reference-data",
         "luastra/host",
         "luastra/timer",
@@ -27,6 +28,11 @@
     {
       "id": "app/examples",
       "source": "src/examples.luau",
+      "dependencies": ["luastra/ui"]
+    },
+    {
+      "id": "app/landing",
+      "source": "src/landing.luau",
       "dependencies": ["luastra/ui"]
     },
     {
@@ -40,6 +46,11 @@
       "dependencies": ["app/main"]
     },
     {
+      "id": "app/tests/landing",
+      "source": "tests/landing.luau",
+      "dependencies": ["app/landing"]
+    },
+    {
       "id": "app/tests/reference-data",
       "source": "tests/reference-data.luau",
       "dependencies": ["app/reference-data"]
@@ -47,6 +58,7 @@
   ],
   "tests": [
     "app/tests/smoke",
+    "app/tests/landing",
     "app/tests/reference-data"
   ]
 }

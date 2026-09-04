@@ -3,6 +3,12 @@
 Version-bound English documentation for Luastra `0.1.0-alpha`. The macOS
 application and generated `luastra.dev` site run the same Luastra project.
 
+The private post-alpha candidate dogfoods Constellation Orbit for the landing
+experience, product map, and example discovery. Documentation and API-reference
+content deliberately remain in a conventional searchable reading layout. The
+current public site remains the rollback baseline until route, content, SEO,
+accessibility, responsive, and performance parity are audited separately.
+
 ## Commands
 
 ```sh
