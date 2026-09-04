@@ -309,6 +309,37 @@ not browser frame-time or low-end-device evidence. A local preview opened with
 durations, node count, and retained constellation count through the existing
 host diagnostics surface. Normal applications do not collect those timings.
 
+Run `npm run audit:orbit:chromium` for the repeatable real-browser performance
+gate. It alternates between the root, 48-node Examples, and Build
+constellations for 20 cycles and requires all of the following:
+
+- average measured interaction-time Orbit layout at or below 8 ms;
+- maximum measured interaction-time Orbit layout at or below 33.34 ms;
+- at most two retained constellation layers and 54 retained Orbit nodes;
+- no root DOM growth after the interaction loop;
+- no pending requests, active motion, scheduled frame work, runtime errors, or
+  horizontal overflow at rest;
+- no more than 8 MiB of garbage-collected JavaScript heap growth and 4 MiB of
+  Wasm-memory growth.
+
+These hard regression budgets prevent sustained layout work or a single pass
+from consuming more than two 60 Hz frames. A stricter 60-fps target is reported
+separately at 4 ms average and 16.67 ms maximum; missing that target does not
+silently weaken the cross-browser compatibility result. Neither level is a
+claim that every supported device renders at 60 frames per second. Chromium
+CDP supplies explicit garbage collection for the JavaScript heap measurement.
+`npm run audit:orbit:safari` and
+`npm run audit:orbit:firefox` apply the same interaction, layout, DOM, Wasm,
+scheduler, error, and overflow gates through each browser's real WebDriver.
+The Firefox command expects a compatible `geckodriver` on `PATH`. Safari and
+Firefox WebDriver do not expose a comparable explicitly garbage-collected
+JavaScript heap measurement. Native shells, assistive technology, and
+representative low-end physical hardware still require separate evidence.
+
+Run the browser performance commands sequentially. Concurrent browser runs
+compete for CPU and make wall-clock layout thresholds measure test contention
+rather than the browser under audit.
+
 At a 363 x 479 CSS-pixel viewport, used as the reflow equivalent of doubling
 the current browser scale, the reference switches to list mode and keeps the
 page, nodes, Focus Surface, sticky header, and controls free of horizontal
