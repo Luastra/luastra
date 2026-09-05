@@ -46,6 +46,15 @@ the canonical brand lockup, Focus Surface bounds, keyboard-only navigation,
 emulated forced colors and emulated reduced motion. Its evidence boundary does
 not include real browser zoom, assistive technology or another browser engine.
 
+`npm run audit:luastra-dev:firefox` and
+`npm run audit:luastra-dev:safari` run the corresponding real-engine
+WebDriver matrix for the migrated site. They cover representative desktop,
+tablet, short-landscape and narrow windows, every Orbit theme, Focus Surface
+geometry, minimum target sizes, documentation reflow, and the canonical brand
+asset. WebDriver window-manager minimums are recorded explicitly and are not
+presented as exact phone-device emulation. Firefox requires `geckodriver` on
+`PATH`; Safari requires macOS with Safari Remote Automation enabled.
+
 The macOS wrapper and its build commands live in
 `..`. Production deployment is controlled by the
 repository-level GitHub Pages workflow, not by this application project.
