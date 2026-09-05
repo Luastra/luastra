@@ -116,6 +116,9 @@ test("run serves the project, atomically rebuilds, reports errors and emits relo
     assert.match(uiCss.headers.get("content-type") ?? "", /^text\/css\b/);
     assert.match(await uiCss.text(), /env\(safe-area-inset-top\)/);
     assert.equal((await fetch(new URL("brand/favicon.svg", ready.url))).status, 200);
+    const brandLockup = await fetch(new URL("brand/luastra-lockup.svg", ready.url));
+    assert.equal(brandLockup.status, 200);
+    assert.match(await brandLockup.text(), /Luastra horizontal logo/);
     const servedAsset = await fetch(new URL("assets/catalogue/cover.png", ready.url));
     assert.equal(servedAsset.headers.get("content-type"), "image/png");
     assert.deepEqual(Buffer.from(await servedAsset.arrayBuffer()), cover);

@@ -25,6 +25,7 @@ const staticFiles = new Map([
   ["/bootstrap-errors.js", resolve(platformRoot, "host/bootstrap-errors.js")],
   ["/main.js", resolve(platformRoot, "host/main.js")],
   ["/brand/favicon.svg", resolve(brandAssets, "favicon.svg")],
+  ["/brand/luastra-lockup.svg", resolve(brandAssets, "lockup-light.svg")],
   ["/brand/luastra-mark.svg", resolve(brandAssets, "mark.svg")],
   ["/platform/artifacts/vm-wasm/luastra-vm.js", resolve(platformRoot, "artifacts/vm-wasm/luastra-vm.js")],
   ["/platform/artifacts/vm-wasm/luastra-vm.wasm", resolve(platformRoot, "artifacts/vm-wasm/luastra-vm.wasm")],

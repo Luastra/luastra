@@ -17,8 +17,17 @@
         font-family: system-ui, sans-serif;
       }
       .luastra-preview-shell { width: 100%; max-width: 900px; margin: auto; padding: 24px; border-radius: 20px; background: #fffdf7; }
-      .luastra-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; color: #16342e; font-weight: 750; letter-spacing: 0.01em; }
-      .luastra-brand img { width: 42px; height: 38px; object-fit: contain; }
+      .luastra-brand {
+        display: inline-flex;
+        align-items: center;
+        width: 158px;
+        max-width: min(48vw, 158px);
+        margin-bottom: 18px;
+        padding: 5px 7px;
+        border-radius: 8px;
+        background: #f4efe3;
+      }
+      .luastra-brand img { display: block; width: 100%; height: auto; }
       #status { display: inline-block; padding: 5px 10px; border-radius: 999px; background: #e4ad3a; font-weight: 700; }
       #status.pass { color: white; background: #2f7568; }
       #status.fail { color: white; background: #9c3c32; }
@@ -47,9 +56,8 @@
   </head>
   <body>
     <div class="luastra-preview-shell">
-      <div class="luastra-brand" aria-label="Luastra">
-        <img src="./brand/luastra-mark.svg" alt="" />
-        <span>Luastra</span>
+      <div class="luastra-brand">
+        <img src="./brand/luastra-lockup.svg" alt="Luastra" />
       </div>
       <p id="status" role="status" aria-live="polite">Starting Luastra…</p>
       <pre id="error" hidden></pre>

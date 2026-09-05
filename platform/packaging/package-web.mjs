@@ -103,6 +103,7 @@ export async function packageWeb({ manifestPath, outputDirectory, rpcProof = fal
     [resolve(platformRoot, "host/orbit-controller.mjs"), "platform/host/orbit-controller.mjs"],
     [resolve(brandAssets, "favicon.svg"), "brand/favicon.svg"],
     [resolve(brandAssets, "app-icon.svg"), "brand/app-icon.svg"],
+    [resolve(brandAssets, "lockup-light.svg"), "brand/luastra-lockup.svg"],
     [resolve(brandAssets, "mark.svg"), "brand/luastra-mark.svg"],
     [sdk.artifacts.runtimeJavaScript, "platform/artifacts/vm-wasm/luastra-vm.js"],
     [sdk.artifacts.runtimeWasm, "platform/artifacts/vm-wasm/luastra-vm.wasm"],

@@ -135,8 +135,9 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
         .replace("    <title>Luastra Preview</title>", `${metadata.head}    <title>${title}</title>`)
         .replace("  <body>\n", `  <body>\n${metadata.fallback}`)
         .replace(`      <header class="luastra-host-brand" aria-label="Luastra development host">
-        <img src="./brand/luastra-mark.svg" alt="" />
-        <span>Luastra</span>
+        <span class="luastra-host-lockup">
+          <img src="./brand/luastra-lockup.svg" alt="Luastra" />
+        </span>
         <span id="status" role="status" aria-live="polite">Starting…</span>
       </header>
 `, `      <span id="status" role="status" aria-live="polite" hidden></span>
