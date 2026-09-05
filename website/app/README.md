@@ -42,9 +42,9 @@ From the repository root, `npm run audit:luastra-dev:chromium` runs the
 candidate-specific responsive and accessibility matrix in real headless
 Chromium. The gate covers the documented desktop, tablet, short-landscape and
 phone viewports, every Orbit theme, minimum target sizes, icon rendering,
-Focus Surface bounds and emulated reduced motion. Its evidence boundary does
-not include real browser zoom, forced colors, assistive technology or another
-browser engine.
+the canonical brand lockup, Focus Surface bounds, keyboard-only navigation,
+emulated forced colors and emulated reduced motion. Its evidence boundary does
+not include real browser zoom, assistive technology or another browser engine.
 
 The macOS wrapper and its build commands live in
 `..`. Production deployment is controlled by the

@@ -104,6 +104,14 @@ async function viewport(client, target) {
   await delay(80);
 }
 
+async function key(client, value, code = value) {
+  const keyCode = { "/": 191, ArrowRight: 39, End: 35, Enter: 13, Escape: 27, Home: 36, Tab: 9 }[value] ?? 0;
+  const params = { key: value, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode };
+  await client.send("Input.dispatchKeyEvent", { type: "rawKeyDown", ...params });
+  await client.send("Input.dispatchKeyEvent", { type: "keyUp", ...params });
+  await delay(80);
+}
+
 async function sample(client) {
   return evaluate(client, `(() => {
     const visible = (node) => node && !node.hidden && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== "hidden";
@@ -115,6 +123,7 @@ async function sample(client) {
     const path = document.querySelector('[data-luastra-id="landing/path"]');
     const constellation = document.querySelector('.luastra-constellation-state-active');
     const focus = document.querySelector('[data-luastra-id="landing/focus"]');
+    const brand = document.querySelector('.luastra-brand img, .luastra-host-lockup img');
     const controls = [...document.querySelectorAll('button,input,a[href]')].filter(visible);
     const nodes = constellation ? [...constellation.querySelectorAll('.luastra-orbit-node')].filter(visible) : [];
     const iconControls = [...document.querySelectorAll('.luastra-button[data-luastra-icon]')].filter(visible);
@@ -132,6 +141,7 @@ async function sample(client) {
       orbit: orbit ? rect(orbit) : null,
       path: path ? rect(path) : null,
       focus: focus && focus.open ? { ...rect(focus), scrollable: focus.scrollHeight > focus.clientHeight } : null,
+      brand: brand ? { ...rect(brand), alt: brand.alt, loaded: brand.complete && brand.naturalWidth > 0, source: brand.getAttribute('src') } : null,
       minimumTarget: controls.reduce((minimum, node) => Math.min(minimum, rect(node).width, rect(node).height), Infinity),
       nodesInsideOrbit: Boolean(orbit) && nodes.every((node) => horizontallyInside(rect(node), rect(orbit))) &&
         (mode === "list" ? ["auto", "scroll"].includes(constellationStyle?.overflowY) : nodes.every((node) => inside(rect(node), rect(orbit)))),
@@ -145,6 +155,7 @@ async function sample(client) {
 
 function samplePass(value, { constrained = false, focus = false } = {}) {
   return value.horizontalOverflow === 0 && value.minimumTarget >= 44 && value.nodesInsideOrbit && value.labelledControls &&
+    value.brand?.loaded === true && value.brand.alt === "Luastra" && value.brand.source?.endsWith("/brand/luastra-lockup.svg") && value.brand.width >= 112 &&
     value.errors.length === 0 && value.icons.length === 2 && value.icons.every((icon) => icon.svg && icon.bounds.width >= 44 && icon.bounds.height >= 44) &&
     Math.abs(value.path.height - 56) <= 1 && (!constrained || value.mode === "list") &&
     (!focus || (value.focus && value.focus.left >= -1 && value.focus.right <= value.viewport.width + 1 && value.focus.top >= -1 && value.focus.bottom <= value.viewport.height + 1));
@@ -209,11 +220,72 @@ async function main() {
     const reducedMotion = await sample(client);
     await client.send("Emulation.setEmulatedMedia", { features: [] });
 
+    await viewport(client, { width: 1024, height: 768 });
+    await route(client, "#/", "location.hash === '#/' && Boolean(document.querySelector('[data-luastra-id=\"landing/root\"].luastra-constellation-state-active')) && document.querySelector('[data-luastra-id=\"landing/focus\"]')?.open !== true");
+    const focusNode = async (id) => evaluate(client, `(() => {
+      const selector = '[data-luastra-id=${JSON.stringify(id)}]';
+      const node = document.querySelector('.luastra-constellation-state-active ' + selector) ?? document.querySelector(selector);
+      node?.focus();
+      return document.activeElement?.dataset?.luastraId ?? null;
+    })()`);
+    const keyboard = { initial: await focusNode("landing/product") };
+    await key(client, "/", "Slash");
+    keyboard.searchShortcut = await evaluate(client, "document.activeElement?.dataset?.luastraId ?? null");
+    keyboard.rootBeforeArrow = await focusNode("landing/product");
+    await key(client, "ArrowRight");
+    keyboard.rootAfterArrow = await evaluate(client, "document.activeElement?.dataset?.luastraId ?? null");
+    keyboard.rootRovingStops = await evaluate(client, "document.querySelectorAll('.luastra-constellation-state-active .luastra-orbit-node[tabindex=\"0\"]').length");
+    await focusNode("landing/product");
+    await key(client, "Enter");
+    await waitFor(client, "location.hash === '#/product' && Boolean(document.querySelector('[data-luastra-id=\"landing/product-map\"].luastra-constellation-state-active'))", "keyboard child navigation");
+    keyboard.child = await focusNode("landing/product/ui");
+    await key(client, "Enter");
+    await waitFor(client, "location.hash === '#/product/ui' && document.querySelector('[data-luastra-id=\"landing/focus\"]')?.open === true", "keyboard Focus Surface open");
+    keyboard.focusHeading = await evaluate(client, "document.activeElement?.dataset?.luastraId ?? null");
+    await key(client, "Tab");
+    keyboard.focusTab = await evaluate(client, "document.activeElement?.dataset?.luastraId ?? null");
+    await key(client, "Escape");
+    await waitFor(client, "location.hash === '#/product' && Boolean(document.querySelector('[data-luastra-id=\"landing/product-map\"].luastra-constellation-state-active')) && document.querySelector('[data-luastra-id=\"landing/focus\"]')?.open !== true", "keyboard Focus Surface close");
+    keyboard.restoredLeaf = await evaluate(client, "document.activeElement?.dataset?.luastraId ?? null");
+    await key(client, "Escape");
+    await waitFor(client, "location.hash === '#/' && Boolean(document.querySelector('[data-luastra-id=\"landing/root\"].luastra-constellation-state-active'))", "keyboard ancestor return");
+    keyboard.restoredRoot = await evaluate(client, "document.activeElement?.dataset?.luastraId ?? null");
+    keyboard.errors = await evaluate(client, "[...(window.__luastraSiteAudit?.errors ?? [])]");
+
+    await client.send("Emulation.setEmulatedMedia", { features: [{ name: "forced-colors", value: "active" }] });
+    await viewport(client, { width: 390, height: 844 });
+    await route(client, "#/", "location.hash === '#/'");
+    await focusNode("landing/path/theme");
+    const forcedRoot = await sample(client);
+    const forcedColors = await evaluate(client, `(() => {
+      const focused = document.activeElement;
+      const style = focused ? getComputedStyle(focused) : null;
+      const icons = [...document.querySelectorAll('.luastra-button-icon')].map((icon) => getComputedStyle(icon).stroke);
+      return {
+        active: matchMedia('(forced-colors: active)').matches,
+        focusedId: focused?.dataset?.luastraId ?? null,
+        outlineStyle: style?.outlineStyle ?? null,
+        outlineWidth: Number.parseFloat(style?.outlineWidth ?? '0'),
+        iconStrokes: icons,
+      };
+    })()`);
+    await route(client, "#/product/ui", "location.hash === '#/product/ui' && document.querySelector('[data-luastra-id=\"landing/focus\"]')?.open === true");
+    const forcedFocus = await sample(client);
+    await client.send("Emulation.setEmulatedMedia", { features: [] });
+
     const assertions = {
       viewportMatrix: viewportSamples.every((value) => value.pass),
       themeMatrix: themeSamples.every((value) => value.pass),
       reducedMotionSettles: reducedMotion.diagnostics?.activeMotionCount === 0 && reducedMotion.diagnostics?.framePending === false,
-      noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors), ...reducedMotion.errors].length === 0,
+      keyboardOnly: keyboard.initial === "landing/product" && keyboard.searchShortcut === "landing/search/input" &&
+        keyboard.rootBeforeArrow === "landing/product" && keyboard.rootAfterArrow !== keyboard.rootBeforeArrow && keyboard.rootRovingStops === 1 &&
+        keyboard.child === "landing/product/ui" && keyboard.focusHeading === "landing/focus/title" && keyboard.focusTab === "landing/focus/close" &&
+        keyboard.restoredLeaf === "landing/product/ui" && keyboard.restoredRoot === "landing/product",
+      forcedColors: forcedColors.active && forcedColors.focusedId === "landing/path/theme" && forcedColors.outlineStyle !== "none" &&
+        forcedColors.outlineWidth >= 2 && forcedColors.iconStrokes.length === 2 && forcedColors.iconStrokes.every((stroke) => stroke !== "none") &&
+        samplePass(forcedRoot, { constrained: true }) && samplePass(forcedFocus, { constrained: true, focus: true }),
+      noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
+        ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -229,8 +301,10 @@ async function main() {
       viewportSamples,
       themeSamples,
       reducedMotion,
+      keyboard,
+      forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
       result,
-      boundary: "This automated gate covers Chromium layout, target size, icon rendering, theme/focus geometry and emulated reduced motion. It does not replace real browser zoom, forced-colors, assistive technology, Firefox, Safari, Capacitor, Tauri or physical-device evidence.",
+      boundary: "This automated gate covers Chromium layout, target size, brand and icon rendering, theme/focus geometry, keyboard-only flows, emulated forced colors and emulated reduced motion. It does not replace real browser zoom, assistive technology, Firefox, Safari, Capacitor, Tauri or physical-device evidence.",
     };
     const reportText = `${JSON.stringify(report, null, 2)}\n`;
     if (selected.output !== null) {
