@@ -278,6 +278,7 @@ test("Constellation Orbit reference compiles, tests and packages its host-owned 
     assert.match(orbitCss, /\.luastra-orbit:has\(> \.luastra-orbit-search\) > \.luastra-constellation\s*\{[^}]+inset-block-start:\s*7\.75rem/s);
     assert.match(orbitCss, /\.luastra-focus-surface\s*\{[^}]+overscroll-behavior:\s*contain[^}]+scrollbar-gutter:\s*stable/s);
     assert.match(orbitCss, /\.luastra-focus-header\s*\{[^}]+position:\s*sticky[^}]+top:\s*calc\(0px - var\(--luastra-orbit-focus-padding\)\)[^}]+background:\s*var\(--luastra-orbit-focus-bg/s);
+    assert.match(orbitCss, /\.luastra-focus-header \+ \*\s*\{[^}]+padding-block-start:\s*1rem/s);
     assert.match(orbitCss, /@media \(max-width:\s*420px\)[\s\S]+\.luastra-focus-header\s*\{[^}]+flex-direction:\s*column/s);
     assert.match(orbitCss, /data-luastra-orbit-mode=["']list["'][^}]+border-radius:\s*var\(--luastra-orbit-list-center-radius\)/s);
     assert.match(orbitCss, /\.luastra-orbit \.luastra-constellation > \.luastra-orbit-center\s*\{[^}]+width:\s*min\(15rem, 42%\)[^}]+height:\s*9rem/s);

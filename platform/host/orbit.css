@@ -406,6 +406,7 @@
 }
 .luastra-focus-header .luastra-text { min-width: 0; margin: 0; }
 .luastra-focus-header .luastra-button { flex: none; }
+.luastra-focus-header + * { padding-block-start: 1rem; }
 .luastra-focus-surface::backdrop { background: rgb(4 20 18 / 56%); }
 #host-root .luastra-focus-surface .luastra-text { color: var(--luastra-orbit-focus-muted, #526b65); }
 #host-root .luastra-focus-surface :is(h1, h2, h3, h4, h5, h6).luastra-text { color: var(--luastra-orbit-focus-ink, #16342e); }
