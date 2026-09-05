@@ -45,6 +45,14 @@ test("responsive catalogue classes are admitted by the packaged design system", 
     assert.match(css, /@media \(prefers-color-scheme: dark\)/);
     assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
     assert.match(css, /@media \(forced-colors: active\)/);
+    const documentationBrandRule = /\.luastra-site-brand::before\s*\{([^}]+)\}/.exec(css)?.[1] ?? "";
+    assert.match(documentationBrandRule, /url\("\.\.\/brand\/luastra-mark\.svg"\)/, "documentation header must use the canonical brand asset");
+    assert.doesNotMatch(documentationBrandRule, /clip-path:/, "documentation header must not approximate the logo with CSS geometry");
+    assert.deepEqual(
+      await readFile(resolve(web, "brand/luastra-mark.svg")),
+      await readFile(resolve(prototype, "platform/brand/mark.svg")),
+      "packaged documentation brand must match the canonical Luastra mark",
+    );
     assert.match(css, /@supports \(font: -apple-system-body\)/, "packaged iOS WebKit CSS must opt into Dynamic Type");
     assert.match(css, /@media \(hover: none\)[\s\S]*font: -apple-system-body/, "Dynamic Type must be limited to touch WebKit so macOS sizing is unchanged");
     assert.match(css, /min-height: 44px/);

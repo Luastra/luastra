@@ -139,23 +139,12 @@ h1, h2, h3, p { margin-block: 0; overflow-wrap: anywhere; }
 .luastra-site-brand::before {
   content: "";
   position: absolute;
-  inset-inline-start: 2px;
-  top: 5px;
-  width: 42px;
-  height: 34px;
-  border-radius: 3px;
-  background: var(--luastra-color-accent);
-  clip-path: polygon(18% 0, 46% 0, 35% 56%, 70% 56%, 100% 100%, 0 100%);
-}
-.luastra-site-brand::after {
-  content: "";
-  position: absolute;
-  inset-inline-start: 19px;
-  top: 20px;
-  width: 8px;
-  height: 8px;
-  background: var(--luastra-color-highlight);
-  transform: rotate(45deg);
+  inset-inline-start: 0;
+  top: 2px;
+  width: 46px;
+  height: 40px;
+  border-radius: 7px;
+  background: #f4efe3 url("../brand/luastra-mark.svg") center / contain no-repeat;
 }
 .luastra-site-brand-name {
   color: var(--luastra-color-text) !important;
