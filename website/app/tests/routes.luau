@@ -22,31 +22,43 @@ local function findNode(node: any, id: string): any?
 end
 
 Application.handle("lifecycle", "app", "launch")
-assert(#requests == 2)
+assert(#requests == 4)
 assert(requests[1].kind == "app.launchurl.get")
 assert(requests[2].kind == "navigation.history" and requests[2].operation == "current")
+assert(requests[3].kind == "storage.get" and requests[3].operation == "orbit-preferences")
+assert(requests[4].kind == "storage.get" and requests[4].operation == "docs-theme")
 Application.resolve(1, true, "https://luastra.dev/#/product/quickstart", "", "")
 Application.resolve(2, true, "", "", "")
+Application.resolve(3, true, "v1:luastra:system", "", "")
+Application.resolve(4, true, "v1:light", "", "")
 assert(Application.snapshot().historyEstablished == true)
+assert(Application.snapshot().preferencesEstablished == true)
 assert(Application.snapshot().location == "/product/quickstart")
 assert((findNode(Application.render(), "landing/focus/title").properties :: any).text == "Quick start")
-assert(requests[3].kind == "navigation.history" and requests[3].operation == "replace-location")
+assert(requests[5].kind == "navigation.history" and requests[5].operation == "replace-location")
 
 Application.handle("landing.close-focus", "landing/focus/close", "")
 assert(Application.snapshot().location == "/product")
-assert(requests[4].kind == "navigation.history" and requests[4].operation == "replace-location")
+assert(requests[6].kind == "navigation.history" and requests[6].operation == "replace-location")
 Application.handle("open_url", "app", "https://luastra.dev/#/product/quickstart")
 assert(Application.snapshot().location == "/product/quickstart")
-assert(requests[5].kind == "navigation.history" and requests[5].operation == "push-location")
+assert(requests[7].kind == "navigation.history" and requests[7].operation == "push-location")
 
 Application.handle("landing.open-focus-docs", "landing/focus/docs", "")
 assert(Application.snapshot().location == "/docs/quickstart")
-assert(requests[6].kind == "navigation.history" and requests[6].operation == "push-location")
+assert(requests[8].kind == "navigation.history" and requests[8].operation == "push-location")
 local docsState = Application.snapshot().encodedState
+
+Application.handle("docs.search", "docs/search", "checksum-verified")
+local searchResults = Application.render()
+assert(findNode(searchResults, "docs/search/clear") ~= nil)
+assert((findNode(searchResults, "docs/search/count").properties :: any).text ~= "No results")
+Application.handle("docs.clear-search", "docs/search/clear", "")
+assert(Application.snapshot().query == "")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/docs/overview")
 assert(Application.snapshot().location == "/docs/overview")
-assert(requests[7].kind == "navigation.history" and requests[7].operation == "replace-location")
+assert(requests[9].kind == "navigation.history" and requests[9].operation == "replace-location")
 
 Application.handle("history", "app", docsState)
 assert(Application.snapshot().location == "/docs/quickstart")
@@ -56,5 +68,13 @@ assert(Application.snapshot().location == "/docs/overview")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/reference/not-a-page")
 assert(Application.snapshot().location == "/docs/overview")
+
+Application.handle("open_url", "browser", "https://luastra.dev/#/docs/ui")
+assert(findNode(Application.render(), "docs/section/copy") ~= nil)
+Application.handle("docs.copy-section", "docs/section/copy", "")
+assert(requests[#requests].kind == "clipboard.write")
+local copyRequest = #requests
+Application.resolve(copyRequest, true, "", "", "")
+assert((findNode(Application.render(), "docs/section/copy-status").properties :: any).text == "Example copied.")
 
 return true

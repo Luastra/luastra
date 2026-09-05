@@ -6,9 +6,10 @@ the `luastra.dev` source and a web-application dogfood fixture.
 
 ## What is here
 
-- `src/main.luau` owns search, navigation, detail pages, copy feedback and live
-  examples. Canonical hash routes and opaque History state keep direct links,
-  reloads and browser Back aligned with the rendered Luau state.
+- `src/main.luau` owns full-content search, navigation, detail pages, section
+  and detail-example copy feedback, versioned preferences, and live examples.
+  Canonical hash routes and opaque History state keep direct links, reloads and
+  browser Back aligned with the rendered Luau state.
 - `src/landing.luau` owns the Constellation Orbit product map, its compact
   modal theme picker and the single-icon Motion preference control.
 - `src/examples.luau` contains compiled examples that really execute in the
@@ -58,3 +59,7 @@ The project manifest also supplies bounded production web metadata. A web
 build emits the canonical root URL, search and social descriptions,
 `robots.txt`, `sitemap.xml`, and a no-script summary. Hash routes remain
 application locations rather than independently indexable documents.
+
+The application stores `orbit-preferences` and `docs-theme` through the public
+host storage capability. Presentation preferences never enter route or History
+state.

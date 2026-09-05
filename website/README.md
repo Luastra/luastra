@@ -15,6 +15,11 @@ History state restores the matching Luau navigation stack. The Orbit path uses
 a compact theme-picker dialog and one icon button for Motion so its controls
 remain usable at phone widths.
 
+The conventional reference preserves full-content search, an explicit clear
+action, copy controls for detail and section examples, and a versioned local
+preference for its light/dark theme. Orbit theme and Motion preferences use the
+same project-scoped storage boundary and restore independently of route state.
+
 The production build receives its title, description, canonical URL, crawler
 policy, social metadata, sitemap, and no-script summary from the bounded `web`
 section of `website/app/luastra.json`. This makes the root experience

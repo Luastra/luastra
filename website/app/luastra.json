@@ -17,6 +17,8 @@
     "app.launchurl.get",
     "clipboard.write",
     "navigation.history",
+    "storage.get",
+    "storage.set",
     "timer.control",
     "ui.render"
   ],
@@ -68,12 +70,18 @@
       "id": "app/tests/routes",
       "source": "tests/routes.luau",
       "dependencies": ["app/main"]
+    },
+    {
+      "id": "app/tests/preferences",
+      "source": "tests/preferences.luau",
+      "dependencies": ["app/main"]
     }
   ],
   "tests": [
     "app/tests/smoke",
     "app/tests/landing",
     "app/tests/reference-data",
-    "app/tests/routes"
+    "app/tests/routes",
+    "app/tests/preferences"
   ]
 }

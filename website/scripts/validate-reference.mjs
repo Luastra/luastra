@@ -33,6 +33,13 @@ function same(left, right) {
 
 const sectionIds = sections.map((section) => section.id);
 if (new Set(sectionIds).size !== sectionIds.length) fail("reference contains duplicate section IDs");
+const expectedGeneratedPages = sections.reduce((total, section) => total + (section.cards?.length ?? 0) + (section.tables?.length ?? 0), 0);
+if (generatedPages.length !== expectedGeneratedPages) fail(`generated reference page count differs: expected=${expectedGeneratedPages} actual=${generatedPages.length}`);
+for (const section of sections) {
+  const expected = (section.cards?.length ?? 0) + (section.tables?.length ?? 0);
+  const actual = generatedPages.filter((page) => page.sectionId === section.id).length;
+  if (actual !== expected) fail(`${section.id} generated reference page count differs: expected=${expected} actual=${actual}`);
+}
 if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
 if (release.sourceSdk !== "Source SDK contract 10") fail("reference source SDK label is stale");
 if (release.runtimeSdk !== "Runtime SDK alpha 8") fail("reference runtime SDK label is stale");
@@ -176,6 +183,7 @@ const summary = {
   types: moduleResults.reduce((total, item) => total + item.types, 0),
   components: sdkInventory["luastra/ui"].length,
   sections: sectionIds.length,
+  pages: generatedPages.length,
   inventory: moduleResults,
 };
 process.stdout.write(`${JSON.stringify(summary)}\n`);

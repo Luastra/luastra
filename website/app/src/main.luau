@@ -39,7 +39,7 @@ local learningStep = 1
 local darkMode = false
 local navigationOpen = false
 local showingLanding = true
-local copyStatusByPage: {[string]: string} = {}
+local copyStatusByTarget: {[string]: string} = {}
 local pendingCopy: {[number]: string} = {}
 local targetPages: {[string]: string} = {}
 local targetSections: {[string]: string} = {}
@@ -63,12 +63,17 @@ local homeEntry = table.freeze({ name = "home", params = table.freeze({}), query
 local navigation = Navigation.createRouter { compiler = routeCompiler, initial = homeEntry }
 local launchUrlRequest: number? = nil
 local historyCurrentRequest: number? = nil
+local orbitPreferenceRequest: number? = nil
+local docsThemeRequest: number? = nil
 local launchResolved = false
 local historyResolved = false
+local orbitPreferenceResolved = false
+local docsThemeResolved = false
 local launchPayload = ""
 local currentHistoryToken: string? = nil
 local pendingStartupUrl = ""
 local historyEstablished = false
+local preferencesEstablished = false
 local propertyGroups: {[string]: string} = {
     action = "ui-properties-events",
     columns = "ui-properties-layout",
@@ -90,8 +95,21 @@ local function lower(value: string): string
     return string.lower(value)
 end
 
+local function normalizedSearch(value: string): string
+    return lower(string.match(value, "^%s*(.-)%s*$") or "")
+end
+
 local function includes(value: string?, needle: string): boolean
     return value ~= nil and string.find(lower(value), needle, 1, true) ~= nil
+end
+
+local function searchableValue(value: any, needle: string): boolean
+    if type(value) == "string" then return includes(value, needle) end
+    if type(value) ~= "table" then return false end
+    for _, item in value do
+        if searchableValue(item, needle) then return true end
+    end
+    return false
 end
 
 local function selectedPage(): any?
@@ -191,8 +209,17 @@ local function applyUrl(value: string, appendHistory: boolean): boolean
     return true
 end
 
+local function saveOrbitPreferences()
+    if preferencesEstablished then Host.storageSet("orbit-preferences", Landing.encodedPreferences()) end
+end
+
+local function saveDocsTheme()
+    if preferencesEstablished then Host.storageSet("docs-theme", darkMode and "v1:dark" or "v1:light") end
+end
+
 local function finalizeStartup()
-    if historyEstablished or not launchResolved or not historyResolved then return end
+    if historyEstablished or not launchResolved or not historyResolved or not orbitPreferenceResolved or not docsThemeResolved then return end
+    preferencesEstablished = true
     if currentHistoryToken ~= nil and currentHistoryToken ~= "" then navigation.restoreEncoded(currentHistoryToken) end
     local applied = launchPayload ~= "" and applyUrl(launchPayload, false)
     if not applied and pendingStartupUrl ~= "" then applied = applyUrl(pendingStartupUrl, false) end
@@ -383,14 +410,27 @@ local function renderHeader(): UI.Node
 end
 
 local function renderSearchResults(): UI.Node
-    local needle = lower(query)
+    local needle = normalizedSearch(query)
     local input: any = { id = "docs/search/results", gap = "sm" }
     local count = 0
+    for index, section in ReferenceData.sections do
+        if searchableValue(section, needle) then
+            count += 1
+            if count <= 40 then
+                table.insert(input, UI.Card {
+                    id = `docs/search/section-{index}`,
+                    className = "luastra-site-reference-card",
+                    width = "full",
+                    padding = "md",
+                    gap = "xs",
+                    sectionLink(`docs/search/section-link-{index}`, section.title, section.id),
+                    UI.Text { id = `docs/search/section-{index}/summary`, text = section.summary, tone = "muted" },
+                })
+            end
+        end
+    end
     for index, page in ReferenceData.pages do
-        local matched = includes(page.name, needle)
-            or includes(page.signature, needle)
-            or includes(page.description, needle)
-            or includes(page.module, needle)
+        local matched = searchableValue(page, needle)
         if matched then
             count += 1
             if count <= 40 then
@@ -408,8 +448,14 @@ local function renderSearchResults(): UI.Node
     end
     table.insert(input, 1, UI.Text {
         id = "docs/search/count",
-        text = count == 0 and "No pages found" or `Pages found: {count}`,
+        text = count == 0 and "No results" or `Results: {count}`,
         variant = "subheading",
+    })
+    table.insert(input, 2, UI.Button {
+        id = "docs/search/clear",
+        text = "Clear search",
+        appearance = "secondary",
+        onTap = "docs.clear-search",
     })
     return UI.Column(input)
 end
@@ -472,6 +518,9 @@ local function renderOverview(section: any): UI.Node
     if section.example ~= nil then
         table.insert(input, UI.Text { id = "docs/section/example-title", text = "Complete example", variant = "subheading" })
         table.insert(input, UI.CodeBlock { id = "docs/section/example", code = section.example, language = "Luau" })
+        table.insert(input, UI.Button { id = "docs/section/copy", text = "Copy complete example", appearance = "secondary", onTap = "docs.copy-section" })
+        local copyStatus = copyStatusByTarget["section:" .. section.id]
+        if copyStatus ~= nil then table.insert(input, UI.Text { id = "docs/section/copy-status", text = copyStatus, role = "status" }) end
     end
     table.insert(input, UI.Divider { id = "docs/section/divider" })
     table.insert(input, UI.Text { id = "docs/section/pages-title", text = "Detail pages", variant = "subheading" })
@@ -588,7 +637,7 @@ local function renderDetail(page: any): UI.Node
         table.insert(input, UI.Text { id = "docs/detail/example-title", text = if page.kind == "type" then "Exact declaration" else "Minimal example", variant = "subheading" })
         table.insert(input, UI.CodeBlock { id = "docs/detail/example", code = page.code, language = page.language or "Luau" })
         table.insert(input, UI.Button { id = "docs/detail/copy", text = if page.kind == "type" then "Copy declaration" else "Copy example", appearance = "secondary", onTap = "docs.copy" })
-        local copyStatus = copyStatusByPage[page.id]
+        local copyStatus = copyStatusByTarget["page:" .. page.id]
         if copyStatus ~= nil then table.insert(input, UI.Text { id = "docs/detail/copy-status", text = copyStatus, role = "status" }) end
     end
     if page.name == "UI.Button" then table.insert(input, Examples.render(exampleCounter)) end
@@ -599,7 +648,7 @@ local function renderDetail(page: any): UI.Node
 end
 
 local function renderContent(): UI.Node
-    if query ~= "" then return renderSearchResults() end
+    if normalizedSearch(query) ~= "" then return renderSearchResults() end
     local page = selectedPage()
     if page ~= nil then return renderDetail(page) end
     local section = sectionById(selectedSection) or ReferenceData.sections[1]
@@ -651,6 +700,8 @@ function Application.handle(action: string, target: string, value: string)
     if action == "lifecycle" and target == "app" and value == "launch" and launchUrlRequest == nil then
         launchUrlRequest = Host.launchUrl()
         historyCurrentRequest = Host.historyCurrent()
+        orbitPreferenceRequest = Host.storageGet("orbit-preferences")
+        docsThemeRequest = Host.storageGet("docs-theme")
         return
     elseif action == "history" and target == "app" then
         if navigation.restoreEncoded(value).success then applyRouteOrHome() end
@@ -687,13 +738,16 @@ function Application.handle(action: string, target: string, value: string)
             else navigateBack(homeEntry) end
         else
             Landing.handle(action, target, value)
+            if action == "landing.choose-theme" or action == "landing.toggle-motion" then saveOrbitPreferences() end
         end
         return
     end
     if action == "docs.search" and target == "docs/search" then
-        query = value
+        query = string.sub(value, 1, 160)
         selectedPageId = nil
         navigationOpen = false
+    elseif action == "docs.clear-search" and target == "docs/search/clear" then
+        query = ""
     elseif action == "docs.open-page" then
         local pageId = targetPages[target]
         if pageId ~= nil then pushEntry({ name = "reference", params = { page = pageId }, query = {} }) end
@@ -706,12 +760,22 @@ function Application.handle(action: string, target: string, value: string)
         navigationOpen = false
     elseif action == "docs.toggle-theme" and target == "docs/header/theme" then
         darkMode = not darkMode
+        saveDocsTheme()
     elseif action == "docs.copy" and target == "docs/detail/copy" then
         local page = selectedPage()
         if page ~= nil and page.code ~= nil then
-            copyStatusByPage[page.id] = "Copying…"
+            local statusTarget = "page:" .. page.id
+            copyStatusByTarget[statusTarget] = "Copying…"
             local code = page.code :: string
-            pendingCopy[Host.clipboardWrite(code)] = page.id
+            pendingCopy[Host.clipboardWrite(code)] = statusTarget
+        end
+    elseif action == "docs.copy-section" and target == "docs/section/copy" then
+        local section = sectionById(selectedSection)
+        if section ~= nil and section.example ~= nil then
+            local statusTarget = "section:" .. selectedSection
+            copyStatusByTarget[statusTarget] = "Copying…"
+            local code = section.example :: string
+            pendingCopy[Host.clipboardWrite(code)] = statusTarget
         end
     elseif action == "example.increment" and target == "live/increment" then
         exampleCounter += 1
@@ -739,11 +803,23 @@ function Application.resolve(id: number, success: boolean, _payload: string, _co
         currentHistoryToken = success and _payload or ""
         finalizeStartup()
         return
+    elseif orbitPreferenceRequest == id then
+        orbitPreferenceRequest = nil
+        orbitPreferenceResolved = true
+        Landing.restorePreferences(success and _payload or "")
+        finalizeStartup()
+        return
+    elseif docsThemeRequest == id then
+        docsThemeRequest = nil
+        docsThemeResolved = true
+        darkMode = success and _payload == "v1:dark"
+        finalizeStartup()
+        return
     end
-    local pageId = pendingCopy[id]
-    if pageId == nil then return end
+    local statusTarget = pendingCopy[id]
+    if statusTarget == nil then return end
     pendingCopy[id] = nil
-    copyStatusByPage[pageId] = success and "Example copied." or "Could not copy the example."
+    copyStatusByTarget[statusTarget] = success and "Example copied." or "Could not copy the example."
 end
 
 function Application.snapshot()
@@ -753,9 +829,12 @@ function Application.snapshot()
         encodedState = navigation.encode(),
         canBack = navigation.canBack(),
         historyEstablished = historyEstablished,
+        preferencesEstablished = preferencesEstablished,
+        darkMode = darkMode,
         showingLanding = showingLanding,
         selectedSection = selectedSection,
         selectedPageId = selectedPageId,
+        query = query,
         landing = Landing.snapshot(),
     }
 end

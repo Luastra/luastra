@@ -26,6 +26,13 @@ local themes = {
     { id = "candy", name = "Candy Pop" },
 }
 
+local function themeIndexFor(id: string): number?
+    for index, theme in themes do
+        if theme.id == id then return index end
+    end
+    return nil
+end
+
 local rootNodes = {
     { id = "landing/product", title = "Build with Luastra", description = "Follow the framework from first install to shipped application.", kind = "constellation", priority = 1, icon = "compass", status = "Start", tone = "active", relatedTo = { "landing/reference", "landing/why" } },
     { id = "landing/examples", title = "Example galaxy", description = "Explore applications built from the same semantic SDK.", kind = "cluster", priority = 1, icon = "grid", count = 8, relatedTo = { "landing/product" } },
@@ -258,6 +265,19 @@ function Landing.handle(action: string, target: string, value: string): string?
         motion = motion == "system" and "off" or "system"
     end
     return nil
+end
+
+function Landing.encodedPreferences(): string
+    return "v1:" .. themes[themeIndex].id .. ":" .. motion
+end
+
+function Landing.restorePreferences(value: string): boolean
+    local version, theme, nextMotion = string.match(value, "^(v1):([a-z]+):([a-z]+)$")
+    local nextThemeIndex = theme and themeIndexFor(theme) or nil
+    if version ~= "v1" or nextThemeIndex == nil or (nextMotion ~= "system" and nextMotion ~= "off") then return false end
+    themeIndex = nextThemeIndex
+    motion = nextMotion
+    return true
 end
 
 function Landing.restore(nextSection: string, nextSelectedId: string?): boolean

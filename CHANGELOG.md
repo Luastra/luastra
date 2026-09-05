@@ -8,6 +8,9 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ### Added
 
+- Full-content documentation search with an explicit clear action, copy support
+  for section examples, and versioned persistence for the luastra.dev Orbit,
+  Motion, and documentation-theme preferences.
 - Optional bounded `web` manifest metadata that produces escaped title,
   description, canonical, robots, Open Graph, and Twitter tags plus
   deterministic `robots.txt`, root `sitemap.xml`, and no-script summary in web
