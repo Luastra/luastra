@@ -1,0 +1,21 @@
+.luastra-button[data-luastra-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.luastra-button[data-luastra-icon]::before {
+  content: none;
+}
+
+.luastra-button-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  .luastra-button-icon { stroke: ButtonText; }
+}

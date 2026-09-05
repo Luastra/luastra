@@ -148,11 +148,11 @@ function Landing.render(): UI.Node
             UI.Text { id = "landing/path/current", text = currentTitle, hidden = depth == 0 },
             UI.Button { id = "landing/path/docs", text = "Documentation", onTap = "landing.open-reference" },
             UI.Button {
-                id = "landing/path/theme", text = "◐", onTap = "landing.open-theme-picker",
+                id = "landing/path/theme", icon = "palette", onTap = "landing.open-theme-picker",
                 label = "Choose a theme. Current theme: " .. theme.name,
             },
             UI.Button {
-                id = "landing/path/motion", text = motion == "system" and "〰" or "⊘", onTap = "landing.toggle-motion",
+                id = "landing/path/motion", icon = motion == "system" and "activity" or "pause", onTap = "landing.toggle-motion",
                 label = motion == "system" and "Disable interface motion" or "Use the system motion preference",
             },
         },

@@ -100,6 +100,7 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     assert.equal(webLedger.assets.some((asset) => asset.path === "bootstrap-errors.js"), true);
     assert.equal(webLedger.assets.some((asset) => asset.path === "platform/host/keyboard-viewport-manager.mjs"), true);
     assert.equal(webLedger.assets.some((asset) => asset.path === "platform/host/first-paint-gate.mjs"), true);
+    assert.equal(webLedger.assets.some((asset) => asset.path === "platform/host/controls.css"), true);
     assert.equal(webLedger.assets.some((asset) => asset.path === "robots.txt"), true);
     assert.equal(webLedger.assets.some((asset) => asset.path === "sitemap.xml"), true);
     const webHtml = await readFile(resolve(project, "dist/web-a/index.html"), "utf8");

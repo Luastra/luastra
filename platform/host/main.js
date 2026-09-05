@@ -32,6 +32,10 @@ const orbitStylesheet = document.createElement("link");
 orbitStylesheet.rel = "stylesheet";
 orbitStylesheet.href = "/platform/host/orbit.css";
 document.head.append(orbitStylesheet);
+const controlStylesheet = document.createElement("link");
+controlStylesheet.rel = "stylesheet";
+controlStylesheet.href = "/platform/host/controls.css";
+document.head.append(controlStylesheet);
 
 /* LUASTRA_RPC_PROOF_START */
 /* LUASTRA_RPC_PROOF_END */

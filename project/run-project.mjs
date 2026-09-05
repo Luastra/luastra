@@ -51,6 +51,7 @@ const staticFiles = new Map([
   ["/platform/host/first-paint-gate.mjs", resolve(platformRoot, "host/first-paint-gate.mjs")],
   ["/platform/host/orbit-controller.mjs", resolve(platformRoot, "host/orbit-controller.mjs")],
   ["/platform/host/orbit.css", resolve(platformRoot, "host/orbit.css")],
+  ["/platform/host/controls.css", resolve(platformRoot, "host/controls.css")],
   ["/platform/phase5-ui.css", resolve(phase5Host, "phase5-ui.css")],
 ]);
 const mime = new Map([

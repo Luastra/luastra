@@ -109,6 +109,12 @@ local colorTokens: { [string]: boolean } = {
     accent = true, danger = true, muted = true, surface = true, success = true,
     text = true, transparent = true, warning = true,
 }
+local buttonIcons: { [string]: boolean } = {
+    activity = true,
+    palette = true,
+    pause = true,
+}
+table.freeze(buttonIcons)
 local textAlignClasses: { [string]: string } = {
     start = "luastra-text-align-start",
     center = "luastra-text-align-center",
@@ -319,7 +325,16 @@ end
 UI.Column = function(input: any): Node return make("Column", input) end
 UI.Row = function(input: any): Node return make("Row", input) end
 UI.Text = function(input: any): Node return make("Text", input) end
-UI.Button = function(input: any): Node return make("Button", input) end
+UI.Button = function(input: any): Node
+    assert(type(input) == "table", "Button requires a table")
+    if input.icon ~= nil then
+        assert(type(input.icon) == "string" and buttonIcons[input.icon] == true, "Button icon must be activity, palette or pause")
+        if input.text == nil or input.text == "" then
+            assert(type(input.label) == "string" and #input.label >= 1 and #input.label <= 160, "An icon-only Button requires a label containing 1 to 160 bytes")
+        end
+    end
+    return make("Button", input)
+end
 UI.Link = function(input: any): Node
     assert(type(input) == "table", "Link requires a table")
     assert(type(input.text) == "string", "Link requires string text")

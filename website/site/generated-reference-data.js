@@ -1759,7 +1759,7 @@ export const generatedPages = Object.freeze([
       "Duplicating the same id across render branches."
     ],
     "callable": true,
-    "useWhen": "Use UI.Button when the user initiates an operation or changes application state. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable.",
+    "useWhen": "Use UI.Button when the user initiates an operation or changes application state. Icon-only buttons require a descriptive label. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable.",
     "code": "UI.Button {\n    id = \"game/start\",\n    text = \"Start\",\n    appearance = \"primary\",\n    onTap = \"game.start\",\n    label = \"Start the game\",\n}",
     "signature": "UI.Button(input: any): Node",
     "parameters": [
@@ -1770,8 +1770,13 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "text",
-        "values": "string, required",
-        "description": "Visible button label."
+        "values": "string?",
+        "description": "Visible button label; may be omitted when icon and label are provided."
+      },
+      {
+        "name": "icon",
+        "values": "activity | palette | pause?",
+        "description": "Host-rendered semantic icon. An icon-only button requires label."
       },
       {
         "name": "onTap",
@@ -1871,7 +1876,7 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
     "name": "UI.Button",
-    "description": "Creates an accessible native action that supports pointer, touch, keyboard, disabled state, and appearance semantics. Activation sends its declared onTap action and stable component ID to Application.handle.",
+    "description": "Creates an accessible native action that supports pointer, touch, keyboard, disabled state, appearance semantics, and a bounded host-rendered icon vocabulary. Activation sends its declared onTap action and stable component ID to Application.handle.",
     "props": [
       "action",
       "text-style",

@@ -30,6 +30,7 @@ const fragmentPattern = /^#[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const routeFragmentPattern = /^#[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/;
 const languagePattern = /^[A-Za-z0-9_+.-]{1,32}$/;
 const orbitIdentifierPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const buttonIcons = new Set(["activity", "palette", "pause"]);
 const screenThemeAttributes = Object.freeze({
   accentColor: "data-luastra-theme-accent",
   backgroundColor: "data-luastra-theme-background",
@@ -83,6 +84,13 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   if (properties.onInput !== undefined) events.input = String(properties.onInput);
   if (properties.onDismiss !== undefined) events.dismiss = String(properties.onDismiss);
   if (type === "Button") attributes.type ??= "button";
+  if (properties.icon !== undefined) {
+    if (!buttonIcons.has(properties.icon)) fail("Button has an invalid icon");
+    if ((properties.text === undefined || properties.text === "") && (typeof properties.label !== "string" || properties.label.length < 1 || properties.label.length > 160)) {
+      fail("An icon-only Button requires a label containing 1 to 160 characters");
+    }
+    attributes["data-luastra-icon"] = properties.icon;
+  }
   if (type === "Link") {
     if (!safeHref(properties.href) || typeof properties.text !== "string") fail("Link requires string text and a safe fragment, hash route, or HTTPS href");
     attributes.href = properties.href;

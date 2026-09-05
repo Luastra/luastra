@@ -111,6 +111,7 @@ test("run serves the project, atomically rebuilds, reports errors and emits relo
     assert.equal((await fetch(new URL("platform/protocol/generated/protocol.mjs", ready.url))).status, 200);
     const uiCss = await fetch(new URL("platform/phase5-ui.css", ready.url));
     assert.equal(uiCss.status, 200);
+    assert.equal((await fetch(new URL("platform/host/controls.css", ready.url))).status, 200);
     assert.equal((await fetch(new URL("platform/host/first-paint-gate.mjs", ready.url))).status, 200);
     assert.match(uiCss.headers.get("content-type") ?? "", /^text\/css\b/);
     assert.match(await uiCss.text(), /env\(safe-area-inset-top\)/);

@@ -24,6 +24,11 @@ const colorTokens = Object.freeze({
   surface: "var(--luastra-color-surface)", success: "var(--luastra-color-success)", text: "var(--luastra-color-text)",
   transparent: "transparent", warning: "var(--luastra-color-highlight)",
 });
+const buttonIconPaths = Object.freeze({
+  activity: ["M3 12h4l2.5-7 5 14 2.5-7h4"],
+  palette: ["M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.6-3.2 2 2 0 0 1 1.6-3.2H18A3 3 0 0 0 21 12a9 9 0 0 0-9-9Z", "M7.5 10h.01M9.5 6.5h.01M14.5 6.5h.01M17 10h.01"],
+  pause: ["M9 5v14M15 5v14"],
+});
 
 function colorValue(value) { return colorTokens[value] ?? value; }
 
@@ -158,7 +163,10 @@ export class DomAdapter {
     }
     const target = this.#nodes.get(patch.target);
     if (!target) fail(`unknown DOM target: ${patch.target}`);
-    if (patch.kind === "text") target.textContent = patch.value;
+    if (patch.kind === "text") {
+      target.textContent = patch.value;
+      this.#syncButtonIcon(target);
+    }
     else if (patch.kind === "attribute") this.#setAttribute(target, patch.name, patch.value);
     else if (patch.kind === "remove-attribute") this.#removeAttribute(target, patch.name);
     else if (patch.kind === "event") this.#setEvent(target, patch.target, patch.name, patch.value);
@@ -242,6 +250,11 @@ export class DomAdapter {
   }
 
   #setAttribute(target, name, value) {
+    if (name === "data-luastra-icon") {
+      target.setAttribute(name, value);
+      this.#syncButtonIcon(target);
+      return;
+    }
     if (name.startsWith("data-luastra-document-")) {
       this.#setDocumentMetadata(name, value);
       target.setAttribute(name, value);
@@ -321,6 +334,7 @@ export class DomAdapter {
   }
 
   #removeAttribute(target, name) {
+    if (name === "data-luastra-icon") target.querySelector?.(":scope > .luastra-button-icon")?.remove();
     if (name === "enterkeyhint") this.#removeEnterKeyListener(target);
     if (dynamicStyleAttributes[name]) {
       const propertyValue = dynamicStyleAttributes[name][0];
@@ -330,6 +344,34 @@ export class DomAdapter {
     }
     if (name.startsWith("data-luastra-document-")) this.#restoreDocumentMetadata(name);
     target.removeAttribute(name);
+  }
+
+  #syncButtonIcon(target) {
+    const iconName = target.dataset?.luastraIcon ?? "";
+    const paths = buttonIconPaths[iconName];
+    const previous = target.querySelector?.(":scope > .luastra-button-icon");
+    if (!paths) {
+      previous?.remove();
+      return;
+    }
+    if (previous?.dataset?.icon === iconName) return;
+    previous?.remove();
+    const icon = this.#document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    icon.classList.add("luastra-button-icon");
+    icon.dataset.icon = iconName;
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("aria-hidden", "true");
+    icon.setAttribute("fill", "none");
+    icon.setAttribute("stroke", "currentColor");
+    icon.setAttribute("stroke-width", iconName === "pause" ? "2.5" : "2");
+    icon.setAttribute("stroke-linecap", "round");
+    icon.setAttribute("stroke-linejoin", "round");
+    for (const pathData of paths) {
+      const path = this.#document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      icon.append(path);
+    }
+    target.prepend(icon);
   }
 
   #setDocumentMetadata(name, value) {

@@ -82,8 +82,8 @@
       "id": "luastra/ui",
       "source": "luastra/ui.luau",
       "dependencies": [],
-      "bytes": 36933,
-      "sha256": "8a29302bc84efa356f6fec10702b0bdb87322f6465693f29d8de806c6dced261"
+      "bytes": 37528,
+      "sha256": "232d67d4033a5b11bdc07b65075cea2a678939a720dd495f01501cc9a1db028b"
     }
   ]
 }
