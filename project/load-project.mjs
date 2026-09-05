@@ -50,7 +50,7 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
   if (!manifestInfo?.isFile()) fail(`project manifest not found: ${manifestPath}`);
   const projectRoot = await realpath(dirname(manifestPath));
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  objectShape(manifest, ["schemaVersion", "project", "sdk", "capabilities", "modules"], ["assets", "tests", "backend"], "manifest");
+  objectShape(manifest, ["schemaVersion", "project", "sdk", "capabilities", "modules"], ["assets", "tests", "backend", "web"], "manifest");
   if (manifest.schemaVersion !== 2) fail("project schemaVersion must be 2");
   exactObject(manifest.project, ["id", "entry"], "project");
   if (!projectIdPattern.test(manifest.project.id ?? "")) fail("invalid project.id");
@@ -127,6 +127,19 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
   for (const test of tests) {
     if (!modules.has(test)) fail(`test module is not declared: ${test}`);
     if (test === manifest.project.entry) fail(`application entry cannot also be a test: ${test}`);
+  }
+  let web = null;
+  if (manifest.web !== undefined) {
+    exactObject(manifest.web, ["title", "description", "canonicalUrl", "index"], "web");
+    if (typeof manifest.web.title !== "string" || manifest.web.title.trim().length < 1 || manifest.web.title.length > 160) fail("web.title must contain 1 to 160 characters");
+    if (typeof manifest.web.description !== "string" || manifest.web.description.trim().length < 1 || manifest.web.description.length > 320) fail("web.description must contain 1 to 320 characters");
+    if (typeof manifest.web.index !== "boolean") fail("web.index must be a boolean");
+    let canonicalUrl;
+    try { canonicalUrl = new URL(manifest.web.canonicalUrl); } catch { fail("web.canonicalUrl must be an absolute HTTPS URL"); }
+    if (canonicalUrl.protocol !== "https:" || canonicalUrl.username !== "" || canonicalUrl.password !== "" || canonicalUrl.search !== "" || canonicalUrl.hash !== "") {
+      fail("web.canonicalUrl must be an absolute HTTPS URL without credentials, query, or fragment");
+    }
+    web = Object.freeze({ title: manifest.web.title, description: manifest.web.description, canonicalUrl: canonicalUrl.href, index: manifest.web.index });
   }
   let backend = null;
   if (manifest.backend !== undefined) {
@@ -220,6 +233,7 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
     modules,
     assets: Object.freeze(assets),
     tests: Object.freeze([...tests]),
+    web,
     backend,
   });
 }

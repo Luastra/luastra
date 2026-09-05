@@ -10011,6 +10011,27 @@ export const generatedPages = Object.freeze([
     "sectionTitle": "Project manifest",
     "module": "luastra.json · schema v2",
     "callable": false,
+    "useWhen": "Read this page when you need to apply Web metadata, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+    "code": "\"web\": {\n  \"title\": \"My Luastra app\",\n  \"description\": \"A concise description for search and social previews.\",\n  \"canonicalUrl\": \"https://example.com/\",\n  \"index\": true\n}",
+    "signature": "web{}",
+    "parameters": [],
+    "returns": null,
+    "name": "Web metadata",
+    "description": "Optional bounded metadata for an indexable production web shell.",
+    "language": "JSON",
+    "points": [
+      "The web build emits title, description, canonical, robots, Open Graph, and Twitter metadata.",
+      "index=true emits robots.txt and a one-location sitemap.xml; hash routes are not separate indexable documents.",
+      "The build escapes metadata and rejects credentials, query strings, fragments, and non-HTTPS canonical URLs."
+    ]
+  },
+  {
+    "id": "manifest/item-3",
+    "kind": "entry",
+    "sectionId": "manifest",
+    "sectionTitle": "Project manifest",
+    "module": "luastra.json · schema v2",
+    "callable": false,
     "useWhen": "Read this page when you need to apply Assets, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
     "code": "\"assets\": [\n  {\n    \"id\": \"image/card-back\",\n    \"source\": \"assets/card-back.png\",\n    \"mediaType\": \"image/png\"\n  }\n]",
     "signature": "assets[]",
@@ -10021,7 +10042,7 @@ export const generatedPages = Object.freeze([
     "language": "JSON"
   },
   {
-    "id": "manifest/item-3",
+    "id": "manifest/item-4",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -10037,7 +10058,7 @@ export const generatedPages = Object.freeze([
     "language": "JSON"
   },
   {
-    "id": "manifest/item-4",
+    "id": "manifest/item-5",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",

@@ -15,6 +15,11 @@ History state restores the matching Luau navigation stack. The Orbit path uses
 a compact theme-picker dialog and one icon button for Motion so its controls
 remain usable at phone widths.
 
+The production build receives its title, description, canonical URL, crawler
+policy, social metadata, sitemap, and no-script summary from the bounded `web`
+section of `website/app/luastra.json`. This makes the root experience
+indexable without pretending that hash routes are separate crawlable pages.
+
 ## Commands
 
 ```sh
@@ -24,6 +29,9 @@ npm run reference:build
 npm run desktop:dev
 npm run desktop:build
 ```
+
+`reference:build` also validates the exact production metadata, crawler files,
+and no-script fallback expected for `https://luastra.dev/`.
 
 For interactive authoring, run `luastra run` in
 `website/app`. The generated production web bundle is

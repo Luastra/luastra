@@ -82,6 +82,13 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     const title = executed.renderTree.children[0].children[0];
     assert.equal(title.properties.text, "Build apps like games. Interactions: 1");
 
+    manifest.web = {
+      title: "Calm Catalogue",
+      description: "A small Luastra catalogue used to verify deterministic web metadata.",
+      canonicalUrl: "https://catalogue.example/app/",
+      index: true,
+    };
+    await writeFile(resolve(project, "luastra.json"), `${JSON.stringify(manifest, null, 2)}\n`);
     const webA = JSON.parse(run(["build", "web", `--project=${project}`, "--out=dist/web-a"]).stdout);
     const webB = JSON.parse(run(["build", "web", `--project=${project}`, "--out=dist/web-b"]).stdout);
     assert.equal(webA.assetManifestSha256, webB.assetManifestSha256);
@@ -93,12 +100,37 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     assert.equal(webLedger.assets.some((asset) => asset.path === "bootstrap-errors.js"), true);
     assert.equal(webLedger.assets.some((asset) => asset.path === "platform/host/keyboard-viewport-manager.mjs"), true);
     assert.equal(webLedger.assets.some((asset) => asset.path === "platform/host/first-paint-gate.mjs"), true);
+    assert.equal(webLedger.assets.some((asset) => asset.path === "robots.txt"), true);
+    assert.equal(webLedger.assets.some((asset) => asset.path === "sitemap.xml"), true);
     const webHtml = await readFile(resolve(project, "dist/web-a/index.html"), "utf8");
     assert.match(webHtml, /Content-Security-Policy/);
     assert.match(webHtml, /platform\/phase5-ui\.css/);
+    assert.match(webHtml, /<title>Calm Catalogue<\/title>/);
+    assert.match(webHtml, /<meta name="description" content="A small Luastra catalogue/);
+    assert.match(webHtml, /<link rel="canonical" href="https:\/\/catalogue\.example\/app\/"/);
+    assert.match(webHtml, /<meta property="og:title" content="Calm Catalogue"/);
+    assert.match(webHtml, /<noscript>/);
     assert.doesNotMatch(webHtml, /luastra-host-brand/);
     assert.match(webHtml, /id="status"[^>]*hidden/);
     assert.doesNotMatch(webHtml, /Luastra development host/);
+    assert.equal(await readFile(resolve(project, "dist/web-a/robots.txt"), "utf8"), "User-agent: *\nAllow: /\nSitemap: https://catalogue.example/app/sitemap.xml\n");
+    assert.match(await readFile(resolve(project, "dist/web-a/sitemap.xml"), "utf8"), /<loc>https:\/\/catalogue\.example\/app\/<\/loc>/);
+    assert.notEqual(webA.projectContentSha256, bundleA.projectContentSha256, "web metadata did not change the project digest");
+
+    manifest.web = {
+      title: "Calm <Catalogue>",
+      description: "A safe & private catalogue.",
+      canonicalUrl: "https://catalogue.example/private/",
+      index: false,
+    };
+    await writeFile(resolve(project, "luastra.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+    run(["build", "web", `--project=${project}`, "--out=dist/web-private"]);
+    const privateHtml = await readFile(resolve(project, "dist/web-private/index.html"), "utf8");
+    assert.match(privateHtml, /<title>Calm &lt;Catalogue&gt;<\/title>/);
+    assert.match(privateHtml, /content="A safe &amp; private catalogue\."/);
+    assert.match(privateHtml, /<meta name="robots" content="noindex,nofollow"/);
+    assert.equal(await readFile(resolve(project, "dist/web-private/robots.txt"), "utf8"), "User-agent: *\nDisallow: /\n");
+    await assert.rejects(readFile(resolve(project, "dist/web-private/sitemap.xml"), "utf8"), { code: "ENOENT" });
 
     const changedCover = Buffer.from(coverBytes);
     changedCover[changedCover.length - 1] ^= 1;
@@ -175,6 +207,16 @@ test("central SDK integrity mismatch fails before project analysis", async () =>
   }
 });
 
+test("project schema exposes the bounded web metadata contract", async () => {
+  const schema = JSON.parse(await readFile(resolve(prototype, "project/luastra-project.schema.v2.json"), "utf8"));
+  assert.equal(schema.properties.web.additionalProperties, false);
+  assert.deepEqual(schema.properties.web.required, ["title", "description", "canonicalUrl", "index"]);
+  assert.equal(schema.properties.web.properties.title.maxLength, 160);
+  assert.equal(schema.properties.web.properties.description.maxLength, 320);
+  assert.equal(schema.properties.web.properties.canonicalUrl.pattern, "^https://");
+  assert.equal(schema.properties.web.properties.index.type, "boolean");
+});
+
 test("project v2 rejects reserved SDK modules, missing dependencies and escaping sources", async () => {
   const workspace = await mkdtemp(resolve(tmpdir(), "luastra-v2-negative-"));
   try {
@@ -188,6 +230,16 @@ test("project v2 rejects reserved SDK modules, missing dependencies and escaping
     invalidAsset.assets = [{ id: "images/bad", source: "assets/bad.png", mediaType: "image/png" }];
     await writeFile(manifestPath, `${JSON.stringify(invalidAsset, null, 2)}\n`);
     assert.match(run(["check", `--project=${project}`], 1).stderr, /content does not match image\/png/);
+
+    const invalidWeb = structuredClone(original);
+    invalidWeb.web = { title: "Unsafe", description: "Unsafe web metadata.", canonicalUrl: "http://example.test/?token=secret", index: true };
+    await writeFile(manifestPath, `${JSON.stringify(invalidWeb, null, 2)}\n`);
+    assert.match(run(["check", `--project=${project}`], 1).stderr, /web\.canonicalUrl must be an absolute HTTPS URL/);
+
+    const emptyWebTitle = structuredClone(original);
+    emptyWebTitle.web = { title: "   ", description: "Description", canonicalUrl: "https://example.test/", index: true };
+    await writeFile(manifestPath, `${JSON.stringify(emptyWebTitle, null, 2)}\n`);
+    assert.match(run(["check", `--project=${project}`], 1).stderr, /web\.title must contain 1 to 160 characters/);
 
     const reserved = structuredClone(original);
     reserved.modules[0].id = "luastra/ui";

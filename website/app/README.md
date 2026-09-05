@@ -53,3 +53,8 @@ repository-level GitHub Pages workflow, not by this application project.
 The previous `#docs/content` location remains a compatibility alias for
 `#/docs/overview`. Unknown routes and unknown reference page IDs do not enter
 application state.
+
+The project manifest also supplies bounded production web metadata. A web
+build emits the canonical root URL, search and social descriptions,
+`robots.txt`, `sitemap.xml`, and a no-script summary. Hash routes remain
+application locations rather than independently indexable documents.

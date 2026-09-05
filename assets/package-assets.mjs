@@ -31,6 +31,7 @@ export function projectContentDigest(project, bundleContentSha256, assets) {
     schemaVersion: 2,
     project: project.id,
     bundleContentSha256,
+    web: project.web,
     backend: project.backend ? {
       declarationSha256: project.backend.declaration.sha256,
       handlerSha256: project.backend.handlerSha256,

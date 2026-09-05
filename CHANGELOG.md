@@ -8,6 +8,10 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ### Added
 
+- Optional bounded `web` manifest metadata that produces escaped title,
+  description, canonical, robots, Open Graph, and Twitter tags plus
+  deterministic `robots.txt`, root `sitemap.xml`, and no-script summary in web
+  builds.
 - Private `luastra.dev` dogfood candidate using Constellation Orbit for the
   landing experience, product map, and real-example discovery while retaining
   the conventional searchable SDK documentation and API-reference reading
