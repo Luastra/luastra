@@ -13,6 +13,7 @@
     "audit:orbit:chromium": "node scripts/audit-orbit-chromium.mjs",
     "audit:orbit:firefox": "node scripts/audit-orbit-webdriver.mjs --browser=firefox --port=4202 --driver-port=4450",
     "audit:orbit:safari": "node scripts/audit-orbit-webdriver.mjs --browser=safari --port=4201 --driver-port=4449",
+    "audit:luastra-dev:chromium": "node scripts/audit-luastra-dev-chromium.mjs",
     "docs:check": "node website/scripts/validate-reference.mjs && node cli/luastra.mjs check --project=website/app/luastra.json && node cli/luastra.mjs test --project=website/app/luastra.json",
     "alpha:audit": "node release/audit-public-candidate.mjs",
     "sdk:release": "node release/build-sdk-release.mjs",

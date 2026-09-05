@@ -29,6 +29,7 @@ test("Orbit browser performance budgets are explicit and wired into the public c
   assert.match(packageJson.scripts["audit:orbit:firefox"], /audit-orbit-webdriver\.mjs --browser=firefox/);
   assert.equal(packageJson.scripts["audit:orbit:firefox"].includes(".local-development"), false);
   assert.match(packageJson.scripts["audit:orbit:safari"], /audit-orbit-webdriver\.mjs --browser=safari/);
+  assert.equal(packageJson.scripts["audit:luastra-dev:chromium"], "node scripts/audit-luastra-dev-chromium.mjs");
 
   const documentation = await readFile(resolve(repository, "docs/constellation-orbit.md"), "utf8");
   assert.match(documentation, /average measured interaction-time Orbit layout at or below 8 ms/);

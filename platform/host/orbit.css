@@ -104,7 +104,7 @@
   scrollbar-width: thin;
 }
 .luastra-orbit-path > * { flex: 0 0 auto; margin: 0; }
-.luastra-orbit-path .luastra-button { min-height: 2.5rem; padding: .4rem .75rem; border-color: var(--luastra-orbit-line); border-radius: var(--luastra-orbit-control-radius); color: var(--luastra-orbit-ink); background: var(--luastra-orbit-node-bg); white-space: nowrap; }
+.luastra-orbit-path .luastra-button { min-height: 2.75rem; padding: .4rem .75rem; border-color: var(--luastra-orbit-line); border-radius: var(--luastra-orbit-control-radius); color: var(--luastra-orbit-ink); background: var(--luastra-orbit-node-bg); white-space: nowrap; }
 .luastra-orbit-path .luastra-button:hover { border-color: var(--luastra-orbit-accent); box-shadow: 0 0 0 3px var(--luastra-orbit-glow); }
 #host-root .luastra-orbit-path .luastra-text { max-width: min(14rem, 35vw); overflow: hidden; color: var(--luastra-orbit-ink); font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
 

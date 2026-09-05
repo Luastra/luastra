@@ -251,6 +251,7 @@ test("Constellation Orbit reference compiles, tests and packages its host-owned 
     const orbitCss = await readFile(resolve(webDirectory, "platform/host/orbit.css"), "utf8");
     const orbitController = await readFile(resolve(webDirectory, "platform/host/orbit-controller.mjs"), "utf8");
     assert.match(orbitCss, /prefers-reduced-motion/);
+    assert.match(orbitCss, /\.luastra-orbit-path \.luastra-button\s*\{[^}]+min-height:\s*2\.75rem/s);
     assert.match(orbitCss, /@media \(forced-colors: active\)/);
     assert.match(orbitCss, /--luastra-orbit-focus-bg:\s*Canvas/);
     assert.match(orbitCss, /--luastra-orbit-focus-control-bg:\s*ButtonFace/);
