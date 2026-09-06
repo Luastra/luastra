@@ -2686,6 +2686,7 @@ luastra run
     guide: [
       "Luau types find mistakes during luastra check; they do not change runtime values. Put --!strict on the first line so the analyzer checks arguments, return values, table fields, and unhandled state variants.",
       "Luau has no separate struct keyword, and standalone Luau has no universal Enum. Record types describe structures, singleton unions describe enum-like values, and tagged unions describe state with different fields.",
+      "Every example below is self-contained and checked by the documentation validator. Uncomment only the explicitly marked error line when practising how to read a failing luastra check.",
     ],
     cards: [
       entry("Annotations and inference", "local name: Type · parameter: Type · function(): Type", "A colon declares the expected type. Luau can infer obvious local values, while function and module boundaries benefit from explicit annotations.", {
@@ -2702,18 +2703,25 @@ interactions = increment(interactions)
 -- interactions = "one" -- luastra check reports a type error`,
       }),
       entry("Arrays", "{T}", "A dense 1-based table whose elements share one type. Luau does not use a [] array literal.", {
-        code: `local colors: {string} = { "red", "green" }
+        code: `--!strict
+
+local colors: {string} = { "red", "green" }
+local labels: {string} = {}
 
 table.insert(colors, "blue")
 local first: string = colors[1]
 
 for index, color in ipairs(colors) do
-    Debug.log("colors", \`{index}: {color}\`)
-end`,
+    labels[index] = \`{index}: {color}\`
+end
+
+assert(first == "red" and labels[3] == "3: blue")`,
         points: ["An empty number array is local values: {number} = {}.", "Use #values and ipairs only for dense sequences without missing indexes."],
       }),
       entry("Dictionaries and maps", "{[Key]: Value}", "A keyed table that may be sparse. A numeric key does not make a table an array when its indexes are arbitrary.", {
-        code: `local pending: {[number]: string} = {}
+        code: `--!strict
+
+local pending: {[number]: string} = {}
 
 pending[42] = "save"
 pending[105] = "restore"
@@ -2721,13 +2729,20 @@ pending[105] = "restore"
 local operation: string? = pending[42]
 pending[42] = nil
 
+local remaining = 0
 for requestId, name in pairs(pending) do
-    Debug.log("pending", \`{requestId}: {name}\`)
-end`,
+    assert(requestId > 0 and #name > 0)
+    remaining += 1
+end
+
+assert(operation == "save" and remaining == 1)`,
         points: ["{[string]: number} means string key to number value.", "Do not use #table or ipairs for a sparse dictionary."],
       }),
       entry("Record types", "type Name = { field: Type }", "A table type is Luau's struct-like construct. The analyzer checks required fields and their value types.", {
-        code: `type GameState = {
+        code: `--!strict
+
+type Color = "red" | "green" | "blue"
+type GameState = {
     interactions: number,
     correctAnswers: number,
     selectedColor: Color?,
@@ -2742,7 +2757,9 @@ local state: GameState = {
 }`,
       }),
       entry("Enum-like singleton unions", "type Color = \"red\" | \"green\"", "A union of literal strings limits a value to known alternatives. A separate frozen table can provide convenient runtime constants.", {
-        code: `type Color = "red" | "green" | "blue"
+        code: `--!strict
+
+type Color = "red" | "green" | "blue"
 
 local selected: Color = "green"
 -- selected = "yellow" -- type error
@@ -2757,29 +2774,44 @@ table.freeze(Colors)`,
         points: ["Color exists only for the analyzer.", "Colors is a runtime table containing named constants."],
       }),
       entry("Optional values", "T? = T | nil", "A question mark means that a value may be absent. Narrow away nil before using the value as T.", {
-        code: `local selectedColor: Color? = nil
+        code: `--!strict
+
+type Color = "red" | "green" | "blue"
+local selectedColor: Color? = "green"
+local label = "No selection"
 
 if selectedColor ~= nil then
-    Debug.log("selection", selectedColor)
+    label = "Selected: " .. selectedColor
 end
 
 type Meditation = {
     id: string,
     description: string?,
-}`,
+}
+
+local session: Meditation = { id = "morning" }
+assert(label == "Selected: green" and session.description == nil)`,
       }),
       entry("Unions and type narrowing", "A | B", "A value may match either type. A type, typeof, nil, or tag check narrows the union to a safe branch.", {
-        code: `local value: string | number = "hello"
+        code: `--!strict
+
+local value: string | number = "hello"
+local description: string
 
 if type(value) == "string" then
-    local upper = string.upper(value)
+    description = string.upper(value)
 else
-    local nextValue = value + 1
-end`,
+    description = tostring(value + 1)
+end
+
+assert(description == "HELLO")`,
       }),
       entry("Tagged unions", "{ kind: \"a\", ... } | { kind: \"b\", ... }", "A shared literal tag safely models states that expose different fields.", {
         wide: true,
-        code: `type GamePhase =
+        code: `--!strict
+
+type Color = "red" | "green" | "blue"
+type GamePhase =
     { kind: "waiting" }
     | { kind: "guessing", hiddenColor: Color }
     | {
@@ -2797,11 +2829,17 @@ local function describe(phase: GamePhase): string
     else
         return phase.correct and "Correct" or "Try again"
     end
-end`,
+end
+
+local phase: GamePhase = { kind = "guessing", hiddenColor = "blue" }
+assert(describe(phase) == "Choose a color")`,
       }),
       entry("Generics", "Type<T> · function name<T>(value: T)", "A type parameter lets one checked pattern work with many value types without losing their exact result type.", {
         wide: true,
-        code: `type Result<T> =
+        code: `--!strict
+
+type Color = "red" | "green" | "blue"
+type Result<T> =
     { success: true, value: T }
     | { success: false, error: string }
 
@@ -2813,7 +2851,9 @@ local color: Color? = first({ "red" :: Color, "green" :: Color })
 local score: number? = first({ 10, 20, 30 })`,
       }),
       entry("Function types", "(Parameters) -> Returns", "Callbacks and ordinary functions can be typed. () after the arrow means the function returns no values.", {
-        code: `type TapHandler = (action: string, target: string) -> ()
+        code: `--!strict
+
+type TapHandler = (action: string, target: string) -> ()
 type Validator = (value: string) -> (boolean, string?)
 
 local validateEmail: Validator = function(value)
@@ -2821,11 +2861,16 @@ local validateEmail: Validator = function(value)
         return false, "Email must contain @"
     end
     return true, nil
-end`,
+end
+
+local accepted, message = validateEmail("reader@example.com")
+assert(accepted and message == nil)`,
       }),
       entry("Exported module types", "export type Name = ...", "A local type stays inside its module. export type lets consumers refer to it through the name bound by require.", {
         wide: true,
         code: `-- app/cards.luau
+--!strict
+
 export type Card = {
     id: string,
     color: "red" | "green",
@@ -2840,11 +2885,17 @@ end
 return table.freeze(Cards)
 
 -- app/main.luau
+--!strict
+
 local Cards = require("app/cards")
-local card: Cards.Card = Cards.create("card-1", "green")`,
+local card: Cards.Card = Cards.create("card-1", "green")
+
+assert(card.id == "card-1" and card.color == "green")`,
       }),
       entry("typeof", "type Name = typeof(value)", "Derive a type from an existing value. It is convenient for local configuration; an explicit type is often clearer for a public contract.", {
-        code: `local defaults = {
+        code: `--!strict
+
+local defaults = {
     soundEnabled = true,
     volume = 0.8,
 }
@@ -2857,7 +2908,9 @@ local settings: Settings = {
 }`,
       }),
       entry("Intersections", "A & B", "Require a value to satisfy both types, which is useful when combining small reusable contracts.", {
-        code: `type Identified = { id: string }
+        code: `--!strict
+
+type Identified = { id: string }
 type Named = { name: string }
 type NamedEntity = Identified & Named
 
@@ -2867,7 +2920,9 @@ local item: NamedEntity = {
 }`,
       }),
       entry("any, unknown, and never", "any · unknown · never", "any largely disables checking, unknown requires narrowing before use, and never describes an impossible value.", {
-        code: `local value: unknown = "green"
+        code: `--!strict
+
+local value: unknown = "green"
 
 if type(value) == "string" then
     local upper = string.upper(value)
@@ -2879,7 +2934,9 @@ end`,
         points: ["Prefer a concrete type whenever possible.", "Use unknown at untrusted boundaries and narrow it before use.", "Keep any as a temporary escape hatch for code that cannot yet be typed.", "Use never to prove that every union alternative was handled."],
       }),
       entry("Type casts with ::", "expression :: Type", "The :: operator tells the analyzer to treat an expression as a compatible type. It does not validate external data or change the runtime value.", {
-        code: `type Color = "red" | "green"
+        code: `--!strict
+
+type Color = "red" | "green"
 
 local raw = "red"
 local selected = raw :: Color
@@ -2889,7 +2946,9 @@ local selected = raw :: Color
         points: ["Use :: only when you know more than inference can prove.", "A cast is not a runtime validator and should not be used to silence a real mismatch."],
       }),
       entry("Runtime immutability with table.freeze", "table.freeze(value)", "Freeze a table so later writes fail at runtime. The operation is shallow: nested tables remain mutable unless they are frozen separately.", {
-        code: `type Tween = {
+        code: `--!strict
+
+type Tween = {
     kind: "tween",
     from: number,
     to: number,
@@ -2904,18 +2963,49 @@ local tween = table.freeze({
 -- tween.to = 2 -- runtime error: the table is frozen`,
         points: ["table.freeze affects runtime mutation; it is separate from static typing.", "Freeze each nested table separately when deep immutability is required.", "Freezing a returned module API prevents consumers from replacing its exported fields."],
       }),
+      entry("Read analyzer errors", "path:line:column · message · first cause", "Treat analyzer output as a source location plus a mismatch to repair, not as a verdict on the whole application.", {
+        wide: true,
+        code: `--!strict
+
+type CounterState = {
+    count: number,
+}
+
+local state: CounterState = { count = 0 }
+state.count += 1
+
+-- Uncomment this line, run luastra check, and inspect its location:
+-- state.count = "one"
+
+assert(state.count == 1)`,
+        useWhen: "Use this exercise when luastra check reports a type error and you are unsure which part of the diagnostic should guide the fix.",
+        points: ["Start with the first diagnostic that names one of your source files; later messages may be consequences of that mismatch.", "Open the reported line and inspect the complete expression, function call, or table literal—not only the highlighted token.", "Compare the required type with the value actually supplied. Here count is declared number, while the uncommented value would be string.", "Fix the source contract or value instead of adding :: or any merely to silence the analyzer.", "Run luastra check again. A real fix removes the diagnostic without creating a wider, less precise type."],
+      }),
     ],
-    tables: [{
-      id: "luau-table-types",
-      title: "How to read table types",
-      rows: [
-        row("{number}", "array of numbers", "Dense values such as { 10, 20, 30 }."),
-        row("{Color}", "array of Color", "Every element must be one admitted Color literal."),
-        row("{[number]: string}", "number key → string", "A sparse dictionary such as RequestId → operation."),
-        row("{[string]: number}", "string key → number", "For example player name → score."),
-        row("{ id: string, active: boolean }", "record", "A table with known named fields."),
-      ],
-    }],
+    tables: [
+      {
+        id: "luau-table-types",
+        title: "How to read table types",
+        rows: [
+          row("{number}", "array of numbers", "Dense values such as { 10, 20, 30 }."),
+          row("{Color}", "array of Color", "Every element must be one admitted Color literal."),
+          row("{[number]: string}", "number key → string", "A sparse dictionary such as RequestId → operation."),
+          row("{[string]: number}", "string key → number", "For example player name → score."),
+          row("{ id: string, active: boolean }", "record", "A table with known named fields."),
+        ],
+      },
+      {
+        id: "luau-diagnostic-reading",
+        title: "How to read a check diagnostic",
+        rows: [
+          row("Source location", "path plus line and column", "Open that exact file and inspect the full surrounding expression."),
+          row("Required side", "the declared parameter, return, variable, or field type", "This is the contract the code promised to satisfy."),
+          row("Supplied side", "the inferred type of the actual value", "Trace where that value was created or narrowed."),
+          row("First repair", "change the incorrect value or the genuinely incorrect contract", "Do not begin with a cast, any, or disabled strict mode."),
+          row("Confirmation", "run luastra check again", "The original error should disappear while useful type precision remains."),
+        ],
+      },
+    ],
     callout: "Types disappear after analysis and do not verify server, storage, or form payloads. Validate unknown runtime data with luastra/data; use table.freeze separately when runtime immutability is required.",
   },
   {

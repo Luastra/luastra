@@ -90,6 +90,12 @@ assert(pageByName["Type casts with ::"] ~= nil)
 assert(string.find(pageByName["Type casts with ::"].code, "::", 1, true) ~= nil)
 assert(pageByName["Runtime immutability with table.freeze"] ~= nil)
 assert(string.find(pageByName["Runtime immutability with table.freeze"].code, "table.freeze", 1, true) ~= nil)
+assert(pageByName["Read analyzer errors"] ~= nil)
+assert(type(pageByName["Read analyzer errors"].points) == "table" and #pageByName["Read analyzer errors"].points >= 5)
+for _, name in { "Annotations and inference", "Arrays", "Dictionaries and maps", "Record types", "Enum-like singleton unions", "Optional values", "Unions and type narrowing", "Tagged unions", "Generics", "Function types", "typeof", "Intersections", "any, unknown, and never", "Type casts with ::", "Runtime immutability with table.freeze", "Read analyzer errors" } do
+    assert(string.sub(pageByName[name].code, 1, 10) == "--!strict\n", `{name} is not a standalone strict example`)
+end
+assert(string.find(pageByName["Exported module types"].code, "-- app/main.luau\n--!strict", 1, true) ~= nil)
 for _, name in { "Contact routes", "Security policy", "Support policy", "Privacy notice", "Licensing boundary", "Trademark policy", "Releases" } do
     local page = pageByName[name]
     assert(page ~= nil and page.kind == "guide")

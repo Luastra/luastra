@@ -95,9 +95,15 @@ for (const section of sections.filter((item) => item.id === item.module?.slice("
 
 const typing = sections.find((section) => section.id === "luau-types");
 const typingNames = typing.cards.map((card) => card.name);
-for (const name of ["Arrays", "Dictionaries and maps", "Record types", "Optional values", "Unions and type narrowing", "Tagged unions", "Generics", "Function types", "Exported module types", "typeof", "Intersections", "any, unknown, and never", "Type casts with ::", "Runtime immutability with table.freeze"])
+for (const name of ["Arrays", "Dictionaries and maps", "Record types", "Optional values", "Unions and type narrowing", "Tagged unions", "Generics", "Function types", "Exported module types", "typeof", "Intersections", "any, unknown, and never", "Type casts with ::", "Runtime immutability with table.freeze", "Read analyzer errors"])
   if (!typingNames.includes(name)) fail(`Luau typing reference misses ${name}`);
 if (typing.cards.length < 16) fail("Luau typing reference was unexpectedly condensed");
+for (const card of typing.cards) {
+  if (typeof card.code !== "string" || (!card.code.startsWith("--!strict\n") && !card.code.startsWith("-- app/cards.luau\n--!strict\n"))) {
+    fail(`Luau typing example is not self-contained strict code: ${card.name}`);
+  }
+}
+if (typing.cards.some((card) => card.code.includes("Debug."))) fail("Luau typing examples must not depend on an undeclared Debug module");
 if (typing.cards.find((card) => card.name === "Type casts with ::").code.includes("::") === false) fail(":: page lacks a cast example");
 if (typing.cards.find((card) => card.name === "Runtime immutability with table.freeze").code.includes("table.freeze") === false) fail("table.freeze page lacks a freeze example");
 

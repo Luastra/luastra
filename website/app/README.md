@@ -44,6 +44,8 @@ admitted checked project includes a full manifest, entry module, behavior test,
 commands, expected interaction, and evidence boundary.
 `../scripts/validate-recipes.mjs` extracts those displayed files into temporary
 projects and requires both `luastra check` and `luastra test` to pass.
+`../scripts/validate-typing-examples.mjs` also materializes every Luau typing
+example as a strict project and requires the real analyzer to accept it.
 
 ## Local workflow
 

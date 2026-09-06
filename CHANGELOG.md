@@ -69,6 +69,9 @@ semantic versioning where the `0.x` series remains explicitly unstable.
   that keeps typed navigation, versioned state, external-data validation, and
   asynchronous storage distinct, with deterministic and host evidence clearly
   separated.
+- Every Luau typing example is now self-contained strict code checked by the
+  real analyzer, with a guided exercise and field-by-field workflow for reading
+  and repairing `luastra check` diagnostics.
 
 ## [0.1.0-alpha] - 2026-08-28
 
