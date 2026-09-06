@@ -8,7 +8,7 @@ import { sections } from "../site/reference-data.js";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const cli = resolve(root, "cli", "luastra.mjs");
-const recipes = ["recipe-timer", "recipe-navigation"];
+const recipes = ["recipe-timer", "recipe-navigation", "recipe-storage"];
 const temporaryRoot = await mkdtemp(resolve(tmpdir(), "luastra-doc-recipes-"));
 const results = [];
 

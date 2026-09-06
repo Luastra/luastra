@@ -14,7 +14,7 @@ for _, section in ReferenceData.sections do
     assert(type(section.id) == "string" and not ids[section.id])
     ids[section.id] = true
 end
-for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "events-errors", "policies" } do
+for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "events-errors", "policies" } do
     assert(ids[required] == true, `{required} section is missing`)
 end
 

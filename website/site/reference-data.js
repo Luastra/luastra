@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -795,6 +795,155 @@ luastra run
       }),
     ],
     callout: "This recipe proves the Luau navigation stack, not browser History integration. Add that capability only after the in-memory route model behaves correctly.",
+  },
+  {
+    id: "recipe-storage",
+    title: "Recipe: persist and restore state",
+    module: "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    summary: "Save a versioned counter snapshot, restore it asynchronously, and reject malformed stored data without losing current state.",
+    guide: [
+      "You will increment a counter, save it, change it again, then load the saved value. Reload the preview and load again to verify host persistence.",
+      "State.encode/decode is synchronous and deterministic; Host storage is asynchronous, so every request is correlated in Application.resolve.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create storage-recipe", "Create a starter, then replace its manifest, entry module, and smoke test with the complete files below.", { language: "Shell", code: `luastra create storage-recipe\ncd storage-recipe`, useWhen: "Run this in the directory that should contain the new project." }),
+      entry("2. Replace luastra.json", "storage.get + storage.set + ui.render", "The manifest admits State, Host, and UI modules plus both storage capabilities.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.storage-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["storage.get", "storage.set", "ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/host", "luastra/state", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/storage",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main", "luastra/state"]
+    }
+  ],
+  "tests": ["app/tests/storage"]
+}`,
+        useWhen: "Replace the generated manifest before importing Host or State; storage reads and writes require separate capabilities.",
+      }),
+      entry("3. Replace src/main.luau", "complete asynchronous storage lifecycle", "Pending request IDs distinguish save and load completions that may arrive out of order.", {
+        wide: true,
+        code: `--!strict
+
+local Host = require("luastra/host")
+local State = require("luastra/state")
+local UI = require("luastra/ui")
+
+local Application = {}
+local count = 0
+local message = "Nothing saved yet"
+local pending: { [number]: string } = {}
+
+local function track(id: number, operation: string)
+    pending[id] = operation
+end
+
+function Application.restore(payload: string): boolean
+    local decoded = State.decode(payload, 1)
+    if not decoded.success then return false end
+    local restored = tonumber(decoded.fields.count)
+    if restored == nil or restored < 0 or restored % 1 ~= 0 then return false end
+    count = restored
+    return true
+end
+
+function Application.render(): UI.Node
+    return UI.Screen {
+        id = "storage-recipe",
+        UI.Text { id = "counter/title", text = "Persistent counter", variant = "title" },
+        UI.Text { id = "counter/value", text = tostring(count), role = "status" },
+        UI.Text { id = "counter/message", text = message, role = "status" },
+        UI.Actions {
+            id = "counter/actions",
+            UI.Button { id = "counter/add", text = "Add", onTap = "counter.add" },
+            UI.Button { id = "counter/save", text = "Save", onTap = "counter.save" },
+            UI.Button { id = "counter/load", text = "Load", onTap = "counter.load" },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, _value: string)
+    if action == "counter.add" and target == "counter/add" then
+        count += 1
+    elseif action == "counter.save" and target == "counter/save" then
+        local snapshot = State.encode(1, { count = tostring(count) })
+        track(Host.storageSet("counter-state", snapshot), "save")
+        message = "Saving…"
+    elseif action == "counter.load" and target == "counter/load" then
+        track(Host.storageGet("counter-state"), "load")
+        message = "Loading…"
+    end
+end
+
+function Application.resolve(
+    id: number,
+    success: boolean,
+    payload: string,
+    code: string,
+    _errorMessage: string
+)
+    local operation = pending[id]
+    pending[id] = nil
+    if operation == nil then return end
+    if not success then message = operation .. " failed: " .. code return end
+    if operation == "save" then message = "Saved"
+    elseif Application.restore(payload) then message = "Loaded"
+    else message = "Stored state is invalid" end
+end
+
+function Application.snapshot()
+    return { count = count, message = message }
+end
+
+return Application`,
+        useWhen: "Replace the entire entry module. Keep restore separate so malformed persisted data can be tested without a real host request.",
+      }),
+      entry("4. Replace tests/smoke.luau", "round-trip and rejection test", "The test proves valid state restoration and confirms malformed data leaves the current counter unchanged.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+local State = require("luastra/state")
+
+Application.handle("counter.add", "counter/add", "")
+assert(Application.snapshot().count == 1, "counter action failed")
+
+local snapshot = State.encode(1, { count = "7" })
+assert(Application.restore(snapshot), "valid snapshot was rejected")
+assert(Application.snapshot().count == 7, "valid count was not restored")
+
+assert(not Application.restore("v=1&count=invalid"), "invalid count was accepted")
+assert(Application.snapshot().count == 7, "invalid restore changed current state")
+
+return true`,
+        useWhen: "Replace the generated smoke test so test covers both the successful and rejected restore paths.",
+      }),
+      entry("5. Check and run", "save → change → load → reload → load", "Automated tests verify deterministic state logic; the preview verifies the browser storage adapter and asynchronous resolve path.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Add twice, Save, Add again, then Load: expect 2.
+# Reload the page, press Load again, and expect 2.`,
+        useWhen: "Run from storage-recipe after all three files are saved.",
+        points: ["check must report result=PASS and test must report tests=1 and passed=1.", "Loading before the first save may produce a bounded failure or empty payload; keep the current count.", "A browser-host pass does not prove persistence in every desktop or mobile host."],
+      }),
+      entry("6. Understand and extend", "encode → storageSet → resolve · storageGet → resolve → decode", "Serialization, transport, and domain validation are three separate boundaries.", {
+        kind: "guide",
+        useWhen: "Read this after the unmodified save/load sequence works once.",
+        points: ["Increment the snapshot version when its meaning changes.", "Use State.migrate when an older released version must remain readable.", "Never store credentials merely because storage accepts a string.", "Ignore unknown RequestIds and clear every matched pending entry before applying a completion."],
+      }),
+    ],
+    callout: "A successful storage read only proves that bytes were returned. Decode the versioned snapshot and validate domain values before replacing current application state.",
   },
   {
     id: "luau-types",
