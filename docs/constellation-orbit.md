@@ -348,6 +348,18 @@ Run the browser performance commands sequentially. Concurrent browser runs
 compete for CPU and make wall-clock layout thresholds measure test contention
 rather than the browser under audit.
 
+Run `npm run audit:luastra-dev:public-baseline` while the published site is
+reachable to compare cold Chromium navigation and the documentation handoff
+between `https://luastra.dev/` and the current private source candidate. The
+report separates encoded transfer bytes from decoded resource bytes because
+GitHub Pages applies HTTP compression while the local preview does not. It also
+records DOM, JavaScript heap, style, layout, and task measurements. Navigation
+timings remain observational because one side uses the public network path, and
+the documentation interaction is intentionally asymmetric: the published
+baseline already opens as documentation while the candidate transitions from
+Orbit. Ratios from this audit are evidence for investigation, not standalone
+release budgets.
+
 At a 363 x 479 CSS-pixel viewport, used as the reflow equivalent of doubling
 the current browser scale, the reference switches to list mode and keeps the
 page, nodes, Focus Surface, sticky header, and controls free of horizontal
