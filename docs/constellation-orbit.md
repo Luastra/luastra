@@ -369,6 +369,9 @@ Use `firstNavigationResourceRatio` for resource-weight comparison because
 WebKit may omit cached subresource sizes from later Performance entries.
 Paint Timing is recorded when the engine exposes it and otherwise remains zero
 with `paintTimingAvailable: false`; it is never inferred from load timing.
+Each sample uses a separate retained tab so repeated measurement does not turn
+page teardown into part of the navigation result. Background tabs remain idle
+under the same scheduler invariant covered by the Orbit performance gates.
 
 At a 363 x 479 CSS-pixel viewport, used as the reflow equivalent of doubling
 the current browser scale, the reference switches to list mode and keeps the

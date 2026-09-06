@@ -50,6 +50,9 @@ test("Orbit browser performance budgets are explicit and wired into the public c
   assert.match(webdriverBaselineAudit, /paintTimingAvailable/);
   assert.match(webdriverBaselineAudit, /subresource cache control and reporting are browser-owned/);
   assert.match(webdriverBaselineAudit, /firstNavigationResourceRatio/);
+  assert.match(webdriverBaselineAudit, /window\/new/);
+  assert.match(webdriverBaselineAudit, /separate retained tabs/);
+  assert.match(webdriverBaselineAudit, /noLuastraDriverWarnings/);
 
   const documentation = await readFile(resolve(repository, "docs/constellation-orbit.md"), "utf8");
   assert.match(documentation, /average measured interaction-time Orbit layout at or below 8 ms/);

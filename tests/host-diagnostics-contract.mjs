@@ -19,5 +19,6 @@ test("opt-in host diagnostics expose bounded idle signals without application da
     "domNodeCount",
   ]) assert.match(source, new RegExp(`\\b${signal}:`));
   assert.doesNotMatch(source, /__luastraDiagnostics[\s\S]{0,160}(authorization|token|content|storage)/i);
-  assert.match(source, /clearDiagnostics\(\);[\s\S]*motionSession\.dispose\(\)/);
+  assert.doesNotMatch(source, /addEventListener\("pagehide"/);
+  assert.match(source, /A discarded document releases its[\s\S]*JS\/Wasm realm[\s\S]*BFCache document must remain resumable/);
 });

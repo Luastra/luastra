@@ -124,7 +124,6 @@ async function start() {
   const dispatchSession = runtime.cwrap("luastra_vm_session_dispatch", "string", ["number", "string", "string", "string"]);
   const takeRequest = runtime.cwrap("luastra_vm_session_take_request", "string", ["number"]);
   const resolveRpc = runtime.cwrap("luastra_vm_session_resolve_rpc", "string", ["number", "number", "number", "string", "string", "string", "string"]);
-  const destroySession = runtime.cwrap("luastra_vm_session_destroy", "string", ["number"]);
   const { bundle, modules } = await loadBundle(version());
   const assetRegistry = createProjectAssetRegistry();
   await assetRegistry.load();
@@ -236,7 +235,6 @@ async function start() {
     adapter: new DomMotionAdapter((target) => adapter.node(target)),
     reducedMotion: () => matchMedia("(prefers-reduced-motion: reduce)").matches,
   });
-  let clearDiagnostics = () => {};
   if (diagnosticsEnabled) {
     const diagnostics = Object.freeze({
       snapshot() {
@@ -254,7 +252,6 @@ async function start() {
       },
     });
     Object.defineProperty(window, "__luastraDiagnostics", { configurable: true, value: diagnostics });
-    clearDiagnostics = () => { delete window.__luastraDiagnostics; };
   }
   motionSession = new MotionRendererSession({
     render(nextTree) {
@@ -348,25 +345,8 @@ async function start() {
     if (response.renderSequence <= initialSequence) fail("host interaction self-test did not advance the render sequence");
     status.textContent = "Luastra host self-test passed";
   }
-  addEventListener("pagehide", () => {
-    clearDiagnostics();
-    clearHostVisibilitySignal();
-    motionSession.dispose();
-    lifecycle.dispose();
-    try { dispatchSession(handle, "lifecycle", "app", "dispose"); } catch {}
-    hostEvents.dispose();
-    platformCapabilities.dispose();
-    unsubscribeHistory();
-    rpcCapabilities.dispose();
-    unsubscribeMedia();
-    mediaCapabilities.dispose();
-    unsubscribeTimer();
-    timerCapabilities.dispose();
-    orbitController.destroy();
-    keyboardViewport.dispose();
-    ledger.dispose();
-    destroySession(handle);
-  }, { once: true });
+  // Do not run manual pagehide cleanup. A discarded document releases its
+  // complete JS/Wasm realm, while a BFCache document must remain resumable.
 }
 
 function showFailure(error) {

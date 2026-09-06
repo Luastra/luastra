@@ -162,6 +162,14 @@ async function navigationSample(base, sessionId, url, docsHash) {
   return { ...page, interactionToDocumentationMs };
 }
 
+async function sampleInNewTab(base, sessionId, url, docsHash) {
+  const opened = await webdriver(base, "POST", `/session/${sessionId}/window/new`, { type: "tab" });
+  if (!opened?.handle) fail("WebDriver did not return a new tab handle");
+  await webdriver(base, "POST", `/session/${sessionId}/window`, { handle: opened.handle });
+  await delay(100);
+  return navigationSample(base, sessionId, url, docsHash);
+}
+
 async function main() {
   const selected = options(process.argv.slice(2));
   if (selected.browser === "safari" && process.platform !== "darwin") fail("Safari audit requires macOS");
@@ -196,15 +204,19 @@ async function main() {
     const baselineSamples = [];
     const candidateSamples = [];
     for (let cycle = 1; cycle <= selected.cycles; cycle += 1) {
-      baselineSamples.push(await navigationSample(base, sessionId, navigationUrl(selected.baselineUrl, cycle), "#docs/content"));
-      candidateSamples.push(await navigationSample(base, sessionId, navigationUrl(candidateUrl, cycle), "#/docs/overview"));
+      baselineSamples.push(await sampleInNewTab(base, sessionId, navigationUrl(selected.baselineUrl, cycle), "#docs/content"));
+      candidateSamples.push(await sampleInNewTab(base, sessionId, navigationUrl(candidateUrl, cycle), "#/docs/overview"));
     }
     const baselineSummary = summarize(baselineSamples);
     const candidateSummary = summarize(candidateSamples);
+    const candidateOrigin = new URL(application.url).origin;
+    const luastraDriverWarnings = driverOutput.split(/\r?\n/).filter((line) =>
+      line.includes(candidateOrigin) && /(warning|error|terminated|exception)/i.test(line));
     const assertions = {
       baselineLoaded: baselineSamples.every((sample) => sample.readyState === "complete" && sample.error === null),
       candidateLoaded: candidateSamples.every((sample) => sample.readyState === "complete" && sample.error === null),
       noHorizontalOverflow: [...baselineSamples, ...candidateSamples].every((sample) => sample.horizontalOverflowPx === 0),
+      noLuastraDriverWarnings: luastraDriverWarnings.length === 0,
       finiteMeasurements: [...baselineSamples, ...candidateSamples].every((sample) =>
         Object.values(sample).every((value) => typeof value !== "number" || Number.isFinite(value))),
     };
@@ -213,13 +225,14 @@ async function main() {
       schemaVersion: 1, evidenceClass: `REAL_${selected.browser.toUpperCase()}_PUBLIC_BASELINE_COMPARISON`,
       startedAt: new Date().toISOString(), browser: selected.browser, browserCapabilities, cycles: selected.cycles,
       urls: { baseline: selected.baselineUrl, candidate: candidateUrl }, applicationEvents, assertions,
+      luastraDriverWarnings,
       baseline: { summary: baselineSummary, samples: baselineSamples },
       candidate: { summary: candidateSummary, samples: candidateSamples },
       candidateToBaselineMedianRatio: ratios(baselineSummary, candidateSummary),
       firstNavigationResourceRatio: selectedRatios(baselineSamples[0], candidateSamples[0],
         ["transferSizeBytes", "encodedBodySizeBytes", "decodedBodySizeBytes", "resourceCount"]),
       result,
-      boundary: `${selected.browser} WebDriver compares repeated public-network and local-candidate navigations in one browser session. A unique document query is used per cycle, but subresource cache control and reporting are browser-owned. Resource-size ratios must use firstNavigationResourceRatio because WebKit can omit cached response sizes in later Performance entries. Encoded transfer bytes reflect public HTTP compression while first-navigation decoded bytes are comparable. Paint Timing may be unavailable. The public baseline already renders documentation while the candidate measures an Orbit-to-documentation transition, so navigation and interaction ratios are observational rather than release budgets.`,
+      boundary: `${selected.browser} WebDriver compares repeated public-network and local-candidate navigations in separate retained tabs within one browser session, avoiding artificial unload interruption while relying on the verified idle runtime for background tabs. A unique document query is used per cycle, but subresource cache control and reporting are browser-owned. Resource-size ratios must use firstNavigationResourceRatio because WebKit can omit cached response sizes in later Performance entries. Encoded transfer bytes reflect public HTTP compression while first-navigation decoded bytes are comparable. Paint Timing may be unavailable. The public baseline already renders documentation while the candidate measures an Orbit-to-documentation transition, so navigation and interaction ratios are observational rather than release budgets.`,
     };
     const reportText = `${JSON.stringify(report, null, 2)}\n`;
     if (selected.output !== null) {
