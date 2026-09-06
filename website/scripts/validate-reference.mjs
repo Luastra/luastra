@@ -76,6 +76,11 @@ for (const section of sections) {
     }
   }
   for (const link of section.links ?? []) {
+    const internal = /^#\/docs\/([a-z][a-z0-9-]{0,63})$/.exec(link.href);
+    if (internal) {
+      if (!sectionIds.includes(internal[1])) fail(`reference link targets an unknown documentation section: ${link.href}`);
+      continue;
+    }
     let parsed;
     try { parsed = new URL(link.href); } catch { fail(`reference link is not an absolute URL: ${link.href}`); }
     if (parsed.protocol !== "https:" || parsed.hostname !== "github.com" || !parsed.pathname.startsWith("/Luastra/luastra"))

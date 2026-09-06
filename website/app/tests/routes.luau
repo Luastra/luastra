@@ -21,6 +21,15 @@ local function findNode(node: any, id: string): any?
     return nil
 end
 
+local function findNodeByHref(node: any, href: string): any?
+    if node.properties ~= nil and node.properties.href == href then return node end
+    for _, child in node.children or {} do
+        local found = findNodeByHref(child, href)
+        if found ~= nil then return found end
+    end
+    return nil
+end
+
 Application.handle("lifecycle", "app", "launch")
 assert(#requests == 4)
 assert(requests[1].kind == "app.launchurl.get")
@@ -81,7 +90,7 @@ assert(Application.snapshot().location == "/docs/overview")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/docs/ui")
 local uiTree = Application.render()
-assert((findNode(uiTree, "docs/page-link-125").properties :: any).href == "#/reference/ui%2Fitem-4")
+assert(findNodeByHref(uiTree, "#/reference/ui%2Fitem-4") ~= nil)
 assert(findNode(Application.render(), "docs/section/copy") ~= nil)
 Application.handle("docs.copy-section", "docs/section/copy", "")
 assert(requests[#requests].kind == "clipboard.write")

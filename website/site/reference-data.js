@@ -2918,37 +2918,227 @@ local tween = table.freeze({
     }],
     callout: "Types disappear after analysis and do not verify server, storage, or form payloads. Validate unknown runtime data with luastra/data; use table.freeze separately when runtime immutability is required.",
   },
-  { id: "beginner-tutorial", title: "Beginner tutorial: an accessible counter", module: "UI · state · handle", summary: "Build a complete interaction while learning the render and event model.", guide: ["Keep state in module scope, describe the screen from that state, and change state only in an admitted event handler.", "Stable lowercase IDs let the host reconcile nodes without replacing the entire interface."], cards: [entry("1. Import the UI module", `local UI = require("luastra/ui")`, "Only declared public dependencies may be imported.", { code: `local UI = require("luastra/ui")`, useWhen: "Import luastra/ui in every module that constructs or annotates host-neutral UI nodes." }), entry("2. Own application state", "local count = 0", "Module state survives ordinary renders in the current application session.", { code: `local count: number = 0`, useWhen: "Keep small session state in module scope when it must survive renders but does not need persistence across application restarts." }), entry("3. Handle the action", "Application.handle(action: string, target: string, value: string)", "The button emits a bounded action; the handler changes state.", { kind: "function", parameters: [row("action", "string", "The admitted action declared by onTap, onInput, onDismiss, or a host event."), row("target", "string", "The stable component ID or host target that emitted the event."), row("value", "string", "The committed input value or bounded host-event payload; it may be empty.")], returns: "Nothing. After the handler returns, Luastra renders the application again from current state.", useWhen: "Implement Application.handle whenever UI or host events need to validate input, update state, start a capability request, or choose the next screen.", code: `function Application.handle(action: string, target: string, _value: string)\n    if action == "counter.add" and target == "counter/add" then\n        count += 1\n    end\nend` }), entry("4. Render semantic UI", "Application.render() -> UI.Node", "Return the complete host-neutral UI tree for current application state. This example uses Text and Button, but render may compose any supported Luastra UI components.", { kind: "function", returns: "UI.Node — exactly one UI.Screen root containing the current interface.", useWhen: "Implement Application.render in every Luastra entry module to describe the complete current interface from application state, using any supported semantic, layout, visual, input, or media-related UI components.", code: `function Application.render(): UI.Node\n    return UI.Screen {\n        id = "app",\n        UI.Text {\n            id = "counter/title",\n            text = "Counter",\n            variant = "title",\n        },\n        UI.Text {\n            id = "counter/value",\n            text = tostring(count),\n            role = "status",\n        },\n        UI.Button {\n            id = "counter/add",\n            text = "Add",\n            onTap = "counter.add",\n        },\n    }\nend` })], callout: "Run luastra check after every small change; analyzer errors point to the source module and line." },
-  { id: "advanced-tutorial", title: "Advanced tutorial: routed persisted data", module: "Navigation · State · Host · Data", summary: "Combine typed routes, versioned state, runtime validation, and asynchronous host requests.", guide: ["Treat navigation and persisted data as application state, not as hidden host state.", "Host operations return RequestId. Record the intended operation and finish it in Application.resolve."], cards: [entry("Compile typed routes", "Navigation.compile", "Define canonical locations once and reject malformed parameters.", { kind: "function", useWhen: "Compile route definitions when URLs must be generated and matched from one typed, canonical path and query contract.", code: `local compiler = Navigation.compile {\n    { name = "home", path = "/" },\n    { name = "item", path = "/item/:id" },\n}` }), entry("Encode a versioned snapshot", "State.encode", "Persist a small deterministic snapshot with an explicit version.", { kind: "function", useWhen: "Encode state before writing a bounded snapshot to host storage so later versions can decode or migrate it explicitly.", code: `local snapshot = State.encode(1, {\n    route = router.encode(),\n    filter = filter,\n})\nlocal requestId = Host.storageSet("app-state", snapshot)\npending[requestId] = "save"` }), entry("Validate restored values", "Data.decode", "Static Luau types do not make storage or server payloads trustworthy.", { kind: "function", useWhen: "Decode with a Data schema whenever a value originates outside trusted Luau state, including forms, storage, URLs, and server payloads.", code: `local result = Data.decode(snapshotSchema, decodedValue)\nif result.success then\n    restore(result.value)\nend` }), entry("Resolve asynchronous work", "Application.resolve", "Match the RequestId and handle bounded failure information.", { kind: "function", parameters: [row("id", "number", "The RequestId returned by the Host, Server, or Media operation."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The bounded successful response payload, or an empty string after failure."), row("code", "string", "A stable failure code, or an empty string after success."), row("message", "string", "A bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Update state, clear the pending operation, and let Luastra render again.", useWhen: "Implement Application.resolve when asynchronous Host, Server, or Media requests need to update application state after completion.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    _code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == "load" and success then\n        restore(payload)\n    end\nend` })], callout: "Keep credentials and provider secrets behind trusted server handlers; never persist them in Luau state." },
-  { id: "first-app", title: "Complete mini-app", module: "src/main.luau", summary: "handle changes state; render describes the current screen.", cards: [entry("Interaction counter", "Application.render + Application.handle", "A complete minimal app.", { wide: true, useWhen: "Use this complete example when learning how module state, event handling, semantic UI, and repeated rendering fit together in one Luastra entry module.", code: `--!strict
+  {
+    id: "beginner-tutorial",
+    title: "Beginner tutorial: build an accessible counter",
+    module: "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    summary: "Create, understand, test, run, and safely change one complete Luastra application.",
+    guide: [
+      "Start here after Installation and Quick start. You need only basic Luau tables, functions, if statements, and local variables.",
+      "You will create one project whose visible count begins at 0. Add one changes it to 1; Reset returns it to 0 and is disabled when there is nothing to reset.",
+      "Copy each complete file exactly before adapting it. The documentation validator materializes these same files and requires both luastra check and luastra test to pass.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create beginner-counter", "The CLI creates the normal project structure. Enter that directory before replacing the three files below.", {
+        language: "Shell",
+        code: `luastra create beginner-counter
+cd beginner-counter`,
+        useWhen: "Run this in the parent directory where the new project folder should be created.",
+        points: ["Expect JSON with result=PASS.", "You should now have luastra.json, src/main.luau, and tests/smoke.luau.", "If create rejects the destination, choose a missing or empty safe directory rather than deleting existing work."],
+      }),
+      entry("2. Replace luastra.json", "one app module · one test module · ui.render", "The manifest declares every source file, dependency, test, and host capability used by this tutorial.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.beginner-counter",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/ui"]
+    },
+    {
+      "id": "app/tests/counter",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/counter"]
+}`,
+        useWhen: "Replace the generated manifest before checking the project so the test can import the application and the application can import luastra/ui.",
+        points: ["ui.render admits host rendering; it does not grant storage, network, media, or filesystem access.", "Dependencies are per module: app/main imports luastra/ui, while the test imports app/main.", "The test module is listed in both modules and tests because declaration and execution are separate manifest responsibilities."],
+      }),
+      entry("3. Replace src/main.luau", "complete runnable application", "Module state owns the count, render describes the current interface, and handle admits exactly two actions from stable controls.", {
+        wide: true,
+        code: `--!strict
+
 local UI = require("luastra/ui")
 
-local count = 0
 local Application = {}
-
-function Application.handle(action: string, target: string, _value: string)
-    if action == "add" and target == "add" then
-        count += 1
-    end
-end
+local count: number = 0
 
 function Application.render(): UI.Node
     return UI.Screen {
-        id = "app",
-        UI.Text {
-            id = "count",
-            text = tostring(count),
-            role = "status",
-        },
-        UI.Button {
-            id = "add",
-            text = "Add",
-            onTap = "add",
+        id = "counter",
+        documentTitle = "Beginner counter",
+        width = "full",
+
+        UI.Column {
+            id = "counter/content",
+            width = "content",
+            padding = "responsive",
+            gap = "md",
+
+            UI.Text {
+                id = "counter/title",
+                text = "My first Luastra app",
+                variant = "title",
+            },
+            UI.Text {
+                id = "counter/value",
+                text = \`Count: {count}\`,
+                role = "status",
+                label = \`Current count: {count}\`,
+            },
+            UI.Row {
+                id = "counter/actions",
+                gap = "sm",
+                responsive = true,
+
+                UI.Button {
+                    id = "counter/add",
+                    text = "Add one",
+                    onTap = "counter.add",
+                },
+                UI.Button {
+                    id = "counter/reset",
+                    text = "Reset",
+                    appearance = "secondary",
+                    disabled = count == 0,
+                    onTap = "counter.reset",
+                },
+            },
         },
     }
 end
 
-return Application` })], guide: ["Create a starter, replace src/main.luau with this module, then run luastra check, luastra test, and luastra run.", "The page initially shows 0. Press Add and expect the status text to become 1. The handler validates both the action and the stable target id."], callout: "The starter smoke test does not test this interaction automatically; add an application test when behavior becomes part of your product contract." },
+function Application.handle(action: string, target: string, _value: string)
+    if action == "counter.add" and target == "counter/add" then
+        count += 1
+    elseif action == "counter.reset" and target == "counter/reset" then
+        count = 0
+    end
+end
+
+function Application.snapshot()
+    return { count = count }
+end
+
+return Application`,
+        useWhen: "Replace the complete generated entry module; do not paste only render or handle because the imports, state, snapshot, and returned Application table belong to the same file.",
+        points: ["--!strict lets luastra check analyze this entire module.", "Application.render has no side effects: it returns a fresh description of UI from count.", "onTap contains an action name; the clicked component's stable id arrives separately as target.", "role=status announces the changed count without moving keyboard focus.", "snapshot is a small test seam used by tests/smoke.luau; the host never calls it."],
+      }),
+      entry("4. Replace tests/smoke.luau", "deterministic interaction test", "The test imports the real entry module, exercises the same actions emitted by the buttons, and proves that an unrelated target cannot mutate state.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+assert(Application.snapshot().count == 0, "counter must start at zero")
+
+local initialTree = Application.render()
+assert(initialTree.type == "Screen", "render must return one Screen root")
+assert(initialTree.id == "counter", "screen id must remain stable")
+
+Application.handle("counter.add", "counter/add", "")
+assert(Application.snapshot().count == 1, "Add one must increment the count")
+
+Application.handle("counter.add", "another/control", "")
+assert(Application.snapshot().count == 1, "an unrelated target must not change state")
+
+Application.handle("counter.reset", "counter/reset", "")
+assert(Application.snapshot().count == 0, "Reset must restore zero")
+
+return true`,
+        useWhen: "Replace the generated smoke test so luastra test verifies this application's behavior instead of only constructing an unrelated SDK node.",
+        points: ["The test calls handle directly, so it is deterministic and does not need a browser.", "The live preview separately proves pointer, keyboard, DOM, and visible status behavior in the current host.", "When you add a new product rule, add its state transition here before relying on manual testing alone."],
+      }),
+      entry("5. Check before running", "luastra check → luastra test", "First validate the manifest and strict module graph, then execute the declared behavior test.", {
+        language: "Shell",
+        code: `luastra check
+luastra test`,
+        useWhen: "Run these commands from beginner-counter after all three files are saved.",
+        points: ["check must report result=PASS and project=dev.luastra.beginner-counter.", "test must report tests=1 and passed=1.", "A check error names the source or manifest problem. Fix its first concrete path or line before interpreting later errors.", "If test fails, read the assertion message: it names the product behavior that no longer matches the code."],
+      }),
+      entry("6. Run and verify the interface", "luastra run → READY URL", "Keep the terminal open, visit the printed local URL, and exercise the actual browser host.", {
+        language: "Shell",
+        code: `luastra run
+# Open the READY URL printed by Luastra.
+# Expect Count: 0 and a disabled Reset button.
+# Press Add one: expect Count: 1 and an enabled Reset button.
+# Press Reset: expect Count: 0 and Reset disabled again.
+# Press Tab and Enter to repeat the flow without a mouse.
+# Stop the preview with Ctrl+C.`,
+        useWhen: "Run only after check and test pass; the preview stays available while this command owns the terminal.",
+        points: ["The URL may use a different free port; use the exact READY URL.", "Keyboard focus should remain on the activated button while the status text changes.", "Automated state tests and live host interaction are complementary evidence, not substitutes for each other."],
+      }),
+      entry("7. Make one safe change", "edit → check → test → preview", "Change the visible title to your own app name, then repeat the same development loop.", {
+        kind: "guide",
+        useWhen: "Do this only after the copied tutorial works unchanged once.",
+        points: ["Change only counter/title.text first; the existing interaction test should still pass.", "Run luastra check and luastra test after the edit.", "Refresh or return to the live preview and confirm the new title without losing counter behavior.", "For a behavior change such as adding Subtract, update render, handle, and the test together.", "Next, use the Delayed action recipe to add time, Typed navigation to add screens, or Persist state to survive reloads."],
+      }),
+    ],
+    tables: [{
+      id: "beginner-counter-flow",
+      title: "How one click becomes visible state",
+      rows: [
+        row("1. Declare", "UI.Button onTap=counter.add", "render describes an accessible action and its stable target id."),
+        row("2. Activate", "pointer, touch, Enter, or Space", "the host emits the admitted action and target without embedding application logic."),
+        row("3. Update", "Application.handle", "the application validates both strings and changes count."),
+        row("4. Render", "Application.render", "Luastra requests the complete current tree again."),
+        row("5. Reconcile", "stable node ids", "the host updates the count and disabled state without replacing unrelated UI."),
+      ],
+    }],
+    callout: "The tutorial test proves deterministic application state. The live preview separately proves the selected browser host and interaction path; neither alone proves every desktop, mobile, or assistive-technology target.",
+  },
+  { id: "advanced-tutorial", title: "Advanced tutorial: routed persisted data", module: "Navigation · State · Host · Data", summary: "Combine typed routes, versioned state, runtime validation, and asynchronous host requests.", guide: ["Treat navigation and persisted data as application state, not as hidden host state.", "Host operations return RequestId. Record the intended operation and finish it in Application.resolve."], cards: [entry("Compile typed routes", "Navigation.compile", "Define canonical locations once and reject malformed parameters.", { kind: "function", useWhen: "Compile route definitions when URLs must be generated and matched from one typed, canonical path and query contract.", code: `local compiler = Navigation.compile {\n    { name = "home", path = "/" },\n    { name = "item", path = "/item/:id" },\n}` }), entry("Encode a versioned snapshot", "State.encode", "Persist a small deterministic snapshot with an explicit version.", { kind: "function", useWhen: "Encode state before writing a bounded snapshot to host storage so later versions can decode or migrate it explicitly.", code: `local snapshot = State.encode(1, {\n    route = router.encode(),\n    filter = filter,\n})\nlocal requestId = Host.storageSet("app-state", snapshot)\npending[requestId] = "save"` }), entry("Validate restored values", "Data.decode", "Static Luau types do not make storage or server payloads trustworthy.", { kind: "function", useWhen: "Decode with a Data schema whenever a value originates outside trusted Luau state, including forms, storage, URLs, and server payloads.", code: `local result = Data.decode(snapshotSchema, decodedValue)\nif result.success then\n    restore(result.value)\nend` }), entry("Resolve asynchronous work", "Application.resolve", "Match the RequestId and handle bounded failure information.", { kind: "function", parameters: [row("id", "number", "The RequestId returned by the Host, Server, or Media operation."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The bounded successful response payload, or an empty string after failure."), row("code", "string", "A stable failure code, or an empty string after success."), row("message", "string", "A bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Update state, clear the pending operation, and let Luastra render again.", useWhen: "Implement Application.resolve when asynchronous Host, Server, or Media requests need to update application state after completion.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    _code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == "load" and success then\n        restore(payload)\n    end\nend` })], callout: "Keep credentials and provider secrets behind trusted server handlers; never persist them in Luau state." },
+  {
+    id: "first-app",
+    title: "Complete mini-app checkpoint",
+    module: "Beginner tutorial · verified manifest · application test",
+    summary: "Use the checked counter as your first complete project, then choose one bounded feature to add.",
+    guide: [
+      "The former standalone counter snippet now lives in Beginner tutorial as a complete project with its manifest, entry module, interaction test, commands, expected browser behavior, and troubleshooting guidance.",
+      "Keep this route as a checkpoint after finishing that tutorial: you should be able to explain where state lives, why render stays deterministic, how actions reach handle, and what check, test, and run each prove.",
+    ],
+    links: [
+      { text: "Open the complete Beginner tutorial", href: "#/docs/beginner-tutorial" },
+      { text: "Add a delayed action", href: "#/docs/recipe-timer" },
+      { text: "Add typed navigation", href: "#/docs/recipe-navigation" },
+      { text: "Persist state across reloads", href: "#/docs/recipe-storage" },
+    ],
+    cards: [
+      entry("Completion checklist", "copy → understand → verify → change", "Finish each checkpoint before treating the counter as a working first application.", {
+        kind: "guide",
+        useWhen: "Use this after completing Beginner tutorial and before moving to a capability recipe.",
+        points: [
+          "The three displayed files were copied into one project and both check and test reported PASS.",
+          "The browser showed Count: 0, Add one changed it to 1, and Reset restored 0.",
+          "The same interaction worked with Tab and Enter.",
+          "You changed the title, repeated check and test, and confirmed the preview still behaved correctly.",
+          "You can identify which claims came from the deterministic test and which came from the live browser check.",
+        ],
+      }),
+      entry("Choose the next capability", "time · routes · persistence", "Add one concept at a time through a complete checked recipe instead of combining several unfamiliar host boundaries at once.", {
+        kind: "guide",
+        useWhen: "Use this when choosing the first extension to your counter.",
+        points: [
+          "Delayed action teaches timer events delivered to Application.handle.",
+          "Typed navigation teaches named routes and validated canonical locations.",
+          "Persist state teaches versioned snapshots plus asynchronous Host requests and Application.resolve.",
+          "Return to the API reference only after the matching recipe works, then use symbol pages for exact signatures and edge cases.",
+        ],
+      }),
+    ],
+    callout: "Do not paste isolated snippets from several recipes into the counter at once. Make one bounded change, update its test, and repeat check → test → run—the Luastra development loop behind Build apps like games.",
+  },
   { id: "application", title: "Application contract", module: "app/main", summary: "render is always required; handle is required when events can arrive; resolve is required when non-timer capability requests can complete.", guide: ["The entry module creates and returns an Application table. Initial render describes the screen without side effects; later handle or resolve calls update module state, then Luastra renders again.", "Implement handle before declaring controls, timers, lifecycle behavior, history, or media-state events. Implement resolve before starting Host, Server, or Media requests. Timer acknowledgements do not enter resolve; timer expiry enters handle."], cards: [entry("Application.render", "Application.render() -> UI.Node", "Returns the complete current interface as exactly one UI.Screen root.", { kind: "function", returns: "UI.Node — exactly one UI.Screen root.", useWhen: "Implement render in every application entry module; it is the required source of the complete current host-neutral UI tree.", code: `function Application.render(): UI.Node\n    return UI.Screen {\n        id = "app",\n    }\nend` }), entry("Application.handle", "Application.handle(action: string, target: string, value: string)", "Receives admitted UI and host events before the next render.", { kind: "function", parameters: [row("action", "string", "An onTap/onInput/onDismiss action or a host event such as lifecycle, timer, history, open_url, system_back, or media_state."), row("target", "string", "The stable component ID or host target such as app or browser."), row("value", "string", "The committed input value or bounded event payload; it may be empty.")], returns: "Nothing. State changes become visible in the render that follows the handler.", useWhen: "Implement handle when the application reacts to controls, input, timers, navigation, lifecycle, media state, or other admitted host events.", code: `function Application.handle(\n    action: string,\n    target: string,\n    value: string\n)\n    -- Validate the event and update module state.\nend` }), entry("Application.resolve", "Application.resolve(id: number, success: boolean, payload: string, code: string, message: string)", "Receives the bounded completion of an asynchronous Host, Server, or Media request.", { kind: "function", parameters: [row("id", "number", "The RequestId returned when the operation started."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The successful bounded payload, or an empty string after failure."), row("code", "string", "The stable failure code, or an empty string after success."), row("message", "string", "The bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Clear the matching pending operation and update state for the following render.", useWhen: "Implement resolve when the application starts asynchronous Host, Server, or Media operations and must correlate their results by RequestId.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    message: string\n)\n    -- Match id, clear pending work, then update state.\nend` })], callout: "Keep Application.render deterministic: describe UI from current state, and start timers, storage, media, or server work from initialization or event logic—not as a render side effect." },
   { id: "events-errors", title: "Events and errors", module: "Application.handle · Application.resolve", summary: "UI, timers, media, system Back, and asynchronous capabilities enter the application through two explicit callbacks.", guide: ["Application.handle receives admitted events that may update state before the next render.", "Application.resolve completes an asynchronous Host, Server, or Media request; correlate it with the saved RequestId. Timer expiry instead arrives through Application.handle.", "Prefer exported Result and Error types when an SDK decoder provides them. Do not parse human-readable assertion text."], tables: [
     { id: "event-delivery", title: "Event delivery", rows: [row("UI action", "handle(action, target, value)", "onTap, onInput, and onDismiss send the declared action plus the stable target ID."), row("Timer expiry", "handle(\"timer\", id, value)", "A started or restarted one-shot timer delivers its ID and optional value."), row("Media state", "handle(\"media_state\", target, payload)", "Decode the payload with Media.decodeState before reading playback fields."), row("System Back", "handle(\"system_back\", target, value)", "Close a modal, navigate back, delegate to history, or acknowledge exit according to current state."), row("Async completion", "resolve(requestId, success, payload, code, message)", "Match the RequestId saved when the capability call was made, then clear the pending entry.")] },

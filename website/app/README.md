@@ -39,11 +39,11 @@ contract is part of the current development candidate or requires host-specific
 verification. Focused snippets are not labelled as standalone runnable apps;
 complete workflows live in the tutorials and module-level examples.
 
-The Build recipes section goes further: every admitted recipe includes a full
-manifest, entry module, behavior test, commands, expected interaction, and
-evidence boundary. `../scripts/validate-recipes.mjs` extracts those displayed
-files into temporary projects and requires both `luastra check` and
-`luastra test` to pass.
+The Beginner tutorial and Build recipes go further: every admitted checked
+project includes a full manifest, entry module, behavior test, commands,
+expected interaction, and evidence boundary.
+`../scripts/validate-recipes.mjs` extracts those displayed files into temporary
+projects and requires both `luastra check` and `luastra test` to pass.
 
 ## Local workflow
 

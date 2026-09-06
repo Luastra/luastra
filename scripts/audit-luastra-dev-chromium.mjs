@@ -274,6 +274,20 @@ async function main() {
     await client.send("Emulation.setEmulatedMedia", { features: [] });
 
     await viewport(client, { width: 390, height: 844 });
+    await route(client, "#/docs/beginner-tutorial", "location.hash === '#/docs/beginner-tutorial' && Boolean(document.querySelector('[data-luastra-id=\"docs/pages/beginner-tutorial\"]'))");
+    const beginnerTutorial = await evaluate(client, `(() => ({
+      title: document.querySelector('[data-luastra-id="docs/section/title"]')?.textContent ?? null,
+      detailLinks: document.querySelectorAll('[data-luastra-id="docs/pages/beginner-tutorial"] a').length,
+      horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth),
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    await route(client, "#/docs/first-app", "location.hash === '#/docs/first-app' && Boolean(document.querySelector('[data-luastra-id=\"docs/section\"]'))");
+    const firstAppCheckpoint = await evaluate(client, `(() => ({
+      title: document.querySelector('[data-luastra-id="docs/section/title"]')?.textContent ?? null,
+      beginnerLink: document.querySelector('[data-luastra-id="docs/section/link-1"]')?.getAttribute('href') ?? null,
+      horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth),
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
     await route(client, "#/docs/ui", "location.hash === '#/docs/ui' && Boolean(document.querySelector('[data-luastra-id=\"docs/pages/ui\"]'))");
     await evaluate(client, `(() => {
       window.scrollTo(0, document.documentElement.scrollHeight);
@@ -351,13 +365,18 @@ async function main() {
       forcedColors: forcedColors.active && forcedColors.focusedId === "landing/path/theme" && forcedColors.outlineStyle !== "none" &&
         forcedColors.outlineWidth >= 2 && forcedColors.iconStrokes.length === 2 && forcedColors.iconStrokes.every((stroke) => stroke !== "none") &&
         samplePass(forcedRoot, { constrained: true }) && samplePass(forcedFocus, { constrained: true, focus: true }),
+      documentationOnboarding: beginnerTutorial.title === "Beginner tutorial: build an accessible counter" &&
+        beginnerTutorial.detailLinks === 8 && beginnerTutorial.horizontalOverflow === 0 &&
+        firstAppCheckpoint.title === "Complete mini-app checkpoint" &&
+        firstAppCheckpoint.beginnerLink === "#/docs/beginner-tutorial" && firstAppCheckpoint.horizontalOverflow === 0,
       documentationDetail: documentationDetail.hash === "#/reference/ui%2Fitem-8" && documentationDetail.horizontalOverflow === 0 &&
         documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
         documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
         documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
         recipeHover.hovered && recipeHover.contrast >= 4.5,
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
-        ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors, ...documentationDetail.errors].length === 0,
+        ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
+        ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...documentationDetail.errors].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -375,6 +394,7 @@ async function main() {
       reducedMotion,
       keyboard,
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
+      documentationOnboarding: { beginnerTutorial, firstAppCheckpoint },
       documentationDetail,
       recipeHover,
       result,

@@ -9,6 +9,7 @@ import { sections } from "../site/reference-data.js";
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const cli = resolve(root, "cli", "luastra.mjs");
 const recipes = [
+  "beginner-tutorial",
   "recipe-timer",
   "recipe-navigation",
   "recipe-storage",

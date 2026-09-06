@@ -53,12 +53,25 @@ for _, page in ReferenceData.pages do
     end
 end
 
-for _, name in { "3. Handle the action", "Compile typed routes", "Encode a versioned snapshot", "Validate restored values", "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
+for _, name in { "Compile typed routes", "Encode a versioned snapshot", "Validate restored values", "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
     local page = pageByName[name]
     assert(page ~= nil, `{name} page is missing`)
     assert(page.callable == true, `{name} is not marked callable`)
     assert(type(page.parameters) == "table" and #page.parameters > 0, `{name} has no parameter documentation`)
 end
+
+local beginnerPages: {[string]: any} = {}
+for _, page in ReferenceData.pages do
+    if page.sectionId == "beginner-tutorial" then beginnerPages[page.name] = page end
+end
+for _, name in { "1. Create the project", "2. Replace luastra.json", "3. Replace src/main.luau", "4. Replace tests/smoke.luau", "5. Check before running", "6. Run and verify the interface", "7. Make one safe change" } do
+    assert(beginnerPages[name] ~= nil, `{name} beginner tutorial page is missing`)
+end
+assert(string.find(beginnerPages["2. Replace luastra.json"].code, '"tests": ["app/tests/counter"]', 1, true) ~= nil)
+assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function Application.handle", 1, true) ~= nil)
+assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function Application.snapshot", 1, true) ~= nil)
+assert(string.find(beginnerPages["4. Replace tests/smoke.luau"].code, "another/control", 1, true) ~= nil)
+assert(type(beginnerPages["7. Make one safe change"].points) == "table" and #beginnerPages["7. Make one safe change"].points >= 4)
 
 assert(pageByName["Type casts with ::"] ~= nil)
 assert(string.find(pageByName["Type casts with ::"].code, "::", 1, true) ~= nil)

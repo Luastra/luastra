@@ -59,6 +59,13 @@ semantic versioning where the `0.x` series remains explicitly unstable.
   `UI.Scroll` regions no longer trap vertical page-wheel input, and links keep
   their scoped foreground contrast when hovered on accent surfaces.
 
+### Changed
+
+- The Beginner tutorial is now a complete checked counter project with its
+  manifest, entry module, deterministic interaction test, CLI outcomes, live
+  browser checklist, and first safe modification. The existing Complete
+  mini-app route remains as a compatibility checkpoint and next-recipe guide.
+
 ## [0.1.0-alpha] - 2026-08-28
 
 ### Added
