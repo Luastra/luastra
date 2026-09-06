@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -471,6 +471,41 @@ export const sections = Object.freeze([
   },
   { id: "workflow", title: "Workflow", summary: "From a new project to a verified web build.", cards: [["Create a project", "create <directory>", "Creates a new starter project in a missing or empty directory.", "Use this once when beginning an application; then enter the created directory before running the remaining commands."], ["Check", "check", "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.", "Run after changing source code or luastra.json, and always before tests, preview, or a release build."], ["Run tests", "test", "Runs the project’s bounded Luau test modules.", "Run after changing application logic, event handling, state transitions, or SDK-facing code."], ["Run preview", "run", "Starts the local development server with rebuilding and reload feedback.", "Use during interactive development when you want to inspect and debug the application in a browser."], ["Build web", "build web", "Creates the static web output in dist/web.", "Use when you need a production-style web artifact for HTTP serving or deployment verification."], ["Build bundle", "build bundle", "Creates the host-neutral runtime bundle.", "Use when a host workflow needs the compiled Luastra application bundle rather than the complete static website."]].map(([name, command, description, useWhen]) => entry(name, `luastra ${command}`, description, { language: "Shell", code: `luastra ${command}`, useWhen })) },
   { id: "learning-path", title: "Interactive learning path", module: "15–25 minutes · resettable", summary: "Follow one cumulative sequence from a verified installation to a stateful accessible interaction.", guide: ["Prerequisite: finish Installation and confirm luastra doctor reports PASS.", "Use Next and Back to move through the steps. Step 2 is a complete src/main.luau file; later steps verify, test, and preview that same file."], callout: "The controls below are rendered and handled by Luastra itself. Completing buttons here does not run commands on your computer; copy each step into your own terminal or editor." },
+  {
+    id: "recipes",
+    title: "How to use the build recipes",
+    module: "copy · verify · understand · adapt",
+    summary: "Build one complete capability at a time from files that are checked against the candidate SDK.",
+    guide: [
+      "Finish Quick start first. Each recipe then starts from a fresh project, replaces the named files, runs check and test, and tells you exactly what to do in the preview.",
+      "Copy a whole file before adapting it. Focused API snippets omit surrounding state on purpose; recipe files do not. Read the lifecycle explanation after the example works once.",
+    ],
+    cards: [
+      entry("Recipe contract", "goal → files → checks → interaction → explanation", "A recipe is complete only when its imports, manifest dependencies, capabilities, event path, expected UI, and verification boundary are all explicit.", {
+        kind: "guide",
+        useWhen: "Use this checklist whenever you follow or write a Luastra recipe.",
+        points: [
+          "Goal: know the visible behavior before copying code.",
+          "Files: replace exactly the listed files in a fresh starter project.",
+          "Checks: do not continue until luastra check and luastra test report result=PASS.",
+          "Interaction: follow the stated clicks and compare the visible result.",
+          "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
+        ],
+      }),
+      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → server → media", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
+        kind: "guide",
+        useWhen: "Use this order when you have no particular feature in mind yet.",
+        points: [
+          "Complete mini-app teaches render and handle.",
+          "Delayed action adds a host event without Application.resolve.",
+          "Typed navigation adds checked route state and Back behavior.",
+          "Storage and History add asynchronous host acknowledgements and platform-owned navigation.",
+          "Later recipes add trusted server work and event-driven media.",
+        ],
+      }),
+    ],
+    callout: "These candidate recipes are verified from the repository checkout. The public 0.1.0-alpha installer may expose an older contract until the next release is published.",
+  },
   {
     id: "recipe-timer",
     title: "Recipe: run a delayed action",

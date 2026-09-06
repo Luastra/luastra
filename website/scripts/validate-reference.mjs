@@ -33,6 +33,7 @@ function same(left, right) {
 
 const sectionIds = sections.map((section) => section.id);
 if (new Set(sectionIds).size !== sectionIds.length) fail("reference contains duplicate section IDs");
+if (sectionIds.some((id) => !/^[a-z][a-z0-9-]{0,63}$/.test(id))) fail("reference contains a non-canonical section ID");
 const expectedGeneratedPages = sections.reduce((total, section) => total + (section.cards?.length ?? 0) + (section.tables?.length ?? 0), 0);
 if (generatedPages.length !== expectedGeneratedPages) fail(`generated reference page count differs: expected=${expectedGeneratedPages} actual=${generatedPages.length}`);
 for (const section of sections) {
@@ -43,7 +44,7 @@ for (const section of sections) {
 if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
 if (release.sourceSdk !== "Source SDK contract 13") fail("reference source SDK label is stale");
 if (release.runtimeSdk !== "Runtime SDK alpha 8") fail("reference runtime SDK label is stale");
-for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "events-errors", "policies"])
+for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "events-errors", "policies"])
   if (!sectionIds.includes(id)) fail(`reference misses required learning section: ${id}`);
 const navigationIds = navigationGroups.flatMap((group) => group.items.map(([id]) => id));
 if (new Set(navigationIds).size !== navigationIds.length) fail("navigation contains duplicate targets");

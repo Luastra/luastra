@@ -6,15 +6,20 @@ assert(type(ReferenceData.release.version) == "string")
 assert(ReferenceData.release.version == "0.1.0-alpha")
 assert(ReferenceData.release.sourceSdk == "Source SDK contract 13")
 assert(ReferenceData.release.runtimeSdk == "Runtime SDK alpha 8")
-assert(#ReferenceData.sections >= 28)
+assert(#ReferenceData.sections > 32, "documentation routing must scale beyond an enum")
 assert(#ReferenceData.navigationGroups >= 5)
 
 local ids: {[string]: boolean} = {}
 for _, section in ReferenceData.sections do
-    assert(type(section.id) == "string" and not ids[section.id])
+    assert(
+        type(section.id) == "string"
+            and #section.id <= 64
+            and string.match(section.id, "^[a-z][a-z0-9%-]*$") ~= nil
+            and not ids[section.id]
+    )
     ids[section.id] = true
 end
-for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "events-errors", "policies" } do
+for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "events-errors", "policies" } do
     assert(ids[required] == true, `{required} section is missing`)
 end
 

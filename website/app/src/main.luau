@@ -44,9 +44,9 @@ local pendingCopy: {[number]: string} = {}
 local targetPages: {[string]: string} = {}
 local targetSections: {[string]: string} = {}
 
-local sectionIds: {string} = {}
+local sectionByIdMap: {[string]: any} = {}
 local pageById: {[string]: boolean} = {}
-for _, section in ReferenceData.sections do table.insert(sectionIds, section.id) end
+for _, section in ReferenceData.sections do sectionByIdMap[section.id] = section end
 for _, page in ReferenceData.pages do pageById[page.id] = true end
 
 local routeCompiler = Navigation.compile {
@@ -56,7 +56,7 @@ local routeCompiler = Navigation.compile {
     { name = "about", path = "/about/:topic", params = { topic = { type = "enum", values = { "why", "targets", "source" } } } },
     { name = "product-detail", path = "/product/:topic", params = { topic = { type = "enum", values = { "install", "quickstart", "learn", "ui", "state", "hosts" } } } },
     { name = "example-detail", path = "/examples/:example", params = { example = { type = "enum", values = { "catalogue", "orbit", "meditation", "forms", "media", "routing", "visuals", "debug" } } } },
-    { name = "docs", path = "/docs/:section", params = { section = { type = "enum", values = sectionIds } } },
+    { name = "docs", path = "/docs/:section", params = { section = { type = "string", maximumLength = 64 } } },
     { name = "reference", path = "/reference/:page", params = { page = { type = "string", maximumLength = 128 } } },
 }
 local homeEntry = table.freeze({ name = "home", params = table.freeze({}), query = table.freeze({}) })
@@ -121,10 +121,7 @@ local function selectedPage(): any?
 end
 
 local function sectionById(id: string): any?
-    for _, section in ReferenceData.sections do
-        if section.id == id then return section end
-    end
-    return nil
+    return sectionByIdMap[id]
 end
 
 local function applyRoute(): boolean
@@ -199,6 +196,7 @@ local function applyUrl(value: string, appendHistory: boolean): boolean
     if matched == nil or not matched.success or matched.entry == nil then return false end
     local entry = matched.entry :: any
     local params = entry.params :: any
+    if entry.name == "docs" and sectionById(tostring(params.section)) == nil then return false end
     if entry.name == "reference" and pageById[tostring(params.page)] ~= true then return false end
     local result = appendHistory and navigation.push(entry) or navigation.replace(entry)
     if not result.success or not applyRoute() then return false end

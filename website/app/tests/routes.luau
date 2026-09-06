@@ -60,6 +60,13 @@ Application.handle("open_url", "browser", "https://luastra.dev/#/docs/overview")
 assert(Application.snapshot().location == "/docs/overview")
 assert(requests[9].kind == "navigation.history" and requests[9].operation == "replace-location")
 
+Application.handle("open_url", "browser", "https://luastra.dev/#/docs/recipe-history")
+assert(Application.snapshot().location == "/docs/recipe-history")
+assert(Application.snapshot().selectedSection == "recipe-history")
+
+Application.handle("open_url", "browser", "https://luastra.dev/#/docs/not-a-section")
+assert(Application.snapshot().location == "/docs/recipe-history")
+
 Application.handle("history", "app", docsState)
 assert(Application.snapshot().location == "/docs/quickstart")
 

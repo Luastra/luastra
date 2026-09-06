@@ -351,6 +351,50 @@ export const generatedPages = Object.freeze([
     "language": "Shell"
   },
   {
+    "id": "recipes/item-1",
+    "kind": "guide",
+    "sectionId": "recipes",
+    "sectionTitle": "How to use the build recipes",
+    "module": "copy · verify · understand · adapt",
+    "callable": false,
+    "useWhen": "Use this checklist whenever you follow or write a Luastra recipe.",
+    "code": null,
+    "signature": "goal → files → checks → interaction → explanation",
+    "parameters": [],
+    "returns": null,
+    "name": "Recipe contract",
+    "description": "A recipe is complete only when its imports, manifest dependencies, capabilities, event path, expected UI, and verification boundary are all explicit.",
+    "points": [
+      "Goal: know the visible behavior before copying code.",
+      "Files: replace exactly the listed files in a fresh starter project.",
+      "Checks: do not continue until luastra check and luastra test report result=PASS.",
+      "Interaction: follow the stated clicks and compare the visible result.",
+      "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation."
+    ]
+  },
+  {
+    "id": "recipes/item-2",
+    "kind": "guide",
+    "sectionId": "recipes",
+    "sectionTitle": "How to use the build recipes",
+    "module": "copy · verify · understand · adapt",
+    "callable": false,
+    "useWhen": "Use this order when you have no particular feature in mind yet.",
+    "code": null,
+    "signature": "stateful UI → timer → navigation → storage → history → server → media",
+    "parameters": [],
+    "returns": null,
+    "name": "Choose the next recipe",
+    "description": "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.",
+    "points": [
+      "Complete mini-app teaches render and handle.",
+      "Delayed action adds a host event without Application.resolve.",
+      "Typed navigation adds checked route state and Back behavior.",
+      "Storage and History add asynchronous host acknowledgements and platform-owned navigation.",
+      "Later recipes add trusted server work and event-driven media."
+    ]
+  },
+  {
     "id": "recipe-timer/item-1",
     "kind": "entry",
     "sectionId": "recipe-timer",
