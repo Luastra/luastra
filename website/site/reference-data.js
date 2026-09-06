@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -1100,6 +1100,300 @@ luastra run
       }),
     ],
     callout: "Do not call router.back() and Host.systemBackHistory for the same Back press. The host history event will restore the router after the platform moves Back.",
+  },
+  {
+    id: "recipe-form-modal",
+    title: "Recipe: validate a form and confirm in a modal",
+    module: "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    summary: "Collect a name and email, expose field-specific accessible errors, review normalized values in a modal, and confirm without trusting raw input.",
+    guide: [
+      "You will submit an empty form, correct both highlighted fields, review trimmed values in a modal, and either return to editing or confirm.",
+      "TextInput is controlled: onInput updates Luau state, and the next render returns that value. Data validates byte bounds; the application adds its own small email-format rule.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create form-modal-recipe", "Create a starter, then replace its manifest, entry module, and smoke test.", {
+        language: "Shell",
+        code: `luastra create form-modal-recipe
+cd form-modal-recipe`,
+        useWhen: "Run this in the directory that should contain the new project.",
+      }),
+      entry("2. Replace luastra.json", "luastra/data + luastra/ui", "Form validation and modal state are synchronous application logic, so this recipe needs only ui.render.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.form-modal-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/data", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/form-modal",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/form-modal"]
+}`,
+        useWhen: "Replace the generated manifest before importing Data or composing the form primitives.",
+      }),
+      entry("3. Replace src/main.luau", "controlled fields → validation → modal → confirmation", "Every visible value and error comes from Luau state; the modal opens only after normalized values pass both validation layers.", {
+        wide: true,
+        code: `--!strict
+
+local Data = require("luastra/data")
+local UI = require("luastra/ui")
+
+local nameSchema = Data.string { minBytes = 2, maxBytes = 60, trim = true }
+local emailSchema = Data.string { minBytes = 3, maxBytes = 160, trim = true }
+
+local Application = {}
+local name = ""
+local email = ""
+local nameError: string? = nil
+local emailError: string? = nil
+local modalOpen = false
+local status = "Complete both fields"
+local submittedName: string? = nil
+
+local function validEmail(value: string): boolean
+    return string.match(value, "^[^%s@]+@[^%s@]+%.[^%s@]+$") ~= nil
+end
+
+local function validate(): boolean
+    local checkedName = Data.decode(nameSchema, name)
+    local checkedEmail = Data.decode(emailSchema, email)
+    if checkedName.success then nameError = nil
+    else nameError = "Enter 2 to 60 bytes." end
+    if checkedEmail.success then emailError = nil
+    else emailError = "Enter an email address." end
+    if checkedEmail.success and not validEmail(checkedEmail.value) then
+        emailError = "Use a format such as name@example.com."
+    end
+    if not checkedName.success or not checkedEmail.success or emailError ~= nil then
+        status = "Fix the highlighted fields"
+        return false
+    end
+    name = checkedName.value
+    email = checkedEmail.value
+    modalOpen = true
+    status = "Review the normalized values"
+    return true
+end
+
+function Application.render(): UI.Node
+    return UI.Screen {
+        id = "profile",
+        width = "content",
+        padding = "responsive",
+        UI.Card {
+            id = "profile/form",
+            gap = "md",
+            padding = "lg",
+            surface = "elevated",
+            UI.Text { id = "profile/title", text = "Create profile", variant = "title" },
+            UI.Field {
+                id = "profile/name-field",
+                gap = "xs",
+                role = "group",
+                label = "Name field",
+                UI.Text { id = "profile/name-label", text = "Name" },
+                UI.TextInput {
+                    id = "profile/name",
+                    label = "Name",
+                    value = name,
+                    onInput = "form.name",
+                    autoComplete = "name",
+                    enterKeyHint = "next",
+                    required = true,
+                    errorId = nameError ~= nil and "profile/name-error" or nil,
+                },
+                UI.Text {
+                    id = "profile/name-error",
+                    text = nameError or "",
+                    role = "alert",
+                    tone = "error",
+                    hidden = nameError == nil,
+                },
+            },
+            UI.Field {
+                id = "profile/email-field",
+                gap = "xs",
+                role = "group",
+                label = "Email field",
+                UI.Text { id = "profile/email-label", text = "Email" },
+                UI.TextInput {
+                    id = "profile/email",
+                    label = "Email",
+                    value = email,
+                    onInput = "form.email",
+                    inputType = "email",
+                    inputMode = "email",
+                    autoComplete = "email",
+                    enterKeyHint = "done",
+                    required = true,
+                    errorId = emailError ~= nil and "profile/email-error" or nil,
+                },
+                UI.Text {
+                    id = "profile/email-error",
+                    text = emailError or "",
+                    role = "alert",
+                    tone = "error",
+                    hidden = emailError == nil,
+                },
+            },
+            UI.Text { id = "profile/status", text = status, role = "status" },
+            UI.Actions {
+                id = "profile/actions",
+                responsive = true,
+                UI.Button {
+                    id = "profile/review",
+                    text = "Review",
+                    onTap = "form.review",
+                    appearance = "primary",
+                },
+            },
+        },
+        UI.Modal {
+            id = "profile/confirm-modal",
+            label = "Confirm profile",
+            open = modalOpen,
+            onDismiss = "form.cancel-review",
+            UI.Stack {
+                id = "profile/confirm-content",
+                gap = "md",
+                padding = "lg",
+                UI.Text { id = "profile/confirm-title", text = "Confirm profile", variant = "heading" },
+                UI.Text { id = "profile/confirm-name", text = "Name: " .. name },
+                UI.Text { id = "profile/confirm-email", text = "Email: " .. email },
+                UI.Actions {
+                    id = "profile/confirm-actions",
+                    responsive = true,
+                    UI.Button {
+                        id = "profile/confirm",
+                        text = "Confirm",
+                        onTap = "form.confirm",
+                        appearance = "primary",
+                    },
+                    UI.Button {
+                        id = "profile/cancel",
+                        text = "Keep editing",
+                        onTap = "form.cancel-review",
+                        appearance = "secondary",
+                    },
+                },
+            },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, value: string)
+    if action == "form.name" and target == "profile/name" then
+        name = value
+        nameError = nil
+    elseif action == "form.email" and target == "profile/email" then
+        email = value
+        emailError = nil
+    elseif action == "form.review" and target == "profile/review" then
+        validate()
+    elseif action == "form.cancel-review"
+        and (target == "profile/cancel" or target == "profile/confirm-modal") then
+        modalOpen = false
+        status = "Continue editing"
+    elseif action == "form.confirm" and target == "profile/confirm" and modalOpen then
+        modalOpen = false
+        submittedName = name
+        status = "Profile confirmed for " .. name
+    end
+end
+
+function Application.snapshot()
+    return {
+        name = name,
+        email = email,
+        nameError = nameError,
+        emailError = emailError,
+        modalOpen = modalOpen,
+        status = status,
+        submittedName = submittedName,
+    }
+end
+
+return Application`,
+        useWhen: "Replace the complete entry module. Keep modal visibility in state and use the same dismissal action for Escape, backdrop dismissal, and the visible cancel button.",
+      }),
+      entry("4. Replace tests/smoke.luau", "invalid → corrected → dismissed → confirmed", "The test drives the same actions as the controls and inspects both application state and accessible render properties.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+local function find(node: any, id: string): any?
+    if node.id == id then return node end
+    for _, child in node.children or {} do
+        local result = find(child, id)
+        if result ~= nil then return result end
+    end
+    return nil
+end
+
+Application.handle("form.review", "profile/review", "")
+local invalidTree = Application.render()
+assert(Application.snapshot().modalOpen == false, "invalid form opened the modal")
+assert((find(invalidTree, "profile/name") :: any).properties.errorId == "profile/name-error")
+assert((find(invalidTree, "profile/email-error") :: any).properties.role == "alert")
+
+Application.handle("form.name", "profile/name", "  Ada  ")
+Application.handle("form.email", "profile/email", "not-an-email")
+Application.handle("form.review", "profile/review", "")
+assert(Application.snapshot().emailError ~= nil, "invalid email was accepted")
+
+Application.handle("form.email", "profile/email", "ada@example.test")
+Application.handle("form.review", "profile/review", "")
+assert(Application.snapshot().modalOpen == true, "valid form did not open the modal")
+assert(Application.snapshot().name == "Ada", "validated name was not trimmed")
+assert((find(Application.render(), "profile/confirm-modal") :: any).properties.open == true)
+
+Application.handle("form.cancel-review", "profile/confirm-modal", "escape")
+assert(Application.snapshot().modalOpen == false, "modal dismissal was ignored")
+Application.handle("form.review", "profile/review", "")
+Application.handle("form.confirm", "profile/confirm", "")
+assert(Application.snapshot().submittedName == "Ada", "confirmation was not recorded")
+
+return true`,
+        useWhen: "Replace the generated smoke test to cover invalid input, normalization, both modal exit paths, and confirmation.",
+      }),
+      entry("5. Check and run", "errors → review → dismiss or confirm", "Automated checks prove state and semantics; the preview separately proves native input, focus, and dialog behavior in this browser.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Press Review while empty: expect two field errors.
+# Enter a name and email, then Review: expect the confirmation modal.
+# Dismiss once, reopen, then Confirm.`,
+        useWhen: "Run from form-modal-recipe after all three files are saved.",
+        points: [
+          "check and test must report PASS with one passing test.",
+          "Tab order follows source order; the modal traps focus and returns it to Review after dismissal.",
+          "At 200% zoom and on a phone, actions must wrap and the focused field must remain reachable above the software keyboard.",
+        ],
+      }),
+      entry("6. Understand the boundaries", "input → state → decode → domain rule → review → commit", "Static types, runtime schemas, application rules, and accessible presentation solve different parts of the form.", {
+        kind: "guide",
+        useWhen: "Read this before adding persistence, server submission, or more fields.",
+        points: [
+          "Luau types check your code; Data.decode validates values received at runtime.",
+          "Data string limits count UTF-8 bytes, not visible characters.",
+          "The email pattern is a small UI check, not proof that an address exists or can receive mail.",
+          "Clear a field error when that field changes, then validate the complete form again on Review.",
+          "Keep the modal in the tree with open=false so the host can close it and restore focus deterministically.",
+        ],
+      }),
+    ],
+    callout: "Validation failure is ordinary application state. Do not throw, log personal form values, or open the modal until every required rule passes.",
   },
   {
     id: "luau-types",

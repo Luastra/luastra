@@ -19,7 +19,7 @@ for _, section in ReferenceData.sections do
     )
     ids[section.id] = true
 end
-for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "events-errors", "policies" } do
+for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "events-errors", "policies" } do
     assert(ids[required] == true, `{required} section is missing`)
 end
 
