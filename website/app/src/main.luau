@@ -607,6 +607,26 @@ local function renderParameterGroups(page: any): UI.Node?
     return UI.Column(input)
 end
 
+local function insertCodeBlocks(input: any, id: string, code: string, language: string)
+    local start = 1
+    local index = 1
+    while start <= #code do
+        local finish = math.min(start + 4095, #code)
+        if finish < #code then
+            local candidate = string.sub(code, start, finish)
+            local newline = string.match(candidate, ".*()\n")
+            if newline ~= nil and newline > 1 then finish = start + newline - 1 end
+        end
+        table.insert(input, UI.CodeBlock {
+            id = if index == 1 then id else `{id}-{index}`,
+            code = string.sub(code, start, finish),
+            language = language,
+        })
+        start = finish + 1
+        index += 1
+    end
+end
+
 local function renderDetail(page: any): UI.Node
     local input: any = { id = "docs/detail", gap = "lg" }
     table.insert(input, sectionLink("docs/detail/back", `← {page.sectionTitle}`, page.sectionId))
@@ -682,7 +702,7 @@ local function renderDetail(page: any): UI.Node
     end
     if page.code ~= nil then
         table.insert(input, UI.Text { id = "docs/detail/example-title", text = if page.kind == "type" then "Exact declaration" else "Focused example", variant = "subheading" })
-        table.insert(input, UI.CodeBlock { id = "docs/detail/example", code = page.code, language = page.language or "Luau" })
+        insertCodeBlocks(input, "docs/detail/example", page.code, page.language or "Luau")
         table.insert(input, UI.Button { id = "docs/detail/copy", text = if page.kind == "type" then "Copy declaration" else "Copy example", appearance = "secondary", onTap = "docs.copy" })
         local copyStatus = copyStatusByTarget["page:" .. page.id]
         if copyStatus ~= nil then table.insert(input, UI.Text { id = "docs/detail/copy-status", text = copyStatus, role = "status" }) end

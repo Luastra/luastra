@@ -38,8 +38,15 @@ const expectedGeneratedPages = sections.reduce((total, section) => total + (sect
 if (generatedPages.length !== expectedGeneratedPages) fail(`generated reference page count differs: expected=${expectedGeneratedPages} actual=${generatedPages.length}`);
 for (const section of sections) {
   const expected = (section.cards?.length ?? 0) + (section.tables?.length ?? 0);
-  const actual = generatedPages.filter((page) => page.sectionId === section.id).length;
+  const sectionPages = generatedPages.filter((page) => page.sectionId === section.id);
+  const actual = sectionPages.length;
   if (actual !== expected) fail(`${section.id} generated reference page count differs: expected=${expected} actual=${actual}`);
+  for (let index = 0; index < sectionPages.length; index += 1) {
+    const expectedPrevious = sectionPages[index - 1]?.id ?? null;
+    const expectedNext = sectionPages[index + 1]?.id ?? null;
+    if (sectionPages[index].previousPageId !== expectedPrevious) fail(`${sectionPages[index].id} has an invalid Previous target`);
+    if (sectionPages[index].nextPageId !== expectedNext) fail(`${sectionPages[index].id} has an invalid Next target`);
+  }
 }
 if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
 if (release.sourceSdk !== "Source SDK contract 13") fail("reference source SDK label is stale");

@@ -105,4 +105,13 @@ assert((findNode(buttonPage, "docs/detail/next").properties :: any).href == "#/r
 assert(findNode(buttonPage, "docs/detail/related-1") ~= nil)
 assert(findNode(buttonPage, "docs/pages/ui") == nil)
 
+for _, pageId in { "recipe-form-modal/item-3", "recipe-media/item-3", "recipe-orbit/item-3", "advanced-tutorial/item-3" } do
+    Application.handle("open_url", "browser", `https://luastra.dev/#/reference/{string.gsub(pageId, "/", "%%2F")}`)
+    local longExample = Application.render()
+    local firstBlock = findNode(longExample, "docs/detail/example")
+    local secondBlock = findNode(longExample, "docs/detail/example-2")
+    assert(firstBlock ~= nil and #(firstBlock.properties :: any).code <= 4096)
+    assert(secondBlock ~= nil and #(secondBlock.properties :: any).code <= 4096)
+end
+
 return true

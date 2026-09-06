@@ -417,6 +417,12 @@ export class DomAdapter {
     const listener = (event) => {
       if (eventName === "input" && (event.isComposing === true || this.#composing.has(event.currentTarget))) return;
       if (eventName === "dismiss") event.preventDefault();
+      if (eventName === "click" && event.currentTarget?.tagName?.toLowerCase() === "a") {
+        const modified = event.metaKey === true || event.ctrlKey === true || event.shiftKey === true || event.altKey === true;
+        const nonPrimary = event.button !== undefined && event.button !== 0;
+        if (modified || nonPrimary) return;
+        event.preventDefault();
+      }
       const value = "value" in event.currentTarget ? String(event.currentTarget.value) : "";
       this.#dispatch({ action, target: targetId, value, nativeEvent: event });
     };

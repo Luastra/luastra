@@ -164,9 +164,28 @@ adapter.applyBatch([{ kind: "remove-attribute", target: "name", name: "enterkeyh
 input.emit("keydown", { key: "Enter", keyCode: 13, isComposing: false });
 assert.equal(input.blurCount, 1, "removed Done attribute retained the Done handler");
 
+adapter.applyBatch([
+  { kind: "create", target: "next-page", name: "", value: "a" },
+  { kind: "attribute", target: "next-page", name: "href", value: "#/reference/tutorial%2Fitem-2" },
+  { kind: "event", target: "next-page", name: "click", value: "open-page" },
+  { kind: "place", target: "host-root", name: "next-page", value: "" },
+]);
+const pageLink = adapter.node("next-page");
+const regularClick = pageLink.emit("click", { button: 0 });
+assert.equal(regularClick.defaultPrevented, true, "handled Link also performed native navigation");
+assert.deepEqual(
+  { action: dispatched.at(-1).action, target: dispatched.at(-1).target },
+  { action: "open-page", target: "next-page" },
+  "handled Link did not dispatch its declared action",
+);
+const dispatchesBeforeModifiedClick = dispatched.length;
+const modifiedClick = pageLink.emit("click", { button: 0, metaKey: true });
+assert.equal(modifiedClick.defaultPrevented, false, "modified Link click lost native new-tab behavior");
+assert.equal(dispatched.length, dispatchesBeforeModifiedClick, "modified Link click also dispatched its application action");
+
 console.log(JSON.stringify({
   result: "PASS",
-  assertions: 20,
+  assertions: 24,
   intermediateCompositionDispatches: 0,
   finalCompositionDispatches: 1,
   activeCompositionOverwritePrevented: true,
@@ -174,6 +193,8 @@ console.log(JSON.stringify({
   listenerRemoval: "PASS",
   doneEditingDismissal: "PASS",
   nextEditingFocusTransfer: "PASS",
+  handledLinkNavigation: "single-path",
+  modifiedLinkNavigation: "native",
   composingEnterPreserved: true,
   boundary: "Synthetic composition events are a deterministic regression control, not a real CJK IME test.",
 }, null, 2));

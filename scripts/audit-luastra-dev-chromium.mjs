@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 
 import { runProject } from "../project/run-project.mjs";
+import { generatedPages } from "../website/site/generated-reference-data.js";
 
 const themes = ["luastra", "abyss", "sakura", "atlas", "arctic", "biolume", "arcade", "bauhaus", "editorial", "copper", "candy"];
 const viewports = [
@@ -97,6 +98,45 @@ async function route(client, hash, ready) {
   await evaluate(client, `location.hash = ${JSON.stringify(hash)}`);
   await waitFor(client, ready, hash);
   await delay(80);
+}
+
+function referenceHash(pageId) {
+  return `#/reference/${encodeURIComponent(pageId)}`;
+}
+
+async function auditDetailSequence(client) {
+  const sections = Map.groupBy(generatedPages, (page) => page.sectionId);
+  for (const pages of sections.values()) {
+    for (let index = 0; index < pages.length; index += 1) {
+      if ((pages[index - 1]?.id ?? null) !== pages[index].previousPageId) fail(`${pages[index].id} has an invalid Previous target`);
+      if ((pages[index + 1]?.id ?? null) !== pages[index].nextPageId) fail(`${pages[index].id} has an invalid Next target`);
+    }
+  }
+  const pages = sections.get("beginner-tutorial");
+  await route(client, referenceHash(pages[0].id), `location.hash === ${JSON.stringify(referenceHash(pages[0].id))} && Boolean(document.querySelector('[data-luastra-id="docs/detail"]'))`);
+  let browserForwardClicks = 0;
+  let browserBackwardClicks = 0;
+  for (let index = 1; index < pages.length; index += 1) {
+    const expected = referenceHash(pages[index].id);
+    await evaluate(client, `document.querySelector('[data-luastra-id="docs/detail/next"]')?.click()`);
+    await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail Next ${expected}`);
+    browserForwardClicks += 1;
+  }
+  for (let index = pages.length - 2; index >= 0; index -= 1) {
+    const expected = referenceHash(pages[index].id);
+    await evaluate(client, `document.querySelector('[data-luastra-id="docs/detail/previous"]')?.click()`);
+    await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail Previous ${expected}`);
+    browserBackwardClicks += 1;
+  }
+  return {
+    pages: generatedPages.length,
+    sections: sections.size,
+    forwardTargets: generatedPages.length - sections.size,
+    backwardTargets: generatedPages.length - sections.size,
+    browserPages: pages.length,
+    browserForwardClicks,
+    browserBackwardClicks,
+  };
 }
 
 async function viewport(client, target) {
@@ -377,6 +417,7 @@ async function main() {
       const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
       return { hovered: link?.matches(':hover') === true, foreground, background, contrast: (values[0] + .05) / (values[1] + .05) };
     })()`);
+    const detailSequence = await auditDetailSequence(client);
 
     const assertions = {
       viewportMatrix: viewportSamples.every((value) => value.pass),
@@ -405,6 +446,11 @@ async function main() {
         documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
         documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
         recipeHover.hovered && recipeHover.contrast >= 4.5,
+      detailNavigationSequence: detailSequence.pages === generatedPages.length &&
+        detailSequence.forwardTargets === generatedPages.length - detailSequence.sections &&
+        detailSequence.backwardTargets === generatedPages.length - detailSequence.sections &&
+        detailSequence.browserForwardClicks === detailSequence.browserPages - 1 &&
+        detailSequence.browserBackwardClicks === detailSequence.browserPages - 1,
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
         ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...typingGuide.errors,
@@ -428,6 +474,7 @@ async function main() {
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
       documentationOnboarding: { beginnerTutorial, firstAppCheckpoint, advancedTutorial, typingGuide, eventsGuide },
       documentationDetail,
+      detailSequence,
       recipeHover,
       result,
       boundary: "This automated gate covers Chromium layout, target size, brand and icon rendering, theme/focus geometry, routed documentation detail links, keyboard-only flows, emulated forced colors and emulated reduced motion. It does not replace real browser zoom, assistive technology, Firefox, Safari, Capacitor, Tauri or physical-device evidence.",
