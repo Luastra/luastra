@@ -18,6 +18,7 @@ const recipes = [
   "recipe-motion",
   "recipe-server",
   "recipe-media",
+  "recipe-orbit",
 ];
 const defaultRecipeFiles = Object.freeze([
   ["2. Replace luastra.json", "luastra.json"],

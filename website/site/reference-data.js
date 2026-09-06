@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"], ["recipe-media", "Audio playback"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"], ["recipe-media", "Audio playback"], ["recipe-orbit", "Constellation Orbit"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -492,7 +492,7 @@ export const sections = Object.freeze([
           "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
         ],
       }),
-      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion → server → media", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
+      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion → server → media → Orbit", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
         kind: "guide",
         useWhen: "Use this order when you have no particular feature in mind yet.",
         points: [
@@ -505,6 +505,7 @@ export const sections = Object.freeze([
           "Declarative motion adds host-scheduled presentation without an application frame loop.",
           "The Server Function recipe adds a generated client, trusted handler, and asynchronous result decoding.",
           "The Audio Playback recipe adds command completion plus event-driven live media state.",
+          "The Constellation Orbit recipe combines semantic nodes, bounded depth, relationships, and focused detail without application-owned coordinates.",
         ],
       }),
     ],
@@ -2330,6 +2331,352 @@ luastra run
       }),
     ],
     callout: "A successful Media.play completion is not permission to invent playing state. Decode host state and let media_state remain authoritative as playback changes.",
+  },
+  {
+    id: "recipe-orbit",
+    title: "Recipe: build a small Constellation Orbit",
+    module: "luastra/ui · semantic spatial navigation · about 25 minutes",
+    summary: "Build two navigable constellation depths and a Focus Surface from semantic Luau nodes while the host owns geometry, list fallback, focus, and motion.",
+    guide: [
+      "You will create a root constellation, enter a smaller Build constellation, open one leaf in a Focus Surface, and return through the same application state.",
+      "The Luau model declares identity, priority, relationships, depth, and selection. It never declares x/y coordinates, viewport breakpoints, animation frames, or a separate mobile tree.",
+    ],
+    cards: [
+      entry("1. Create the project", "one semantic model · two depths · one detail surface", "Start from the normal project skeleton; this recipe needs no assets or asynchronous host capability.", {
+        language: "Shell",
+        code: `luastra create orbit-recipe
+cd orbit-recipe`,
+        useWhen: "Run this where the new project should live, then replace the three generated files shown below.",
+      }),
+      entry("2. Replace luastra.json", "ui.render only", "The first Orbit needs only the semantic renderer; navigation state stays local and bounded in this introductory example.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.orbit-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/ui"]
+    },
+    {
+      "id": "app/tests/orbit",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/orbit"]
+}`,
+        useWhen: "Replace the generated manifest before adding Orbit components. Add navigation.history or storage capabilities only when a later version of the app actually calls them.",
+      }),
+      entry("3. Replace src/main.luau", "constellations → nodes → Focus Surface", "One small state machine controls active depth and focused leaf; every visual placement decision remains host-owned.", {
+        wide: true,
+        code: `--!strict
+
+local UI = require("luastra/ui")
+
+local Application = {}
+local depth = "root"
+local visitedBuild = false
+local selected: string? = nil
+
+local details = {
+    ["orbit/learn"] = "Learn the semantic model before adding host capabilities.",
+    ["orbit/ship"] = "Verify each target separately before making a platform claim.",
+    ["orbit/build/interface"] = "Compose meaning in Luau and let the host place it.",
+    ["orbit/build/adaptive"] = "The same nodes become a readable list when space is constrained.",
+    ["orbit/build/accessible"] = "Keyboard, pointer, and assistive technology reach the same actions.",
+}
+
+local function titleFor(id: string?): string
+    if id == "orbit/learn" then return "Learn" end
+    if id == "orbit/ship" then return "Ship" end
+    if id == "orbit/build/interface" then return "Interface" end
+    if id == "orbit/build/adaptive" then return "Adaptive" end
+    if id == "orbit/build/accessible" then return "Accessible" end
+    return "Node details"
+end
+
+function Application.render(): UI.Node
+    local focusTitle = titleFor(selected)
+    local children: {UI.Node} = {
+        UI.OrbitPath {
+            id = "orbit/path",
+            label = "Orbit path",
+            UI.OrbitReturn {
+                id = "orbit/path/root",
+                text = "Luastra",
+                onTap = "return-root",
+                disabled = depth == "root",
+            },
+            UI.Text {
+                id = "orbit/path/current",
+                text = depth == "root" and "Home" or "Build",
+            },
+        },
+        UI.Constellation {
+            id = "orbit/root",
+            label = "Luastra concepts",
+            depth = 0,
+            layerState = depth == "root" and "active" or "behind",
+            UI.OrbitCenter {
+                id = "orbit/root/center",
+                title = "Luastra",
+                description = "Build apps like games.",
+            },
+            UI.OrbitNode {
+                id = "orbit/build",
+                title = "Build",
+                description = "Enter the next constellation.",
+                nodeKind = "constellation",
+                priority = 1,
+                signalIcon = "compass",
+                relatedTo = { "orbit/learn" },
+                onTap = "open-build",
+            },
+            UI.OrbitNode {
+                id = "orbit/learn",
+                title = "Learn",
+                description = "Understand the semantic model.",
+                priority = 1,
+                signalIcon = "book",
+                status = "Guide",
+                selected = selected == "orbit/learn",
+                relatedTo = { "orbit/build", "orbit/ship" },
+                onTap = "open-focus",
+            },
+            UI.OrbitNode {
+                id = "orbit/ship",
+                title = "Ship",
+                description = "Verify web, desktop, and mobile.",
+                priority = 2,
+                signalIcon = "rocket",
+                selected = selected == "orbit/ship",
+                relatedTo = { "orbit/learn" },
+                onTap = "open-focus",
+            },
+        },
+    }
+
+    if visitedBuild then
+        table.insert(children, UI.Constellation {
+            id = "orbit/build-space",
+            label = "Build an interface",
+            depth = 1,
+            layerState = depth == "build" and "active" or "ahead",
+            UI.OrbitCenter {
+                id = "orbit/build-space/center",
+                title = "Build",
+                description = "Semantic, adaptive, accessible.",
+            },
+            UI.OrbitNode {
+                id = "orbit/build/interface",
+                title = "Interface",
+                description = "Describe content and actions.",
+                priority = 1,
+                signalIcon = "spark",
+                selected = selected == "orbit/build/interface",
+                relatedTo = { "orbit/build/adaptive", "orbit/build/accessible" },
+                onTap = "open-focus",
+            },
+            UI.OrbitNode {
+                id = "orbit/build/adaptive",
+                title = "Adaptive",
+                description = "Keep every node available in a list.",
+                priority = 2,
+                selected = selected == "orbit/build/adaptive",
+                relatedTo = { "orbit/build/interface" },
+                onTap = "open-focus",
+            },
+            UI.OrbitNode {
+                id = "orbit/build/accessible",
+                title = "Accessible",
+                description = "Preserve labels, focus, and actions.",
+                priority = 1,
+                signalIcon = "check",
+                status = "Required",
+                statusTone = "success",
+                selected = selected == "orbit/build/accessible",
+                relatedTo = { "orbit/build/interface" },
+                onTap = "open-focus",
+            },
+        })
+    end
+
+    table.insert(children, UI.FocusSurface {
+        id = "orbit/focus",
+        label = focusTitle .. " details",
+        open = selected ~= nil,
+        onDismiss = "close-focus",
+        UI.FocusHeader {
+            id = "orbit/focus/header",
+            UI.Text { id = "orbit/focus/title", text = focusTitle, variant = "heading" },
+            UI.Button {
+                id = "orbit/focus/close",
+                text = "Return to the constellation",
+                onTap = "close-focus",
+            },
+        },
+        UI.Stack {
+            id = "orbit/focus/content",
+            gap = "md",
+            UI.Text {
+                id = "orbit/focus/copy",
+                text = if selected == nil then "Choose a node." else details[selected],
+            },
+        },
+    })
+
+    return UI.Screen {
+        id = "orbit-recipe",
+        documentTitle = "Orbit recipe — Luastra",
+        width = "wide",
+        UI.Orbit {
+            id = "orbit",
+            label = "Luastra learning orbit",
+            presentation = "auto",
+            orbitTheme = "luastra",
+            orbitMotion = "system",
+            maxVisible = 8,
+            table.unpack(children),
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, _value: string)
+    if action == "open-build" and target == "orbit/build" then
+        depth = "build"
+        visitedBuild = true
+        selected = nil
+    elseif action == "return-root" then
+        depth = "root"
+        selected = nil
+    elseif action == "open-focus" and details[target] ~= nil then
+        selected = target
+    elseif action == "close-focus" then
+        selected = nil
+    end
+end
+
+function Application.snapshot()
+    return { depth = depth, visitedBuild = visitedBuild, selected = selected }
+end
+
+return Application`,
+        useWhen: "Replace the complete entry module. Keep the component IDs stable: relationships, selection, focus restoration, tests, and future routes all depend on semantic identity.",
+      }),
+      entry("4. Replace tests/smoke.luau", "root → nested depth → focus → return", "The test follows the meaningful interaction states without asserting host-calculated coordinates or animation frames.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+local function byId(node: any, id: string): any
+    if node.id == id then return node end
+    for _, child in node.children do
+        local found = byId(child, id)
+        if found ~= nil then return found end
+    end
+    return nil
+end
+
+local function hasClass(node: any, name: string): boolean
+    return string.find(" " .. node.properties.className .. " ", " " .. name .. " ", 1, true) ~= nil
+end
+
+local initial = Application.render()
+assert(initial.type == "Screen")
+assert(hasClass(byId(initial, "orbit"), "luastra-orbit"))
+assert(hasClass(byId(initial, "orbit/root"), "luastra-constellation-state-active"))
+assert(byId(initial, "orbit/build-space") == nil)
+assert(byId(initial, "orbit/build").properties.orbitRelatedTo == "orbit/learn")
+
+Application.handle("open-build", "orbit/build", "")
+local nested = Application.render()
+assert(hasClass(byId(nested, "orbit/root"), "luastra-constellation-state-behind"))
+assert(hasClass(byId(nested, "orbit/build-space"), "luastra-constellation-state-active"))
+
+Application.handle("open-focus", "orbit/build/interface", "")
+local focused = Application.render()
+assert(byId(focused, "orbit/focus").properties.open == true)
+assert(hasClass(byId(focused, "orbit/build/interface"), "luastra-orbit-selected"))
+assert(byId(focused, "orbit/focus/title").properties.text == "Interface")
+
+Application.handle("close-focus", "orbit/focus/close", "")
+assert(byId(Application.render(), "orbit/focus").properties.open == false)
+
+Application.handle("return-root", "orbit/path/root", "")
+local returned = Application.render()
+assert(hasClass(byId(returned, "orbit/root"), "luastra-constellation-state-active"))
+assert(hasClass(byId(returned, "orbit/build-space"), "luastra-constellation-state-ahead"))
+assert(Application.snapshot().depth == "root")
+
+return true`,
+        useWhen: "Replace the smoke test. Test semantic states and contracts in Luau; verify actual layout, motion, focus order, and list fallback separately in supported hosts.",
+      }),
+      entry("5. Check and run", "spatial when suitable · complete list when constrained", "The same authored tree should remain navigable as the host changes presentation for the available viewport.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Open the printed local URL.
+# Select Build, open Interface, close the Focus Surface,
+# then resize the viewport until the host chooses list presentation.`,
+        useWhen: "Run from orbit-recipe after saving all three files.",
+        points: [
+          "check and test must report PASS with one passing test.",
+          "Build moves the root constellation behind and makes the nested depth active.",
+          "Interface opens a labelled Focus Surface and closing it returns focus to the originating node.",
+          "A constrained viewport presents the same nodes and actions as a scrollable list; it is not a second application screen.",
+        ],
+      }),
+      entry("6. Read the Orbit anatomy", "Orbit → Path + Constellation(s) + Focus Surface", "Each primitive owns one semantic responsibility and enforces a bounded structure.", {
+        kind: "guide",
+        useWhen: "Read this before adding nodes or another navigation depth.",
+        points: [
+          "UI.Orbit is the presentation boundary and accepts path, search, constellation, and Focus Surface children.",
+          "UI.Constellation represents one depth and requires exactly one center plus 1 to 64 actionable nodes or clusters.",
+          "UI.OrbitCenter names the current space; it is identity, not a button.",
+          "UI.OrbitNode declares a leaf, constellation destination, or action. UI.OrbitCluster represents a real grouped destination.",
+          "UI.FocusSurface contains full leaf detail while the originating constellation remains the navigation context.",
+        ],
+      }),
+      entry("7. Author meaning, not coordinates", "priority + relationships + state → host layout", "Orbit placement is derived from bounded semantic hints, so the same model can survive resizing and different targets.", {
+        kind: "guide",
+        useWhen: "Read this when you are tempted to position a node manually or build a separate mobile layout.",
+        points: [
+          "priority expresses relative importance from 1 to 3; it is not a pixel radius.",
+          "relatedTo contains IDs from the same constellation and influences stable neighbourhoods without creating navigation by itself.",
+          "layerState marks one depth active and retained neighbours behind or ahead for bounded transitions.",
+          "presentation = auto lets the host choose spatial or list mode from width, height, density, and label pressure.",
+          "Every hidden, disabled, busy, selected, status, and action value still comes from Luau application state.",
+        ],
+      }),
+      entry("8. Add routing only when URLs matter", "local state first · typed Navigation next", "This recipe isolates Orbit composition; a production information space should make depth and focused leaves restorable when its product requires deep links or system Back.", {
+        kind: "guide",
+        useWhen: "Read this after the local interaction works and you need reload restoration, browser history, app links, or mobile system Back.",
+        points: [
+          "Use the Typed Navigation and Browser/system Back recipes before replacing depth and selected with route entries.",
+          "Make each constellation and focusable leaf a canonical route when users should link to it directly.",
+          "Orbit Path is hierarchical navigation state, not an unlimited log of visited nodes.",
+          "Retain only the bounded adjacent layers needed for transitions; do not keep every historical constellation rendered.",
+        ],
+      }),
+      entry("9. Verify presentation claims separately", "semantic test ≠ browser/device evidence", "Passing Luau tests proves the model and event transitions, but visual and platform claims need host-specific checks.", {
+        kind: "guide",
+        useWhen: "Read this before publishing an Orbit application or promising accessibility and performance across targets.",
+        points: [
+          "Check desktop, tablet, phone, and short-landscape sizes; width alone does not determine usable spatial layout.",
+          "Verify keyboard entry, directional movement, Escape dismissal, focus restoration, and complete list-mode parity.",
+          "Test orbitMotion = system with operating-system reduced motion and orbitMotion = off without delayed state changes.",
+          "Check every selected theme for normal text, status, controls, retained layers, and Focus Surface contrast.",
+          "Measure idle work and transition responsiveness with diagnostics; visual smoothness is not a substitute for a budget.",
+        ],
+      }),
+    ],
+    callout: "Constellation Orbit is an information architecture, not a space-themed skin. Declare stable meaning and bounded state in Luau; let the host provide geometry, motion, focus, and the complete list fallback.",
   },
   {
     id: "luau-types",
