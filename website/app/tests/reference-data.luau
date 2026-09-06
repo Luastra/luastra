@@ -4,7 +4,7 @@ local ReferenceData = require("app/reference-data")
 
 assert(type(ReferenceData.release.version) == "string")
 assert(ReferenceData.release.version == "0.1.0-alpha")
-assert(ReferenceData.release.sourceSdk == "Source SDK contract 10")
+assert(ReferenceData.release.sourceSdk == "Source SDK contract 13")
 assert(ReferenceData.release.runtimeSdk == "Runtime SDK alpha 8")
 assert(#ReferenceData.sections >= 28)
 assert(#ReferenceData.navigationGroups >= 5)
@@ -52,6 +52,11 @@ for moduleName, items in ReferenceData.inventoryPages do
         assert(type(page.description) == "string" and #page.description > 0)
         assert(type(page.signature) == "string" and #page.signature > 0)
         assert(type(page.code) == "string" and #page.code > 0)
+        assert(type(page.beforeYouUse) == "string" and #page.beforeYouUse > 0)
+        assert(type(page.lifecycle) == "string" and #page.lifecycle > 0)
+        assert(type(page.expectedOutcome) == "string" and #page.expectedOutcome > 0)
+        assert(type(page.failureGuidance) == "string" and #page.failureGuidance > 0)
+        assert(type(page.availability) == "string" and #page.availability > 0)
         if moduleName == "luastra/ui" then
             assert(type(page.parameters) == "table" and #page.parameters > 0)
             assert(type(page.mentalModel) == "string" and #page.mentalModel > 0)
@@ -74,6 +79,11 @@ for moduleName, items in ReferenceData.typeInventoryPages do
         assert(type(page.signature) == "string" and string.find(page.signature, "export type", 1, true) == 1)
         assert(page.code == page.signature)
         assert(type(page.parameters) == "table" and #page.parameters > 0)
+        assert(type(page.beforeYouUse) == "string" and #page.beforeYouUse > 0)
+        assert(type(page.lifecycle) == "string" and #page.lifecycle > 0)
+        assert(type(page.expectedOutcome) == "string" and #page.expectedOutcome > 0)
+        assert(type(page.failureGuidance) == "string" and #page.failureGuidance > 0)
+        assert(type(page.availability) == "string" and #page.availability > 0)
     end
 end
 assert(typeInventoryCount == 60)

@@ -34,7 +34,7 @@ local function themeIndexFor(id: string): number?
 end
 
 local rootNodes = {
-    { id = "landing/product", title = "Build with Luastra", description = "Follow the framework from first install to shipped application.", kind = "constellation", priority = 1, icon = "compass", status = "Start", tone = "active", relatedTo = { "landing/reference", "landing/why" } },
+    { id = "landing/product", title = "Build with Luastra", description = "Follow the framework from first install to a verified web build.", kind = "constellation", priority = 1, icon = "compass", status = "Start", tone = "active", relatedTo = { "landing/reference", "landing/why" } },
     { id = "landing/examples", title = "Example galaxy", description = "Explore applications built from the same semantic SDK.", kind = "cluster", priority = 1, icon = "grid", count = 8, relatedTo = { "landing/product" } },
     { id = "landing/reference", title = "SDK Reference", description = "Read the complete version-bound API documentation.", kind = "action", priority = 1, icon = "book", status = "0.1.0-alpha", tone = "neutral", relatedTo = { "landing/product" } },
     { id = "landing/why", title = "Why Luastra", description = "Use a game-like development loop for application interfaces.", kind = "leaf", priority = 2, icon = "spark", relatedTo = { "landing/targets" } },
@@ -172,7 +172,7 @@ function Landing.render(): UI.Node
         table.insert(orbitChildren, UI.Constellation {
             id = "landing/product-map", label = "Luastra product map", depth = 1,
             layerState = section == "product" and "active" or "ahead",
-            UI.OrbitCenter { id = "landing/product-map/center", title = "Build", description = "From first command to shipped application." },
+            UI.OrbitCenter { id = "landing/product-map/center", title = "Build", description = "From first command to a verified web build." },
             table.unpack(renderNodes(productNodes, searches.product)),
         })
     elseif child == "examples" then

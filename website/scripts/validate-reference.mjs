@@ -41,7 +41,7 @@ for (const section of sections) {
   if (actual !== expected) fail(`${section.id} generated reference page count differs: expected=${expected} actual=${actual}`);
 }
 if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
-if (release.sourceSdk !== "Source SDK contract 10") fail("reference source SDK label is stale");
+if (release.sourceSdk !== "Source SDK contract 13") fail("reference source SDK label is stale");
 if (release.runtimeSdk !== "Runtime SDK alpha 8") fail("reference runtime SDK label is stale");
 for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "events-errors", "policies"])
   if (!sectionIds.includes(id)) fail(`reference misses required learning section: ${id}`);
@@ -130,6 +130,9 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
     if (typeof page.code !== "string" || page.code.length === 0) {
       fail(`${qualified} generated website card lacks a minimal example`);
     }
+    for (const field of ["beforeYouUse", "lifecycle", "expectedOutcome", "failureGuidance", "availability"]) {
+      if (typeof page[field] !== "string" || page[field].length < 40) fail(`${qualified} lacks operational ${field} guidance`);
+    }
   }
   const shippedTypes = [...source.matchAll(/^export type ([A-Za-z][A-Za-z0-9]*)\s*=/gm)].map((match) => match[1]).sort();
   const documentedTypes = [...(sdkTypeInventory[moduleId] ?? [])].sort();
@@ -142,6 +145,28 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
     if (cards.length !== 1) fail(`exported type must have exactly one visible reference entry: ${qualified}`);
   }
   moduleResults.push({ module: moduleId, functions: shippedNames.length, types: shippedTypes.length });
+}
+
+const pageByName = new Map(generatedPages.map((page) => [page.name, page]));
+for (const page of generatedPages.filter((item) => item.kind !== "parameter-group" && item.name.includes(".") && (sdkInventory[item.module]?.includes(item.name.slice(item.name.indexOf(".") + 1)) || sdkTypeInventory[item.module]?.includes(item.name.slice(item.name.indexOf(".") + 1))))) {
+  for (const field of ["beforeYouUse", "lifecycle", "expectedOutcome", "failureGuidance", "availability"]) {
+    if (typeof page[field] !== "string" || page[field].length < 20) fail(`${page.name} lacks operational ${field} guidance`);
+  }
+}
+if (!pageByName.get("Motion.slideIn")?.code.includes("y = 24") || pageByName.get("Motion.slideIn")?.code.includes("fromY")) fail("Motion.slideIn example is stale");
+if (!pageByName.get("Motion.sway")?.code.includes("angleDeg = 2") || pageByName.get("Motion.sway")?.code.includes("rotationDeg = 2")) fail("Motion.sway example is stale");
+if (!pageByName.get("Server.decode")?.code.includes("result.fields") || pageByName.get("Server.decode")?.code.includes("result.value")) fail("Server.decode example reads the wrong success field");
+if (!pageByName.get("Media.decodeState")?.code.includes("result.state.positionMs")) fail("Media.decodeState example reads the wrong success field");
+if (!pageByName.get("Host.launchUrl")?.description.includes("never opens an external destination")) fail("Host.launchUrl purpose is stale");
+for (const name of ["Timer.start", "Timer.restart"]) {
+  const delay = pageByName.get(name)?.parameters.find((parameter) => parameter.name === "options.delayMs");
+  if (delay?.values !== "integer (0..60000)") fail(`${name} delay limit is stale`);
+}
+for (const name of ["Timer.start", "Timer.restart", "Timer.cancel"]) {
+  const returns = pageByName.get(name)?.returns ?? "";
+  if (!returns.includes("do not enter Application.resolve") || returns.includes("correlate the asynchronous completion")) {
+    fail(`${name} return guidance contradicts timer lifecycle semantics`);
+  }
 }
 
 for (const moduleId of [
@@ -167,6 +192,11 @@ for (const asset of ["styles.css", "app.js", "assets/mark.svg"]) {
 }
 if (/<script(?![^>]*\bsrc=)/i.test(index)) fail("inline scripts are not allowed");
 if (/<style\b/i.test(index)) fail("inline styles are not allowed");
+
+const staticRenderer = await readFile(resolve(root, "site", "app.js"), "utf8");
+for (const label of ["Before you use it:", "How it fits:", "What happens next:", "Failures and fixes:", "Availability:"]) {
+  if (!staticRenderer.includes(label)) fail(`static website renderer omits operational guidance label: ${label}`);
+}
 
 const tauriConfig = JSON.parse(await readFile(resolve(root, "src-tauri", "tauri.conf.json"), "utf8"));
 const desktopCsp = tauriConfig?.app?.security?.csp;

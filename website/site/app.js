@@ -78,12 +78,17 @@ function card(item) {
   const props = item.parameters?.length ? "" : renderProps(item.props);
   const returns = item.returns ? `<p><strong>Returns:</strong> ${escapeHtml(item.returns)}</p>` : "";
   const useWhen = item.useWhen ? `<p class="use-when"><strong>When to use:</strong> ${escapeHtml(item.useWhen)}</p>` : "";
+  const beforeYouUse = item.beforeYouUse ? `<p><strong>Before you use it:</strong> ${escapeHtml(item.beforeYouUse)}</p>` : "";
+  const lifecycle = item.lifecycle ? `<p><strong>How it fits:</strong> ${escapeHtml(item.lifecycle)}</p>` : "";
+  const expectedOutcome = item.expectedOutcome ? `<p><strong>What happens next:</strong> ${escapeHtml(item.expectedOutcome)}</p>` : "";
+  const failureGuidance = item.failureGuidance ? `<p><strong>Failures and fixes:</strong> ${escapeHtml(item.failureGuidance)}</p>` : "";
+  const availability = item.availability ? `<p><strong>Availability:</strong> ${escapeHtml(item.availability)}</p>` : "";
   const points = item.points?.length ? `<ul class="compact-list">${item.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>` : "";
   return `<article class="reference-card searchable${item.wide ? " wide" : ""}">
     <h3>${escapeHtml(item.name)}</h3>
     <p class="signature"><code>${escapeHtml(item.signature)}</code></p>
     <p>${escapeHtml(item.description)}</p>
-    ${useWhen}${props}${returns}${points}${parameters}${item.code ? codeBlock(item.code, item.language ?? "Luau") : ""}
+    ${useWhen}${beforeYouUse}${lifecycle}${expectedOutcome}${failureGuidance}${availability}${props}${returns}${points}${parameters}${item.code ? codeBlock(item.code, item.language ?? "Luau") : ""}
   </article>`;
 }
 

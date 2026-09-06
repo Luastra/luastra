@@ -1,7 +1,9 @@
 # Luastra SDK Reference
 
-Version-bound English documentation for Luastra `0.1.0-alpha`. The macOS
-application and generated `luastra.dev` site run the same Luastra project.
+Version-bound English documentation for the development candidate based on
+Luastra `0.1.0-alpha`. The macOS application and generated `luastra.dev` site
+run the same Luastra project. The public installer continues to select the
+immutable `0.1.0-alpha` release until a separately reviewed publication.
 
 The private post-alpha candidate dogfoods Constellation Orbit for the landing
 experience, product map, and example discovery. Documentation and API-reference
@@ -69,5 +71,8 @@ Ordinary pushes do not publish it.
   not depend on Tauri APIs.
 
 The validators catch missing or extra public symbols and require every SDK
-inventory item to resolve to exactly one addressable detail page. Editorial
-review still remains mandatory whenever behavior changes.
+inventory item to resolve to exactly one addressable detail page. Every public
+function and exported type must also explain prerequisites, lifecycle,
+expected outcome, failure handling, availability, and exact checked shape.
+Editorial review and runnable-example verification still remain mandatory
+whenever behavior changes.

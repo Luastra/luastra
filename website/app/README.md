@@ -1,8 +1,10 @@
 # Luastra SDK Reference dogfood application
 
-Source for the English Luastra-native `0.1.0-alpha` documentation application.
-It deliberately uses the same public SDK that it documents and serves as both
-the `luastra.dev` source and a web-application dogfood fixture.
+Source for the English Luastra-native documentation application for the
+development candidate based on `0.1.0-alpha`. It deliberately uses the same
+candidate SDK that it documents and serves as both the `luastra.dev` source and
+a web-application dogfood fixture. The installed public release remains the
+immutable `0.1.0-alpha` boundary until a separately reviewed publication.
 
 ## What is here
 
@@ -26,6 +28,13 @@ model, exact supported parameters, child/layout rules, accessibility notes,
 common mistakes and a copyable example. Shared parameter groups remain linked
 for deeper explanation but are not a substitute for the component-specific
 table.
+
+Every public SDK function and exported type must additionally document what to
+declare or import before use, where it belongs in the application lifecycle,
+what result or event follows, how bounded failures are handled, and whether the
+contract is part of the current development candidate or requires host-specific
+verification. Focused snippets are not labelled as standalone runnable apps;
+complete workflows live in the tutorials and module-level examples.
 
 ## Local workflow
 

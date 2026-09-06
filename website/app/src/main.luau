@@ -591,6 +591,14 @@ local function renderDetail(page: any): UI.Node
         table.insert(input, UI.Text { id = "docs/detail/mental-model-title", text = "Mental model", variant = "subheading" })
         table.insert(input, UI.Text { id = "docs/detail/mental-model", text = page.mentalModel })
     end
+    if page.beforeYouUse ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/before-title", text = "Before you use it", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/before", text = page.beforeYouUse })
+    end
+    if page.lifecycle ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/lifecycle-title", text = "How it fits", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/lifecycle", text = page.lifecycle })
+    end
     if page.useWhen ~= nil then
         table.insert(input, UI.Card {
             id = "docs/detail/use-when",
@@ -633,8 +641,20 @@ local function renderDetail(page: any): UI.Node
         table.insert(input, UI.Text { id = "docs/detail/returns-title", text = "Returns", variant = "subheading" })
         table.insert(input, UI.Text { id = "docs/detail/returns", text = page.returns })
     end
+    if page.expectedOutcome ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/outcome-title", text = "What happens next", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/outcome", text = page.expectedOutcome })
+    end
+    if page.failureGuidance ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/failures-title", text = "Failures and fixes", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/failures", text = page.failureGuidance })
+    end
+    if page.availability ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/availability-title", text = "Availability", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/availability", text = page.availability, tone = "muted" })
+    end
     if page.code ~= nil then
-        table.insert(input, UI.Text { id = "docs/detail/example-title", text = if page.kind == "type" then "Exact declaration" else "Minimal example", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/example-title", text = if page.kind == "type" then "Exact declaration" else "Focused example", variant = "subheading" })
         table.insert(input, UI.CodeBlock { id = "docs/detail/example", code = page.code, language = page.language or "Luau" })
         table.insert(input, UI.Button { id = "docs/detail/copy", text = if page.kind == "type" then "Copy declaration" else "Copy example", appearance = "secondary", onTap = "docs.copy" })
         local copyStatus = copyStatusByTarget["page:" .. page.id]

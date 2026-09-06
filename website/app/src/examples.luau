@@ -6,33 +6,33 @@ local Examples = {}
 
 local learningSteps = {
     {
-        title = "1. Create a project",
-        description = "Start from the installed CLI. The generated project already has a strict entry module and a smoke test.",
-        code = "luastra create hello-luastra\ncd hello-luastra",
+        title = "1. Create the starter",
+        description = "Prerequisite: luastra doctor reports PASS. Create the project, enter it, then open src/main.luau; that file is the application entry declared by luastra.json.",
+        code = "luastra create hello-luastra\ncd hello-luastra\n# Now open src/main.luau in your editor.",
         language = "Shell",
     },
     {
-        title = "2. Check the graph",
-        description = "Run the analyzer before previewing. It verifies module dependencies, SDK identity, capabilities, assets, and strict Luau types.",
-        code = "luastra check",
+        title = "2. Replace the entry module",
+        description = "Paste this complete file into src/main.luau. State lives at module scope, render describes the current screen, and the module returns the Application table.",
+        code = "--!strict\nlocal UI = require(\"luastra/ui\")\n\nlocal completed = false\nlocal Application = {}\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"app\",\n        UI.Text {\n            id = \"app/title\",\n            text = if completed then \"You did it!\" else \"Hello, Luastra\",\n            variant = \"title\",\n            role = \"status\",\n        },\n        UI.Button {\n            id = \"app/continue\",\n            text = if completed then \"Reset\" else \"Continue\",\n            onTap = \"app.toggle\",\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"app.toggle\" and target == \"app/continue\" then\n        completed = not completed\n    end\nend\n\nreturn Application",
+        language = "Luau",
+    },
+    {
+        title = "3. Check the project",
+        description = "Run the analyzer before previewing. It verifies the declared module dependency, ui.render capability, SDK identity, stable IDs, and strict Luau types. Continue only after result is PASS.",
+        code = "luastra check\n# Expected JSON includes: \"result\":\"PASS\"",
         language = "Shell",
     },
     {
-        title = "3. Describe semantic UI",
-        description = "Application.render returns one Screen. Text and Button retain native semantics on every admitted host.",
-        code = "return UI.Screen { id = \"app\",\n    UI.Text { id = \"app/title\", text = \"Hello\", variant = \"title\" },\n    UI.Button { id = \"app/continue\", text = \"Continue\", onTap = \"app.continue\" },\n}",
-        language = "Luau",
+        title = "4. Test the declared modules",
+        description = "Run the starter's test module. It confirms basic SDK construction. As your app grows, add tests that call handle and assert the next rendered state.",
+        code = "luastra test\n# Expected JSON includes: \"result\":\"PASS\"",
+        language = "Shell",
     },
     {
-        title = "4. Handle an event",
-        description = "The host sends a bounded action. Change application state in handle and let the next render describe the result.",
-        code = "function Application.handle(action: string, target: string)\n    if action == \"app.continue\" and target == \"app/continue\" then\n        completed = true\n    end\nend",
-        language = "Luau",
-    },
-    {
-        title = "5. Test and preview",
-        description = "Keep behavior in Luau tests, then run the local host. The URL printed by run is the source of truth.",
-        code = "luastra test\nluastra run",
+        title = "5. Preview the interaction",
+        description = "Start the local host and open the READY URL it prints. Continue changes the heading to You did it!; Reset changes it back. Save the file to trigger a rebuild, and press Ctrl+C to stop.",
+        code = "luastra run\n# Open the printed READY URL. Stop with Ctrl+C.",
         language = "Shell",
     },
 }

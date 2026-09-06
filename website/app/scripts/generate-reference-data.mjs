@@ -218,12 +218,12 @@ const sdkExpandedParameters = Object.freeze({
   ],
   "Timer.start": [
     { name: "options.id", values: "string", description: "Stable lowercase path ID delivered with the one-shot timer event." },
-    { name: "options.delayMs", values: "integer (0..86400000)", description: "Delay before delivery, in milliseconds." },
+    { name: "options.delayMs", values: "integer (0..60000)", description: "Delay before delivery, in milliseconds." },
     { name: "options.value", values: "string?", description: "Optional bounded value delivered with the timer event." },
   ],
   "Timer.restart": [
     { name: "options.id", values: "string", description: "Existing or new stable timer ID to replace atomically." },
-    { name: "options.delayMs", values: "integer (0..86400000)", description: "Fresh delay before the replacement timer fires." },
+    { name: "options.delayMs", values: "integer (0..60000)", description: "Fresh delay before the replacement timer fires." },
     { name: "options.value", values: "string?", description: "Optional bounded value delivered with the replacement event." },
   ],
   "Server.call": [
@@ -260,6 +260,9 @@ function declarationReturn(signature, publicName) {
   const close = signature.lastIndexOf("):");
   if (close < 0) return null;
   const type = signature.slice(close + 2).trim();
+  if (type === "RequestId" && publicName.startsWith("Timer.")) {
+    return "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.";
+  }
   const descriptions = {
     Node: "a validated declarative UI node that becomes part of the next host-neutral render tree",
     RequestId: "an opaque request identifier used to correlate the asynchronous completion in Application.resolve",
@@ -678,9 +681,9 @@ end`,
   "Motion.wait": `local Motion = require("luastra/motion")\nlocal pause = Motion.wait(500)`,
   "Motion.sequence": `local Motion = require("luastra/motion")\nlocal reveal = Motion.sequence({\n    Motion.wait(300),\n    Motion.tween { from = 0, to = 180, durationMs = 500 },\n}, 1)\nlocal motion = { rotationYDeg = reveal }`,
   "Motion.fadeIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.fadeIn { durationMs = 240 }`,
-  "Motion.slideIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.slideIn { fromY = 24, durationMs = 300 }`,
+  "Motion.slideIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.slideIn { y = 24, durationMs = 300 }`,
   "Motion.scaleIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.scaleIn { from = 0.92, durationMs = 220 }`,
-  "Motion.sway": `local Motion = require("luastra/motion")\nlocal motion = Motion.sway { rotationDeg = 2, durationMs = 2400, iterations = 0 }`,
+  "Motion.sway": `local Motion = require("luastra/motion")\nlocal motion = Motion.sway { angleDeg = 2, durationMs = 2400, iterations = 0 }`,
   "Motion.pulse": `local Motion = require("luastra/motion")\nlocal motion = Motion.pulse { scale = 1.05, durationMs = 1800, iterations = 0 }`,
   "Motion.shake": `local Motion = require("luastra/motion")\nlocal motion = Motion.shake { distance = 8, durationMs = 360 }`,
   "Motion.flip": `local Motion = require("luastra/motion")\nlocal motion = Motion.flip { fromDeg = 0, toDeg = 180, durationMs = 500 }`,
@@ -710,7 +713,12 @@ local router = Navigation.createRouter {
   "State.migrate": `local State = require("luastra/state")\nlocal result = State.migrate(oldSnapshot, 2, { [1] = function(fields) return { score = fields.score or "0" } end })`,
   "Host.storageGet": `local Host = require("luastra/host")\nlocal requestId = Host.storageGet("game-state")`,
   "Host.storageSet": `local Host = require("luastra/host")\nlocal requestId = Host.storageSet("game-state", snapshot)`,
-  "Host.launchUrl": `local Host = require("luastra/host")\nlocal requestId = Host.launchUrl()`,
+  "Host.launchUrl": `local Host = require("luastra/host")
+local launchRequestId = Host.launchUrl()
+
+function Application.resolve(id: number, success: boolean, payload: string)
+    if id == launchRequestId and success then applyLaunchLocation(payload) end
+end`,
   "Host.clipboardWrite": `local Host = require("luastra/host")\nlocal requestId = Host.clipboardWrite("luastra check")`,
   "Host.historyPush": `local Host = require("luastra/host")\nHost.historyPush(router.encode())`,
   "Host.historyReplace": `local Host = require("luastra/host")\nHost.historyReplace(router.encode())`,
@@ -722,7 +730,9 @@ local router = Navigation.createRouter {
   "Host.systemBackHistory": `local Host = require("luastra/host")\nHost.systemBackHistory(intentId)`,
   "Host.systemBackExit": `local Host = require("luastra/host")\nHost.systemBackExit(intentId)`,
   "Server.call": `local Server = require("luastra/server")\nlocal requestId = Server.call("records.list.v1", { cursor = "" }, { deadlineMs = 3000, retry = true })`,
-  "Server.decode": `local Server = require("luastra/server")\nlocal result = Server.decode(payload)\nif result.success then records = result.value end`,
+  "Server.decode": `local Server = require("luastra/server")
+local result = Server.decode(payload)
+if result.success then records = result.fields else errorMessage = result.error end`,
   "Media.setQueue": `local Media = require("luastra/media")\nMedia.setQueue({ { id = "intro", source = "asset:audio/intro", title = "Intro", artist = "Luastra" } })`,
   "Media.play": `local Media = require("luastra/media")\nMedia.play()`,
   "Media.pause": `local Media = require("luastra/media")\nMedia.pause()`,
@@ -732,7 +742,9 @@ local router = Navigation.createRouter {
   "Media.previous": `local Media = require("luastra/media")\nMedia.previous()`,
   "Media.state": `local Media = require("luastra/media")\nlocal requestId = Media.state()`,
   "Media.seek": `local Media = require("luastra/media")\nMedia.seek(30_000)`,
-  "Media.decodeState": `local Media = require("luastra/media")\nlocal state = Media.decodeState(payload)\nif state.success then positionMs = state.positionMs end`,
+  "Media.decodeState": `local Media = require("luastra/media")
+local result = Media.decodeState(payload)
+if result.success then positionMs = result.state.positionMs else errorMessage = result.error end`,
 });
 
 const layoutParameters = [
@@ -894,6 +906,113 @@ function uiGuidance(name) {
   };
 }
 
+const hostCapabilities = Object.freeze({
+  "Host.storageGet": "storage.get",
+  "Host.storageSet": "storage.set",
+  "Host.launchUrl": "app.launchurl.get",
+  "Host.clipboardWrite": "clipboard.write",
+  "Host.historyPush": "navigation.history",
+  "Host.historyReplace": "navigation.history",
+  "Host.historyPushLocation": "navigation.history",
+  "Host.historyReplaceLocation": "navigation.history",
+  "Host.historyBack": "navigation.history",
+  "Host.historyCurrent": "navigation.history",
+  "Host.systemBackHandled": "navigation.history",
+  "Host.systemBackHistory": "navigation.history",
+  "Host.systemBackExit": "navigation.history",
+});
+
+function operationalGuidance(name, moduleName, kind) {
+  if (typeof moduleName !== "string" || !moduleName.startsWith("luastra/")) return {};
+  const dependency = `Add ${moduleName} to this module's dependencies in luastra.json, then import it with require(\"${moduleName}\").`;
+  const typePage = kind === "type";
+  if (moduleName === "luastra/ui") return {
+    beforeYouUse: `${dependency} The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.`,
+    lifecycle: typePage
+      ? "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type."
+      : "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    expectedOutcome: typePage ? "A checked annotation that matches the exact exported declaration." : "A validated declarative node appears after it is returned as part of the current render tree.",
+    failureGuidance: typePage ? "If the annotation fails, compare the value with the exact declaration and the producing or consuming function." : "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    availability: name.startsWith("UI.Orbit") || name === "UI.Constellation" || name === "UI.FocusSurface" || name === "UI.FocusHeader"
+      ? "Development candidate: experimental Constellation Orbit API. Verify it against the selected candidate SDK before depending on it."
+      : "Current development candidate API. The public installer still selects the immutable 0.1.0-alpha release until the next release is published.",
+  };
+  if (moduleName === "luastra/assets") return {
+    beforeYouUse: `${dependency} Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.`,
+    lifecycle: typePage ? "Asset types describe checked references and are erased after Luau analysis." : "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
+    expectedOutcome: typePage ? "A type-safe image, audio, font, or union reference." : "A checked reference or canonical asset URI that a compatible API can consume.",
+    failureGuidance: "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    availability: "Current development candidate API; supported consumers vary by asset kind.",
+  };
+  if (moduleName === "luastra/data") return {
+    beforeYouUse: `${dependency} No host capability is required. Define schemas outside render when they are reused.`,
+    lifecycle: typePage ? "The exported type describes schemas or the tagged success/failure result returned by Data.decode." : name === "Data.decode" ? "Data.decode validates an untrusted value synchronously. Branch on result.success before reading result.value or result.error." : "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    expectedOutcome: typePage ? "A checked schema/result annotation." : name === "Data.decode" ? "A tagged success containing a trusted value, or a failure containing a bounded code and path." : "An immutable schema ready to compose or pass to Data.decode.",
+    failureGuidance: "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    availability: "Current development candidate API; host-independent and synchronous.",
+  };
+  if (moduleName === "luastra/debug") return {
+    beforeYouUse: `${dependency} No additional host capability is required. Keep user-visible errors in UI state rather than relying on a developer console.`,
+    lifecycle: "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
+    expectedOutcome: "A prefixed diagnostic appears in the active host's development log.",
+    failureGuidance: "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
+    availability: "Current development candidate diagnostic API.",
+  };
+  if (moduleName === "luastra/timer") return {
+    beforeYouUse: `${dependency} Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.`,
+    lifecycle: typePage ? "Timer types describe the options or acknowledgement identifier." : "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
+    expectedOutcome: typePage ? "A checked timer option or acknowledgement annotation." : "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
+    failureGuidance: "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    availability: "Current development candidate API; exact background timing remains host-dependent.",
+  };
+  if (moduleName === "luastra/motion") return {
+    beforeYouUse: `${dependency} Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.`,
+    lifecycle: typePage ? "Motion types describe immutable timing data and are erased after analysis." : "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    expectedOutcome: typePage ? "A checked descriptor, sequence, channel map, or easing value." : "A descriptor or MotionMap ready to attach to a supported UI node.",
+    failureGuidance: "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    availability: "Current development candidate API; presentation follows host and reduced-motion policy.",
+  };
+  if (moduleName === "luastra/navigation") return {
+    beforeYouUse: `${dependency} No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.`,
+    lifecycle: typePage ? "The type describes a route, stack, compiler, or checked result used by navigation operations." : "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    expectedOutcome: typePage ? "A checked route/navigation annotation." : "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
+    failureGuidance: "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    availability: "Current development candidate API; URL integration is a separate host capability.",
+  };
+  if (moduleName === "luastra/state") return {
+    beforeYouUse: `${dependency} No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.`,
+    lifecycle: typePage ? "The type describes string fields, migration functions, or tagged decode/migration results." : "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
+    expectedOutcome: typePage ? "A checked snapshot or result annotation." : "A deterministic encoded snapshot or a tagged success/failure result.",
+    failureGuidance: "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    availability: "Current development candidate API; persistence support is host-dependent.",
+  };
+  if (moduleName === "luastra/host") {
+    const capability = hostCapabilities[name] ?? "the capability named on the function page";
+    return {
+      beforeYouUse: `${dependency} Declare ${capability} in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.`,
+      lifecycle: typePage ? "Host.RequestId is an opaque correlation value for one asynchronous host operation." : "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+      expectedOutcome: typePage ? "An opaque positive request identifier used only for correlation." : "A RequestId now, followed later by one matching Application.resolve completion.",
+      failureGuidance: "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+      availability: "Current development candidate capability API; verify each claimed host independently.",
+    };
+  }
+  if (moduleName === "luastra/server") return {
+    beforeYouUse: `${dependency} Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.`,
+    lifecycle: typePage ? "The type describes request options or the tagged envelope-decoding result." : name === "Server.call" ? "Server.call starts asynchronous trusted work. Application.resolve reports transport success or failure; decode a successful payload with Server.decode and then validate operation-specific fields." : "Server.decode synchronously validates only the Luastra response envelope and returns fields on success; it does not validate your domain model.",
+    expectedOutcome: typePage ? "A checked request/result annotation." : name === "Server.call" ? "A RequestId now, then one resolve completion from the configured backend." : "A tagged result containing result.fields or a bounded decode error.",
+    failureGuidance: "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    availability: "Current development candidate API; production backend deployment remains application-owned.",
+  };
+  if (moduleName === "luastra/media") return {
+    beforeYouUse: `${dependency} Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.`,
+    lifecycle: typePage ? "The type describes queue input, live playback state, or the tagged state-decoding result." : name === "Media.decodeState" ? "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state." : "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    expectedOutcome: typePage ? "A checked media input/state/result annotation." : name === "Media.decodeState" ? "A tagged result containing result.state or a bounded decode error." : "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    failureGuidance: "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    availability: "Current development candidate API; background playback and system controls require target-specific verification.",
+  };
+  return {};
+}
+
 const pages = [];
 const inventoryPages = {};
 const typeInventoryPages = {};
@@ -936,6 +1055,7 @@ for (const section of sections) {
       sectionId: section.id,
       sectionTitle: section.title,
       module: section.module ?? null,
+      ...operationalGuidance(card.name, section.module, card.kind),
       ...uiGuidance(card.name),
       callable: card.kind === "function" || functionDeclaration !== null,
       useWhen: card.useWhen ?? section.summary,
