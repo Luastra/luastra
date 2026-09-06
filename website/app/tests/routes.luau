@@ -59,6 +59,9 @@ assert(Application.snapshot().query == "")
 Application.handle("open_url", "browser", "https://luastra.dev/#/docs/overview")
 assert(Application.snapshot().location == "/docs/overview")
 assert(requests[9].kind == "navigation.history" and requests[9].operation == "replace-location")
+local overviewTree = Application.render()
+assert((findNode(overviewTree, "docs/nav/group-1/item-1").properties :: any).href == "#/docs/overview")
+assert((findNode(overviewTree, "docs/nav/group-1/item-2").properties :: any).href == "#/docs/installation")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/docs/recipe-history")
 assert(Application.snapshot().location == "/docs/recipe-history")
@@ -77,6 +80,8 @@ Application.handle("open_url", "browser", "https://luastra.dev/#/reference/not-a
 assert(Application.snapshot().location == "/docs/overview")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/docs/ui")
+local uiTree = Application.render()
+assert((findNode(uiTree, "docs/page-link-125").properties :: any).href == "#/reference/ui%2Fitem-4")
 assert(findNode(Application.render(), "docs/section/copy") ~= nil)
 Application.handle("docs.copy-section", "docs/section/copy", "")
 assert(requests[#requests].kind == "clipboard.write")

@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -223,16 +223,13 @@ for (const name of sdkInventory["luastra/ui"]) {
   }
 }
 
-const index = await readFile(resolve(root, "site", "index.html"), "utf8");
-for (const asset of ["styles.css", "app.js", "assets/mark.svg"]) {
-  if (!index.includes(asset)) fail(`index.html does not reference ${asset}`);
-}
-if (/<script(?![^>]*\bsrc=)/i.test(index)) fail("inline scripts are not allowed");
-if (/<style\b/i.test(index)) fail("inline styles are not allowed");
-
-const staticRenderer = await readFile(resolve(root, "site", "app.js"), "utf8");
-for (const label of ["Before you use it:", "How it fits:", "What happens next:", "Failures and fixes:", "Availability:"]) {
-  if (!staticRenderer.includes(label)) fail(`static website renderer omits operational guidance label: ${label}`);
+for (const obsoletePath of ["site/index.html", "site/app.js", "site/styles.css", "site/assets/mark.svg"]) {
+  try {
+    await access(resolve(root, obsoletePath));
+    fail(`obsolete single-page renderer is still present: ${obsoletePath}`);
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
 }
 
 const tauriConfig = JSON.parse(await readFile(resolve(root, "src-tauri", "tauri.conf.json"), "utf8"));

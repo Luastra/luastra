@@ -63,9 +63,10 @@ Ordinary pushes do not publish it.
 
 ## Source-of-truth boundary
 
-- `site/` retains the previous static implementation only as an internal
-  rollback artifact; it is not the publishable site.
-- `site/reference-data.js` is the human-readable, version-bound content source.
+- `site/reference-data.js` is the single human-readable, version-bound content
+  source. It contains documentation data, not a separately runnable website.
+- `site/generated-reference-data.js` is the generated JavaScript snapshot used
+  by content validation; it is not a renderer or deployment entry point.
 - `website/app/` is the Luastra application, page
   generator, live examples and Luau tests.
 - `luastra-site/` is generated and is never edited by hand.
@@ -83,3 +84,9 @@ function and exported type must also explain prerequisites, lifecycle,
 expected outcome, failure handling, availability, and exact checked shape.
 Editorial review and runnable-example verification still remain mandatory
 whenever behavior changes.
+
+The former single-page renderer has been removed. There is one supported
+documentation experience: the routed Luastra application, with canonical
+`#/docs/:section` and `#/reference/:page` locations. The legacy
+`#docs/content` fragment is accepted only as a redirect-compatible input for
+old bookmarks and is immediately replaced by `#/docs/overview`.
