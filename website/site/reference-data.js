@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -1394,6 +1394,209 @@ luastra run
       }),
     ],
     callout: "Validation failure is ordinary application state. Do not throw, log personal form values, or open the modal until every required rule passes.",
+  },
+  {
+    id: "recipe-assets-visuals",
+    title: "Recipe: package an image and compose visuals",
+    module: "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    summary: "Admit a PNG in the project manifest, keep its reference typed until UI.Image, and combine it with scalable semantic and decorative shapes.",
+    guide: [
+      "You will download the public Luastra sample mark, render it inside a bounded image frame, toggle contain versus cover, and add both decorative and meaningful geometry.",
+      "The manifest admits bytes and media type. Assets.image validates the typed ID, Assets.uri creates the host-neutral URI, and UI.Image provides layout and accessibility meaning.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create visuals-recipe", "Create a starter and place a real PNG at the exact path that the manifest will admit.", {
+        language: "Shell",
+        code: `luastra create visuals-recipe
+cd visuals-recipe
+mkdir -p assets
+curl -fL https://raw.githubusercontent.com/Luastra/luastra/main/examples/live-visuals/assets/luastra-mark.png \\
+  -o assets/luastra-mark.png
+# Windows PowerShell alternative:
+# New-Item -ItemType Directory -Force assets
+# Invoke-WebRequest <the same URL> -OutFile assets/luastra-mark.png`,
+        useWhen: "Run this online for the sample, or save your own PNG as assets/luastra-mark.png before continuing.",
+        points: [
+          "The sample is a 512 × 512 RGBA PNG from the public Luastra repository.",
+          "If you use another image format, change both the filename and mediaType in the manifest.",
+        ],
+      }),
+      entry("2. Replace luastra.json", "admit image/luastra-mark", "The asset entry binds a stable typed ID to one project-relative file and its exact media type.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.visuals-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["ui.render"],
+  "assets": [
+    {
+      "id": "image/luastra-mark",
+      "source": "assets/luastra-mark.png",
+      "mediaType": "image/png"
+    }
+  ],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/assets", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/visuals",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main", "luastra/assets"]
+    }
+  ],
+  "tests": ["app/tests/visuals"]
+}`,
+        useWhen: "Replace the generated manifest after the image file exists; check fails closed when the path, type, or asset kind is inconsistent.",
+      }),
+      entry("3. Replace src/main.luau", "typed asset → URI → image · shapes stay code-native", "The bitmap supplies detailed artwork, while Shape supplies resolution-independent geometry without another packaged file.", {
+        wide: true,
+        code: `--!strict
+
+local Assets = require("luastra/assets")
+local UI = require("luastra/ui")
+
+local mark = Assets.image("image/luastra-mark")
+local markSource = Assets.uri(mark)
+local cover = false
+local Application = {}
+
+function Application.render(): UI.Node
+    return UI.Screen {
+        id = "visuals",
+        width = "content",
+        padding = "responsive",
+        UI.Card {
+            id = "visuals/card",
+            gap = "lg",
+            padding = "lg",
+            surface = "elevated",
+            UI.Text { id = "visuals/title", text = "Packaged visuals", variant = "title" },
+            UI.Image {
+                id = "visuals/mark",
+                source = markSource,
+                label = "Luastra orbit mark",
+                width = 280,
+                height = 180,
+                fit = cover and "cover" or "contain",
+                cornerRadius = 24,
+            },
+            UI.Text {
+                id = "visuals/fit-status",
+                text = cover and "Fit: cover" or "Fit: contain",
+                role = "status",
+            },
+            UI.Button {
+                id = "visuals/toggle-fit",
+                text = cover and "Show complete image" or "Fill the frame",
+                onTap = "visuals.toggle-fit",
+            },
+            UI.Row {
+                id = "visuals/shapes",
+                gap = "lg",
+                responsive = true,
+                UI.Shape {
+                    id = "visuals/decoration",
+                    shape = "circle",
+                    width = 72,
+                    height = 72,
+                    fill = "accent",
+                    label = "",
+                },
+                UI.Shape {
+                    id = "visuals/featured",
+                    shape = "star",
+                    width = 88,
+                    height = 88,
+                    fill = "warning",
+                    stroke = "text",
+                    strokeWidth = 2,
+                    label = "Featured visual",
+                },
+            },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, _value: string)
+    if action == "visuals.toggle-fit" and target == "visuals/toggle-fit" then
+        cover = not cover
+    end
+end
+
+function Application.snapshot()
+    return { source = markSource, cover = cover }
+end
+
+return Application`,
+        useWhen: "Replace the complete entry module. Keep the typed reference at module scope and convert it to a URI only at the consuming SDK boundary.",
+      }),
+      entry("4. Replace tests/smoke.luau", "asset identity + render semantics + interaction", "The test verifies the typed asset contract, image accessibility, decorative geometry, meaningful geometry, and fit toggle.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+local Assets = require("luastra/assets")
+
+local function find(node: any, id: string): any?
+    if node.id == id then return node end
+    for _, child in node.children or {} do
+        local result = find(child, id)
+        if result ~= nil then return result end
+    end
+    return nil
+end
+
+local reference = Assets.image("image/luastra-mark")
+assert(reference.kind == "image")
+assert(reference.id == "image/luastra-mark")
+assert(Assets.uri(reference) == "asset:image/luastra-mark")
+
+local initial = Application.render()
+local image = find(initial, "visuals/mark") :: any
+assert(image.properties.source == "asset:image/luastra-mark")
+assert(image.properties.label == "Luastra orbit mark")
+assert(string.find(tostring(image.properties.className), "luastra-fit-contain", 1, true) ~= nil)
+assert((find(initial, "visuals/decoration") :: any).properties.label == "")
+assert((find(initial, "visuals/featured") :: any).properties.label == "Featured visual")
+
+Application.handle("visuals.toggle-fit", "visuals/toggle-fit", "")
+assert(Application.snapshot().cover == true)
+local changedImage = find(Application.render(), "visuals/mark") :: any
+assert(string.find(tostring(changedImage.properties.className), "luastra-fit-cover", 1, true) ~= nil)
+
+return true`,
+        useWhen: "Replace the generated smoke test so the recipe proves both static asset wiring and its visible state transition.",
+      }),
+      entry("5. Check and run", "contain → cover → contain", "Check verifies packaged asset admission; the browser preview separately verifies decoded pixels, sizing, clipping, and accessible presentation.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Expect the complete mark inside a 280 × 180 frame.
+# Press Fill the frame: expect cropping and Fit: cover.`,
+        useWhen: "Run from visuals-recipe after the PNG and all three text files are saved.",
+        points: [
+          "check and test must report PASS with one passing test.",
+          "A successful build proves the file ledger and contract, not that every browser can decode arbitrary image bytes.",
+          "Resize and zoom the preview: the frame stays bounded while contain preserves the complete image and cover may crop it.",
+        ],
+      }),
+      entry("6. Understand the boundaries", "file → manifest → typed reference → URI → semantic node", "Each boundary prevents a different class of accidental mismatch and keeps host packaging deterministic.", {
+        kind: "guide",
+        useWhen: "Read this before adding application artwork, thumbnails, or generated visuals.",
+        points: [
+          "Use UI.Image for admitted PNG, JPEG, WebP, or AVIF detail; SVG is not admitted by this candidate contract.",
+          "Use UI.Shape for supported scalable geometry; do not make a Shape act like a button.",
+          "Give meaningful images and shapes concise labels. Use label=\"\" only when the visual adds no information.",
+          "width and height reserve stable layout space; fit controls scaling inside that frame.",
+          "Asset IDs are stable application identifiers, while source paths are project implementation details.",
+        ],
+      }),
+    ],
+    callout: "Do not pass a filesystem path, data URL, or arbitrary remote URL to UI.Image. Package the file, admit it in luastra.json, and pass Assets.uri(Assets.image(id)).",
   },
   {
     id: "luau-types",

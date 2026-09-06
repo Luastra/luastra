@@ -1,14 +1,19 @@
 import { execFileSync } from "node:child_process";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { sections } from "../site/reference-data.js";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const cli = resolve(root, "cli", "luastra.mjs");
-const recipes = ["recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal"];
+const recipes = ["recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals"];
+const recipeAssets = Object.freeze({
+  "recipe-assets-visuals": [
+    { source: "examples/live-visuals/assets/luastra-mark.png", destination: "assets/luastra-mark.png" },
+  ],
+});
 const temporaryRoot = await mkdtemp(resolve(tmpdir(), "luastra-doc-recipes-"));
 const results = [];
 
@@ -36,6 +41,11 @@ try {
     await writeFile(resolve(project, "luastra.json"), `${manifestText}\n`, "utf8");
     await writeFile(resolve(project, "src", "main.luau"), `${sourceText}\n`, "utf8");
     await writeFile(resolve(project, "tests", "smoke.luau"), `${testText}\n`, "utf8");
+    for (const asset of recipeAssets[id] ?? []) {
+      const destination = resolve(project, asset.destination);
+      await mkdir(dirname(destination), { recursive: true });
+      await copyFile(resolve(root, asset.source), destination);
+    }
 
     for (const command of ["check", "test"]) {
       const output = execFileSync(process.execPath, [cli, command, `--project=${project}/luastra.json`], {
