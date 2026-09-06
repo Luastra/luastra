@@ -128,6 +128,15 @@ async function auditDetailSequence(client) {
     await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail Previous ${expected}`);
     browserBackwardClicks += 1;
   }
+  let browserOverflowClicks = 0;
+  for (let index = 0; index < 40; index += 1) {
+    const movingForward = index % 2 === 0;
+    const selector = movingForward ? "next" : "previous";
+    const expected = referenceHash(pages[movingForward ? 1 : 0].id);
+    await evaluate(client, `document.querySelector('[data-luastra-id="docs/detail/${selector}"]')?.click()`);
+    await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail overflow ${selector} ${expected}`);
+    browserOverflowClicks += 1;
+  }
   return {
     pages: generatedPages.length,
     sections: sections.size,
@@ -136,6 +145,7 @@ async function auditDetailSequence(client) {
     browserPages: pages.length,
     browserForwardClicks,
     browserBackwardClicks,
+    browserOverflowClicks,
   };
 }
 
@@ -450,7 +460,8 @@ async function main() {
         detailSequence.forwardTargets === generatedPages.length - detailSequence.sections &&
         detailSequence.backwardTargets === generatedPages.length - detailSequence.sections &&
         detailSequence.browserForwardClicks === detailSequence.browserPages - 1 &&
-        detailSequence.browserBackwardClicks === detailSequence.browserPages - 1,
+        detailSequence.browserBackwardClicks === detailSequence.browserPages - 1 &&
+        detailSequence.browserOverflowClicks === 40,
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
         ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...typingGuide.errors,

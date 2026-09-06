@@ -110,8 +110,19 @@ for _, pageId in { "recipe-form-modal/item-3", "recipe-media/item-3", "recipe-or
     local longExample = Application.render()
     local firstBlock = findNode(longExample, "docs/detail/example")
     local secondBlock = findNode(longExample, "docs/detail/example-2")
-    assert(firstBlock ~= nil and #(firstBlock.properties :: any).code <= 4096)
-    assert(secondBlock ~= nil and #(secondBlock.properties :: any).code <= 4096)
+    assert(firstBlock ~= nil and #(firstBlock.properties :: any).text <= 4096)
+    assert(secondBlock ~= nil and #(secondBlock.properties :: any).text <= 4096)
+end
+
+Application.handle("open_url", "browser", "https://luastra.dev/#/reference/advanced-tutorial%2Fitem-1")
+for index = 1, 40 do
+    local movingForward = index % 2 == 1
+    local controlId = movingForward and "docs/detail/next" or "docs/detail/previous"
+    local expectedLocation = movingForward and "/reference/advanced-tutorial%2Fitem-2" or "/reference/advanced-tutorial%2Fitem-1"
+    local control = findNode(Application.render(), controlId)
+    assert(control ~= nil)
+    Application.handle("docs.open-page", control.id, "")
+    assert(Application.snapshot().location == expectedLocation)
 end
 
 return true

@@ -170,7 +170,14 @@ end
 
 local function pushEntry(entry: any)
     local result = navigation.push(entry)
-    if not result.success then return end
+    if not result.success then
+        local errorCode = if result.error ~= nil then result.error.code else ""
+        if errorCode ~= "stack_depth_exceeded" then return end
+        local previous = navigation.current()
+        navigation = Navigation.createRouter { compiler = routeCompiler, initial = previous }
+        result = navigation.push(entry)
+        assert(result.success, "compacted site route did not resolve")
+    end
     assert(applyRoute(), "site route did not resolve")
     if result.changed and historyEstablished then Host.historyPushLocation(locationFor(), navigation.encode()) end
 end
