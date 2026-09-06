@@ -429,10 +429,22 @@ export const sections = Object.freeze([
         useWhen: "Use this when installing Luastra on a supported machine for the first time or when installing an explicitly selected release version.",
         points: ["Supported archives: macOS arm64/x64, Linux x64, and Windows x64.", "A checksum, receipt, or installed-file mismatch fails closed.", "The installer never edits shell profiles or the Windows registry."],
       }),
-      entry("Offline installation", "local manifest + one host archive", "Copy the installer, release manifest, and matching host archive into one directory. The same manifest and file-ledger checks run without a network request.", {
+      entry("Offline installation", "GitHub Release assets → one transfer directory → verified install", "On a connected machine, open the v0.1.0-alpha GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.", {
         language: "Shell",
-        code: `node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
+        code: `# Every required file is in this release's Assets list:
+# https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha
+
+# Run from the directory containing the three downloaded files:
+node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
         useWhen: "Use this on an offline machine or when release assets are transferred through a controlled internal channel.",
+        points: [
+          "macOS Apple Silicon (M1 or newer): luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz.",
+          "macOS Intel: luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz.",
+          "Linux x64: luastra-sdk-0.1.0-alpha-linux-x64.tar.gz.",
+          "Windows x64: luastra-sdk-0.1.0-alpha-win32-x64.tar.gz.",
+          "GitHub may collapse the list behind Show all assets. Download the archives from the Release page, not from the repository Code tab.",
+          "Keep the original filenames: the manifest selects the current host and the installer verifies the matching archive and its internal file ledger.",
+        ],
       }),
       entry("System requirement", "Node.js 24 or newer", "Node.js 24 or newer is the only runtime prerequisite for packaged CLI workflows. No npm install, Rust, Xcode, Android Studio, or repository checkout is required.", {
         language: "Shell",
@@ -450,6 +462,12 @@ export const sections = Object.freeze([
         code: `luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use 0.1.0-alpha\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>`,
         useWhen: "Run doctor after installation or switching; use an older retained version when an update must be rolled back.",
       }),
+    ],
+    links: [
+      {
+        text: "Open the v0.1.0-alpha Release assets",
+        href: "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha",
+      },
     ],
     callout: "SHA-256 proves equality with the manifest obtained from the release channel. The source alpha does not claim publisher signatures, Apple notarization, Windows Authenticode, GUI installers, or stores.",
   },
@@ -469,7 +487,7 @@ export const sections = Object.freeze([
     example: `luastra create hello-luastra\ncd hello-luastra\n# Edit src/main.luau, then run:\nluastra check\nluastra test\nluastra run`,
     callout: "Do not open dist/web/index.html with file://. Luastra does not yet ship a separate serve command; luastra run is the supported local preview, while deployment or another HTTP server owns a built dist/web directory.",
   },
-  { id: "workflow", title: "Workflow", summary: "From a new project to a verified web build.", cards: [["Create a project", "create <directory>", "Creates a new starter project in a missing or empty directory.", "Use this once when beginning an application; then enter the created directory before running the remaining commands."], ["Check", "check", "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.", "Run after changing source code or luastra.json, and always before tests, preview, or a release build."], ["Run tests", "test", "Runs the project’s bounded Luau test modules.", "Run after changing application logic, event handling, state transitions, or SDK-facing code."], ["Run preview", "run", "Starts the local development server with rebuilding and reload feedback.", "Use during interactive development when you want to inspect and debug the application in a browser."], ["Build web", "build web", "Creates the static web output in dist/web.", "Use when you need a production-style web artifact for HTTP serving or deployment verification."], ["Build bundle", "build bundle", "Creates the host-neutral runtime bundle.", "Use when a host workflow needs the compiled Luastra application bundle rather than the complete static website."]].map(([name, command, description, useWhen]) => entry(name, `luastra ${command}`, description, { language: "Shell", code: `luastra ${command}`, useWhen })) },
+  { id: "workflow", title: "Workflow", summary: "From a new project to a verified web build.", cards: [["Create a project", "create <directory>", "Creates a new starter project in a missing or empty directory.", "Use this once when beginning an application; then enter the created directory before running the remaining commands."], ["Check", "check", "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.", "Run after changing source code or luastra.json, and always before tests, preview, or a release build."], ["Run tests", "test", "Runs the project’s bounded Luau test modules.", "Run after changing application logic, event handling, state transitions, or SDK-facing code."], ["Run preview", "run", "Starts the local development server with rebuilding and reload feedback.", "Use during interactive development when you want to inspect and debug the application in a browser."], ["Build web", "build web", "Creates a complete static web application in dist/web: the compiled bundle plus the compatible Wasm VM, browser host, renderer, HTML, CSS, JavaScript, and project assets.", "Use when you need a production-style web artifact for HTTP serving or deployment verification.", { points: ["This is the build users can open through an HTTP server or deploy to static hosting.", "Opening dist/web/index.html through file:// is unsupported.", "Use luastra run instead when you need watch-mode rebuilding during development."] }], ["Build bundle", "build bundle", "Creates the host-neutral integration artifact in dist/bundle. It contains luastra.bundle.json, content-addressed compiled Luau modules, project-assets.json, and declared project assets, but no VM, renderer, HTML page, or native window.", "Use when a compatible Luastra host or packaging workflow needs the compiled application separately from its presentation and platform runtime.", { points: ["The bundle is not a standalone executable or website and cannot be opened directly.", "Use luastra run for an interactive development preview or luastra build web for a browser-ready artifact.", "A custom desktop, mobile, embedded, or test host must verify the bundle manifest, VM/protocol compatibility, capabilities, module hashes, and asset ledger before loading it into the matching Luastra VM.", "The public alpha CLI intentionally has no application-facing run-bundle command; repository runners are integration tools and do not replace a complete host UI."] }]].map(([name, command, description, useWhen, details]) => entry(name, `luastra ${command}`, description, { language: "Shell", code: `luastra ${command}`, useWhen, ...(details ?? {}) })) },
   { id: "learning-path", title: "Interactive learning path", module: "15–25 minutes · resettable", summary: "Follow one cumulative sequence from a verified installation to a stateful accessible interaction.", guide: ["Prerequisite: finish Installation and confirm luastra doctor reports PASS.", "Use Next and Back to move through the steps. Step 2 is a complete src/main.luau file; later steps verify, test, and preview that same file."], callout: "The controls below are rendered and handled by Luastra itself. Completing buttons here does not run commands on your computer; copy each step into your own terminal or editor." },
   {
     id: "recipes",
@@ -3677,7 +3695,7 @@ end`,
     title: "Command line",
     module: "installed luastra CLI",
     summary: "Run project and SDK workflows with explicit paths, JSON success output, and non-zero failures prefixed by Luastra: on stderr.",
-    guide: ["Project commands use ./luastra.json by default. Pass --project=<directory-or-manifest> when running them from elsewhere.", "There is no general --help command in this alpha. The exact admitted syntax is listed below; unknown commands and options fail with a usage line."],
+    guide: ["Project commands use ./luastra.json by default. Pass --project=<directory-or-manifest> when running them from elsewhere.", "There is no general --help command in this alpha. The exact admitted syntax is listed below; unknown commands and options fail with a usage line.", "Use run for a development preview, build web for a browser-ready static application, and build bundle only when another compatible Luastra host or packaging workflow will supply the VM, renderer, and platform shell."],
     tables: [{ id: "cli-commands", title: "Commands and outputs", rows: [
       row("version", "luastra version", "Prints JSON containing command, result=PASS, and the selected product version."),
       row("doctor", "luastra doctor [--root=<directory>]", "Verifies Node, host selection, manager state, the active SDK receipt, every installed file, and the PATH shim."),
@@ -3688,7 +3706,7 @@ end`,
       row("generate", "luastra generate [--project=<path>]", "Regenerates the typed server client. The manifest must declare backend.declaration, handler, generatedClient, and generatedModule."),
       row("run", "luastra run [--project=<path>] [--port=<port>] [--no-watch]", "Builds and serves a local preview. Default port is 4175; watch mode rebuilds after source changes; Ctrl+C stops it."),
       row("build web", "luastra build web [--project=<path>] [--out=<path>]", "Writes a static web artifact to dist/web by default. The destination must satisfy the build's safety and replacement rules."),
-      row("build bundle", "luastra build bundle [--project=<path>] [--out=<path>]", "Writes the compiled host-neutral application bundle to dist/bundle by default; this is an integration artifact, not a standalone website."),
+      row("build bundle", "luastra build bundle [--project=<path>] [--out=<path>]", "Writes the compiled host-neutral application bundle to dist/bundle by default. It contains bytecode, manifest metadata, hashes, and project assets, but no VM or UI host; it is not directly runnable."),
       row("sdk install", "luastra sdk install --manifest=<path-or-https-url> [--no-use]", "Verifies and installs an immutable release; activates it unless --no-use is supplied."),
       row("sdk list", "luastra sdk list [--root=<directory>]", "Lists installed immutable SDK versions and identifies the active selection."),
       row("sdk use", "luastra sdk use <version> [--root=<directory>]", "Selects a previously installed verified version; use this for rollback."),

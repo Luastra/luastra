@@ -105,13 +105,21 @@ export const generatedPages = Object.freeze([
     "module": "0.1.0-alpha release boundary",
     "callable": false,
     "useWhen": "Use this on an offline machine or when release assets are transferred through a controlled internal channel.",
-    "code": "node ./luastra-install.mjs --manifest=./luastra-release.v1.json",
-    "signature": "local manifest + one host archive",
+    "code": "# Every required file is in this release's Assets list:\n# https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha\n\n# Run from the directory containing the three downloaded files:\nnode ./luastra-install.mjs --manifest=./luastra-release.v1.json",
+    "signature": "GitHub Release assets → one transfer directory → verified install",
     "parameters": [],
     "returns": null,
     "name": "Offline installation",
-    "description": "Copy the installer, release manifest, and matching host archive into one directory. The same manifest and file-ledger checks run without a network request.",
+    "description": "On a connected machine, open the v0.1.0-alpha GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.",
     "language": "Shell",
+    "points": [
+      "macOS Apple Silicon (M1 or newer): luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz.",
+      "macOS Intel: luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz.",
+      "Linux x64: luastra-sdk-0.1.0-alpha-linux-x64.tar.gz.",
+      "Windows x64: luastra-sdk-0.1.0-alpha-win32-x64.tar.gz.",
+      "GitHub may collapse the list behind Show all assets. Download the archives from the Release page, not from the repository Code tab.",
+      "Keep the original filenames: the manifest selects the current host and the installer verifies the matching archive and its internal file ledger."
+    ],
     "previousPageId": "installation/item-1",
     "nextPageId": "installation/item-3",
     "relatedPageIds": []
@@ -382,8 +390,13 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Build web",
-    "description": "Creates the static web output in dist/web.",
+    "description": "Creates a complete static web application in dist/web: the compiled bundle plus the compatible Wasm VM, browser host, renderer, HTML, CSS, JavaScript, and project assets.",
     "language": "Shell",
+    "points": [
+      "This is the build users can open through an HTTP server or deploy to static hosting.",
+      "Opening dist/web/index.html through file:// is unsupported.",
+      "Use luastra run instead when you need watch-mode rebuilding during development."
+    ],
     "previousPageId": "workflow/item-4",
     "nextPageId": "workflow/item-6",
     "relatedPageIds": []
@@ -395,14 +408,20 @@ export const generatedPages = Object.freeze([
     "sectionTitle": "Workflow",
     "module": null,
     "callable": false,
-    "useWhen": "Use when a host workflow needs the compiled Luastra application bundle rather than the complete static website.",
+    "useWhen": "Use when a compatible Luastra host or packaging workflow needs the compiled application separately from its presentation and platform runtime.",
     "code": "luastra build bundle",
     "signature": "luastra build bundle",
     "parameters": [],
     "returns": null,
     "name": "Build bundle",
-    "description": "Creates the host-neutral runtime bundle.",
+    "description": "Creates the host-neutral integration artifact in dist/bundle. It contains luastra.bundle.json, content-addressed compiled Luau modules, project-assets.json, and declared project assets, but no VM, renderer, HTML page, or native window.",
     "language": "Shell",
+    "points": [
+      "The bundle is not a standalone executable or website and cannot be opened directly.",
+      "Use luastra run for an interactive development preview or luastra build web for a browser-ready artifact.",
+      "A custom desktop, mobile, embedded, or test host must verify the bundle manifest, VM/protocol compatibility, capabilities, module hashes, and asset ledger before loading it into the matching Luastra VM.",
+      "The public alpha CLI intentionally has no application-facing run-bundle command; repository runners are integration tools and do not replace a complete host UI."
+    ],
     "previousPageId": "workflow/item-5",
     "nextPageId": null,
     "relatedPageIds": []
@@ -14237,7 +14256,7 @@ export const generatedPages = Object.freeze([
       {
         "name": "build bundle",
         "values": "luastra build bundle [--project=<path>] [--out=<path>]",
-        "description": "Writes the compiled host-neutral application bundle to dist/bundle by default; this is an integration artifact, not a standalone website."
+        "description": "Writes the compiled host-neutral application bundle to dist/bundle by default. It contains bytecode, manifest metadata, hashes, and project assets, but no VM or UI host; it is not directly runnable."
       },
       {
         "name": "sdk install",

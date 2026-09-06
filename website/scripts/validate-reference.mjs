@@ -95,6 +95,43 @@ for (const section of sections) {
   }
 }
 
+const installation = sections.find((section) => section.id === "installation");
+const offlineInstallation = installation?.cards?.find((card) => card.name === "Offline installation");
+const offlineInstallationText = JSON.stringify(offlineInstallation);
+for (const requiredReleaseDetail of [
+  "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha",
+  "luastra-install.mjs",
+  "luastra-release.v1.json",
+  "luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz",
+  "luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz",
+  "luastra-sdk-0.1.0-alpha-linux-x64.tar.gz",
+  "luastra-sdk-0.1.0-alpha-win32-x64.tar.gz",
+]) {
+  if (!offlineInstallationText.includes(requiredReleaseDetail)) {
+    fail(`offline installation misses required release detail: ${requiredReleaseDetail}`);
+  }
+}
+if (!installation.links?.some((link) => link.href === "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha")) {
+  fail("installation overview misses the exact release-assets link");
+}
+
+const workflow = sections.find((section) => section.id === "workflow");
+const bundleWorkflow = workflow?.cards?.find((card) => card.name === "Build bundle");
+const bundleWorkflowText = JSON.stringify(bundleWorkflow);
+for (const requiredBundleDetail of [
+  "dist/bundle",
+  "luastra.bundle.json",
+  "project-assets.json",
+  "not a standalone executable or website",
+  "no application-facing run-bundle command",
+]) {
+  if (!bundleWorkflowText.includes(requiredBundleDetail)) {
+    fail(`build bundle guidance misses required detail: ${requiredBundleDetail}`);
+  }
+}
+const webWorkflow = workflow?.cards?.find((card) => card.name === "Build web");
+if (!JSON.stringify(webWorkflow).includes("file://")) fail("build web guidance misses the file URL boundary");
+
 for (const section of sections.filter((item) => item.id === item.module?.slice("luastra/".length))) {
   if ((section.summary?.length ?? 0) < 140) fail(`${section.id} needs a complete module overview`);
   if (!Array.isArray(section.guide) || section.guide.length < 2) fail(`${section.id} needs operational module guidance`);

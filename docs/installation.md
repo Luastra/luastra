@@ -53,12 +53,38 @@ node luastra-install.mjs \
 
 ## Offline installation
 
-Place `luastra-install.mjs`, `luastra-release.v1.json`, and the one archive for
-the destination host in a directory, then run:
+On a machine with internet access, open the
+[`v0.1.0-alpha` GitHub Release](https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha)
+and expand its **Assets** list. Download these three files:
+
+1. `luastra-install.mjs`;
+2. `luastra-release.v1.json`;
+3. exactly one SDK archive matching the destination machine, using the host
+   table above.
+
+The archives are GitHub Release downloads; they are not obtained from the
+repository **Code** tab. Keep every filename unchanged. Copy the three files
+into one directory on the offline machine, open a terminal in that directory,
+and run:
 
 ```sh
 node ./luastra-install.mjs --manifest=./luastra-release.v1.json
 ```
+
+For example, an Apple Silicon Mac directory contains:
+
+```text
+offline-luastra-install/
+  luastra-install.mjs
+  luastra-release.v1.json
+  luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz
+```
+
+The installer detects the offline machine, finds the matching filename named
+by the local release manifest, and verifies the archive plus its internal file
+ledger before installation. `SHA256SUMS` may also be downloaded for independent
+inspection, but it is not an additional command-line argument and is not one
+of the three files required by the offline installer invocation above.
 
 The installer writes only beneath `~/.luastra` by default:
 
