@@ -45,9 +45,9 @@ local targetPages: {[string]: string} = {}
 local targetSections: {[string]: string} = {}
 
 local sectionByIdMap: {[string]: any} = {}
-local pageById: {[string]: boolean} = {}
+local pageById: {[string]: any} = {}
 for _, section in ReferenceData.sections do sectionByIdMap[section.id] = section end
-for _, page in ReferenceData.pages do pageById[page.id] = true end
+for _, page in ReferenceData.pages do pageById[page.id] = page end
 
 local routeCompiler = Navigation.compile {
     { name = "home", path = "/" },
@@ -114,10 +114,7 @@ end
 
 local function selectedPage(): any?
     if selectedPageId == nil then return nil end
-    for _, page in ReferenceData.pages do
-        if page.id == selectedPageId then return page end
-    end
-    return nil
+    return pageById[selectedPageId]
 end
 
 local function sectionById(id: string): any?
@@ -153,7 +150,7 @@ local function applyRoute(): boolean
         return sectionById(selectedSection) ~= nil
     elseif entry.name == "reference" then
         local pageId = tostring(entry.params.page)
-        if pageById[pageId] ~= true then return false end
+        if pageById[pageId] == nil then return false end
         showingLanding = false
         selectedPageId = pageId
         return true
@@ -197,7 +194,7 @@ local function applyUrl(value: string, appendHistory: boolean): boolean
     local entry = matched.entry :: any
     local params = entry.params :: any
     if entry.name == "docs" and sectionById(tostring(params.section)) == nil then return false end
-    if entry.name == "reference" and pageById[tostring(params.page)] ~= true then return false end
+    if entry.name == "reference" and pageById[tostring(params.page)] == nil then return false end
     local result = appendHistory and navigation.push(entry) or navigation.replace(entry)
     if not result.success or not applyRoute() then return false end
     if historyEstablished then
@@ -293,6 +290,33 @@ local function renderPageLinks(sectionId: string): UI.Node
         table.insert(input, UI.Text { id = `docs/pages/{sectionId}/empty`, text = "This overview has no separate API pages." })
     end
     return UI.Column(input)
+end
+
+local function renderRelatedPages(page: any): UI.Node?
+    if page.relatedPageIds == nil or #page.relatedPageIds == 0 then return nil end
+    local input: any = { id = "docs/detail/related", gap = "sm" }
+    for index, relatedId in page.relatedPageIds do
+        local related = pageById[relatedId]
+        if related ~= nil then
+            table.insert(input, link(`docs/detail/related-{index}`, related.name, related.id))
+        end
+    end
+    if #input == 0 then return nil end
+    return UI.Column(input)
+end
+
+local function renderDetailNavigation(page: any): UI.Node?
+    local input: any = { id = "docs/detail/navigation", gap = "sm", responsive = true }
+    local previousPage = if page.previousPageId ~= nil then pageById[page.previousPageId :: string] else nil
+    local nextPage = if page.nextPageId ~= nil then pageById[page.nextPageId :: string] else nil
+    if previousPage ~= nil then
+        table.insert(input, link("docs/detail/previous", `← Previous: {previousPage.name}`, previousPage.id))
+    end
+    if nextPage ~= nil then
+        table.insert(input, link("docs/detail/next", `Next: {nextPage.name} →`, nextPage.id))
+    end
+    if #input == 0 then return nil end
+    return UI.Actions(input)
 end
 
 local function renderNavigation(): UI.Node
@@ -560,7 +584,12 @@ local function renderParameters(page: any): UI.Node
             UI.TableCell { id = `docs/detail/parameters/row-{index}/description`, text = parameter.description },
         })
     end
-    return UI.Table(tableInput)
+    return UI.Scroll {
+        id = "docs/detail/parameters-scroll",
+        label = "Scrollable parameters table",
+        scroll = "horizontal",
+        UI.Table(tableInput),
+    }
 end
 
 local function renderParameterGroups(page: any): UI.Node?
@@ -677,8 +706,13 @@ local function renderDetail(page: any): UI.Node
     end
     if page.name == "UI.Button" then table.insert(input, Examples.render(exampleCounter)) end
     table.insert(input, UI.Divider { id = "docs/detail/divider" })
-    table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Related pages", variant = "subheading" })
-    table.insert(input, renderPageLinks(page.sectionId))
+    local related = renderRelatedPages(page)
+    if related ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Related pages", variant = "subheading" })
+        table.insert(input, related)
+    end
+    local detailNavigation = renderDetailNavigation(page)
+    if detailNavigation ~= nil then table.insert(input, detailNavigation) end
     return UI.Column(input)
 end
 

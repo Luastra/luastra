@@ -273,6 +273,26 @@ async function main() {
     const forcedFocus = await sample(client);
     await client.send("Emulation.setEmulatedMedia", { features: [] });
 
+    await viewport(client, { width: 390, height: 844 });
+    await route(client, "#/reference/ui%2Fitem-8", "location.hash === '#/reference/ui%2Fitem-8' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail\"]'))");
+    const documentationDetail = await evaluate(client, `(() => {
+      const related = [...document.querySelectorAll('a[data-luastra-id^="docs/detail/related-"]')];
+      const previous = document.querySelector('[data-luastra-id="docs/detail/previous"]');
+      const next = document.querySelector('[data-luastra-id="docs/detail/next"]');
+      const parametersScroll = document.querySelector('[data-luastra-id="docs/detail/parameters-scroll"]');
+      return {
+        hash: location.hash,
+        horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth),
+        relatedCount: related.length,
+        relatedCanonical: related.every((link) => link.getAttribute('href')?.startsWith('#/reference/')),
+        previous: previous?.getAttribute('href') ?? null,
+        next: next?.getAttribute('href') ?? null,
+        parametersScrollContained: parametersScroll != null && parametersScroll.scrollWidth > parametersScroll.clientWidth &&
+          getComputedStyle(parametersScroll).overflowX === 'auto',
+        errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+      };
+    })()`);
+
     const assertions = {
       viewportMatrix: viewportSamples.every((value) => value.pass),
       themeMatrix: themeSamples.every((value) => value.pass),
@@ -284,8 +304,12 @@ async function main() {
       forcedColors: forcedColors.active && forcedColors.focusedId === "landing/path/theme" && forcedColors.outlineStyle !== "none" &&
         forcedColors.outlineWidth >= 2 && forcedColors.iconStrokes.length === 2 && forcedColors.iconStrokes.every((stroke) => stroke !== "none") &&
         samplePass(forcedRoot, { constrained: true }) && samplePass(forcedFocus, { constrained: true, focus: true }),
+      documentationDetail: documentationDetail.hash === "#/reference/ui%2Fitem-8" && documentationDetail.horizontalOverflow === 0 &&
+        documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
+        documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
+        documentationDetail.parametersScrollContained,
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
-        ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors].length === 0,
+        ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors, ...documentationDetail.errors].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -303,8 +327,9 @@ async function main() {
       reducedMotion,
       keyboard,
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
+      documentationDetail,
       result,
-      boundary: "This automated gate covers Chromium layout, target size, brand and icon rendering, theme/focus geometry, keyboard-only flows, emulated forced colors and emulated reduced motion. It does not replace real browser zoom, assistive technology, Firefox, Safari, Capacitor, Tauri or physical-device evidence.",
+      boundary: "This automated gate covers Chromium layout, target size, brand and icon rendering, theme/focus geometry, routed documentation detail links, keyboard-only flows, emulated forced colors and emulated reduced motion. It does not replace real browser zoom, assistive technology, Firefox, Safari, Capacitor, Tauri or physical-device evidence.",
     };
     const reportText = `${JSON.stringify(report, null, 2)}\n`;
     if (selected.output !== null) {

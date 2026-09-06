@@ -8,8 +8,9 @@ immutable `0.1.0-alpha` boundary until a separately reviewed publication.
 
 ## What is here
 
-- `src/main.luau` owns full-content search, navigation, detail pages, section
-  and detail-example copy feedback, versioned preferences, and live examples.
+- `src/main.luau` owns full-content search, navigation, detail pages, curated
+  related-page links, sequential Previous/Next navigation, section and
+  detail-example copy feedback, versioned preferences, and live examples.
   Canonical hash routes and opaque History state keep direct links, reloads and
   browser Back aligned with the rendered Luau state.
 - `src/landing.luau` owns the Constellation Orbit product map, its compact
@@ -19,7 +20,9 @@ immutable `0.1.0-alpha` boundary until a separately reviewed publication.
 - `src/reference-data.luau` is generated from the versioned human-readable
   content in `../site/reference-data.js`.
 - `scripts/generate-reference-data.mjs` creates the Luau snapshot and rejects a
-  public SDK symbol without exactly one complete detail page.
+  public SDK symbol without exactly one complete detail page. It also emits
+  bounded related-page and same-section sequence metadata; weak inferred
+  relationships are omitted instead of padding the list with unrelated links.
 - `tests/reference-data.luau` protects the 95-function/component and 60-exported-type inventories, candidate SDK
   identities, tutorials, learning path, and per-component page contract.
 

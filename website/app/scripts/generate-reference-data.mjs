@@ -1123,6 +1123,80 @@ for (const section of sections) {
   }
 }
 
+const relatedFamilies = [
+  ["UI.Screen", "UI.Theme", "UI.Node", "UI.Column"],
+  ["UI.Column", "UI.Row", "UI.Stack", "UI.Grid", "UI.Scroll"],
+  ["UI.Text", "UI.Code", "UI.CodeBlock", "UI.Image", "UI.Shape"],
+  ["UI.Button", "UI.Link", "UI.Actions", "UI.Field", "UI.Modal"],
+  ["UI.Table", "UI.TableRow", "UI.TableCell", "UI.List", "UI.ListItem"],
+  ["UI.Layer", "UI.FlipCard", "UI.Card", "UI.Image", "UI.Shape"],
+  ["UI.Orbit", "UI.OrbitPath", "UI.OrbitSearch", "UI.Constellation", "UI.OrbitCenter", "UI.OrbitNode"],
+  ["UI.OrbitNode", "UI.OrbitCluster", "UI.FocusSurface", "UI.FocusHeader", "UI.OrbitReturn"],
+  ["Timer.RequestId", "Timer.StartOptions", "Timer.start", "Timer.restart", "Timer.cancel"],
+  ["Server.RequestId", "Server.Options", "Server.call", "Server.decode"],
+  ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult", "Server.decode"],
+  ["Media.RequestId", "Media.QueueItem", "Media.State", "Media.setQueue", "Media.state"],
+  ["Media.play", "Media.pause", "Media.stop", "Media.unload", "Media.seek"],
+  ["Media.next", "Media.previous", "Media.State", "Media.state"],
+  ["Media.DecodeSuccess", "Media.DecodeFailure", "Media.DecodeResult", "Media.decodeState", "Media.State"],
+  ["Navigation.Options", "Navigation.Stack", "Navigation.create", "Navigation.Snapshot"],
+  ["Navigation.RouteEntry", "Navigation.RouteCompiler", "Navigation.EntryStack", "Navigation.createRouter", "Navigation.compile"],
+  ["Navigation.RestoreError", "Navigation.RestoreResult", "Navigation.MutationResult", "Navigation.decideBack"],
+];
+
+const pageByName = new Map(pages.map((page) => [page.name, page]));
+const explicitRelated = new Map();
+for (const family of relatedFamilies) {
+  const admitted = family.filter((name) => pageByName.has(name));
+  for (const name of admitted) {
+    const values = explicitRelated.get(name) ?? [];
+    for (const relatedName of admitted) {
+      if (relatedName !== name && !values.includes(relatedName)) values.push(relatedName);
+    }
+    explicitRelated.set(name, values);
+  }
+}
+
+function relationText(page) {
+  return [page.signature, page.description, page.useWhen, page.code].filter(Boolean).join("\n");
+}
+
+for (const section of sections) {
+  const sectionPages = pages.filter((page) => page.sectionId === section.id);
+  for (const [index, page] of sectionPages.entries()) {
+    page.previousPageId = sectionPages[index - 1]?.id ?? null;
+    page.nextPageId = sectionPages[index + 1]?.id ?? null;
+    const excluded = new Set([page.id, page.previousPageId, page.nextPageId].filter(Boolean));
+    const selected = [];
+    const add = (candidate) => {
+      if (candidate && !excluded.has(candidate.id) && !selected.includes(candidate.id) && selected.length < 4) {
+        selected.push(candidate.id);
+      }
+    };
+    for (const name of explicitRelated.get(page.name) ?? []) add(pageByName.get(name));
+
+    const sourceText = relationText(page);
+    const scored = sectionPages
+      .filter((candidate) => !excluded.has(candidate.id) && !selected.includes(candidate.id))
+      .map((candidate, candidateIndex) => {
+        const shortName = candidate.name.includes(".") ? candidate.name.slice(candidate.name.indexOf(".") + 1) : candidate.name;
+        const reciprocal = relationText(candidate);
+        let score = 0;
+        if (sourceText.includes(candidate.name)) score += 12;
+        if (shortName.length >= 4 && sourceText.includes(shortName)) score += 5;
+        if (reciprocal.includes(page.name)) score += 8;
+        if (page.kind !== candidate.kind) score += 2;
+        score -= Math.abs(index - candidateIndex) / 100;
+        return { candidate, score };
+      })
+      .sort((left, right) => right.score - left.score || left.candidate.id.localeCompare(right.candidate.id));
+    for (const item of scored) {
+      if (selected.length < 3 && item.score >= 8) add(item.candidate);
+    }
+    page.relatedPageIds = selected;
+  }
+}
+
 for (const [moduleName, items] of Object.entries(sdkTypeInventory)) {
   typeInventoryPages[moduleName] = {};
   for (const item of items) {

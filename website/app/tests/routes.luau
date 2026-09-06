@@ -89,4 +89,11 @@ local copyRequest = #requests
 Application.resolve(copyRequest, true, "", "", "")
 assert((findNode(Application.render(), "docs/section/copy-status").properties :: any).text == "Example copied.")
 
+Application.handle("open_url", "browser", "https://luastra.dev/#/reference/ui%2Fitem-8")
+local buttonPage = Application.render()
+assert((findNode(buttonPage, "docs/detail/previous").properties :: any).href == "#/reference/ui%2Fitem-7")
+assert((findNode(buttonPage, "docs/detail/next").properties :: any).href == "#/reference/ui%2Fitem-9")
+assert(findNode(buttonPage, "docs/detail/related-1") ~= nil)
+assert(findNode(buttonPage, "docs/pages/ui") == nil)
+
 return true

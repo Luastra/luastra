@@ -31,6 +31,28 @@ for _, page in ReferenceData.pages do
     pageByName[page.name] = page
 end
 
+for _, page in ReferenceData.pages do
+    local relatedIds: {[string]: boolean} = {}
+    assert(type(page.relatedPageIds) == "table" and #page.relatedPageIds <= 4)
+    for _, relatedId in page.relatedPageIds do
+        assert(pageById[relatedId] ~= nil, `{page.id} links to a missing related page`)
+        assert(relatedId ~= page.id, `{page.id} links to itself`)
+        assert(relatedId ~= page.previousPageId and relatedId ~= page.nextPageId, `{page.id} duplicates sequential navigation`)
+        assert(relatedIds[relatedId] == nil, `{page.id} repeats a related page`)
+        relatedIds[relatedId] = true
+    end
+    if page.previousPageId ~= nil then
+        local previousId = page.previousPageId :: string
+        assert(pageById[previousId] ~= nil)
+        assert(pageById[previousId].sectionId == page.sectionId)
+    end
+    if page.nextPageId ~= nil then
+        local nextId = page.nextPageId :: string
+        assert(pageById[nextId] ~= nil)
+        assert(pageById[nextId].sectionId == page.sectionId)
+    end
+end
+
 for _, name in { "3. Handle the action", "Compile typed routes", "Encode a versioned snapshot", "Validate restored values", "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
     local page = pageByName[name]
     assert(page ~= nil, `{name} page is missing`)

@@ -20,7 +20,10 @@ export const generatedPages = Object.freeze([
       "SDK: checked constructors and functions imported through declared dependencies.",
       "Runtime: executes the admitted module graph and dispatches events.",
       "Host: renders UI and performs declared storage, history, timer, server, or media work."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "overview/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "overview/item-2",
@@ -40,7 +43,10 @@ export const generatedPages = Object.freeze([
       "First app: Installation → Quick start → Beginner tutorial.",
       "Build a feature: open its module overview, then the exact symbol pages and module-level complete example.",
       "Evaluate Luastra: Overview → Support and boundaries → Project manifest → the relevant host capability."
-    ]
+    ],
+    "previousPageId": "overview/item-1",
+    "nextPageId": "overview/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "overview/item-3",
@@ -62,7 +68,10 @@ export const generatedPages = Object.freeze([
       "Capability: a host operation explicitly listed in luastra.json.",
       "Stable id: a unique lowercase path that identifies the same UI element across renders.",
       "Source alpha: usable for evaluation, with breaking changes and incomplete production packaging still possible."
-    ]
+    ],
+    "previousPageId": "overview/item-2",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "installation/item-1",
@@ -83,7 +92,10 @@ export const generatedPages = Object.freeze([
       "Supported archives: macOS arm64/x64, Linux x64, and Windows x64.",
       "A checksum, receipt, or installed-file mismatch fails closed.",
       "The installer never edits shell profiles or the Windows registry."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "installation/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "installation/item-2",
@@ -99,7 +111,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Offline installation",
     "description": "Copy the installer, release manifest, and matching host archive into one directory. The same manifest and file-ledger checks run without a network request.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "installation/item-1",
+    "nextPageId": "installation/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "installation/item-3",
@@ -115,7 +130,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "System requirement",
     "description": "Node.js 24 or newer is the only runtime prerequisite for packaged CLI workflows. No npm install, Rust, Xcode, Android Studio, or repository checkout is required.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "installation/item-2",
+    "nextPageId": "installation/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "installation/item-4",
@@ -136,7 +154,10 @@ export const generatedPages = Object.freeze([
       "For a permanent Windows setting, add %USERPROFILE%\\.luastra\\bin to your user PATH, then open a new terminal.",
       "A successful version command prints JSON whose result is PASS and whose version is 0.1.0-alpha.",
       "A successful doctor command prints JSON with result PASS. Do not continue if doctor reports a checksum, receipt, host, or installed-file mismatch."
-    ]
+    ],
+    "previousPageId": "installation/item-3",
+    "nextPageId": "installation/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "installation/item-5",
@@ -152,7 +173,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Verify and manage SDKs",
     "description": "Verify the active SDK, retain multiple immutable versions, switch explicitly for rollback, update from another verified manifest, and remove only an inactive verified version.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "installation/item-4",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "quickstart/item-1",
@@ -173,7 +197,10 @@ export const generatedPages = Object.freeze([
       "The created tree contains luastra.json, src/main.luau, tests/smoke.luau, assets/, and the starter license.",
       "Open src/main.luau first: it owns state, event handling, and the rendered screen.",
       "luastra.json declares which modules may be imported and which host capabilities the app may use."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "quickstart/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "quickstart/item-2",
@@ -189,7 +216,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Make a visible change",
     "description": "Change the starter title before running it so you can see the connection between Luau source and host UI.",
-    "language": "Luau"
+    "language": "Luau",
+    "previousPageId": "quickstart/item-1",
+    "nextPageId": "quickstart/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "quickstart/item-3",
@@ -210,7 +240,10 @@ export const generatedPages = Object.freeze([
       "Both commands should emit JSON with result set to PASS.",
       "A check failure names the source or manifest problem; fix that first instead of continuing to preview.",
       "The generated smoke test checks SDK construction, not every interaction you add later."
-    ]
+    ],
+    "previousPageId": "quickstart/item-2",
+    "nextPageId": "quickstart/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "quickstart/item-4",
@@ -231,7 +264,10 @@ export const generatedPages = Object.freeze([
       "The page should show your edited title and a Continue button.",
       "Each press updates module state through Application.handle and the next render shows a larger interaction count.",
       "Keep the terminal open while previewing; Ctrl+C stops the local server."
-    ]
+    ],
+    "previousPageId": "quickstart/item-3",
+    "nextPageId": "quickstart/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "quickstart/item-5",
@@ -252,7 +288,10 @@ export const generatedPages = Object.freeze([
       "The command should emit JSON with result=PASS and the output directory.",
       "The installed CLI builds web and host-neutral bundle targets; application-facing desktop/mobile packaging is not yet a CLI command.",
       "Serve dist/web through an HTTP server or hosting provider. Opening index.html through file:// is unsupported."
-    ]
+    ],
+    "previousPageId": "quickstart/item-4",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "workflow/item-1",
@@ -268,7 +307,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Create a project",
     "description": "Creates a new starter project in a missing or empty directory.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "workflow/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "workflow/item-2",
@@ -284,7 +326,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Check",
     "description": "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-1",
+    "nextPageId": "workflow/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "workflow/item-3",
@@ -300,7 +345,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Run tests",
     "description": "Runs the project’s bounded Luau test modules.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-2",
+    "nextPageId": "workflow/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "workflow/item-4",
@@ -316,7 +364,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Run preview",
     "description": "Starts the local development server with rebuilding and reload feedback.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-3",
+    "nextPageId": "workflow/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "workflow/item-5",
@@ -332,7 +383,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Build web",
     "description": "Creates the static web output in dist/web.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-4",
+    "nextPageId": "workflow/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "workflow/item-6",
@@ -348,7 +402,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Build bundle",
     "description": "Creates the host-neutral runtime bundle.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipes/item-1",
@@ -370,7 +427,10 @@ export const generatedPages = Object.freeze([
       "Checks: do not continue until luastra check and luastra test report result=PASS.",
       "Interaction: follow the stated clicks and compare the visible result.",
       "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "recipes/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipes/item-2",
@@ -397,7 +457,10 @@ export const generatedPages = Object.freeze([
       "The Server Function recipe adds a generated client, trusted handler, and asynchronous result decoding.",
       "The Audio Playback recipe adds command completion plus event-driven live media state.",
       "The Constellation Orbit recipe combines semantic nodes, bounded depth, relationships, and focused detail without application-owned coordinates."
-    ]
+    ],
+    "previousPageId": "recipes/item-1",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-timer/item-1",
@@ -413,7 +476,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-timer/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-timer/item-2",
@@ -429,7 +495,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The manifest admits the two imported SDK modules and the host capability required to control timers.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-timer/item-1",
+    "nextPageId": "recipe-timer/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-timer/item-3",
@@ -445,7 +514,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "The button starts work; the timer event changes module state; the following render exposes that change.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-timer/item-2",
+    "nextPageId": "recipe-timer/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-timer/item-4",
@@ -461,7 +533,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test invokes the same timer event that the host delivers and verifies the state read by the following render.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-timer/item-3",
+    "nextPageId": "recipe-timer/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-timer/item-5",
@@ -482,7 +557,10 @@ export const generatedPages = Object.freeze([
       "check must report result=PASS.",
       "test must report tests=1 and passed=1.",
       "The test proves the state transition; the preview interaction separately proves that this browser host scheduled and delivered the timer event."
-    ]
+    ],
+    "previousPageId": "recipe-timer/item-4",
+    "nextPageId": "recipe-timer/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-timer/item-6",
@@ -503,7 +581,10 @@ export const generatedPages = Object.freeze([
       "Use cancel when the owning screen or state is no longer active.",
       "Treat an unexpected late timer event as stale instead of applying it to unrelated state.",
       "Keep delays at or below 60,000 ms; use persisted time or a backend scheduler for longer durable work."
-    ]
+    ],
+    "previousPageId": "recipe-timer/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-navigation/item-1",
@@ -519,7 +600,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-navigation/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-navigation/item-2",
@@ -535,7 +619,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "Pure typed navigation needs no host capability beyond rendering because this recipe does not yet modify browser History.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-navigation/item-1",
+    "nextPageId": "recipe-navigation/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-navigation/item-3",
@@ -551,7 +638,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "Route definitions validate parameters and queries before a mutation can enter the stack.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-navigation/item-2",
+    "nextPageId": "recipe-navigation/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-navigation/item-4",
@@ -567,7 +657,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test drives the same actions as the buttons and checks every canonical location without needing a browser.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-navigation/item-3",
+    "nextPageId": "recipe-navigation/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-navigation/item-5",
@@ -588,7 +681,10 @@ export const generatedPages = Object.freeze([
       "check must report result=PASS and test must report tests=1 and passed=1.",
       "The Back button is disabled at the first route.",
       "An invalid parameter or missing required query produces a bounded unsuccessful mutation instead of a malformed location."
-    ]
+    ],
+    "previousPageId": "recipe-navigation/item-4",
+    "nextPageId": "recipe-navigation/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-navigation/item-6",
@@ -609,7 +705,10 @@ export const generatedPages = Object.freeze([
       "Persist router.encode() with State and Host storage only when navigation must survive restart.",
       "Use Host.historyPushLocation and navigation.history when browser Back and the visible URL must mirror Luau state.",
       "Never concatenate untrusted path fragments when a compiled route can validate and encode them."
-    ]
+    ],
+    "previousPageId": "recipe-navigation/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-storage/item-1",
@@ -625,7 +724,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Create a starter, then replace its manifest, entry module, and smoke test with the complete files below.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-storage/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-storage/item-2",
@@ -641,7 +743,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The manifest admits State, Host, and UI modules plus both storage capabilities.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-storage/item-1",
+    "nextPageId": "recipe-storage/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-storage/item-3",
@@ -657,7 +762,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "Pending request IDs distinguish save and load completions that may arrive out of order.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-storage/item-2",
+    "nextPageId": "recipe-storage/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-storage/item-4",
@@ -673,7 +781,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test proves valid state restoration and confirms malformed data leaves the current counter unchanged.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-storage/item-3",
+    "nextPageId": "recipe-storage/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-storage/item-5",
@@ -694,7 +805,10 @@ export const generatedPages = Object.freeze([
       "check must report result=PASS and test must report tests=1 and passed=1.",
       "Loading before the first save may produce a bounded failure or empty payload; keep the current count.",
       "A browser-host pass does not prove persistence in every desktop or mobile host."
-    ]
+    ],
+    "previousPageId": "recipe-storage/item-4",
+    "nextPageId": "recipe-storage/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-storage/item-6",
@@ -715,7 +829,10 @@ export const generatedPages = Object.freeze([
       "Use State.migrate when an older released version must remain readable.",
       "Never store credentials merely because storage accepts a string.",
       "Ignore unknown RequestIds and clear every matched pending entry before applying a completion."
-    ]
+    ],
+    "previousPageId": "recipe-storage/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-history/item-1",
@@ -731,7 +848,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Create a starter, then replace its manifest, entry module, and smoke test.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-history/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-history/item-2",
@@ -747,7 +867,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The host capability is required for URL/history mutations and platform Back responses.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-history/item-1",
+    "nextPageId": "recipe-history/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-history/item-3",
@@ -763,7 +886,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "The application pushes; the host moves Back; both end by rendering the same validated router.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-history/item-2",
+    "nextPageId": "recipe-history/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-history/item-4",
@@ -779,7 +905,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test supplies encoded router state directly and proves malformed history cannot replace the current route.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-history/item-3",
+    "nextPageId": "recipe-history/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-history/item-5",
@@ -800,7 +929,10 @@ export const generatedPages = Object.freeze([
       "check and test must report PASS with one passing test.",
       "On a mobile host, Back at detail delegates to history; Back at root may request application exit.",
       "Desktop, web, Android, and iOS Back behavior must still be verified independently."
-    ]
+    ],
+    "previousPageId": "recipe-history/item-4",
+    "nextPageId": "recipe-history/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-history/item-6",
@@ -821,7 +953,10 @@ export const generatedPages = Object.freeze([
       "Delegate to host history when a previous route exists.",
       "Request exit only at the application root where the platform supports it.",
       "Ignore malformed or repeated intent values; never respond twice to one intent."
-    ]
+    ],
+    "previousPageId": "recipe-history/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-form-modal/item-1",
@@ -837,7 +972,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Create a starter, then replace its manifest, entry module, and smoke test.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-form-modal/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-form-modal/item-2",
@@ -853,7 +991,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "Form validation and modal state are synchronous application logic, so this recipe needs only ui.render.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-form-modal/item-1",
+    "nextPageId": "recipe-form-modal/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-form-modal/item-3",
@@ -869,7 +1010,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "Every visible value and error comes from Luau state; the modal opens only after normalized values pass both validation layers.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-form-modal/item-2",
+    "nextPageId": "recipe-form-modal/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-form-modal/item-4",
@@ -885,7 +1029,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test drives the same actions as the controls and inspects both application state and accessible render properties.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-form-modal/item-3",
+    "nextPageId": "recipe-form-modal/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-form-modal/item-5",
@@ -906,7 +1053,10 @@ export const generatedPages = Object.freeze([
       "check and test must report PASS with one passing test.",
       "Tab order follows source order; the modal traps focus and returns it to Review after dismissal.",
       "At 200% zoom and on a phone, actions must wrap and the focused field must remain reachable above the software keyboard."
-    ]
+    ],
+    "previousPageId": "recipe-form-modal/item-4",
+    "nextPageId": "recipe-form-modal/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-form-modal/item-6",
@@ -928,7 +1078,10 @@ export const generatedPages = Object.freeze([
       "The email pattern is a small UI check, not proof that an address exists or can receive mail.",
       "Clear a field error when that field changes, then validate the complete form again on Review.",
       "Keep the modal in the tree with open=false so the host can close it and restore focus deterministically."
-    ]
+    ],
+    "previousPageId": "recipe-form-modal/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-assets-visuals/item-1",
@@ -948,7 +1101,10 @@ export const generatedPages = Object.freeze([
     "points": [
       "The sample is a 512 × 512 RGBA PNG from the public Luastra repository.",
       "If you use another image format, change both the filename and mediaType in the manifest."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "recipe-assets-visuals/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-assets-visuals/item-2",
@@ -964,7 +1120,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The asset entry binds a stable typed ID to one project-relative file and its exact media type.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-assets-visuals/item-1",
+    "nextPageId": "recipe-assets-visuals/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-assets-visuals/item-3",
@@ -980,7 +1139,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "The bitmap supplies detailed artwork, while Shape supplies resolution-independent geometry without another packaged file.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-assets-visuals/item-2",
+    "nextPageId": "recipe-assets-visuals/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-assets-visuals/item-4",
@@ -996,7 +1158,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test verifies the typed asset contract, image accessibility, decorative geometry, meaningful geometry, and fit toggle.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-assets-visuals/item-3",
+    "nextPageId": "recipe-assets-visuals/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-assets-visuals/item-5",
@@ -1017,7 +1182,10 @@ export const generatedPages = Object.freeze([
       "check and test must report PASS with one passing test.",
       "A successful build proves the file ledger and contract, not that every browser can decode arbitrary image bytes.",
       "Resize and zoom the preview: the frame stays bounded while contain preserves the complete image and cover may crop it."
-    ]
+    ],
+    "previousPageId": "recipe-assets-visuals/item-4",
+    "nextPageId": "recipe-assets-visuals/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-assets-visuals/item-6",
@@ -1039,7 +1207,10 @@ export const generatedPages = Object.freeze([
       "Give meaningful images and shapes concise labels. Use label=\"\" only when the visual adds no information.",
       "width and height reserve stable layout space; fit controls scaling inside that frame.",
       "Asset IDs are stable application identifiers, while source paths are project implementation details."
-    ]
+    ],
+    "previousPageId": "recipe-assets-visuals/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-motion/item-1",
@@ -1055,7 +1226,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Start from the generated project, then replace its manifest, entry module, and smoke test.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-motion/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-motion/item-2",
@@ -1071,7 +1245,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "Declarative UI motion needs no host capability beyond rendering.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-motion/item-1",
+    "nextPageId": "recipe-motion/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-motion/item-3",
@@ -1087,7 +1264,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "The card keeps one ID while its changed translateX descriptor deliberately restarts that channel.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-motion/item-2",
+    "nextPageId": "recipe-motion/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-motion/item-4",
@@ -1103,7 +1283,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test verifies the initial descriptors, drives the real button action, and proves the changed direction with the same node ID.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-motion/item-3",
+    "nextPageId": "recipe-motion/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-motion/item-5",
@@ -1125,7 +1308,10 @@ export const generatedPages = Object.freeze([
       "Each press updates Luau once; Application.render is not called for every animation frame.",
       "Enable reduced motion in the operating system or browser and reload: content must appear immediately in its final position.",
       "The animation must never be the only indication of the run or direction; the status text carries the same meaning."
-    ]
+    ],
+    "previousPageId": "recipe-motion/item-4",
+    "nextPageId": "recipe-motion/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-motion/item-6",
@@ -1147,7 +1333,10 @@ export const generatedPages = Object.freeze([
       "Use Timer only when elapsed time must change application state; never use it to drive animation frames.",
       "Layout is calculated at the final position. Translation, scale, and rotation do not repair spacing or reserve new bounds.",
       "Avoid continuous motion by default. If it is useful, keep it sparse, stop it when inactive, and preserve the same meaning with motion reduced."
-    ]
+    ],
+    "previousPageId": "recipe-motion/item-5",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-1",
@@ -1163,7 +1352,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Create a starter, then add the backend declaration and handler before generating the client module.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-server/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-2",
@@ -1179,7 +1371,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The manifest declares the capability, trusted files, generated client path, and dependency edge explicitly.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-server/item-1",
+    "nextPageId": "recipe-server/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-3",
@@ -1200,7 +1395,10 @@ export const generatedPages = Object.freeze([
       "authorization: public means no signed-in principal is required; it does not make input trustworthy.",
       "mutation: false declares a read-only query, so this operation does not need an idempotency key.",
       "clientName becomes greet and decodeGreet in the generated Luau module."
-    ]
+    ],
+    "previousPageId": "recipe-server/item-2",
+    "nextPageId": "recipe-server/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-4",
@@ -1221,7 +1419,10 @@ export const generatedPages = Object.freeze([
       "The operation key must exactly match the declaration.",
       "context.reject produces a bounded failure code and message for Application.resolve.",
       "Luastra validates the returned object against the declared result before it crosses the RPC boundary."
-    ]
+    ],
+    "previousPageId": "recipe-server/item-3",
+    "nextPageId": "recipe-server/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-5",
@@ -1242,7 +1443,10 @@ export const generatedPages = Object.freeze([
       "greet(input, options) starts the request and returns a numeric RequestId, not the greeting.",
       "decodeGreet(payload) returns the declared result or nil for malformed, missing, or extra fields.",
       "luastra check rejects a missing or stale generated client."
-    ]
+    ],
+    "previousPageId": "recipe-server/item-4",
+    "nextPageId": "recipe-server/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-6",
@@ -1258,7 +1462,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "6. Replace src/main.luau",
     "description": "The application stores each request ID and changes visible state only after the matching completion is decoded.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-server/item-5",
+    "nextPageId": "recipe-server/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-7",
@@ -1274,7 +1481,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "7. Replace tests/smoke.luau",
     "description": "The smoke test proves the offline contracts without pretending that its isolated VM owns a live backend.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-server/item-6",
+    "nextPageId": "recipe-server/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-8",
@@ -1296,7 +1506,10 @@ export const generatedPages = Object.freeze([
       "The browser request reaches the trusted local handler served by luastra run.",
       "Try a one-character name: expect VALIDATION and the handler message without a client crash.",
       "The numeric RequestId only correlates completion; it is never the operation result."
-    ]
+    ],
+    "previousPageId": "recipe-server/item-7",
+    "nextPageId": "recipe-server/item-9",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-9",
@@ -1318,7 +1531,10 @@ export const generatedPages = Object.freeze([
       "The backend selects greeting.message.v1, enforces authorization, validates input, and validates its result.",
       "Application.resolve matches the RequestId and separates transport failure from successful payload decoding.",
       "decodeGreet admits only the exact declared result before status changes."
-    ]
+    ],
+    "previousPageId": "recipe-server/item-8",
+    "nextPageId": "recipe-server/item-10",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-server/item-10",
@@ -1340,7 +1556,10 @@ export const generatedPages = Object.freeze([
       "Use user or admin authorization for protected work and enforce ownership inside the handler.",
       "Retries are safe for this read-only query. Mutations need an intentional idempotency policy and stable key.",
       "The candidate includes a local backend for luastra run; production backend deployment is a separate host decision."
-    ]
+    ],
+    "previousPageId": "recipe-server/item-9",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-1",
@@ -1360,7 +1579,10 @@ export const generatedPages = Object.freeze([
     "points": [
       "The documentation validator tests the same WAV fixture from examples/media-player/assets/focus.wav.",
       "Use your own admitted WAV, MP3, M4A, or OGG file later; browser codec support still varies by format."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "recipe-media/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-2",
@@ -1376,7 +1598,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The manifest admits both the packaged bytes and the host capability that controls playback.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-media/item-1",
+    "nextPageId": "recipe-media/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-3",
@@ -1392,7 +1617,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "The host owns playback and progress; Luau only issues intent and renders validated snapshots.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-media/item-2",
+    "nextPageId": "recipe-media/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-4",
@@ -1408,7 +1636,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The smoke test drives the same media_state path as the host without pretending to play audio in the isolated test VM.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-media/item-3",
+    "nextPageId": "recipe-media/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-5",
@@ -1430,7 +1661,10 @@ export const generatedPages = Object.freeze([
       "Play begins only after an explicit user action, which satisfies common browser autoplay policy.",
       "The progress text should advance from host events; Application.render does not run on an application timer.",
       "If decoding or playback fails, keep the last admitted state and show a bounded message."
-    ]
+    ],
+    "previousPageId": "recipe-media/item-4",
+    "nextPageId": "recipe-media/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-6",
@@ -1452,7 +1686,10 @@ export const generatedPages = Object.freeze([
       "media_state reports later changes such as progress, ending, buffering, interruption, route, and errors.",
       "Render from the newest decoded Media.State rather than assuming that a pressed button already changed playback.",
       "Ignore unknown RequestIds and reject malformed state payloads without erasing the last valid UI state."
-    ]
+    ],
+    "previousPageId": "recipe-media/item-5",
+    "nextPageId": "recipe-media/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-7",
@@ -1474,7 +1711,10 @@ export const generatedPages = Object.freeze([
       "Raw https://, file://, absolute paths, data URLs, and short forged content tokens are rejected.",
       "A queue contains 1 to 32 items. selectedIndex is one-based in Luau even though decoded queueIndex is zero-based.",
       "Enable Next, Previous, and Seek from decoded queue and duration fields, not from assumptions about the source."
-    ]
+    ],
+    "previousPageId": "recipe-media/item-6",
+    "nextPageId": "recipe-media/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-media/item-8",
@@ -1496,7 +1736,10 @@ export const generatedPages = Object.freeze([
       "Lock-screen metadata and hardware controls require explicit target evidence; source code alone is insufficient.",
       "Test calls, headphones, Bluetooth route changes, audio focus, screen lock, and application disposal where claimed.",
       "Avoid polling. Supported hosts own event cadence and should stay idle when playback and UI are idle."
-    ]
+    ],
+    "previousPageId": "recipe-media/item-7",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-1",
@@ -1512,7 +1755,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "1. Create the project",
     "description": "Start from the normal project skeleton; this recipe needs no assets or asynchronous host capability.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-orbit/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-2",
@@ -1528,7 +1774,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "2. Replace luastra.json",
     "description": "The first Orbit needs only the semantic renderer; navigation state stays local and bounded in this introductory example.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "recipe-orbit/item-1",
+    "nextPageId": "recipe-orbit/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-3",
@@ -1544,7 +1793,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "3. Replace src/main.luau",
     "description": "One small state machine controls active depth and focused leaf; every visual placement decision remains host-owned.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-orbit/item-2",
+    "nextPageId": "recipe-orbit/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-4",
@@ -1560,7 +1812,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "4. Replace tests/smoke.luau",
     "description": "The test follows the meaningful interaction states without asserting host-calculated coordinates or animation frames.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "recipe-orbit/item-3",
+    "nextPageId": "recipe-orbit/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-5",
@@ -1582,7 +1837,10 @@ export const generatedPages = Object.freeze([
       "Build moves the root constellation behind and makes the nested depth active.",
       "Interface opens a labelled Focus Surface and closing it returns focus to the originating node.",
       "A constrained viewport presents the same nodes and actions as a scrollable list; it is not a second application screen."
-    ]
+    ],
+    "previousPageId": "recipe-orbit/item-4",
+    "nextPageId": "recipe-orbit/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-6",
@@ -1604,7 +1862,10 @@ export const generatedPages = Object.freeze([
       "UI.OrbitCenter names the current space; it is identity, not a button.",
       "UI.OrbitNode declares a leaf, constellation destination, or action. UI.OrbitCluster represents a real grouped destination.",
       "UI.FocusSurface contains full leaf detail while the originating constellation remains the navigation context."
-    ]
+    ],
+    "previousPageId": "recipe-orbit/item-5",
+    "nextPageId": "recipe-orbit/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-7",
@@ -1626,7 +1887,10 @@ export const generatedPages = Object.freeze([
       "layerState marks one depth active and retained neighbours behind or ahead for bounded transitions.",
       "presentation = auto lets the host choose spatial or list mode from width, height, density, and label pressure.",
       "Every hidden, disabled, busy, selected, status, and action value still comes from Luau application state."
-    ]
+    ],
+    "previousPageId": "recipe-orbit/item-6",
+    "nextPageId": "recipe-orbit/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-8",
@@ -1647,7 +1911,10 @@ export const generatedPages = Object.freeze([
       "Make each constellation and focusable leaf a canonical route when users should link to it directly.",
       "Orbit Path is hierarchical navigation state, not an unlimited log of visited nodes.",
       "Retain only the bounded adjacent layers needed for transitions; do not keep every historical constellation rendered."
-    ]
+    ],
+    "previousPageId": "recipe-orbit/item-7",
+    "nextPageId": "recipe-orbit/item-9",
+    "relatedPageIds": []
   },
   {
     "id": "recipe-orbit/item-9",
@@ -1669,7 +1936,10 @@ export const generatedPages = Object.freeze([
       "Test orbitMotion = system with operating-system reduced motion and orbitMotion = off without delayed state changes.",
       "Check every selected theme for normal text, status, controls, retained layers, and Focus Surface contrast.",
       "Measure idle work and transition responsiveness with diagnostics; visual smoothness is not a substitute for a budget."
-    ]
+    ],
+    "previousPageId": "recipe-orbit/item-8",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-1",
@@ -1684,7 +1954,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Annotations and inference",
-    "description": "A colon declares the expected type. Luau can infer obvious local values, while function and module boundaries benefit from explicit annotations."
+    "description": "A colon declares the expected type. Luau can infer obvious local values, while function and module boundaries benefit from explicit annotations.",
+    "previousPageId": null,
+    "nextPageId": "luau-types/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-2",
@@ -1703,7 +1976,10 @@ export const generatedPages = Object.freeze([
     "points": [
       "An empty number array is local values: {number} = {}.",
       "Use #values and ipairs only for dense sequences without missing indexes."
-    ]
+    ],
+    "previousPageId": "luau-types/item-1",
+    "nextPageId": "luau-types/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-3",
@@ -1722,7 +1998,10 @@ export const generatedPages = Object.freeze([
     "points": [
       "{[string]: number} means string key to number value.",
       "Do not use #table or ipairs for a sparse dictionary."
-    ]
+    ],
+    "previousPageId": "luau-types/item-2",
+    "nextPageId": "luau-types/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-4",
@@ -1737,7 +2016,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Record types",
-    "description": "A table type is Luau's struct-like construct. The analyzer checks required fields and their value types."
+    "description": "A table type is Luau's struct-like construct. The analyzer checks required fields and their value types.",
+    "previousPageId": "luau-types/item-3",
+    "nextPageId": "luau-types/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-5",
@@ -1756,7 +2038,10 @@ export const generatedPages = Object.freeze([
     "points": [
       "Color exists only for the analyzer.",
       "Colors is a runtime table containing named constants."
-    ]
+    ],
+    "previousPageId": "luau-types/item-4",
+    "nextPageId": "luau-types/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-6",
@@ -1771,7 +2056,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Optional values",
-    "description": "A question mark means that a value may be absent. Narrow away nil before using the value as T."
+    "description": "A question mark means that a value may be absent. Narrow away nil before using the value as T.",
+    "previousPageId": "luau-types/item-5",
+    "nextPageId": "luau-types/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-7",
@@ -1786,7 +2074,12 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Unions and type narrowing",
-    "description": "A value may match either type. A type, typeof, nil, or tag check narrows the union to a safe branch."
+    "description": "A value may match either type. A type, typeof, nil, or tag check narrows the union to a safe branch.",
+    "previousPageId": "luau-types/item-6",
+    "nextPageId": "luau-types/item-8",
+    "relatedPageIds": [
+      "luau-types/item-12"
+    ]
   },
   {
     "id": "luau-types/item-8",
@@ -1802,7 +2095,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Tagged unions",
     "description": "A shared literal tag safely models states that expose different fields.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "luau-types/item-7",
+    "nextPageId": "luau-types/item-9",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-9",
@@ -1818,7 +2114,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Generics",
     "description": "A type parameter lets one checked pattern work with many value types without losing their exact result type.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "luau-types/item-8",
+    "nextPageId": "luau-types/item-10",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-10",
@@ -1833,7 +2132,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Function types",
-    "description": "Callbacks and ordinary functions can be typed. () after the arrow means the function returns no values."
+    "description": "Callbacks and ordinary functions can be typed. () after the arrow means the function returns no values.",
+    "previousPageId": "luau-types/item-9",
+    "nextPageId": "luau-types/item-11",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-11",
@@ -1849,7 +2151,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Exported module types",
     "description": "A local type stays inside its module. export type lets consumers refer to it through the name bound by require.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "luau-types/item-10",
+    "nextPageId": "luau-types/item-12",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-12",
@@ -1864,7 +2169,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "typeof",
-    "description": "Derive a type from an existing value. It is convenient for local configuration; an explicit type is often clearer for a public contract."
+    "description": "Derive a type from an existing value. It is convenient for local configuration; an explicit type is often clearer for a public contract.",
+    "previousPageId": "luau-types/item-11",
+    "nextPageId": "luau-types/item-13",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-13",
@@ -1879,7 +2187,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Intersections",
-    "description": "Require a value to satisfy both types, which is useful when combining small reusable contracts."
+    "description": "Require a value to satisfy both types, which is useful when combining small reusable contracts.",
+    "previousPageId": "luau-types/item-12",
+    "nextPageId": "luau-types/item-14",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-14",
@@ -1900,7 +2211,10 @@ export const generatedPages = Object.freeze([
       "Use unknown at untrusted boundaries and narrow it before use.",
       "Keep any as a temporary escape hatch for code that cannot yet be typed.",
       "Use never to prove that every union alternative was handled."
-    ]
+    ],
+    "previousPageId": "luau-types/item-13",
+    "nextPageId": "luau-types/item-15",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-15",
@@ -1919,7 +2233,10 @@ export const generatedPages = Object.freeze([
     "points": [
       "Use :: only when you know more than inference can prove.",
       "A cast is not a runtime validator and should not be used to silence a real mismatch."
-    ]
+    ],
+    "previousPageId": "luau-types/item-14",
+    "nextPageId": "luau-types/item-16",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/item-16",
@@ -1939,7 +2256,10 @@ export const generatedPages = Object.freeze([
       "table.freeze affects runtime mutation; it is separate from static typing.",
       "Freeze each nested table separately when deep immutability is required.",
       "Freezing a returned module API prevents consumers from replacing its exported fields."
-    ]
+    ],
+    "previousPageId": "luau-types/item-15",
+    "nextPageId": "luau-types/table-1",
+    "relatedPageIds": []
   },
   {
     "id": "luau-types/table-1",
@@ -1976,7 +2296,10 @@ export const generatedPages = Object.freeze([
         "values": "record",
         "description": "A table with known named fields."
       }
-    ]
+    ],
+    "previousPageId": "luau-types/item-16",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "beginner-tutorial/item-1",
@@ -1991,7 +2314,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "1. Import the UI module",
-    "description": "Only declared public dependencies may be imported."
+    "description": "Only declared public dependencies may be imported.",
+    "previousPageId": null,
+    "nextPageId": "beginner-tutorial/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "beginner-tutorial/item-2",
@@ -2006,7 +2332,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "2. Own application state",
-    "description": "Module state survives ordinary renders in the current application session."
+    "description": "Module state survives ordinary renders in the current application session.",
+    "previousPageId": "beginner-tutorial/item-1",
+    "nextPageId": "beginner-tutorial/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "beginner-tutorial/item-3",
@@ -2037,7 +2366,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Nothing. After the handler returns, Luastra renders the application again from current state.",
     "name": "3. Handle the action",
-    "description": "The button emits a bounded action; the handler changes state."
+    "description": "The button emits a bounded action; the handler changes state.",
+    "previousPageId": "beginner-tutorial/item-2",
+    "nextPageId": "beginner-tutorial/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "beginner-tutorial/item-4",
@@ -2052,7 +2384,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "UI.Node — exactly one UI.Screen root containing the current interface.",
     "name": "4. Render semantic UI",
-    "description": "Return the complete host-neutral UI tree for current application state. This example uses Text and Button, but render may compose any supported Luastra UI components."
+    "description": "Return the complete host-neutral UI tree for current application state. This example uses Text and Button, but render may compose any supported Luastra UI components.",
+    "previousPageId": "beginner-tutorial/item-3",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-1",
@@ -2073,7 +2408,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RouteCompiler — a reusable compiler for matching, generating, and canonicalizing admitted route locations.",
     "name": "Compile typed routes",
-    "description": "Define canonical locations once and reject malformed parameters."
+    "description": "Define canonical locations once and reject malformed parameters.",
+    "previousPageId": null,
+    "nextPageId": "advanced-tutorial/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-2",
@@ -2099,7 +2437,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "Encode a versioned snapshot",
-    "description": "Persist a small deterministic snapshot with an explicit version."
+    "description": "Persist a small deterministic snapshot with an explicit version.",
+    "previousPageId": "advanced-tutorial/item-1",
+    "nextPageId": "advanced-tutorial/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-3",
@@ -2125,7 +2466,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Result — a discriminated validation result; branch on success before reading value or error.",
     "name": "Validate restored values",
-    "description": "Static Luau types do not make storage or server payloads trustworthy."
+    "description": "Static Luau types do not make storage or server payloads trustworthy.",
+    "previousPageId": "advanced-tutorial/item-2",
+    "nextPageId": "advanced-tutorial/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-4",
@@ -2166,7 +2510,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Nothing. Update state, clear the pending operation, and let Luastra render again.",
     "name": "Resolve asynchronous work",
-    "description": "Match the RequestId and handle bounded failure information."
+    "description": "Match the RequestId and handle bounded failure information.",
+    "previousPageId": "advanced-tutorial/item-3",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "first-app/item-1",
@@ -2182,7 +2529,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Interaction counter",
     "description": "A complete minimal app.",
-    "wide": true
+    "wide": true,
+    "previousPageId": null,
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "application/item-1",
@@ -2203,7 +2553,10 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses Application.render inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": null,
+    "nextPageId": "application/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "application/item-2",
@@ -2240,7 +2593,10 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses Application.handle inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "application/item-1",
+    "nextPageId": "application/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "application/item-3",
@@ -2287,7 +2643,10 @@ export const generatedPages = Object.freeze([
       "title": "persist and restore state",
       "evidence": "authored-files",
       "description": "This checked recipe uses Application.resolve inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "application/item-2",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "events-errors/table-1",
@@ -2324,7 +2683,10 @@ export const generatedPages = Object.freeze([
         "values": "resolve(requestId, success, payload, code, message)",
         "description": "Match the RequestId saved when the capability call was made, then clear the pending entry."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "events-errors/table-2",
+    "relatedPageIds": []
   },
   {
     "id": "events-errors/table-2",
@@ -2366,7 +2728,10 @@ export const generatedPages = Object.freeze([
         "values": "development failure",
         "description": "Invalid API use fails clearly during check, test, preview, or event handling; fix the call rather than catching message text."
       }
-    ]
+    ],
+    "previousPageId": "events-errors/table-1",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "ui/item-1",
@@ -2399,7 +2764,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "UI.Node — a declarative node in the new render tree.",
     "name": "UI.Properties",
-    "description": "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently."
+    "description": "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently.",
+    "previousPageId": null,
+    "nextPageId": "ui/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "ui/item-2",
@@ -2467,7 +2835,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "UI.Node — a declarative node in the new render tree.",
     "name": "UI.Theme",
-    "description": "UI.Theme is a reusable record of optional screen color overrides. Direct UI.Screen color fields take precedence, while every omitted field inherits Luastra's built-in accessible palette."
+    "description": "UI.Theme is a reusable record of optional screen color overrides. Direct UI.Screen color fields take precedence, while every omitted field inherits Luastra's built-in accessible palette.",
+    "previousPageId": "ui/item-1",
+    "nextPageId": "ui/item-3",
+    "relatedPageIds": [
+      "ui/item-4",
+      "ui/item-5"
+    ]
   },
   {
     "id": "ui/item-3",
@@ -2521,7 +2895,12 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Node inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-2",
+    "nextPageId": "ui/item-4",
+    "relatedPageIds": [
+      "ui/item-5"
+    ]
   },
   {
     "id": "ui/item-4",
@@ -2750,7 +3129,13 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Screen inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-3",
+    "nextPageId": "ui/item-5",
+    "relatedPageIds": [
+      "ui/item-2",
+      "ui/item-7"
+    ]
   },
   {
     "id": "ui/item-5",
@@ -2928,6 +3313,14 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-4",
+    "nextPageId": "ui/item-6",
+    "relatedPageIds": [
+      "ui/item-2",
+      "ui/item-3",
+      "ui/item-34",
+      "ui/item-35"
     ]
   },
   {
@@ -3112,7 +3505,14 @@ export const generatedPages = Object.freeze([
       "title": "package an image and compose visuals",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Row inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-5",
+    "nextPageId": "ui/item-7",
+    "relatedPageIds": [
+      "ui/item-34",
+      "ui/item-35",
+      "ui/item-36"
+    ]
   },
   {
     "id": "ui/item-7",
@@ -3261,7 +3661,15 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Text inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-6",
+    "nextPageId": "ui/item-8",
+    "relatedPageIds": [
+      "ui/item-10",
+      "ui/item-11",
+      "ui/item-17",
+      "ui/item-19"
+    ]
   },
   {
     "id": "ui/item-8",
@@ -3410,7 +3818,14 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Button inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-7",
+    "nextPageId": "ui/item-9",
+    "relatedPageIds": [
+      "ui/item-39",
+      "ui/item-38",
+      "ui/item-23"
+    ]
   },
   {
     "id": "ui/item-9",
@@ -3548,6 +3963,13 @@ export const generatedPages = Object.freeze([
       "action",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-8",
+    "nextPageId": "ui/item-10",
+    "relatedPageIds": [
+      "ui/item-39",
+      "ui/item-38",
+      "ui/item-23"
     ]
   },
   {
@@ -3675,6 +4097,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-9",
+    "nextPageId": "ui/item-11",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-17",
+      "ui/item-19"
     ]
   },
   {
@@ -3823,6 +4252,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-10",
+    "nextPageId": "ui/item-12",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-17",
+      "ui/item-19"
     ]
   },
   {
@@ -3920,7 +4356,10 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "previousPageId": "ui/item-11",
+    "nextPageId": "ui/item-13",
+    "relatedPageIds": []
   },
   {
     "id": "ui/item-13",
@@ -4098,6 +4537,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-12",
+    "nextPageId": "ui/item-14",
+    "relatedPageIds": [
+      "ui/item-15",
+      "ui/item-21",
+      "ui/item-22"
     ]
   },
   {
@@ -4231,6 +4677,12 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-13",
+    "nextPageId": "ui/item-15",
+    "relatedPageIds": [
+      "ui/item-21",
+      "ui/item-22"
     ]
   },
   {
@@ -4384,6 +4836,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-14",
+    "nextPageId": "ui/item-16",
+    "relatedPageIds": [
+      "ui/item-13",
+      "ui/item-21",
+      "ui/item-22"
     ]
   },
   {
@@ -4476,6 +4935,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "visual",
       "motion"
+    ],
+    "previousPageId": "ui/item-15",
+    "nextPageId": "ui/item-17",
+    "relatedPageIds": [
+      "ui/item-18",
+      "ui/item-37",
+      "ui/item-19"
     ]
   },
   {
@@ -4580,7 +5046,15 @@ export const generatedPages = Object.freeze([
       "title": "package an image and compose visuals",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Image inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-16",
+    "nextPageId": "ui/item-18",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-10",
+      "ui/item-11",
+      "ui/item-19"
+    ]
   },
   {
     "id": "ui/item-18",
@@ -4764,6 +5238,13 @@ export const generatedPages = Object.freeze([
       "text-style",
       "semantic",
       "motion"
+    ],
+    "previousPageId": "ui/item-17",
+    "nextPageId": "ui/item-19",
+    "relatedPageIds": [
+      "ui/item-16",
+      "ui/item-37",
+      "ui/item-7"
     ]
   },
   {
@@ -4878,7 +5359,15 @@ export const generatedPages = Object.freeze([
       "title": "package an image and compose visuals",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Shape inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-18",
+    "nextPageId": "ui/item-20",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-10",
+      "ui/item-11",
+      "ui/item-17"
+    ]
   },
   {
     "id": "ui/item-20",
@@ -5031,7 +5520,12 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.TextInput inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-19",
+    "nextPageId": "ui/item-21",
+    "relatedPageIds": [
+      "ui/item-7"
+    ]
   },
   {
     "id": "ui/item-21",
@@ -5209,6 +5703,13 @@ export const generatedPages = Object.freeze([
       "label",
       "layout",
       "semantic"
+    ],
+    "previousPageId": "ui/item-20",
+    "nextPageId": "ui/item-22",
+    "relatedPageIds": [
+      "ui/item-13",
+      "ui/item-14",
+      "ui/item-15"
     ]
   },
   {
@@ -5387,6 +5888,13 @@ export const generatedPages = Object.freeze([
       "text",
       "layout",
       "semantic"
+    ],
+    "previousPageId": "ui/item-21",
+    "nextPageId": "ui/item-23",
+    "relatedPageIds": [
+      "ui/item-13",
+      "ui/item-14",
+      "ui/item-15"
     ]
   },
   {
@@ -5525,7 +6033,15 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Modal inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-22",
+    "nextPageId": "ui/item-24",
+    "relatedPageIds": [
+      "ui/item-8",
+      "ui/item-9",
+      "ui/item-39",
+      "ui/item-38"
+    ]
   },
   {
     "id": "ui/item-24",
@@ -5728,7 +6244,15 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Orbit inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-23",
+    "nextPageId": "ui/item-25",
+    "relatedPageIds": [
+      "ui/item-26",
+      "ui/item-27",
+      "ui/item-28",
+      "ui/item-29"
+    ]
   },
   {
     "id": "ui/item-25",
@@ -5911,7 +6435,14 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.OrbitPath inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-24",
+    "nextPageId": "ui/item-26",
+    "relatedPageIds": [
+      "ui/item-27",
+      "ui/item-28",
+      "ui/item-29"
+    ]
   },
   {
     "id": "ui/item-26",
@@ -6027,6 +6558,13 @@ export const generatedPages = Object.freeze([
     "description": "Creates a controlled local-constellation search input plus a live result summary. The application owns filtering and supplies both the current result count and total count.",
     "props": [
       "semantic"
+    ],
+    "previousPageId": "ui/item-25",
+    "nextPageId": "ui/item-27",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-28",
+      "ui/item-29"
     ]
   },
   {
@@ -6114,7 +6652,14 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Constellation inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-26",
+    "nextPageId": "ui/item-28",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-25",
+      "ui/item-29"
+    ]
   },
   {
     "id": "ui/item-28",
@@ -6216,7 +6761,14 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.OrbitCenter inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-27",
+    "nextPageId": "ui/item-29",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-25",
+      "ui/item-26"
+    ]
   },
   {
     "id": "ui/item-29",
@@ -6379,7 +6931,15 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.OrbitNode inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-28",
+    "nextPageId": "ui/item-30",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-25",
+      "ui/item-26",
+      "ui/item-27"
+    ]
   },
   {
     "id": "ui/item-30",
@@ -6526,6 +7086,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "action",
       "semantic"
+    ],
+    "previousPageId": "ui/item-29",
+    "nextPageId": "ui/item-31",
+    "relatedPageIds": [
+      "ui/item-32",
+      "ui/item-33",
+      "ui/item-24"
     ]
   },
   {
@@ -6644,7 +7211,14 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.FocusSurface inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-30",
+    "nextPageId": "ui/item-32",
+    "relatedPageIds": [
+      "ui/item-29",
+      "ui/item-33",
+      "ui/item-8"
+    ]
   },
   {
     "id": "ui/item-32",
@@ -6827,7 +7401,14 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.FocusHeader inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-31",
+    "nextPageId": "ui/item-33",
+    "relatedPageIds": [
+      "ui/item-29",
+      "ui/item-30",
+      "ui/item-8"
+    ]
   },
   {
     "id": "ui/item-33",
@@ -6945,7 +7526,14 @@ export const generatedPages = Object.freeze([
       "title": "build a small Constellation Orbit",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.OrbitReturn inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-32",
+    "nextPageId": "ui/item-34",
+    "relatedPageIds": [
+      "ui/item-29",
+      "ui/item-30",
+      "ui/item-31"
+    ]
   },
   {
     "id": "ui/item-34",
@@ -7128,7 +7716,14 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Stack inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-33",
+    "nextPageId": "ui/item-35",
+    "relatedPageIds": [
+      "ui/item-5",
+      "ui/item-6",
+      "ui/item-36"
+    ]
   },
   {
     "id": "ui/item-35",
@@ -7311,6 +7906,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "columns",
       "semantic"
+    ],
+    "previousPageId": "ui/item-34",
+    "nextPageId": "ui/item-36",
+    "relatedPageIds": [
+      "ui/item-5",
+      "ui/item-6",
+      "ui/item-37"
     ]
   },
   {
@@ -7494,6 +8096,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "scroll",
       "semantic"
+    ],
+    "previousPageId": "ui/item-35",
+    "nextPageId": "ui/item-37",
+    "relatedPageIds": [
+      "ui/item-5",
+      "ui/item-6",
+      "ui/item-34"
     ]
   },
   {
@@ -7684,7 +8293,15 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Card inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-36",
+    "nextPageId": "ui/item-38",
+    "relatedPageIds": [
+      "ui/item-18",
+      "ui/item-16",
+      "ui/item-17",
+      "ui/item-19"
+    ]
   },
   {
     "id": "ui/item-38",
@@ -7868,7 +8485,14 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Field inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-37",
+    "nextPageId": "ui/item-39",
+    "relatedPageIds": [
+      "ui/item-8",
+      "ui/item-9",
+      "ui/item-23"
+    ]
   },
   {
     "id": "ui/item-39",
@@ -8051,7 +8675,14 @@ export const generatedPages = Object.freeze([
       "title": "add typed navigation",
       "evidence": "authored-files",
       "description": "This checked recipe uses UI.Actions inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "ui/item-38",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "ui/item-8",
+      "ui/item-9",
+      "ui/item-23"
+    ]
   },
   {
     "id": "ui-properties/table-1",
@@ -8143,7 +8774,10 @@ export const generatedPages = Object.freeze([
         "values": "safe string ≤ 256 bytes",
         "description": "Additional admitted class tokens."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "ui-properties/table-2",
+    "relatedPageIds": []
   },
   {
     "id": "ui-properties/table-2",
@@ -8205,7 +8839,10 @@ export const generatedPages = Object.freeze([
         "values": "component id",
         "description": "Associates a visible role=alert."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-1",
+    "nextPageId": "ui-properties/table-3",
+    "relatedPageIds": []
   },
   {
     "id": "ui-properties/table-3",
@@ -8237,7 +8874,10 @@ export const generatedPages = Object.freeze([
         "values": "accent | danger | muted | surface | success | text | transparent | warning",
         "description": "Current Screen theme colors."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-2",
+    "nextPageId": "ui-properties/table-4",
+    "relatedPageIds": []
   },
   {
     "id": "ui-properties/table-4",
@@ -8294,7 +8934,10 @@ export const generatedPages = Object.freeze([
         "values": "#RRGGBB",
         "description": "warning theme color."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-3",
+    "nextPageId": "ui-properties/table-5",
+    "relatedPageIds": []
   },
   {
     "id": "ui-properties/table-5",
@@ -8341,7 +8984,10 @@ export const generatedPages = Object.freeze([
         "values": "action string",
         "description": "Committed IME update action."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-4",
+    "nextPageId": "ui-properties/table-6",
+    "relatedPageIds": []
   },
   {
     "id": "ui-properties/table-6",
@@ -8373,7 +9019,10 @@ export const generatedPages = Object.freeze([
         "values": "{ [property]: Tween | Sequence }",
         "description": "Opacity, rotation, scale, and translation channels."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-5",
+    "nextPageId": "ui-properties/table-7",
+    "relatedPageIds": []
   },
   {
     "id": "ui-properties/table-7",
@@ -8425,7 +9074,10 @@ export const generatedPages = Object.freeze([
         "values": "0…64",
         "description": "Outline thickness."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-6",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "visuals/item-1",
@@ -8440,7 +9092,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Admitted image",
-    "description": "check verifies the file before display."
+    "description": "check verifies the file before display.",
+    "previousPageId": null,
+    "nextPageId": "visuals/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "visuals/item-2",
@@ -8455,7 +9110,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Shape overlay",
-    "description": "The first child defines shared bounds."
+    "description": "The first child defines shared bounds.",
+    "previousPageId": "visuals/item-1",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-1",
@@ -8481,7 +9139,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Easing",
-    "description": "Motion.Easing is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Easing is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": null,
+    "nextPageId": "motion/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-2",
@@ -8522,7 +9183,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.TweenOptions",
-    "description": "Motion.TweenOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Motion.TweenOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "motion/item-1",
+    "nextPageId": "motion/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-3",
@@ -8568,7 +9232,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Tween",
-    "description": "Motion.Tween is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Tween is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-2",
+    "nextPageId": "motion/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-4",
@@ -8599,7 +9266,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Wait",
-    "description": "Motion.Wait is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Wait is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-3",
+    "nextPageId": "motion/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-5",
@@ -8635,7 +9305,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Sequence",
-    "description": "Motion.Sequence is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Sequence is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-4",
+    "nextPageId": "motion/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-6",
@@ -8661,7 +9334,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Descriptor",
-    "description": "Motion.Descriptor is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Descriptor is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-5",
+    "nextPageId": "motion/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-7",
@@ -8693,7 +9369,10 @@ export const generatedPages = Object.freeze([
       "title": "replay declarative motion",
       "evidence": "authored-files",
       "description": "This checked recipe uses Motion.MotionMap inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "motion/item-6",
+    "nextPageId": "motion/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-8",
@@ -8745,7 +9424,10 @@ export const generatedPages = Object.freeze([
       "title": "replay declarative motion",
       "evidence": "authored-files",
       "description": "This checked recipe uses Motion.tween inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "motion/item-7",
+    "nextPageId": "motion/item-9",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-9",
@@ -8771,7 +9453,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Wait — an immutable delay step for a motion sequence.",
     "name": "Motion.wait",
-    "description": "Creates a non-visual delay step for Motion.sequence. It advances no property itself and exists only to postpone the next Tween in the same channel."
+    "description": "Creates a non-visual delay step for Motion.sequence. It advances no property itself and exists only to postpone the next Tween in the same channel.",
+    "previousPageId": "motion/item-8",
+    "nextPageId": "motion/item-10",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-10",
@@ -8802,7 +9487,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Sequence — an immutable ordered motion-channel sequence containing Tween and Wait steps.",
     "name": "Motion.sequence",
-    "description": "Combines Tween and Wait steps into one ordered value for a single motion channel, optionally repeating the sequence. Each step begins after the previous step finishes, so timing remains deterministic across hosts."
+    "description": "Combines Tween and Wait steps into one ordered value for a single motion channel, optionally repeating the sequence. Each step begins after the previous step finishes, so timing remains deterministic across hosts.",
+    "previousPageId": "motion/item-9",
+    "nextPageId": "motion/item-11",
+    "relatedPageIds": [
+      "motion/item-8"
+    ]
   },
   {
     "id": "motion/item-11",
@@ -8838,7 +9528,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.fadeIn",
-    "description": "Returns a complete MotionMap that transitions opacity from a lower value to fully visible using bounded preset defaults and optional overrides. The map can be assigned directly to a component's motion property."
+    "description": "Returns a complete MotionMap that transitions opacity from a lower value to fully visible using bounded preset defaults and optional overrides. The map can be assigned directly to a component's motion property.",
+    "previousPageId": "motion/item-10",
+    "nextPageId": "motion/item-12",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-12",
@@ -8884,7 +9577,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.slideIn",
-    "description": "Returns a MotionMap that combines translation with the preset's arrival timing, moving content from an offset into its final layout position. Layout is calculated at the destination; motion changes only the rendered transform."
+    "description": "Returns a MotionMap that combines translation with the preset's arrival timing, moving content from an offset into its final layout position. Layout is calculated at the destination; motion changes only the rendered transform.",
+    "previousPageId": "motion/item-11",
+    "nextPageId": "motion/item-13",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-13",
@@ -8925,7 +9621,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.scaleIn",
-    "description": "Returns a MotionMap that grows a component from a smaller scale to its final size without changing the space reserved by layout. Optional values tune the starting scale, duration, and easing within admitted bounds."
+    "description": "Returns a MotionMap that grows a component from a smaller scale to its final size without changing the space reserved by layout. Optional values tune the starting scale, duration, and easing within admitted bounds.",
+    "previousPageId": "motion/item-12",
+    "nextPageId": "motion/item-14",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-14",
@@ -8971,7 +9670,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.sway",
-    "description": "Returns a repeating rotation MotionMap that alternates around the resting angle, producing a gentle rocking effect. Iteration and duration options control whether it settles or continues."
+    "description": "Returns a repeating rotation MotionMap that alternates around the resting angle, producing a gentle rocking effect. Iteration and duration options control whether it settles or continues.",
+    "previousPageId": "motion/item-13",
+    "nextPageId": "motion/item-15",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-15",
@@ -9022,7 +9724,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.pulse",
-    "description": "Returns a repeating scale MotionMap that expands and contracts around the component's normal size. The component keeps its original layout bounds while the transform provides visual emphasis."
+    "description": "Returns a repeating scale MotionMap that expands and contracts around the component's normal size. The component keeps its original layout bounds while the transform provides visual emphasis.",
+    "previousPageId": "motion/item-14",
+    "nextPageId": "motion/item-16",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-16",
@@ -9063,7 +9768,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.shake",
-    "description": "Returns a short horizontal translation MotionMap that moves away from and back to the resting position. It is designed as bounded feedback rather than an ambient loop."
+    "description": "Returns a short horizontal translation MotionMap that moves away from and back to the resting position. It is designed as bounded feedback rather than an ambient loop.",
+    "previousPageId": "motion/item-15",
+    "nextPageId": "motion/item-17",
+    "relatedPageIds": []
   },
   {
     "id": "motion/item-17",
@@ -9109,7 +9817,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.flip",
-    "description": "Returns a rotationY MotionMap tailored to UI.FlipCard, moving between front and back angles over a bounded duration. The FlipCard host uses the channel to hide the reverse face correctly during the 3D transition."
+    "description": "Returns a rotationY MotionMap tailored to UI.FlipCard, moving between front and back angles over a bounded duration. The FlipCard host uses the channel to hide the reverse face correctly during the 3D transition.",
+    "previousPageId": "motion/item-16",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-1",
@@ -9145,7 +9856,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Image",
-    "description": "Assets.Image is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Image is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": null,
+    "nextPageId": "assets/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-2",
@@ -9181,7 +9895,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Audio",
-    "description": "Assets.Audio is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Audio is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "assets/item-1",
+    "nextPageId": "assets/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-3",
@@ -9217,7 +9934,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Font",
-    "description": "Assets.Font is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Font is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "assets/item-2",
+    "nextPageId": "assets/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-4",
@@ -9243,7 +9963,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Reference",
-    "description": "Assets.Reference is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Reference is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "assets/item-3",
+    "nextPageId": "assets/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-5",
@@ -9275,7 +9998,10 @@ export const generatedPages = Object.freeze([
       "title": "package an image and compose visuals",
       "evidence": "authored-files",
       "description": "This checked recipe uses Assets.image inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "assets/item-4",
+    "nextPageId": "assets/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-6",
@@ -9307,7 +10033,10 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Assets.audio inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "assets/item-5",
+    "nextPageId": "assets/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-7",
@@ -9333,7 +10062,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Font — a typed font reference admitted from the project manifest.",
     "name": "Assets.font",
-    "description": "Creates a typed reference to a font declared by the project manifest. The result distinguishes font resources from images and audio before a host attempts to consume them."
+    "description": "Creates a typed reference to a font declared by the project manifest. The result distinguishes font resources from images and audio before a host attempts to consume them.",
+    "previousPageId": "assets/item-6",
+    "nextPageId": "assets/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "assets/item-8",
@@ -9365,7 +10097,12 @@ export const generatedPages = Object.freeze([
       "title": "package an image and compose visuals",
       "evidence": "authored-files",
       "description": "This checked recipe uses Assets.uri inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "assets/item-7",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "assets/item-6"
+    ]
   },
   {
     "id": "data/item-1",
@@ -9396,7 +10133,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.ValidationError",
-    "description": "Data.ValidationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Data.ValidationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": null,
+    "nextPageId": "data/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-2",
@@ -9432,7 +10172,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Success",
-    "description": "Data.Success represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "Data.Success represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "previousPageId": "data/item-1",
+    "nextPageId": "data/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-3",
@@ -9468,7 +10211,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Failure",
-    "description": "Data.Failure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Data.Failure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "data/item-2",
+    "nextPageId": "data/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-4",
@@ -9494,7 +10240,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Result",
-    "description": "Data.Result is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Data.Result is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "previousPageId": "data/item-3",
+    "nextPageId": "data/item-5",
+    "relatedPageIds": [
+      "data/item-16"
+    ]
   },
   {
     "id": "data/item-5",
@@ -9530,7 +10281,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.StringOptions",
-    "description": "Data.StringOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.StringOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-4",
+    "nextPageId": "data/item-6",
+    "relatedPageIds": [
+      "data/item-10"
+    ]
   },
   {
     "id": "data/item-6",
@@ -9566,7 +10322,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.NumberOptions",
-    "description": "Data.NumberOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.NumberOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-5",
+    "nextPageId": "data/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-7",
@@ -9597,7 +10356,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.ArrayOptions",
-    "description": "Data.ArrayOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.ArrayOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-6",
+    "nextPageId": "data/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-8",
@@ -9623,7 +10385,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.ObjectOptions",
-    "description": "Data.ObjectOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.ObjectOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-7",
+    "nextPageId": "data/item-9",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-9",
@@ -9669,7 +10434,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Schema",
-    "description": "Data.Schema is an exported, statically checked data contract of luastra/data. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Data.Schema is an exported, statically checked data contract of luastra/data. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "data/item-8",
+    "nextPageId": "data/item-10",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-10",
@@ -9716,7 +10484,14 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses Data.string inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "data/item-9",
+    "nextPageId": "data/item-11",
+    "relatedPageIds": [
+      "data/item-5",
+      "data/item-16",
+      "data/item-15"
+    ]
   },
   {
     "id": "data/item-11",
@@ -9757,7 +10532,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.number",
-    "description": "Builds a schema that accepts finite numeric values and can enforce the documented minimum, maximum, or integer constraints. Non-numbers and non-finite values fail with structured validation information."
+    "description": "Builds a schema that accepts finite numeric values and can enforce the documented minimum, maximum, or integer constraints. Non-numbers and non-finite values fail with structured validation information.",
+    "previousPageId": "data/item-10",
+    "nextPageId": "data/item-12",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-12",
@@ -9777,7 +10555,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.boolean",
-    "description": "Builds a strict boolean schema that accepts only true or false. It does not coerce strings such as \"true\", numeric flags, or other truthy values."
+    "description": "Builds a strict boolean schema that accepts only true or false. It does not coerce strings such as \"true\", numeric flags, or other truthy values.",
+    "previousPageId": "data/item-11",
+    "nextPageId": "data/item-13",
+    "relatedPageIds": []
   },
   {
     "id": "data/item-13",
@@ -9818,7 +10599,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.array",
-    "description": "Builds a dense-array schema whose every element must satisfy the supplied item schema, with optional array-length bounds. Validation records the failing index so callers can identify malformed members."
+    "description": "Builds a dense-array schema whose every element must satisfy the supplied item schema, with optional array-length bounds. Validation records the failing index so callers can identify malformed members.",
+    "previousPageId": "data/item-12",
+    "nextPageId": "data/item-14",
+    "relatedPageIds": [
+      "data/item-10"
+    ]
   },
   {
     "id": "data/item-14",
@@ -9854,7 +10640,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.object",
-    "description": "Builds a schema for a table with named fields, validating each field through its own child schema and applying the object options for unknown keys. Nested schemas preserve a structured path to every failure."
+    "description": "Builds a schema for a table with named fields, validating each field through its own child schema and applying the object options for unknown keys. Nested schemas preserve a structured path to every failure.",
+    "previousPageId": "data/item-13",
+    "nextPageId": "data/item-15",
+    "relatedPageIds": [
+      "data/item-12",
+      "data/item-10"
+    ]
   },
   {
     "id": "data/item-15",
@@ -9880,7 +10672,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.optional",
-    "description": "Wraps another schema so nil is accepted in addition to the wrapped value. A non-nil value still passes through the complete nested validation contract."
+    "description": "Wraps another schema so nil is accepted in addition to the wrapped value. A non-nil value still passes through the complete nested validation contract.",
+    "previousPageId": "data/item-14",
+    "nextPageId": "data/item-16",
+    "relatedPageIds": [
+      "data/item-10"
+    ]
   },
   {
     "id": "data/item-16",
@@ -9917,7 +10714,13 @@ export const generatedPages = Object.freeze([
       "title": "validate a form and confirm in a modal",
       "evidence": "authored-files",
       "description": "This checked recipe uses Data.decode inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "data/item-15",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "data/item-4",
+      "data/item-11"
+    ]
   },
   {
     "id": "state/item-1",
@@ -9943,7 +10746,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.Fields",
-    "description": "State.Fields is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "State.Fields is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": null,
+    "nextPageId": "state/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-2",
@@ -9969,7 +10775,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeError",
-    "description": "State.DecodeError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.DecodeError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "state/item-1",
+    "nextPageId": "state/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-3",
@@ -10010,7 +10819,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeSuccess",
-    "description": "State.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "State.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "previousPageId": "state/item-2",
+    "nextPageId": "state/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-4",
@@ -10051,7 +10863,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeFailure",
-    "description": "State.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "state/item-3",
+    "nextPageId": "state/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-5",
@@ -10077,7 +10892,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeResult",
-    "description": "State.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "State.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "previousPageId": "state/item-4",
+    "nextPageId": "state/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-6",
@@ -10103,7 +10921,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationError",
-    "description": "State.MigrationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.MigrationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "state/item-5",
+    "nextPageId": "state/item-7",
+    "relatedPageIds": [
+      "state/item-10"
+    ]
   },
   {
     "id": "state/item-7",
@@ -10149,7 +10972,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationSuccess",
-    "description": "State.MigrationSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "State.MigrationSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "previousPageId": "state/item-6",
+    "nextPageId": "state/item-8",
+    "relatedPageIds": [
+      "state/item-10"
+    ]
   },
   {
     "id": "state/item-8",
@@ -10195,7 +11023,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationFailure",
-    "description": "State.MigrationFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.MigrationFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "state/item-7",
+    "nextPageId": "state/item-9",
+    "relatedPageIds": [
+      "state/item-10"
+    ]
   },
   {
     "id": "state/item-9",
@@ -10221,7 +11054,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationResult",
-    "description": "State.MigrationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "State.MigrationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "previousPageId": "state/item-8",
+    "nextPageId": "state/item-10",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-10",
@@ -10247,7 +11083,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.Migration",
-    "description": "State.Migration is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "State.Migration is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "state/item-9",
+    "nextPageId": "state/item-11",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-11",
@@ -10284,7 +11123,10 @@ export const generatedPages = Object.freeze([
       "title": "persist and restore state",
       "evidence": "authored-files",
       "description": "This checked recipe uses State.encode inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "state/item-10",
+    "nextPageId": "state/item-12",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-12",
@@ -10321,7 +11163,10 @@ export const generatedPages = Object.freeze([
       "title": "persist and restore state",
       "evidence": "authored-files",
       "description": "This checked recipe uses State.decode inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "state/item-11",
+    "nextPageId": "state/item-13",
+    "relatedPageIds": []
   },
   {
     "id": "state/item-13",
@@ -10357,7 +11202,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MigrationResult — the exact MigrationResult value declared by the SDK contract.",
     "name": "State.migrate",
-    "description": "Decodes a snapshot and applies explicitly ordered Migration functions until it reaches the requested target version. The result records structured failure if a step is missing, invalid, or does not advance correctly."
+    "description": "Decodes a snapshot and applies explicitly ordered Migration functions until it reaches the requested target version. The result records structured failure if a step is missing, invalid, or does not advance correctly.",
+    "previousPageId": "state/item-12",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "navigation/item-1",
@@ -10388,7 +11236,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.Snapshot",
-    "description": "Navigation.Snapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Navigation.Snapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": null,
+    "nextPageId": "navigation/item-2",
+    "relatedPageIds": [
+      "navigation/item-4",
+      "navigation/item-5",
+      "navigation/item-14"
+    ]
   },
   {
     "id": "navigation/item-2",
@@ -10414,7 +11269,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RestoreError",
-    "description": "Navigation.RestoreError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Navigation.RestoreError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "navigation/item-1",
+    "nextPageId": "navigation/item-3",
+    "relatedPageIds": [
+      "navigation/item-11",
+      "navigation/item-13"
+    ]
   },
   {
     "id": "navigation/item-3",
@@ -10445,7 +11306,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RestoreResult",
-    "description": "Navigation.RestoreResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing."
+    "description": "Navigation.RestoreResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "previousPageId": "navigation/item-2",
+    "nextPageId": "navigation/item-4",
+    "relatedPageIds": [
+      "navigation/item-11",
+      "navigation/item-13"
+    ]
   },
   {
     "id": "navigation/item-4",
@@ -10481,7 +11348,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.Options",
-    "description": "Navigation.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Navigation.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "navigation/item-3",
+    "nextPageId": "navigation/item-5",
+    "relatedPageIds": [
+      "navigation/item-14",
+      "navigation/item-1"
+    ]
   },
   {
     "id": "navigation/item-5",
@@ -10537,7 +11410,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.Stack",
-    "description": "Navigation.Stack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables."
+    "description": "Navigation.Stack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.",
+    "previousPageId": "navigation/item-4",
+    "nextPageId": "navigation/item-6",
+    "relatedPageIds": [
+      "navigation/item-14",
+      "navigation/item-1"
+    ]
   },
   {
     "id": "navigation/item-6",
@@ -10563,7 +11442,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteError",
-    "description": "Navigation.RouteError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Navigation.RouteError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "navigation/item-5",
+    "nextPageId": "navigation/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "navigation/item-7",
@@ -10599,7 +11481,15 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteEntry",
-    "description": "Navigation.RouteEntry is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Navigation.RouteEntry is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "navigation/item-6",
+    "nextPageId": "navigation/item-8",
+    "relatedPageIds": [
+      "navigation/item-9",
+      "navigation/item-12",
+      "navigation/item-15",
+      "navigation/item-16"
+    ]
   },
   {
     "id": "navigation/item-8",
@@ -10640,7 +11530,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteResult",
-    "description": "Navigation.RouteResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing."
+    "description": "Navigation.RouteResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "previousPageId": "navigation/item-7",
+    "nextPageId": "navigation/item-9",
+    "relatedPageIds": []
   },
   {
     "id": "navigation/item-9",
@@ -10676,7 +11569,15 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteCompiler",
-    "description": "Navigation.RouteCompiler is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables."
+    "description": "Navigation.RouteCompiler is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.",
+    "previousPageId": "navigation/item-8",
+    "nextPageId": "navigation/item-10",
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-12",
+      "navigation/item-15",
+      "navigation/item-16"
+    ]
   },
   {
     "id": "navigation/item-10",
@@ -10707,7 +11608,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.EntrySnapshot",
-    "description": "Navigation.EntrySnapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Navigation.EntrySnapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "navigation/item-9",
+    "nextPageId": "navigation/item-11",
+    "relatedPageIds": []
   },
   {
     "id": "navigation/item-11",
@@ -10743,7 +11647,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.MutationResult",
-    "description": "Navigation.MutationResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing."
+    "description": "Navigation.MutationResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "previousPageId": "navigation/item-10",
+    "nextPageId": "navigation/item-12",
+    "relatedPageIds": [
+      "navigation/item-2",
+      "navigation/item-3",
+      "navigation/item-13"
+    ]
   },
   {
     "id": "navigation/item-12",
@@ -10824,7 +11735,15 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.EntryStack",
-    "description": "Navigation.EntryStack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables."
+    "description": "Navigation.EntryStack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.",
+    "previousPageId": "navigation/item-11",
+    "nextPageId": "navigation/item-13",
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-9",
+      "navigation/item-15",
+      "navigation/item-16"
+    ]
   },
   {
     "id": "navigation/item-13",
@@ -10866,7 +11785,14 @@ export const generatedPages = Object.freeze([
       "title": "synchronize Browser and system Back",
       "evidence": "authored-files",
       "description": "This checked recipe uses Navigation.decideBack inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "navigation/item-12",
+    "nextPageId": "navigation/item-14",
+    "relatedPageIds": [
+      "navigation/item-2",
+      "navigation/item-3",
+      "navigation/item-11"
+    ]
   },
   {
     "id": "navigation/item-14",
@@ -10907,7 +11833,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Stack — a stateful named-route stack; create it once and call its public methods across renders.",
     "name": "Navigation.create",
-    "description": "Creates a named-route stack initialized from Navigation.Options and exposes operations such as current, push, replace, back, encode, and restore. The stack is ordinary application state and survives renders when created once at module scope."
+    "description": "Creates a named-route stack initialized from Navigation.Options and exposes operations such as current, push, replace, back, encode, and restore. The stack is ordinary application state and survives renders when created once at module scope.",
+    "previousPageId": "navigation/item-13",
+    "nextPageId": "navigation/item-15",
+    "relatedPageIds": [
+      "navigation/item-4",
+      "navigation/item-5",
+      "navigation/item-1"
+    ]
   },
   {
     "id": "navigation/item-15",
@@ -10954,7 +11887,14 @@ export const generatedPages = Object.freeze([
       "title": "add typed navigation",
       "evidence": "authored-files",
       "description": "This checked recipe uses Navigation.createRouter inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "navigation/item-14",
+    "nextPageId": "navigation/item-16",
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-9",
+      "navigation/item-12"
+    ]
   },
   {
     "id": "navigation/item-16",
@@ -10986,7 +11926,14 @@ export const generatedPages = Object.freeze([
       "title": "add typed navigation",
       "evidence": "authored-files",
       "description": "This checked recipe uses Navigation.compile inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "navigation/item-15",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-9",
+      "navigation/item-12"
+    ]
   },
   {
     "id": "timer/item-1",
@@ -11012,7 +11959,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Timer.RequestId",
-    "description": "Timer.RequestId is the numeric acknowledgement returned by a timer control call. It confirms that the command crossed the SDK boundary, while the stable string timer ID identifies the later expiry delivered to Application.handle."
+    "description": "Timer.RequestId is the numeric acknowledgement returned by a timer control call. It confirms that the command crossed the SDK boundary, while the stable string timer ID identifies the later expiry delivered to Application.handle.",
+    "previousPageId": null,
+    "nextPageId": "timer/item-2",
+    "relatedPageIds": [
+      "timer/item-3",
+      "timer/item-4",
+      "timer/item-5"
+    ]
   },
   {
     "id": "timer/item-2",
@@ -11048,7 +12002,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Timer.StartOptions",
-    "description": "Timer.StartOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Timer.StartOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "timer/item-1",
+    "nextPageId": "timer/item-3",
+    "relatedPageIds": [
+      "timer/item-4",
+      "timer/item-5"
+    ]
   },
   {
     "id": "timer/item-3",
@@ -11095,7 +12055,13 @@ export const generatedPages = Object.freeze([
       "title": "run a delayed action",
       "evidence": "authored-files",
       "description": "This checked recipe uses Timer.start inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "timer/item-2",
+    "nextPageId": "timer/item-4",
+    "relatedPageIds": [
+      "timer/item-1",
+      "timer/item-5"
+    ]
   },
   {
     "id": "timer/item-4",
@@ -11136,7 +12102,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.",
     "name": "Timer.restart",
-    "description": "Replaces the pending one-shot timer with the same ID and schedules a fresh delay and value. This makes repeated input postpone one logical deadline instead of allowing several expiries to race."
+    "description": "Replaces the pending one-shot timer with the same ID and schedules a fresh delay and value. This makes repeated input postpone one logical deadline instead of allowing several expiries to race.",
+    "previousPageId": "timer/item-3",
+    "nextPageId": "timer/item-5",
+    "relatedPageIds": [
+      "timer/item-1",
+      "timer/item-2"
+    ]
   },
   {
     "id": "timer/item-5",
@@ -11162,7 +12134,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.",
     "name": "Timer.cancel",
-    "description": "Cancels the pending timer identified by the stable string ID and returns a request acknowledgement. A successfully cancelled timer will not later emit its timer event."
+    "description": "Cancels the pending timer identified by the stable string ID and returns a request acknowledgement. A successfully cancelled timer will not later emit its timer event.",
+    "previousPageId": "timer/item-4",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "timer/item-1",
+      "timer/item-2",
+      "timer/item-3"
+    ]
   },
   {
     "id": "host/item-1",
@@ -11188,7 +12167,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Host.RequestId",
-    "description": "Host.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text."
+    "description": "Host.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
+    "previousPageId": null,
+    "nextPageId": "host/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-2",
@@ -11220,7 +12202,10 @@ export const generatedPages = Object.freeze([
       "title": "persist and restore state",
       "evidence": "authored-files",
       "description": "This checked recipe uses Host.storageGet inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "host/item-1",
+    "nextPageId": "host/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-3",
@@ -11257,7 +12242,10 @@ export const generatedPages = Object.freeze([
       "title": "persist and restore state",
       "evidence": "authored-files",
       "description": "This checked recipe uses Host.storageSet inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "host/item-2",
+    "nextPageId": "host/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-4",
@@ -11277,7 +12265,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.launchUrl",
-    "description": "Requests the URL or fragment with which the host launched the application and returns a RequestId. The host answers through Application.resolve; this function reads launch context and never opens an external destination."
+    "description": "Requests the URL or fragment with which the host launched the application and returns a RequestId. The host answers through Application.resolve; this function reads launch context and never opens an external destination.",
+    "previousPageId": "host/item-3",
+    "nextPageId": "host/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-5",
@@ -11303,7 +12294,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.clipboardWrite",
-    "description": "Requests that the host place a bounded string on the system clipboard and returns a RequestId for completion. Clipboard access remains an explicit capability rather than a hidden side effect."
+    "description": "Requests that the host place a bounded string on the system clipboard and returns a RequestId for completion. Clipboard access remains an explicit capability rather than a hidden side effect.",
+    "previousPageId": "host/item-4",
+    "nextPageId": "host/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-6",
@@ -11329,7 +12323,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyPush",
-    "description": "Adds a new browser-history entry with the supplied opaque application state token while retaining the current location. The asynchronous acknowledgement is delivered through Application.resolve."
+    "description": "Adds a new browser-history entry with the supplied opaque application state token while retaining the current location. The asynchronous acknowledgement is delivered through Application.resolve.",
+    "previousPageId": "host/item-5",
+    "nextPageId": "host/item-7",
+    "relatedPageIds": [
+      "host/item-8"
+    ]
   },
   {
     "id": "host/item-7",
@@ -11355,7 +12354,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyReplace",
-    "description": "Replaces the current browser-history state token without adding a new Back entry. It keeps the current location and returns a RequestId for host acknowledgement."
+    "description": "Replaces the current browser-history state token without adding a new Back entry. It keeps the current location and returns a RequestId for host acknowledgement.",
+    "previousPageId": "host/item-6",
+    "nextPageId": "host/item-8",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-8",
@@ -11392,7 +12394,12 @@ export const generatedPages = Object.freeze([
       "title": "synchronize Browser and system Back",
       "evidence": "authored-files",
       "description": "This checked recipe uses Host.historyPushLocation inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "host/item-7",
+    "nextPageId": "host/item-9",
+    "relatedPageIds": [
+      "host/item-6"
+    ]
   },
   {
     "id": "host/item-9",
@@ -11429,7 +12436,12 @@ export const generatedPages = Object.freeze([
       "title": "synchronize Browser and system Back",
       "evidence": "authored-files",
       "description": "This checked recipe uses Host.historyReplaceLocation inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "host/item-8",
+    "nextPageId": "host/item-10",
+    "relatedPageIds": [
+      "host/item-7"
+    ]
   },
   {
     "id": "host/item-10",
@@ -11449,7 +12461,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyBack",
-    "description": "Requests one step back in the host browser history and returns a RequestId. The resulting location or system-Back event remains part of the normal navigation event flow."
+    "description": "Requests one step back in the host browser history and returns a RequestId. The resulting location or system-Back event remains part of the normal navigation event flow.",
+    "previousPageId": "host/item-9",
+    "nextPageId": "host/item-11",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-11",
@@ -11469,7 +12484,10 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyCurrent",
-    "description": "Requests the host's current location and associated state token, returning a RequestId whose payload can initialize or reconcile application navigation."
+    "description": "Requests the host's current location and associated state token, returning a RequestId whose payload can initialize or reconcile application navigation.",
+    "previousPageId": "host/item-10",
+    "nextPageId": "host/item-12",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-12",
@@ -11495,7 +12513,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.systemBackHandled",
-    "description": "Acknowledges that the application consumed a specific system-Back intent without delegating to browser history or exiting. The intent ID prevents an unrelated or stale Back request from being acknowledged."
+    "description": "Acknowledges that the application consumed a specific system-Back intent without delegating to browser history or exiting. The intent ID prevents an unrelated or stale Back request from being acknowledged.",
+    "previousPageId": "host/item-11",
+    "nextPageId": "host/item-13",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-13",
@@ -11527,7 +12548,10 @@ export const generatedPages = Object.freeze([
       "title": "synchronize Browser and system Back",
       "evidence": "authored-files",
       "description": "This checked recipe uses Host.systemBackHistory inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "host/item-12",
+    "nextPageId": "host/item-14",
+    "relatedPageIds": []
   },
   {
     "id": "host/item-14",
@@ -11559,7 +12583,10 @@ export const generatedPages = Object.freeze([
       "title": "synchronize Browser and system Back",
       "evidence": "authored-files",
       "description": "This checked recipe uses Host.systemBackExit inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "host/item-13",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "server/item-1",
@@ -11585,7 +12612,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.RequestId",
-    "description": "Server.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text."
+    "description": "Server.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
+    "previousPageId": null,
+    "nextPageId": "server/item-2",
+    "relatedPageIds": [
+      "server/item-6",
+      "server/item-7"
+    ]
   },
   {
     "id": "server/item-2",
@@ -11621,7 +12654,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.Options",
-    "description": "Server.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Server.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "server/item-1",
+    "nextPageId": "server/item-3",
+    "relatedPageIds": [
+      "server/item-6",
+      "server/item-7"
+    ]
   },
   {
     "id": "server/item-3",
@@ -11657,7 +12696,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.DecodeSuccess",
-    "description": "Server.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "Server.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "previousPageId": "server/item-2",
+    "nextPageId": "server/item-4",
+    "relatedPageIds": [
+      "server/item-5",
+      "server/item-7"
+    ]
   },
   {
     "id": "server/item-4",
@@ -11693,7 +12738,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.DecodeFailure",
-    "description": "Server.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Server.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "server/item-3",
+    "nextPageId": "server/item-5",
+    "relatedPageIds": [
+      "server/item-7"
+    ]
   },
   {
     "id": "server/item-5",
@@ -11719,7 +12769,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.DecodeResult",
-    "description": "Server.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Server.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "previousPageId": "server/item-4",
+    "nextPageId": "server/item-6",
+    "relatedPageIds": [
+      "server/item-3",
+      "server/item-7"
+    ]
   },
   {
     "id": "server/item-6",
@@ -11776,7 +12832,13 @@ export const generatedPages = Object.freeze([
       "title": "call a server function",
       "evidence": "generated-client",
       "description": "This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind Server.call."
-    }
+    },
+    "previousPageId": "server/item-5",
+    "nextPageId": "server/item-7",
+    "relatedPageIds": [
+      "server/item-1",
+      "server/item-2"
+    ]
   },
   {
     "id": "server/item-7",
@@ -11808,7 +12870,15 @@ export const generatedPages = Object.freeze([
       "title": "call a server function",
       "evidence": "generated-client",
       "description": "This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind Server.decode."
-    }
+    },
+    "previousPageId": "server/item-6",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "server/item-1",
+      "server/item-2",
+      "server/item-3",
+      "server/item-4"
+    ]
   },
   {
     "id": "media/item-1",
@@ -11834,7 +12904,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.RequestId",
-    "description": "Media.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text."
+    "description": "Media.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
+    "previousPageId": null,
+    "nextPageId": "media/item-2",
+    "relatedPageIds": [
+      "media/item-4",
+      "media/item-8",
+      "media/item-15"
+    ]
   },
   {
     "id": "media/item-2",
@@ -11881,7 +12958,14 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Media.QueueItem inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "media/item-1",
+    "nextPageId": "media/item-3",
+    "relatedPageIds": [
+      "media/item-4",
+      "media/item-8",
+      "media/item-15"
+    ]
   },
   {
     "id": "media/item-3",
@@ -11912,7 +12996,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.MediaError",
-    "description": "Media.MediaError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Media.MediaError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "media/item-2",
+    "nextPageId": "media/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "media/item-4",
@@ -12009,7 +13096,15 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Media.State inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "media/item-3",
+    "nextPageId": "media/item-5",
+    "relatedPageIds": [
+      "media/item-1",
+      "media/item-2",
+      "media/item-8",
+      "media/item-15"
+    ]
   },
   {
     "id": "media/item-5",
@@ -12045,7 +13140,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.DecodeSuccess",
-    "description": "Media.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "Media.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "previousPageId": "media/item-4",
+    "nextPageId": "media/item-6",
+    "relatedPageIds": [
+      "media/item-7",
+      "media/item-17"
+    ]
   },
   {
     "id": "media/item-6",
@@ -12081,7 +13182,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.DecodeFailure",
-    "description": "Media.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Media.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "previousPageId": "media/item-5",
+    "nextPageId": "media/item-7",
+    "relatedPageIds": [
+      "media/item-17",
+      "media/item-4"
+    ]
   },
   {
     "id": "media/item-7",
@@ -12107,7 +13214,14 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.DecodeResult",
-    "description": "Media.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Media.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "previousPageId": "media/item-6",
+    "nextPageId": "media/item-8",
+    "relatedPageIds": [
+      "media/item-5",
+      "media/item-17",
+      "media/item-4"
+    ]
   },
   {
     "id": "media/item-8",
@@ -12164,7 +13278,15 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Media.setQueue inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "media/item-7",
+    "nextPageId": "media/item-9",
+    "relatedPageIds": [
+      "media/item-1",
+      "media/item-2",
+      "media/item-4",
+      "media/item-15"
+    ]
   },
   {
     "id": "media/item-9",
@@ -12190,7 +13312,14 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Media.play inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "media/item-8",
+    "nextPageId": "media/item-10",
+    "relatedPageIds": [
+      "media/item-11",
+      "media/item-12",
+      "media/item-16"
+    ]
   },
   {
     "id": "media/item-10",
@@ -12216,7 +13345,13 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Media.pause inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "media/item-9",
+    "nextPageId": "media/item-11",
+    "relatedPageIds": [
+      "media/item-12",
+      "media/item-16"
+    ]
   },
   {
     "id": "media/item-11",
@@ -12236,7 +13371,13 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.stop",
-    "description": "Requests that playback stop and reset the current item according to the host contract while retaining the queue. It differs from unload, which releases the active media resources."
+    "description": "Requests that playback stop and reset the current item according to the host contract while retaining the queue. It differs from unload, which releases the active media resources.",
+    "previousPageId": "media/item-10",
+    "nextPageId": "media/item-12",
+    "relatedPageIds": [
+      "media/item-9",
+      "media/item-16"
+    ]
   },
   {
     "id": "media/item-12",
@@ -12256,7 +13397,14 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.unload",
-    "description": "Requests release of the active media queue and playback resources, clearing state that should not survive the current media session. A later play requires setting an appropriate queue again."
+    "description": "Requests release of the active media queue and playback resources, clearing state that should not survive the current media session. A later play requires setting an appropriate queue again.",
+    "previousPageId": "media/item-11",
+    "nextPageId": "media/item-13",
+    "relatedPageIds": [
+      "media/item-9",
+      "media/item-10",
+      "media/item-16"
+    ]
   },
   {
     "id": "media/item-13",
@@ -12276,7 +13424,13 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.next",
-    "description": "Requests selection of the next item in the current queue according to host queue boundaries. The actual selected index and playback state arrive through media_state."
+    "description": "Requests selection of the next item in the current queue according to host queue boundaries. The actual selected index and playback state arrive through media_state.",
+    "previousPageId": "media/item-12",
+    "nextPageId": "media/item-14",
+    "relatedPageIds": [
+      "media/item-4",
+      "media/item-15"
+    ]
   },
   {
     "id": "media/item-14",
@@ -12296,7 +13450,12 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.previous",
-    "description": "Requests selection of the previous item in the current queue according to host queue boundaries. It does not let application code assume whether the host restarts or changes items without observing state."
+    "description": "Requests selection of the previous item in the current queue according to host queue boundaries. It does not let application code assume whether the host restarts or changes items without observing state.",
+    "previousPageId": "media/item-13",
+    "nextPageId": "media/item-15",
+    "relatedPageIds": [
+      "media/item-4"
+    ]
   },
   {
     "id": "media/item-15",
@@ -12316,7 +13475,15 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.state",
-    "description": "Requests a current snapshot of queue, selection, playback, position, duration, and bounded media error state. The asynchronous payload is decoded with Media.decodeState."
+    "description": "Requests a current snapshot of queue, selection, playback, position, duration, and bounded media error state. The asynchronous payload is decoded with Media.decodeState.",
+    "previousPageId": "media/item-14",
+    "nextPageId": "media/item-16",
+    "relatedPageIds": [
+      "media/item-1",
+      "media/item-2",
+      "media/item-4",
+      "media/item-8"
+    ]
   },
   {
     "id": "media/item-16",
@@ -12342,7 +13509,15 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.seek",
-    "description": "Requests movement of the selected media item to the supplied non-negative millisecond position. The host clamps or rejects values according to the current duration and reports the resulting state asynchronously."
+    "description": "Requests movement of the selected media item to the supplied non-negative millisecond position. The host clamps or rejects values according to the current duration and reports the resulting state asynchronously.",
+    "previousPageId": "media/item-15",
+    "nextPageId": "media/item-17",
+    "relatedPageIds": [
+      "media/item-9",
+      "media/item-10",
+      "media/item-11",
+      "media/item-12"
+    ]
   },
   {
     "id": "media/item-17",
@@ -12374,7 +13549,15 @@ export const generatedPages = Object.freeze([
       "title": "play packaged audio",
       "evidence": "authored-files",
       "description": "This checked recipe uses Media.decodeState inside complete authored files with the required manifest, test, and run steps."
-    }
+    },
+    "previousPageId": "media/item-16",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "media/item-5",
+      "media/item-6",
+      "media/item-7",
+      "media/item-4"
+    ]
   },
   {
     "id": "debug/item-1",
@@ -12400,7 +13583,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "nil — the exact nil value declared by the SDK contract.",
     "name": "Debug.log",
-    "description": "Emits a development diagnostic at the ordinary log level, serializing the supplied values through the host's bounded debug channel. It has no role in application state or user-visible status."
+    "description": "Emits a development diagnostic at the ordinary log level, serializing the supplied values through the host's bounded debug channel. It has no role in application state or user-visible status.",
+    "previousPageId": null,
+    "nextPageId": "debug/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "debug/item-2",
@@ -12426,7 +13612,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "nil — the exact nil value declared by the SDK contract.",
     "name": "Debug.warn",
-    "description": "Emits a warning-level development diagnostic for an unexpected but recoverable condition. Hosts may distinguish it visually from normal logs while preserving the same bounded argument handling."
+    "description": "Emits a warning-level development diagnostic for an unexpected but recoverable condition. Hosts may distinguish it visually from normal logs while preserving the same bounded argument handling.",
+    "previousPageId": "debug/item-1",
+    "nextPageId": "debug/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "debug/item-3",
@@ -12452,7 +13641,10 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "nil — the exact nil value declared by the SDK contract.",
     "name": "Debug.error",
-    "description": "Emits an error-level diagnostic without replacing structured application error handling or automatically terminating execution. The message is intended for developers observing a failing operation."
+    "description": "Emits an error-level diagnostic without replacing structured application error handling or automatically terminating execution. The message is intended for developers observing a failing operation.",
+    "previousPageId": "debug/item-2",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "cli/table-1",
@@ -12539,7 +13731,10 @@ export const generatedPages = Object.freeze([
         "values": "luastra sdk remove <inactive-version>",
         "description": "Removes a verified inactive SDK. Removing the active version is rejected."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "manifest/item-1",
@@ -12555,7 +13750,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Minimal manifest",
     "description": "check enforces this explicit contract.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": null,
+    "nextPageId": "manifest/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "manifest/item-2",
@@ -12576,7 +13774,10 @@ export const generatedPages = Object.freeze([
       "The web build emits title, description, canonical, robots, Open Graph, and Twitter metadata.",
       "index=true emits robots.txt and a one-location sitemap.xml; hash routes are not separate indexable documents.",
       "The build escapes metadata and rejects credentials, query strings, fragments, and non-HTTPS canonical URLs."
-    ]
+    ],
+    "previousPageId": "manifest/item-1",
+    "nextPageId": "manifest/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "manifest/item-3",
@@ -12592,7 +13793,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Assets",
     "description": "Admitted project files.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "manifest/item-2",
+    "nextPageId": "manifest/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "manifest/item-4",
@@ -12608,7 +13812,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Capabilities",
     "description": "Explicit host privileges.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "manifest/item-3",
+    "nextPageId": "manifest/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "manifest/item-5",
@@ -12624,7 +13831,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Backend",
     "description": "Trusted operations and generated clients.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "manifest/item-4",
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "support/table-1",
@@ -12665,7 +13875,10 @@ export const generatedPages = Object.freeze([
         "values": "0.1.0-alpha",
         "description": "Pre-release APIs may change. The public installer exposes bundle and web builds; candidate documentation is not a release asset until publication."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": null,
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-1",
@@ -12686,7 +13899,10 @@ export const generatedPages = Object.freeze([
       "Private user support: support@luastra.dev.",
       "Security reports: security@luastra.dev; prefer GitHub private vulnerability reporting when available.",
       "Privacy enquiries: privacy@luastra.dev. Licensing, trademark, and legal enquiries: legal@luastra.dev."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "policies/item-2",
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-2",
@@ -12707,7 +13923,10 @@ export const generatedPages = Object.freeze([
       "Use GitHub private vulnerability reporting for confidential coordination; use security@luastra.dev if that route is unavailable.",
       "Include the exact version or commit, affected hosts, safe reproduction steps, expected impact, and known preconditions.",
       "Never include real credentials, personal data, production tokens, or unrelated private source."
-    ]
+    ],
+    "previousPageId": "policies/item-1",
+    "nextPageId": "policies/item-3",
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-3",
@@ -12728,7 +13947,10 @@ export const generatedPages = Object.freeze([
       "A defect report should include the exact version, host and target, minimal reproduction, expected and actual behavior, and sanitized error output.",
       "Public issues are for reproducible defects; Discussions are for usage and design questions.",
       "Use support@luastra.dev only when a support or conduct enquiry contains context that should not be public."
-    ]
+    ],
+    "previousPageId": "policies/item-2",
+    "nextPageId": "policies/item-4",
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-4",
@@ -12749,7 +13971,10 @@ export const generatedPages = Object.freeze([
       "A local presentation preference may remain on the visitor's device; GitHub Pages may process technical request information under GitHub's own terms.",
       "Direct email provides the sender address, message, attachments, and any information the sender chooses to include.",
       "Privacy questions and requests concerning information sent to the project may be addressed to privacy@luastra.dev."
-    ]
+    ],
+    "previousPageId": "policies/item-3",
+    "nextPageId": "policies/item-5",
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-5",
@@ -12770,7 +13995,10 @@ export const generatedPages = Object.freeze([
       "Starter templates and scaffolding fragments use 0BSD so generated applications are not forced to be open source.",
       "User-authored applications and content remain owned by their respective rights holders.",
       "Send licensing questions to legal@luastra.dev; an email response changes no license unless it expressly says so in writing."
-    ]
+    ],
+    "previousPageId": "policies/item-4",
+    "nextPageId": "policies/item-6",
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-6",
@@ -12791,7 +14019,10 @@ export const generatedPages = Object.freeze([
       "Truthful nominative references such as built with Luastra are intended to be allowed when they do not imply endorsement.",
       "Product names, domains, confusingly similar logos, merchandise, certification claims, and modified brand assets require separate written permission.",
       "Send permission requests to legal@luastra.dev; sending an enquiry does not itself grant permission."
-    ]
+    ],
+    "previousPageId": "policies/item-5",
+    "nextPageId": "policies/item-7",
+    "relatedPageIds": []
   },
   {
     "id": "policies/item-7",
@@ -12811,6 +14042,9 @@ export const generatedPages = Object.freeze([
       "The current release is pre-release software, not a stable production promise.",
       "Verify downloaded files against the release manifest before installation.",
       "Use the compatibility and support policies to distinguish verified targets from host-dependent claims."
-    ]
+    ],
+    "previousPageId": "policies/item-6",
+    "nextPageId": null,
+    "relatedPageIds": []
   }
 ]);
