@@ -96,6 +96,13 @@ for _, name in { "Annotations and inference", "Arrays", "Dictionaries and maps",
     assert(string.sub(pageByName[name].code, 1, 10) == "--!strict\n", `{name} is not a standalone strict example`)
 end
 assert(string.find(pageByName["Exported module types"].code, "-- app/main.luau\n--!strict", 1, true) ~= nil)
+for _, name in { "Route handle events explicitly", "Handle lifecycle state", "Decode a system Back intent", "Restore History and opened URLs", "Decode live media state", "Correlate asynchronous completions", "Choose a recovery policy", "Exact event delivery", "Exact resolve delivery", "Decoder and recovery map" } do
+    assert(pageByName[name] ~= nil, `{name} events and errors page is missing`)
+end
+assert(string.find(pageByName["Decode a system Back intent"].code, "^([1-9][0-9]*):([01])$", 1, true) ~= nil)
+assert(string.find(pageByName["Decode live media state"].code, "Media.decodeState", 1, true) ~= nil)
+assert(string.find(pageByName["Correlate asynchronous completions"].code, "pending[id] = nil", 1, true) ~= nil)
+assert(type(pageByName["Choose a recovery policy"].points) == "table" and #pageByName["Choose a recovery policy"].points >= 6)
 for _, name in { "Contact routes", "Security policy", "Support policy", "Privacy notice", "Licensing boundary", "Trademark policy", "Releases" } do
     local page = pageByName[name]
     assert(page ~= nil and page.kind == "guide")

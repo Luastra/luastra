@@ -2949,42 +2949,235 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": []
   },
   {
+    "id": "events-errors/item-1",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this dispatch shape whenever an application has more than one event source.",
+    "code": "function Application.handle(action: string, target: string, value: string)\n    if action == \"counter.add\" and target == \"counter/add\" then\n        count += 1\n    elseif action == \"lifecycle\" and target == \"app\" then\n        handleLifecycle(value)\n    elseif action == \"timer\" and target == \"refresh\" then\n        refresh(value)\n    end\nend",
+    "signature": "action + target + value",
+    "parameters": [],
+    "returns": null,
+    "name": "Route handle events explicitly",
+    "description": "One callback may receive unrelated UI, lifecycle, navigation, timer, and media events, so every mutation needs a narrow branch.",
+    "wide": true,
+    "points": [
+      "action identifies the declared operation or host event family.",
+      "target identifies the stable UI node, timer ID, or app host target.",
+      "value is source-specific and may be empty; never assign it directly to trusted state without validation.",
+      "Ignoring an unknown event is safer than applying it to the nearest-looking state branch."
+    ],
+    "previousPageId": null,
+    "nextPageId": "events-errors/item-2",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/item-2",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use lifecycle events for resumable state and user-visible connectivity, not as proof that a remote request succeeded.",
+    "code": "if action == \"lifecycle\" and target == \"app\" then\n    if value == \"launch\" then\n        status = \"Starting\"\n    elseif value == \"foreground\" then\n        status = \"Visible\"\n    elseif value == \"background\" then\n        status = \"Background\"\n    elseif value == \"online\" then\n        connectivity = \"online\"\n    elseif value == \"offline\" then\n        connectivity = \"offline\"\n    end\nend",
+    "signature": "handle(\"lifecycle\", \"app\", value)",
+    "parameters": [],
+    "returns": null,
+    "name": "Handle lifecycle state",
+    "description": "The current hosts emit launch, foreground/background visibility, and online/offline connectivity as serialized application events.",
+    "points": [
+      "Initial web delivery is launch, current visibility, then current connectivity.",
+      "Native app-state integration emits launch and current foreground/background state, followed by connectivity.",
+      "Repeated pending equivalents may be deduplicated; code must not depend on duplicate delivery.",
+      "Background is a state transition, not permission to promise unrestricted background execution."
+    ],
+    "previousPageId": "events-errors/item-1",
+    "nextPageId": "events-errors/item-3",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/item-3",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this only after declaring navigation.history and deciding which application state owns Back priority.",
+    "code": "local intentText, canGoBackText = string.match(value, \"^([1-9][0-9]*):([01])$\")\nlocal intent = if intentText == nil then nil else tonumber(intentText)\n\nif action == \"system_back\" and target == \"app\" and intent ~= nil then\n    if modalOpen then\n        modalOpen = false\n        Host.systemBackHandled(intent)\n    elseif router.canBack() then\n        Host.systemBackHistory(intent)\n    elseif canGoBackText == \"0\" then\n        Host.systemBackExit(intent)\n    else\n        Host.systemBackHistory(intent)\n    end\nend",
+    "signature": "handle(\"system_back\", \"app\", \"intent:canGoBack\")",
+    "parameters": [],
+    "returns": null,
+    "name": "Decode a system Back intent",
+    "description": "Native Back carries a positive intent ID plus a 1 or 0 host-history hint; the application must answer that exact intent once.",
+    "wide": true,
+    "points": [
+      "Close app-owned transient UI such as a modal before changing navigation.",
+      "Use the parsed positive intent ID, never a locally invented number.",
+      "A stale or repeated intent is rejected by the host.",
+      "systemBackExit is host-dependent and must remain the final root-level decision."
+    ],
+    "previousPageId": "events-errors/item-2",
+    "nextPageId": "events-errors/item-4",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/item-4",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use the History recipe for the complete checked implementation; this card explains the two distinct incoming boundaries.",
+    "code": "if action == \"history\" and target == \"app\" then\n    if not router.restoreEncoded(value).success then\n        message = \"Ignored invalid history state\"\n    end\nelseif action == \"open_url\" and (target == \"browser\" or target == \"app\") then\n    local matched = routes.match(extractLocation(value))\n    if matched.success and matched.entry ~= nil then\n        router.replace(matched.entry)\n    else\n        message = \"Ignored unsupported link\"\n    end\nend",
+    "signature": "history token · admitted URL",
+    "parameters": [],
+    "returns": null,
+    "name": "Restore History and opened URLs",
+    "description": "Browser History carries only an app-authored state token, while open_url carries an admitted browser fragment or native application URL.",
+    "wide": true,
+    "points": [
+      "history target is app and value is the bounded token previously written by this project.",
+      "open_url target is browser for admitted web fragment changes and app for admitted native URL opens.",
+      "Parse and validate the URL into a compiled route; do not concatenate its fragments into application state.",
+      "On failure, keep the current route and show a recoverable status if the user needs feedback."
+    ],
+    "previousPageId": "events-errors/item-3",
+    "nextPageId": "events-errors/item-5",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/item-5",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this for every media_state event, including interruptions, buffering, background changes, and playback errors.",
+    "code": "if action == \"media_state\" and target == \"app\" then\n    local decoded = Media.decodeState(value)\n    if decoded.success then\n        mediaState = decoded.state\n        mediaMessage = decoded.state.error == nil\n            and \"Playback updated\"\n            or \"Playback error: \" .. decoded.state.error.code\n    else\n        mediaMessage = \"Ignored invalid media state\"\n    end\nend",
+    "signature": "handle(\"media_state\", \"app\", payload)",
+    "parameters": [],
+    "returns": null,
+    "name": "Decode live media state",
+    "description": "Playback truth arrives independently of command acknowledgements and must pass Media.decodeState before its fields are read.",
+    "points": [
+      "A successful command resolve means the request was accepted; it is not the ongoing playback position.",
+      "A decode failure describes an invalid payload, while state.error describes a valid media state reporting playback failure.",
+      "Keep the previous decoded state when a new payload is invalid."
+    ],
+    "previousPageId": "events-errors/item-4",
+    "nextPageId": "events-errors/item-6",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/item-6",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this for Host, Server, and Media requests that return RequestId.",
+    "code": "local pending: {[number]: string} = {}\n\nlocal requestId = Host.storageGet(\"app-state\")\npending[requestId] = \"restore\"\n\nfunction Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == nil then return end\n    if not success then\n        status = operation .. \" failed: \" .. code\n    elseif operation == \"restore\" and not restore(payload) then\n        status = \"Stored state is invalid\"\n    end\nend",
+    "signature": "pending[RequestId] → resolve",
+    "parameters": [],
+    "returns": null,
+    "name": "Correlate asynchronous completions",
+    "description": "The RequestId returned by a capability is the only reliable link between a later completion and the operation that started it.",
+    "wide": true,
+    "points": [
+      "Store the intended operation immediately after receiving the RequestId.",
+      "Clear the matching entry before decoding or mutating state so an error cannot leave it reusable.",
+      "Ignore unknown IDs because they may be stale, duplicated, or belong to state that no longer exists.",
+      "Use code for program decisions; message is bounded human-readable diagnostic context and must not be parsed."
+    ],
+    "previousPageId": "events-errors/item-5",
+    "nextPageId": "events-errors/item-7",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/item-7",
+    "kind": "guide",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this checklist when adding any decoder, capability, or host-event branch.",
+    "code": null,
+    "signature": "reject · preserve · retry · replace",
+    "parameters": [],
+    "returns": null,
+    "name": "Choose a recovery policy",
+    "description": "A recoverable error should have an explicit state outcome instead of merely writing a console message.",
+    "points": [
+      "Malformed external data: reject it and preserve the last valid state.",
+      "User-correctable input: keep the input, attach an accessible field or form error, and retain focus.",
+      "Transient operation failure: expose retry only when repeating the operation is safe; use idempotency for retryable server mutations.",
+      "Unauthorized or forbidden operation: clear invalid session assumptions and return to an admitted state instead of looping retries.",
+      "Unknown or stale event/completion: ignore it without mutating unrelated state.",
+      "Programming assertion: fix the violated contract during development; do not parse or branch on assertion prose."
+    ],
+    "previousPageId": "events-errors/item-6",
+    "nextPageId": "events-errors/table-1",
+    "relatedPageIds": []
+  },
+  {
     "id": "events-errors/table-1",
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
-    "module": "Application.handle · Application.resolve",
-    "name": "Event delivery",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "name": "Exact event delivery",
     "signature": "event-delivery",
-    "description": "Shared parameters in the “Event delivery” group. A component page links here only when it supports this group.",
+    "description": "Shared parameters in the “Exact event delivery” group. A component page links here only when it supports this group.",
     "parameters": [
       {
-        "name": "UI action",
-        "values": "handle(action, target, value)",
-        "description": "onTap, onInput, and onDismiss send the declared action plus the stable target ID."
+        "name": "UI tap",
+        "values": "handle(onTap, component id, \"\")",
+        "description": "Match both declared action and stable target."
+      },
+      {
+        "name": "UI input",
+        "values": "handle(onInput, component id, committed value)",
+        "description": "Validate value before trusting it."
+      },
+      {
+        "name": "Dismiss",
+        "values": "handle(onDismiss, dismissible component id, \"\")",
+        "description": "Close only the matching transient surface."
+      },
+      {
+        "name": "Lifecycle",
+        "values": "handle(\"lifecycle\", \"app\", launch|foreground|background|online|offline)",
+        "description": "Treat visibility and connectivity as state, not completed work."
       },
       {
         "name": "Timer expiry",
-        "values": "handle(\"timer\", id, value)",
-        "description": "A started or restarted one-shot timer delivers its ID and optional value."
+        "values": "handle(\"timer\", timer id, configured value)",
+        "description": "Reject stale IDs after the owning state ends."
       },
       {
-        "name": "Media state",
-        "values": "handle(\"media_state\", target, payload)",
-        "description": "Decode the payload with Media.decodeState before reading playback fields."
+        "name": "History",
+        "values": "handle(\"history\", \"app\", app-authored token)",
+        "description": "Restore through the typed router."
+      },
+      {
+        "name": "Opened URL",
+        "values": "handle(\"open_url\", browser|app, admitted URL)",
+        "description": "Parse into a compiled route."
       },
       {
         "name": "System Back",
-        "values": "handle(\"system_back\", target, value)",
-        "description": "Close a modal, navigate back, delegate to history, or acknowledge exit according to current state."
+        "values": "handle(\"system_back\", \"app\", positive-id:0|1)",
+        "description": "Answer the exact intent through Host."
       },
       {
-        "name": "Async completion",
-        "values": "resolve(requestId, success, payload, code, message)",
-        "description": "Match the RequestId saved when the capability call was made, then clear the pending entry."
+        "name": "Media state",
+        "values": "handle(\"media_state\", \"app\", encoded state)",
+        "description": "Decode with Media.decodeState."
       }
     ],
-    "previousPageId": null,
+    "previousPageId": "events-errors/item-7",
     "nextPageId": "events-errors/table-2",
     "relatedPageIds": []
   },
@@ -2993,43 +3186,83 @@ export const generatedPages = Object.freeze([
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
-    "module": "Application.handle · Application.resolve",
-    "name": "Error handling",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "name": "Exact resolve delivery",
+    "signature": "resolve-delivery",
+    "description": "Shared parameters in the “Exact resolve delivery” group. A component page links here only when it supports this group.",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "positive RequestId",
+        "description": "Match and delete pending[id] before applying the completion."
+      },
+      {
+        "name": "success",
+        "values": "boolean",
+        "description": "Only true admits the successful payload path."
+      },
+      {
+        "name": "payload",
+        "values": "bounded string or empty on failure",
+        "description": "Decode with the operation-specific SDK before trusting it."
+      },
+      {
+        "name": "code",
+        "values": "stable error code or empty on success",
+        "description": "Use for bounded control flow and user-facing recovery choice."
+      },
+      {
+        "name": "message",
+        "values": "bounded diagnostic or empty on success",
+        "description": "Useful for development context; never parse it as a protocol."
+      }
+    ],
+    "previousPageId": "events-errors/table-1",
+    "nextPageId": "events-errors/table-3",
+    "relatedPageIds": []
+  },
+  {
+    "id": "events-errors/table-3",
+    "kind": "parameter-group",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "name": "Decoder and recovery map",
     "signature": "error-handling",
-    "description": "Shared parameters in the “Error handling” group. A component page links here only when it supports this group.",
+    "description": "Shared parameters in the “Decoder and recovery map” group. A component page links here only when it supports this group.",
     "parameters": [
       {
         "name": "Data validation",
-        "values": "Data.Result · Data.ValidationError",
-        "description": "Branch on success; failure exposes a bounded code and path."
+        "values": "Data.Result · code + path",
+        "description": "Keep input and show a field/form error."
       },
       {
         "name": "State restore",
         "values": "State.DecodeResult · State.MigrationResult",
-        "description": "Reject invalid snapshots or run explicit ordered migrations."
+        "description": "Keep current state or run an explicit tested migration."
       },
       {
         "name": "Routes",
-        "values": "Navigation.RouteResult · Navigation.MutationResult",
-        "description": "Inspect success and error.code; do not assume an untrusted location is valid."
+        "values": "Navigation.RouteResult · MutationResult",
+        "description": "Keep the current route when generation, match, or mutation fails."
       },
       {
         "name": "Server payload",
         "values": "Server.DecodeResult",
-        "description": "Decode before consuming trusted-backend output."
+        "description": "Keep previous trusted data and expose bounded retry where safe."
       },
       {
         "name": "Media state",
-        "values": "Media.DecodeResult · Media.MediaError",
-        "description": "Separate payload decoding failure from a playback error reported inside state."
+        "values": "Media.DecodeResult · state.error",
+        "description": "Distinguish malformed transport from a valid playback failure."
       },
       {
-        "name": "Assertions",
-        "values": "development failure",
-        "description": "Invalid API use fails clearly during check, test, preview, or event handling; fix the call rather than catching message text."
+        "name": "Assertion",
+        "values": "development contract failure",
+        "description": "Fix the API call or invariant; never catch message text as product flow."
       }
     ],
-    "previousPageId": "events-errors/table-1",
+    "previousPageId": "events-errors/table-2",
     "nextPageId": null,
     "relatedPageIds": []
   },

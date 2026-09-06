@@ -72,6 +72,12 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 - Every Luau typing example is now self-contained strict code checked by the
   real analyzer, with a guided exercise and field-by-field workflow for reading
   and repairing `luastra check` diagnostics.
+- Concurrent `luastra run` sessions for one project now use isolated generated
+  bundle directories, preventing a temporary audit preview from leaving an
+  existing server alive with bundle HTTP 404 responses.
+- Events and errors documentation now specifies exact UI, lifecycle, timer,
+  History, URL, system Back, media, and resolve payloads with explicit
+  state-preserving recovery policies and checked recipe links.
 
 ## [0.1.0-alpha] - 2026-08-28
 

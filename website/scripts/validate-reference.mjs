@@ -107,6 +107,12 @@ if (typing.cards.some((card) => card.code.includes("Debug."))) fail("Luau typing
 if (typing.cards.find((card) => card.name === "Type casts with ::").code.includes("::") === false) fail(":: page lacks a cast example");
 if (typing.cards.find((card) => card.name === "Runtime immutability with table.freeze").code.includes("table.freeze") === false) fail("table.freeze page lacks a freeze example");
 
+const events = sections.find((section) => section.id === "events-errors");
+const eventNames = [...events.cards, ...events.tables].map((item) => item.name ?? item.title);
+for (const name of ["Route handle events explicitly", "Handle lifecycle state", "Decode a system Back intent", "Restore History and opened URLs", "Decode live media state", "Correlate asynchronous completions", "Choose a recovery policy", "Exact event delivery", "Exact resolve delivery", "Decoder and recovery map"])
+  if (!eventNames.includes(name)) fail(`Events and errors reference misses ${name}`);
+if ((events.links ?? []).length !== 4 || events.links.some((link) => !link.href.startsWith("#/docs/recipe-"))) fail("Events and errors needs four internal recovery recipes");
+
 const policies = sections.find((section) => section.id === "policies");
 if ((policies.links ?? []).length !== 0) fail("bundled policy navigation must not depend on external GitHub links");
 if (policies.cards.length !== 7 || policies.cards.some((card) => card.kind !== "guide" || !Array.isArray(card.points) || card.points.length < 3))

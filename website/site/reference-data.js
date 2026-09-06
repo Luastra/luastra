@@ -3497,10 +3497,168 @@ luastra test`,
     callout: "Do not paste isolated snippets from several recipes into the counter at once. Make one bounded change, update its test, and repeat check → test → run—the Luastra development loop behind Build apps like games.",
   },
   { id: "application", title: "Application contract", module: "app/main", summary: "render is always required; handle is required when events can arrive; resolve is required when non-timer capability requests can complete.", guide: ["The entry module creates and returns an Application table. Initial render describes the screen without side effects; later handle or resolve calls update module state, then Luastra renders again.", "Implement handle before declaring controls, timers, lifecycle behavior, history, or media-state events. Implement resolve before starting Host, Server, or Media requests. Timer acknowledgements do not enter resolve; timer expiry enters handle."], cards: [entry("Application.render", "Application.render() -> UI.Node", "Returns the complete current interface as exactly one UI.Screen root.", { kind: "function", returns: "UI.Node — exactly one UI.Screen root.", useWhen: "Implement render in every application entry module; it is the required source of the complete current host-neutral UI tree.", code: `function Application.render(): UI.Node\n    return UI.Screen {\n        id = "app",\n    }\nend` }), entry("Application.handle", "Application.handle(action: string, target: string, value: string)", "Receives admitted UI and host events before the next render.", { kind: "function", parameters: [row("action", "string", "An onTap/onInput/onDismiss action or a host event such as lifecycle, timer, history, open_url, system_back, or media_state."), row("target", "string", "The stable component ID or host target such as app or browser."), row("value", "string", "The committed input value or bounded event payload; it may be empty.")], returns: "Nothing. State changes become visible in the render that follows the handler.", useWhen: "Implement handle when the application reacts to controls, input, timers, navigation, lifecycle, media state, or other admitted host events.", code: `function Application.handle(\n    action: string,\n    target: string,\n    value: string\n)\n    -- Validate the event and update module state.\nend` }), entry("Application.resolve", "Application.resolve(id: number, success: boolean, payload: string, code: string, message: string)", "Receives the bounded completion of an asynchronous Host, Server, or Media request.", { kind: "function", parameters: [row("id", "number", "The RequestId returned when the operation started."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The successful bounded payload, or an empty string after failure."), row("code", "string", "The stable failure code, or an empty string after success."), row("message", "string", "The bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Clear the matching pending operation and update state for the following render.", useWhen: "Implement resolve when the application starts asynchronous Host, Server, or Media operations and must correlate their results by RequestId.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    message: string\n)\n    -- Match id, clear pending work, then update state.\nend` })], callout: "Keep Application.render deterministic: describe UI from current state, and start timers, storage, media, or server work from initialization or event logic—not as a render side effect." },
-  { id: "events-errors", title: "Events and errors", module: "Application.handle · Application.resolve", summary: "UI, timers, media, system Back, and asynchronous capabilities enter the application through two explicit callbacks.", guide: ["Application.handle receives admitted events that may update state before the next render.", "Application.resolve completes an asynchronous Host, Server, or Media request; correlate it with the saved RequestId. Timer expiry instead arrives through Application.handle.", "Prefer exported Result and Error types when an SDK decoder provides them. Do not parse human-readable assertion text."], tables: [
-    { id: "event-delivery", title: "Event delivery", rows: [row("UI action", "handle(action, target, value)", "onTap, onInput, and onDismiss send the declared action plus the stable target ID."), row("Timer expiry", "handle(\"timer\", id, value)", "A started or restarted one-shot timer delivers its ID and optional value."), row("Media state", "handle(\"media_state\", target, payload)", "Decode the payload with Media.decodeState before reading playback fields."), row("System Back", "handle(\"system_back\", target, value)", "Close a modal, navigate back, delegate to history, or acknowledge exit according to current state."), row("Async completion", "resolve(requestId, success, payload, code, message)", "Match the RequestId saved when the capability call was made, then clear the pending entry.")] },
-    { id: "error-handling", title: "Error handling", rows: [row("Data validation", "Data.Result · Data.ValidationError", "Branch on success; failure exposes a bounded code and path."), row("State restore", "State.DecodeResult · State.MigrationResult", "Reject invalid snapshots or run explicit ordered migrations."), row("Routes", "Navigation.RouteResult · Navigation.MutationResult", "Inspect success and error.code; do not assume an untrusted location is valid."), row("Server payload", "Server.DecodeResult", "Decode before consuming trusted-backend output."), row("Media state", "Media.DecodeResult · Media.MediaError", "Separate payload decoding failure from a playback error reported inside state."), row("Assertions", "development failure", "Invalid API use fails clearly during check, test, preview, or event handling; fix the call rather than catching message text.")] },
-  ], callout: "Never log secrets, tokens, personal data, or complete sensitive payloads while diagnosing an error." },
+  {
+    id: "events-errors",
+    title: "Events and errors",
+    module: "Application.handle · Application.resolve · exact host payloads",
+    summary: "Route UI and host events through Application.handle, correlate asynchronous capability completions in Application.resolve, and recover without replacing valid state with malformed external data.",
+    guide: [
+      "Application.handle receives admitted UI actions and host events before the next render. Always match the action and the expected stable target before mutating state.",
+      "Application.resolve completes Host, Server, and Media requests. Save the operation under the returned RequestId, remove it before applying the completion, and ignore unknown or stale IDs.",
+      "Timer expiry and ongoing media state are events, not resolve completions. Decode structured strings with their SDK decoder and preserve the last valid application state when decoding fails.",
+    ],
+    cards: [
+      entry("Route handle events explicitly", "action + target + value", "One callback may receive unrelated UI, lifecycle, navigation, timer, and media events, so every mutation needs a narrow branch.", {
+        wide: true,
+        code: `function Application.handle(action: string, target: string, value: string)
+    if action == "counter.add" and target == "counter/add" then
+        count += 1
+    elseif action == "lifecycle" and target == "app" then
+        handleLifecycle(value)
+    elseif action == "timer" and target == "refresh" then
+        refresh(value)
+    end
+end`,
+        useWhen: "Use this dispatch shape whenever an application has more than one event source.",
+        points: ["action identifies the declared operation or host event family.", "target identifies the stable UI node, timer ID, or app host target.", "value is source-specific and may be empty; never assign it directly to trusted state without validation.", "Ignoring an unknown event is safer than applying it to the nearest-looking state branch."],
+      }),
+      entry("Handle lifecycle state", "handle(\"lifecycle\", \"app\", value)", "The current hosts emit launch, foreground/background visibility, and online/offline connectivity as serialized application events.", {
+        code: `if action == "lifecycle" and target == "app" then
+    if value == "launch" then
+        status = "Starting"
+    elseif value == "foreground" then
+        status = "Visible"
+    elseif value == "background" then
+        status = "Background"
+    elseif value == "online" then
+        connectivity = "online"
+    elseif value == "offline" then
+        connectivity = "offline"
+    end
+end`,
+        useWhen: "Use lifecycle events for resumable state and user-visible connectivity, not as proof that a remote request succeeded.",
+        points: ["Initial web delivery is launch, current visibility, then current connectivity.", "Native app-state integration emits launch and current foreground/background state, followed by connectivity.", "Repeated pending equivalents may be deduplicated; code must not depend on duplicate delivery.", "Background is a state transition, not permission to promise unrestricted background execution."],
+      }),
+      entry("Decode a system Back intent", "handle(\"system_back\", \"app\", \"intent:canGoBack\")", "Native Back carries a positive intent ID plus a 1 or 0 host-history hint; the application must answer that exact intent once.", {
+        wide: true,
+        code: `local intentText, canGoBackText = string.match(value, "^([1-9][0-9]*):([01])$")
+local intent = if intentText == nil then nil else tonumber(intentText)
+
+if action == "system_back" and target == "app" and intent ~= nil then
+    if modalOpen then
+        modalOpen = false
+        Host.systemBackHandled(intent)
+    elseif router.canBack() then
+        Host.systemBackHistory(intent)
+    elseif canGoBackText == "0" then
+        Host.systemBackExit(intent)
+    else
+        Host.systemBackHistory(intent)
+    end
+end`,
+        useWhen: "Use this only after declaring navigation.history and deciding which application state owns Back priority.",
+        points: ["Close app-owned transient UI such as a modal before changing navigation.", "Use the parsed positive intent ID, never a locally invented number.", "A stale or repeated intent is rejected by the host.", "systemBackExit is host-dependent and must remain the final root-level decision."],
+      }),
+      entry("Restore History and opened URLs", "history token · admitted URL", "Browser History carries only an app-authored state token, while open_url carries an admitted browser fragment or native application URL.", {
+        wide: true,
+        code: `if action == "history" and target == "app" then
+    if not router.restoreEncoded(value).success then
+        message = "Ignored invalid history state"
+    end
+elseif action == "open_url" and (target == "browser" or target == "app") then
+    local matched = routes.match(extractLocation(value))
+    if matched.success and matched.entry ~= nil then
+        router.replace(matched.entry)
+    else
+        message = "Ignored unsupported link"
+    end
+end`,
+        useWhen: "Use the History recipe for the complete checked implementation; this card explains the two distinct incoming boundaries.",
+        points: ["history target is app and value is the bounded token previously written by this project.", "open_url target is browser for admitted web fragment changes and app for admitted native URL opens.", "Parse and validate the URL into a compiled route; do not concatenate its fragments into application state.", "On failure, keep the current route and show a recoverable status if the user needs feedback."],
+      }),
+      entry("Decode live media state", "handle(\"media_state\", \"app\", payload)", "Playback truth arrives independently of command acknowledgements and must pass Media.decodeState before its fields are read.", {
+        code: `if action == "media_state" and target == "app" then
+    local decoded = Media.decodeState(value)
+    if decoded.success then
+        mediaState = decoded.state
+        mediaMessage = decoded.state.error == nil
+            and "Playback updated"
+            or "Playback error: " .. decoded.state.error.code
+    else
+        mediaMessage = "Ignored invalid media state"
+    end
+end`,
+        useWhen: "Use this for every media_state event, including interruptions, buffering, background changes, and playback errors.",
+        points: ["A successful command resolve means the request was accepted; it is not the ongoing playback position.", "A decode failure describes an invalid payload, while state.error describes a valid media state reporting playback failure.", "Keep the previous decoded state when a new payload is invalid."],
+      }),
+      entry("Correlate asynchronous completions", "pending[RequestId] → resolve", "The RequestId returned by a capability is the only reliable link between a later completion and the operation that started it.", {
+        wide: true,
+        code: `local pending: {[number]: string} = {}
+
+local requestId = Host.storageGet("app-state")
+pending[requestId] = "restore"
+
+function Application.resolve(
+    id: number,
+    success: boolean,
+    payload: string,
+    code: string,
+    _message: string
+)
+    local operation = pending[id]
+    pending[id] = nil
+    if operation == nil then return end
+    if not success then
+        status = operation .. " failed: " .. code
+    elseif operation == "restore" and not restore(payload) then
+        status = "Stored state is invalid"
+    end
+end`,
+        useWhen: "Use this for Host, Server, and Media requests that return RequestId.",
+        points: ["Store the intended operation immediately after receiving the RequestId.", "Clear the matching entry before decoding or mutating state so an error cannot leave it reusable.", "Ignore unknown IDs because they may be stale, duplicated, or belong to state that no longer exists.", "Use code for program decisions; message is bounded human-readable diagnostic context and must not be parsed."],
+      }),
+      entry("Choose a recovery policy", "reject · preserve · retry · replace", "A recoverable error should have an explicit state outcome instead of merely writing a console message.", {
+        kind: "guide",
+        useWhen: "Use this checklist when adding any decoder, capability, or host-event branch.",
+        points: ["Malformed external data: reject it and preserve the last valid state.", "User-correctable input: keep the input, attach an accessible field or form error, and retain focus.", "Transient operation failure: expose retry only when repeating the operation is safe; use idempotency for retryable server mutations.", "Unauthorized or forbidden operation: clear invalid session assumptions and return to an admitted state instead of looping retries.", "Unknown or stale event/completion: ignore it without mutating unrelated state.", "Programming assertion: fix the violated contract during development; do not parse or branch on assertion prose."],
+      }),
+    ],
+    tables: [
+      { id: "event-delivery", title: "Exact event delivery", rows: [
+        row("UI tap", "handle(onTap, component id, \"\")", "Match both declared action and stable target."),
+        row("UI input", "handle(onInput, component id, committed value)", "Validate value before trusting it."),
+        row("Dismiss", "handle(onDismiss, dismissible component id, \"\")", "Close only the matching transient surface."),
+        row("Lifecycle", "handle(\"lifecycle\", \"app\", launch|foreground|background|online|offline)", "Treat visibility and connectivity as state, not completed work."),
+        row("Timer expiry", "handle(\"timer\", timer id, configured value)", "Reject stale IDs after the owning state ends."),
+        row("History", "handle(\"history\", \"app\", app-authored token)", "Restore through the typed router."),
+        row("Opened URL", "handle(\"open_url\", browser|app, admitted URL)", "Parse into a compiled route."),
+        row("System Back", "handle(\"system_back\", \"app\", positive-id:0|1)", "Answer the exact intent through Host."),
+        row("Media state", "handle(\"media_state\", \"app\", encoded state)", "Decode with Media.decodeState."),
+      ] },
+      { id: "resolve-delivery", title: "Exact resolve delivery", rows: [
+        row("id", "positive RequestId", "Match and delete pending[id] before applying the completion."),
+        row("success", "boolean", "Only true admits the successful payload path."),
+        row("payload", "bounded string or empty on failure", "Decode with the operation-specific SDK before trusting it."),
+        row("code", "stable error code or empty on success", "Use for bounded control flow and user-facing recovery choice."),
+        row("message", "bounded diagnostic or empty on success", "Useful for development context; never parse it as a protocol."),
+      ] },
+      { id: "error-handling", title: "Decoder and recovery map", rows: [
+        row("Data validation", "Data.Result · code + path", "Keep input and show a field/form error."),
+        row("State restore", "State.DecodeResult · State.MigrationResult", "Keep current state or run an explicit tested migration."),
+        row("Routes", "Navigation.RouteResult · MutationResult", "Keep the current route when generation, match, or mutation fails."),
+        row("Server payload", "Server.DecodeResult", "Keep previous trusted data and expose bounded retry where safe."),
+        row("Media state", "Media.DecodeResult · state.error", "Distinguish malformed transport from a valid playback failure."),
+        row("Assertion", "development contract failure", "Fix the API call or invariant; never catch message text as product flow."),
+      ] },
+    ],
+    links: [
+      { text: "Practise timer event delivery", href: "#/docs/recipe-timer" },
+      { text: "Practise asynchronous storage recovery", href: "#/docs/recipe-storage" },
+      { text: "Practise Browser and system Back", href: "#/docs/recipe-history" },
+      { text: "Practise media state decoding", href: "#/docs/recipe-media" },
+    ],
+    callout: "Never log secrets, tokens, personal data, complete storage snapshots, server payloads, or system Back intent details while diagnosing an error.",
+  },
   { id: "ui", title: "Interface components", module: "luastra/ui", summary: "Builds a complete host-neutral semantic interface tree from validated components with stable lowercase IDs. Current web, Tauri, and Capacitor hosts render the tree as accessible semantic DOM and update it after application events.", guide: ["Named fields configure one node, while numeric table entries are its ordered children. Application.render must return exactly one UI.Screen root and may compose any supported containers, content, controls, and visual nodes beneath it.", "Each component card below contains the complete parameter set supported by that component. Shared groups remain available as conceptual explanations, but they are no longer a substitute for the component-specific table."], cards: uiCards, example: moduleExamples["luastra/ui"], callout: "Every render-tree ID must be unique and use lowercase path segments. Native adapters currently serve capability boundaries rather than replacing the semantic DOM renderer with platform-native widgets." },
   { id: "ui-properties", title: "UI parameters", module: "luastra/ui", summary: "Bounded design-system values fail clearly when invalid.", tables: uiTables },
   { id: "visuals", title: "Images, shapes, layers, and flip cards", module: "luastra/ui · luastra/assets · luastra/motion", summary: "Typed assets and host-native geometry compose into live visuals.", cards: [entry("Admitted image", "Assets.image → Assets.uri → UI.Image", "check verifies the file before display.", { useWhen: "Use an admitted image when application artwork must be packaged, integrity-checked, and rendered without accepting an arbitrary path or URL.", code: `local source = Assets.uri(Assets.image("image/card-back"))\n\nUI.Image {\n    id = "card/back",\n    source = source,\n    label = "Card back",\n}` }), entry("Shape overlay", "UI.Layer { base, overlay }", "The first child defines shared bounds.", { useWhen: "Use a Layer when later children must occupy the same visual bounds as the first child, such as text or status content over a Shape.", code: `UI.Layer {\n    id = "answer",\n    UI.Shape {\n        id = "answer/base",\n        shape = "circle",\n        width = 96,\n        height = 96,\n    },\n    UI.Text {\n        id = "answer/text",\n        text = "Correct",\n    },\n}` })] },
