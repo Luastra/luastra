@@ -1,5 +1,5 @@
 import { createReadStream, watch as watchFiles } from "node:fs";
-import { mkdir, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import { dirname, extname, isAbsolute, normalize, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -119,10 +119,11 @@ async function prepareRunRoot(root) {
     if (!info.isDirectory()) fail(`run output is not a directory: ${root}`);
     const entries = await readdir(root);
     if (entries.length > 0 && !entries.includes(runMarker)) fail(`refusing non-Luastra run output: ${root}`);
-    if (entries.includes(runMarker)) await rm(root, { recursive: true, force: true });
+  } else {
+    await mkdir(root, { recursive: true });
   }
-  await mkdir(root, { recursive: true });
   await writeFile(resolve(root, runMarker), "Luastra generated run workspace v1\n");
+  return mkdtemp(resolve(root, "session-"));
 }
 
 function safeMountedFile(urlPath, bundleRoot) {
@@ -168,8 +169,7 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
   const initialIdentityProvider = project.backend?.identity.provider ?? "none";
   const boundary = sessionBoundary(project, { environment, providerFetch, now });
   let activeBackend = null;
-  const runRoot = resolve(project.projectRoot, ".luastra/run");
-  await prepareRunRoot(runRoot);
+  const runRoot = await prepareRunRoot(resolve(project.projectRoot, ".luastra/run"));
   let generation = 0;
   let activeBundle = null;
   const buildNext = async () => {
@@ -198,7 +198,11 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
   };
   let initial;
   try { initial = await buildNext(); }
-  catch (error) { boundary.close(); throw error; }
+  catch (error) {
+    boundary.close();
+    await rm(runRoot, { recursive: true, force: true });
+    throw error;
+  }
   const eventClients = new Set();
   const server = createServer(async (request, response) => {
     try {
@@ -290,10 +294,18 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
       response.writeHead(500).end(String(error?.message ?? error));
     }
   });
-  await new Promise((accept, reject) => {
-    server.once("error", reject);
-    server.listen(port, "127.0.0.1", accept);
-  });
+  try {
+    await new Promise((accept, reject) => {
+      server.once("error", reject);
+      server.listen(port, "127.0.0.1", accept);
+    });
+  } catch (error) {
+    activeBackend?.dispose();
+    activeBackend = null;
+    boundary.close();
+    await rm(runRoot, { recursive: true, force: true });
+    throw error;
+  }
   const address = server.address();
   const actualPort = typeof address === "object" && address ? address.port : port;
   const url = `http://127.0.0.1:${actualPort}/`;
@@ -366,6 +378,7 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
     activeBackend?.dispose();
     activeBackend = null;
     boundary.close();
+    await rm(runRoot, { recursive: true, force: true });
     closeResolve();
     return closed;
   };
