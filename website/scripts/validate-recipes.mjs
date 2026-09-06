@@ -17,6 +17,7 @@ const recipes = [
   "recipe-assets-visuals",
   "recipe-motion",
   "recipe-server",
+  "recipe-media",
 ];
 const defaultRecipeFiles = Object.freeze([
   ["2. Replace luastra.json", "luastra.json"],
@@ -35,6 +36,9 @@ const recipeFiles = Object.freeze({
 const recipeAssets = Object.freeze({
   "recipe-assets-visuals": [
     { source: "examples/live-visuals/assets/luastra-mark.png", destination: "assets/luastra-mark.png" },
+  ],
+  "recipe-media": [
+    { source: "examples/media-player/assets/focus.wav", destination: "assets/focus.wav" },
   ],
 });
 const temporaryRoot = await mkdtemp(resolve(tmpdir(), "luastra-doc-recipes-"));

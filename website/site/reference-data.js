@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"], ["recipe-media", "Audio playback"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -492,7 +492,7 @@ export const sections = Object.freeze([
           "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
         ],
       }),
-      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion → server", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
+      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion → server → media", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
         kind: "guide",
         useWhen: "Use this order when you have no particular feature in mind yet.",
         points: [
@@ -504,7 +504,7 @@ export const sections = Object.freeze([
           "The Assets and visuals recipe adds packaged images plus semantic host-native geometry.",
           "Declarative motion adds host-scheduled presentation without an application frame loop.",
           "The Server Function recipe adds a generated client, trusted handler, and asynchronous result decoding.",
-          "A later recipe adds event-driven media.",
+          "The Audio Playback recipe adds command completion plus event-driven live media state.",
         ],
       }),
     ],
@@ -2046,6 +2046,290 @@ luastra run
       }),
     ],
     callout: "A Server function is not a remote Luau function call. It is an asynchronous request to trusted JavaScript code through a declared, validated, versioned contract.",
+  },
+  {
+    id: "recipe-media",
+    title: "Recipe: play packaged audio",
+    module: "luastra/media · live media_state events · about 20 minutes",
+    summary: "Load one packaged WAV file, control playback, and render only decoded host state without polling or an application-owned progress loop.",
+    guide: [
+      "You will copy one audio fixture, install it as a one-item queue at launch, and expose Play and Pause controls whose enabled state follows the host.",
+      "Media commands return RequestId values and complete in Application.resolve. Ongoing playback truth arrives as media_state events in Application.handle; both payload paths use Media.decodeState.",
+    ],
+    cards: [
+      entry("1. Create the project and copy audio", "starter + admitted WAV fixture", "Start from a normal project and copy the recipe fixture into its assets directory.", {
+        language: "Shell",
+        code: `luastra create media-recipe
+cd media-recipe
+# Copy focus.wav from this recipe into assets/focus.wav.`,
+        useWhen: "Run this where the new project should live, then save the supplied focus.wav fixture at exactly assets/focus.wav.",
+        points: [
+          "The documentation validator tests the same WAV fixture from examples/media-player/assets/focus.wav.",
+          "Use your own admitted WAV, MP3, M4A, or OGG file later; browser codec support still varies by format.",
+        ],
+      }),
+      entry("2. Replace luastra.json", "asset + media.command + ui.render", "The manifest admits both the packaged bytes and the host capability that controls playback.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.media-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["media.command", "ui.render"],
+  "assets": [
+    {
+      "id": "audio/focus",
+      "source": "assets/focus.wav",
+      "mediaType": "audio/wav"
+    }
+  ],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/assets", "luastra/media", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/media",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main", "luastra/media"]
+    }
+  ],
+  "tests": ["app/tests/media"]
+}`,
+        useWhen: "Replace the generated manifest after copying the WAV file. A source path alone is not a playable or portable asset reference.",
+      }),
+      entry("3. Replace src/main.luau", "launch → queue → commands + events → decoded state", "The host owns playback and progress; Luau only issues intent and renders validated snapshots.", {
+        wide: true,
+        code: `--!strict
+
+local Assets = require("luastra/assets")
+local Media = require("luastra/media")
+local UI = require("luastra/ui")
+
+local media: Media.State = {
+    revision = 0,
+    status = "idle",
+    itemId = "",
+    title = "",
+    artist = "",
+    positionMs = 0,
+    durationMs = 0,
+    bufferedMs = 0,
+    queueIndex = -1,
+    queueCount = 0,
+    background = false,
+    interruption = "none",
+    route = "default",
+    error = nil,
+}
+local pending: {[number]: string} = {}
+local message = "Waiting for launch"
+local Application = {}
+
+local queue: {Media.QueueItem} = {
+    {
+        id = "focus",
+        source = Assets.uri(Assets.audio("audio/focus")),
+        title = "Focus sample",
+        artist = "Luastra",
+    },
+}
+
+local function track(requestId: number, label: string)
+    pending[requestId] = label
+    message = label .. " requested"
+end
+
+local function applyState(payload: string, nextMessage: string?): boolean
+    local decoded = Media.decodeState(payload)
+    if not decoded.success then
+        message = "Rejected media state: " .. decoded.error
+        return false
+    end
+    media = decoded.state
+    if nextMessage ~= nil then message = nextMessage end
+    return true
+end
+
+function Application.render(): UI.Node
+    local elapsed = math.floor(media.positionMs / 1000)
+    local duration = math.floor(media.durationMs / 1000)
+    return UI.Screen {
+        id = "media-recipe",
+        width = "content",
+        padding = "responsive",
+        UI.Card {
+            id = "player/card",
+            gap = "md",
+            padding = "lg",
+            surface = "elevated",
+            UI.Text { id = "player/title", text = "Packaged audio", variant = "title" },
+            UI.Text {
+                id = "player/item",
+                text = if media.title == "" then "Nothing loaded" else media.title,
+                variant = "heading",
+            },
+            UI.Text {
+                id = "player/state",
+                text = "Status: " .. media.status,
+                role = "status",
+                tone = if media.status == "error" then "error" else nil,
+            },
+            UI.Text {
+                id = "player/progress",
+                text = "Progress: " .. tostring(elapsed) .. "s / " .. tostring(duration) .. "s",
+            },
+            UI.Text { id = "player/message", text = message, role = "status", tone = "muted" },
+            UI.Actions {
+                id = "player/actions",
+                gap = "sm",
+                responsive = true,
+                UI.Button {
+                    id = "player/play",
+                    text = "Play",
+                    onTap = "media.play",
+                    disabled = media.status ~= "ready" and media.status ~= "paused" and media.status ~= "ended",
+                },
+                UI.Button {
+                    id = "player/pause",
+                    text = "Pause",
+                    onTap = "media.pause",
+                    appearance = "secondary",
+                    disabled = media.status ~= "playing" and media.status ~= "buffering",
+                },
+            },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, value: string)
+    if action == "lifecycle" and target == "app" and value == "launch" then
+        if media.queueCount == 0 then track(Media.setQueue(queue, 1), "Queue load") end
+    elseif action == "media_state" then
+        applyState(value, nil)
+    elseif action == "media.play" and target == "player/play" then
+        track(Media.play(), "Play")
+    elseif action == "media.pause" and target == "player/pause" then
+        track(Media.pause(), "Pause")
+    end
+end
+
+function Application.resolve(
+    requestId: number,
+    success: boolean,
+    payload: string,
+    errorCode: string,
+    errorMessage: string
+)
+    local label = pending[requestId]
+    if label == nil then return end
+    pending[requestId] = nil
+    if not success then
+        message = label .. " failed: " .. errorCode .. " — " .. errorMessage
+        return
+    end
+    applyState(payload, label .. " completed")
+end
+
+function Application.snapshot()
+    return { status = media.status, title = media.title, message = message }
+end
+
+return Application`,
+        useWhen: "Replace the complete entry module. Do not add a timer or frame loop: the host emits bounded progress and lifecycle updates.",
+      }),
+      entry("4. Replace tests/smoke.luau", "valid event + malformed state rejection", "The smoke test drives the same media_state path as the host without pretending to play audio in the isolated test VM.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+local Media = require("luastra/media")
+
+local ready = table.concat({
+    "v=1",
+    "artist=Luastra",
+    "background=false",
+    "bufferedMs=1000",
+    "durationMs=8000",
+    "errorCode=",
+    "errorMessage=",
+    "interruption=none",
+    "itemId=focus",
+    "positionMs=0",
+    "queueCount=1",
+    "queueIndex=0",
+    "revision=1",
+    "route=default",
+    "status=ready",
+    "title=Focus%20sample",
+}, "&")
+
+local decoded = Media.decodeState(ready)
+assert(decoded.success and decoded.state.title == "Focus sample")
+Application.handle("media_state", "player", ready)
+local current = Application.snapshot()
+assert(current.status == "ready" and current.title == "Focus sample")
+
+Application.handle("media_state", "player", "v=2&status=playing")
+local rejected = Application.snapshot()
+assert(rejected.status == "ready")
+assert(rejected.message == "Rejected media state: invalid_wire")
+assert(Application.render().type == "Screen")
+
+return true`,
+        useWhen: "Replace the generated smoke test so state admission and rejection are verified independently of browser audio policy.",
+      }),
+      entry("5. Check and run", "ready → playing → paused", "Automated checks prove the contract; the preview separately proves audible playback in the current browser.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Wait for Status: ready, then press Play.
+# Expect audible audio and Status: playing.
+# Press Pause and expect Status: paused.`,
+        useWhen: "Run from media-recipe after the manifest, Luau files, and assets/focus.wav are saved.",
+        points: [
+          "check and test must report PASS with one passing test.",
+          "Play begins only after an explicit user action, which satisfies common browser autoplay policy.",
+          "The progress text should advance from host events; Application.render does not run on an application timer.",
+          "If decoding or playback fails, keep the last admitted state and show a bounded message.",
+        ],
+      }),
+      entry("6. Separate command completion from live truth", "resolve acknowledges · media_state observes", "A completed command and current playback are related signals, not interchangeable promises.", {
+        kind: "guide",
+        useWhen: "Read this when controls appear to lag, playback changes outside the app, or command success conflicts with a later media event.",
+        points: [
+          "setQueue, play, and pause return RequestId immediately; store it only for command correlation.",
+          "Application.resolve reports whether that command completed and may carry a decodable state snapshot.",
+          "media_state reports later changes such as progress, ending, buffering, interruption, route, and errors.",
+          "Render from the newest decoded Media.State rather than assuming that a pressed button already changed playback.",
+          "Ignore unknown RequestIds and reject malformed state payloads without erasing the last valid UI state.",
+        ],
+      }),
+      entry("7. Understand sources and queues", "asset: for packaged files · content: for scoped grants", "Media accepts admitted sources and a bounded queue rather than arbitrary filesystem or network URLs.", {
+        kind: "guide",
+        useWhen: "Read this before adding another track, protected content, Next and Previous controls, or seeking.",
+        points: [
+          "Use Assets.audio and Assets.uri for files declared in luastra.json.",
+          "Use content grants issued by a trusted backend for protected media; a content: token is not a public URL.",
+          "Raw https://, file://, absolute paths, data URLs, and short forged content tokens are rejected.",
+          "A queue contains 1 to 32 items. selectedIndex is one-based in Luau even though decoded queueIndex is zero-based.",
+          "Enable Next, Previous, and Seek from decoded queue and duration fields, not from assumptions about the source.",
+        ],
+      }),
+      entry("8. Keep host claims evidence-bound", "web playback ≠ native background proof", "Foreground browser success does not establish background audio, lock-screen controls, or interruption behavior everywhere.", {
+        kind: "guide",
+        useWhen: "Read this before promising playback behavior for web, Tauri, Android, iOS, or a packaged release.",
+        points: [
+          "Verify audible foreground playback separately in each supported browser and packaged host.",
+          "Mobile background playback requires a native build, lifecycle configuration, and a physical-device check.",
+          "Lock-screen metadata and hardware controls require explicit target evidence; source code alone is insufficient.",
+          "Test calls, headphones, Bluetooth route changes, audio focus, screen lock, and application disposal where claimed.",
+          "Avoid polling. Supported hosts own event cadence and should stay idle when playback and UI are idle.",
+        ],
+      }),
+    ],
+    callout: "A successful Media.play completion is not permission to invent playing state. Decode host state and let media_state remain authoritative as playback changes.",
   },
   {
     id: "luau-types",

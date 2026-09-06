@@ -88,7 +88,7 @@ local copiedPage = Application.render()
 local copiedStatus = findNode(copiedPage, "docs/detail/copy-status")
 assert(copiedStatus ~= nil and (copiedStatus.properties :: any).text == "Example copied.")
 
-Application.handle("docs.search", "docs/search", "Check")
+Application.handle("docs.search", "docs/search", "Analyzes the strict Luau graph")
 local checkLink = findLink(Application.render(), "Check")
 assert(checkLink ~= nil)
 Application.handle("docs.open-page", checkLink.id, "")
