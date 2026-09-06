@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"]] },
+  { label: "Build recipes", items: [["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -471,40 +471,6 @@ export const sections = Object.freeze([
   },
   { id: "workflow", title: "Workflow", summary: "From a new project to a verified web build.", cards: [["Create a project", "create <directory>", "Creates a new starter project in a missing or empty directory.", "Use this once when beginning an application; then enter the created directory before running the remaining commands."], ["Check", "check", "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.", "Run after changing source code or luastra.json, and always before tests, preview, or a release build."], ["Run tests", "test", "Runs the project’s bounded Luau test modules.", "Run after changing application logic, event handling, state transitions, or SDK-facing code."], ["Run preview", "run", "Starts the local development server with rebuilding and reload feedback.", "Use during interactive development when you want to inspect and debug the application in a browser."], ["Build web", "build web", "Creates the static web output in dist/web.", "Use when you need a production-style web artifact for HTTP serving or deployment verification."], ["Build bundle", "build bundle", "Creates the host-neutral runtime bundle.", "Use when a host workflow needs the compiled Luastra application bundle rather than the complete static website."]].map(([name, command, description, useWhen]) => entry(name, `luastra ${command}`, description, { language: "Shell", code: `luastra ${command}`, useWhen })) },
   { id: "learning-path", title: "Interactive learning path", module: "15–25 minutes · resettable", summary: "Follow one cumulative sequence from a verified installation to a stateful accessible interaction.", guide: ["Prerequisite: finish Installation and confirm luastra doctor reports PASS.", "Use Next and Back to move through the steps. Step 2 is a complete src/main.luau file; later steps verify, test, and preview that same file."], callout: "The controls below are rendered and handled by Luastra itself. Completing buttons here does not run commands on your computer; copy each step into your own terminal or editor." },
-  {
-    id: "recipes",
-    title: "How to use the build recipes",
-    module: "copy · verify · understand · adapt",
-    summary: "Build one complete capability at a time from files that are checked against the candidate SDK.",
-    guide: [
-      "Finish Quick start first. Each recipe then starts from a fresh project, replaces the named files, runs check and test, and tells you exactly what to do in the preview.",
-      "Copy a whole file before adapting it. Focused API snippets omit surrounding state on purpose; recipe files do not. Read the lifecycle explanation after the example works once.",
-    ],
-    cards: [
-      entry("Recipe contract", "goal → files → checks → interaction → explanation", "A recipe is complete only when its imports, manifest dependencies, capabilities, event path, expected UI, and verification boundary are all explicit.", {
-        kind: "guide",
-        useWhen: "Use this checklist whenever you follow or write a Luastra recipe.",
-        points: [
-          "Goal: know the visible behavior before copying code.",
-          "Files: replace exactly the listed files in a fresh starter project.",
-          "Checks: do not continue until luastra check and luastra test report result=PASS.",
-          "Interaction: follow the stated clicks and compare the visible result.",
-          "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
-        ],
-      }),
-      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → server → media", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
-        kind: "guide",
-        useWhen: "Use this order when you have no particular feature in mind yet.",
-        points: [
-          "Complete mini-app teaches render and handle.",
-          "Delayed action adds a host event without Application.resolve.",
-          "Typed navigation adds checked route state and Back behavior.",
-          "Later recipes add asynchronous storage, trusted server work, and event-driven media.",
-        ],
-      }),
-    ],
-    callout: "These candidate recipes are verified from the repository checkout. The public 0.1.0-alpha installer may expose an older contract until the next release is published.",
-  },
   {
     id: "recipe-timer",
     title: "Recipe: run a delayed action",
@@ -944,6 +910,161 @@ luastra run
       }),
     ],
     callout: "A successful storage read only proves that bytes were returned. Decode the versioned snapshot and validate domain values before replacing current application state.",
+  },
+  {
+    id: "recipe-history",
+    title: "Recipe: synchronize Browser and system Back",
+    module: "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    summary: "Keep typed Luau navigation, the visible fragment URL, Browser Back, and platform Back on one validated route stack.",
+    guide: [
+      "You will open #/detail, return with Browser Back, and delegate a platform Back intent to history or root exit.",
+      "Every app-owned push writes both the canonical location and encoded router state. Every host-owned history event validates that state before rendering it.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create history-recipe", "Create a starter, then replace its manifest, entry module, and smoke test.", { language: "Shell", code: `luastra create history-recipe\ncd history-recipe`, useWhen: "Run this in the directory that should contain the new project." }),
+      entry("2. Replace luastra.json", "navigation.history + ui.render", "The host capability is required for URL/history mutations and platform Back responses.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.history-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["navigation.history", "ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/host", "luastra/navigation", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/history",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main", "luastra/navigation"]
+    }
+  ],
+  "tests": ["app/tests/history"]
+}`,
+        useWhen: "Replace the generated manifest before calling any Host history or system Back response API.",
+      }),
+      entry("3. Replace src/main.luau", "one router owns every navigation outcome", "The application pushes; the host moves Back; both end by rendering the same validated router.", {
+        wide: true,
+        code: `--!strict
+
+local Host = require("luastra/host")
+local Navigation = require("luastra/navigation")
+local UI = require("luastra/ui")
+
+local routes = Navigation.compile {
+    { name = "home", path = "/" },
+    { name = "detail", path = "/detail" },
+}
+local router = Navigation.createRouter {
+    compiler = routes,
+    initial = { name = "home", params = {}, query = {} },
+}
+local Application = {}
+local message = "At home"
+
+local function location(): string
+    return "#" .. router.currentLocation()
+end
+
+function Application.restoreHistory(value: string): boolean
+    local result = router.restoreEncoded(value)
+    if result.success then message = "History restored" end
+    return result.success
+end
+
+function Application.render(): UI.Node
+    return UI.Screen {
+        id = "history-recipe",
+        UI.Text { id = "history/title", text = "Route: " .. router.current().name, variant = "title" },
+        UI.Text { id = "history/location", text = location(), role = "status" },
+        UI.Text { id = "history/message", text = message, role = "status" },
+        UI.Button { id = "history/open", text = "Open detail", onTap = "route.open" },
+    }
+end
+
+function Application.handle(action: string, target: string, value: string)
+    if action == "lifecycle" and target == "app" and value == "launch" then
+        Host.historyReplaceLocation(location(), router.encode())
+    elseif action == "route.open" and target == "history/open" then
+        local result = router.push { name = "detail", params = {}, query = {} }
+        if result.success and result.changed then
+            Host.historyPushLocation(location(), router.encode())
+            message = "Detail opened"
+        end
+    elseif action == "history" and target == "app" then
+        if not Application.restoreHistory(value) then message = "Rejected history state" end
+    elseif action == "system_back" and target == "app" then
+        local intent = tonumber(string.match(value, "^([1-9][0-9]*):[01]$"))
+        if intent ~= nil then
+            if router.canBack() then Host.systemBackHistory(intent)
+            else Host.systemBackExit(intent) end
+        end
+    end
+end
+
+function Application.resolve(
+    _id: number,
+    success: boolean,
+    _payload: string,
+    code: string,
+    diagnostic: string
+)
+    if not success then
+        message = "History request failed: " .. code .. " — " .. diagnostic
+    end
+end
+
+function Application.snapshot()
+    return { name = router.current().name, location = location() }
+end
+
+return Application`,
+        useWhen: "Replace the complete entry module. resolve reports rejected host requests; only history events restore router state, and only system_back events carry platform Back intents.",
+      }),
+      entry("4. Replace tests/smoke.luau", "valid and invalid history restoration", "The test supplies encoded router state directly and proves malformed history cannot replace the current route.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+local Navigation = require("luastra/navigation")
+
+local routes = Navigation.compile {
+    { name = "home", path = "/" },
+    { name = "detail", path = "/detail" },
+}
+local source = Navigation.createRouter {
+    compiler = routes,
+    initial = { name = "home", params = {}, query = {} },
+}
+assert(source.push { name = "detail", params = {}, query = {} }.success)
+assert(Application.restoreHistory(source.encode()), "valid history was rejected")
+assert(Application.snapshot().location == "#/detail", "detail history was not restored")
+assert(not Application.restoreHistory("invalid"), "malformed history was accepted")
+assert(Application.snapshot().location == "#/detail", "failed restore changed the route")
+assert(Navigation.decideBack { modalOpen = false, canBack = true } == "history")
+
+return true`,
+        useWhen: "Replace the generated smoke test to verify atomic history restoration before opening a browser.",
+      }),
+      entry("5. Check and run", "Open detail → Browser Back → Home", "The test proves state validation; the browser interaction proves URL and popstate integration in this host.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Press Open detail: expect #/detail.
+# Use Browser Back: expect #/ and Route: home.`,
+        useWhen: "Run from history-recipe after all three files are saved.",
+        points: ["check and test must report PASS with one passing test.", "On a mobile host, Back at detail delegates to history; Back at root may request application exit.", "Desktop, web, Android, and iOS Back behavior must still be verified independently."],
+      }),
+      entry("6. Understand the arbitration", "modal → history → exit", "Navigation.decideBack defines priority; the application performs one matching host response for each fresh intent.", {
+        kind: "guide",
+        useWhen: "Read this before adding a modal or another local navigation layer.",
+        points: ["Dismiss application-owned modal state and acknowledge handled.", "Delegate to host history when a previous route exists.", "Request exit only at the application root where the platform supports it.", "Ignore malformed or repeated intent values; never respond twice to one intent."],
+      }),
+    ],
+    callout: "Do not call router.back() and Host.systemBackHistory for the same Back press. The host history event will restore the router after the platform moves Back.",
   },
   {
     id: "luau-types",
