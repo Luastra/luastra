@@ -8,7 +8,30 @@ import { sections } from "../site/reference-data.js";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const cli = resolve(root, "cli", "luastra.mjs");
-const recipes = ["recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion"];
+const recipes = [
+  "recipe-timer",
+  "recipe-navigation",
+  "recipe-storage",
+  "recipe-history",
+  "recipe-form-modal",
+  "recipe-assets-visuals",
+  "recipe-motion",
+  "recipe-server",
+];
+const defaultRecipeFiles = Object.freeze([
+  ["2. Replace luastra.json", "luastra.json"],
+  ["3. Replace src/main.luau", "src/main.luau"],
+  ["4. Replace tests/smoke.luau", "tests/smoke.luau"],
+]);
+const recipeFiles = Object.freeze({
+  "recipe-server": [
+    ["2. Replace luastra.json", "luastra.json"],
+    ["3. Create backend/functions.json", "backend/functions.json"],
+    ["4. Create backend/handlers.mjs", "backend/handlers.mjs"],
+    ["6. Replace src/main.luau", "src/main.luau"],
+    ["7. Replace tests/smoke.luau", "tests/smoke.luau"],
+  ],
+});
 const recipeAssets = Object.freeze({
   "recipe-assets-visuals": [
     { source: "examples/live-visuals/assets/luastra-mark.png", destination: "assets/luastra-mark.png" },
@@ -30,24 +53,25 @@ try {
     const section = sections.find((candidate) => candidate.id === id);
     if (!section) throw new Error(`missing documentation recipe: ${id}`);
 
+    const files = recipeFiles[id] ?? defaultRecipeFiles;
     const manifestText = cardCode(section, "2. Replace luastra.json");
-    const sourceText = cardCode(section, "3. Replace src/main.luau");
-    const testText = cardCode(section, "4. Replace tests/smoke.luau");
     JSON.parse(manifestText);
+    if (id === "recipe-server") JSON.parse(cardCode(section, "3. Create backend/functions.json"));
 
     const project = resolve(temporaryRoot, id);
-    await mkdir(resolve(project, "src"), { recursive: true });
-    await mkdir(resolve(project, "tests"), { recursive: true });
-    await writeFile(resolve(project, "luastra.json"), `${manifestText}\n`, "utf8");
-    await writeFile(resolve(project, "src", "main.luau"), `${sourceText}\n`, "utf8");
-    await writeFile(resolve(project, "tests", "smoke.luau"), `${testText}\n`, "utf8");
+    for (const [cardName, destinationName] of files) {
+      const destination = resolve(project, destinationName);
+      await mkdir(dirname(destination), { recursive: true });
+      await writeFile(destination, `${cardCode(section, cardName)}\n`, "utf8");
+    }
     for (const asset of recipeAssets[id] ?? []) {
       const destination = resolve(project, asset.destination);
       await mkdir(dirname(destination), { recursive: true });
       await copyFile(resolve(root, asset.source), destination);
     }
 
-    for (const command of ["check", "test"]) {
+    const commands = id === "recipe-server" ? ["generate", "check", "test"] : ["check", "test"];
+    for (const command of commands) {
       const output = execFileSync(process.execPath, [cli, command, `--project=${project}/luastra.json`], {
         cwd: root,
         encoding: "utf8",

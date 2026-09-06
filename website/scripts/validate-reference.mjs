@@ -44,7 +44,7 @@ for (const section of sections) {
 if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
 if (release.sourceSdk !== "Source SDK contract 13") fail("reference source SDK label is stale");
 if (release.runtimeSdk !== "Runtime SDK alpha 8") fail("reference runtime SDK label is stale");
-for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "events-errors", "policies"])
+for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "recipe-server", "events-errors", "policies"])
   if (!sectionIds.includes(id)) fail(`reference misses required learning section: ${id}`);
 const navigationIds = navigationGroups.flatMap((group) => group.items.map(([id]) => id));
 if (new Set(navigationIds).size !== navigationIds.length) fail("navigation contains duplicate targets");

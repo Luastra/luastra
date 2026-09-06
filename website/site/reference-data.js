@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -492,7 +492,7 @@ export const sections = Object.freeze([
           "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
         ],
       }),
-      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
+      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion → server", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
         kind: "guide",
         useWhen: "Use this order when you have no particular feature in mind yet.",
         points: [
@@ -503,7 +503,8 @@ export const sections = Object.freeze([
           "The Form and modal recipe adds controlled input, validation, and accessible focus behavior.",
           "The Assets and visuals recipe adds packaged images plus semantic host-native geometry.",
           "Declarative motion adds host-scheduled presentation without an application frame loop.",
-          "Later recipes add trusted server work and event-driven media.",
+          "The Server Function recipe adds a generated client, trusted handler, and asynchronous result decoding.",
+          "A later recipe adds event-driven media.",
         ],
       }),
     ],
@@ -1783,6 +1784,268 @@ luastra run
       }),
     ],
     callout: "Do not implement requestAnimationFrame or per-frame state in Luau. Declare bounded motion on a stable semantic node and let the host scheduler honor reduced-motion preferences.",
+  },
+  {
+    id: "recipe-server",
+    title: "Recipe: call a server function",
+    module: "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    summary: "Declare one public query, generate its typed Luau client, run its trusted handler locally, and correlate the asynchronous result before showing it.",
+    guide: [
+      "You will send a name from Luau to greeting.message.v1. The local backend validates it, returns a greeting, and the generated decoder admits the result before UI state changes.",
+      "The declaration is the shared contract. Luastra uses it to validate the trusted handler boundary and generate client functions; the handler itself is never bundled into client Luau.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create server-recipe", "Create a starter, then add the backend declaration and handler before generating the client module.", {
+        language: "Shell",
+        code: `luastra create server-recipe
+cd server-recipe
+mkdir backend`,
+        useWhen: "Run this in the directory that should contain the new project. The backend directory holds trusted code that is separate from client Luau.",
+      }),
+      entry("2. Replace luastra.json", "rpc.call + generated module + backend files", "The manifest declares the capability, trusted files, generated client path, and dependency edge explicitly.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.server-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["rpc.call", "ui.render"],
+  "backend": {
+    "declaration": "backend/functions.json",
+    "handler": "backend/handlers.mjs",
+    "generatedClient": "src/generated/server-functions.luau",
+    "generatedModule": "app/server-functions"
+  },
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["app/server-functions", "luastra/ui"]
+    },
+    {
+      "id": "app/server-functions",
+      "source": "src/generated/server-functions.luau",
+      "dependencies": ["luastra/server"]
+    },
+    {
+      "id": "app/tests/server",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main", "app/server-functions"]
+    }
+  ],
+  "tests": ["app/tests/server"]
+}`,
+        useWhen: "Replace the generated manifest. rpc.call is required for Server calls; ui.render remains required for the visible application.",
+      }),
+      entry("3. Create backend/functions.json", "one versioned query contract", "The declaration names the public operation and gives both sides exact typed fields.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 1,
+  "types": {},
+  "functions": {
+    "greeting.message.v1": {
+      "clientName": "greet",
+      "authorization": "public",
+      "mutation": false,
+      "idempotency": "none",
+      "input": { "name": "string" },
+      "result": { "message": "string" }
+    }
+  }
+}`,
+        useWhen: "Create this declaration before generation. Add a new versioned operation instead of silently changing incompatible input or result meaning.",
+        points: [
+          "authorization: public means no signed-in principal is required; it does not make input trustworthy.",
+          "mutation: false declares a read-only query, so this operation does not need an idempotency key.",
+          "clientName becomes greet and decodeGreet in the generated Luau module.",
+        ],
+      }),
+      entry("4. Create backend/handlers.mjs", "trusted validation and result", "The handler validates untrusted input again and returns exactly the declared result shape.", {
+        language: "JavaScript",
+        code: `export function createHandlers() {
+  return Object.freeze({
+    async "greeting.message.v1"(input, context) {
+      const name = input.name.trim();
+      const bytes = new TextEncoder().encode(name).byteLength;
+      if (bytes < 2 || bytes > 60) {
+        context.reject("VALIDATION", "Name must contain 2 to 60 bytes");
+      }
+      return { message: \`Hello, \${name}!\` };
+    },
+  });
+}`,
+        useWhen: "Create this trusted local-backend module. Keep secrets and privileged provider calls here, never in generated or handwritten client Luau.",
+        points: [
+          "The operation key must exactly match the declaration.",
+          "context.reject produces a bounded failure code and message for Application.resolve.",
+          "Luastra validates the returned object against the declared result before it crosses the RPC boundary.",
+        ],
+      }),
+      entry("5. Generate the typed Luau client", "declaration → src/generated/server-functions.luau", "Generation creates the only client call and decoder names used by application code.", {
+        language: "Shell",
+        code: `luastra generate
+# Expect result: PASS and module: app/server-functions`,
+        useWhen: "Run after creating or changing backend/functions.json. Commit the generated module, but never edit it by hand.",
+        points: [
+          "greet(input, options) starts the request and returns a numeric RequestId, not the greeting.",
+          "decodeGreet(payload) returns the declared result or nil for malformed, missing, or extra fields.",
+          "luastra check rejects a missing or stale generated client.",
+        ],
+      }),
+      entry("6. Replace src/main.luau", "input → RequestId → resolve → decode → state", "The application stores each request ID and changes visible state only after the matching completion is decoded.", {
+        wide: true,
+        code: `--!strict
+
+local ServerFunctions = require("app/server-functions")
+local UI = require("luastra/ui")
+
+local Application = {}
+local name = "Ada"
+local status = "Ready"
+local pending: {[number]: boolean} = {}
+
+local function busy(): boolean
+    return next(pending) ~= nil
+end
+
+function Application.render(): UI.Node
+    return UI.Screen {
+        id = "server-recipe",
+        width = "content",
+        padding = "responsive",
+        UI.Card {
+            id = "greeting/card",
+            gap = "md",
+            padding = "lg",
+            surface = "elevated",
+            UI.Text { id = "greeting/title", text = "Server greeting", variant = "title" },
+            UI.Field {
+                id = "greeting/name-field",
+                gap = "xs",
+                role = "group",
+                label = "Name field",
+                UI.Text { id = "greeting/name-label", text = "Name" },
+                UI.TextInput {
+                    id = "greeting/name",
+                    label = "Name",
+                    value = name,
+                    onInput = "greeting.name",
+                    autoComplete = "name",
+                    enterKeyHint = "done",
+                    required = true,
+                },
+            },
+            UI.Button {
+                id = "greeting/send",
+                text = if busy() then "Waiting..." else "Ask the server",
+                onTap = "greeting.send",
+                disabled = busy(),
+            },
+            UI.Text { id = "greeting/status", text = status, role = "status" },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, value: string)
+    if action == "greeting.name" and target == "greeting/name" then
+        name = value
+        status = "Ready"
+    elseif action == "greeting.send" and target == "greeting/send" and not busy() then
+        local requestId = ServerFunctions.greet({ name = name }, { deadlineMs = 2000, retry = true })
+        pending[requestId] = true
+        status = "Waiting for the server..."
+    end
+end
+
+function Application.resolve(
+    requestId: number,
+    success: boolean,
+    payload: string,
+    errorCode: string,
+    errorMessage: string
+)
+    if pending[requestId] ~= true then return end
+    pending[requestId] = nil
+    if not success then
+        status = errorCode .. ": " .. errorMessage
+        return
+    end
+    local result = ServerFunctions.decodeGreet(payload)
+    if result == nil then
+        status = "INTERNAL: Invalid greeting response"
+        return
+    end
+    status = result.message
+end
+
+function Application.snapshot()
+    return { name = name, status = status, busy = busy() }
+end
+
+return Application`,
+        useWhen: "Replace the entry module after generation. This is the complete asynchronous client lifecycle rather than a synchronous function return.",
+      }),
+      entry("7. Replace tests/smoke.luau", "generated decoder + controlled UI", "The smoke test proves the offline contracts without pretending that its isolated VM owns a live backend.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+local ServerFunctions = require("app/server-functions")
+
+local decoded = ServerFunctions.decodeGreet("v=1&result.message=Hello%2C%20Ada%21")
+assert(decoded ~= nil and decoded.message == "Hello, Ada!")
+assert(ServerFunctions.decodeGreet("v=1") == nil)
+assert(ServerFunctions.decodeGreet("v=1&result.message=Hello&extra=value") == nil)
+
+local initial = Application.snapshot()
+assert(initial.name == "Ada" and initial.status == "Ready" and not initial.busy)
+Application.handle("greeting.name", "greeting/name", "Grace")
+local changed = Application.snapshot()
+assert(changed.name == "Grace" and changed.status == "Ready")
+assert(Application.render().type == "Screen")
+
+return true`,
+        useWhen: "Replace the smoke test so checkable decoder and UI behavior stay deterministic without introducing a fake network response.",
+      }),
+      entry("8. Check and run", "generate → check → test → live local RPC", "The first three commands verify files and types; the preview then exercises the real local handler boundary.", {
+        language: "Shell",
+        code: `luastra generate
+luastra check
+luastra test
+luastra run
+# Open the printed local URL and press Ask the server.
+# Expect: Hello, Ada!`,
+        useWhen: "Run from server-recipe after all five authored files are saved. Leave luastra run active while testing the browser flow.",
+        points: [
+          "generate, check, and test must report PASS with one passing test.",
+          "The browser request reaches the trusted local handler served by luastra run.",
+          "Try a one-character name: expect VALIDATION and the handler message without a client crash.",
+          "The numeric RequestId only correlates completion; it is never the operation result.",
+        ],
+      }),
+      entry("9. Follow one request", "Luau → RPC transport → handler → typed envelope → Luau", "Each stage owns one explicit responsibility, so client state never trusts transport text directly.", {
+        kind: "guide",
+        useWhen: "Read this when a server call appears to start but the expected result does not reach the interface.",
+        points: [
+          "greet encodes declared input and returns a RequestId immediately.",
+          "The host sends server.call.v1 to the local RPC endpoint with the operation name and deadline.",
+          "The backend selects greeting.message.v1, enforces authorization, validates input, and validates its result.",
+          "Application.resolve matches the RequestId and separates transport failure from successful payload decoding.",
+          "decodeGreet admits only the exact declared result before status changes.",
+        ],
+      }),
+      entry("10. Keep the production boundary honest", "local backend support is not hosted deployment", "The recipe proves local development behavior, not production infrastructure, secrets, or service availability.", {
+        kind: "guide",
+        useWhen: "Read this before adding authentication, database access, provider credentials, or publishing a server-backed application.",
+        points: [
+          "Client Luau and generated client code are public application artifacts. Never place a secret in either one.",
+          "Public operations still require validation, rate limits, abuse controls, and safe error messages in production.",
+          "Use user or admin authorization for protected work and enforce ownership inside the handler.",
+          "Retries are safe for this read-only query. Mutations need an intentional idempotency policy and stable key.",
+          "The candidate includes a local backend for luastra run; production backend deployment is a separate host decision.",
+        ],
+      }),
+    ],
+    callout: "A Server function is not a remote Luau function call. It is an asynchronous request to trusted JavaScript code through a declared, validated, versioned contract.",
   },
   {
     id: "luau-types",
