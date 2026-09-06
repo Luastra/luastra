@@ -274,7 +274,28 @@ async function main() {
     await client.send("Emulation.setEmulatedMedia", { features: [] });
 
     await viewport(client, { width: 390, height: 844 });
-    await route(client, "#/reference/ui%2Fitem-8", "location.hash === '#/reference/ui%2Fitem-8' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail\"]'))");
+    await route(client, "#/docs/ui", "location.hash === '#/docs/ui' && Boolean(document.querySelector('[data-luastra-id=\"docs/pages/ui\"]'))");
+    await evaluate(client, `(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      document.querySelector('[data-luastra-id^="docs/page-link-"][href="#/reference/ui%2Fitem-8"]')?.click();
+      return true;
+    })()`);
+    await waitFor(client, "location.hash === '#/reference/ui%2Fitem-8' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail\"]'))", "detail navigation");
+    await delay(80);
+    const detailOpenedAtTop = await evaluate(client, "window.scrollY <= 1");
+    const wheelTarget = await evaluate(client, `(() => {
+      const node = document.querySelector('[data-luastra-id="docs/detail/parameters-scroll"]');
+      node?.scrollIntoView({ block: 'center' });
+      const bounds = node?.getBoundingClientRect();
+      return bounds ? { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2, before: window.scrollY } : null;
+    })()`);
+    if (wheelTarget) {
+      await client.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: wheelTarget.x, y: wheelTarget.y });
+      await client.send("Input.dispatchMouseEvent", { type: "mouseWheel", x: wheelTarget.x, y: wheelTarget.y, deltaX: 0, deltaY: 240 });
+      await delay(120);
+    }
+    const verticalWheelEscapesTable = wheelTarget !== null &&
+      await evaluate(client, `window.scrollY > ${JSON.stringify(wheelTarget?.before ?? Number.MAX_SAFE_INTEGER)}`);
     const documentationDetail = await evaluate(client, `(() => {
       const related = [...document.querySelectorAll('a[data-luastra-id^="docs/detail/related-"]')];
       const previous = document.querySelector('[data-luastra-id="docs/detail/previous"]');
@@ -289,8 +310,34 @@ async function main() {
         next: next?.getAttribute('href') ?? null,
         parametersScrollContained: parametersScroll != null && parametersScroll.scrollWidth > parametersScroll.clientWidth &&
           getComputedStyle(parametersScroll).overflowX === 'auto',
+        detailOpenedAtTop: ${JSON.stringify(detailOpenedAtTop)},
+        verticalWheelEscapesTable: ${JSON.stringify(verticalWheelEscapesTable)},
         errors: [...(window.__luastraSiteAudit?.errors ?? [])],
       };
+    })()`);
+    await route(client, "#/reference/ui%2Fitem-7", "location.hash === '#/reference/ui%2Fitem-7' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/recipe/link\"]'))");
+    const recipeLinkBounds = await evaluate(client, `(() => {
+      const node = document.querySelector('[data-luastra-id="docs/detail/recipe/link"]');
+      node?.scrollIntoView({ block: 'center' });
+      const bounds = node?.getBoundingClientRect();
+      return bounds ? { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2 } : null;
+    })()`);
+    if (recipeLinkBounds) {
+      await client.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: recipeLinkBounds.x, y: recipeLinkBounds.y });
+      await delay(80);
+    }
+    const recipeHover = await evaluate(client, `(() => {
+      const link = document.querySelector('[data-luastra-id="docs/detail/recipe/link"]');
+      const surface = document.querySelector('[data-luastra-id="docs/detail/recipe"]');
+      const parse = (value) => (value.match(/[\\d.]+/g) ?? []).slice(0, 3).map(Number);
+      const luminance = (value) => {
+        const channels = parse(value).map((part) => part / 255).map((part) => part <= .04045 ? part / 12.92 : ((part + .055) / 1.055) ** 2.4);
+        return .2126 * channels[0] + .7152 * channels[1] + .0722 * channels[2];
+      };
+      const foreground = link ? getComputedStyle(link).color : 'rgb(0, 0, 0)';
+      const background = surface ? getComputedStyle(surface).backgroundColor : 'rgb(255, 255, 255)';
+      const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+      return { hovered: link?.matches(':hover') === true, foreground, background, contrast: (values[0] + .05) / (values[1] + .05) };
     })()`);
 
     const assertions = {
@@ -307,7 +354,8 @@ async function main() {
       documentationDetail: documentationDetail.hash === "#/reference/ui%2Fitem-8" && documentationDetail.horizontalOverflow === 0 &&
         documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
         documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
-        documentationDetail.parametersScrollContained,
+        documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
+        recipeHover.hovered && recipeHover.contrast >= 4.5,
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors, ...documentationDetail.errors].length === 0,
     };
@@ -328,6 +376,7 @@ async function main() {
       keyboard,
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
       documentationDetail,
+      recipeHover,
       result,
       boundary: "This automated gate covers Chromium layout, target size, brand and icon rendering, theme/focus geometry, routed documentation detail links, keyboard-only flows, emulated forced colors and emulated reduced motion. It does not replace real browser zoom, assistive technology, Firefox, Safari, Capacitor, Tauri or physical-device evidence.",
     };

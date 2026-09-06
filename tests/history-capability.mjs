@@ -16,8 +16,11 @@ function locationPayload(location, token) { return `${location.length}:${locatio
 function fakeEnvironment() {
   const listeners = new Map([["popstate", new Set()], ["hashchange", new Set()]]);
   const calls = [];
+  const scrolls = [];
   return {
     calls,
+    scrolls,
+    scrollTarget: { scrollTo(value, left) { scrolls.push(left === undefined ? value : { top: value, left }); } },
     historyTarget: {
       state: null,
       pushState(state, title, location) { this.state = state; calls.push({ operation: "push", state, title, ...(location === undefined ? {} : { location }) }); },
@@ -87,6 +90,11 @@ test("history location operations bind a safe fragment to the same opaque projec
       { operation: "replace", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-root" } }, title: "", location: "#/" },
       { operation: "replace", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-0" } }, title: "", location: "#/catalogue" },
       { operation: "push", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-1" } }, title: "", location: "#/detail/focus" },
+    ]);
+    assert.deepEqual(environment.scrolls, [
+      { top: 0, left: 0, behavior: "auto" },
+      { top: 0, left: 0, behavior: "auto" },
+      { top: 0, left: 0, behavior: "auto" },
     ]);
     for (const [id, input] of [
       [3, "0:state"],

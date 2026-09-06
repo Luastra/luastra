@@ -53,6 +53,12 @@ semantic versioning where the `0.x` series remains explicitly unstable.
   unrelated branches, and URL/history restoration in the reference
   application.
 
+### Fixed
+
+- Routed locations now open at the start of the document, horizontal
+  `UI.Scroll` regions no longer trap vertical page-wheel input, and links keep
+  their scoped foreground contrast when hovered on accent surfaces.
+
 ## [0.1.0-alpha] - 2026-08-28
 
 ### Added

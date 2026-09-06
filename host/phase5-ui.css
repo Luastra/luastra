@@ -359,7 +359,7 @@ h1, h2, h3, p { margin-block: 0; overflow-wrap: anywhere; }
 .luastra-shape-hexagon { clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%); }
 .luastra-shape-star { clip-path: polygon(50% 0%, 61.8% 33.8%, 97.6% 34.5%, 68.6% 55.6%, 79.4% 90.5%, 50% 70%, 20.6% 90.5%, 31.4% 55.6%, 2.4% 34.5%, 38.2% 33.8%); }
 .luastra-grid { display: grid; min-width: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
-.luastra-scroll { min-width: 0; max-width: 100%; overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.luastra-scroll { min-width: 0; max-width: 100%; overflow: auto; -webkit-overflow-scrolling: touch; }
 .luastra-list { display: grid; min-width: 0; margin: 0; padding: 0; list-style: none; }
 .luastra-list-item { min-width: 0; }
 .luastra-link {
@@ -368,7 +368,10 @@ h1, h2, h3, p { margin-block: 0; overflow-wrap: anywhere; }
   text-decoration-thickness: 0.09em;
   text-underline-offset: 0.18em;
 }
-.luastra-link:hover { color: var(--luastra-color-accent-strong); }
+.luastra-link:hover {
+  color: var(--luastra-local-text-color, var(--luastra-color-accent-strong));
+  text-decoration-thickness: 0.14em;
+}
 .luastra-code, .luastra-code-block {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-variant-ligatures: none;
@@ -559,8 +562,8 @@ th.luastra-table-cell { color: var(--luastra-color-text); background: color-mix(
 .luastra-columns-adaptive { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
 .luastra-columns-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .luastra-columns-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.luastra-scroll-vertical { overflow-y: auto; }
-.luastra-scroll-horizontal { overflow-x: auto; }
+.luastra-scroll-vertical { overflow-y: auto; overscroll-behavior-y: contain; }
+.luastra-scroll-horizontal { overflow-x: auto; overscroll-behavior-x: contain; overscroll-behavior-y: auto; }
 .luastra-tone-muted { color: var(--luastra-color-muted) !important; }
 .luastra-tone-error { color: var(--luastra-color-danger-text) !important; }
 .luastra-tone-success { color: var(--luastra-color-success) !important; }

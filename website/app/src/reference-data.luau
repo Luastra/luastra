@@ -8697,7 +8697,7 @@ local ReferenceData: any = {
             },
             ["returns"] = "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
             ["name"] = "UI.Scroll",
-            ["description"] = "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds.",
+            ["description"] = "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds while allowing wheel input on the unused axis to continue through the surrounding page.",
             ["props"] = {
                 "layout",
                 "scroll",
@@ -12994,7 +12994,7 @@ local ReferenceData: any = {
             },
             ["returns"] = "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
             ["name"] = "Host.historyPushLocation",
-            ["description"] = "Adds a browser-history entry containing both a canonical location and an opaque application state token. This keeps the address bar, deep-link representation, and application stack synchronized.",
+            ["description"] = "Adds a browser-history entry containing both a canonical location and an opaque application state token, then returns the document viewport to its start. This keeps the address bar, deep-link representation, application stack, and newly opened page position synchronized.",
             ["completeRecipe"] = {
                 ["sectionId"] = "recipe-history",
                 ["title"] = "synchronize Browser and system Back",
@@ -13036,7 +13036,7 @@ local ReferenceData: any = {
             },
             ["returns"] = "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
             ["name"] = "Host.historyReplaceLocation",
-            ["description"] = "Replaces the current browser-history location and state token without extending the Back stack. The host validates and acknowledges the requested history mutation asynchronously.",
+            ["description"] = "Replaces the current browser-history location and state token without extending the Back stack, then returns the document viewport to its start. The host validates and acknowledges the requested history mutation asynchronously.",
             ["completeRecipe"] = {
                 ["sectionId"] = "recipe-history",
                 ["title"] = "synchronize Browser and system Back",
@@ -16708,7 +16708,7 @@ local ReferenceData: any = {
                 {
                     ["name"] = "UI.Scroll",
                     ["signature"] = "UI.Scroll { ... } -> UI.Node",
-                    ["description"] = "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds.",
+                    ["description"] = "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds while allowing wheel input on the unused axis to continue through the surrounding page.",
                     ["useWhen"] = "Use UI.Scroll when a specific region—not the whole document—must scroll, such as filter chips, long panels, or media strips. Avoid nested scroll regions unless the interaction genuinely needs independent axes.",
                     ["props"] = {
                         "layout",
@@ -17743,13 +17743,13 @@ local ReferenceData: any = {
                 {
                     ["name"] = "Host.historyPushLocation",
                     ["signature"] = "historyPushLocation(...)",
-                    ["description"] = "Adds a browser-history entry containing both a canonical location and an opaque application state token. This keeps the address bar, deep-link representation, and application stack synchronized.",
+                    ["description"] = "Adds a browser-history entry containing both a canonical location and an opaque application state token, then returns the document viewport to its start. This keeps the address bar, deep-link representation, application stack, and newly opened page position synchronized.",
                     ["useWhen"] = "Use Host.historyPushLocation after a successful typed route mutation that should be reversible with Back. Generate the location through Navigation.compile rather than concatenating untrusted path or query fragments.",
                 },
                 {
                     ["name"] = "Host.historyReplaceLocation",
                     ["signature"] = "historyReplaceLocation(...)",
-                    ["description"] = "Replaces the current browser-history location and state token without extending the Back stack. The host validates and acknowledges the requested history mutation asynchronously.",
+                    ["description"] = "Replaces the current browser-history location and state token without extending the Back stack, then returns the document viewport to its start. The host validates and acknowledges the requested history mutation asynchronously.",
                     ["useWhen"] = "Use Host.historyReplaceLocation for redirects, canonicalization, and restoring the initial route when the obsolete location should not remain reachable through Back.",
                 },
                 {

@@ -8091,7 +8091,7 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
     "name": "UI.Scroll",
-    "description": "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds.",
+    "description": "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds while allowing wheel input on the unused axis to continue through the surrounding page.",
     "props": [
       "layout",
       "scroll",
@@ -12388,7 +12388,7 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyPushLocation",
-    "description": "Adds a browser-history entry containing both a canonical location and an opaque application state token. This keeps the address bar, deep-link representation, and application stack synchronized.",
+    "description": "Adds a browser-history entry containing both a canonical location and an opaque application state token, then returns the document viewport to its start. This keeps the address bar, deep-link representation, application stack, and newly opened page position synchronized.",
     "completeRecipe": {
       "sectionId": "recipe-history",
       "title": "synchronize Browser and system Back",
@@ -12430,7 +12430,7 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyReplaceLocation",
-    "description": "Replaces the current browser-history location and state token without extending the Back stack. The host validates and acknowledges the requested history mutation asynchronously.",
+    "description": "Replaces the current browser-history location and state token without extending the Back stack, then returns the document viewport to its start. The host validates and acknowledges the requested history mutation asynchronously.",
     "completeRecipe": {
       "sectionId": "recipe-history",
       "title": "synchronize Browser and system Back",
