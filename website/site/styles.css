@@ -272,6 +272,17 @@ main { margin-left: var(--sidebar-width); }
 .reference-card h3 { margin: 0; font: 750 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: -.02em; overflow-wrap: anywhere; }
 .reference-card > p { margin: 10px 0 0; color: var(--text-soft); }
 .reference-card .use-when { color: var(--text); }
+.complete-recipe {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+.complete-recipe span { color: var(--text-soft); }
+.complete-recipe a { width: fit-content; font-weight: 750; }
 .signature { margin: 14px 0 0; }
 
 .property-links { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }

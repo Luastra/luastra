@@ -73,6 +73,27 @@ for moduleName, items in ReferenceData.inventoryPages do
 end
 assert(inventoryCount == 95)
 
+local linkedRecipes: {[string]: boolean} = {}
+for _, page in ReferenceData.pages do
+    if page.completeRecipe ~= nil then
+        local description = page.completeRecipe.description
+        local pageName = page.name
+        assert(ids[page.completeRecipe.sectionId] == true)
+        assert(string.match(page.completeRecipe.sectionId, "^recipe%-") ~= nil)
+        assert(type(page.completeRecipe.title) == "string" and #page.completeRecipe.title > 0)
+        assert(type(description) == "string" and type(pageName) == "string")
+        assert(string.find(description, pageName, 1, true) ~= nil)
+        linkedRecipes[page.completeRecipe.sectionId] = true
+    end
+end
+for _, recipeId in { "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "recipe-server", "recipe-media", "recipe-orbit" } do
+    assert(linkedRecipes[recipeId] == true, `{recipeId} has no API entry point`)
+end
+assert(pageByName["Timer.start"].completeRecipe.sectionId == "recipe-timer")
+assert(pageByName["Data.decode"].completeRecipe.sectionId == "recipe-form-modal")
+assert(pageByName["Media.play"].completeRecipe.sectionId == "recipe-media")
+assert(pageByName["UI.Orbit"].completeRecipe.sectionId == "recipe-orbit")
+
 local typeInventoryCount = 0
 for moduleName, items in ReferenceData.typeInventoryPages do
     for typeName, pageId in items do

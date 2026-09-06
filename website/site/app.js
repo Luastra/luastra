@@ -84,11 +84,16 @@ function card(item) {
   const failureGuidance = item.failureGuidance ? `<p><strong>Failures and fixes:</strong> ${escapeHtml(item.failureGuidance)}</p>` : "";
   const availability = item.availability ? `<p><strong>Availability:</strong> ${escapeHtml(item.availability)}</p>` : "";
   const points = item.points?.length ? `<ul class="compact-list">${item.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>` : "";
+  const completeRecipe = item.completeRecipe ? `<aside class="complete-recipe">
+    <strong>Continue with a complete recipe</strong>
+    <span>${escapeHtml(item.completeRecipe.description)}</span>
+    <a href="#${escapeHtml(item.completeRecipe.sectionId)}">Open ${escapeHtml(item.completeRecipe.title)} recipe</a>
+  </aside>` : "";
   return `<article class="reference-card searchable${item.wide ? " wide" : ""}">
     <h3>${escapeHtml(item.name)}</h3>
     <p class="signature"><code>${escapeHtml(item.signature)}</code></p>
     <p>${escapeHtml(item.description)}</p>
-    ${useWhen}${beforeYouUse}${lifecycle}${expectedOutcome}${failureGuidance}${availability}${props}${returns}${points}${parameters}${item.code ? codeBlock(item.code, item.language ?? "Luau") : ""}
+    ${useWhen}${beforeYouUse}${lifecycle}${expectedOutcome}${failureGuidance}${availability}${props}${returns}${points}${parameters}${item.code ? codeBlock(item.code, item.language ?? "Luau") : ""}${completeRecipe}
   </article>`;
 }
 

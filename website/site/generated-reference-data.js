@@ -2197,7 +2197,13 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "UI.Node — exactly one UI.Screen root.",
     "name": "Application.render",
-    "description": "Returns the complete current interface as exactly one UI.Screen root."
+    "description": "Returns the complete current interface as exactly one UI.Screen root.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Application.render inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "application/item-2",
@@ -2228,7 +2234,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Nothing. State changes become visible in the render that follows the handler.",
     "name": "Application.handle",
-    "description": "Receives admitted UI and host events before the next render."
+    "description": "Receives admitted UI and host events before the next render.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Application.handle inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "application/item-3",
@@ -2269,7 +2281,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Nothing. Clear the matching pending operation and update state for the following render.",
     "name": "Application.resolve",
-    "description": "Receives the bounded completion of an asynchronous Host, Server, or Media request."
+    "description": "Receives the bounded completion of an asynchronous Host, Server, or Media request.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Application.resolve inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "events-errors/table-1",
@@ -2497,7 +2515,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "UI.Node — a declarative node in the new render tree.",
     "name": "UI.Node",
-    "description": "UI.Node is the host-neutral declarative value produced by every UI constructor. Nodes contain a validated component kind, stable ID, properties, and children that hosts translate into native semantic interface elements."
+    "description": "UI.Node is the host-neutral declarative value produced by every UI constructor. Nodes contain a validated component kind, stable ID, properties, and children that hosts translate into native semantic interface elements.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Node inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-4",
@@ -2720,7 +2744,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "theme",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Screen inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-5",
@@ -3076,7 +3106,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Row inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-7",
@@ -3219,7 +3255,13 @@ export const generatedPages = Object.freeze([
       "text-style",
       "semantic",
       "motion"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Text inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-8",
@@ -3362,7 +3404,13 @@ export const generatedPages = Object.freeze([
       "action",
       "text-style",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Button inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-9",
@@ -4526,7 +4574,13 @@ export const generatedPages = Object.freeze([
       "visual",
       "label",
       "motion"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Image inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-18",
@@ -4818,7 +4872,13 @@ export const generatedPages = Object.freeze([
       "visual",
       "label",
       "motion"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Shape inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-20",
@@ -4965,7 +5025,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "input",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.TextInput inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-21",
@@ -5453,7 +5519,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "modal",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Modal inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-24",
@@ -5650,7 +5722,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Orbit inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-25",
@@ -5827,7 +5905,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitPath inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-26",
@@ -6024,7 +6108,13 @@ export const generatedPages = Object.freeze([
     "description": "Creates one Orbit navigation depth with exactly one semantic center and between one and sixty-four nodes or clusters. The host owns spatial placement and list fallback.",
     "props": [
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Constellation inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-28",
@@ -6120,7 +6210,13 @@ export const generatedPages = Object.freeze([
     "description": "Creates the non-interactive identity at the center of a constellation from a required title and optional description. The host preserves it in both spatial and list presentations.",
     "props": [
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitCenter inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-29",
@@ -6277,7 +6373,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "action",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitNode inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-30",
@@ -6536,7 +6638,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "modal",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.FocusSurface inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-32",
@@ -6713,7 +6821,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.FocusHeader inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-33",
@@ -6825,7 +6939,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "action",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitReturn inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-34",
@@ -7002,7 +7122,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Stack inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-35",
@@ -7552,7 +7678,13 @@ export const generatedPages = Object.freeze([
       "surface",
       "motion",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Card inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-38",
@@ -7730,7 +7862,13 @@ export const generatedPages = Object.freeze([
       "layout",
       "label",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Field inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui/item-39",
@@ -7907,7 +8045,13 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-navigation",
+      "title": "add typed navigation",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Actions inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "ui-properties/table-1",
@@ -8543,7 +8687,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.MotionMap",
-    "description": "Motion.MotionMap is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.MotionMap is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "completeRecipe": {
+      "sectionId": "recipe-motion",
+      "title": "replay declarative motion",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Motion.MotionMap inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "motion/item-8",
@@ -8589,7 +8739,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Tween — an immutable descriptor for one bounded numeric transition.",
     "name": "Motion.tween",
-    "description": "Creates one deterministic numeric transition from a starting value to an ending value over a bounded duration and easing curve. A Tween becomes meaningful only when assigned to a supported motion channel or placed in a Sequence."
+    "description": "Creates one deterministic numeric transition from a starting value to an ending value over a bounded duration and easing curve. A Tween becomes meaningful only when assigned to a supported motion channel or placed in a Sequence.",
+    "completeRecipe": {
+      "sectionId": "recipe-motion",
+      "title": "replay declarative motion",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Motion.tween inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "motion/item-9",
@@ -9113,7 +9269,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Image — a typed image reference admitted from the project manifest.",
     "name": "Assets.image",
-    "description": "Creates a typed reference to an image declared in luastra.json. Construction validates the asset identifier and preserves its media kind so an image cannot be passed accidentally where audio or a font is required."
+    "description": "Creates a typed reference to an image declared in luastra.json. Construction validates the asset identifier and preserves its media kind so an image cannot be passed accidentally where audio or a font is required.",
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Assets.image inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "assets/item-6",
@@ -9139,7 +9301,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Audio — a typed audio reference admitted from the project manifest.",
     "name": "Assets.audio",
-    "description": "Creates a typed reference to an admitted audio asset while retaining the asset kind and canonical asset URI. The reference can be stored safely before a media queue is assembled."
+    "description": "Creates a typed reference to an admitted audio asset while retaining the asset kind and canonical asset URI. The reference can be stored safely before a media queue is assembled.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Assets.audio inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "assets/item-7",
@@ -9191,7 +9359,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "Assets.uri",
-    "description": "Returns the canonical asset URI carried by a typed Image, Audio, Font, or general Reference. The URI is host-neutral and points only to a resource already admitted by the project manifest."
+    "description": "Returns the canonical asset URI carried by a typed Image, Audio, Font, or general Reference. The URI is host-neutral and points only to a resource already admitted by the project manifest.",
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Assets.uri inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "data/item-1",
@@ -9536,7 +9710,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.string",
-    "description": "Builds a runtime schema for string input with optional UTF-8 byte-length bounds and trimming defined by Data.StringOptions. The schema is a description only; validation occurs later through Data.decode."
+    "description": "Builds a runtime schema for string input with optional UTF-8 byte-length bounds and trimming defined by Data.StringOptions. The schema is a description only; validation occurs later through Data.decode.",
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Data.string inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "data/item-11",
@@ -9731,7 +9911,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Result — a discriminated validation result; branch on success before reading value or error.",
     "name": "Data.decode",
-    "description": "Validates an unknown runtime value against a Schema and returns a discriminated Data.Result instead of throwing for ordinary invalid input. Success contains the trusted value; failure contains a bounded code and path."
+    "description": "Validates an unknown runtime value against a Schema and returns a discriminated Data.Result instead of throwing for ordinary invalid input. Success contains the trusted value; failure contains a bounded code and path.",
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Data.decode inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "state/item-1",
@@ -10092,7 +10278,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "State.encode",
-    "description": "Serializes a finite field map together with an explicit positive version into Luastra's deterministic snapshot format. The output is suitable for host storage and can be compared or migrated predictably."
+    "description": "Serializes a finite field map together with an explicit positive version into Luastra's deterministic snapshot format. The output is suitable for host storage and can be compared or migrated predictably.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses State.encode inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "state/item-12",
@@ -10123,7 +10315,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "DecodeResult — a discriminated decode result; branch on success before reading decoded fields or failure data.",
     "name": "State.decode",
-    "description": "Parses a snapshot string, verifies its structure and version, and returns a discriminated DecodeResult. A version mismatch or malformed value remains a normal failure branch rather than becoming trusted state."
+    "description": "Parses a snapshot string, verifies its structure and version, and returns a discriminated DecodeResult. A version mismatch or malformed value remains a normal failure branch rather than becoming trusted state.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses State.decode inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "state/item-13",
@@ -10662,7 +10860,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "Navigation.decideBack",
-    "description": "Evaluates the current modal, application stack, browser history, and root-exit conditions and returns the bounded Back action the application should take. It centralizes priority so platform Back behaves consistently."
+    "description": "Evaluates the current modal, application stack, browser history, and root-exit conditions and returns the bounded Back action the application should take. It centralizes priority so platform Back behaves consistently.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Navigation.decideBack inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "navigation/item-14",
@@ -10744,7 +10948,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "EntryStack — a stateful typed-route stack with canonical location and snapshot operations.",
     "name": "Navigation.createRouter",
-    "description": "Creates an entry-based navigation stack whose entries carry a route name, parameters, query values, and optional state. Mutations return structured results rather than relying on unchecked table shapes."
+    "description": "Creates an entry-based navigation stack whose entries carry a route name, parameters, query values, and optional state. Mutations return structured results rather than relying on unchecked table shapes.",
+    "completeRecipe": {
+      "sectionId": "recipe-navigation",
+      "title": "add typed navigation",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Navigation.createRouter inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "navigation/item-16",
@@ -10770,7 +10980,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RouteCompiler — a reusable compiler for matching, generating, and canonicalizing admitted route locations.",
     "name": "Navigation.compile",
-    "description": "Compiles route definitions into a RouteCompiler that generates canonical locations and matches incoming path and query strings back to typed route entries. Invalid definitions and malformed locations produce bounded route errors."
+    "description": "Compiles route definitions into a RouteCompiler that generates canonical locations and matches incoming path and query strings back to typed route entries. Invalid definitions and malformed locations produce bounded route errors.",
+    "completeRecipe": {
+      "sectionId": "recipe-navigation",
+      "title": "add typed navigation",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Navigation.compile inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "timer/item-1",
@@ -10873,7 +11089,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.",
     "name": "Timer.start",
-    "description": "Registers a one-shot timer under the supplied stable string ID and returns an acknowledgement RequestId. After the delay, Luastra sends handle(\"timer\", id, value); it does not call Application.resolve for expiry."
+    "description": "Registers a one-shot timer under the supplied stable string ID and returns an acknowledgement RequestId. After the delay, Luastra sends handle(\"timer\", id, value); it does not call Application.resolve for expiry.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Timer.start inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "timer/item-4",
@@ -10992,7 +11214,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.storageGet",
-    "description": "Starts an asynchronous read of the named host storage entry and returns a RequestId. Completion arrives in Application.resolve with the stored string or a bounded failure code."
+    "description": "Starts an asynchronous read of the named host storage entry and returns a RequestId. Completion arrives in Application.resolve with the stored string or a bounded failure code.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.storageGet inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "host/item-3",
@@ -11023,7 +11251,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.storageSet",
-    "description": "Starts an asynchronous write of a bounded string to the named host storage entry and returns a RequestId. Resolve confirms whether the host committed the value."
+    "description": "Starts an asynchronous write of a bounded string to the named host storage entry and returns a RequestId. Resolve confirms whether the host committed the value.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.storageSet inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "host/item-4",
@@ -11152,7 +11386,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyPushLocation",
-    "description": "Adds a browser-history entry containing both a canonical location and an opaque application state token. This keeps the address bar, deep-link representation, and application stack synchronized."
+    "description": "Adds a browser-history entry containing both a canonical location and an opaque application state token. This keeps the address bar, deep-link representation, and application stack synchronized.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.historyPushLocation inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "host/item-9",
@@ -11183,7 +11423,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyReplaceLocation",
-    "description": "Replaces the current browser-history location and state token without extending the Back stack. The host validates and acknowledges the requested history mutation asynchronously."
+    "description": "Replaces the current browser-history location and state token without extending the Back stack. The host validates and acknowledges the requested history mutation asynchronously.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.historyReplaceLocation inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "host/item-10",
@@ -11275,7 +11521,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.systemBackHistory",
-    "description": "Delegates a specific system-Back intent to the host history mechanism and returns a RequestId. It preserves platform navigation behavior when an earlier history entry is available."
+    "description": "Delegates a specific system-Back intent to the host history mechanism and returns a RequestId. It preserves platform navigation behavior when an earlier history entry is available.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.systemBackHistory inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "host/item-14",
@@ -11301,7 +11553,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.systemBackExit",
-    "description": "Acknowledges a root-level system-Back intent by requesting the host's admitted exit behavior. The intent ID correlates the decision with the exact pending Back event."
+    "description": "Acknowledges a root-level system-Back intent by requesting the host's admitted exit behavior. The intent ID correlates the decision with the exact pending Back event.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.systemBackExit inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "server/item-1",
@@ -11512,7 +11770,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Server.call",
-    "description": "Starts a versioned request to a trusted backend operation with a bounded string map and optional request settings, returning a RequestId. Server authentication, authorization, validation, and secrets remain outside client Luau."
+    "description": "Starts a versioned request to a trusted backend operation with a bounded string map and optional request settings, returning a RequestId. Server authentication, authorization, validation, and secrets remain outside client Luau.",
+    "completeRecipe": {
+      "sectionId": "recipe-server",
+      "title": "call a server function",
+      "evidence": "generated-client",
+      "description": "This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind Server.call."
+    }
   },
   {
     "id": "server/item-7",
@@ -11538,7 +11802,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "DecodeResult — a discriminated decode result; branch on success before reading decoded fields or failure data.",
     "name": "Server.decode",
-    "description": "Parses the bounded payload returned by a Luastra server operation into a discriminated DecodeResult. It separates envelope validity from the transport success reported to Application.resolve."
+    "description": "Parses the bounded payload returned by a Luastra server operation into a discriminated DecodeResult. It separates envelope validity from the transport success reported to Application.resolve.",
+    "completeRecipe": {
+      "sectionId": "recipe-server",
+      "title": "call a server function",
+      "evidence": "generated-client",
+      "description": "This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind Server.decode."
+    }
   },
   {
     "id": "media/item-1",
@@ -11605,7 +11875,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.QueueItem",
-    "description": "Media.QueueItem is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Media.QueueItem is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.QueueItem inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "media/item-3",
@@ -11727,7 +12003,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.State",
-    "description": "Media.State is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Media.State is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.State inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "media/item-5",
@@ -11876,7 +12158,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.setQueue",
-    "description": "Replaces the host playback queue with validated QueueItem values and optionally selects a one-based item, returning a RequestId. The host reports later playback changes through media_state events."
+    "description": "Replaces the host playback queue with validated QueueItem values and optionally selects a one-based item, returning a RequestId. The host reports later playback changes through media_state events.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.setQueue inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "media/item-9",
@@ -11896,7 +12184,13 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.play",
-    "description": "Requests playback of the selected queue item, resuming from the current position when the host state permits it. The returned RequestId acknowledges the command; live truth comes from media_state."
+    "description": "Requests playback of the selected queue item, resuming from the current position when the host state permits it. The returned RequestId acknowledges the command; live truth comes from media_state.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.play inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "media/item-10",
@@ -11916,7 +12210,13 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.pause",
-    "description": "Requests that playback pause while retaining the selected item and current position for a later resume. Completion and subsequent live state are delivered through the normal media contracts."
+    "description": "Requests that playback pause while retaining the selected item and current position for a later resume. Completion and subsequent live state are delivered through the normal media contracts.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.pause inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "media/item-11",
@@ -12068,7 +12368,13 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "DecodeResult — a discriminated decode result; branch on success before reading decoded fields or failure data.",
     "name": "Media.decodeState",
-    "description": "Validates and decodes a media-state payload into a discriminated Media.DecodeResult containing the typed playback State or a bounded failure. This keeps host strings outside trusted application state until checked."
+    "description": "Validates and decodes a media-state payload into a discriminated Media.DecodeResult containing the typed playback State or a bounded failure. This keeps host strings outside trusted application state until checked.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.decodeState inside complete authored files with the required manifest, test, and run steps."
+    }
   },
   {
     "id": "debug/item-1",

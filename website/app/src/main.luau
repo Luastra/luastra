@@ -658,6 +658,23 @@ local function renderDetail(page: any): UI.Node
         local copyStatus = copyStatusByTarget["page:" .. page.id]
         if copyStatus ~= nil then table.insert(input, UI.Text { id = "docs/detail/copy-status", text = copyStatus, role = "status" }) end
     end
+    if page.completeRecipe ~= nil then
+        table.insert(input, UI.Card {
+            id = "docs/detail/recipe",
+            className = "luastra-site-recipe-link",
+            width = "full",
+            surface = "accent",
+            padding = "md",
+            gap = "xs",
+            UI.Text { id = "docs/detail/recipe/title", text = "Continue with a complete recipe", variant = "subheading" },
+            UI.Text { id = "docs/detail/recipe/description", text = page.completeRecipe.description },
+            sectionLink(
+                "docs/detail/recipe/link",
+                `Open {page.completeRecipe.title} recipe`,
+                page.completeRecipe.sectionId
+            ),
+        })
+    end
     if page.name == "UI.Button" then table.insert(input, Examples.render(exampleCounter)) end
     table.insert(input, UI.Divider { id = "docs/detail/divider" })
     table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Related pages", variant = "subheading" })

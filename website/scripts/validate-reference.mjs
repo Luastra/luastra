@@ -149,6 +149,42 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
 }
 
 const pageByName = new Map(generatedPages.map((page) => [page.name, page]));
+const recipeSections = new Map(sections.filter((section) => section.id.startsWith("recipe-")).map((section) => [section.id, section]));
+const linkedRecipeIds = new Set();
+for (const page of generatedPages.filter((item) => item.completeRecipe)) {
+  const recipe = recipeSections.get(page.completeRecipe.sectionId);
+  if (!recipe) fail(`${page.name} links to a missing complete recipe`);
+  const escaped = page.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const exactSymbol = new RegExp(`(^|[^A-Za-z0-9_.])${escaped}(?![A-Za-z0-9_])`, "m");
+  const recipeCode = (recipe.cards ?? []).map((card) => card.code ?? "").join("\n");
+  if (page.completeRecipe.evidence === "authored-files" && !exactSymbol.test(recipeCode)) {
+    fail(`${page.name} links to a recipe that does not use the symbol`);
+  }
+  if (page.completeRecipe.evidence === "generated-client"
+      && (page.module !== "luastra/server" || recipe.id !== "recipe-server")) {
+    fail(`${page.name} has an invalid generated-client recipe boundary`);
+  }
+  if (typeof page.completeRecipe.description !== "string" || !page.completeRecipe.description.includes(page.name)) {
+    fail(`${page.name} complete-recipe link lacks symbol-specific guidance`);
+  }
+  linkedRecipeIds.add(recipe.id);
+}
+for (const recipeId of recipeSections.keys()) {
+  if (!linkedRecipeIds.has(recipeId)) fail(`${recipeId} has no generated API entry point`);
+}
+for (const [name, recipeId] of Object.entries({
+  "Timer.start": "recipe-timer",
+  "Navigation.createRouter": "recipe-navigation",
+  "Host.storageGet": "recipe-storage",
+  "Navigation.decideBack": "recipe-history",
+  "Data.decode": "recipe-form-modal",
+  "Assets.image": "recipe-assets-visuals",
+  "Motion.tween": "recipe-motion",
+  "Media.play": "recipe-media",
+  "UI.Orbit": "recipe-orbit",
+})) {
+  if (pageByName.get(name)?.completeRecipe?.sectionId !== recipeId) fail(`${name} links to the wrong complete recipe`);
+}
 for (const page of generatedPages.filter((item) => item.kind !== "parameter-group" && item.name.includes(".") && (sdkInventory[item.module]?.includes(item.name.slice(item.name.indexOf(".") + 1)) || sdkTypeInventory[item.module]?.includes(item.name.slice(item.name.indexOf(".") + 1))))) {
   for (const field of ["beforeYouUse", "lifecycle", "expectedOutcome", "failureGuidance", "availability"]) {
     if (typeof page[field] !== "string" || page[field].length < 20) fail(`${page.name} lacks operational ${field} guidance`);

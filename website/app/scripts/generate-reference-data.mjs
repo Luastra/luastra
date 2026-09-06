@@ -1013,6 +1013,35 @@ function operationalGuidance(name, moduleName, kind) {
   return {};
 }
 
+const checkedRecipeSections = sections.filter((section) => section.id.startsWith("recipe-"));
+const checkedRecipeCode = new Map(checkedRecipeSections.map((section) => [
+  section.id,
+  (section.cards ?? []).map((card) => card.code ?? "").join("\n"),
+]));
+const completeRecipeOverrides = Object.freeze({
+  "Server.call": "recipe-server",
+  "Server.decode": "recipe-server",
+});
+
+function completeRecipeFor(symbol) {
+  if (typeof symbol !== "string" || !symbol.includes(".")) return null;
+  const escaped = symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const exactSymbol = new RegExp(`(^|[^A-Za-z0-9_.])${escaped}(?![A-Za-z0-9_])`, "m");
+  const overrideId = completeRecipeOverrides[symbol];
+  const section = overrideId == null
+    ? checkedRecipeSections.find((candidate) => exactSymbol.test(checkedRecipeCode.get(candidate.id) ?? ""))
+    : checkedRecipeSections.find((candidate) => candidate.id === overrideId);
+  if (!section) return null;
+  return {
+    sectionId: section.id,
+    title: section.title.replace(/^Recipe:\s*/u, ""),
+    evidence: overrideId == null ? "authored-files" : "generated-client",
+    description: overrideId == null
+      ? `This checked recipe uses ${symbol} inside complete authored files with the required manifest, test, and run steps.`
+      : `This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind ${symbol}.`,
+  };
+}
+
 const pages = [];
 const inventoryPages = {};
 const typeInventoryPages = {};
@@ -1066,6 +1095,7 @@ for (const section of sections) {
         : uniqueParameters([...(uiDirectParameters[card.name] ?? declarationParameters(functionDeclaration ?? "", card.name)), ...(card.parameters ?? []), ...inheritedParameters]),
       returns: card.returns ?? (functionDeclaration ? declarationReturn(functionDeclaration, card.name) : (card.name?.startsWith("UI.") ? "UI.Node — a declarative node in the new render tree." : null)),
       ...card,
+      ...(completeRecipeFor(card.name) ? { completeRecipe: completeRecipeFor(card.name) } : {}),
       kind: card.kind ?? "entry",
       callable: card.kind === "function" || functionDeclaration !== null,
       signature: typeDeclaration ?? functionDeclaration ?? card.signature,
