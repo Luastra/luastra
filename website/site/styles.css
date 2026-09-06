@@ -232,6 +232,7 @@ main { margin-left: var(--sidebar-width); }
 
 .api-section { margin: 0 0 64px; }
 .section-heading { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: end; margin-bottom: 22px; }
+.section-heading > * { min-width: 0; }
 .section-heading h2 { margin: 0; font-size: clamp(28px, 4vw, 42px); line-height: 1.08; letter-spacing: -.035em; }
 .section-heading p { max-width: 760px; margin: 10px 0 0; color: var(--text-soft); }
 .module-name { align-self: start; padding: 5px 9px; border-radius: 8px; background: var(--accent-soft); color: var(--accent-strong); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
@@ -402,7 +403,7 @@ mark { padding: 0 2px; border-radius: 3px; background: color-mix(in srgb, var(--
   .card-grid { grid-template-columns: 1fr; }
   .reference-card.wide { grid-column: auto; }
   .section-heading { grid-template-columns: 1fr; }
-  .module-name { width: max-content; }
+  .module-name { width: fit-content; max-width: 100%; overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -22,6 +22,11 @@ action, copy controls for detail and section examples, and a versioned local
 preference for its light/dark theme. Orbit theme and Motion preferences use the
 same project-scoped storage boundary and restore independently of route state.
 
+Beginner build recipes include complete manifest, entry, and test files. The
+recipe validator materializes those displayed files in temporary projects and
+runs the candidate CLI `check` and `test` commands, so copyable examples cannot
+silently drift away from the SDK they teach.
+
 The production build receives its title, description, canonical URL, crawler
 policy, social metadata, sitemap, and no-script summary from the bounded `web`
 section of `website/app/luastra.json`. This makes the root experience
@@ -67,6 +72,8 @@ Ordinary pushes do not publish it.
 - `scripts/validate-reference.mjs` compares the documented function and UI
   constructor inventory with the exact candidate SDK and validates the public
   learning and link boundaries.
+- `scripts/validate-recipes.mjs` compiles and tests the complete files displayed
+  by every admitted beginner recipe.
 - `src-tauri/` contains only the desktop shell. The documentation itself does
   not depend on Tauri APIs.
 

@@ -33,6 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -470,6 +471,331 @@ export const sections = Object.freeze([
   },
   { id: "workflow", title: "Workflow", summary: "From a new project to a verified web build.", cards: [["Create a project", "create <directory>", "Creates a new starter project in a missing or empty directory.", "Use this once when beginning an application; then enter the created directory before running the remaining commands."], ["Check", "check", "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.", "Run after changing source code or luastra.json, and always before tests, preview, or a release build."], ["Run tests", "test", "Runs the project’s bounded Luau test modules.", "Run after changing application logic, event handling, state transitions, or SDK-facing code."], ["Run preview", "run", "Starts the local development server with rebuilding and reload feedback.", "Use during interactive development when you want to inspect and debug the application in a browser."], ["Build web", "build web", "Creates the static web output in dist/web.", "Use when you need a production-style web artifact for HTTP serving or deployment verification."], ["Build bundle", "build bundle", "Creates the host-neutral runtime bundle.", "Use when a host workflow needs the compiled Luastra application bundle rather than the complete static website."]].map(([name, command, description, useWhen]) => entry(name, `luastra ${command}`, description, { language: "Shell", code: `luastra ${command}`, useWhen })) },
   { id: "learning-path", title: "Interactive learning path", module: "15–25 minutes · resettable", summary: "Follow one cumulative sequence from a verified installation to a stateful accessible interaction.", guide: ["Prerequisite: finish Installation and confirm luastra doctor reports PASS.", "Use Next and Back to move through the steps. Step 2 is a complete src/main.luau file; later steps verify, test, and preview that same file."], callout: "The controls below are rendered and handled by Luastra itself. Completing buttons here does not run commands on your computer; copy each step into your own terminal or editor." },
+  {
+    id: "recipes",
+    title: "How to use the build recipes",
+    module: "copy · verify · understand · adapt",
+    summary: "Build one complete capability at a time from files that are checked against the candidate SDK.",
+    guide: [
+      "Finish Quick start first. Each recipe then starts from a fresh project, replaces the named files, runs check and test, and tells you exactly what to do in the preview.",
+      "Copy a whole file before adapting it. Focused API snippets omit surrounding state on purpose; recipe files do not. Read the lifecycle explanation after the example works once.",
+    ],
+    cards: [
+      entry("Recipe contract", "goal → files → checks → interaction → explanation", "A recipe is complete only when its imports, manifest dependencies, capabilities, event path, expected UI, and verification boundary are all explicit.", {
+        kind: "guide",
+        useWhen: "Use this checklist whenever you follow or write a Luastra recipe.",
+        points: [
+          "Goal: know the visible behavior before copying code.",
+          "Files: replace exactly the listed files in a fresh starter project.",
+          "Checks: do not continue until luastra check and luastra test report result=PASS.",
+          "Interaction: follow the stated clicks and compare the visible result.",
+          "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
+        ],
+      }),
+      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → server → media", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
+        kind: "guide",
+        useWhen: "Use this order when you have no particular feature in mind yet.",
+        points: [
+          "Complete mini-app teaches render and handle.",
+          "Delayed action adds a host event without Application.resolve.",
+          "Typed navigation adds checked route state and Back behavior.",
+          "Later recipes add asynchronous storage, trusted server work, and event-driven media.",
+        ],
+      }),
+    ],
+    callout: "These candidate recipes are verified from the repository checkout. The public 0.1.0-alpha installer may expose an older contract until the next release is published.",
+  },
+  {
+    id: "recipe-timer",
+    title: "Recipe: run a delayed action",
+    module: "luastra/timer · Application.handle · about 10 minutes",
+    summary: "Start a one-shot timer from a button and update visible state when its event arrives.",
+    guide: [
+      "You will build a page whose status starts at 0:waiting. Press Start and, after 25 ms, expect 1:next.",
+      "This recipe demonstrates the timer exception: start returns an acknowledgement RequestId, but expiry enters Application.handle and never Application.resolve.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create timer-recipe", "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.", {
+        language: "Shell",
+        code: `luastra create timer-recipe
+cd timer-recipe`,
+        useWhen: "Run this in the directory that should contain the new project.",
+      }),
+      entry("2. Replace luastra.json", "timer.control + ui.render", "The manifest admits the two imported SDK modules and the host capability required to control timers.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.timer-recipe",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["timer.control", "ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/timer", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/timer",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/timer"]
+}`,
+        useWhen: "Replace the generated manifest before running check; undeclared timer.control or luastra/timer usage is rejected.",
+      }),
+      entry("3. Replace src/main.luau", "complete runnable entry module", "The button starts work; the timer event changes module state; the following render exposes that change.", {
+        wide: true,
+        code: `--!strict
+
+local Timer = require("luastra/timer")
+local UI = require("luastra/ui")
+
+local Application = {}
+local elapsed = 0
+local lastValue = "waiting"
+
+function Application.render(): UI.Node
+    return UI.Screen {
+        id = "timer-lab",
+        UI.Text { id = "timer/status", text = \`{elapsed}:{lastValue}\` },
+        UI.Button {
+            id = "timer/start",
+            text = "Start",
+            onTap = "start-timer",
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, value: string)
+    if action == "start-timer" and target == "timer/start" then
+        Timer.start { id = "timer/next-card", delayMs = 25, value = "next" }
+    elseif action == "timer" and target == "timer/next-card" then
+        elapsed += 1
+        lastValue = value
+    end
+end
+
+function Application.snapshot()
+    return { elapsed = elapsed, value = lastValue }
+end
+
+return Application`,
+        useWhen: "Replace the entire generated src/main.luau file so every referenced name and lifecycle callback is present.",
+      }),
+      entry("4. Replace tests/smoke.luau", "deterministic state-transition test", "The test invokes the same timer event that the host delivers and verifies the state read by the following render.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+local initial = Application.snapshot()
+assert(initial.elapsed == 0, "timer recipe must start at zero")
+assert(initial.value == "waiting", "timer recipe initial value is invalid")
+
+Application.handle("timer", "timer/next-card", "next")
+
+local elapsed = Application.snapshot()
+assert(elapsed.elapsed == 1, "timer event did not advance state")
+assert(elapsed.value == "next", "timer event did not preserve its value")
+
+return true`,
+        useWhen: "Replace the generated smoke test so luastra test verifies application behavior rather than only an isolated UI constructor.",
+      }),
+      entry("5. Check and run", "PASS → Start → 1:next", "First prove the project contract, then verify the visible event path in the live preview.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Open the READY URL, press Start, expect 1:next, then stop with Ctrl+C.`,
+        useWhen: "Run from timer-recipe after all three files are saved.",
+        points: ["check must report result=PASS.", "test must report tests=1 and passed=1.", "The test proves the state transition; the preview interaction separately proves that this browser host scheduled and delivered the timer event."],
+      }),
+      entry("6. Understand and adapt", "handle(start-timer) → Timer.start → handle(timer)", "The stable timer id is the event target, while value carries the optional bounded payload.", {
+        kind: "guide",
+        useWhen: "Read this after the unmodified recipe works once.",
+        points: ["Use restart to replace the delay for the same id.", "Use cancel when the owning screen or state is no longer active.", "Treat an unexpected late timer event as stale instead of applying it to unrelated state.", "Keep delays at or below 60,000 ms; use persisted time or a backend scheduler for longer durable work."],
+      }),
+    ],
+    callout: "Do not add Application.resolve for timer expiry. Timer control acknowledgements are consumed by the runtime; only the expiry event is application-visible.",
+  },
+  {
+    id: "recipe-navigation",
+    title: "Recipe: add typed navigation",
+    module: "luastra/navigation · checked parameters · about 15 minutes",
+    summary: "Move through named routes, generate canonical locations, and return through application-owned history.",
+    guide: [
+      "You will build Home → workspace 7 → release-notes in edit mode, then return through the router stack.",
+      "This first navigation recipe keeps history inside Luau. Browser URL and system-Back integration are a separate host-capability step.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create navigation-recipe", "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.", {
+        language: "Shell",
+        code: `luastra create navigation-recipe
+cd navigation-recipe`,
+        useWhen: "Run this in the directory that should contain the new project.",
+      }),
+      entry("2. Replace luastra.json", "luastra/navigation + luastra/ui", "Pure typed navigation needs no host capability beyond rendering because this recipe does not yet modify browser History.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.navigation-recipe",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/navigation", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/routing",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/routing"]
+}`,
+        useWhen: "Use this minimal manifest for in-memory typed routing; add navigation.history only when calling the matching Host history API.",
+      }),
+      entry("3. Replace src/main.luau", "complete runnable entry module", "Route definitions validate parameters and queries before a mutation can enter the stack.", {
+        wide: true,
+        code: `--!strict
+
+local Navigation = require("luastra/navigation")
+local UI = require("luastra/ui")
+
+local routes = Navigation.compile {
+    { name = "home", path = "/" },
+    {
+        name = "workspace",
+        path = "/workspaces/:workspace_id",
+        params = { workspace_id = { type = "integer", minimum = 1, maximum = 999 } },
+    },
+    {
+        name = "document",
+        parent = "workspace",
+        path = "documents/:document_slug",
+        params = { document_slug = { type = "string", maximumLength = 32 } },
+        query = { mode = { type = "enum", values = { "read", "edit" }, required = true } },
+    },
+}
+
+local router = Navigation.createRouter {
+    compiler = routes,
+    initial = { name = "home", params = {}, query = {} },
+}
+
+local Application = {}
+
+function Application.render(): UI.Node
+    local current = router.current()
+    return UI.Screen {
+        id = "routing-lab",
+        UI.Text { id = "routing/title", text = "Routing lab", variant = "title" },
+        UI.Text { id = "routing/name", text = "Route: " .. current.name },
+        UI.Text { id = "routing/location", text = router.currentLocation(), role = "status" },
+        UI.Actions {
+            id = "routing/actions",
+            UI.Button {
+                id = "routing/workspace",
+                text = "Open workspace",
+                onTap = "open-workspace",
+            },
+            UI.Button {
+                id = "routing/document",
+                text = "Open document",
+                onTap = "open-document",
+            },
+            UI.Button {
+                id = "routing/back",
+                text = "Back",
+                onTap = "back",
+                disabled = not router.canBack(),
+            },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, _value: string)
+    if action == "open-workspace" and target == "routing/workspace" then
+        router.push { name = "workspace", params = { workspace_id = 7 }, query = {} }
+    elseif action == "open-document" and target == "routing/document" then
+        router.push {
+            name = "document",
+            params = { workspace_id = 7, document_slug = "release-notes" },
+            query = { mode = "edit" },
+        }
+    elseif action == "back" and target == "routing/back" then
+        router.back()
+    end
+end
+
+function Application.snapshot()
+    return {
+        name = router.current().name,
+        location = router.currentLocation(),
+    }
+end
+
+return Application`,
+        useWhen: "Replace the entire generated src/main.luau file; the compact layout intentionally omits host History so the router contract is visible first.",
+      }),
+      entry("4. Replace tests/smoke.luau", "route sequence test", "The test drives the same actions as the buttons and checks every canonical location without needing a browser.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+assert(Application.snapshot().location == "/", "recipe did not start at home")
+
+Application.handle("open-workspace", "routing/workspace", "")
+assert(Application.snapshot().location == "/workspaces/7", "workspace route failed")
+
+Application.handle("open-document", "routing/document", "")
+local document = Application.snapshot()
+assert(document.name == "document", "document route name is invalid")
+assert(
+    document.location == "/workspaces/7/documents/release-notes?mode=edit",
+    "document location is invalid"
+)
+
+Application.handle("back", "routing/back", "")
+assert(Application.snapshot().location == "/workspaces/7", "Back failed")
+
+return true`,
+        useWhen: "Replace the generated smoke test so luastra test verifies the route transitions that the preview exposes.",
+      }),
+      entry("5. Check and run", "home → workspace → document → Back", "Verify both route names and canonical locations after every interaction.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Open the READY URL.
+# Press Open workspace: expect /workspaces/7.
+# Press Open document: expect /workspaces/7/documents/release-notes?mode=edit.
+# Press Back: expect /workspaces/7.`,
+        useWhen: "Run from navigation-recipe after all three files are saved.",
+        points: ["check must report result=PASS and test must report tests=1 and passed=1.", "The Back button is disabled at the first route.", "An invalid parameter or missing required query produces a bounded unsuccessful mutation instead of a malformed location."],
+      }),
+      entry("6. Understand and extend", "definitions → compiler → router → render", "The compiler owns path rules; the router owns the current stack; render reads it; handle requests checked mutations.", {
+        kind: "guide",
+        useWhen: "Read this after the unmodified route sequence works once.",
+        points: ["Inspect each mutation result before assuming the route changed in product code.", "Persist router.encode() with State and Host storage only when navigation must survive restart.", "Use Host.historyPushLocation and navigation.history when browser Back and the visible URL must mirror Luau state.", "Never concatenate untrusted path fragments when a compiled route can validate and encode them."],
+      }),
+    ],
+    callout: "This recipe proves the Luau navigation stack, not browser History integration. Add that capability only after the in-memory route model behaves correctly.",
+  },
   {
     id: "luau-types",
     title: "Luau typing quick reference",
