@@ -204,7 +204,7 @@ async function main() {
     manifestPath: resolve(repository, "website/app/luastra.json"), port: selected.candidatePort, watch: false,
     onEvent: (event) => applicationEvents.push(event),
   });
-  const candidateUrl = `${application.url}?luastraDiagnostics=1#/`;
+  const candidateUrl = `${application.url}#/`;
   const browser = spawn(selected.browser, [
     "--headless=new", `--remote-debugging-port=${selected.browserPort}`, `--user-data-dir=${profile}`,
     "--no-first-run", "--no-default-browser-check", "--disable-background-networking", "about:blank",

@@ -33,6 +33,8 @@ test("Orbit browser performance budgets are explicit and wired into the public c
   assert.match(packageJson.scripts["audit:luastra-dev:firefox"], /audit-luastra-dev-webdriver\.mjs --browser=firefox/);
   assert.match(packageJson.scripts["audit:luastra-dev:safari"], /audit-luastra-dev-webdriver\.mjs --browser=safari/);
   assert.equal(packageJson.scripts["audit:luastra-dev:public-baseline"], "node scripts/compare-luastra-dev-public-baseline.mjs");
+  assert.match(packageJson.scripts["audit:luastra-dev:public-baseline:firefox"], /compare-luastra-dev-public-baseline-webdriver\.mjs --browser=firefox/);
+  assert.match(packageJson.scripts["audit:luastra-dev:public-baseline:safari"], /compare-luastra-dev-public-baseline-webdriver\.mjs --browser=safari/);
 
   const baselineAudit = await readFile(resolve(repository, "scripts/compare-luastra-dev-public-baseline.mjs"), "utf8");
   assert.match(baselineAudit, /https:\/\/luastra\.dev\//);
@@ -41,6 +43,13 @@ test("Orbit browser performance budgets are explicit and wired into the public c
   assert.match(baselineAudit, /decodedBodySizeBytes/);
   assert.match(baselineAudit, /interactionToDocumentationMs/);
   assert.match(baselineAudit, /candidateToBaselineMedianRatio/);
+
+  const webdriverBaselineAudit = await readFile(resolve(repository, "scripts/compare-luastra-dev-public-baseline-webdriver.mjs"), "utf8");
+  assert.match(webdriverBaselineAudit, /--browser must be firefox or safari/);
+  assert.match(webdriverBaselineAudit, /decodedBodySizeBytes/);
+  assert.match(webdriverBaselineAudit, /paintTimingAvailable/);
+  assert.match(webdriverBaselineAudit, /subresource cache control and reporting are browser-owned/);
+  assert.match(webdriverBaselineAudit, /firstNavigationResourceRatio/);
 
   const documentation = await readFile(resolve(repository, "docs/constellation-orbit.md"), "utf8");
   assert.match(documentation, /average measured interaction-time Orbit layout at or below 8 ms/);

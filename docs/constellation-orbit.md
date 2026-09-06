@@ -360,6 +360,16 @@ baseline already opens as documentation while the candidate transitions from
 Orbit. Ratios from this audit are evidence for investigation, not standalone
 release budgets.
 
+Use `npm run audit:luastra-dev:public-baseline:firefox` and
+`npm run audit:luastra-dev:public-baseline:safari` for the corresponding real
+browser engines. WebDriver cannot force an equivalent empty subresource cache
+in both engines, so these reports attach a unique document query to each cycle,
+record cache-visible resource sizes, and state that limitation explicitly.
+Use `firstNavigationResourceRatio` for resource-weight comparison because
+WebKit may omit cached subresource sizes from later Performance entries.
+Paint Timing is recorded when the engine exposes it and otherwise remains zero
+with `paintTimingAvailable: false`; it is never inferred from load timing.
+
 At a 363 x 479 CSS-pixel viewport, used as the reflow equivalent of doubling
 the current browser scale, the reference switches to list mode and keeps the
 page, nodes, Focus Surface, sticky header, and controls free of horizontal
