@@ -33,7 +33,7 @@ export const sdkTypeInventory = Object.freeze({
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
-  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"]] },
+  { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
@@ -492,7 +492,7 @@ export const sections = Object.freeze([
           "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation.",
         ],
       }),
-      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → server → media", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
+      entry("Choose the next recipe", "stateful UI → timer → navigation → storage → history → form → assets → motion", "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.", {
         kind: "guide",
         useWhen: "Use this order when you have no particular feature in mind yet.",
         points: [
@@ -500,6 +500,9 @@ export const sections = Object.freeze([
           "Delayed action adds a host event without Application.resolve.",
           "Typed navigation adds checked route state and Back behavior.",
           "Storage and History add asynchronous host acknowledgements and platform-owned navigation.",
+          "The Form and modal recipe adds controlled input, validation, and accessible focus behavior.",
+          "The Assets and visuals recipe adds packaged images plus semantic host-native geometry.",
+          "Declarative motion adds host-scheduled presentation without an application frame loop.",
           "Later recipes add trusted server work and event-driven media.",
         ],
       }),
@@ -1597,6 +1600,189 @@ luastra run
       }),
     ],
     callout: "Do not pass a filesystem path, data URL, or arbitrary remote URL to UI.Image. Package the file, admit it in luastra.json, and pass Assets.uri(Assets.image(id)).",
+  },
+  {
+    id: "recipe-motion",
+    title: "Recipe: replay declarative motion",
+    module: "luastra/motion · stable UI identity · about 15 minutes",
+    summary: "Animate a card from alternating directions without a frame loop, layout mutation, timer, or animation state in application code.",
+    guide: [
+      "You will render one stable card, replay its entrance from the opposite side after each button press, and keep the visible run count in ordinary Luau state.",
+      "Motion descriptors declare presentation. The host scheduler owns frames and easing; Application.handle changes only meaningful state and the next render supplies the new descriptor.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create motion-recipe", "Start from the generated project, then replace its manifest, entry module, and smoke test.", {
+        language: "Shell",
+        code: `luastra create motion-recipe
+cd motion-recipe`,
+        useWhen: "Run this in the directory that should contain the new project.",
+      }),
+      entry("2. Replace luastra.json", "luastra/motion + luastra/ui", "Declarative UI motion needs no host capability beyond rendering.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.motion-recipe", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/motion", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/motion",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/motion"]
+}`,
+        useWhen: "Replace the generated manifest before importing Motion. Do not add timer.control because animation frames are host-owned presentation work.",
+      }),
+      entry("3. Replace src/main.luau", "state changes once · host animates frames", "The card keeps one ID while its changed translateX descriptor deliberately restarts that channel.", {
+        wide: true,
+        code: `--!strict
+
+local Motion = require("luastra/motion")
+local UI = require("luastra/ui")
+
+local Application = {}
+local run = 0
+local fromLeft = true
+
+local function entrance(): Motion.MotionMap
+    local offset = if fromLeft then -28 else 28
+    return {
+        opacity = Motion.tween {
+            from = 0,
+            to = 1,
+            durationMs = 180,
+            easing = "easeOutCubic",
+        },
+        translateX = Motion.tween {
+            from = offset,
+            to = 0,
+            durationMs = 260,
+            easing = "easeOutCubic",
+        },
+    }
+end
+
+function Application.render(): UI.Node
+    local side = if fromLeft then "left" else "right"
+    local nextSide = if fromLeft then "right" else "left"
+    return UI.Screen {
+        id = "motion-recipe",
+        width = "content",
+        padding = "responsive",
+        UI.Card {
+            id = "motion/card",
+            gap = "lg",
+            padding = "lg",
+            surface = "elevated",
+            motion = entrance(),
+            UI.Text { id = "motion/title", text = "Declarative entrance", variant = "title" },
+            UI.Text {
+                id = "motion/status",
+                text = "Run " .. tostring(run) .. ": from " .. side,
+                role = "status",
+            },
+            UI.Text {
+                id = "motion/explanation",
+                text = "Luau changes state once; the host animates the frames.",
+                tone = "muted",
+            },
+            UI.Button {
+                id = "motion/replay",
+                text = "Replay from " .. nextSide,
+                onTap = "motion.replay",
+            },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, _value: string)
+    if action == "motion.replay" and target == "motion/replay" then
+        run += 1
+        fromLeft = not fromLeft
+    end
+end
+
+function Application.snapshot()
+    return { run = run, fromLeft = fromLeft }
+end
+
+return Application`,
+        useWhen: "Replace the complete entry module. Keep the card ID stable: a descriptor change restarts the affected channels without discarding semantic identity.",
+      }),
+      entry("4. Replace tests/smoke.luau", "descriptor contract + one state transition", "The test verifies the initial descriptors, drives the real button action, and proves the changed direction with the same node ID.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+local function find(node: any, id: string): any?
+    if node.id == id then return node end
+    for _, child in node.children or {} do
+        local result = find(child, id)
+        if result ~= nil then return result end
+    end
+    return nil
+end
+
+local initialCard = find(Application.render(), "motion/card") :: any
+local initialMotion = initialCard.properties.motion :: any
+local initialOpacity = initialMotion.opacity :: any
+local initialTranslation = initialMotion.translateX :: any
+assert(initialCard.id == "motion/card")
+assert(initialOpacity.kind == "tween")
+assert(initialOpacity.from == 0 and initialOpacity.to == 1)
+assert(initialTranslation.from == -28)
+assert(initialTranslation.to == 0)
+
+Application.handle("motion.replay", "motion/replay", "")
+local snapshot = Application.snapshot()
+assert(snapshot.run == 1 and snapshot.fromLeft == false)
+
+local changedCard = find(Application.render(), "motion/card") :: any
+local changedMotion = changedCard.properties.motion :: any
+local changedTranslation = changedMotion.translateX :: any
+assert(changedCard.id == initialCard.id)
+assert(changedTranslation.from == 28)
+assert(changedTranslation.to == 0)
+
+return true`,
+        useWhen: "Replace the generated smoke test so luastra test checks application intent and the public motion descriptors without simulating private scheduler frames.",
+      }),
+      entry("5. Check and run", "left → right → left", "Automated checks prove the descriptor and state contracts; the preview separately proves visible scheduling in this browser.", {
+        language: "Shell",
+        code: `luastra check
+luastra test
+luastra run
+# Expect Run 0: from left.
+# Press Replay from right, then expect Run 1: from right.`,
+        useWhen: "Run from motion-recipe after all three files are saved.",
+        points: [
+          "check and test must report PASS with one passing test.",
+          "Each press updates Luau once; Application.render is not called for every animation frame.",
+          "Enable reduced motion in the operating system or browser and reload: content must appear immediately in its final position.",
+          "The animation must never be the only indication of the run or direction; the status text carries the same meaning.",
+        ],
+      }),
+      entry("6. Understand the boundaries", "state → render descriptor → host scheduler → final presentation", "Motion remains an optional presentation layer over deterministic layout and semantic content.", {
+        kind: "guide",
+        useWhen: "Read this before adding route entrances, feedback motion, or ambient effects.",
+        points: [
+          "Supported channels are opacity, translateX, translateY, scaleX, scaleY, rotationDeg, and rotationYDeg.",
+          "Use Motion.tween for one channel, Motion.sequence for ordered Tween/Wait steps, and a named preset when it already fits.",
+          "Use Timer only when elapsed time must change application state; never use it to drive animation frames.",
+          "Layout is calculated at the final position. Translation, scale, and rotation do not repair spacing or reserve new bounds.",
+          "Avoid continuous motion by default. If it is useful, keep it sparse, stop it when inactive, and preserve the same meaning with motion reduced.",
+        ],
+      }),
+    ],
+    callout: "Do not implement requestAnimationFrame or per-frame state in Luau. Declare bounded motion on a stable semantic node and let the host scheduler honor reduced-motion preferences.",
   },
   {
     id: "luau-types",
