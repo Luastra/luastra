@@ -288,6 +288,14 @@ async function main() {
       horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth),
       errors: [...(window.__luastraSiteAudit?.errors ?? [])],
     }))()`);
+    await route(client, "#/docs/advanced-tutorial", "location.hash === '#/docs/advanced-tutorial' && Boolean(document.querySelector('[data-luastra-id=\"docs/pages/advanced-tutorial\"]'))");
+    const advancedTutorial = await evaluate(client, `(() => ({
+      title: document.querySelector('[data-luastra-id="docs/section/title"]')?.textContent ?? null,
+      detailLinks: document.querySelectorAll('[data-luastra-id="docs/pages/advanced-tutorial"] a').length,
+      relatedLinks: [...document.querySelectorAll('[data-luastra-id^="docs/section/link-"]')].map((link) => link.getAttribute('href')),
+      horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth),
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
     await route(client, "#/docs/ui", "location.hash === '#/docs/ui' && Boolean(document.querySelector('[data-luastra-id=\"docs/pages/ui\"]'))");
     await evaluate(client, `(() => {
       window.scrollTo(0, document.documentElement.scrollHeight);
@@ -368,7 +376,11 @@ async function main() {
       documentationOnboarding: beginnerTutorial.title === "Beginner tutorial: build an accessible counter" &&
         beginnerTutorial.detailLinks === 8 && beginnerTutorial.horizontalOverflow === 0 &&
         firstAppCheckpoint.title === "Complete mini-app checkpoint" &&
-        firstAppCheckpoint.beginnerLink === "#/docs/beginner-tutorial" && firstAppCheckpoint.horizontalOverflow === 0,
+        firstAppCheckpoint.beginnerLink === "#/docs/beginner-tutorial" && firstAppCheckpoint.horizontalOverflow === 0 &&
+        advancedTutorial.title === "Advanced tutorial: build a routed reading list" &&
+        advancedTutorial.detailLinks === 8 &&
+        JSON.stringify(advancedTutorial.relatedLinks) === JSON.stringify(["#/docs/recipe-navigation", "#/docs/recipe-storage", "#/docs/recipe-history"]) &&
+        advancedTutorial.horizontalOverflow === 0,
       documentationDetail: documentationDetail.hash === "#/reference/ui%2Fitem-8" && documentationDetail.horizontalOverflow === 0 &&
         documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
         documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
@@ -376,7 +388,7 @@ async function main() {
         recipeHover.hovered && recipeHover.contrast >= 4.5,
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
-        ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...documentationDetail.errors].length === 0,
+        ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...documentationDetail.errors].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -394,7 +406,7 @@ async function main() {
       reducedMotion,
       keyboard,
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
-      documentationOnboarding: { beginnerTutorial, firstAppCheckpoint },
+      documentationOnboarding: { beginnerTutorial, firstAppCheckpoint, advancedTutorial },
       documentationDetail,
       recipeHover,
       result,

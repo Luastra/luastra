@@ -2515,127 +2515,207 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-1",
-    "kind": "function",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Compile route definitions when URLs must be generated and matched from one typed, canonical path and query contract.",
-    "code": "local compiler = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    { name = \"item\", path = \"/item/:id\" },\n}",
-    "signature": "Navigation.compile(definitionsValue: any): RouteCompiler",
-    "parameters": [
-      {
-        "name": "definitionsValue",
-        "values": "any",
-        "description": "Checked definitionsValue argument accepted by Compile typed routes."
-      }
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Run this in the parent directory where the new project folder should be created.",
+    "code": "luastra create routed-reading-list\ncd routed-reading-list",
+    "signature": "luastra create routed-reading-list",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a normal starter and enter it before replacing the complete manifest, entry module, and test below.",
+    "language": "Shell",
+    "points": [
+      "Expect JSON with result=PASS.",
+      "Keep the generated files until you have the three replacements below ready.",
+      "Use the focused Navigation and Storage recipes first if either capability is still unfamiliar."
     ],
-    "returns": "RouteCompiler — a reusable compiler for matching, generating, and canonicalizing admitted route locations.",
-    "name": "Compile typed routes",
-    "description": "Define canonical locations once and reject malformed parameters.",
     "previousPageId": null,
     "nextPageId": "advanced-tutorial/item-2",
     "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-2",
-    "kind": "function",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Encode state before writing a bounded snapshot to host storage so later versions can decode or migrate it explicitly.",
-    "code": "local snapshot = State.encode(1, {\n    route = router.encode(),\n    filter = filter,\n})\nlocal requestId = Host.storageSet(\"app-state\", snapshot)\npending[requestId] = \"save\"",
-    "signature": "State.encode(version: number, fields: Fields): string",
-    "parameters": [
-      {
-        "name": "version",
-        "values": "number",
-        "description": "Checked version argument accepted by Encode a versioned snapshot."
-      },
-      {
-        "name": "fields",
-        "values": "Fields",
-        "description": "Checked fields argument accepted by Encode a versioned snapshot."
-      }
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before importing Navigation, State, Data, or Host.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.luastra.routed-reading-list\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": {\n    \"contract\": 1\n  },\n  \"capabilities\": [\"storage.get\", \"storage.set\", \"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/data\", \"luastra/host\", \"luastra/navigation\", \"luastra/state\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/reading-list\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/reading-list\"]\n}",
+    "signature": "four SDK modules · three host capabilities",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The manifest admits rendering plus storage reads and writes; every imported module is declared on the exact source file that uses it.",
+    "language": "JSON",
+    "points": [
+      "Navigation, State, and Data are deterministic SDK modules and need no host capability.",
+      "storage.get and storage.set are separate permissions because reading and writing are separate effects.",
+      "This tutorial does not synchronize the browser URL; navigation.history belongs to the dedicated Browser and system Back recipe."
     ],
-    "returns": "string — the validated canonical string produced by this operation.",
-    "name": "Encode a versioned snapshot",
-    "description": "Persist a small deterministic snapshot with an explicit version.",
     "previousPageId": "advanced-tutorial/item-1",
     "nextPageId": "advanced-tutorial/item-3",
     "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-3",
-    "kind": "function",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Decode with a Data schema whenever a value originates outside trusted Luau state, including forms, storage, URLs, and server payloads.",
-    "code": "local result = Data.decode(snapshotSchema, decodedValue)\nif result.success then\n    restore(result.value)\nend",
-    "signature": "Data.decode(schema: Schema, value: any): Result",
-    "parameters": [
-      {
-        "name": "schema",
-        "values": "Schema",
-        "description": "Checked schema argument accepted by Validate restored values."
-      },
-      {
-        "name": "value",
-        "values": "any",
-        "description": "Checked value argument accepted by Validate restored values."
-      }
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Replace the entire generated entry module. Keep encode and restore near each other so snapshot version, fields, validation, and route restoration remain auditable.",
+    "code": "--!strict\n\nlocal Data = require(\"luastra/data\")\nlocal Host = require(\"luastra/host\")\nlocal Navigation = require(\"luastra/navigation\")\nlocal State = require(\"luastra/state\")\nlocal UI = require(\"luastra/ui\")\n\nlocal routes = Navigation.compile {\n    { name = \"library\", path = \"/\" },\n    {\n        name = \"note\",\n        path = \"/notes/:note_id\",\n        params = { note_id = { type = \"integer\", minimum = 1, maximum = 99 } },\n    },\n}\n\nlocal router = Navigation.createRouter {\n    compiler = routes,\n    initial = { name = \"library\", params = {}, query = {} },\n}\n\nlocal snapshotSchema = Data.object({\n    navigation = Data.string({ minBytes = 5, maxBytes = 4096 }),\n    filter = Data.string({ minBytes = 3, maxBytes = 9 }),\n})\n\nlocal Application = {}\nlocal filter = \"all\"\nlocal message = \"Nothing saved yet\"\nlocal pending: { [number]: string } = {}\n\nlocal function encodeSnapshot(): string\n    return State.encode(1, {\n        navigation = router.encode(),\n        filter = filter,\n    })\nend\n\nlocal function track(id: number, operation: string)\n    pending[id] = operation\nend\n\nfunction Application.restore(payload: string): boolean\n    local decoded = State.decode(payload, 1)\n    if not decoded.success then return false end\n\n    local checked = Data.decode(snapshotSchema, decoded.fields)\n    if not checked.success then return false end\n    local fields = checked.value :: { [string]: any }\n    if fields.filter ~= \"all\" and fields.filter ~= \"favorites\" then return false end\n\n    local restored = router.restoreEncoded(fields.navigation)\n    if not restored.success then return false end\n    filter = fields.filter\n    return true\nend\n\nfunction Application.render(): UI.Node\n    local current = router.current()\n    local location = router.currentLocation()\n    return UI.Screen {\n        id = \"reading-list\",\n        documentTitle = \"Routed reading list\",\n        UI.Column {\n            id = \"reading/content\",\n            width = \"content\",\n            padding = \"responsive\",\n            gap = \"md\",\n\n            UI.Text { id = \"reading/title\", text = \"Routed reading list\", variant = \"title\" },\n            UI.Text { id = \"reading/route\", text = \"Route: \" .. current.name .. \" (\" .. location .. \")\" },\n            UI.Text { id = \"reading/filter\", text = \"Filter: \" .. filter },\n            UI.Text { id = \"reading/message\", text = message, role = \"status\" },\n            UI.Actions {\n                id = \"reading/navigation\",\n                UI.Button { id = \"reading/open\", text = \"Open note 7\", onTap = \"reading.open\" },\n                UI.Button {\n                    id = \"reading/back\",\n                    text = \"Back to library\",\n                    onTap = \"reading.back\",\n                    disabled = not router.canBack(),\n                },\n                UI.Button { id = \"reading/filter-toggle\", text = \"Toggle filter\", onTap = \"reading.filter\" },\n            },\n            UI.Actions {\n                id = \"reading/storage\",\n                UI.Button { id = \"reading/save\", text = \"Save view\", onTap = \"reading.save\" },\n                UI.Button { id = \"reading/load\", text = \"Restore view\", onTap = \"reading.load\" },\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"reading.open\" and target == \"reading/open\" then\n        local result = router.push { name = \"note\", params = { note_id = 7 }, query = {} }\n        message = result.success and \"Opened note 7\" or \"Could not open note\"\n    elseif action == \"reading.back\" and target == \"reading/back\" then\n        if router.back() then message = \"Returned to library\" end\n    elseif action == \"reading.filter\" and target == \"reading/filter-toggle\" then\n        filter = if filter == \"all\" then \"favorites\" else \"all\"\n        message = \"Filter changed\"\n    elseif action == \"reading.save\" and target == \"reading/save\" then\n        track(Host.storageSet(\"reading-list-view\", encodeSnapshot()), \"save\")\n        message = \"Saving…\"\n    elseif action == \"reading.load\" and target == \"reading/load\" then\n        track(Host.storageGet(\"reading-list-view\"), \"load\")\n        message = \"Loading…\"\n    end\nend\n\nfunction Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    _errorMessage: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == nil then return end\n    if not success then message = operation .. \" failed: \" .. code return end\n    if operation == \"save\" then message = \"View saved\"\n    elseif Application.restore(payload) then message = \"View restored\"\n    else message = \"Saved view is invalid\" end\nend\n\nfunction Application.snapshot()\n    return {\n        name = router.current().name,\n        location = router.currentLocation(),\n        filter = filter,\n        message = message,\n        encoded = encodeSnapshot(),\n    }\nend\n\nreturn Application",
+    "signature": "complete routed and persisted application",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "One router owns navigation, one versioned snapshot carries the router plus filter, and RequestIds correlate asynchronous storage completions.",
+    "wide": true,
+    "points": [
+      "Navigation.compile validates note_id before a route can enter the stack.",
+      "State.decode checks framing and version; Data.decode then checks the decoded field shapes; the application finally admits only known filter values.",
+      "router.restoreEncoded validates every restored route before replacing the active stack.",
+      "Application.resolve ignores unknown RequestIds and clears known requests before applying their result.",
+      "Rendering reads current state; storage effects start only from admitted button actions."
     ],
-    "returns": "Result — a discriminated validation result; branch on success before reading value or error.",
-    "name": "Validate restored values",
-    "description": "Static Luau types do not make storage or server payloads trustworthy.",
     "previousPageId": "advanced-tutorial/item-2",
     "nextPageId": "advanced-tutorial/item-4",
     "relatedPageIds": []
   },
   {
     "id": "advanced-tutorial/item-4",
-    "kind": "function",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Implement Application.resolve when asynchronous Host, Server, or Media requests need to update application state after completion.",
-    "code": "function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    _code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == \"load\" and success then\n        restore(payload)\n    end\nend",
-    "signature": "Application.resolve",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so check and test cover the complete deterministic state boundary without depending on a browser storage implementation.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nlocal initial = Application.snapshot()\nassert(initial.location == \"/\", \"application must start at the library\")\nassert(initial.filter == \"all\", \"application must start with the all filter\")\n\nApplication.handle(\"reading.open\", \"reading/open\", \"\")\nApplication.handle(\"reading.filter\", \"reading/filter-toggle\", \"\")\nlocal saved = Application.snapshot()\nassert(saved.location == \"/notes/7\", \"note route was not generated\")\nassert(saved.filter == \"favorites\", \"filter did not change\")\n\nApplication.handle(\"reading.back\", \"reading/back\", \"\")\nApplication.handle(\"reading.filter\", \"reading/filter-toggle\", \"\")\nassert(Application.snapshot().location == \"/\", \"Back did not return to the library\")\nassert(Application.snapshot().filter == \"all\", \"filter did not return to all\")\n\nassert(Application.restore(saved.encoded), \"valid snapshot was rejected\")\nassert(Application.snapshot().location == \"/notes/7\", \"saved route was not restored\")\nassert(Application.snapshot().filter == \"favorites\", \"saved filter was not restored\")\n\nlocal beforeInvalid = Application.snapshot()\nassert(not Application.restore(\"v=1&filter=unknown&navigation=invalid\"), \"invalid snapshot was accepted\")\nlocal afterInvalid = Application.snapshot()\nassert(afterInvalid.location == beforeInvalid.location, \"invalid restore changed the route\")\nassert(afterInvalid.filter == beforeInvalid.filter, \"invalid restore changed the filter\")\n\nreturn true",
+    "signature": "route, round-trip, and rejection test",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The deterministic test drives route and filter actions, restores their saved snapshot, and proves malformed external data cannot replace current state.",
+    "wide": true,
+    "points": [
+      "The encoded snapshot comes from the real application rather than a duplicated hand-written encoding.",
+      "The test changes current state before restoring, so a false-positive no-op cannot pass.",
+      "The invalid payload check proves the previously valid route and filter remain intact."
+    ],
+    "previousPageId": "advanced-tutorial/item-3",
+    "nextPageId": "advanced-tutorial/item-5",
+    "relatedPageIds": []
+  },
+  {
+    "id": "advanced-tutorial/item-5",
+    "kind": "entry",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Run from routed-reading-list after all three files are saved.",
+    "code": "luastra check\nluastra test",
+    "signature": "luastra check → luastra test",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check the deterministic model",
+    "description": "Validate the manifest and strict module graph first, then run the route, snapshot, and rejection behavior test.",
+    "language": "Shell",
+    "points": [
+      "check must report result=PASS and project=dev.luastra.routed-reading-list.",
+      "test must report tests=1 and passed=1.",
+      "This proves pure routing, encoding, validation, and restoration logic; it does not prove that a host persisted bytes."
+    ],
+    "previousPageId": "advanced-tutorial/item-4",
+    "nextPageId": "advanced-tutorial/item-6",
+    "relatedPageIds": []
+  },
+  {
+    "id": "advanced-tutorial/item-6",
+    "kind": "entry",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Run only after check and test pass; keep the terminal open while verifying the current browser host.",
+    "code": "luastra run\n# Open the READY URL printed by Luastra.\n# Press Open note 7, Toggle filter, then Save view.\n# Press Back to library and Toggle filter: expect / and all.\n# Press Restore view: expect /notes/7 and favorites.\n# Reload the page, press Restore view again, and expect the same saved view.\n# Stop the preview with Ctrl+C.",
+    "signature": "save → change → restore → reload → restore",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Run the storage round trip",
+    "description": "Use the printed preview URL to verify the asynchronous browser-storage boundary separately from the deterministic test.",
+    "language": "Shell",
+    "points": [
+      "Saving… and Loading… are immediate application states; View saved or View restored arrives through Application.resolve.",
+      "Restoring before the first save may fail or return empty data; the current route and filter must remain usable.",
+      "A browser-host pass does not prove storage behavior in every desktop or mobile host."
+    ],
+    "previousPageId": "advanced-tutorial/item-5",
+    "nextPageId": "advanced-tutorial/item-7",
+    "relatedPageIds": []
+  },
+  {
+    "id": "advanced-tutorial/item-7",
+    "kind": "guide",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Read this after both the deterministic test and live storage round trip work unchanged.",
+    "code": null,
+    "signature": "route model → snapshot → transport → validated restore",
+    "parameters": [],
+    "returns": null,
+    "name": "7. Understand the trust boundaries",
+    "description": "Each layer solves one problem; keeping them separate makes failures recoverable and tests meaningful.",
+    "points": [
+      "Navigation validates and serializes the route stack; it does not persist anything.",
+      "State provides bounded versioned string framing; it does not decide whether fields are valid product data.",
+      "Data validates decoded external fields; the application still admits domain values such as all or favorites.",
+      "Host transports the string asynchronously; RequestIds prevent an older completion from being mistaken for another operation.",
+      "For a released schema change, increment the State version and add a tested State.migrate path before shipping the new writer."
+    ],
+    "previousPageId": "advanced-tutorial/item-6",
+    "nextPageId": "advanced-tutorial/table-1",
+    "relatedPageIds": []
+  },
+  {
+    "id": "advanced-tutorial/table-1",
+    "kind": "parameter-group",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "name": "What each verification proves",
+    "signature": "advanced-evidence-boundaries",
+    "description": "Shared parameters in the “What each verification proves” group. A component page links here only when it supports this group.",
     "parameters": [
       {
-        "name": "id",
-        "values": "number",
-        "description": "The RequestId returned by the Host, Server, or Media operation."
+        "name": "luastra check",
+        "values": "Manifest, dependencies, strict Luau, and admitted SDK calls",
+        "description": "It does not execute the behavior test or a host adapter."
       },
       {
-        "name": "success",
-        "values": "boolean",
-        "description": "Whether the operation completed successfully."
+        "name": "luastra test",
+        "values": "Route transitions, snapshot round trip, and invalid-data preservation",
+        "description": "It does not prove browser storage or visible interaction."
       },
       {
-        "name": "payload",
-        "values": "string",
-        "description": "The bounded successful response payload, or an empty string after failure."
+        "name": "Browser preview",
+        "values": "Buttons, status updates, storage requests, reload, and current web host",
+        "description": "It does not prove Tauri, Capacitor, or another browser."
       },
       {
-        "name": "code",
-        "values": "string",
-        "description": "A stable failure code, or an empty string after success."
-      },
-      {
-        "name": "message",
-        "values": "string",
-        "description": "A bounded diagnostic message, or an empty string after success."
+        "name": "Target-specific QA",
+        "values": "The packaged host and device combination you actually exercised",
+        "description": "Record it separately instead of generalizing it to every target."
       }
     ],
-    "returns": "Nothing. Update state, clear the pending operation, and let Luastra render again.",
-    "name": "Resolve asynchronous work",
-    "description": "Match the RequestId and handle bounded failure information.",
-    "previousPageId": "advanced-tutorial/item-3",
+    "previousPageId": "advanced-tutorial/item-7",
     "nextPageId": null,
     "relatedPageIds": []
   },

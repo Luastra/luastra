@@ -53,7 +53,7 @@ for _, page in ReferenceData.pages do
     end
 end
 
-for _, name in { "Compile typed routes", "Encode a versioned snapshot", "Validate restored values", "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
+for _, name in { "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
     local page = pageByName[name]
     assert(page ~= nil, `{name} page is missing`)
     assert(page.callable == true, `{name} is not marked callable`)
@@ -72,6 +72,19 @@ assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function App
 assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function Application.snapshot", 1, true) ~= nil)
 assert(string.find(beginnerPages["4. Replace tests/smoke.luau"].code, "another/control", 1, true) ~= nil)
 assert(type(beginnerPages["7. Make one safe change"].points) == "table" and #beginnerPages["7. Make one safe change"].points >= 4)
+
+local advancedPages: {[string]: any} = {}
+for _, page in ReferenceData.pages do
+    if page.sectionId == "advanced-tutorial" then advancedPages[page.name] = page end
+end
+for _, name in { "1. Create the project", "2. Replace luastra.json", "3. Replace src/main.luau", "4. Replace tests/smoke.luau", "5. Check the deterministic model", "6. Run the storage round trip", "7. Understand the trust boundaries" } do
+    assert(advancedPages[name] ~= nil, `{name} advanced tutorial page is missing`)
+end
+assert(string.find(advancedPages["2. Replace luastra.json"].code, '"storage.get"', 1, true) ~= nil)
+assert(string.find(advancedPages["3. Replace src/main.luau"].code, "router.restoreEncoded", 1, true) ~= nil)
+assert(string.find(advancedPages["3. Replace src/main.luau"].code, "Data.decode", 1, true) ~= nil)
+assert(string.find(advancedPages["3. Replace src/main.luau"].code, "function Application.resolve", 1, true) ~= nil)
+assert(string.find(advancedPages["4. Replace tests/smoke.luau"].code, "invalid restore changed the route", 1, true) ~= nil)
 
 assert(pageByName["Type casts with ::"] ~= nil)
 assert(string.find(pageByName["Type casts with ::"].code, "::", 1, true) ~= nil)

@@ -10,6 +10,7 @@ const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const cli = resolve(root, "cli", "luastra.mjs");
 const recipes = [
   "beginner-tutorial",
+  "advanced-tutorial",
   "recipe-timer",
   "recipe-navigation",
   "recipe-storage",

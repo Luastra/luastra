@@ -3098,7 +3098,274 @@ luastra test`,
     }],
     callout: "The tutorial test proves deterministic application state. The live preview separately proves the selected browser host and interaction path; neither alone proves every desktop, mobile, or assistive-technology target.",
   },
-  { id: "advanced-tutorial", title: "Advanced tutorial: routed persisted data", module: "Navigation · State · Host · Data", summary: "Combine typed routes, versioned state, runtime validation, and asynchronous host requests.", guide: ["Treat navigation and persisted data as application state, not as hidden host state.", "Host operations return RequestId. Record the intended operation and finish it in Application.resolve."], cards: [entry("Compile typed routes", "Navigation.compile", "Define canonical locations once and reject malformed parameters.", { kind: "function", useWhen: "Compile route definitions when URLs must be generated and matched from one typed, canonical path and query contract.", code: `local compiler = Navigation.compile {\n    { name = "home", path = "/" },\n    { name = "item", path = "/item/:id" },\n}` }), entry("Encode a versioned snapshot", "State.encode", "Persist a small deterministic snapshot with an explicit version.", { kind: "function", useWhen: "Encode state before writing a bounded snapshot to host storage so later versions can decode or migrate it explicitly.", code: `local snapshot = State.encode(1, {\n    route = router.encode(),\n    filter = filter,\n})\nlocal requestId = Host.storageSet("app-state", snapshot)\npending[requestId] = "save"` }), entry("Validate restored values", "Data.decode", "Static Luau types do not make storage or server payloads trustworthy.", { kind: "function", useWhen: "Decode with a Data schema whenever a value originates outside trusted Luau state, including forms, storage, URLs, and server payloads.", code: `local result = Data.decode(snapshotSchema, decodedValue)\nif result.success then\n    restore(result.value)\nend` }), entry("Resolve asynchronous work", "Application.resolve", "Match the RequestId and handle bounded failure information.", { kind: "function", parameters: [row("id", "number", "The RequestId returned by the Host, Server, or Media operation."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The bounded successful response payload, or an empty string after failure."), row("code", "string", "A stable failure code, or an empty string after success."), row("message", "string", "A bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Update state, clear the pending operation, and let Luastra render again.", useWhen: "Implement Application.resolve when asynchronous Host, Server, or Media requests need to update application state after completion.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    _code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == "load" and success then\n        restore(payload)\n    end\nend` })], callout: "Keep credentials and provider secrets behind trusted server handlers; never persist them in Luau state." },
+  {
+    id: "advanced-tutorial",
+    title: "Advanced tutorial: build a routed reading list",
+    module: "Navigation · State · Data · Host · about 30 minutes",
+    summary: "Combine a typed route stack, validated versioned snapshots, and asynchronous storage in one checked application.",
+    guide: [
+      "Complete Beginner tutorial first. This walkthrough assumes you already understand module state, render, handle, stable IDs, check, test, and run.",
+      "You will open note 7, switch to a favorites filter, save both values, change them, and restore the exact saved route and filter.",
+      "Copy the three complete files unchanged once. The documentation validator materializes these same files and requires both luastra check and luastra test to pass.",
+    ],
+    cards: [
+      entry("1. Create the project", "luastra create routed-reading-list", "Create a normal starter and enter it before replacing the complete manifest, entry module, and test below.", {
+        language: "Shell",
+        code: `luastra create routed-reading-list
+cd routed-reading-list`,
+        useWhen: "Run this in the parent directory where the new project folder should be created.",
+        points: ["Expect JSON with result=PASS.", "Keep the generated files until you have the three replacements below ready.", "Use the focused Navigation and Storage recipes first if either capability is still unfamiliar."],
+      }),
+      entry("2. Replace luastra.json", "four SDK modules · three host capabilities", "The manifest admits rendering plus storage reads and writes; every imported module is declared on the exact source file that uses it.", {
+        language: "JSON",
+        code: `{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.routed-reading-list",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["storage.get", "storage.set", "ui.render"],
+  "modules": [
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": ["luastra/data", "luastra/host", "luastra/navigation", "luastra/state", "luastra/ui"]
+    },
+    {
+      "id": "app/tests/reading-list",
+      "source": "tests/smoke.luau",
+      "dependencies": ["app/main"]
+    }
+  ],
+  "tests": ["app/tests/reading-list"]
+}`,
+        useWhen: "Replace the generated manifest before importing Navigation, State, Data, or Host.",
+        points: ["Navigation, State, and Data are deterministic SDK modules and need no host capability.", "storage.get and storage.set are separate permissions because reading and writing are separate effects.", "This tutorial does not synchronize the browser URL; navigation.history belongs to the dedicated Browser and system Back recipe."],
+      }),
+      entry("3. Replace src/main.luau", "complete routed and persisted application", "One router owns navigation, one versioned snapshot carries the router plus filter, and RequestIds correlate asynchronous storage completions.", {
+        wide: true,
+        code: `--!strict
+
+local Data = require("luastra/data")
+local Host = require("luastra/host")
+local Navigation = require("luastra/navigation")
+local State = require("luastra/state")
+local UI = require("luastra/ui")
+
+local routes = Navigation.compile {
+    { name = "library", path = "/" },
+    {
+        name = "note",
+        path = "/notes/:note_id",
+        params = { note_id = { type = "integer", minimum = 1, maximum = 99 } },
+    },
+}
+
+local router = Navigation.createRouter {
+    compiler = routes,
+    initial = { name = "library", params = {}, query = {} },
+}
+
+local snapshotSchema = Data.object({
+    navigation = Data.string({ minBytes = 5, maxBytes = 4096 }),
+    filter = Data.string({ minBytes = 3, maxBytes = 9 }),
+})
+
+local Application = {}
+local filter = "all"
+local message = "Nothing saved yet"
+local pending: { [number]: string } = {}
+
+local function encodeSnapshot(): string
+    return State.encode(1, {
+        navigation = router.encode(),
+        filter = filter,
+    })
+end
+
+local function track(id: number, operation: string)
+    pending[id] = operation
+end
+
+function Application.restore(payload: string): boolean
+    local decoded = State.decode(payload, 1)
+    if not decoded.success then return false end
+
+    local checked = Data.decode(snapshotSchema, decoded.fields)
+    if not checked.success then return false end
+    local fields = checked.value :: { [string]: any }
+    if fields.filter ~= "all" and fields.filter ~= "favorites" then return false end
+
+    local restored = router.restoreEncoded(fields.navigation)
+    if not restored.success then return false end
+    filter = fields.filter
+    return true
+end
+
+function Application.render(): UI.Node
+    local current = router.current()
+    local location = router.currentLocation()
+    return UI.Screen {
+        id = "reading-list",
+        documentTitle = "Routed reading list",
+        UI.Column {
+            id = "reading/content",
+            width = "content",
+            padding = "responsive",
+            gap = "md",
+
+            UI.Text { id = "reading/title", text = "Routed reading list", variant = "title" },
+            UI.Text { id = "reading/route", text = "Route: " .. current.name .. " (" .. location .. ")" },
+            UI.Text { id = "reading/filter", text = "Filter: " .. filter },
+            UI.Text { id = "reading/message", text = message, role = "status" },
+            UI.Actions {
+                id = "reading/navigation",
+                UI.Button { id = "reading/open", text = "Open note 7", onTap = "reading.open" },
+                UI.Button {
+                    id = "reading/back",
+                    text = "Back to library",
+                    onTap = "reading.back",
+                    disabled = not router.canBack(),
+                },
+                UI.Button { id = "reading/filter-toggle", text = "Toggle filter", onTap = "reading.filter" },
+            },
+            UI.Actions {
+                id = "reading/storage",
+                UI.Button { id = "reading/save", text = "Save view", onTap = "reading.save" },
+                UI.Button { id = "reading/load", text = "Restore view", onTap = "reading.load" },
+            },
+        },
+    }
+end
+
+function Application.handle(action: string, target: string, _value: string)
+    if action == "reading.open" and target == "reading/open" then
+        local result = router.push { name = "note", params = { note_id = 7 }, query = {} }
+        message = result.success and "Opened note 7" or "Could not open note"
+    elseif action == "reading.back" and target == "reading/back" then
+        if router.back() then message = "Returned to library" end
+    elseif action == "reading.filter" and target == "reading/filter-toggle" then
+        filter = if filter == "all" then "favorites" else "all"
+        message = "Filter changed"
+    elseif action == "reading.save" and target == "reading/save" then
+        track(Host.storageSet("reading-list-view", encodeSnapshot()), "save")
+        message = "Saving…"
+    elseif action == "reading.load" and target == "reading/load" then
+        track(Host.storageGet("reading-list-view"), "load")
+        message = "Loading…"
+    end
+end
+
+function Application.resolve(
+    id: number,
+    success: boolean,
+    payload: string,
+    code: string,
+    _errorMessage: string
+)
+    local operation = pending[id]
+    pending[id] = nil
+    if operation == nil then return end
+    if not success then message = operation .. " failed: " .. code return end
+    if operation == "save" then message = "View saved"
+    elseif Application.restore(payload) then message = "View restored"
+    else message = "Saved view is invalid" end
+end
+
+function Application.snapshot()
+    return {
+        name = router.current().name,
+        location = router.currentLocation(),
+        filter = filter,
+        message = message,
+        encoded = encodeSnapshot(),
+    }
+end
+
+return Application`,
+        useWhen: "Replace the entire generated entry module. Keep encode and restore near each other so snapshot version, fields, validation, and route restoration remain auditable.",
+        points: ["Navigation.compile validates note_id before a route can enter the stack.", "State.decode checks framing and version; Data.decode then checks the decoded field shapes; the application finally admits only known filter values.", "router.restoreEncoded validates every restored route before replacing the active stack.", "Application.resolve ignores unknown RequestIds and clears known requests before applying their result.", "Rendering reads current state; storage effects start only from admitted button actions."],
+      }),
+      entry("4. Replace tests/smoke.luau", "route, round-trip, and rejection test", "The deterministic test drives route and filter actions, restores their saved snapshot, and proves malformed external data cannot replace current state.", {
+        wide: true,
+        code: `--!strict
+
+local Application = require("app/main")
+
+local initial = Application.snapshot()
+assert(initial.location == "/", "application must start at the library")
+assert(initial.filter == "all", "application must start with the all filter")
+
+Application.handle("reading.open", "reading/open", "")
+Application.handle("reading.filter", "reading/filter-toggle", "")
+local saved = Application.snapshot()
+assert(saved.location == "/notes/7", "note route was not generated")
+assert(saved.filter == "favorites", "filter did not change")
+
+Application.handle("reading.back", "reading/back", "")
+Application.handle("reading.filter", "reading/filter-toggle", "")
+assert(Application.snapshot().location == "/", "Back did not return to the library")
+assert(Application.snapshot().filter == "all", "filter did not return to all")
+
+assert(Application.restore(saved.encoded), "valid snapshot was rejected")
+assert(Application.snapshot().location == "/notes/7", "saved route was not restored")
+assert(Application.snapshot().filter == "favorites", "saved filter was not restored")
+
+local beforeInvalid = Application.snapshot()
+assert(not Application.restore("v=1&filter=unknown&navigation=invalid"), "invalid snapshot was accepted")
+local afterInvalid = Application.snapshot()
+assert(afterInvalid.location == beforeInvalid.location, "invalid restore changed the route")
+assert(afterInvalid.filter == beforeInvalid.filter, "invalid restore changed the filter")
+
+return true`,
+        useWhen: "Replace the generated smoke test so check and test cover the complete deterministic state boundary without depending on a browser storage implementation.",
+        points: ["The encoded snapshot comes from the real application rather than a duplicated hand-written encoding.", "The test changes current state before restoring, so a false-positive no-op cannot pass.", "The invalid payload check proves the previously valid route and filter remain intact."],
+      }),
+      entry("5. Check the deterministic model", "luastra check → luastra test", "Validate the manifest and strict module graph first, then run the route, snapshot, and rejection behavior test.", {
+        language: "Shell",
+        code: `luastra check
+luastra test`,
+        useWhen: "Run from routed-reading-list after all three files are saved.",
+        points: ["check must report result=PASS and project=dev.luastra.routed-reading-list.", "test must report tests=1 and passed=1.", "This proves pure routing, encoding, validation, and restoration logic; it does not prove that a host persisted bytes."],
+      }),
+      entry("6. Run the storage round trip", "save → change → restore → reload → restore", "Use the printed preview URL to verify the asynchronous browser-storage boundary separately from the deterministic test.", {
+        language: "Shell",
+        code: `luastra run
+# Open the READY URL printed by Luastra.
+# Press Open note 7, Toggle filter, then Save view.
+# Press Back to library and Toggle filter: expect / and all.
+# Press Restore view: expect /notes/7 and favorites.
+# Reload the page, press Restore view again, and expect the same saved view.
+# Stop the preview with Ctrl+C.`,
+        useWhen: "Run only after check and test pass; keep the terminal open while verifying the current browser host.",
+        points: ["Saving… and Loading… are immediate application states; View saved or View restored arrives through Application.resolve.", "Restoring before the first save may fail or return empty data; the current route and filter must remain usable.", "A browser-host pass does not prove storage behavior in every desktop or mobile host."],
+      }),
+      entry("7. Understand the trust boundaries", "route model → snapshot → transport → validated restore", "Each layer solves one problem; keeping them separate makes failures recoverable and tests meaningful.", {
+        kind: "guide",
+        useWhen: "Read this after both the deterministic test and live storage round trip work unchanged.",
+        points: ["Navigation validates and serializes the route stack; it does not persist anything.", "State provides bounded versioned string framing; it does not decide whether fields are valid product data.", "Data validates decoded external fields; the application still admits domain values such as all or favorites.", "Host transports the string asynchronously; RequestIds prevent an older completion from being mistaken for another operation.", "For a released schema change, increment the State version and add a tested State.migrate path before shipping the new writer."],
+      }),
+    ],
+    tables: [{
+      id: "advanced-evidence-boundaries",
+      title: "What each verification proves",
+      rows: [
+        row("luastra check", "Manifest, dependencies, strict Luau, and admitted SDK calls", "It does not execute the behavior test or a host adapter."),
+        row("luastra test", "Route transitions, snapshot round trip, and invalid-data preservation", "It does not prove browser storage or visible interaction."),
+        row("Browser preview", "Buttons, status updates, storage requests, reload, and current web host", "It does not prove Tauri, Capacitor, or another browser."),
+        row("Target-specific QA", "The packaged host and device combination you actually exercised", "Record it separately instead of generalizing it to every target."),
+      ],
+    }],
+    links: [
+      { text: "Review the focused typed navigation recipe", href: "#/docs/recipe-navigation" },
+      { text: "Review the focused persistence recipe", href: "#/docs/recipe-storage" },
+      { text: "Add Browser and system Back after this works", href: "#/docs/recipe-history" },
+    ],
+    callout: "Do not add Server functions here. First make the local route and persistence boundary predictable; the checked Server recipe introduces trusted backend work as a separate concern.",
+  },
   {
     id: "first-app",
     title: "Complete mini-app checkpoint",

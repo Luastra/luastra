@@ -65,6 +65,10 @@ semantic versioning where the `0.x` series remains explicitly unstable.
   manifest, entry module, deterministic interaction test, CLI outcomes, live
   browser checklist, and first safe modification. The existing Complete
   mini-app route remains as a compatibility checkpoint and next-recipe guide.
+- The Advanced tutorial is now a complete checked routed reading-list project
+  that keeps typed navigation, versioned state, external-data validation, and
+  asynchronous storage distinct, with deterministic and host evidence clearly
+  separated.
 
 ## [0.1.0-alpha] - 2026-08-28
 
