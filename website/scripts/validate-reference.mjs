@@ -36,6 +36,13 @@ if (new Set(sectionIds).size !== sectionIds.length) fail("reference contains dup
 if (sectionIds.some((id) => !/^[a-z][a-z0-9-]{0,63}$/.test(id))) fail("reference contains a non-canonical section ID");
 const expectedGeneratedPages = sections.reduce((total, section) => total + (section.cards?.length ?? 0) + (section.tables?.length ?? 0), 0);
 if (generatedPages.length !== expectedGeneratedPages) fail(`generated reference page count differs: expected=${expectedGeneratedPages} actual=${generatedPages.length}`);
+const routeIds = generatedPages.map((page) => page.routeId);
+if (new Set(routeIds).size !== routeIds.length) fail("generated reference contains duplicate stable routes");
+for (const page of generatedPages) {
+  if (!/^[a-z][a-z0-9-]{0,63}\/[a-z0-9][a-z0-9-]{0,95}$/u.test(page.routeId)) fail(`${page.id} has a non-canonical stable route`);
+  if (page.routeId !== `${page.sectionId}/${page.routeSlug}`) fail(`${page.id} stable route fields disagree`);
+}
+if (generatedPages.find((page) => page.name === "UI.Button")?.routeId !== "ui/button") fail("UI.Button stable route is incorrect");
 for (const section of sections) {
   const expected = (section.cards?.length ?? 0) + (section.tables?.length ?? 0);
   const sectionPages = generatedPages.filter((page) => page.sectionId === section.id);

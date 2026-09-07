@@ -25,11 +25,19 @@ end
 
 local pageById: {[string]: any} = {}
 local pageByName: {[string]: any} = {}
+local pageByRouteId: {[string]: any} = {}
 for _, page in ReferenceData.pages do
     assert(type(page.id) == "string" and pageById[page.id] == nil)
+    assert(type(page.routeSlug) == "string" and string.match(page.routeSlug, "^[a-z0-9][a-z0-9%-]*$") ~= nil)
+    assert(page.routeId == page.sectionId .. "/" .. page.routeSlug)
+    local routeId = page.routeId :: string
+    assert(pageByRouteId[routeId] == nil, `{routeId} is not a unique stable route`)
     pageById[page.id] = page
     pageByName[page.name] = page
+    pageByRouteId[routeId] = page
 end
+assert(pageByName["UI.Button"].routeId == "ui/button")
+assert(pageByName["Data.Result"].routeId == "data/result")
 
 for _, page in ReferenceData.pages do
     local relatedIds: {[string]: boolean} = {}

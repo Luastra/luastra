@@ -90,7 +90,7 @@ assert(Application.snapshot().location == "/docs/overview")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/docs/ui")
 local uiTree = Application.render()
-assert(findNodeByHref(uiTree, "#/reference/ui%2Fitem-4") ~= nil)
+assert(findNodeByHref(uiTree, "#/reference/ui/screen") ~= nil)
 assert(findNode(Application.render(), "docs/section/copy") ~= nil)
 Application.handle("docs.copy-section", "docs/section/copy", "")
 assert(requests[#requests].kind == "clipboard.write")
@@ -99,24 +99,27 @@ Application.resolve(copyRequest, true, "", "", "")
 assert((findNode(Application.render(), "docs/section/copy-status").properties :: any).text == "Example copied.")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/reference/ui%2Fitem-8")
+assert(Application.snapshot().location == "/reference/ui/button")
 local buttonPage = Application.render()
-assert((findNode(buttonPage, "docs/detail/previous").properties :: any).href == "#/reference/ui%2Fitem-7")
-assert((findNode(buttonPage, "docs/detail/next").properties :: any).href == "#/reference/ui%2Fitem-9")
+assert((findNode(buttonPage, "docs/detail/previous").properties :: any).href == "#/reference/ui/text")
+assert((findNode(buttonPage, "docs/detail/next").properties :: any).href == "#/reference/ui/link")
 assert(findNode(buttonPage, "docs/detail/related-next-step-title") ~= nil)
 assert(findNode(buttonPage, "docs/detail/related-next-step-1") ~= nil)
 assert((findNode(buttonPage, "docs/detail/inventory").properties :: any).href == "#/docs/ui")
 assert(findNode(buttonPage, "docs/pages/ui") == nil)
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/reference/data%2Fitem-4")
+assert(Application.snapshot().location == "/reference/data/result")
 local dataResultPage = Application.render()
 assert(findNode(dataResultPage, "docs/detail/error-codes/row-17") ~= nil)
-assert((findNode(dataResultPage, "docs/detail/produced-by-1").properties :: any).href == "#/reference/data%2Fitem-16")
+assert((findNode(dataResultPage, "docs/detail/produced-by-1").properties :: any).href == "#/reference/data/decode")
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/reference/media%2Fitem-3")
+assert(Application.snapshot().location == "/reference/media/media-error")
 local mediaErrorPage = Application.render()
 assert(findNode(mediaErrorPage, "docs/detail/error-codes") == nil)
 assert(string.find((findNode(mediaErrorPage, "docs/detail/error-codes-note").properties :: any).text, "host-specific", 1, true) ~= nil)
-assert((findNode(mediaErrorPage, "docs/detail/produced-by-1").properties :: any).href == "#/reference/media%2Fitem-17")
+assert((findNode(mediaErrorPage, "docs/detail/produced-by-1").properties :: any).href == "#/reference/media/decode-state")
 
 for _, pageId in { "recipe-form-modal/item-3", "recipe-media/item-3", "recipe-orbit/item-3", "advanced-tutorial/item-3" } do
     Application.handle("open_url", "browser", `https://luastra.dev/#/reference/{string.gsub(pageId, "/", "%%2F")}`)
@@ -128,10 +131,11 @@ for _, pageId in { "recipe-form-modal/item-3", "recipe-media/item-3", "recipe-or
 end
 
 Application.handle("open_url", "browser", "https://luastra.dev/#/reference/advanced-tutorial%2Fitem-1")
+assert(Application.snapshot().location == "/reference/advanced-tutorial/create-the-project")
 for index = 1, 40 do
     local movingForward = index % 2 == 1
     local controlId = movingForward and "docs/detail/next" or "docs/detail/previous"
-    local expectedLocation = movingForward and "/reference/advanced-tutorial%2Fitem-2" or "/reference/advanced-tutorial%2Fitem-1"
+    local expectedLocation = movingForward and "/reference/advanced-tutorial/replace-luastra-json" or "/reference/advanced-tutorial/create-the-project"
     local control = findNode(Application.render(), controlId)
     assert(control ~= nil)
     Application.handle("docs.open-page", control.id, "")

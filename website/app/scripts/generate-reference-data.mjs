@@ -17,6 +17,24 @@ function pageId(sectionId, index) {
   return `${sectionId}/item-${index + 1}`;
 }
 
+function pageSlug(name) {
+  const publicSymbol = /^[A-Z][A-Za-z0-9]*\.([A-Za-z][A-Za-z0-9]*)$/u.exec(name);
+  const unqualified = publicSymbol ? publicSymbol[1] : name;
+  const slug = unqualified
+    .replace(/^\d+\.\s*/u, "")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  if (!/^[a-z0-9][a-z0-9-]{0,95}$/u.test(slug)) fail(`cannot create a stable route slug for ${name}`);
+  return slug;
+}
+
+function pageRouteId(sectionId, name) {
+  return `${sectionId}/${pageSlug(name)}`;
+}
+
 const sdkDirectory = resolve(import.meta.dirname, "../../../sdk/luastra");
 const sdkSources = {};
 for (const moduleName of Object.keys(sdkInventory)) {
@@ -1209,6 +1227,8 @@ for (const section of sections) {
     }
     pages.push({
       id: pageId(section.id, index),
+      routeSlug: pageSlug(card.name),
+      routeId: pageRouteId(section.id, card.name),
       kind: "entry",
       sectionId: section.id,
       sectionTitle: section.title,
@@ -1239,6 +1259,8 @@ for (const section of sections) {
     const id = `${section.id}/table-${index + 1}`;
     pages.push({
       id,
+      routeSlug: pageSlug(table.title),
+      routeId: pageRouteId(section.id, table.title),
       kind: "parameter-group",
       sectionId: section.id,
       sectionTitle: section.title,
@@ -1274,6 +1296,25 @@ const relatedFamilies = [
 ];
 
 const pageByName = new Map(pages.map((page) => [page.name, page]));
+const routeCandidates = new Map();
+for (const page of pages) {
+  const candidates = routeCandidates.get(page.routeId) ?? [];
+  candidates.push(page);
+  routeCandidates.set(page.routeId, candidates);
+}
+for (const [routeId, candidates] of routeCandidates) {
+  if (candidates.length < 2) continue;
+  for (const page of candidates) {
+    const suffix = page.kind === "type" ? "type" : page.kind === "parameter-group" ? "parameters" : page.callable ? "function" : "guide";
+    page.routeSlug = `${page.routeSlug}-${suffix}`;
+    page.routeId = `${page.sectionId}/${page.routeSlug}`;
+  }
+}
+const pageByRouteId = new Map();
+for (const page of pages) {
+  if (pageByRouteId.has(page.routeId)) fail(`duplicate stable page route: ${page.routeId}`);
+  pageByRouteId.set(page.routeId, page);
+}
 
 function literalErrorCodes(source) {
   const codes = [];

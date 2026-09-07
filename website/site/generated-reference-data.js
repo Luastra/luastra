@@ -3,6 +3,8 @@
 export const generatedPages = Object.freeze([
   {
     "id": "overview/item-1",
+    "routeSlug": "the-four-moving-parts",
+    "routeId": "overview/the-four-moving-parts",
     "kind": "guide",
     "sectionId": "overview",
     "sectionTitle": "Start here: build apps like games",
@@ -28,6 +30,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "overview/item-2",
+    "routeSlug": "choose-your-path",
+    "routeId": "overview/choose-your-path",
     "kind": "guide",
     "sectionId": "overview",
     "sectionTitle": "Start here: build apps like games",
@@ -52,6 +56,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "overview/item-3",
+    "routeSlug": "small-glossary",
+    "routeId": "overview/small-glossary",
     "kind": "guide",
     "sectionId": "overview",
     "sectionTitle": "Start here: build apps like games",
@@ -78,6 +84,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "installation/item-1",
+    "routeSlug": "release-installation-contract",
+    "routeId": "installation/release-installation-contract",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
@@ -103,6 +111,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "installation/item-2",
+    "routeSlug": "offline-installation",
+    "routeId": "installation/offline-installation",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
@@ -131,6 +141,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "installation/item-3",
+    "routeSlug": "system-requirement",
+    "routeId": "installation/system-requirement",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
@@ -151,6 +163,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "installation/item-4",
+    "routeSlug": "make-the-command-available",
+    "routeId": "installation/make-the-command-available",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
@@ -176,6 +190,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "installation/item-5",
+    "routeSlug": "verify-and-manage-sd-ks",
+    "routeId": "installation/verify-and-manage-sd-ks",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
@@ -196,6 +212,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "quickstart/item-1",
+    "routeSlug": "create-and-enter-a-project",
+    "routeId": "quickstart/create-and-enter-a-project",
     "kind": "entry",
     "sectionId": "quickstart",
     "sectionTitle": "Quick start: run your first app",
@@ -221,6 +239,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "quickstart/item-2",
+    "routeSlug": "make-a-visible-change",
+    "routeId": "quickstart/make-a-visible-change",
     "kind": "entry",
     "sectionId": "quickstart",
     "sectionTitle": "Quick start: run your first app",
@@ -241,6 +261,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "quickstart/item-3",
+    "routeSlug": "check-and-test",
+    "routeId": "quickstart/check-and-test",
     "kind": "entry",
     "sectionId": "quickstart",
     "sectionTitle": "Quick start: run your first app",
@@ -266,6 +288,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "quickstart/item-4",
+    "routeSlug": "preview-and-interact",
+    "routeId": "quickstart/preview-and-interact",
     "kind": "entry",
     "sectionId": "quickstart",
     "sectionTitle": "Quick start: run your first app",
@@ -291,6 +315,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "quickstart/item-5",
+    "routeSlug": "build-the-web-target",
+    "routeId": "quickstart/build-the-web-target",
     "kind": "entry",
     "sectionId": "quickstart",
     "sectionTitle": "Quick start: run your first app",
@@ -316,6 +342,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "workflow/item-1",
+    "routeSlug": "create-a-project",
+    "routeId": "workflow/create-a-project",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -336,6 +364,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "workflow/item-2",
+    "routeSlug": "check",
+    "routeId": "workflow/check",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -356,6 +386,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "workflow/item-3",
+    "routeSlug": "run-tests",
+    "routeId": "workflow/run-tests",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -376,6 +408,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "workflow/item-4",
+    "routeSlug": "run-preview",
+    "routeId": "workflow/run-preview",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -396,6 +430,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "workflow/item-5",
+    "routeSlug": "build-web",
+    "routeId": "workflow/build-web",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -421,6 +457,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "workflow/item-6",
+    "routeSlug": "build-bundle",
+    "routeId": "workflow/build-bundle",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -447,6 +485,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipes/item-1",
+    "routeSlug": "recipe-contract",
+    "routeId": "recipes/recipe-contract",
     "kind": "guide",
     "sectionId": "recipes",
     "sectionTitle": "How to use the build recipes",
@@ -473,6 +513,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipes/item-2",
+    "routeSlug": "choose-the-next-recipe",
+    "routeId": "recipes/choose-the-next-recipe",
     "kind": "guide",
     "sectionId": "recipes",
     "sectionTitle": "How to use the build recipes",
@@ -504,6 +546,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-timer/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-timer/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-timer",
     "sectionTitle": "Recipe: run a delayed action",
@@ -524,6 +568,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-timer/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-timer/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-timer",
     "sectionTitle": "Recipe: run a delayed action",
@@ -544,6 +590,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-timer/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-timer/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-timer",
     "sectionTitle": "Recipe: run a delayed action",
@@ -564,6 +612,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-timer/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-timer/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-timer",
     "sectionTitle": "Recipe: run a delayed action",
@@ -584,6 +634,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-timer/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-timer/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-timer",
     "sectionTitle": "Recipe: run a delayed action",
@@ -609,6 +661,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-timer/item-6",
+    "routeSlug": "understand-and-adapt",
+    "routeId": "recipe-timer/understand-and-adapt",
     "kind": "guide",
     "sectionId": "recipe-timer",
     "sectionTitle": "Recipe: run a delayed action",
@@ -634,6 +688,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-navigation/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-navigation/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-navigation",
     "sectionTitle": "Recipe: add typed navigation",
@@ -654,6 +710,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-navigation/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-navigation/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-navigation",
     "sectionTitle": "Recipe: add typed navigation",
@@ -674,6 +732,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-navigation/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-navigation/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-navigation",
     "sectionTitle": "Recipe: add typed navigation",
@@ -694,6 +754,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-navigation/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-navigation/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-navigation",
     "sectionTitle": "Recipe: add typed navigation",
@@ -714,6 +776,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-navigation/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-navigation/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-navigation",
     "sectionTitle": "Recipe: add typed navigation",
@@ -739,6 +803,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-navigation/item-6",
+    "routeSlug": "understand-and-extend",
+    "routeId": "recipe-navigation/understand-and-extend",
     "kind": "guide",
     "sectionId": "recipe-navigation",
     "sectionTitle": "Recipe: add typed navigation",
@@ -764,6 +830,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-storage/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-storage/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-storage",
     "sectionTitle": "Recipe: persist and restore state",
@@ -784,6 +852,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-storage/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-storage/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-storage",
     "sectionTitle": "Recipe: persist and restore state",
@@ -804,6 +874,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-storage/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-storage/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-storage",
     "sectionTitle": "Recipe: persist and restore state",
@@ -824,6 +896,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-storage/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-storage/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-storage",
     "sectionTitle": "Recipe: persist and restore state",
@@ -844,6 +918,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-storage/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-storage/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-storage",
     "sectionTitle": "Recipe: persist and restore state",
@@ -869,6 +945,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-storage/item-6",
+    "routeSlug": "understand-and-extend",
+    "routeId": "recipe-storage/understand-and-extend",
     "kind": "guide",
     "sectionId": "recipe-storage",
     "sectionTitle": "Recipe: persist and restore state",
@@ -894,6 +972,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-history/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-history/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-history",
     "sectionTitle": "Recipe: synchronize Browser and system Back",
@@ -914,6 +994,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-history/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-history/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-history",
     "sectionTitle": "Recipe: synchronize Browser and system Back",
@@ -934,6 +1016,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-history/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-history/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-history",
     "sectionTitle": "Recipe: synchronize Browser and system Back",
@@ -954,6 +1038,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-history/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-history/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-history",
     "sectionTitle": "Recipe: synchronize Browser and system Back",
@@ -974,6 +1060,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-history/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-history/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-history",
     "sectionTitle": "Recipe: synchronize Browser and system Back",
@@ -999,6 +1087,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-history/item-6",
+    "routeSlug": "understand-the-arbitration",
+    "routeId": "recipe-history/understand-the-arbitration",
     "kind": "guide",
     "sectionId": "recipe-history",
     "sectionTitle": "Recipe: synchronize Browser and system Back",
@@ -1024,6 +1114,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-form-modal/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-form-modal/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-form-modal",
     "sectionTitle": "Recipe: validate a form and confirm in a modal",
@@ -1044,6 +1136,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-form-modal/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-form-modal/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-form-modal",
     "sectionTitle": "Recipe: validate a form and confirm in a modal",
@@ -1064,6 +1158,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-form-modal/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-form-modal/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-form-modal",
     "sectionTitle": "Recipe: validate a form and confirm in a modal",
@@ -1084,6 +1180,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-form-modal/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-form-modal/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-form-modal",
     "sectionTitle": "Recipe: validate a form and confirm in a modal",
@@ -1104,6 +1202,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-form-modal/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-form-modal/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-form-modal",
     "sectionTitle": "Recipe: validate a form and confirm in a modal",
@@ -1129,6 +1229,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-form-modal/item-6",
+    "routeSlug": "understand-the-boundaries",
+    "routeId": "recipe-form-modal/understand-the-boundaries",
     "kind": "guide",
     "sectionId": "recipe-form-modal",
     "sectionTitle": "Recipe: validate a form and confirm in a modal",
@@ -1155,6 +1257,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-assets-visuals/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-assets-visuals/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-assets-visuals",
     "sectionTitle": "Recipe: package an image and compose visuals",
@@ -1179,6 +1283,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-assets-visuals/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-assets-visuals/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-assets-visuals",
     "sectionTitle": "Recipe: package an image and compose visuals",
@@ -1199,6 +1305,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-assets-visuals/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-assets-visuals/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-assets-visuals",
     "sectionTitle": "Recipe: package an image and compose visuals",
@@ -1219,6 +1327,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-assets-visuals/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-assets-visuals/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-assets-visuals",
     "sectionTitle": "Recipe: package an image and compose visuals",
@@ -1239,6 +1349,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-assets-visuals/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-assets-visuals/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-assets-visuals",
     "sectionTitle": "Recipe: package an image and compose visuals",
@@ -1264,6 +1376,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-assets-visuals/item-6",
+    "routeSlug": "understand-the-boundaries",
+    "routeId": "recipe-assets-visuals/understand-the-boundaries",
     "kind": "guide",
     "sectionId": "recipe-assets-visuals",
     "sectionTitle": "Recipe: package an image and compose visuals",
@@ -1290,6 +1404,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-motion/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-motion/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-motion",
     "sectionTitle": "Recipe: replay declarative motion",
@@ -1310,6 +1426,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-motion/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-motion/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-motion",
     "sectionTitle": "Recipe: replay declarative motion",
@@ -1330,6 +1448,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-motion/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-motion/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-motion",
     "sectionTitle": "Recipe: replay declarative motion",
@@ -1350,6 +1470,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-motion/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-motion/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-motion",
     "sectionTitle": "Recipe: replay declarative motion",
@@ -1370,6 +1492,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-motion/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-motion/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-motion",
     "sectionTitle": "Recipe: replay declarative motion",
@@ -1396,6 +1520,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-motion/item-6",
+    "routeSlug": "understand-the-boundaries",
+    "routeId": "recipe-motion/understand-the-boundaries",
     "kind": "guide",
     "sectionId": "recipe-motion",
     "sectionTitle": "Recipe: replay declarative motion",
@@ -1422,6 +1548,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-server/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1442,6 +1570,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-server/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1462,6 +1592,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-3",
+    "routeSlug": "create-backend-functions-json",
+    "routeId": "recipe-server/create-backend-functions-json",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1487,6 +1619,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-4",
+    "routeSlug": "create-backend-handlers-mjs",
+    "routeId": "recipe-server/create-backend-handlers-mjs",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1512,6 +1646,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-5",
+    "routeSlug": "generate-the-typed-luau-client",
+    "routeId": "recipe-server/generate-the-typed-luau-client",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1537,6 +1673,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-6",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-server/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1557,6 +1695,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-7",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-server/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1577,6 +1717,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-8",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-server/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1603,6 +1745,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-9",
+    "routeSlug": "follow-one-request",
+    "routeId": "recipe-server/follow-one-request",
     "kind": "guide",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1629,6 +1773,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-server/item-10",
+    "routeSlug": "keep-the-production-boundary-honest",
+    "routeId": "recipe-server/keep-the-production-boundary-honest",
     "kind": "guide",
     "sectionId": "recipe-server",
     "sectionTitle": "Recipe: call a server function",
@@ -1655,6 +1801,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-1",
+    "routeSlug": "create-the-project-and-copy-audio",
+    "routeId": "recipe-media/create-the-project-and-copy-audio",
     "kind": "entry",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1679,6 +1827,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-media/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1699,6 +1849,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-media/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1719,6 +1871,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-media/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1739,6 +1893,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-media/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1765,6 +1921,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-6",
+    "routeSlug": "separate-command-completion-from-live-truth",
+    "routeId": "recipe-media/separate-command-completion-from-live-truth",
     "kind": "guide",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1791,6 +1949,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-7",
+    "routeSlug": "understand-sources-and-queues",
+    "routeId": "recipe-media/understand-sources-and-queues",
     "kind": "guide",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1817,6 +1977,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-media/item-8",
+    "routeSlug": "keep-host-claims-evidence-bound",
+    "routeId": "recipe-media/keep-host-claims-evidence-bound",
     "kind": "guide",
     "sectionId": "recipe-media",
     "sectionTitle": "Recipe: play packaged audio",
@@ -1843,6 +2005,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-orbit/create-the-project",
     "kind": "entry",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -1863,6 +2027,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-orbit/replace-luastra-json",
     "kind": "entry",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -1883,6 +2049,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-orbit/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -1903,6 +2071,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-orbit/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -1923,6 +2093,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-orbit/check-and-run",
     "kind": "entry",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -1949,6 +2121,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-6",
+    "routeSlug": "read-the-orbit-anatomy",
+    "routeId": "recipe-orbit/read-the-orbit-anatomy",
     "kind": "guide",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -1975,6 +2149,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-7",
+    "routeSlug": "author-meaning-not-coordinates",
+    "routeId": "recipe-orbit/author-meaning-not-coordinates",
     "kind": "guide",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -2001,6 +2177,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-8",
+    "routeSlug": "add-routing-only-when-ur-ls-matter",
+    "routeId": "recipe-orbit/add-routing-only-when-ur-ls-matter",
     "kind": "guide",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -2026,6 +2204,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "recipe-orbit/item-9",
+    "routeSlug": "verify-presentation-claims-separately",
+    "routeId": "recipe-orbit/verify-presentation-claims-separately",
     "kind": "guide",
     "sectionId": "recipe-orbit",
     "sectionTitle": "Recipe: build a small Constellation Orbit",
@@ -2052,6 +2232,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-1",
+    "routeSlug": "annotations-and-inference",
+    "routeId": "luau-types/annotations-and-inference",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2071,6 +2253,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-2",
+    "routeSlug": "arrays",
+    "routeId": "luau-types/arrays",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2094,6 +2278,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-3",
+    "routeSlug": "dictionaries-and-maps",
+    "routeId": "luau-types/dictionaries-and-maps",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2117,6 +2303,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-4",
+    "routeSlug": "record-types",
+    "routeId": "luau-types/record-types",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2136,6 +2324,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-5",
+    "routeSlug": "enum-like-singleton-unions",
+    "routeId": "luau-types/enum-like-singleton-unions",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2159,6 +2349,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-6",
+    "routeSlug": "optional-values",
+    "routeId": "luau-types/optional-values",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2178,6 +2370,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-7",
+    "routeSlug": "unions-and-type-narrowing",
+    "routeId": "luau-types/unions-and-type-narrowing",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2201,6 +2395,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-8",
+    "routeSlug": "tagged-unions",
+    "routeId": "luau-types/tagged-unions",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2221,6 +2417,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-9",
+    "routeSlug": "generics",
+    "routeId": "luau-types/generics",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2241,6 +2439,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-10",
+    "routeSlug": "function-types",
+    "routeId": "luau-types/function-types",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2260,6 +2460,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-11",
+    "routeSlug": "exported-module-types",
+    "routeId": "luau-types/exported-module-types",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2280,6 +2482,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-12",
+    "routeSlug": "typeof",
+    "routeId": "luau-types/typeof",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2299,6 +2503,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-13",
+    "routeSlug": "intersections",
+    "routeId": "luau-types/intersections",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2318,6 +2524,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-14",
+    "routeSlug": "any-unknown-and-never",
+    "routeId": "luau-types/any-unknown-and-never",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2343,6 +2551,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-15",
+    "routeSlug": "type-casts-with",
+    "routeId": "luau-types/type-casts-with",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2366,6 +2576,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-16",
+    "routeSlug": "runtime-immutability-with-table-freeze",
+    "routeId": "luau-types/runtime-immutability-with-table-freeze",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2390,6 +2602,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/item-17",
+    "routeSlug": "read-analyzer-errors",
+    "routeId": "luau-types/read-analyzer-errors",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2417,6 +2631,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/table-1",
+    "routeSlug": "how-to-read-table-types",
+    "routeId": "luau-types/how-to-read-table-types",
     "kind": "parameter-group",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2458,6 +2674,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "luau-types/table-2",
+    "routeSlug": "how-to-read-a-check-diagnostic",
+    "routeId": "luau-types/how-to-read-a-check-diagnostic",
     "kind": "parameter-group",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -2499,6 +2717,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "beginner-tutorial/create-the-project",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2524,6 +2744,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "beginner-tutorial/replace-luastra-json",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2549,6 +2771,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "beginner-tutorial/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2576,6 +2800,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "beginner-tutorial/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2601,6 +2827,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-5",
+    "routeSlug": "check-before-running",
+    "routeId": "beginner-tutorial/check-before-running",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2627,6 +2855,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-6",
+    "routeSlug": "run-and-verify-the-interface",
+    "routeId": "beginner-tutorial/run-and-verify-the-interface",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2652,6 +2882,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/item-7",
+    "routeSlug": "make-one-safe-change",
+    "routeId": "beginner-tutorial/make-one-safe-change",
     "kind": "guide",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2678,6 +2910,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "beginner-tutorial/table-1",
+    "routeSlug": "how-one-click-becomes-visible-state",
+    "routeId": "beginner-tutorial/how-one-click-becomes-visible-state",
     "kind": "parameter-group",
     "sectionId": "beginner-tutorial",
     "sectionTitle": "Beginner tutorial: build an accessible counter",
@@ -2719,6 +2953,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "advanced-tutorial/create-the-project",
     "kind": "entry",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2744,6 +2980,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "advanced-tutorial/replace-luastra-json",
     "kind": "entry",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2769,6 +3007,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "advanced-tutorial/replace-src-main-luau",
     "kind": "entry",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2796,6 +3036,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "advanced-tutorial/replace-tests-smoke-luau",
     "kind": "entry",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2821,6 +3063,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-5",
+    "routeSlug": "check-the-deterministic-model",
+    "routeId": "advanced-tutorial/check-the-deterministic-model",
     "kind": "entry",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2846,6 +3090,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-6",
+    "routeSlug": "run-the-storage-round-trip",
+    "routeId": "advanced-tutorial/run-the-storage-round-trip",
     "kind": "entry",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2871,6 +3117,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/item-7",
+    "routeSlug": "understand-the-trust-boundaries",
+    "routeId": "advanced-tutorial/understand-the-trust-boundaries",
     "kind": "guide",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2897,6 +3145,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "advanced-tutorial/table-1",
+    "routeSlug": "what-each-verification-proves",
+    "routeId": "advanced-tutorial/what-each-verification-proves",
     "kind": "parameter-group",
     "sectionId": "advanced-tutorial",
     "sectionTitle": "Advanced tutorial: build a routed reading list",
@@ -2933,6 +3183,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "first-app/item-1",
+    "routeSlug": "completion-checklist",
+    "routeId": "first-app/completion-checklist",
     "kind": "guide",
     "sectionId": "first-app",
     "sectionTitle": "Complete mini-app checkpoint",
@@ -2959,6 +3211,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "first-app/item-2",
+    "routeSlug": "choose-the-next-capability",
+    "routeId": "first-app/choose-the-next-capability",
     "kind": "guide",
     "sectionId": "first-app",
     "sectionTitle": "Complete mini-app checkpoint",
@@ -2984,6 +3238,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "application/item-1",
+    "routeSlug": "render",
+    "routeId": "application/render",
     "kind": "function",
     "sectionId": "application",
     "sectionTitle": "Application contract",
@@ -3009,6 +3265,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "application/item-2",
+    "routeSlug": "handle",
+    "routeId": "application/handle",
     "kind": "function",
     "sectionId": "application",
     "sectionTitle": "Application contract",
@@ -3050,6 +3308,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "application/item-3",
+    "routeSlug": "resolve",
+    "routeId": "application/resolve",
     "kind": "function",
     "sectionId": "application",
     "sectionTitle": "Application contract",
@@ -3101,6 +3361,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-1",
+    "routeSlug": "route-handle-events-explicitly",
+    "routeId": "events-errors/route-handle-events-explicitly",
     "kind": "entry",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3127,6 +3389,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-2",
+    "routeSlug": "handle-lifecycle-state",
+    "routeId": "events-errors/handle-lifecycle-state",
     "kind": "entry",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3152,6 +3416,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-3",
+    "routeSlug": "decode-a-system-back-intent",
+    "routeId": "events-errors/decode-a-system-back-intent",
     "kind": "entry",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3178,6 +3444,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-4",
+    "routeSlug": "restore-history-and-opened-ur-ls",
+    "routeId": "events-errors/restore-history-and-opened-ur-ls",
     "kind": "entry",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3204,6 +3472,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-5",
+    "routeSlug": "decode-live-media-state",
+    "routeId": "events-errors/decode-live-media-state",
     "kind": "entry",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3228,6 +3498,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-6",
+    "routeSlug": "correlate-asynchronous-completions",
+    "routeId": "events-errors/correlate-asynchronous-completions",
     "kind": "entry",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3254,6 +3526,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/item-7",
+    "routeSlug": "choose-a-recovery-policy",
+    "routeId": "events-errors/choose-a-recovery-policy",
     "kind": "guide",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3281,6 +3555,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/table-1",
+    "routeSlug": "exact-event-delivery",
+    "routeId": "events-errors/exact-event-delivery",
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3342,6 +3618,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/table-2",
+    "routeSlug": "exact-resolve-delivery",
+    "routeId": "events-errors/exact-resolve-delivery",
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3383,6 +3661,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "events-errors/table-3",
+    "routeSlug": "decoder-and-recovery-map",
+    "routeId": "events-errors/decoder-and-recovery-map",
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
@@ -3429,6 +3709,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-1",
+    "routeSlug": "properties",
+    "routeId": "ui/properties",
     "kind": "type",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -3466,6 +3748,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-2",
+    "routeSlug": "theme",
+    "routeId": "ui/theme",
     "kind": "type",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -3544,6 +3828,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-3",
+    "routeSlug": "node",
+    "routeId": "ui/node",
     "kind": "type",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -3606,6 +3892,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-4",
+    "routeSlug": "screen",
+    "routeId": "ui/screen",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -3845,6 +4133,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-5",
+    "routeSlug": "column",
+    "routeId": "ui/column",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4037,6 +4327,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-6",
+    "routeSlug": "row",
+    "routeId": "ui/row",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4233,6 +4525,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-7",
+    "routeSlug": "text",
+    "routeId": "ui/text",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4396,6 +4690,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-8",
+    "routeSlug": "button",
+    "routeId": "ui/button",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4557,6 +4853,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-9",
+    "routeSlug": "link",
+    "routeId": "ui/link",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4707,6 +5005,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-10",
+    "routeSlug": "code",
+    "routeId": "ui/code",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -4846,6 +5146,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-11",
+    "routeSlug": "code-block",
+    "routeId": "ui/code-block",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5006,6 +5308,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-12",
+    "routeSlug": "divider",
+    "routeId": "ui/divider",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5107,6 +5411,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-13",
+    "routeSlug": "table",
+    "routeId": "ui/table",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5297,6 +5603,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-14",
+    "routeSlug": "table-row",
+    "routeId": "ui/table-row",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5440,6 +5748,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-15",
+    "routeSlug": "table-cell",
+    "routeId": "ui/table-cell",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5605,6 +5915,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-16",
+    "routeSlug": "flip-card",
+    "routeId": "ui/flip-card",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5709,6 +6021,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-17",
+    "routeSlug": "image",
+    "routeId": "ui/image",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -5827,6 +6141,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-18",
+    "routeSlug": "layer",
+    "routeId": "ui/layer",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -6023,6 +6339,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-19",
+    "routeSlug": "shape",
+    "routeId": "ui/shape",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -6151,6 +6469,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-20",
+    "routeSlug": "text-input",
+    "routeId": "ui/text-input",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -6312,6 +6632,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-21",
+    "routeSlug": "list",
+    "routeId": "ui/list",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -6502,6 +6824,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-22",
+    "routeSlug": "list-item",
+    "routeId": "ui/list-item",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -6692,6 +7016,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-23",
+    "routeSlug": "modal",
+    "routeId": "ui/modal",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -6844,6 +7170,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-24",
+    "routeSlug": "orbit",
+    "routeId": "ui/orbit",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7061,6 +7389,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-25",
+    "routeSlug": "orbit-path",
+    "routeId": "ui/orbit-path",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7256,6 +7586,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-26",
+    "routeSlug": "orbit-search",
+    "routeId": "ui/orbit-search",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7384,6 +7716,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-27",
+    "routeSlug": "constellation",
+    "routeId": "ui/constellation",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7483,6 +7817,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-28",
+    "routeSlug": "orbit-center",
+    "routeId": "ui/orbit-center",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7597,6 +7933,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-29",
+    "routeSlug": "orbit-node",
+    "routeId": "ui/orbit-node",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7774,6 +8112,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-30",
+    "routeSlug": "orbit-cluster",
+    "routeId": "ui/orbit-cluster",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -7933,6 +8273,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-31",
+    "routeSlug": "focus-surface",
+    "routeId": "ui/focus-surface",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -8063,6 +8405,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-32",
+    "routeSlug": "focus-header",
+    "routeId": "ui/focus-header",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -8258,6 +8602,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-33",
+    "routeSlug": "orbit-return",
+    "routeId": "ui/orbit-return",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -8388,6 +8734,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-34",
+    "routeSlug": "stack",
+    "routeId": "ui/stack",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -8583,6 +8931,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-35",
+    "routeSlug": "grid",
+    "routeId": "ui/grid",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -8778,6 +9128,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-36",
+    "routeSlug": "scroll",
+    "routeId": "ui/scroll",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -8973,6 +9325,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-37",
+    "routeSlug": "card",
+    "routeId": "ui/card",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -9177,6 +9531,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-38",
+    "routeSlug": "field",
+    "routeId": "ui/field",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -9373,6 +9729,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui/item-39",
+    "routeSlug": "actions",
+    "routeId": "ui/actions",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
@@ -9568,6 +9926,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-1",
+    "routeSlug": "layout-and-surfaces",
+    "routeId": "ui-properties/layout-and-surfaces",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9664,6 +10024,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-2",
+    "routeSlug": "state-and-semantics",
+    "routeId": "ui-properties/state-and-semantics",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9730,6 +10092,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-3",
+    "routeSlug": "text-and-local-colors",
+    "routeId": "ui-properties/text-and-local-colors",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9766,6 +10130,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-4",
+    "routeSlug": "ui-screen-theme",
+    "routeId": "ui-properties/ui-screen-theme",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9827,6 +10193,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-5",
+    "routeSlug": "text-input",
+    "routeId": "ui-properties/text-input",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9878,6 +10246,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-6",
+    "routeSlug": "events-and-motion",
+    "routeId": "ui-properties/events-and-motion",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9914,6 +10284,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "ui-properties/table-7",
+    "routeSlug": "image-shape-and-flip-card",
+    "routeId": "ui-properties/image-shape-and-flip-card",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -9970,6 +10342,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "visuals/item-1",
+    "routeSlug": "admitted-image",
+    "routeId": "visuals/admitted-image",
     "kind": "entry",
     "sectionId": "visuals",
     "sectionTitle": "Images, shapes, layers, and flip cards",
@@ -9989,6 +10363,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "visuals/item-2",
+    "routeSlug": "shape-overlay",
+    "routeId": "visuals/shape-overlay",
     "kind": "entry",
     "sectionId": "visuals",
     "sectionTitle": "Images, shapes, layers, and flip cards",
@@ -10008,6 +10384,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-1",
+    "routeSlug": "easing",
+    "routeId": "motion/easing",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10038,6 +10416,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-2",
+    "routeSlug": "tween-options",
+    "routeId": "motion/tween-options",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10083,6 +10463,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-3",
+    "routeSlug": "tween-type",
+    "routeId": "motion/tween-type",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10133,6 +10515,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-4",
+    "routeSlug": "wait-type",
+    "routeId": "motion/wait-type",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10168,6 +10552,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-5",
+    "routeSlug": "sequence-type",
+    "routeId": "motion/sequence-type",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10208,6 +10594,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-6",
+    "routeSlug": "descriptor",
+    "routeId": "motion/descriptor",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10238,6 +10626,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-7",
+    "routeSlug": "motion-map",
+    "routeId": "motion/motion-map",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10274,6 +10664,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-8",
+    "routeSlug": "tween-function",
+    "routeId": "motion/tween-function",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10330,6 +10722,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-9",
+    "routeSlug": "wait-function",
+    "routeId": "motion/wait-function",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10360,6 +10754,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-10",
+    "routeSlug": "sequence-function",
+    "routeId": "motion/sequence-function",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10399,6 +10795,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-11",
+    "routeSlug": "fade-in",
+    "routeId": "motion/fade-in",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10439,6 +10837,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-12",
+    "routeSlug": "slide-in",
+    "routeId": "motion/slide-in",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10489,6 +10889,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-13",
+    "routeSlug": "scale-in",
+    "routeId": "motion/scale-in",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10534,6 +10936,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-14",
+    "routeSlug": "sway",
+    "routeId": "motion/sway",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10584,6 +10988,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-15",
+    "routeSlug": "pulse",
+    "routeId": "motion/pulse",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10639,6 +11045,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-16",
+    "routeSlug": "shake",
+    "routeId": "motion/shake",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10684,6 +11092,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "motion/item-17",
+    "routeSlug": "flip",
+    "routeId": "motion/flip",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
@@ -10734,6 +11144,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-1",
+    "routeSlug": "image-type",
+    "routeId": "assets/image-type",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10774,6 +11186,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-2",
+    "routeSlug": "audio-type",
+    "routeId": "assets/audio-type",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10814,6 +11228,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-3",
+    "routeSlug": "font-type",
+    "routeId": "assets/font-type",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10854,6 +11270,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-4",
+    "routeSlug": "reference",
+    "routeId": "assets/reference",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10884,6 +11302,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-5",
+    "routeSlug": "image-function",
+    "routeId": "assets/image-function",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10920,6 +11340,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-6",
+    "routeSlug": "audio-function",
+    "routeId": "assets/audio-function",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10956,6 +11378,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-7",
+    "routeSlug": "font-function",
+    "routeId": "assets/font-function",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -10986,6 +11410,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "assets/item-8",
+    "routeSlug": "uri",
+    "routeId": "assets/uri",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
@@ -11026,6 +11452,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-1",
+    "routeSlug": "validation-error",
+    "routeId": "data/validation-error",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11136,6 +11564,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-2",
+    "routeSlug": "success",
+    "routeId": "data/success",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11180,6 +11610,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-3",
+    "routeSlug": "failure",
+    "routeId": "data/failure",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11295,6 +11727,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-4",
+    "routeSlug": "result",
+    "routeId": "data/result",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11404,6 +11838,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-5",
+    "routeSlug": "string-options",
+    "routeId": "data/string-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11448,6 +11884,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-6",
+    "routeSlug": "number-options",
+    "routeId": "data/number-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11488,6 +11926,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-7",
+    "routeSlug": "array-options",
+    "routeId": "data/array-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11523,6 +11963,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-8",
+    "routeSlug": "object-options",
+    "routeId": "data/object-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11553,6 +11995,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-9",
+    "routeSlug": "schema",
+    "routeId": "data/schema",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11603,6 +12047,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-10",
+    "routeSlug": "string",
+    "routeId": "data/string",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11662,6 +12108,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-11",
+    "routeSlug": "number",
+    "routeId": "data/number",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11707,6 +12155,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-12",
+    "routeSlug": "boolean",
+    "routeId": "data/boolean",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11731,6 +12181,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-13",
+    "routeSlug": "array",
+    "routeId": "data/array",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11780,6 +12232,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-14",
+    "routeSlug": "object",
+    "routeId": "data/object",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11826,6 +12280,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-15",
+    "routeSlug": "optional",
+    "routeId": "data/optional",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11860,6 +12316,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "data/item-16",
+    "routeSlug": "decode",
+    "routeId": "data/decode",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
@@ -11907,6 +12365,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-1",
+    "routeSlug": "fields",
+    "routeId": "state/fields",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -11937,6 +12397,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-2",
+    "routeSlug": "decode-error",
+    "routeId": "state/decode-error",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12008,6 +12470,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-3",
+    "routeSlug": "decode-success",
+    "routeId": "state/decode-success",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12059,6 +12523,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-4",
+    "routeSlug": "decode-failure",
+    "routeId": "state/decode-failure",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12145,6 +12611,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-5",
+    "routeSlug": "decode-result",
+    "routeId": "state/decode-result",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12216,6 +12684,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-6",
+    "routeSlug": "migration-error",
+    "routeId": "state/migration-error",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12297,6 +12767,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-7",
+    "routeSlug": "migration-success",
+    "routeId": "state/migration-success",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12355,6 +12827,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-8",
+    "routeSlug": "migration-failure",
+    "routeId": "state/migration-failure",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12456,6 +12930,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-9",
+    "routeSlug": "migration-result",
+    "routeId": "state/migration-result",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12533,6 +13009,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-10",
+    "routeSlug": "migration",
+    "routeId": "state/migration",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12563,6 +13041,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-11",
+    "routeSlug": "encode",
+    "routeId": "state/encode",
     "kind": "entry",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12604,6 +13084,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-12",
+    "routeSlug": "decode",
+    "routeId": "state/decode",
     "kind": "entry",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12645,6 +13127,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "state/item-13",
+    "routeSlug": "migrate",
+    "routeId": "state/migrate",
     "kind": "entry",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
@@ -12685,6 +13169,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-1",
+    "routeSlug": "snapshot",
+    "routeId": "navigation/snapshot",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -12728,6 +13214,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-2",
+    "routeSlug": "restore-error",
+    "routeId": "navigation/restore-error",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -12788,6 +13276,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-3",
+    "routeSlug": "restore-result",
+    "routeId": "navigation/restore-result",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -12853,6 +13343,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-4",
+    "routeSlug": "options",
+    "routeId": "navigation/options",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -12899,6 +13391,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-5",
+    "routeSlug": "stack",
+    "routeId": "navigation/stack",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -12965,6 +13459,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-6",
+    "routeSlug": "route-error",
+    "routeId": "navigation/route-error",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13034,6 +13530,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-7",
+    "routeSlug": "route-entry",
+    "routeId": "navigation/route-entry",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13084,6 +13582,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-8",
+    "routeSlug": "route-result",
+    "routeId": "navigation/route-result",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13168,6 +13668,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-9",
+    "routeSlug": "route-compiler",
+    "routeId": "navigation/route-compiler",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13218,6 +13720,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-10",
+    "routeSlug": "entry-snapshot",
+    "routeId": "navigation/entry-snapshot",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13253,6 +13757,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-11",
+    "routeSlug": "mutation-result",
+    "routeId": "navigation/mutation-result",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13336,6 +13842,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-12",
+    "routeSlug": "entry-stack",
+    "routeId": "navigation/entry-stack",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13431,6 +13939,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-13",
+    "routeSlug": "decide-back",
+    "routeId": "navigation/decide-back",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13485,6 +13995,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-14",
+    "routeSlug": "create",
+    "routeId": "navigation/create",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13538,6 +14050,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-15",
+    "routeSlug": "create-router",
+    "routeId": "navigation/create-router",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13597,6 +14111,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "navigation/item-16",
+    "routeSlug": "compile",
+    "routeId": "navigation/compile",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
@@ -13641,6 +14157,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "timer/item-1",
+    "routeSlug": "request-id",
+    "routeId": "timer/request-id",
     "kind": "type",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
@@ -13679,6 +14197,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "timer/item-2",
+    "routeSlug": "start-options",
+    "routeId": "timer/start-options",
     "kind": "type",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
@@ -13725,6 +14245,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "timer/item-3",
+    "routeSlug": "start",
+    "routeId": "timer/start",
     "kind": "entry",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
@@ -13782,6 +14304,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "timer/item-4",
+    "routeSlug": "restart",
+    "routeId": "timer/restart",
     "kind": "entry",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
@@ -13833,6 +14357,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "timer/item-5",
+    "routeSlug": "cancel",
+    "routeId": "timer/cancel",
     "kind": "entry",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
@@ -13871,6 +14397,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-1",
+    "routeSlug": "request-id",
+    "routeId": "host/request-id",
     "kind": "type",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -13901,6 +14429,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-2",
+    "routeSlug": "storage-get",
+    "routeId": "host/storage-get",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -13937,6 +14467,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-3",
+    "routeSlug": "storage-set",
+    "routeId": "host/storage-set",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -13978,6 +14510,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-4",
+    "routeSlug": "launch-url",
+    "routeId": "host/launch-url",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14002,6 +14536,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-5",
+    "routeSlug": "clipboard-write",
+    "routeId": "host/clipboard-write",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14032,6 +14568,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-6",
+    "routeSlug": "history-push",
+    "routeId": "host/history-push",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14066,6 +14604,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-7",
+    "routeSlug": "history-replace",
+    "routeId": "host/history-replace",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14096,6 +14636,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-8",
+    "routeSlug": "history-push-location",
+    "routeId": "host/history-push-location",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14141,6 +14683,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-9",
+    "routeSlug": "history-replace-location",
+    "routeId": "host/history-replace-location",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14186,6 +14730,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-10",
+    "routeSlug": "history-back",
+    "routeId": "host/history-back",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14210,6 +14756,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-11",
+    "routeSlug": "history-current",
+    "routeId": "host/history-current",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14234,6 +14782,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-12",
+    "routeSlug": "system-back-handled",
+    "routeId": "host/system-back-handled",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14264,6 +14814,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-13",
+    "routeSlug": "system-back-history",
+    "routeId": "host/system-back-history",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14300,6 +14852,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "host/item-14",
+    "routeSlug": "system-back-exit",
+    "routeId": "host/system-back-exit",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
@@ -14336,6 +14890,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-1",
+    "routeSlug": "request-id",
+    "routeId": "server/request-id",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14372,6 +14928,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-2",
+    "routeSlug": "options",
+    "routeId": "server/options",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14418,6 +14976,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-3",
+    "routeSlug": "decode-success",
+    "routeId": "server/decode-success",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14468,6 +15028,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-4",
+    "routeSlug": "decode-failure",
+    "routeId": "server/decode-failure",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14539,6 +15101,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-5",
+    "routeSlug": "decode-result",
+    "routeId": "server/decode-result",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14602,6 +15166,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-6",
+    "routeSlug": "call",
+    "routeId": "server/call",
     "kind": "entry",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14669,6 +15235,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "server/item-7",
+    "routeSlug": "decode",
+    "routeId": "server/decode",
     "kind": "entry",
     "sectionId": "server",
     "sectionTitle": "Server functions",
@@ -14715,6 +15283,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-1",
+    "routeSlug": "request-id",
+    "routeId": "media/request-id",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -14753,6 +15323,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-2",
+    "routeSlug": "queue-item",
+    "routeId": "media/queue-item",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -14812,6 +15384,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-3",
+    "routeSlug": "media-error",
+    "routeId": "media/media-error",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -14852,6 +15426,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-4",
+    "routeSlug": "state-type",
+    "routeId": "media/state-type",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -14963,6 +15539,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-5",
+    "routeSlug": "decode-success",
+    "routeId": "media/decode-success",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15013,6 +15591,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-6",
+    "routeSlug": "decode-failure",
+    "routeId": "media/decode-failure",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15086,6 +15666,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-7",
+    "routeSlug": "decode-result",
+    "routeId": "media/decode-result",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15151,6 +15733,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-8",
+    "routeSlug": "set-queue",
+    "routeId": "media/set-queue",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15222,6 +15806,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-9",
+    "routeSlug": "play",
+    "routeId": "media/play",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15260,6 +15846,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-10",
+    "routeSlug": "pause",
+    "routeId": "media/pause",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15296,6 +15884,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-11",
+    "routeSlug": "stop",
+    "routeId": "media/stop",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15326,6 +15916,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-12",
+    "routeSlug": "unload",
+    "routeId": "media/unload",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15358,6 +15950,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-13",
+    "routeSlug": "next",
+    "routeId": "media/next",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15388,6 +15982,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-14",
+    "routeSlug": "previous",
+    "routeId": "media/previous",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15416,6 +16012,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-15",
+    "routeSlug": "state-function",
+    "routeId": "media/state-function",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15450,6 +16048,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-16",
+    "routeSlug": "seek",
+    "routeId": "media/seek",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15490,6 +16090,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "media/item-17",
+    "routeSlug": "decode-state",
+    "routeId": "media/decode-state",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
@@ -15536,6 +16138,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "debug/item-1",
+    "routeSlug": "log",
+    "routeId": "debug/log",
     "kind": "entry",
     "sectionId": "debug",
     "sectionTitle": "Debug output",
@@ -15566,6 +16170,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "debug/item-2",
+    "routeSlug": "warn",
+    "routeId": "debug/warn",
     "kind": "entry",
     "sectionId": "debug",
     "sectionTitle": "Debug output",
@@ -15596,6 +16202,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "debug/item-3",
+    "routeSlug": "error",
+    "routeId": "debug/error",
     "kind": "entry",
     "sectionId": "debug",
     "sectionTitle": "Debug output",
@@ -15626,6 +16234,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "cli/table-1",
+    "routeSlug": "commands-and-outputs",
+    "routeId": "cli/commands-and-outputs",
     "kind": "parameter-group",
     "sectionId": "cli",
     "sectionTitle": "Command line",
@@ -15717,6 +16327,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "manifest/item-1",
+    "routeSlug": "minimal-manifest",
+    "routeId": "manifest/minimal-manifest",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -15737,6 +16349,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "manifest/item-2",
+    "routeSlug": "web-metadata",
+    "routeId": "manifest/web-metadata",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -15762,6 +16376,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "manifest/item-3",
+    "routeSlug": "assets",
+    "routeId": "manifest/assets",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -15782,6 +16398,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "manifest/item-4",
+    "routeSlug": "capabilities",
+    "routeId": "manifest/capabilities",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -15802,6 +16420,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "manifest/item-5",
+    "routeSlug": "backend",
+    "routeId": "manifest/backend",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -15822,6 +16442,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "support/table-1",
+    "routeSlug": "current-evidence-boundary",
+    "routeId": "support/current-evidence-boundary",
     "kind": "parameter-group",
     "sectionId": "support",
     "sectionTitle": "Support and boundaries",
@@ -15867,6 +16489,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-1",
+    "routeSlug": "contact-routes",
+    "routeId": "policies/contact-routes",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -15892,6 +16516,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-2",
+    "routeSlug": "security-policy",
+    "routeId": "policies/security-policy",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -15917,6 +16543,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-3",
+    "routeSlug": "support-policy",
+    "routeId": "policies/support-policy",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -15942,6 +16570,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-4",
+    "routeSlug": "privacy-notice",
+    "routeId": "policies/privacy-notice",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -15967,6 +16597,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-5",
+    "routeSlug": "licensing-boundary",
+    "routeId": "policies/licensing-boundary",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -15992,6 +16624,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-6",
+    "routeSlug": "trademark-policy",
+    "routeId": "policies/trademark-policy",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -16017,6 +16651,8 @@ export const generatedPages = Object.freeze([
   },
   {
     "id": "policies/item-7",
+    "routeSlug": "releases",
+    "routeId": "policies/releases",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",

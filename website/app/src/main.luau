@@ -46,8 +46,12 @@ local targetSections: {[string]: string} = {}
 
 local sectionByIdMap: {[string]: any} = {}
 local pageById: {[string]: any} = {}
+local pageByRouteId: {[string]: any} = {}
 for _, section in ReferenceData.sections do sectionByIdMap[section.id] = section end
-for _, page in ReferenceData.pages do pageById[page.id] = page end
+for _, page in ReferenceData.pages do
+    pageById[page.id] = page
+    pageByRouteId[page.routeId] = page
+end
 
 local routeCompiler = Navigation.compile {
     { name = "home", path = "/" },
@@ -57,7 +61,8 @@ local routeCompiler = Navigation.compile {
     { name = "product-detail", path = "/product/:topic", params = { topic = { type = "enum", values = { "install", "quickstart", "learn", "ui", "state", "hosts" } } } },
     { name = "example-detail", path = "/examples/:example", params = { example = { type = "enum", values = { "catalogue", "orbit", "meditation", "forms", "media", "routing", "visuals", "debug" } } } },
     { name = "docs", path = "/docs/:section", params = { section = { type = "string", maximumLength = 64 } } },
-    { name = "reference", path = "/reference/:page", params = { page = { type = "string", maximumLength = 128 } } },
+    { name = "reference", path = "/reference/:section/:symbol", params = { section = { type = "string", maximumLength = 64 }, symbol = { type = "string", maximumLength = 96 } } },
+    { name = "reference-legacy", path = "/reference/:page", params = { page = { type = "string", maximumLength = 128 } } },
 }
 local homeEntry = table.freeze({ name = "home", params = table.freeze({}), query = table.freeze({}) })
 local navigation = Navigation.createRouter { compiler = routeCompiler, initial = homeEntry }
@@ -148,11 +153,18 @@ local function applyRoute(): boolean
         selectedPageId = nil
         selectedSection = tostring(entry.params.section)
         return sectionById(selectedSection) ~= nil
-    elseif entry.name == "reference" then
-        local pageId = tostring(entry.params.page)
-        if pageById[pageId] == nil then return false end
+    elseif entry.name == "reference" or entry.name == "reference-legacy" then
+        local routeId = if entry.name == "reference"
+            then tostring(entry.params.section) .. "/" .. tostring(entry.params.symbol)
+            else tostring(entry.params.page)
+        local page = pageByRouteId[routeId] or pageById[routeId]
+        if page == nil then return false end
+        if entry.name ~= "reference" or routeId ~= page.routeId then
+            local canonical = navigation.replace({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} })
+            if not canonical.success then return false end
+        end
         showingLanding = false
-        selectedPageId = pageId
+        selectedPageId = page.id
         return true
     end
     return false
@@ -201,7 +213,14 @@ local function applyUrl(value: string, appendHistory: boolean): boolean
     local entry = matched.entry :: any
     local params = entry.params :: any
     if entry.name == "docs" and sectionById(tostring(params.section)) == nil then return false end
-    if entry.name == "reference" and pageById[tostring(params.page)] == nil then return false end
+    if entry.name == "reference" or entry.name == "reference-legacy" then
+        local routeId = if entry.name == "reference"
+            then tostring(params.section) .. "/" .. tostring(params.symbol)
+            else tostring(params.page)
+        local page = pageByRouteId[routeId] or pageById[routeId]
+        if page == nil then return false end
+        entry = { name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }
+    end
     local result = appendHistory and navigation.push(entry) or navigation.replace(entry)
     if not result.success or not applyRoute() then return false end
     if historyEstablished then
@@ -261,11 +280,13 @@ local function navigateBack(fallback: any)
 end
 
 local function link(id: string, text: string, pageId: string): UI.Node
+    local page = pageById[pageId]
+    assert(page ~= nil, "site link page is invalid")
     targetPages[id] = pageId
     return UI.Link {
         id = id,
         text = text,
-        href = hrefFor({ name = "reference", params = { page = pageId }, query = {} }),
+        href = hrefFor({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }),
         onTap = "docs.open-page",
     }
 end
@@ -925,7 +946,8 @@ function Application.handle(action: string, target: string, value: string)
         query = ""
     elseif action == "docs.open-page" then
         local pageId = targetPages[target]
-        if pageId ~= nil then pushEntry({ name = "reference", params = { page = pageId }, query = {} }) end
+        local page = if pageId ~= nil then pageById[pageId] else nil
+        if page ~= nil then pushEntry({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }) end
     elseif action == "docs.open-section" then
         local sectionId = targetSections[target]
         if sectionId ~= nil then pushEntry({ name = "docs", params = { section = sectionId }, query = {} }) end

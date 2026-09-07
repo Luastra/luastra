@@ -100,8 +100,8 @@ async function route(client, hash, ready) {
   await delay(80);
 }
 
-function referenceHash(pageId) {
-  return `#/reference/${encodeURIComponent(pageId)}`;
+function referenceHash(routeId) {
+  return `#/reference/${routeId}`;
 }
 
 async function auditDetailSequence(client) {
@@ -113,17 +113,17 @@ async function auditDetailSequence(client) {
     }
   }
   const pages = sections.get("beginner-tutorial");
-  await route(client, referenceHash(pages[0].id), `location.hash === ${JSON.stringify(referenceHash(pages[0].id))} && Boolean(document.querySelector('[data-luastra-id="docs/detail"]'))`);
+  await route(client, referenceHash(pages[0].routeId), `location.hash === ${JSON.stringify(referenceHash(pages[0].routeId))} && Boolean(document.querySelector('[data-luastra-id="docs/detail"]'))`);
   let browserForwardClicks = 0;
   let browserBackwardClicks = 0;
   for (let index = 1; index < pages.length; index += 1) {
-    const expected = referenceHash(pages[index].id);
+    const expected = referenceHash(pages[index].routeId);
     await evaluate(client, `document.querySelector('[data-luastra-id="docs/detail/next"]')?.click()`);
     await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail Next ${expected}`);
     browserForwardClicks += 1;
   }
   for (let index = pages.length - 2; index >= 0; index -= 1) {
-    const expected = referenceHash(pages[index].id);
+    const expected = referenceHash(pages[index].routeId);
     await evaluate(client, `document.querySelector('[data-luastra-id="docs/detail/previous"]')?.click()`);
     await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail Previous ${expected}`);
     browserBackwardClicks += 1;
@@ -132,7 +132,7 @@ async function auditDetailSequence(client) {
   for (let index = 0; index < 40; index += 1) {
     const movingForward = index % 2 === 0;
     const selector = movingForward ? "next" : "previous";
-    const expected = referenceHash(pages[movingForward ? 1 : 0].id);
+    const expected = referenceHash(pages[movingForward ? 1 : 0].routeId);
     await evaluate(client, `document.querySelector('[data-luastra-id="docs/detail/${selector}"]')?.click()`);
     await waitFor(client, `location.hash === ${JSON.stringify(expected)}`, `detail overflow ${selector} ${expected}`);
     browserOverflowClicks += 1;
@@ -414,10 +414,10 @@ async function main() {
     await route(client, "#/docs/ui", "location.hash === '#/docs/ui' && Boolean(document.querySelector('[data-luastra-id=\"docs/pages/ui\"]'))");
     await evaluate(client, `(() => {
       window.scrollTo(0, document.documentElement.scrollHeight);
-      document.querySelector('[data-luastra-id^="docs/page-link-"][href="#/reference/ui%2Fitem-8"]')?.click();
+      document.querySelector('[data-luastra-id^="docs/page-link-"][href="#/reference/ui/button"]')?.click();
       return true;
     })()`);
-    await waitFor(client, "location.hash === '#/reference/ui%2Fitem-8' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail\"]'))", "detail navigation");
+    await waitFor(client, "location.hash === '#/reference/ui/button' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail\"]'))", "detail navigation");
     await delay(80);
     const detailOpenedAtTop = await evaluate(client, "window.scrollY <= 1");
     const wheelTarget = await evaluate(client, `(() => {
@@ -456,7 +456,13 @@ async function main() {
         errors: [...(window.__luastraSiteAudit?.errors ?? [])],
       };
     })()`);
-    await route(client, "#/reference/ui%2Fitem-7", "location.hash === '#/reference/ui%2Fitem-7' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/recipe/link\"]'))");
+    await route(client, "#/reference/ui%2Fitem-8", "location.hash === '#/reference/ui/button' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail\"]'))");
+    const legacyReferenceRedirect = await evaluate(client, `({
+      hash: location.hash,
+      title: document.querySelector('[data-luastra-id="docs/detail/title"]')?.textContent?.trim() ?? null,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    })`);
+    await route(client, "#/reference/ui/text", "location.hash === '#/reference/ui/text' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/recipe/link\"]'))");
     const recipeLinkBounds = await evaluate(client, `(() => {
       const node = document.querySelector('[data-luastra-id="docs/detail/recipe/link"]');
       node?.scrollIntoView({ block: 'center' });
@@ -480,7 +486,7 @@ async function main() {
       const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
       return { hovered: link?.matches(':hover') === true, foreground, background, contrast: (values[0] + .05) / (values[1] + .05) };
     })()`);
-    await route(client, "#/reference/data%2Fitem-4", "location.hash === '#/reference/data%2Fitem-4' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/error-codes/row-17\"]'))");
+    await route(client, "#/reference/data/result", "location.hash === '#/reference/data/result' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/error-codes/row-17\"]'))");
     const dataResult = await evaluate(client, `(() => ({
       rows: [...document.querySelectorAll('[data-luastra-id^="docs/detail/error-codes/row-"]')]
         .filter((node) => !node.dataset.luastraId.slice('docs/detail/error-codes/row-'.length).includes('/')).length,
@@ -489,7 +495,7 @@ async function main() {
       scrollContained: getComputedStyle(document.querySelector('[data-luastra-id="docs/detail/error-codes-scroll"]')).overflowX === 'auto',
       errors: [...(window.__luastraSiteAudit?.errors ?? [])],
     }))()`);
-    await route(client, "#/reference/media%2Fitem-3", "location.hash === '#/reference/media%2Fitem-3' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/error-codes-note\"]'))");
+    await route(client, "#/reference/media/media-error", "location.hash === '#/reference/media/media-error' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/error-codes-note\"]'))");
     const mediaError = await evaluate(client, `(() => ({
       hasClosedTable: document.querySelector('[data-luastra-id="docs/detail/error-codes"]') !== null,
       note: document.querySelector('[data-luastra-id="docs/detail/error-codes-note"]')?.textContent?.trim() ?? null,
@@ -530,20 +536,21 @@ async function main() {
         advancedTutorial.detailLinks === 8 &&
         JSON.stringify(advancedTutorial.relatedLinks) === JSON.stringify(["#/docs/recipe-navigation", "#/docs/recipe-storage", "#/docs/recipe-history"]) &&
         advancedTutorial.horizontalOverflow === 0 && typingGuide.title === "Luau typing quick reference" &&
-        typingGuide.detailLinks === 19 && typingGuide.analyzerLink === "#/reference/luau-types%2Fitem-17" && typingGuide.horizontalOverflow === 0 &&
+        typingGuide.detailLinks === 19 && typingGuide.analyzerLink === "#/reference/luau-types/read-analyzer-errors" && typingGuide.horizontalOverflow === 0 &&
         eventsGuide.title === "Events and errors" && eventsGuide.detailLinks === 10 && eventsGuide.relatedLinks.length === 4 &&
         eventsGuide.relatedLinks.every((href) => href?.startsWith("#/docs/recipe-")) && eventsGuide.horizontalOverflow === 0,
-      documentationDetail: documentationDetail.hash === "#/reference/ui%2Fitem-8" && documentationDetail.horizontalOverflow === 0 &&
+      documentationDetail: documentationDetail.hash === "#/reference/ui/button" && documentationDetail.horizontalOverflow === 0 &&
         documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
         documentationDetail.relatedTitle === "Continue learning" && documentationDetail.companionTitle === "Companions" &&
         documentationDetail.nextStepTitle === "Next steps" && documentationDetail.inventory === "#/docs/ui" &&
-        documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
+        documentationDetail.previous === "#/reference/ui/text" && documentationDetail.next === "#/reference/ui/link" &&
         documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
+        legacyReferenceRedirect.hash === "#/reference/ui/button" && legacyReferenceRedirect.title === "UI.Button" &&
         recipeHover.hovered && recipeHover.contrast >= 4.5,
-      resultTypes: dataResult.rows === 17 && dataResult.producer === "#/reference/data%2Fitem-16" &&
+      resultTypes: dataResult.rows === 17 && dataResult.producer === "#/reference/data/decode" &&
         dataResult.note?.includes("complete closed vocabulary") && dataResult.scrollContained &&
         mediaError.hasClosedTable === false && mediaError.note?.includes("host-specific") &&
-        mediaError.producer === "#/reference/media%2Fitem-17",
+        mediaError.producer === "#/reference/media/decode-state",
       detailNavigationSequence: detailSequence.pages === generatedPages.length &&
         detailSequence.forwardTargets === generatedPages.length - detailSequence.sections &&
         detailSequence.backwardTargets === generatedPages.length - detailSequence.sections &&
@@ -553,7 +560,7 @@ async function main() {
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
         ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...typingGuide.errors,
-        ...eventsGuide.errors, ...documentationDetail.errors, ...exampleDetail.errors, ...exampleDetailContent.errors,
+        ...eventsGuide.errors, ...documentationDetail.errors, ...legacyReferenceRedirect.errors, ...exampleDetail.errors, ...exampleDetailContent.errors,
         ...Object.values(productPages).flatMap((value) => value.errors),
         ...Object.values(resultTypes).flatMap((value) => value.errors)].length === 0,
     };
@@ -577,6 +584,7 @@ async function main() {
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
       documentationOnboarding: { beginnerTutorial, firstAppCheckpoint, advancedTutorial, typingGuide, eventsGuide },
       documentationDetail,
+      legacyReferenceRedirect,
       resultTypes,
       detailSequence,
       recipeHover,
