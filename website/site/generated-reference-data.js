@@ -23,7 +23,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "overview/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "overview/item-2",
@@ -46,7 +47,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "overview/item-1",
     "nextPageId": "overview/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "overview/item-3",
@@ -71,7 +73,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "overview/item-2",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-1",
@@ -95,7 +98,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "installation/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-2",
@@ -122,7 +126,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "installation/item-1",
     "nextPageId": "installation/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-3",
@@ -141,7 +146,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": "installation/item-2",
     "nextPageId": "installation/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-4",
@@ -165,7 +171,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "installation/item-3",
     "nextPageId": "installation/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-5",
@@ -184,7 +191,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": "installation/item-4",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-1",
@@ -208,7 +216,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "quickstart/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-2",
@@ -227,7 +236,8 @@ export const generatedPages = Object.freeze([
     "language": "Luau",
     "previousPageId": "quickstart/item-1",
     "nextPageId": "quickstart/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-3",
@@ -251,7 +261,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "quickstart/item-2",
     "nextPageId": "quickstart/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-4",
@@ -275,7 +286,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "quickstart/item-3",
     "nextPageId": "quickstart/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-5",
@@ -299,7 +311,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "quickstart/item-4",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-1",
@@ -318,7 +331,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "workflow/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-2",
@@ -337,7 +351,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": "workflow/item-1",
     "nextPageId": "workflow/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-3",
@@ -356,7 +371,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": "workflow/item-2",
     "nextPageId": "workflow/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-4",
@@ -375,7 +391,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": "workflow/item-3",
     "nextPageId": "workflow/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-5",
@@ -399,7 +416,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "workflow/item-4",
     "nextPageId": "workflow/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-6",
@@ -424,7 +442,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "workflow/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipes/item-1",
@@ -449,7 +468,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "recipes/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipes/item-2",
@@ -479,7 +499,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipes/item-1",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-timer/item-1",
@@ -498,7 +519,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-timer/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-timer/item-2",
@@ -517,7 +539,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-timer/item-1",
     "nextPageId": "recipe-timer/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-timer/item-3",
@@ -536,7 +559,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-timer/item-2",
     "nextPageId": "recipe-timer/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-timer/item-4",
@@ -555,7 +579,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-timer/item-3",
     "nextPageId": "recipe-timer/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-timer/item-5",
@@ -579,7 +604,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-timer/item-4",
     "nextPageId": "recipe-timer/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-timer/item-6",
@@ -603,7 +629,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-timer/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-navigation/item-1",
@@ -622,7 +649,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-navigation/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-navigation/item-2",
@@ -641,7 +669,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-navigation/item-1",
     "nextPageId": "recipe-navigation/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-navigation/item-3",
@@ -660,7 +689,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-navigation/item-2",
     "nextPageId": "recipe-navigation/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-navigation/item-4",
@@ -679,7 +709,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-navigation/item-3",
     "nextPageId": "recipe-navigation/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-navigation/item-5",
@@ -703,7 +734,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-navigation/item-4",
     "nextPageId": "recipe-navigation/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-navigation/item-6",
@@ -727,7 +759,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-navigation/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-storage/item-1",
@@ -746,7 +779,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-storage/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-storage/item-2",
@@ -765,7 +799,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-storage/item-1",
     "nextPageId": "recipe-storage/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-storage/item-3",
@@ -784,7 +819,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-storage/item-2",
     "nextPageId": "recipe-storage/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-storage/item-4",
@@ -803,7 +839,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-storage/item-3",
     "nextPageId": "recipe-storage/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-storage/item-5",
@@ -827,7 +864,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-storage/item-4",
     "nextPageId": "recipe-storage/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-storage/item-6",
@@ -851,7 +889,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-storage/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-history/item-1",
@@ -870,7 +909,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-history/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-history/item-2",
@@ -889,7 +929,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-history/item-1",
     "nextPageId": "recipe-history/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-history/item-3",
@@ -908,7 +949,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-history/item-2",
     "nextPageId": "recipe-history/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-history/item-4",
@@ -927,7 +969,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-history/item-3",
     "nextPageId": "recipe-history/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-history/item-5",
@@ -951,7 +994,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-history/item-4",
     "nextPageId": "recipe-history/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-history/item-6",
@@ -975,7 +1019,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-history/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-form-modal/item-1",
@@ -994,7 +1039,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-form-modal/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-form-modal/item-2",
@@ -1013,7 +1059,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-form-modal/item-1",
     "nextPageId": "recipe-form-modal/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-form-modal/item-3",
@@ -1032,7 +1079,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-form-modal/item-2",
     "nextPageId": "recipe-form-modal/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-form-modal/item-4",
@@ -1051,7 +1099,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-form-modal/item-3",
     "nextPageId": "recipe-form-modal/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-form-modal/item-5",
@@ -1075,7 +1124,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-form-modal/item-4",
     "nextPageId": "recipe-form-modal/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-form-modal/item-6",
@@ -1100,7 +1150,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-form-modal/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-assets-visuals/item-1",
@@ -1123,7 +1174,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "recipe-assets-visuals/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-assets-visuals/item-2",
@@ -1142,7 +1194,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-assets-visuals/item-1",
     "nextPageId": "recipe-assets-visuals/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-assets-visuals/item-3",
@@ -1161,7 +1214,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-assets-visuals/item-2",
     "nextPageId": "recipe-assets-visuals/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-assets-visuals/item-4",
@@ -1180,7 +1234,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-assets-visuals/item-3",
     "nextPageId": "recipe-assets-visuals/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-assets-visuals/item-5",
@@ -1204,7 +1259,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-assets-visuals/item-4",
     "nextPageId": "recipe-assets-visuals/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-assets-visuals/item-6",
@@ -1229,7 +1285,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-assets-visuals/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-motion/item-1",
@@ -1248,7 +1305,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-motion/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-motion/item-2",
@@ -1267,7 +1325,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-motion/item-1",
     "nextPageId": "recipe-motion/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-motion/item-3",
@@ -1286,7 +1345,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-motion/item-2",
     "nextPageId": "recipe-motion/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-motion/item-4",
@@ -1305,7 +1365,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-motion/item-3",
     "nextPageId": "recipe-motion/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-motion/item-5",
@@ -1330,7 +1391,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-motion/item-4",
     "nextPageId": "recipe-motion/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-motion/item-6",
@@ -1355,7 +1417,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-motion/item-5",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-1",
@@ -1374,7 +1437,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-server/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-2",
@@ -1393,7 +1457,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-server/item-1",
     "nextPageId": "recipe-server/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-3",
@@ -1417,7 +1482,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-server/item-2",
     "nextPageId": "recipe-server/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-4",
@@ -1441,7 +1507,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-server/item-3",
     "nextPageId": "recipe-server/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-5",
@@ -1465,7 +1532,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-server/item-4",
     "nextPageId": "recipe-server/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-6",
@@ -1484,7 +1552,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-server/item-5",
     "nextPageId": "recipe-server/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-7",
@@ -1503,7 +1572,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-server/item-6",
     "nextPageId": "recipe-server/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-8",
@@ -1528,7 +1598,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-server/item-7",
     "nextPageId": "recipe-server/item-9",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-9",
@@ -1553,7 +1624,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-server/item-8",
     "nextPageId": "recipe-server/item-10",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-server/item-10",
@@ -1578,7 +1650,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-server/item-9",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-1",
@@ -1601,7 +1674,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "recipe-media/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-2",
@@ -1620,7 +1694,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-media/item-1",
     "nextPageId": "recipe-media/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-3",
@@ -1639,7 +1714,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-media/item-2",
     "nextPageId": "recipe-media/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-4",
@@ -1658,7 +1734,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-media/item-3",
     "nextPageId": "recipe-media/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-5",
@@ -1683,7 +1760,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-media/item-4",
     "nextPageId": "recipe-media/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-6",
@@ -1708,7 +1786,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-media/item-5",
     "nextPageId": "recipe-media/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-7",
@@ -1733,7 +1812,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-media/item-6",
     "nextPageId": "recipe-media/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-media/item-8",
@@ -1758,7 +1838,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-media/item-7",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-1",
@@ -1777,7 +1858,8 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "previousPageId": null,
     "nextPageId": "recipe-orbit/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-2",
@@ -1796,7 +1878,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "recipe-orbit/item-1",
     "nextPageId": "recipe-orbit/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-3",
@@ -1815,7 +1898,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-orbit/item-2",
     "nextPageId": "recipe-orbit/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-4",
@@ -1834,7 +1918,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "recipe-orbit/item-3",
     "nextPageId": "recipe-orbit/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-5",
@@ -1859,7 +1944,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-orbit/item-4",
     "nextPageId": "recipe-orbit/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-6",
@@ -1884,7 +1970,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-orbit/item-5",
     "nextPageId": "recipe-orbit/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-7",
@@ -1909,7 +1996,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-orbit/item-6",
     "nextPageId": "recipe-orbit/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-8",
@@ -1933,7 +2021,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-orbit/item-7",
     "nextPageId": "recipe-orbit/item-9",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "recipe-orbit/item-9",
@@ -1958,7 +2047,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "recipe-orbit/item-8",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-1",
@@ -1976,7 +2066,8 @@ export const generatedPages = Object.freeze([
     "description": "A colon declares the expected type. Luau can infer obvious local values, while function and module boundaries benefit from explicit annotations.",
     "previousPageId": null,
     "nextPageId": "luau-types/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-2",
@@ -1998,7 +2089,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-1",
     "nextPageId": "luau-types/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-3",
@@ -2020,7 +2112,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-2",
     "nextPageId": "luau-types/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-4",
@@ -2038,7 +2131,8 @@ export const generatedPages = Object.freeze([
     "description": "A table type is Luau's struct-like construct. The analyzer checks required fields and their value types.",
     "previousPageId": "luau-types/item-3",
     "nextPageId": "luau-types/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-5",
@@ -2060,7 +2154,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-4",
     "nextPageId": "luau-types/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-6",
@@ -2078,7 +2173,8 @@ export const generatedPages = Object.freeze([
     "description": "A question mark means that a value may be absent. Narrow away nil before using the value as T.",
     "previousPageId": "luau-types/item-5",
     "nextPageId": "luau-types/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-7",
@@ -2098,6 +2194,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "luau-types/item-8",
     "relatedPageIds": [
       "luau-types/item-12"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -2117,7 +2216,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "luau-types/item-7",
     "nextPageId": "luau-types/item-9",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-9",
@@ -2136,7 +2236,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "luau-types/item-8",
     "nextPageId": "luau-types/item-10",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-10",
@@ -2154,7 +2255,8 @@ export const generatedPages = Object.freeze([
     "description": "Callbacks and ordinary functions can be typed. () after the arrow means the function returns no values.",
     "previousPageId": "luau-types/item-9",
     "nextPageId": "luau-types/item-11",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-11",
@@ -2173,7 +2275,8 @@ export const generatedPages = Object.freeze([
     "wide": true,
     "previousPageId": "luau-types/item-10",
     "nextPageId": "luau-types/item-12",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-12",
@@ -2191,7 +2294,8 @@ export const generatedPages = Object.freeze([
     "description": "Derive a type from an existing value. It is convenient for local configuration; an explicit type is often clearer for a public contract.",
     "previousPageId": "luau-types/item-11",
     "nextPageId": "luau-types/item-13",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-13",
@@ -2209,7 +2313,8 @@ export const generatedPages = Object.freeze([
     "description": "Require a value to satisfy both types, which is useful when combining small reusable contracts.",
     "previousPageId": "luau-types/item-12",
     "nextPageId": "luau-types/item-14",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-14",
@@ -2233,7 +2338,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-13",
     "nextPageId": "luau-types/item-15",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-15",
@@ -2255,7 +2361,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-14",
     "nextPageId": "luau-types/item-16",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-16",
@@ -2278,7 +2385,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-15",
     "nextPageId": "luau-types/item-17",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-17",
@@ -2304,7 +2412,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-16",
     "nextPageId": "luau-types/table-1",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/table-1",
@@ -2344,7 +2453,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/item-17",
     "nextPageId": "luau-types/table-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/table-2",
@@ -2384,7 +2494,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "luau-types/table-1",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-1",
@@ -2408,7 +2519,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "beginner-tutorial/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-2",
@@ -2432,7 +2544,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-1",
     "nextPageId": "beginner-tutorial/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-3",
@@ -2458,7 +2571,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-2",
     "nextPageId": "beginner-tutorial/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-4",
@@ -2482,7 +2596,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-3",
     "nextPageId": "beginner-tutorial/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-5",
@@ -2507,7 +2622,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-4",
     "nextPageId": "beginner-tutorial/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-6",
@@ -2531,7 +2647,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-5",
     "nextPageId": "beginner-tutorial/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-7",
@@ -2556,7 +2673,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-6",
     "nextPageId": "beginner-tutorial/table-1",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/table-1",
@@ -2596,7 +2714,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "beginner-tutorial/item-7",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-1",
@@ -2620,7 +2739,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "advanced-tutorial/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-2",
@@ -2644,7 +2764,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-1",
     "nextPageId": "advanced-tutorial/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-3",
@@ -2670,7 +2791,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-2",
     "nextPageId": "advanced-tutorial/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-4",
@@ -2694,7 +2816,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-3",
     "nextPageId": "advanced-tutorial/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-5",
@@ -2718,7 +2841,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-4",
     "nextPageId": "advanced-tutorial/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-6",
@@ -2742,7 +2866,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-5",
     "nextPageId": "advanced-tutorial/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-7",
@@ -2767,7 +2892,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-6",
     "nextPageId": "advanced-tutorial/table-1",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/table-1",
@@ -2802,7 +2928,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "advanced-tutorial/item-7",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "first-app/item-1",
@@ -2827,7 +2954,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "first-app/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "first-app/item-2",
@@ -2851,7 +2979,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "first-app/item-1",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "application/item-1",
@@ -2875,7 +3004,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": null,
     "nextPageId": "application/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "application/item-2",
@@ -2915,7 +3045,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "application/item-1",
     "nextPageId": "application/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "application/item-3",
@@ -2965,7 +3096,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "application/item-2",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-1",
@@ -2990,7 +3122,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "events-errors/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-2",
@@ -3014,7 +3147,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-1",
     "nextPageId": "events-errors/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-3",
@@ -3039,7 +3173,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-2",
     "nextPageId": "events-errors/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-4",
@@ -3064,7 +3199,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-3",
     "nextPageId": "events-errors/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-5",
@@ -3087,7 +3223,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-4",
     "nextPageId": "events-errors/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-6",
@@ -3112,7 +3249,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-5",
     "nextPageId": "events-errors/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/item-7",
@@ -3138,7 +3276,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-6",
     "nextPageId": "events-errors/table-1",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/table-1",
@@ -3198,7 +3337,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/item-7",
     "nextPageId": "events-errors/table-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/table-2",
@@ -3238,7 +3378,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/table-1",
     "nextPageId": "events-errors/table-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/table-3",
@@ -3283,7 +3424,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "events-errors/table-2",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui/item-1",
@@ -3319,7 +3461,8 @@ export const generatedPages = Object.freeze([
     "description": "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently.",
     "previousPageId": null,
     "nextPageId": "ui/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui/item-2",
@@ -3393,6 +3536,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "ui/item-4",
       "ui/item-5"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -3452,6 +3599,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "ui/item-4",
     "relatedPageIds": [
       "ui/item-5"
+    ],
+    "relatedPageRoles": [
+      "next-step"
     ]
   },
   {
@@ -3687,6 +3837,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "ui/item-2",
       "ui/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -3873,6 +4027,12 @@ export const generatedPages = Object.freeze([
       "ui/item-3",
       "ui/item-34",
       "ui/item-35"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -4064,6 +4224,11 @@ export const generatedPages = Object.freeze([
       "ui/item-34",
       "ui/item-35",
       "ui/item-36"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "next-step"
     ]
   },
   {
@@ -4221,6 +4386,12 @@ export const generatedPages = Object.freeze([
       "ui/item-11",
       "ui/item-17",
       "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -4377,6 +4548,11 @@ export const generatedPages = Object.freeze([
       "ui/item-39",
       "ui/item-38",
       "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion",
+      "next-step"
     ]
   },
   {
@@ -4522,6 +4698,11 @@ export const generatedPages = Object.freeze([
       "ui/item-39",
       "ui/item-38",
       "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -4656,6 +4837,11 @@ export const generatedPages = Object.freeze([
       "ui/item-7",
       "ui/item-17",
       "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -4811,6 +4997,11 @@ export const generatedPages = Object.freeze([
       "ui/item-7",
       "ui/item-17",
       "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -4911,7 +5102,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui/item-11",
     "nextPageId": "ui/item-13",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui/item-13",
@@ -5096,6 +5288,11 @@ export const generatedPages = Object.freeze([
       "ui/item-15",
       "ui/item-21",
       "ui/item-22"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -5235,6 +5432,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "ui/item-21",
       "ui/item-22"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
     ]
   },
   {
@@ -5395,6 +5596,11 @@ export const generatedPages = Object.freeze([
       "ui/item-13",
       "ui/item-21",
       "ui/item-22"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -5494,6 +5700,11 @@ export const generatedPages = Object.freeze([
       "ui/item-18",
       "ui/item-37",
       "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -5606,6 +5817,12 @@ export const generatedPages = Object.freeze([
       "ui/item-10",
       "ui/item-11",
       "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -5797,6 +6014,11 @@ export const generatedPages = Object.freeze([
       "ui/item-16",
       "ui/item-37",
       "ui/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -5919,6 +6141,12 @@ export const generatedPages = Object.freeze([
       "ui/item-10",
       "ui/item-11",
       "ui/item-17"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -6077,6 +6305,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "ui/item-21",
     "relatedPageIds": [
       "ui/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -6262,6 +6493,11 @@ export const generatedPages = Object.freeze([
       "ui/item-13",
       "ui/item-14",
       "ui/item-15"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -6447,6 +6683,11 @@ export const generatedPages = Object.freeze([
       "ui/item-13",
       "ui/item-14",
       "ui/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -6593,6 +6834,12 @@ export const generatedPages = Object.freeze([
       "ui/item-9",
       "ui/item-39",
       "ui/item-38"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -6804,6 +7051,12 @@ export const generatedPages = Object.freeze([
       "ui/item-27",
       "ui/item-28",
       "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -6994,6 +7247,11 @@ export const generatedPages = Object.freeze([
       "ui/item-27",
       "ui/item-28",
       "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -7117,6 +7375,11 @@ export const generatedPages = Object.freeze([
       "ui/item-24",
       "ui/item-28",
       "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -7211,6 +7474,11 @@ export const generatedPages = Object.freeze([
       "ui/item-24",
       "ui/item-25",
       "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -7320,6 +7588,11 @@ export const generatedPages = Object.freeze([
       "ui/item-24",
       "ui/item-25",
       "ui/item-26"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -7491,6 +7764,12 @@ export const generatedPages = Object.freeze([
       "ui/item-25",
       "ui/item-26",
       "ui/item-27"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion",
+      "next-step"
     ]
   },
   {
@@ -7645,6 +7924,11 @@ export const generatedPages = Object.freeze([
       "ui/item-32",
       "ui/item-33",
       "ui/item-24"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -7770,6 +8054,11 @@ export const generatedPages = Object.freeze([
       "ui/item-29",
       "ui/item-33",
       "ui/item-8"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -7960,6 +8249,11 @@ export const generatedPages = Object.freeze([
       "ui/item-29",
       "ui/item-30",
       "ui/item-8"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -8085,6 +8379,11 @@ export const generatedPages = Object.freeze([
       "ui/item-29",
       "ui/item-30",
       "ui/item-31"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -8275,6 +8574,11 @@ export const generatedPages = Object.freeze([
       "ui/item-5",
       "ui/item-6",
       "ui/item-36"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -8465,6 +8769,11 @@ export const generatedPages = Object.freeze([
       "ui/item-5",
       "ui/item-6",
       "ui/item-37"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -8655,6 +8964,11 @@ export const generatedPages = Object.freeze([
       "ui/item-5",
       "ui/item-6",
       "ui/item-34"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -8853,6 +9167,12 @@ export const generatedPages = Object.freeze([
       "ui/item-16",
       "ui/item-17",
       "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -9044,6 +9364,11 @@ export const generatedPages = Object.freeze([
       "ui/item-8",
       "ui/item-9",
       "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -9234,6 +9559,11 @@ export const generatedPages = Object.freeze([
       "ui/item-8",
       "ui/item-9",
       "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -9329,7 +9659,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "ui-properties/table-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-2",
@@ -9394,7 +9725,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui-properties/table-1",
     "nextPageId": "ui-properties/table-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-3",
@@ -9429,7 +9761,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui-properties/table-2",
     "nextPageId": "ui-properties/table-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-4",
@@ -9489,7 +9822,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui-properties/table-3",
     "nextPageId": "ui-properties/table-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-5",
@@ -9539,7 +9873,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui-properties/table-4",
     "nextPageId": "ui-properties/table-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-6",
@@ -9574,7 +9909,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui-properties/table-5",
     "nextPageId": "ui-properties/table-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-7",
@@ -9629,7 +9965,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "ui-properties/table-6",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "visuals/item-1",
@@ -9647,7 +9984,8 @@ export const generatedPages = Object.freeze([
     "description": "check verifies the file before display.",
     "previousPageId": null,
     "nextPageId": "visuals/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "visuals/item-2",
@@ -9665,7 +10003,8 @@ export const generatedPages = Object.freeze([
     "description": "The first child defines shared bounds.",
     "previousPageId": "visuals/item-1",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-1",
@@ -9694,7 +10033,8 @@ export const generatedPages = Object.freeze([
     "description": "Motion.Easing is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
     "previousPageId": null,
     "nextPageId": "motion/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-2",
@@ -9738,7 +10078,8 @@ export const generatedPages = Object.freeze([
     "description": "Motion.TweenOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
     "previousPageId": "motion/item-1",
     "nextPageId": "motion/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-3",
@@ -9787,7 +10128,8 @@ export const generatedPages = Object.freeze([
     "description": "Motion.Tween is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
     "previousPageId": "motion/item-2",
     "nextPageId": "motion/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-4",
@@ -9821,7 +10163,8 @@ export const generatedPages = Object.freeze([
     "description": "Motion.Wait is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
     "previousPageId": "motion/item-3",
     "nextPageId": "motion/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-5",
@@ -9860,7 +10203,8 @@ export const generatedPages = Object.freeze([
     "description": "Motion.Sequence is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
     "previousPageId": "motion/item-4",
     "nextPageId": "motion/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-6",
@@ -9889,7 +10233,8 @@ export const generatedPages = Object.freeze([
     "description": "Motion.Descriptor is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
     "previousPageId": "motion/item-5",
     "nextPageId": "motion/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-7",
@@ -9924,7 +10269,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "motion/item-6",
     "nextPageId": "motion/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-8",
@@ -9979,7 +10325,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "motion/item-7",
     "nextPageId": "motion/item-9",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-9",
@@ -10008,7 +10355,8 @@ export const generatedPages = Object.freeze([
     "description": "Creates a non-visual delay step for Motion.sequence. It advances no property itself and exists only to postpone the next Tween in the same channel.",
     "previousPageId": "motion/item-8",
     "nextPageId": "motion/item-10",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-10",
@@ -10044,6 +10392,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "motion/item-11",
     "relatedPageIds": [
       "motion/item-8"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -10083,7 +10434,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a complete MotionMap that transitions opacity from a lower value to fully visible using bounded preset defaults and optional overrides. The map can be assigned directly to a component's motion property.",
     "previousPageId": "motion/item-10",
     "nextPageId": "motion/item-12",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-12",
@@ -10132,7 +10484,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a MotionMap that combines translation with the preset's arrival timing, moving content from an offset into its final layout position. Layout is calculated at the destination; motion changes only the rendered transform.",
     "previousPageId": "motion/item-11",
     "nextPageId": "motion/item-13",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-13",
@@ -10176,7 +10529,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a MotionMap that grows a component from a smaller scale to its final size without changing the space reserved by layout. Optional values tune the starting scale, duration, and easing within admitted bounds.",
     "previousPageId": "motion/item-12",
     "nextPageId": "motion/item-14",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-14",
@@ -10225,7 +10579,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a repeating rotation MotionMap that alternates around the resting angle, producing a gentle rocking effect. Iteration and duration options control whether it settles or continues.",
     "previousPageId": "motion/item-13",
     "nextPageId": "motion/item-15",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-15",
@@ -10279,7 +10634,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a repeating scale MotionMap that expands and contracts around the component's normal size. The component keeps its original layout bounds while the transform provides visual emphasis.",
     "previousPageId": "motion/item-14",
     "nextPageId": "motion/item-16",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-16",
@@ -10323,7 +10679,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a short horizontal translation MotionMap that moves away from and back to the resting position. It is designed as bounded feedback rather than an ambient loop.",
     "previousPageId": "motion/item-15",
     "nextPageId": "motion/item-17",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-17",
@@ -10372,7 +10729,8 @@ export const generatedPages = Object.freeze([
     "description": "Returns a rotationY MotionMap tailored to UI.FlipCard, moving between front and back angles over a bounded duration. The FlipCard host uses the channel to hide the reverse face correctly during the 3D transition.",
     "previousPageId": "motion/item-16",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-1",
@@ -10411,7 +10769,8 @@ export const generatedPages = Object.freeze([
     "description": "Assets.Image is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": null,
     "nextPageId": "assets/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-2",
@@ -10450,7 +10809,8 @@ export const generatedPages = Object.freeze([
     "description": "Assets.Audio is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": "assets/item-1",
     "nextPageId": "assets/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-3",
@@ -10489,7 +10849,8 @@ export const generatedPages = Object.freeze([
     "description": "Assets.Font is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": "assets/item-2",
     "nextPageId": "assets/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-4",
@@ -10518,7 +10879,8 @@ export const generatedPages = Object.freeze([
     "description": "Assets.Reference is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": "assets/item-3",
     "nextPageId": "assets/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-5",
@@ -10553,7 +10915,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "assets/item-4",
     "nextPageId": "assets/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-6",
@@ -10588,7 +10951,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "assets/item-5",
     "nextPageId": "assets/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-7",
@@ -10617,7 +10981,8 @@ export const generatedPages = Object.freeze([
     "description": "Creates a typed reference to a font declared by the project manifest. The result distinguishes font resources from images and audio before a host attempts to consume them.",
     "previousPageId": "assets/item-6",
     "nextPageId": "assets/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-8",
@@ -10654,6 +11019,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": null,
     "relatedPageIds": [
       "assets/item-6"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -10688,7 +11056,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.ValidationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
     "previousPageId": null,
     "nextPageId": "data/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-2",
@@ -10727,7 +11096,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.Success represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
     "previousPageId": "data/item-1",
     "nextPageId": "data/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-3",
@@ -10766,7 +11136,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.Failure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
     "previousPageId": "data/item-2",
     "nextPageId": "data/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-4",
@@ -10797,6 +11168,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "data/item-5",
     "relatedPageIds": [
       "data/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -10838,6 +11212,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "data/item-6",
     "relatedPageIds": [
       "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "next-step"
     ]
   },
   {
@@ -10877,7 +11254,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.NumberOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
     "previousPageId": "data/item-5",
     "nextPageId": "data/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-7",
@@ -10911,7 +11289,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.ArrayOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
     "previousPageId": "data/item-6",
     "nextPageId": "data/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-8",
@@ -10940,7 +11319,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.ObjectOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
     "previousPageId": "data/item-7",
     "nextPageId": "data/item-9",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-9",
@@ -10989,7 +11369,8 @@ export const generatedPages = Object.freeze([
     "description": "Data.Schema is an exported, statically checked data contract of luastra/data. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": "data/item-8",
     "nextPageId": "data/item-10",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-10",
@@ -11043,6 +11424,11 @@ export const generatedPages = Object.freeze([
       "data/item-5",
       "data/item-16",
       "data/item-15"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -11087,7 +11473,8 @@ export const generatedPages = Object.freeze([
     "description": "Builds a schema that accepts finite numeric values and can enforce the documented minimum, maximum, or integer constraints. Non-numbers and non-finite values fail with structured validation information.",
     "previousPageId": "data/item-10",
     "nextPageId": "data/item-12",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-12",
@@ -11110,7 +11497,8 @@ export const generatedPages = Object.freeze([
     "description": "Builds a strict boolean schema that accepts only true or false. It does not coerce strings such as \"true\", numeric flags, or other truthy values.",
     "previousPageId": "data/item-11",
     "nextPageId": "data/item-13",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-13",
@@ -11156,6 +11544,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "data/item-14",
     "relatedPageIds": [
       "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -11198,6 +11589,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "data/item-12",
       "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -11229,6 +11624,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "data/item-16",
     "relatedPageIds": [
       "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -11272,6 +11670,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "data/item-4",
       "data/item-11"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -11301,7 +11703,8 @@ export const generatedPages = Object.freeze([
     "description": "State.Fields is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": null,
     "nextPageId": "state/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-2",
@@ -11330,7 +11733,8 @@ export const generatedPages = Object.freeze([
     "description": "State.DecodeError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
     "previousPageId": "state/item-1",
     "nextPageId": "state/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-3",
@@ -11374,7 +11778,8 @@ export const generatedPages = Object.freeze([
     "description": "State.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
     "previousPageId": "state/item-2",
     "nextPageId": "state/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-4",
@@ -11418,7 +11823,8 @@ export const generatedPages = Object.freeze([
     "description": "State.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
     "previousPageId": "state/item-3",
     "nextPageId": "state/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-5",
@@ -11447,7 +11853,8 @@ export const generatedPages = Object.freeze([
     "description": "State.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
     "previousPageId": "state/item-4",
     "nextPageId": "state/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-6",
@@ -11478,6 +11885,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "state/item-7",
     "relatedPageIds": [
       "state/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -11529,6 +11939,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "state/item-8",
     "relatedPageIds": [
       "state/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -11580,6 +11993,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "state/item-9",
     "relatedPageIds": [
       "state/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -11609,7 +12025,8 @@ export const generatedPages = Object.freeze([
     "description": "State.MigrationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
     "previousPageId": "state/item-8",
     "nextPageId": "state/item-10",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-10",
@@ -11638,7 +12055,8 @@ export const generatedPages = Object.freeze([
     "description": "State.Migration is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": "state/item-9",
     "nextPageId": "state/item-11",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-11",
@@ -11678,7 +12096,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "state/item-10",
     "nextPageId": "state/item-12",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-12",
@@ -11718,7 +12137,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "state/item-11",
     "nextPageId": "state/item-13",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-13",
@@ -11757,7 +12177,8 @@ export const generatedPages = Object.freeze([
     "description": "Decodes a snapshot and applies explicitly ordered Migration functions until it reaches the requested target version. The result records structured failure if a step is missing, invalid, or does not advance correctly.",
     "previousPageId": "state/item-12",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-1",
@@ -11795,6 +12216,11 @@ export const generatedPages = Object.freeze([
       "navigation/item-4",
       "navigation/item-5",
       "navigation/item-14"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -11827,6 +12253,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "navigation/item-11",
       "navigation/item-13"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
     ]
   },
   {
@@ -11864,6 +12294,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "navigation/item-11",
       "navigation/item-13"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
     ]
   },
   {
@@ -11906,6 +12340,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "navigation/item-14",
       "navigation/item-1"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -11968,6 +12406,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "navigation/item-14",
       "navigation/item-1"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "prerequisite"
     ]
   },
   {
@@ -11997,7 +12439,8 @@ export const generatedPages = Object.freeze([
     "description": "Navigation.RouteError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
     "previousPageId": "navigation/item-5",
     "nextPageId": "navigation/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-7",
@@ -12041,6 +12484,12 @@ export const generatedPages = Object.freeze([
       "navigation/item-12",
       "navigation/item-15",
       "navigation/item-16"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -12085,7 +12534,8 @@ export const generatedPages = Object.freeze([
     "description": "Navigation.RouteResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
     "previousPageId": "navigation/item-7",
     "nextPageId": "navigation/item-9",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-9",
@@ -12129,6 +12579,12 @@ export const generatedPages = Object.freeze([
       "navigation/item-12",
       "navigation/item-15",
       "navigation/item-16"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "next-step"
     ]
   },
   {
@@ -12163,7 +12619,8 @@ export const generatedPages = Object.freeze([
     "description": "Navigation.EntrySnapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
     "previousPageId": "navigation/item-9",
     "nextPageId": "navigation/item-11",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-11",
@@ -12206,6 +12663,11 @@ export const generatedPages = Object.freeze([
       "navigation/item-2",
       "navigation/item-3",
       "navigation/item-13"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -12295,6 +12757,12 @@ export const generatedPages = Object.freeze([
       "navigation/item-9",
       "navigation/item-15",
       "navigation/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -12344,6 +12812,11 @@ export const generatedPages = Object.freeze([
       "navigation/item-2",
       "navigation/item-3",
       "navigation/item-11"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -12392,6 +12865,11 @@ export const generatedPages = Object.freeze([
       "navigation/item-4",
       "navigation/item-5",
       "navigation/item-1"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -12446,6 +12924,11 @@ export const generatedPages = Object.freeze([
       "navigation/item-7",
       "navigation/item-9",
       "navigation/item-12"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -12485,6 +12968,11 @@ export const generatedPages = Object.freeze([
       "navigation/item-7",
       "navigation/item-9",
       "navigation/item-12"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -12518,6 +13006,11 @@ export const generatedPages = Object.freeze([
       "timer/item-3",
       "timer/item-4",
       "timer/item-5"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -12560,6 +13053,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "timer/item-4",
       "timer/item-5"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -12613,6 +13110,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "timer/item-1",
       "timer/item-5"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -12660,6 +13161,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "timer/item-1",
       "timer/item-2"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -12693,6 +13198,11 @@ export const generatedPages = Object.freeze([
       "timer/item-1",
       "timer/item-2",
       "timer/item-3"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -12722,7 +13232,8 @@ export const generatedPages = Object.freeze([
     "description": "Host.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
     "previousPageId": null,
     "nextPageId": "host/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-2",
@@ -12757,7 +13268,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "host/item-1",
     "nextPageId": "host/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-3",
@@ -12797,7 +13309,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "host/item-2",
     "nextPageId": "host/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-4",
@@ -12820,7 +13333,8 @@ export const generatedPages = Object.freeze([
     "description": "Requests the URL or fragment with which the host launched the application and returns a RequestId. The host answers through Application.resolve; this function reads launch context and never opens an external destination.",
     "previousPageId": "host/item-3",
     "nextPageId": "host/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-5",
@@ -12849,7 +13363,8 @@ export const generatedPages = Object.freeze([
     "description": "Requests that the host place a bounded string on the system clipboard and returns a RequestId for completion. Clipboard access remains an explicit capability rather than a hidden side effect.",
     "previousPageId": "host/item-4",
     "nextPageId": "host/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-6",
@@ -12880,6 +13395,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "host/item-7",
     "relatedPageIds": [
       "host/item-8"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -12909,7 +13427,8 @@ export const generatedPages = Object.freeze([
     "description": "Replaces the current browser-history state token without adding a new Back entry. It keeps the current location and returns a RequestId for host acknowledgement.",
     "previousPageId": "host/item-6",
     "nextPageId": "host/item-8",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-8",
@@ -12951,6 +13470,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "host/item-9",
     "relatedPageIds": [
       "host/item-6"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -12993,6 +13515,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "host/item-10",
     "relatedPageIds": [
       "host/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -13016,7 +13541,8 @@ export const generatedPages = Object.freeze([
     "description": "Requests one step back in the host browser history and returns a RequestId. The resulting location or system-Back event remains part of the normal navigation event flow.",
     "previousPageId": "host/item-9",
     "nextPageId": "host/item-11",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-11",
@@ -13039,7 +13565,8 @@ export const generatedPages = Object.freeze([
     "description": "Requests the host's current location and associated state token, returning a RequestId whose payload can initialize or reconcile application navigation.",
     "previousPageId": "host/item-10",
     "nextPageId": "host/item-12",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-12",
@@ -13068,7 +13595,8 @@ export const generatedPages = Object.freeze([
     "description": "Acknowledges that the application consumed a specific system-Back intent without delegating to browser history or exiting. The intent ID prevents an unrelated or stale Back request from being acknowledged.",
     "previousPageId": "host/item-11",
     "nextPageId": "host/item-13",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-13",
@@ -13103,7 +13631,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "host/item-12",
     "nextPageId": "host/item-14",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-14",
@@ -13138,7 +13667,8 @@ export const generatedPages = Object.freeze([
     },
     "previousPageId": "host/item-13",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "server/item-1",
@@ -13170,6 +13700,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "server/item-6",
       "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13212,6 +13746,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "server/item-6",
       "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13254,6 +13792,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "server/item-5",
       "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "prerequisite"
     ]
   },
   {
@@ -13295,6 +13837,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "server/item-5",
     "relatedPageIds": [
       "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "companion"
     ]
   },
   {
@@ -13327,6 +13872,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "server/item-3",
       "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -13390,6 +13939,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "server/item-1",
       "server/item-2"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -13430,6 +13983,12 @@ export const generatedPages = Object.freeze([
       "server/item-2",
       "server/item-3",
       "server/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13463,6 +14022,11 @@ export const generatedPages = Object.freeze([
       "media/item-4",
       "media/item-8",
       "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "next-step"
     ]
   },
   {
@@ -13517,6 +14081,11 @@ export const generatedPages = Object.freeze([
       "media/item-4",
       "media/item-8",
       "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13551,7 +14120,8 @@ export const generatedPages = Object.freeze([
     "description": "Media.MediaError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
     "previousPageId": "media/item-2",
     "nextPageId": "media/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "media/item-4",
@@ -13656,6 +14226,12 @@ export const generatedPages = Object.freeze([
       "media/item-2",
       "media/item-8",
       "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "next-step"
     ]
   },
   {
@@ -13698,6 +14274,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "media/item-7",
       "media/item-17"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13740,6 +14320,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "media/item-17",
       "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
     ]
   },
   {
@@ -13773,6 +14357,11 @@ export const generatedPages = Object.freeze([
       "media/item-5",
       "media/item-17",
       "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13838,6 +14427,12 @@ export const generatedPages = Object.freeze([
       "media/item-2",
       "media/item-4",
       "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -13871,6 +14466,11 @@ export const generatedPages = Object.freeze([
       "media/item-11",
       "media/item-12",
       "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13903,6 +14503,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "media/item-12",
       "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
     ]
   },
   {
@@ -13929,6 +14533,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "media/item-9",
       "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -13956,6 +14564,11 @@ export const generatedPages = Object.freeze([
       "media/item-9",
       "media/item-10",
       "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion"
     ]
   },
   {
@@ -13982,6 +14595,10 @@ export const generatedPages = Object.freeze([
     "relatedPageIds": [
       "media/item-4",
       "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite"
     ]
   },
   {
@@ -14007,6 +14624,9 @@ export const generatedPages = Object.freeze([
     "nextPageId": "media/item-15",
     "relatedPageIds": [
       "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion"
     ]
   },
   {
@@ -14035,6 +14655,12 @@ export const generatedPages = Object.freeze([
       "media/item-2",
       "media/item-4",
       "media/item-8"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "prerequisite",
+      "next-step"
     ]
   },
   {
@@ -14069,6 +14695,12 @@ export const generatedPages = Object.freeze([
       "media/item-10",
       "media/item-11",
       "media/item-12"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
@@ -14109,6 +14741,12 @@ export const generatedPages = Object.freeze([
       "media/item-6",
       "media/item-7",
       "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
@@ -14138,7 +14776,8 @@ export const generatedPages = Object.freeze([
     "description": "Emits a development diagnostic at the ordinary log level, serializing the supplied values through the host's bounded debug channel. It has no role in application state or user-visible status.",
     "previousPageId": null,
     "nextPageId": "debug/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "debug/item-2",
@@ -14167,7 +14806,8 @@ export const generatedPages = Object.freeze([
     "description": "Emits a warning-level development diagnostic for an unexpected but recoverable condition. Hosts may distinguish it visually from normal logs while preserving the same bounded argument handling.",
     "previousPageId": "debug/item-1",
     "nextPageId": "debug/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "debug/item-3",
@@ -14196,7 +14836,8 @@ export const generatedPages = Object.freeze([
     "description": "Emits an error-level diagnostic without replacing structured application error handling or automatically terminating execution. The message is intended for developers observing a failing operation.",
     "previousPageId": "debug/item-2",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "cli/table-1",
@@ -14286,7 +14927,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-1",
@@ -14305,7 +14947,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": null,
     "nextPageId": "manifest/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-2",
@@ -14329,7 +14972,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "manifest/item-1",
     "nextPageId": "manifest/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-3",
@@ -14348,7 +14992,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "manifest/item-2",
     "nextPageId": "manifest/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-4",
@@ -14367,7 +15012,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "manifest/item-3",
     "nextPageId": "manifest/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-5",
@@ -14386,7 +15032,8 @@ export const generatedPages = Object.freeze([
     "language": "JSON",
     "previousPageId": "manifest/item-4",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "support/table-1",
@@ -14430,7 +15077,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-1",
@@ -14454,7 +15102,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": null,
     "nextPageId": "policies/item-2",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-2",
@@ -14478,7 +15127,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "policies/item-1",
     "nextPageId": "policies/item-3",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-3",
@@ -14502,7 +15152,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "policies/item-2",
     "nextPageId": "policies/item-4",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-4",
@@ -14526,7 +15177,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "policies/item-3",
     "nextPageId": "policies/item-5",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-5",
@@ -14550,7 +15202,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "policies/item-4",
     "nextPageId": "policies/item-6",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-6",
@@ -14574,7 +15227,8 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "policies/item-5",
     "nextPageId": "policies/item-7",
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-7",
@@ -14597,6 +15251,7 @@ export const generatedPages = Object.freeze([
     ],
     "previousPageId": "policies/item-6",
     "nextPageId": null,
-    "relatedPageIds": []
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   }
 ]);

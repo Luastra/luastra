@@ -1161,6 +1161,17 @@ function relationText(page) {
   return [page.signature, page.description, page.useWhen, page.code].filter(Boolean).join("\n");
 }
 
+function mentionsPage(text, page) {
+  const shortName = page.name.includes(".") ? page.name.slice(page.name.indexOf(".") + 1) : page.name;
+  return text.includes(page.name) || (shortName.length >= 4 && text.includes(shortName));
+}
+
+function relationshipFor(page, candidate) {
+  if (mentionsPage(relationText(page), candidate)) return "prerequisite";
+  if (mentionsPage(relationText(candidate), page)) return "next-step";
+  return "companion";
+}
+
 for (const section of sections) {
   const sectionPages = pages.filter((page) => page.sectionId === section.id);
   for (const [index, page] of sectionPages.entries()) {
@@ -1194,6 +1205,11 @@ for (const section of sections) {
       if (selected.length < 3 && item.score >= 8) add(item.candidate);
     }
     page.relatedPageIds = selected;
+    page.relatedPageRoles = selected.map((relatedId) => {
+      const candidate = pages.find((item) => item.id === relatedId);
+      if (!candidate) fail(`${page.id} links to missing related page ${relatedId}`);
+      return relationshipFor(page, candidate);
+    });
   }
 }
 

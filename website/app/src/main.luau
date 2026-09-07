@@ -301,15 +301,36 @@ end
 
 local function renderRelatedPages(page: any): UI.Node?
     if page.relatedPageIds == nil or #page.relatedPageIds == 0 then return nil end
-    local input: any = { id = "docs/detail/related", gap = "sm" }
-    for index, relatedId in page.relatedPageIds do
-        local related = pageById[relatedId]
-        if related ~= nil then
-            table.insert(input, link(`docs/detail/related-{index}`, related.name, related.id))
+    local input: any = { id = "docs/detail/related", gap = "md" }
+    local labels = {
+        prerequisite = "Prerequisites",
+        companion = "Companions",
+        ["next-step"] = "Next steps",
+    }
+    local relatedPageRoles = page.relatedPageRoles :: any
+    for _, relationship in { "prerequisite", "companion", "next-step" } do
+        local group: any = { id = `docs/detail/related-{relationship}`, gap = "xs" }
+        local count = 0
+        for index, relatedId in page.relatedPageIds do
+            if relatedPageRoles[index] == relationship then
+                local related = pageById[relatedId]
+                if related ~= nil then
+                    count += 1
+                    table.insert(group, link(`docs/detail/related-{relationship}-{index}`, related.name, related.id))
+                end
+            end
+        end
+        if count > 0 then
+            table.insert(input, UI.Text {
+                id = `docs/detail/related-{relationship}-title`,
+                text = labels[relationship],
+                variant = "heading",
+            })
+            table.insert(input, UI.Column(group))
         end
     end
     if #input == 0 then return nil end
-    return UI.Column(input)
+    return UI.Stack(input)
 end
 
 local function renderDetailNavigation(page: any): UI.Node?
@@ -735,9 +756,11 @@ local function renderDetail(page: any): UI.Node
     table.insert(input, UI.Divider { id = "docs/detail/divider" })
     local related = renderRelatedPages(page)
     if related ~= nil then
-        table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Related pages", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Continue learning", variant = "subheading" })
         table.insert(input, related)
     end
+    table.insert(input, UI.Text { id = "docs/detail/inventory-title", text = "Complete inventory", variant = "subheading" })
+    table.insert(input, sectionLink("docs/detail/inventory", `View all pages in {page.sectionTitle}`, page.sectionId))
     local detailNavigation = renderDetailNavigation(page)
     if detailNavigation ~= nil then table.insert(input, detailNavigation) end
     return UI.Column(input)

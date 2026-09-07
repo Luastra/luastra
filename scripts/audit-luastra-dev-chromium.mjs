@@ -443,6 +443,10 @@ async function main() {
         horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth),
         relatedCount: related.length,
         relatedCanonical: related.every((link) => link.getAttribute('href')?.startsWith('#/reference/')),
+        relatedTitle: document.querySelector('[data-luastra-id="docs/detail/related-title"]')?.textContent?.trim() ?? null,
+        companionTitle: document.querySelector('[data-luastra-id="docs/detail/related-companion-title"]')?.textContent?.trim() ?? null,
+        nextStepTitle: document.querySelector('[data-luastra-id="docs/detail/related-next-step-title"]')?.textContent?.trim() ?? null,
+        inventory: document.querySelector('[data-luastra-id="docs/detail/inventory"]')?.getAttribute('href') ?? null,
         previous: previous?.getAttribute('href') ?? null,
         next: next?.getAttribute('href') ?? null,
         parametersScrollContained: parametersScroll != null && parametersScroll.scrollWidth > parametersScroll.clientWidth &&
@@ -514,6 +518,8 @@ async function main() {
         eventsGuide.relatedLinks.every((href) => href?.startsWith("#/docs/recipe-")) && eventsGuide.horizontalOverflow === 0,
       documentationDetail: documentationDetail.hash === "#/reference/ui%2Fitem-8" && documentationDetail.horizontalOverflow === 0 &&
         documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
+        documentationDetail.relatedTitle === "Continue learning" && documentationDetail.companionTitle === "Companions" &&
+        documentationDetail.nextStepTitle === "Next steps" && documentationDetail.inventory === "#/docs/ui" &&
         documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
         documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
         recipeHover.hovered && recipeHover.contrast >= 4.5,

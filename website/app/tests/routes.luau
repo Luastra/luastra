@@ -102,7 +102,9 @@ Application.handle("open_url", "browser", "https://luastra.dev/#/reference/ui%2F
 local buttonPage = Application.render()
 assert((findNode(buttonPage, "docs/detail/previous").properties :: any).href == "#/reference/ui%2Fitem-7")
 assert((findNode(buttonPage, "docs/detail/next").properties :: any).href == "#/reference/ui%2Fitem-9")
-assert(findNode(buttonPage, "docs/detail/related-1") ~= nil)
+assert(findNode(buttonPage, "docs/detail/related-next-step-title") ~= nil)
+assert(findNode(buttonPage, "docs/detail/related-next-step-1") ~= nil)
+assert((findNode(buttonPage, "docs/detail/inventory").properties :: any).href == "#/docs/ui")
 assert(findNode(buttonPage, "docs/pages/ui") == nil)
 
 for _, pageId in { "recipe-form-modal/item-3", "recipe-media/item-3", "recipe-orbit/item-3", "advanced-tutorial/item-3" } do

@@ -630,6 +630,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "overview/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "overview/item-2",
@@ -653,6 +654,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "overview/item-1",
             ["nextPageId"] = "overview/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "overview/item-3",
@@ -678,6 +680,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "overview/item-2",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "installation/item-1",
@@ -702,6 +705,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "installation/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "installation/item-2",
@@ -729,6 +733,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "installation/item-1",
             ["nextPageId"] = "installation/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "installation/item-3",
@@ -748,6 +753,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "installation/item-2",
             ["nextPageId"] = "installation/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "installation/item-4",
@@ -772,6 +778,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "installation/item-3",
             ["nextPageId"] = "installation/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "installation/item-5",
@@ -791,6 +798,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "installation/item-4",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "quickstart/item-1",
@@ -815,6 +823,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "quickstart/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "quickstart/item-2",
@@ -834,6 +843,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "quickstart/item-1",
             ["nextPageId"] = "quickstart/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "quickstart/item-3",
@@ -858,6 +868,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "quickstart/item-2",
             ["nextPageId"] = "quickstart/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "quickstart/item-4",
@@ -882,6 +893,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "quickstart/item-3",
             ["nextPageId"] = "quickstart/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "quickstart/item-5",
@@ -906,6 +918,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "quickstart/item-4",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "workflow/item-1",
@@ -925,6 +938,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "workflow/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "workflow/item-2",
@@ -944,6 +958,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "workflow/item-1",
             ["nextPageId"] = "workflow/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "workflow/item-3",
@@ -963,6 +978,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "workflow/item-2",
             ["nextPageId"] = "workflow/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "workflow/item-4",
@@ -982,6 +998,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "workflow/item-3",
             ["nextPageId"] = "workflow/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "workflow/item-5",
@@ -1006,6 +1023,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "workflow/item-4",
             ["nextPageId"] = "workflow/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "workflow/item-6",
@@ -1031,6 +1049,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "workflow/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipes/item-1",
@@ -1056,6 +1075,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipes/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipes/item-2",
@@ -1086,6 +1106,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipes/item-1",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-timer/item-1",
@@ -1105,6 +1126,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-timer/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-timer/item-2",
@@ -1124,6 +1146,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-timer/item-1",
             ["nextPageId"] = "recipe-timer/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-timer/item-3",
@@ -1143,6 +1166,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-timer/item-2",
             ["nextPageId"] = "recipe-timer/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-timer/item-4",
@@ -1162,6 +1186,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-timer/item-3",
             ["nextPageId"] = "recipe-timer/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-timer/item-5",
@@ -1186,6 +1211,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-timer/item-4",
             ["nextPageId"] = "recipe-timer/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-timer/item-6",
@@ -1210,6 +1236,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-timer/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-navigation/item-1",
@@ -1229,6 +1256,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-navigation/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-navigation/item-2",
@@ -1248,6 +1276,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-navigation/item-1",
             ["nextPageId"] = "recipe-navigation/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-navigation/item-3",
@@ -1267,6 +1296,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-navigation/item-2",
             ["nextPageId"] = "recipe-navigation/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-navigation/item-4",
@@ -1286,6 +1316,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-navigation/item-3",
             ["nextPageId"] = "recipe-navigation/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-navigation/item-5",
@@ -1310,6 +1341,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-navigation/item-4",
             ["nextPageId"] = "recipe-navigation/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-navigation/item-6",
@@ -1334,6 +1366,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-navigation/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-storage/item-1",
@@ -1353,6 +1386,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-storage/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-storage/item-2",
@@ -1372,6 +1406,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-storage/item-1",
             ["nextPageId"] = "recipe-storage/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-storage/item-3",
@@ -1391,6 +1426,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-storage/item-2",
             ["nextPageId"] = "recipe-storage/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-storage/item-4",
@@ -1410,6 +1446,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-storage/item-3",
             ["nextPageId"] = "recipe-storage/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-storage/item-5",
@@ -1434,6 +1471,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-storage/item-4",
             ["nextPageId"] = "recipe-storage/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-storage/item-6",
@@ -1458,6 +1496,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-storage/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-history/item-1",
@@ -1477,6 +1516,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-history/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-history/item-2",
@@ -1496,6 +1536,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-history/item-1",
             ["nextPageId"] = "recipe-history/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-history/item-3",
@@ -1515,6 +1556,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-history/item-2",
             ["nextPageId"] = "recipe-history/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-history/item-4",
@@ -1534,6 +1576,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-history/item-3",
             ["nextPageId"] = "recipe-history/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-history/item-5",
@@ -1558,6 +1601,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-history/item-4",
             ["nextPageId"] = "recipe-history/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-history/item-6",
@@ -1582,6 +1626,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-history/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-form-modal/item-1",
@@ -1601,6 +1646,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-form-modal/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-form-modal/item-2",
@@ -1620,6 +1666,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-form-modal/item-1",
             ["nextPageId"] = "recipe-form-modal/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-form-modal/item-3",
@@ -1639,6 +1686,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-form-modal/item-2",
             ["nextPageId"] = "recipe-form-modal/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-form-modal/item-4",
@@ -1658,6 +1706,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-form-modal/item-3",
             ["nextPageId"] = "recipe-form-modal/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-form-modal/item-5",
@@ -1682,6 +1731,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-form-modal/item-4",
             ["nextPageId"] = "recipe-form-modal/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-form-modal/item-6",
@@ -1707,6 +1757,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-form-modal/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-assets-visuals/item-1",
@@ -1730,6 +1781,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-assets-visuals/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-assets-visuals/item-2",
@@ -1749,6 +1801,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-assets-visuals/item-1",
             ["nextPageId"] = "recipe-assets-visuals/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-assets-visuals/item-3",
@@ -1768,6 +1821,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-assets-visuals/item-2",
             ["nextPageId"] = "recipe-assets-visuals/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-assets-visuals/item-4",
@@ -1787,6 +1841,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-assets-visuals/item-3",
             ["nextPageId"] = "recipe-assets-visuals/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-assets-visuals/item-5",
@@ -1811,6 +1866,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-assets-visuals/item-4",
             ["nextPageId"] = "recipe-assets-visuals/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-assets-visuals/item-6",
@@ -1836,6 +1892,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-assets-visuals/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-motion/item-1",
@@ -1855,6 +1912,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-motion/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-motion/item-2",
@@ -1874,6 +1932,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-motion/item-1",
             ["nextPageId"] = "recipe-motion/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-motion/item-3",
@@ -1893,6 +1952,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-motion/item-2",
             ["nextPageId"] = "recipe-motion/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-motion/item-4",
@@ -1912,6 +1972,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-motion/item-3",
             ["nextPageId"] = "recipe-motion/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-motion/item-5",
@@ -1937,6 +1998,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-motion/item-4",
             ["nextPageId"] = "recipe-motion/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-motion/item-6",
@@ -1962,6 +2024,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-motion/item-5",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-1",
@@ -1981,6 +2044,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-server/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-2",
@@ -2000,6 +2064,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-1",
             ["nextPageId"] = "recipe-server/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-3",
@@ -2024,6 +2089,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-2",
             ["nextPageId"] = "recipe-server/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-4",
@@ -2048,6 +2114,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-3",
             ["nextPageId"] = "recipe-server/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-5",
@@ -2072,6 +2139,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-4",
             ["nextPageId"] = "recipe-server/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-6",
@@ -2091,6 +2159,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-5",
             ["nextPageId"] = "recipe-server/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-7",
@@ -2110,6 +2179,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-6",
             ["nextPageId"] = "recipe-server/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-8",
@@ -2135,6 +2205,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-7",
             ["nextPageId"] = "recipe-server/item-9",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-9",
@@ -2160,6 +2231,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-8",
             ["nextPageId"] = "recipe-server/item-10",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-server/item-10",
@@ -2185,6 +2257,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-server/item-9",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-1",
@@ -2208,6 +2281,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-media/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-2",
@@ -2227,6 +2301,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-1",
             ["nextPageId"] = "recipe-media/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-3",
@@ -2246,6 +2321,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-2",
             ["nextPageId"] = "recipe-media/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-4",
@@ -2265,6 +2341,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-3",
             ["nextPageId"] = "recipe-media/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-5",
@@ -2290,6 +2367,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-4",
             ["nextPageId"] = "recipe-media/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-6",
@@ -2315,6 +2393,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-5",
             ["nextPageId"] = "recipe-media/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-7",
@@ -2340,6 +2419,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-6",
             ["nextPageId"] = "recipe-media/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-media/item-8",
@@ -2365,6 +2445,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-media/item-7",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-1",
@@ -2384,6 +2465,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "recipe-orbit/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-2",
@@ -2403,6 +2485,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-1",
             ["nextPageId"] = "recipe-orbit/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-3",
@@ -2422,6 +2505,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-2",
             ["nextPageId"] = "recipe-orbit/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-4",
@@ -2441,6 +2525,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-3",
             ["nextPageId"] = "recipe-orbit/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-5",
@@ -2466,6 +2551,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-4",
             ["nextPageId"] = "recipe-orbit/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-6",
@@ -2491,6 +2577,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-5",
             ["nextPageId"] = "recipe-orbit/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-7",
@@ -2516,6 +2603,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-6",
             ["nextPageId"] = "recipe-orbit/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-8",
@@ -2540,6 +2628,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-7",
             ["nextPageId"] = "recipe-orbit/item-9",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "recipe-orbit/item-9",
@@ -2565,6 +2654,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "recipe-orbit/item-8",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-1",
@@ -2583,6 +2673,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "luau-types/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-2",
@@ -2605,6 +2696,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-1",
             ["nextPageId"] = "luau-types/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-3",
@@ -2627,6 +2719,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-2",
             ["nextPageId"] = "luau-types/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-4",
@@ -2645,6 +2738,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-3",
             ["nextPageId"] = "luau-types/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-5",
@@ -2667,6 +2761,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-4",
             ["nextPageId"] = "luau-types/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-6",
@@ -2685,6 +2780,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-5",
             ["nextPageId"] = "luau-types/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-7",
@@ -2705,6 +2801,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "luau-types/item-12",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "luau-types/item-8",
@@ -2724,6 +2823,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-7",
             ["nextPageId"] = "luau-types/item-9",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-9",
@@ -2743,6 +2843,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-8",
             ["nextPageId"] = "luau-types/item-10",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-10",
@@ -2761,6 +2862,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-9",
             ["nextPageId"] = "luau-types/item-11",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-11",
@@ -2780,6 +2882,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-10",
             ["nextPageId"] = "luau-types/item-12",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-12",
@@ -2798,6 +2901,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-11",
             ["nextPageId"] = "luau-types/item-13",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-13",
@@ -2816,6 +2920,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-12",
             ["nextPageId"] = "luau-types/item-14",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-14",
@@ -2840,6 +2945,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-13",
             ["nextPageId"] = "luau-types/item-15",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-15",
@@ -2862,6 +2968,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-14",
             ["nextPageId"] = "luau-types/item-16",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-16",
@@ -2885,6 +2992,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-15",
             ["nextPageId"] = "luau-types/item-17",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/item-17",
@@ -2911,6 +3019,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-16",
             ["nextPageId"] = "luau-types/table-1",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/table-1",
@@ -2951,6 +3060,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/item-17",
             ["nextPageId"] = "luau-types/table-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "luau-types/table-2",
@@ -2991,6 +3101,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "luau-types/table-1",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-1",
@@ -3015,6 +3126,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "beginner-tutorial/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-2",
@@ -3039,6 +3151,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-1",
             ["nextPageId"] = "beginner-tutorial/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-3",
@@ -3065,6 +3178,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-2",
             ["nextPageId"] = "beginner-tutorial/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-4",
@@ -3089,6 +3203,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-3",
             ["nextPageId"] = "beginner-tutorial/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-5",
@@ -3114,6 +3229,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-4",
             ["nextPageId"] = "beginner-tutorial/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-6",
@@ -3138,6 +3254,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-5",
             ["nextPageId"] = "beginner-tutorial/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/item-7",
@@ -3163,6 +3280,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-6",
             ["nextPageId"] = "beginner-tutorial/table-1",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "beginner-tutorial/table-1",
@@ -3203,6 +3321,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "beginner-tutorial/item-7",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-1",
@@ -3227,6 +3346,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "advanced-tutorial/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-2",
@@ -3251,6 +3371,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-1",
             ["nextPageId"] = "advanced-tutorial/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-3",
@@ -3277,6 +3398,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-2",
             ["nextPageId"] = "advanced-tutorial/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-4",
@@ -3301,6 +3423,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-3",
             ["nextPageId"] = "advanced-tutorial/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-5",
@@ -3325,6 +3448,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-4",
             ["nextPageId"] = "advanced-tutorial/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-6",
@@ -3349,6 +3473,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-5",
             ["nextPageId"] = "advanced-tutorial/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/item-7",
@@ -3374,6 +3499,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-6",
             ["nextPageId"] = "advanced-tutorial/table-1",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "advanced-tutorial/table-1",
@@ -3409,6 +3535,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "advanced-tutorial/item-7",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "first-app/item-1",
@@ -3434,6 +3561,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "first-app/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "first-app/item-2",
@@ -3458,6 +3586,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "first-app/item-1",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "application/item-1",
@@ -3482,6 +3611,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "application/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "application/item-2",
@@ -3522,6 +3652,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "application/item-1",
             ["nextPageId"] = "application/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "application/item-3",
@@ -3572,6 +3703,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "application/item-2",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-1",
@@ -3597,6 +3729,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "events-errors/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-2",
@@ -3621,6 +3754,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-1",
             ["nextPageId"] = "events-errors/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-3",
@@ -3646,6 +3780,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-2",
             ["nextPageId"] = "events-errors/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-4",
@@ -3671,6 +3806,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-3",
             ["nextPageId"] = "events-errors/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-5",
@@ -3694,6 +3830,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-4",
             ["nextPageId"] = "events-errors/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-6",
@@ -3719,6 +3856,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-5",
             ["nextPageId"] = "events-errors/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/item-7",
@@ -3745,6 +3883,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-6",
             ["nextPageId"] = "events-errors/table-1",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/table-1",
@@ -3805,6 +3944,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/item-7",
             ["nextPageId"] = "events-errors/table-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/table-2",
@@ -3845,6 +3985,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/table-1",
             ["nextPageId"] = "events-errors/table-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "events-errors/table-3",
@@ -3890,6 +4031,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "events-errors/table-2",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui/item-1",
@@ -3926,6 +4068,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "ui/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui/item-2",
@@ -4000,6 +4143,10 @@ local ReferenceData: any = {
                 "ui/item-4",
                 "ui/item-5",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-3",
@@ -4058,6 +4205,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "ui/item-4",
             ["relatedPageIds"] = {
                 "ui/item-5",
+            },
+            ["relatedPageRoles"] = {
+                "next-step",
             },
         },
         {
@@ -4294,6 +4444,10 @@ local ReferenceData: any = {
                 "ui/item-2",
                 "ui/item-7",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "ui/item-5",
@@ -4479,6 +4633,12 @@ local ReferenceData: any = {
                 "ui/item-3",
                 "ui/item-34",
                 "ui/item-35",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "prerequisite",
+                "next-step",
+                "companion",
             },
         },
         {
@@ -4671,6 +4831,11 @@ local ReferenceData: any = {
                 "ui/item-35",
                 "ui/item-36",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "next-step",
+            },
         },
         {
             ["id"] = "ui/item-7",
@@ -4828,6 +4993,12 @@ local ReferenceData: any = {
                 "ui/item-17",
                 "ui/item-19",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "next-step",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-8",
@@ -4984,6 +5155,11 @@ local ReferenceData: any = {
                 "ui/item-38",
                 "ui/item-23",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
+                "next-step",
+            },
         },
         {
             ["id"] = "ui/item-9",
@@ -5129,6 +5305,11 @@ local ReferenceData: any = {
                 "ui/item-38",
                 "ui/item-23",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-10",
@@ -5262,6 +5443,11 @@ local ReferenceData: any = {
                 "ui/item-7",
                 "ui/item-17",
                 "ui/item-19",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
             },
         },
         {
@@ -5418,6 +5604,11 @@ local ReferenceData: any = {
                 "ui/item-17",
                 "ui/item-19",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-12",
@@ -5518,6 +5709,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui/item-11",
             ["nextPageId"] = "ui/item-13",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui/item-13",
@@ -5703,6 +5895,11 @@ local ReferenceData: any = {
                 "ui/item-21",
                 "ui/item-22",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-14",
@@ -5841,6 +6038,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "ui/item-21",
                 "ui/item-22",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
             },
         },
         {
@@ -6002,6 +6203,11 @@ local ReferenceData: any = {
                 "ui/item-21",
                 "ui/item-22",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-16",
@@ -6100,6 +6306,11 @@ local ReferenceData: any = {
                 "ui/item-18",
                 "ui/item-37",
                 "ui/item-19",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "prerequisite",
             },
         },
         {
@@ -6212,6 +6423,12 @@ local ReferenceData: any = {
                 "ui/item-10",
                 "ui/item-11",
                 "ui/item-19",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+                "prerequisite",
             },
         },
         {
@@ -6404,6 +6621,11 @@ local ReferenceData: any = {
                 "ui/item-37",
                 "ui/item-7",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "ui/item-19",
@@ -6525,6 +6747,12 @@ local ReferenceData: any = {
                 "ui/item-10",
                 "ui/item-11",
                 "ui/item-17",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+                "prerequisite",
             },
         },
         {
@@ -6683,6 +6911,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "ui/item-21",
             ["relatedPageIds"] = {
                 "ui/item-7",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -6869,6 +7100,11 @@ local ReferenceData: any = {
                 "ui/item-14",
                 "ui/item-15",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-22",
@@ -7054,6 +7290,11 @@ local ReferenceData: any = {
                 "ui/item-14",
                 "ui/item-15",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-23",
@@ -7199,6 +7440,12 @@ local ReferenceData: any = {
                 "ui/item-9",
                 "ui/item-39",
                 "ui/item-38",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+                "companion",
             },
         },
         {
@@ -7411,6 +7658,12 @@ local ReferenceData: any = {
                 "ui/item-28",
                 "ui/item-29",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "prerequisite",
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "ui/item-25",
@@ -7601,6 +7854,11 @@ local ReferenceData: any = {
                 "ui/item-28",
                 "ui/item-29",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-26",
@@ -7724,6 +7982,11 @@ local ReferenceData: any = {
                 "ui/item-28",
                 "ui/item-29",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-27",
@@ -7817,6 +8080,11 @@ local ReferenceData: any = {
                 "ui/item-24",
                 "ui/item-25",
                 "ui/item-29",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "prerequisite",
             },
         },
         {
@@ -7926,6 +8194,11 @@ local ReferenceData: any = {
                 "ui/item-24",
                 "ui/item-25",
                 "ui/item-26",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
             },
         },
         {
@@ -8098,6 +8371,12 @@ local ReferenceData: any = {
                 "ui/item-26",
                 "ui/item-27",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+                "next-step",
+            },
         },
         {
             ["id"] = "ui/item-30",
@@ -8252,6 +8531,11 @@ local ReferenceData: any = {
                 "ui/item-33",
                 "ui/item-24",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "ui/item-31",
@@ -8376,6 +8660,11 @@ local ReferenceData: any = {
                 "ui/item-29",
                 "ui/item-33",
                 "ui/item-8",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "prerequisite",
             },
         },
         {
@@ -8567,6 +8856,11 @@ local ReferenceData: any = {
                 "ui/item-30",
                 "ui/item-8",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "ui/item-33",
@@ -8691,6 +8985,11 @@ local ReferenceData: any = {
                 "ui/item-29",
                 "ui/item-30",
                 "ui/item-31",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
             },
         },
         {
@@ -8882,6 +9181,11 @@ local ReferenceData: any = {
                 "ui/item-6",
                 "ui/item-36",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-35",
@@ -9072,6 +9376,11 @@ local ReferenceData: any = {
                 "ui/item-6",
                 "ui/item-37",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "ui/item-36",
@@ -9261,6 +9570,11 @@ local ReferenceData: any = {
                 "ui/item-5",
                 "ui/item-6",
                 "ui/item-34",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "prerequisite",
+                "companion",
             },
         },
         {
@@ -9460,6 +9774,12 @@ local ReferenceData: any = {
                 "ui/item-17",
                 "ui/item-19",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "prerequisite",
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-38",
@@ -9651,6 +9971,11 @@ local ReferenceData: any = {
                 "ui/item-9",
                 "ui/item-23",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui/item-39",
@@ -9841,6 +10166,11 @@ local ReferenceData: any = {
                 "ui/item-9",
                 "ui/item-23",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "ui-properties/table-1",
@@ -9936,6 +10266,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "ui-properties/table-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui-properties/table-2",
@@ -10001,6 +10332,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui-properties/table-1",
             ["nextPageId"] = "ui-properties/table-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui-properties/table-3",
@@ -10036,6 +10368,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui-properties/table-2",
             ["nextPageId"] = "ui-properties/table-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui-properties/table-4",
@@ -10096,6 +10429,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui-properties/table-3",
             ["nextPageId"] = "ui-properties/table-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui-properties/table-5",
@@ -10146,6 +10480,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui-properties/table-4",
             ["nextPageId"] = "ui-properties/table-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui-properties/table-6",
@@ -10181,6 +10516,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui-properties/table-5",
             ["nextPageId"] = "ui-properties/table-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "ui-properties/table-7",
@@ -10236,6 +10572,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "ui-properties/table-6",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "visuals/item-1",
@@ -10254,6 +10591,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "visuals/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "visuals/item-2",
@@ -10272,6 +10610,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "visuals/item-1",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-1",
@@ -10301,6 +10640,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "motion/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-2",
@@ -10345,6 +10685,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-1",
             ["nextPageId"] = "motion/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-3",
@@ -10394,6 +10735,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-2",
             ["nextPageId"] = "motion/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-4",
@@ -10428,6 +10770,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-3",
             ["nextPageId"] = "motion/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-5",
@@ -10467,6 +10810,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-4",
             ["nextPageId"] = "motion/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-6",
@@ -10496,6 +10840,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-5",
             ["nextPageId"] = "motion/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-7",
@@ -10531,6 +10876,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-6",
             ["nextPageId"] = "motion/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-8",
@@ -10586,6 +10932,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-7",
             ["nextPageId"] = "motion/item-9",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-9",
@@ -10615,6 +10962,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-8",
             ["nextPageId"] = "motion/item-10",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-10",
@@ -10650,6 +10998,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "motion/item-11",
             ["relatedPageIds"] = {
                 "motion/item-8",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -10690,6 +11041,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-10",
             ["nextPageId"] = "motion/item-12",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-12",
@@ -10739,6 +11091,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-11",
             ["nextPageId"] = "motion/item-13",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-13",
@@ -10783,6 +11136,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-12",
             ["nextPageId"] = "motion/item-14",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-14",
@@ -10832,6 +11186,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-13",
             ["nextPageId"] = "motion/item-15",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-15",
@@ -10886,6 +11241,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-14",
             ["nextPageId"] = "motion/item-16",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-16",
@@ -10930,6 +11286,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-15",
             ["nextPageId"] = "motion/item-17",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "motion/item-17",
@@ -10979,6 +11336,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "motion/item-16",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-1",
@@ -11018,6 +11376,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "assets/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-2",
@@ -11057,6 +11416,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "assets/item-1",
             ["nextPageId"] = "assets/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-3",
@@ -11096,6 +11456,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "assets/item-2",
             ["nextPageId"] = "assets/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-4",
@@ -11125,6 +11486,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "assets/item-3",
             ["nextPageId"] = "assets/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-5",
@@ -11160,6 +11522,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "assets/item-4",
             ["nextPageId"] = "assets/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-6",
@@ -11195,6 +11558,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "assets/item-5",
             ["nextPageId"] = "assets/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-7",
@@ -11224,6 +11588,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "assets/item-6",
             ["nextPageId"] = "assets/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "assets/item-8",
@@ -11261,6 +11626,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "assets/item-6",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "data/item-1",
@@ -11295,6 +11663,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "data/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-2",
@@ -11334,6 +11703,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-1",
             ["nextPageId"] = "data/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-3",
@@ -11373,6 +11743,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-2",
             ["nextPageId"] = "data/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-4",
@@ -11403,6 +11774,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "data/item-5",
             ["relatedPageIds"] = {
                 "data/item-16",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -11445,6 +11819,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "data/item-10",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+            },
         },
         {
             ["id"] = "data/item-6",
@@ -11484,6 +11861,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-5",
             ["nextPageId"] = "data/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-7",
@@ -11518,6 +11896,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-6",
             ["nextPageId"] = "data/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-8",
@@ -11547,6 +11926,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-7",
             ["nextPageId"] = "data/item-9",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-9",
@@ -11596,6 +11976,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-8",
             ["nextPageId"] = "data/item-10",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-10",
@@ -11650,6 +12031,11 @@ local ReferenceData: any = {
                 "data/item-16",
                 "data/item-15",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "data/item-11",
@@ -11694,6 +12080,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-10",
             ["nextPageId"] = "data/item-12",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-12",
@@ -11717,6 +12104,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "data/item-11",
             ["nextPageId"] = "data/item-13",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "data/item-13",
@@ -11763,6 +12151,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "data/item-10",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "data/item-14",
@@ -11805,6 +12196,10 @@ local ReferenceData: any = {
                 "data/item-12",
                 "data/item-10",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "data/item-15",
@@ -11835,6 +12230,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "data/item-16",
             ["relatedPageIds"] = {
                 "data/item-10",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -11879,6 +12277,10 @@ local ReferenceData: any = {
                 "data/item-4",
                 "data/item-11",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "state/item-1",
@@ -11908,6 +12310,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "state/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-2",
@@ -11937,6 +12340,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-1",
             ["nextPageId"] = "state/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-3",
@@ -11981,6 +12385,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-2",
             ["nextPageId"] = "state/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-4",
@@ -12025,6 +12430,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-3",
             ["nextPageId"] = "state/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-5",
@@ -12054,6 +12460,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-4",
             ["nextPageId"] = "state/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-6",
@@ -12084,6 +12491,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "state/item-7",
             ["relatedPageIds"] = {
                 "state/item-10",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -12136,6 +12546,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "state/item-10",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "state/item-8",
@@ -12187,6 +12600,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "state/item-10",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "state/item-9",
@@ -12216,6 +12632,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-8",
             ["nextPageId"] = "state/item-10",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-10",
@@ -12245,6 +12662,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-9",
             ["nextPageId"] = "state/item-11",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-11",
@@ -12285,6 +12703,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-10",
             ["nextPageId"] = "state/item-12",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-12",
@@ -12325,6 +12744,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-11",
             ["nextPageId"] = "state/item-13",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "state/item-13",
@@ -12364,6 +12784,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "state/item-12",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "navigation/item-1",
@@ -12402,6 +12823,11 @@ local ReferenceData: any = {
                 "navigation/item-5",
                 "navigation/item-14",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "navigation/item-2",
@@ -12433,6 +12859,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "navigation/item-11",
                 "navigation/item-13",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
             },
         },
         {
@@ -12470,6 +12900,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "navigation/item-11",
                 "navigation/item-13",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
             },
         },
         {
@@ -12512,6 +12946,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "navigation/item-14",
                 "navigation/item-1",
+            },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
             },
         },
         {
@@ -12575,6 +13013,10 @@ local ReferenceData: any = {
                 "navigation/item-14",
                 "navigation/item-1",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "navigation/item-6",
@@ -12604,6 +13046,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "navigation/item-5",
             ["nextPageId"] = "navigation/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "navigation/item-7",
@@ -12647,6 +13090,12 @@ local ReferenceData: any = {
                 "navigation/item-12",
                 "navigation/item-15",
                 "navigation/item-16",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "next-step",
+                "companion",
+                "companion",
             },
         },
         {
@@ -12692,6 +13141,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "navigation/item-7",
             ["nextPageId"] = "navigation/item-9",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "navigation/item-9",
@@ -12736,6 +13186,12 @@ local ReferenceData: any = {
                 "navigation/item-15",
                 "navigation/item-16",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+                "next-step",
+            },
         },
         {
             ["id"] = "navigation/item-10",
@@ -12770,6 +13226,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "navigation/item-9",
             ["nextPageId"] = "navigation/item-11",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "navigation/item-11",
@@ -12812,6 +13269,11 @@ local ReferenceData: any = {
                 "navigation/item-2",
                 "navigation/item-3",
                 "navigation/item-13",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
             },
         },
         {
@@ -12902,6 +13364,12 @@ local ReferenceData: any = {
                 "navigation/item-15",
                 "navigation/item-16",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "navigation/item-13",
@@ -12951,6 +13419,11 @@ local ReferenceData: any = {
                 "navigation/item-3",
                 "navigation/item-11",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "navigation/item-14",
@@ -12998,6 +13471,11 @@ local ReferenceData: any = {
                 "navigation/item-4",
                 "navigation/item-5",
                 "navigation/item-1",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "companion",
             },
         },
         {
@@ -13053,6 +13531,11 @@ local ReferenceData: any = {
                 "navigation/item-9",
                 "navigation/item-12",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "navigation/item-16",
@@ -13092,6 +13575,11 @@ local ReferenceData: any = {
                 "navigation/item-9",
                 "navigation/item-12",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "prerequisite",
+                "companion",
+            },
         },
         {
             ["id"] = "timer/item-1",
@@ -13124,6 +13612,11 @@ local ReferenceData: any = {
                 "timer/item-3",
                 "timer/item-4",
                 "timer/item-5",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "prerequisite",
             },
         },
         {
@@ -13166,6 +13659,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "timer/item-4",
                 "timer/item-5",
+            },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
             },
         },
         {
@@ -13220,6 +13717,10 @@ local ReferenceData: any = {
                 "timer/item-1",
                 "timer/item-5",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+            },
         },
         {
             ["id"] = "timer/item-4",
@@ -13267,6 +13768,10 @@ local ReferenceData: any = {
                 "timer/item-1",
                 "timer/item-2",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "timer/item-5",
@@ -13300,6 +13805,11 @@ local ReferenceData: any = {
                 "timer/item-2",
                 "timer/item-3",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "host/item-1",
@@ -13329,6 +13839,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "host/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-2",
@@ -13364,6 +13875,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-1",
             ["nextPageId"] = "host/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-3",
@@ -13404,6 +13916,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-2",
             ["nextPageId"] = "host/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-4",
@@ -13427,6 +13940,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-3",
             ["nextPageId"] = "host/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-5",
@@ -13456,6 +13970,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-4",
             ["nextPageId"] = "host/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-6",
@@ -13487,6 +14002,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "host/item-8",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "host/item-7",
@@ -13516,6 +14034,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-6",
             ["nextPageId"] = "host/item-8",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-8",
@@ -13557,6 +14076,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "host/item-9",
             ["relatedPageIds"] = {
                 "host/item-6",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -13600,6 +14122,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "host/item-7",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+            },
         },
         {
             ["id"] = "host/item-10",
@@ -13623,6 +14148,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-9",
             ["nextPageId"] = "host/item-11",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-11",
@@ -13646,6 +14172,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-10",
             ["nextPageId"] = "host/item-12",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-12",
@@ -13675,6 +14202,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-11",
             ["nextPageId"] = "host/item-13",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-13",
@@ -13710,6 +14238,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-12",
             ["nextPageId"] = "host/item-14",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "host/item-14",
@@ -13745,6 +14274,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "host/item-13",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "server/item-1",
@@ -13776,6 +14306,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "server/item-6",
                 "server/item-7",
+            },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
             },
         },
         {
@@ -13819,6 +14353,10 @@ local ReferenceData: any = {
                 "server/item-6",
                 "server/item-7",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "server/item-3",
@@ -13861,6 +14399,10 @@ local ReferenceData: any = {
                 "server/item-5",
                 "server/item-7",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "server/item-4",
@@ -13902,6 +14444,9 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "server/item-7",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+            },
         },
         {
             ["id"] = "server/item-5",
@@ -13933,6 +14478,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "server/item-3",
                 "server/item-7",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
             },
         },
         {
@@ -13997,6 +14546,10 @@ local ReferenceData: any = {
                 "server/item-1",
                 "server/item-2",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "server/item-7",
@@ -14037,6 +14590,12 @@ local ReferenceData: any = {
                 "server/item-3",
                 "server/item-4",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "media/item-1",
@@ -14069,6 +14628,11 @@ local ReferenceData: any = {
                 "media/item-4",
                 "media/item-8",
                 "media/item-15",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "next-step",
+                "next-step",
             },
         },
         {
@@ -14124,6 +14688,11 @@ local ReferenceData: any = {
                 "media/item-8",
                 "media/item-15",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "media/item-3",
@@ -14158,6 +14727,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "media/item-2",
             ["nextPageId"] = "media/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "media/item-4",
@@ -14263,6 +14833,12 @@ local ReferenceData: any = {
                 "media/item-8",
                 "media/item-15",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+                "next-step",
+            },
         },
         {
             ["id"] = "media/item-5",
@@ -14304,6 +14880,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "media/item-7",
                 "media/item-17",
+            },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
             },
         },
         {
@@ -14347,6 +14927,10 @@ local ReferenceData: any = {
                 "media/item-17",
                 "media/item-4",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+            },
         },
         {
             ["id"] = "media/item-7",
@@ -14379,6 +14963,11 @@ local ReferenceData: any = {
                 "media/item-5",
                 "media/item-17",
                 "media/item-4",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "next-step",
+                "companion",
             },
         },
         {
@@ -14445,6 +15034,12 @@ local ReferenceData: any = {
                 "media/item-4",
                 "media/item-15",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "media/item-9",
@@ -14478,6 +15073,11 @@ local ReferenceData: any = {
                 "media/item-12",
                 "media/item-16",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "media/item-10",
@@ -14510,6 +15110,10 @@ local ReferenceData: any = {
                 "media/item-12",
                 "media/item-16",
             },
+            ["relatedPageRoles"] = {
+                "next-step",
+                "companion",
+            },
         },
         {
             ["id"] = "media/item-11",
@@ -14535,6 +15139,10 @@ local ReferenceData: any = {
             ["relatedPageIds"] = {
                 "media/item-9",
                 "media/item-16",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
             },
         },
         {
@@ -14563,6 +15171,11 @@ local ReferenceData: any = {
                 "media/item-10",
                 "media/item-16",
             },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "prerequisite",
+                "companion",
+            },
         },
         {
             ["id"] = "media/item-13",
@@ -14589,6 +15202,10 @@ local ReferenceData: any = {
                 "media/item-4",
                 "media/item-15",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "media/item-14",
@@ -14613,6 +15230,9 @@ local ReferenceData: any = {
             ["nextPageId"] = "media/item-15",
             ["relatedPageIds"] = {
                 "media/item-4",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
             },
         },
         {
@@ -14641,6 +15261,12 @@ local ReferenceData: any = {
                 "media/item-2",
                 "media/item-4",
                 "media/item-8",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
+                "companion",
+                "prerequisite",
+                "next-step",
             },
         },
         {
@@ -14675,6 +15301,12 @@ local ReferenceData: any = {
                 "media/item-10",
                 "media/item-11",
                 "media/item-12",
+            },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "companion",
+                "companion",
             },
         },
         {
@@ -14716,6 +15348,12 @@ local ReferenceData: any = {
                 "media/item-7",
                 "media/item-4",
             },
+            ["relatedPageRoles"] = {
+                "companion",
+                "companion",
+                "prerequisite",
+                "prerequisite",
+            },
         },
         {
             ["id"] = "debug/item-1",
@@ -14745,6 +15383,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "debug/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "debug/item-2",
@@ -14774,6 +15413,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "debug/item-1",
             ["nextPageId"] = "debug/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "debug/item-3",
@@ -14803,6 +15443,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "debug/item-2",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "cli/table-1",
@@ -14893,6 +15534,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "manifest/item-1",
@@ -14912,6 +15554,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "manifest/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "manifest/item-2",
@@ -14936,6 +15579,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "manifest/item-1",
             ["nextPageId"] = "manifest/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "manifest/item-3",
@@ -14955,6 +15599,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "manifest/item-2",
             ["nextPageId"] = "manifest/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "manifest/item-4",
@@ -14974,6 +15619,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "manifest/item-3",
             ["nextPageId"] = "manifest/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "manifest/item-5",
@@ -14993,6 +15639,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "manifest/item-4",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "support/table-1",
@@ -15037,6 +15684,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-1",
@@ -15061,6 +15709,7 @@ local ReferenceData: any = {
             ["previousPageId"] = nil,
             ["nextPageId"] = "policies/item-2",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-2",
@@ -15085,6 +15734,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "policies/item-1",
             ["nextPageId"] = "policies/item-3",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-3",
@@ -15109,6 +15759,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "policies/item-2",
             ["nextPageId"] = "policies/item-4",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-4",
@@ -15133,6 +15784,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "policies/item-3",
             ["nextPageId"] = "policies/item-5",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-5",
@@ -15157,6 +15809,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "policies/item-4",
             ["nextPageId"] = "policies/item-6",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-6",
@@ -15181,6 +15834,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "policies/item-5",
             ["nextPageId"] = "policies/item-7",
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
         {
             ["id"] = "policies/item-7",
@@ -15204,6 +15858,7 @@ local ReferenceData: any = {
             ["previousPageId"] = "policies/item-6",
             ["nextPageId"] = nil,
             ["relatedPageIds"] = {},
+            ["relatedPageRoles"] = {},
         },
     },
     ["parameterGroupPages"] = {

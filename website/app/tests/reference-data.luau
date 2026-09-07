@@ -34,12 +34,20 @@ end
 for _, page in ReferenceData.pages do
     local relatedIds: {[string]: boolean} = {}
     assert(type(page.relatedPageIds) == "table" and #page.relatedPageIds <= 4)
+    assert(type(page.relatedPageRoles) == "table" and #page.relatedPageRoles == #page.relatedPageIds)
     for _, relatedId in page.relatedPageIds do
         assert(pageById[relatedId] ~= nil, `{page.id} links to a missing related page`)
         assert(relatedId ~= page.id, `{page.id} links to itself`)
         assert(relatedId ~= page.previousPageId and relatedId ~= page.nextPageId, `{page.id} duplicates sequential navigation`)
         assert(relatedIds[relatedId] == nil, `{page.id} repeats a related page`)
         relatedIds[relatedId] = true
+    end
+    for _, relationship in page.relatedPageRoles do
+        assert(
+            relationship == "prerequisite"
+                or relationship == "companion"
+                or relationship == "next-step"
+        )
     end
     if page.previousPageId ~= nil then
         local previousId = page.previousPageId :: string
