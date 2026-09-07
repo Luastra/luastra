@@ -1,5 +1,5 @@
 {
-  "contentSha256": "0dbc16b9cd271f7ca5110e282c9e3dae668566120fe9e54077231ac2c6c0d001",
+  "contentSha256": "abfda66efc9c93987d15ab03602e134672bc4104027db70f64a7e2e7fbc49c77",
   "files": [
     {
       "bytes": 182,
@@ -12,6 +12,12 @@
       "mode": 420,
       "path": ".github/CODEOWNERS",
       "sha256": "750efdebea2981046b72fa63028dd2d39a5903bda3f36174a623002dbdb1e9c8"
+    },
+    {
+      "bytes": 26,
+      "mode": 420,
+      "path": ".github/FUNDING.yml",
+      "sha256": "d0b9366164c74fd34e7848d2a0b9f23c0ad1614d02e3d1986c633b87399d3066"
     },
     {
       "bytes": 1683,
