@@ -236,6 +236,11 @@ h1, h2, h3, p { margin-block: 0; overflow-wrap: anywhere; }
   color: var(--luastra-color-text);
   background: color-mix(in srgb, var(--luastra-color-accent) 10%, transparent);
 }
+.luastra-link.luastra-docs-page-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 .luastra-site-note {
   margin-block-start: auto;
   border: 1px solid var(--luastra-color-border);

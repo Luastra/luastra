@@ -279,7 +279,7 @@ local function navigateBack(fallback: any)
     end
 end
 
-local function link(id: string, text: string, pageId: string): UI.Node
+local function link(id: string, text: string, pageId: string, className: string?): UI.Node
     local page = pageById[pageId]
     assert(page ~= nil, "site link page is invalid")
     targetPages[id] = pageId
@@ -288,6 +288,7 @@ local function link(id: string, text: string, pageId: string): UI.Node
         text = text,
         href = hrefFor({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }),
         onTap = "docs.open-page",
+        className = className,
     }
 end
 
@@ -311,7 +312,7 @@ local function renderPageLinks(sectionId: string): UI.Node
     for index, page in ReferenceData.pages do
         if page.sectionId == sectionId then
             count += 1
-            table.insert(input, link(`docs/page-link-{index}`, page.name, page.id))
+            table.insert(input, link(`docs/page-link-{index}`, page.name, page.id, "luastra-docs-page-link"))
         end
     end
     if count == 0 then
