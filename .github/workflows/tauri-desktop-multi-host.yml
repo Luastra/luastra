@@ -68,15 +68,17 @@ jobs:
           node ../../tests/glib-security-backport.mjs
           node ../../tests/tauri-host-closure.mjs
 
-      - name: Exercise the GLib security backport under optimization
-        if: matrix.target == 'linux-x64'
-        run: |
-          cargo test --locked --release --manifest-path src-tauri/Cargo.toml --test glib_security_backport
-          cargo check --locked --manifest-path ../../website/src-tauri/Cargo.toml
-
       - name: Build exact Luastra media fixture
         shell: pwsh
         run: node ../../cli/luastra.mjs build web --project=../../examples/media-player
+
+      - name: Exercise the GLib security backport under optimization
+        if: matrix.target == 'linux-x64'
+        run: |
+          node scripts/sync-web.mjs
+          cargo test --locked --release --manifest-path src-tauri/Cargo.toml --test glib_security_backport
+          npm --prefix ../../website run reference:build
+          cargo check --locked --manifest-path ../../website/src-tauri/Cargo.toml
 
       - name: Build exact unsigned desktop executable
         shell: pwsh

@@ -1,5 +1,5 @@
 {
-  "contentSha256": "a964b52509741ff4990319e269cfcdcacee66e346a8953e652e54059bd89c7e7",
+  "contentSha256": "7201cd7ec7e8c738f6c8117b205ce3d8af368b9d9c4b7d4144079aed238ee922",
   "files": [
     {
       "bytes": 182,
@@ -80,10 +80,10 @@
       "sha256": "0a15be4537607e234c77eeb7e01ab24de12468fcf84bd4429a293abad0ae34b9"
     },
     {
-      "bytes": 4281,
+      "bytes": 4374,
       "mode": 420,
       "path": ".github/workflows/tauri-desktop-multi-host.yml",
-      "sha256": "f66939a186e916ea155a6eaa87d7bd1809041e7c32ec2646f9b533a3885517f1"
+      "sha256": "4ca37bfac5473b4eff0af84e922b67baf37d87fd5601b4dc4b1bfcdb7820c252"
     },
     {
       "bytes": 269,
