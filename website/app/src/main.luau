@@ -1,8 +1,10 @@
 --!strict
 
 local Examples = require("app/examples")
+local Landing = require("app/landing")
 local ReferenceData = require("app/reference-data")
 local Host = require("luastra/host")
+local Navigation = require("luastra/navigation")
 local UI = require("luastra/ui")
 
 local Application = {}
@@ -36,10 +38,47 @@ local exampleCounter = 0
 local learningStep = 1
 local darkMode = false
 local navigationOpen = false
-local copyStatusByPage: {[string]: string} = {}
+local showingLanding = true
+local copyStatusByTarget: {[string]: string} = {}
 local pendingCopy: {[number]: string} = {}
 local targetPages: {[string]: string} = {}
 local targetSections: {[string]: string} = {}
+
+local sectionByIdMap: {[string]: any} = {}
+local pageById: {[string]: any} = {}
+local pageByRouteId: {[string]: any} = {}
+for _, section in ReferenceData.sections do sectionByIdMap[section.id] = section end
+for _, page in ReferenceData.pages do
+    pageById[page.id] = page
+    pageByRouteId[page.routeId] = page
+end
+
+local routeCompiler = Navigation.compile {
+    { name = "home", path = "/" },
+    { name = "product", path = "/product" },
+    { name = "examples", path = "/examples" },
+    { name = "about", path = "/about/:topic", params = { topic = { type = "enum", values = { "why", "targets", "source" } } } },
+    { name = "product-detail", path = "/product/:topic", params = { topic = { type = "enum", values = { "install", "quickstart", "learn", "ui", "state", "hosts" } } } },
+    { name = "example-detail", path = "/examples/:example", params = { example = { type = "enum", values = { "catalogue", "orbit", "meditation", "forms", "media", "routing", "visuals", "debug" } } } },
+    { name = "docs", path = "/docs/:section", params = { section = { type = "string", maximumLength = 64 } } },
+    { name = "reference", path = "/reference/:section/:symbol", params = { section = { type = "string", maximumLength = 64 }, symbol = { type = "string", maximumLength = 96 } } },
+    { name = "reference-legacy", path = "/reference/:page", params = { page = { type = "string", maximumLength = 128 } } },
+}
+local homeEntry = table.freeze({ name = "home", params = table.freeze({}), query = table.freeze({}) })
+local navigation = Navigation.createRouter { compiler = routeCompiler, initial = homeEntry }
+local launchUrlRequest: number? = nil
+local historyCurrentRequest: number? = nil
+local orbitPreferenceRequest: number? = nil
+local docsThemeRequest: number? = nil
+local launchResolved = false
+local historyResolved = false
+local orbitPreferenceResolved = false
+local docsThemeResolved = false
+local launchPayload = ""
+local currentHistoryToken: string? = nil
+local pendingStartupUrl = ""
+local historyEstablished = false
+local preferencesEstablished = false
 local propertyGroups: {[string]: string} = {
     action = "ui-properties-events",
     columns = "ui-properties-layout",
@@ -61,32 +100,195 @@ local function lower(value: string): string
     return string.lower(value)
 end
 
+local function normalizedSearch(value: string): string
+    return lower(string.match(value, "^%s*(.-)%s*$") or "")
+end
+
 local function includes(value: string?, needle: string): boolean
     return value ~= nil and string.find(lower(value), needle, 1, true) ~= nil
 end
 
+local function searchableValue(value: any, needle: string): boolean
+    if type(value) == "string" then return includes(value, needle) end
+    if type(value) ~= "table" then return false end
+    for _, item in value do
+        if searchableValue(item, needle) then return true end
+    end
+    return false
+end
+
 local function selectedPage(): any?
     if selectedPageId == nil then return nil end
-    for _, page in ReferenceData.pages do
-        if page.id == selectedPageId then return page end
-    end
-    return nil
+    return pageById[selectedPageId]
 end
 
 local function sectionById(id: string): any?
-    for _, section in ReferenceData.sections do
-        if section.id == id then return section end
+    return sectionByIdMap[id]
+end
+
+local function applyRoute(): boolean
+    local entry = navigation.current() :: any
+    query = ""
+    navigationOpen = false
+    if entry.name == "home" then
+        showingLanding = true
+        return Landing.restore("root", nil)
+    elseif entry.name == "product" then
+        showingLanding = true
+        return Landing.restore("product", nil)
+    elseif entry.name == "examples" then
+        showingLanding = true
+        return Landing.restore("examples", nil)
+    elseif entry.name == "about" then
+        showingLanding = true
+        return Landing.restore("root", "landing/" .. tostring(entry.params.topic))
+    elseif entry.name == "product-detail" then
+        showingLanding = true
+        return Landing.restore("product", "landing/product/" .. tostring(entry.params.topic))
+    elseif entry.name == "example-detail" then
+        showingLanding = true
+        return Landing.restore("examples", "landing/examples/" .. tostring(entry.params.example))
+    elseif entry.name == "docs" then
+        showingLanding = false
+        selectedPageId = nil
+        selectedSection = tostring(entry.params.section)
+        return sectionById(selectedSection) ~= nil
+    elseif entry.name == "reference" or entry.name == "reference-legacy" then
+        local routeId = if entry.name == "reference"
+            then tostring(entry.params.section) .. "/" .. tostring(entry.params.symbol)
+            else tostring(entry.params.page)
+        local page = pageByRouteId[routeId] or pageById[routeId]
+        if page == nil then return false end
+        if entry.name ~= "reference" or routeId ~= page.routeId then
+            local canonical = navigation.replace({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} })
+            if not canonical.success then return false end
+        end
+        showingLanding = false
+        selectedPageId = page.id
+        return true
     end
+    return false
+end
+
+local function applyRouteOrHome()
+    if applyRoute() then return end
+    local fallback = navigation.replace(homeEntry)
+    assert(fallback.success and applyRoute(), "site fallback route did not resolve")
+end
+
+local function locationFor(): string
+    return "#" .. navigation.currentLocation()
+end
+
+local function pushEntry(entry: any)
+    local result = navigation.push(entry)
+    if not result.success then
+        local errorCode = if result.error ~= nil then result.error.code else ""
+        if errorCode ~= "stack_depth_exceeded" then return end
+        local previous = navigation.current()
+        navigation = Navigation.createRouter { compiler = routeCompiler, initial = previous }
+        result = navigation.push(entry)
+        assert(result.success, "compacted site route did not resolve")
+    end
+    assert(applyRoute(), "site route did not resolve")
+    if result.changed and historyEstablished then Host.historyPushLocation(locationFor(), navigation.encode()) end
+end
+
+local function replaceEntry(entry: any)
+    local result = navigation.replace(entry)
+    if not result.success then return end
+    assert(applyRoute(), "site route did not resolve")
+    if historyEstablished then Host.historyReplaceLocation(locationFor(), navigation.encode()) end
+end
+
+local function locationFromUrl(value: string): string?
+    if string.match(value, "#docs/content$") ~= nil then return "/docs/overview" end
+    return string.match(value, "#(/[^#]*)$")
+end
+
+local function applyUrl(value: string, appendHistory: boolean): boolean
+    local location = locationFromUrl(value)
+    local matched = location and routeCompiler.match(location) or nil
+    if matched == nil or not matched.success or matched.entry == nil then return false end
+    local entry = matched.entry :: any
+    local params = entry.params :: any
+    if entry.name == "docs" and sectionById(tostring(params.section)) == nil then return false end
+    if entry.name == "reference" or entry.name == "reference-legacy" then
+        local routeId = if entry.name == "reference"
+            then tostring(params.section) .. "/" .. tostring(params.symbol)
+            else tostring(params.page)
+        local page = pageByRouteId[routeId] or pageById[routeId]
+        if page == nil then return false end
+        entry = { name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }
+    end
+    local result = appendHistory and navigation.push(entry) or navigation.replace(entry)
+    if not result.success or not applyRoute() then return false end
+    if historyEstablished then
+        if appendHistory and result.changed then Host.historyPushLocation(locationFor(), navigation.encode())
+        else Host.historyReplaceLocation(locationFor(), navigation.encode()) end
+    end
+    return true
+end
+
+local function saveOrbitPreferences()
+    if preferencesEstablished then Host.storageSet("orbit-preferences", Landing.encodedPreferences()) end
+end
+
+local function saveDocsTheme()
+    if preferencesEstablished then Host.storageSet("docs-theme", darkMode and "v1:dark" or "v1:light") end
+end
+
+local function finalizeStartup()
+    if historyEstablished or not launchResolved or not historyResolved or not orbitPreferenceResolved or not docsThemeResolved then return end
+    preferencesEstablished = true
+    if currentHistoryToken ~= nil and currentHistoryToken ~= "" then navigation.restoreEncoded(currentHistoryToken) end
+    local applied = launchPayload ~= "" and applyUrl(launchPayload, false)
+    if not applied and pendingStartupUrl ~= "" then applied = applyUrl(pendingStartupUrl, false) end
+    if not applied then applyRouteOrHome() end
+    pendingStartupUrl = ""
+    historyEstablished = true
+    Host.historyReplaceLocation(locationFor(), navigation.encode())
+end
+
+local function landingEntry(target: string): any?
+    if target == "landing/product" then return { name = "product", params = {}, query = {} } end
+    if target == "landing/examples" then return { name = "examples", params = {}, query = {} } end
+    local about = string.match(target, "^landing/([a-z]+)$")
+    if about == "why" or about == "targets" or about == "source" then return { name = "about", params = { topic = about }, query = {} } end
+    local product = string.match(target, "^landing/product/([a-z]+)$")
+    if product ~= nil then return { name = "product-detail", params = { topic = product }, query = {} } end
+    local example = string.match(target, "^landing/examples/([a-z]+)$")
+    if example ~= nil then return { name = "example-detail", params = { example = example }, query = {} } end
     return nil
 end
 
-local function link(id: string, text: string, pageId: string): UI.Node
+local function hrefFor(entry: any): string
+    local generated = routeCompiler.generate(entry)
+    assert(generated.success and generated.location ~= nil, "site link route is invalid")
+    return "#" .. (generated.location :: string)
+end
+
+local function navigateBack(fallback: any)
+    if not navigation.canBack() then
+        replaceEntry(fallback)
+    elseif historyEstablished then
+        Host.historyBack()
+    else
+        navigation.back()
+        assert(applyRoute(), "previous site route did not resolve")
+    end
+end
+
+local function link(id: string, text: string, pageId: string, className: string?): UI.Node
+    local page = pageById[pageId]
+    assert(page ~= nil, "site link page is invalid")
     targetPages[id] = pageId
     return UI.Link {
         id = id,
         text = text,
-        href = "#docs/content",
+        href = hrefFor({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }),
         onTap = "docs.open-page",
+        className = className,
     }
 end
 
@@ -95,7 +297,7 @@ local function sectionLink(id: string, text: string, sectionId: string, classNam
     return UI.Link {
         id = id,
         text = text,
-        href = "#docs/content",
+        href = hrefFor({ name = "docs", params = { section = sectionId }, query = {} }),
         onTap = "docs.open-section",
         className = className,
     }
@@ -110,13 +312,61 @@ local function renderPageLinks(sectionId: string): UI.Node
     for index, page in ReferenceData.pages do
         if page.sectionId == sectionId then
             count += 1
-            table.insert(input, link(`docs/page-link-{index}`, page.name, page.id))
+            table.insert(input, link(`docs/page-link-{index}`, page.name, page.id, "luastra-docs-page-link"))
         end
     end
     if count == 0 then
         table.insert(input, UI.Text { id = `docs/pages/{sectionId}/empty`, text = "This overview has no separate API pages." })
     end
     return UI.Column(input)
+end
+
+local function renderRelatedPages(page: any): UI.Node?
+    if page.relatedPageIds == nil or #page.relatedPageIds == 0 then return nil end
+    local input: any = { id = "docs/detail/related", gap = "md" }
+    local labels = {
+        prerequisite = "Prerequisites",
+        companion = "Companions",
+        ["next-step"] = "Next steps",
+    }
+    local relatedPageRoles = page.relatedPageRoles :: any
+    for _, relationship in { "prerequisite", "companion", "next-step" } do
+        local group: any = { id = `docs/detail/related-{relationship}`, gap = "xs" }
+        local count = 0
+        for index, relatedId in page.relatedPageIds do
+            if relatedPageRoles[index] == relationship then
+                local related = pageById[relatedId]
+                if related ~= nil then
+                    count += 1
+                    table.insert(group, link(`docs/detail/related-{relationship}-{index}`, related.name, related.id))
+                end
+            end
+        end
+        if count > 0 then
+            table.insert(input, UI.Text {
+                id = `docs/detail/related-{relationship}-title`,
+                text = labels[relationship],
+                variant = "heading",
+            })
+            table.insert(input, UI.Column(group))
+        end
+    end
+    if #input == 0 then return nil end
+    return UI.Stack(input)
+end
+
+local function renderDetailNavigation(page: any): UI.Node?
+    local input: any = { id = "docs/detail/navigation", gap = "sm", responsive = true }
+    local previousPage = if page.previousPageId ~= nil then pageById[page.previousPageId :: string] else nil
+    local nextPage = if page.nextPageId ~= nil then pageById[page.nextPageId :: string] else nil
+    if previousPage ~= nil then
+        table.insert(input, link("docs/detail/previous", `← Previous: {previousPage.name}`, previousPage.id))
+    end
+    if nextPage ~= nil then
+        table.insert(input, link("docs/detail/next", `Next: {nextPage.name} →`, nextPage.id))
+    end
+    if #input == 0 then return nil end
+    return UI.Actions(input)
 end
 
 local function renderNavigation(): UI.Node
@@ -179,6 +429,14 @@ local function renderHeader(): UI.Node
         className = "luastra-site-topbar",
         role = "banner",
         UI.Button {
+            id = "docs/header/home",
+            className = "luastra-site-icon-button",
+            text = "✦",
+            label = "Return to the Luastra home experience",
+            appearance = "secondary",
+            onTap = "site.open-home",
+        },
+        UI.Button {
             id = "docs/header/menu",
             className = "luastra-site-icon-button luastra-site-menu-button",
             text = "☰",
@@ -224,14 +482,27 @@ local function renderHeader(): UI.Node
 end
 
 local function renderSearchResults(): UI.Node
-    local needle = lower(query)
+    local needle = normalizedSearch(query)
     local input: any = { id = "docs/search/results", gap = "sm" }
     local count = 0
+    for index, section in ReferenceData.sections do
+        if searchableValue(section, needle) then
+            count += 1
+            if count <= 40 then
+                table.insert(input, UI.Card {
+                    id = `docs/search/section-{index}`,
+                    className = "luastra-site-reference-card",
+                    width = "full",
+                    padding = "md",
+                    gap = "xs",
+                    sectionLink(`docs/search/section-link-{index}`, section.title, section.id),
+                    UI.Text { id = `docs/search/section-{index}/summary`, text = section.summary, tone = "muted" },
+                })
+            end
+        end
+    end
     for index, page in ReferenceData.pages do
-        local matched = includes(page.name, needle)
-            or includes(page.signature, needle)
-            or includes(page.description, needle)
-            or includes(page.module, needle)
+        local matched = searchableValue(page, needle)
         if matched then
             count += 1
             if count <= 40 then
@@ -249,8 +520,14 @@ local function renderSearchResults(): UI.Node
     end
     table.insert(input, 1, UI.Text {
         id = "docs/search/count",
-        text = count == 0 and "No pages found" or `Pages found: {count}`,
+        text = count == 0 and "No results" or `Results: {count}`,
         variant = "subheading",
+    })
+    table.insert(input, 2, UI.Button {
+        id = "docs/search/clear",
+        text = "Clear search",
+        appearance = "secondary",
+        onTap = "docs.clear-search",
     })
     return UI.Column(input)
 end
@@ -313,6 +590,9 @@ local function renderOverview(section: any): UI.Node
     if section.example ~= nil then
         table.insert(input, UI.Text { id = "docs/section/example-title", text = "Complete example", variant = "subheading" })
         table.insert(input, UI.CodeBlock { id = "docs/section/example", code = section.example, language = "Luau" })
+        table.insert(input, UI.Button { id = "docs/section/copy", text = "Copy complete example", appearance = "secondary", onTap = "docs.copy-section" })
+        local copyStatus = copyStatusByTarget["section:" .. section.id]
+        if copyStatus ~= nil then table.insert(input, UI.Text { id = "docs/section/copy-status", text = copyStatus, role = "status" }) end
     end
     table.insert(input, UI.Divider { id = "docs/section/divider" })
     table.insert(input, UI.Text { id = "docs/section/pages-title", text = "Detail pages", variant = "subheading" })
@@ -354,7 +634,12 @@ local function renderParameters(page: any): UI.Node
             UI.TableCell { id = `docs/detail/parameters/row-{index}/description`, text = parameter.description },
         })
     end
-    return UI.Table(tableInput)
+    return UI.Scroll {
+        id = "docs/detail/parameters-scroll",
+        label = "Scrollable parameters table",
+        scroll = "horizontal",
+        UI.Table(tableInput),
+    }
 end
 
 local function renderParameterGroups(page: any): UI.Node?
@@ -372,6 +657,71 @@ local function renderParameterGroups(page: any): UI.Node?
     return UI.Column(input)
 end
 
+local function renderErrorCodes(page: any): UI.Node?
+    if page.errorCodes == nil or #page.errorCodes == 0 then return nil end
+    local tableInput: any = { id = "docs/detail/error-codes", label = "Error codes" }
+    table.insert(tableInput, UI.TableRow {
+        id = "docs/detail/error-codes/header",
+        UI.TableCell { id = "docs/detail/error-codes/header/code", header = true, scope = "col", text = "Code" },
+        UI.TableCell { id = "docs/detail/error-codes/header/meaning", header = true, scope = "col", text = "When it occurs" },
+    })
+    for index, entry in page.errorCodes do
+        table.insert(tableInput, UI.TableRow {
+            id = `docs/detail/error-codes/row-{index}`,
+            UI.TableCell { id = `docs/detail/error-codes/row-{index}/code`, header = true, scope = "row", text = entry.code },
+            UI.TableCell { id = `docs/detail/error-codes/row-{index}/meaning`, text = entry.meaning },
+        })
+    end
+    return UI.Scroll {
+        id = "docs/detail/error-codes-scroll",
+        label = "Scrollable error-code table",
+        scroll = "horizontal",
+        UI.Table(tableInput),
+    }
+end
+
+local function renderTypeFlow(page: any): UI.Node?
+    local producers = page.producerPageIds :: any
+    local consumers = page.consumerPageIds :: any
+    if (producers == nil or #producers == 0) and (consumers == nil or #consumers == 0) then return nil end
+    local input: any = { id = "docs/detail/type-flow", gap = "md" }
+    for _, group in {
+        { id = "produced-by", title = "Produced by", pageIds = producers },
+        { id = "consumed-by", title = "Consumed by the SDK", pageIds = consumers },
+    } do
+        if group.pageIds ~= nil and #group.pageIds > 0 then
+            local links: any = { id = `docs/detail/{group.id}`, gap = "xs" }
+            table.insert(input, UI.Text { id = `docs/detail/{group.id}-title`, text = group.title, variant = "heading" })
+            for index, pageId in group.pageIds do
+                local target = pageById[pageId]
+                if target ~= nil then table.insert(links, link(`docs/detail/{group.id}-{index}`, target.name, target.id)) end
+            end
+            table.insert(input, UI.Column(links))
+        end
+    end
+    return UI.Stack(input)
+end
+
+local function insertCodeBlocks(input: any, id: string, code: string, language: string)
+    local start = 1
+    local index = 1
+    while start <= #code do
+        local finish = math.min(start + 4095, #code)
+        if finish < #code then
+            local candidate = string.sub(code, start, finish)
+            local newline = string.match(candidate, ".*()\n")
+            if newline ~= nil and newline > 1 then finish = start + newline - 1 end
+        end
+        table.insert(input, UI.CodeBlock {
+            id = if index == 1 then id else `{id}-{index}`,
+            code = string.sub(code, start, finish),
+            language = language,
+        })
+        start = finish + 1
+        index += 1
+    end
+end
+
 local function renderDetail(page: any): UI.Node
     local input: any = { id = "docs/detail", gap = "lg" }
     table.insert(input, sectionLink("docs/detail/back", `← {page.sectionTitle}`, page.sectionId))
@@ -382,6 +732,14 @@ local function renderDetail(page: any): UI.Node
     if page.mentalModel ~= nil then
         table.insert(input, UI.Text { id = "docs/detail/mental-model-title", text = "Mental model", variant = "subheading" })
         table.insert(input, UI.Text { id = "docs/detail/mental-model", text = page.mentalModel })
+    end
+    if page.beforeYouUse ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/before-title", text = "Before you use it", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/before", text = page.beforeYouUse })
+    end
+    if page.lifecycle ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/lifecycle-title", text = "How it fits", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/lifecycle", text = page.lifecycle })
     end
     if page.useWhen ~= nil then
         table.insert(input, UI.Card {
@@ -405,6 +763,17 @@ local function renderDetail(page: any): UI.Node
         table.insert(input, UI.Text { id = "docs/detail/parameters-title", text = if page.kind == "type" then "Fields or definition" else "Parameters", variant = "subheading" })
         table.insert(input, renderParameters(page))
     end
+    if page.errorCodeNote ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/error-codes-title", text = "Error codes", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/error-codes-note", text = page.errorCodeNote })
+        local errorCodes = renderErrorCodes(page)
+        if errorCodes ~= nil then table.insert(input, errorCodes) end
+    end
+    local typeFlow = renderTypeFlow(page)
+    if typeFlow ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/type-flow-title", text = "SDK type flow", variant = "subheading" })
+        table.insert(input, typeFlow)
+    end
     if page.childRules ~= nil then
         table.insert(input, UI.Text { id = "docs/detail/children-title", text = "Children and layout", variant = "subheading" })
         table.insert(input, UI.Text { id = "docs/detail/children", text = page.childRules })
@@ -425,22 +794,58 @@ local function renderDetail(page: any): UI.Node
         table.insert(input, UI.Text { id = "docs/detail/returns-title", text = "Returns", variant = "subheading" })
         table.insert(input, UI.Text { id = "docs/detail/returns", text = page.returns })
     end
+    if page.expectedOutcome ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/outcome-title", text = "What happens next", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/outcome", text = page.expectedOutcome })
+    end
+    if page.failureGuidance ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/failures-title", text = "Failures and fixes", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/failures", text = page.failureGuidance })
+    end
+    if page.availability ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/availability-title", text = "Availability", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/availability", text = page.availability, tone = "muted" })
+    end
     if page.code ~= nil then
-        table.insert(input, UI.Text { id = "docs/detail/example-title", text = if page.kind == "type" then "Exact declaration" else "Minimal example", variant = "subheading" })
-        table.insert(input, UI.CodeBlock { id = "docs/detail/example", code = page.code, language = page.language or "Luau" })
+        table.insert(input, UI.Text { id = "docs/detail/example-title", text = if page.kind == "type" then "Exact declaration" else "Focused example", variant = "subheading" })
+        insertCodeBlocks(input, "docs/detail/example", page.code, page.language or "Luau")
         table.insert(input, UI.Button { id = "docs/detail/copy", text = if page.kind == "type" then "Copy declaration" else "Copy example", appearance = "secondary", onTap = "docs.copy" })
-        local copyStatus = copyStatusByPage[page.id]
+        local copyStatus = copyStatusByTarget["page:" .. page.id]
         if copyStatus ~= nil then table.insert(input, UI.Text { id = "docs/detail/copy-status", text = copyStatus, role = "status" }) end
+    end
+    if page.completeRecipe ~= nil then
+        table.insert(input, UI.Card {
+            id = "docs/detail/recipe",
+            className = "luastra-site-recipe-link",
+            width = "full",
+            surface = "accent",
+            padding = "md",
+            gap = "xs",
+            UI.Text { id = "docs/detail/recipe/title", text = "Continue with a complete recipe", variant = "subheading" },
+            UI.Text { id = "docs/detail/recipe/description", text = page.completeRecipe.description },
+            sectionLink(
+                "docs/detail/recipe/link",
+                `Open {page.completeRecipe.title} recipe`,
+                page.completeRecipe.sectionId
+            ),
+        })
     end
     if page.name == "UI.Button" then table.insert(input, Examples.render(exampleCounter)) end
     table.insert(input, UI.Divider { id = "docs/detail/divider" })
-    table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Related pages", variant = "subheading" })
-    table.insert(input, renderPageLinks(page.sectionId))
+    local related = renderRelatedPages(page)
+    if related ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/related-title", text = "Continue learning", variant = "subheading" })
+        table.insert(input, related)
+    end
+    table.insert(input, UI.Text { id = "docs/detail/inventory-title", text = "Complete inventory", variant = "subheading" })
+    table.insert(input, sectionLink("docs/detail/inventory", `View all pages in {page.sectionTitle}`, page.sectionId))
+    local detailNavigation = renderDetailNavigation(page)
+    if detailNavigation ~= nil then table.insert(input, detailNavigation) end
     return UI.Column(input)
 end
 
 local function renderContent(): UI.Node
-    if query ~= "" then return renderSearchResults() end
+    if normalizedSearch(query) ~= "" then return renderSearchResults() end
     local page = selectedPage()
     if page ~= nil then return renderDetail(page) end
     local section = sectionById(selectedSection) or ReferenceData.sections[1]
@@ -448,6 +853,7 @@ local function renderContent(): UI.Node
 end
 
 function Application.render(): UI.Node
+    if showingLanding then return Landing.render() end
     targetPages = {}
     targetSections = {}
     return UI.Screen {
@@ -488,37 +894,86 @@ function Application.render(): UI.Node
 end
 
 function Application.handle(action: string, target: string, value: string)
+    if action == "lifecycle" and target == "app" and value == "launch" and launchUrlRequest == nil then
+        launchUrlRequest = Host.launchUrl()
+        historyCurrentRequest = Host.historyCurrent()
+        orbitPreferenceRequest = Host.storageGet("orbit-preferences")
+        docsThemeRequest = Host.storageGet("docs-theme")
+        return
+    elseif action == "history" and target == "app" then
+        if navigation.restoreEncoded(value).success then applyRouteOrHome() end
+        return
+    elseif action == "open_url" and (target == "app" or target == "browser") then
+        if not historyEstablished then pendingStartupUrl = value
+        else applyUrl(value, target == "app") end
+        return
+    elseif action == "system_back" and target == "app" then
+        local intent = tonumber(string.match(value, "^([1-9][0-9]*):[01]$"))
+        if intent ~= nil then
+            if navigation.canBack() then Host.systemBackHistory(intent) else Host.systemBackExit(intent) end
+        end
+        return
+    elseif action == "site.open-home" then
+        pushEntry(homeEntry)
+        return
+    end
+    if showingLanding then
+        if action == "landing.open-product" or action == "landing.open-examples" or action == "landing.open-focus" then
+            local entry = landingEntry(target)
+            if entry ~= nil then pushEntry(entry) end
+        elseif action == "landing.open-reference" then
+            pushEntry({ name = "docs", params = { section = "overview" }, query = {} })
+        elseif action == "landing.open-focus-docs" then
+            local destination = Landing.handle(action, target, value)
+            if destination ~= nil then pushEntry({ name = "docs", params = { section = destination }, query = {} }) end
+        elseif action == "landing.return-root" then
+            navigateBack(homeEntry)
+        elseif action == "landing.close-focus" then
+            local routeName = navigation.current().name
+            if routeName == "product-detail" then navigateBack({ name = "product", params = {}, query = {} })
+            elseif routeName == "example-detail" then navigateBack({ name = "examples", params = {}, query = {} })
+            else navigateBack(homeEntry) end
+        else
+            Landing.handle(action, target, value)
+            if action == "landing.choose-theme" or action == "landing.toggle-motion" then saveOrbitPreferences() end
+        end
+        return
+    end
     if action == "docs.search" and target == "docs/search" then
-        query = value
+        query = string.sub(value, 1, 160)
         selectedPageId = nil
         navigationOpen = false
+    elseif action == "docs.clear-search" and target == "docs/search/clear" then
+        query = ""
     elseif action == "docs.open-page" then
         local pageId = targetPages[target]
-        if pageId ~= nil then
-            query = ""
-            selectedPageId = pageId
-            navigationOpen = false
-        end
+        local page = if pageId ~= nil then pageById[pageId] else nil
+        if page ~= nil then pushEntry({ name = "reference", params = { section = page.sectionId, symbol = page.routeSlug }, query = {} }) end
     elseif action == "docs.open-section" then
         local sectionId = targetSections[target]
-        if sectionId ~= nil then
-            query = ""
-            selectedPageId = nil
-            selectedSection = sectionId
-            navigationOpen = false
-        end
+        if sectionId ~= nil then pushEntry({ name = "docs", params = { section = sectionId }, query = {} }) end
     elseif action == "docs.toggle-navigation" and target == "docs/header/menu" then
         navigationOpen = not navigationOpen
     elseif action == "docs.close-navigation" and target == "docs/navigation-scrim" then
         navigationOpen = false
     elseif action == "docs.toggle-theme" and target == "docs/header/theme" then
         darkMode = not darkMode
+        saveDocsTheme()
     elseif action == "docs.copy" and target == "docs/detail/copy" then
         local page = selectedPage()
         if page ~= nil and page.code ~= nil then
-            copyStatusByPage[page.id] = "Copying…"
+            local statusTarget = "page:" .. page.id
+            copyStatusByTarget[statusTarget] = "Copying…"
             local code = page.code :: string
-            pendingCopy[Host.clipboardWrite(code)] = page.id
+            pendingCopy[Host.clipboardWrite(code)] = statusTarget
+        end
+    elseif action == "docs.copy-section" and target == "docs/section/copy" then
+        local section = sectionById(selectedSection)
+        if section ~= nil and section.example ~= nil then
+            local statusTarget = "section:" .. selectedSection
+            copyStatusByTarget[statusTarget] = "Copying…"
+            local code = section.example :: string
+            pendingCopy[Host.clipboardWrite(code)] = statusTarget
         end
     elseif action == "example.increment" and target == "live/increment" then
         exampleCounter += 1
@@ -534,10 +989,52 @@ function Application.handle(action: string, target: string, value: string)
 end
 
 function Application.resolve(id: number, success: boolean, _payload: string, _code: string, _message: string)
-    local pageId = pendingCopy[id]
-    if pageId == nil then return end
+    if launchUrlRequest == id then
+        launchUrlRequest = nil
+        launchResolved = true
+        launchPayload = success and _payload or ""
+        finalizeStartup()
+        return
+    elseif historyCurrentRequest == id then
+        historyCurrentRequest = nil
+        historyResolved = true
+        currentHistoryToken = success and _payload or ""
+        finalizeStartup()
+        return
+    elseif orbitPreferenceRequest == id then
+        orbitPreferenceRequest = nil
+        orbitPreferenceResolved = true
+        Landing.restorePreferences(success and _payload or "")
+        finalizeStartup()
+        return
+    elseif docsThemeRequest == id then
+        docsThemeRequest = nil
+        docsThemeResolved = true
+        darkMode = success and _payload == "v1:dark"
+        finalizeStartup()
+        return
+    end
+    local statusTarget = pendingCopy[id]
+    if statusTarget == nil then return end
     pendingCopy[id] = nil
-    copyStatusByPage[pageId] = success and "Example copied." or "Could not copy the example."
+    copyStatusByTarget[statusTarget] = success and "Example copied." or "Could not copy the example."
+end
+
+function Application.snapshot()
+    return {
+        route = navigation.current().name,
+        location = navigation.currentLocation(),
+        encodedState = navigation.encode(),
+        canBack = navigation.canBack(),
+        historyEstablished = historyEstablished,
+        preferencesEstablished = preferencesEstablished,
+        darkMode = darkMode,
+        showingLanding = showingLanding,
+        selectedSection = selectedSection,
+        selectedPageId = selectedPageId,
+        query = query,
+        landing = Landing.snapshot(),
+    }
 end
 
 return Application

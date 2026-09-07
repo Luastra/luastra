@@ -15,6 +15,7 @@ let releaseSet;
 let manifest;
 let manifestBytes;
 const nodeDirectory = dirname(process.execPath);
+const packageManifest = JSON.parse(await readFile(resolve(import.meta.dirname, "../package.json"), "utf8"));
 
 function sha256(bytes) { return createHash("sha256").update(bytes).digest("hex"); }
 function run(command, values, cwd) {
@@ -43,7 +44,8 @@ async function rewriteInstalledVersion(managerRoot, fromVersion, toVersion) {
 before(async () => {
   temporary = await mkdtemp(resolve(tmpdir(), "luastra-sdk-release-test-"));
   releaseSet = resolve(temporary, "release");
-  await buildSdkRelease({ output: releaseSet });
+  await cp(resolve(import.meta.dirname, "../release-artifacts/0.1.0-alpha"), releaseSet, { recursive: true });
+  await verifySdkReleaseSet(releaseSet);
   manifestBytes = await readFile(resolve(releaseSet, "luastra-release.v1.json"));
   manifest = JSON.parse(manifestBytes);
 });
@@ -52,14 +54,41 @@ after(async () => {
   await rm(temporary, { recursive: true, force: true });
 });
 
-test("SDK release archives are deterministic, admitted, and exact", { timeout: 60_000 }, async () => {
-  const second = resolve(temporary, "release-second");
-  const firstResult = await verifySdkReleaseSet(releaseSet);
+test("published SDK release stays admitted while the current source build remains deterministic", { timeout: 60_000 }, async () => {
+  const published = await verifySdkReleaseSet(releaseSet);
+  const admittedCurrentRoot = resolve(import.meta.dirname, `../release-artifacts/${packageManifest.version}`);
+  const admittedCurrent = await verifySdkReleaseSet(admittedCurrentRoot);
+  const first = resolve(temporary, "current-source-first");
+  const second = resolve(temporary, "current-source-second");
+  const firstResult = await buildSdkRelease({ output: first });
   const secondResult = await buildSdkRelease({ output: second });
-  assert.equal(secondResult.contentSha256, firstResult.manifest.contentSha256);
-  for (const name of await readdir(releaseSet)) assert.deepEqual(await readFile(resolve(releaseSet, name)), await readFile(resolve(second, name)));
-  assert.equal(firstResult.manifest.hosts.length, 4);
-  assert.equal(firstResult.manifest.compliance.sbom.filename, "luastra-sdk-0.1.0-alpha.spdx.json");
+  assert.equal(firstResult.version, packageManifest.version);
+  assert.equal(admittedCurrent.manifest.version, packageManifest.version);
+  assert.equal(secondResult.contentSha256, firstResult.contentSha256);
+  for (const name of await readdir(first)) {
+    assert.deepEqual(await readFile(resolve(first, name)), await readFile(resolve(second, name)));
+    assert.deepEqual(await readFile(resolve(first, name)), await readFile(resolve(admittedCurrentRoot, name)));
+  }
+  assert.equal(published.manifest.hosts.length, 4);
+  assert.equal(published.manifest.compliance.sbom.filename, "luastra-sdk-0.1.0-alpha.spdx.json");
+});
+
+test("current admitted SDK installs, reports its version, and passes doctor", { timeout: 30_000 }, async () => {
+  const currentReleaseSet = resolve(import.meta.dirname, `../release-artifacts/${packageManifest.version}`);
+  const managerRoot = resolve(temporary, "current-release-manager");
+  const installed = await installSdkRelease({
+    manifestSource: resolve(currentReleaseSet, "luastra-release.v1.json"),
+    managerRoot,
+  });
+  assert.equal(installed.result, "PASS");
+  assert.equal(installed.version, packageManifest.version);
+  assert.equal((await doctorSdk(managerRoot)).version, packageManifest.version);
+  const executable = process.platform === "win32" ? resolve(managerRoot, "bin/luastra.cmd") : resolve(managerRoot, "bin/luastra");
+  assert.deepEqual(run(executable, ["version"], temporary), {
+    command: "version",
+    result: "PASS",
+    version: packageManifest.version,
+  });
 });
 
 test("offline installation is atomic and the shim executes the selected SDK", { timeout: 60_000 }, async () => {

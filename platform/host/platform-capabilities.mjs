@@ -2,7 +2,7 @@ const keyPattern = /^[a-z][a-z0-9._-]{0,127}$/;
 const maximumValueBytes = 4096;
 const maximumLocationBytes = 1024;
 const encoder = new TextEncoder();
-const locationPattern = /^#\/[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/;
+const locationPattern = /^#\/[A-Za-z0-9%._~!$&'()*+,;=:@/?-]*$/;
 
 function admittedAppUrl(value, allowedOrigin = "") {
   if (typeof value !== "string" || encoder.encode(value).byteLength > maximumValueBytes) return "";
@@ -37,11 +37,21 @@ export function createPlatformCapabilities(projectId, environment = {}) {
   const locationTarget = environment.locationTarget ?? globalThis.location ?? null;
   const historyTarget = environment.historyTarget ?? globalThis.history ?? null;
   const windowTarget = environment.windowTarget ?? globalThis.window ?? null;
+  const scrollTarget = environment.scrollTarget ?? globalThis.window ?? null;
   const fullKey = (key) => `${prefix}${key}`;
   const historyState = (token) => ({ luastra: { version: 1, projectId, token } });
   let pendingSystemBack = null;
   let nextSystemBackId = 1;
   let suppressedHistoryHref = "";
+
+  const resetDocumentScroll = () => {
+    if (typeof scrollTarget?.scrollTo !== "function") return;
+    try { scrollTarget.scrollTo({ top: 0, left: 0, behavior: "auto" }); }
+    catch {
+      try { scrollTarget.scrollTo(0, 0); }
+      catch { /* Scrolling is progressive enhancement; navigation must still succeed. */ }
+    }
+  };
 
   const admittedHistoryToken = (state) => {
     if (!state || typeof state !== "object" || Array.isArray(state) || Object.keys(state).join("\n") !== "luastra") return "";
@@ -60,7 +70,7 @@ export function createPlatformCapabilities(projectId, environment = {}) {
     const body = input.slice(separator + 1);
     const location = body.slice(0, length);
     const token = body.slice(length);
-    if (location.length !== length || !locationPattern.test(location) || encoder.encode(location).byteLength > maximumLocationBytes ||
+    if (location.length !== length || location.startsWith("#//") || !locationPattern.test(location) || encoder.encode(location).byteLength > maximumLocationBytes ||
         token.length === 0 || encoder.encode(token).byteLength > maximumValueBytes) return null;
     return { location, token };
   };
@@ -129,6 +139,7 @@ export function createPlatformCapabilities(projectId, environment = {}) {
           const admitted = admittedLocationPayload(input);
           if (!admitted) return error(request, "VALIDATION", "Invalid history location payload");
           historyTarget[`${key === "push-location" ? "push" : "replace"}State`](historyState(admitted.token), "", admitted.location);
+          resetDocumentScroll();
         }
         else if (key === "back" && input === "") historyTarget.back();
         else if (key === "current" && input === "") return response(request, "ok", admittedHistoryToken(historyTarget.state));

@@ -1,9 +1,9 @@
 {
   "assets": [
     {
-      "bytes": 587,
-      "filename": "luastra-0.1.0-alpha-RELEASE_NOTES.md",
-      "sha256": "4229aa6bc03aad753ec5f3e562e5d58f2c667d2295198255218e4d1697ccf004"
+      "bytes": 3268,
+      "filename": "luastra-0.2.0-alpha-RELEASE_NOTES.md",
+      "sha256": "46fd2a5bb31a864599ea61d2a2be6675275618f6b56b954a29430c2d437970b4"
     },
     {
       "bytes": 21667,
@@ -11,45 +11,45 @@
       "sha256": "60d3ace667691eaf98e58f14625400d39b2f2c6592c2c423aa9658bc942d9200"
     },
     {
-      "bytes": 8591526,
-      "filename": "luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz",
-      "sha256": "2e5fc2c01c3060a07d58dc0a029d072803ecbf879a3c6327b1ae4169e540bed5"
+      "bytes": 8719024,
+      "filename": "luastra-sdk-0.2.0-alpha-darwin-arm64.tar.gz",
+      "sha256": "01de1d9a655737149fc9a03e5b28585284533092cca71d6fb46abf404233c763"
     },
     {
-      "bytes": 8922815,
-      "filename": "luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz",
-      "sha256": "eac6664d062b4731a722023ec2a7d07607357b539c382a451971b5d7fbc743fa"
+      "bytes": 9050313,
+      "filename": "luastra-sdk-0.2.0-alpha-darwin-x64.tar.gz",
+      "sha256": "deb0b7f7509194ed35c2726dfd09fce9cb723c79c59145f8ef05dff3ead10317"
     },
     {
       "bytes": 88092,
-      "filename": "luastra-sdk-0.1.0-alpha-licenses.tar.gz",
-      "sha256": "0918b5510b7cc331b87d68767b748b04faae6d8eaff9624881b66a76748139ad"
+      "filename": "luastra-sdk-0.2.0-alpha-licenses.tar.gz",
+      "sha256": "04d42f1664ae6cf800c2aaf47daf4c8eface5a35732e2771252908ebabe54faa"
     },
     {
-      "bytes": 9505516,
-      "filename": "luastra-sdk-0.1.0-alpha-linux-x64.tar.gz",
-      "sha256": "c2d0f766830ea5ebee03206e78f82fac48fe9ec5cffaf19689e6fd22bc885a29"
+      "bytes": 9633009,
+      "filename": "luastra-sdk-0.2.0-alpha-linux-x64.tar.gz",
+      "sha256": "0e1ce46fd9938eb46839cfb365cc172f2a84ed88347730ffad89f61316c5bae8"
     },
     {
-      "bytes": 1463,
-      "filename": "luastra-sdk-0.1.0-alpha-THIRD_PARTY_NOTICES.md",
-      "sha256": "c41726b8bf3b4dafcfdf2776408a55a7fd8cd91636037c20165ab3505a0757b4"
+      "bytes": 1491,
+      "filename": "luastra-sdk-0.2.0-alpha-THIRD_PARTY_NOTICES.md",
+      "sha256": "33d741c78de0a7cf8795b90459bb9c9784a89898722de14add30762d7054a4a6"
     },
     {
-      "bytes": 5297575,
-      "filename": "luastra-sdk-0.1.0-alpha-win32-x64.tar.gz",
-      "sha256": "78b29e6c1a909178e72ea4aeb5e30ad6fa7186bcfd97220c5689d0b61a26257c"
+      "bytes": 5425073,
+      "filename": "luastra-sdk-0.2.0-alpha-win32-x64.tar.gz",
+      "sha256": "ee64ad591342e50131ef9e6c638c6b49ab5c3db3ce93e094cd19e74cdf2c3b09"
     },
     {
       "bytes": 1819,
-      "filename": "luastra-sdk-0.1.0-alpha.spdx.json",
-      "sha256": "538b1cf4fcd90467e25533ded88ea9521def8fd2265a4bcd1a9877fdc800a66d"
+      "filename": "luastra-sdk-0.2.0-alpha.spdx.json",
+      "sha256": "d2734612032e101d76a480488ef3df3a61b0952264e717dda94450512b2edb10"
     }
   ],
-  "checksumsSha256": "a02f882ecbebbf3a4313919582fd616c8bf23f970c68c1e47d5add5ef3491066",
-  "contentSha256": "3dc31c635bfc5d128e1de62b765f4ea31819505bcedeea9865beaeda3f1f4ba7",
+  "checksumsSha256": "e6e7de9da08065a94826d2f984778e9cc11d3609c4f07911d4b50397dca0e0b7",
+  "contentSha256": "dbdbb4aa690d06a330a9eabdbe69b0b133eb57c2c10c84ca62ff150109d19870",
   "identity": "luastra-sdk-release-admission/v1",
-  "manifestSha256": "b89a5dc4532b1f34990f5da7b504a36bda31cda9191b8c8a8c2ca1bf67d89595",
+  "manifestSha256": "bba117f08199c701812922bf475c3b95e289c1629f15698389ae56b7f18e52ca",
   "schemaVersion": 1,
-  "version": "0.1.0-alpha"
+  "version": "0.2.0-alpha"
 }

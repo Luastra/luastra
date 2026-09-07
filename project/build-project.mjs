@@ -17,6 +17,38 @@ function fail(message) { throw new Error(message); }
 const prototype = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const phase5Host = resolve(prototype, "host");
 function sha256(bytes) { return createHash("sha256").update(bytes).digest("hex"); }
+function escapeHtml(value) {
+  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+}
+
+function webMetadata(value) {
+  if (!value) return { head: "", fallback: "" };
+  const title = escapeHtml(value.title);
+  const description = escapeHtml(value.description);
+  const canonicalUrl = escapeHtml(value.canonicalUrl);
+  const robots = value.index ? "index,follow" : "noindex,nofollow";
+  return {
+    head: `    <meta name="description" content="${description}" />
+    <meta name="robots" content="${robots}" />
+    <link rel="canonical" href="${canonicalUrl}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:url" content="${canonicalUrl}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />
+`,
+    fallback: `    <noscript>
+      <main>
+        <h1>${title}</h1>
+        <p>${description}</p>
+        <p><a href="${canonicalUrl}">Open ${title}</a></p>
+      </main>
+    </noscript>
+`,
+  };
+}
 
 function selectModules(project, sourceSdk, roots) {
   const selected = new Map();
@@ -97,17 +129,32 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
       });
     const bundleContentSha256 = base.contentSha256;
     if (target === "web") {
+      const metadata = webMetadata(project.web);
+      const title = escapeHtml(project.web?.title ?? "Luastra Application");
       const hostHtml = (await readFile(resolve(phase5Host, "index.html"), "utf8"))
-        .replace("<title>Luastra Preview</title>", "<title>Luastra Application</title>")
+        .replace("    <title>Luastra Preview</title>", `${metadata.head}    <title>${title}</title>`)
+        .replace("  <body>\n", `  <body>\n${metadata.fallback}`)
         .replace(`      <header class="luastra-host-brand" aria-label="Luastra development host">
-        <img src="./brand/luastra-mark.svg" alt="" />
-        <span>Luastra</span>
+        <span class="luastra-host-lockup">
+          <img src="./brand/luastra-lockup.svg" alt="Luastra" />
+        </span>
         <span id="status" role="status" aria-live="polite">Starting…</span>
       </header>
 `, `      <span id="status" role="status" aria-live="polite" hidden></span>
 `);
       await writeFile(resolve(output, "index.html"), hostHtml);
       await copyFile(resolve(phase5Host, "phase5-ui.css"), resolve(output, "platform/phase5-ui.css"));
+      if (project.web) {
+        const sitemapUrl = new URL("sitemap.xml", project.web.canonicalUrl).href;
+        const robots = project.web.index
+          ? `User-agent: *\nAllow: /\nSitemap: ${sitemapUrl}\n`
+          : "User-agent: *\nDisallow: /\n";
+        await writeFile(resolve(output, "robots.txt"), robots);
+        if (project.web.index) {
+          const location = escapeHtml(project.web.canonicalUrl);
+          await writeFile(resolve(output, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${location}</loc></url>\n</urlset>\n`);
+        }
+      }
     }
     const packagedAssets = await packageProjectAssets(project, output);
     const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries);

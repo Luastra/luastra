@@ -4,6 +4,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 
 const hostRoot = resolve(import.meta.dirname, "..");
+const hostVersion = JSON.parse(readFileSync(join(hostRoot, "package.json"), "utf8")).version;
 const manifestPath = join(hostRoot, "src-tauri", "Cargo.toml");
 const outputRoot = join(hostRoot, "compliance");
 const spdxRoot = join(outputRoot, "licenses", "spdx-v3.28.0");
@@ -126,7 +127,7 @@ writeFileSync(join(outputRoot, "cargo-sbom.cdx.json"), `${JSON.stringify({
   bomFormat: "CycloneDX",
   specVersion: "1.6",
   version: 1,
-  metadata: { component: { type: "application", name: "luastra-phase5-desktop-host", version: "0.1.0-alpha" } },
+  metadata: { component: { type: "application", name: "luastra-phase5-desktop-host", version: hostVersion } },
   components,
 }, null, 2)}\n`);
 writeFileSync(join(outputRoot, "THIRD_PARTY_NOTICES.generated.md"), `${notices.join("\n").trimEnd()}\n`);

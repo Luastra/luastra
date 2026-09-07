@@ -1,4 +1,4 @@
-# Luastra `0.1.0-alpha` compatibility
+# Luastra `0.2.0-alpha` compatibility
 
 This matrix distinguishes verified source-alpha evidence from distribution or
 production claims. `Verified` means the named path passed the repository's
@@ -18,7 +18,7 @@ The immutable runtime SDK selects only the following admitted host identities:
 
 Node.js 24 or newer is required by the source and contributor workflow.
 Linux ARM, Windows ARM, and other host combinations are not admitted in
-`0.1.0-alpha` even if an upstream tool happens to provide binaries for them.
+`0.2.0-alpha` even if an upstream tool happens to provide binaries for them.
 
 ## Application targets
 

@@ -13,6 +13,26 @@ licensing, and security boundaries pass the applicable gate.
 - Repeat owner dogfood against the exact documented candidate.
 - Enable public security reporting and protected repository workflows.
 
+## `0.2.0-alpha` — Constellation Orbit vertical slice
+
+- Admit the experimental Constellation Orbit semantic UI family through the
+  public Luau SDK without application-owned coordinates or renderer escape
+  hatches.
+- Prove equivalent spatial and complete-list presentation, nested navigation,
+  Focus Surfaces, search, semantic relationships and zoom, themes, motion
+  preferences, keyboard access, direct links, and focus restoration.
+- Establish browser, DOM, layout, memory, and visual-effect performance budgets
+  before treating the reference experience as release-ready.
+- Harden the same semantic application separately on supported browser,
+  Capacitor, and Tauri hosts; evidence from one host does not admit another.
+- Dogfood the release by migrating `luastra.dev` in private first. Use Orbit for
+  the landing experience, product map, and examples while retaining conventional
+  searchable documentation and API-reference pages, stable deep links, indexed
+  content, reduced-motion behavior, and a complete list fallback.
+- Publish the migrated site only from an audited public candidate after its
+  accessibility, responsive, performance, SEO, URL-compatibility, and content-
+  parity gates pass. The current public site remains the rollback baseline.
+
 ## Following alpha iterations
 
 - Expand semantic UI, layout, form, navigation, and asset primitives from real

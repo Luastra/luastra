@@ -2,48 +2,151 @@
 
 export const generatedPages = Object.freeze([
   {
+    "id": "overview/item-1",
+    "routeSlug": "the-four-moving-parts",
+    "routeId": "overview/the-four-moving-parts",
+    "kind": "guide",
+    "sectionId": "overview",
+    "sectionTitle": "Start here: build apps like games",
+    "module": null,
+    "callable": false,
+    "useWhen": "Read this before the tutorials when terms such as runtime, host, semantic UI, or capability are unfamiliar.",
+    "code": null,
+    "signature": "Luau application → SDK → runtime → host",
+    "parameters": [],
+    "returns": null,
+    "name": "The four moving parts",
+    "description": "Your Luau module owns state and returns a semantic tree. The SDK validates declarations, the Wasm runtime executes admitted code, and the host reconciles the tree while providing explicit capabilities.",
+    "points": [
+      "Application: your strict Luau modules, tests, assets, and manifest.",
+      "SDK: checked constructors and functions imported through declared dependencies.",
+      "Runtime: executes the admitted module graph and dispatches events.",
+      "Host: renders UI and performs declared storage, history, timer, server, or media work."
+    ],
+    "previousPageId": null,
+    "nextPageId": "overview/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "overview/item-2",
+    "routeSlug": "choose-your-path",
+    "routeId": "overview/choose-your-path",
+    "kind": "guide",
+    "sectionId": "overview",
+    "sectionTitle": "Start here: build apps like games",
+    "module": null,
+    "callable": false,
+    "useWhen": "Use this when deciding what to read next.",
+    "code": null,
+    "signature": "first app · API lookup · evaluation",
+    "parameters": [],
+    "returns": null,
+    "name": "Choose your path",
+    "description": "Use one deliberate route instead of reading every detail page in order.",
+    "points": [
+      "First app: Installation → Quick start → Beginner tutorial.",
+      "Build a feature: open its module overview, then the exact symbol pages and module-level complete example.",
+      "Evaluate Luastra: Overview → Support and boundaries → Project manifest → the relevant host capability."
+    ],
+    "previousPageId": "overview/item-1",
+    "nextPageId": "overview/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "overview/item-3",
+    "routeSlug": "small-glossary",
+    "routeId": "overview/small-glossary",
+    "kind": "guide",
+    "sectionId": "overview",
+    "sectionTitle": "Start here: build apps like games",
+    "module": null,
+    "callable": false,
+    "useWhen": "Use this whenever recurring Luastra terminology makes an otherwise simple instruction hard to follow.",
+    "code": null,
+    "signature": "admitted · bounded · capability · stable id",
+    "parameters": [],
+    "returns": null,
+    "name": "Small glossary",
+    "description": "The reference uses these words to describe safety and portability boundaries, not extra syntax you must memorize.",
+    "points": [
+      "Admitted: declared and accepted by the manifest, SDK, runtime, or host contract.",
+      "Bounded: checked against an explicit size, count, duration, or format limit.",
+      "Capability: a host operation explicitly listed in luastra.json.",
+      "Stable id: a unique lowercase path that identifies the same UI element across renders.",
+      "Source alpha: usable for evaluation, with breaking changes and incomplete production packaging still possible."
+    ],
+    "previousPageId": "overview/item-2",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
     "id": "installation/item-1",
+    "routeSlug": "release-installation-contract",
+    "routeId": "installation/release-installation-contract",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.1.0-alpha release boundary",
+    "module": "0.2.0-alpha release boundary",
     "callable": false,
     "useWhen": "Use this when installing Luastra on a supported machine for the first time or when installing an explicitly selected release version.",
-    "code": "curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.1.0-alpha/luastra-install.mjs\nnode luastra-install.mjs \\\n  --manifest=https://github.com/Luastra/luastra/releases/download/v0.1.0-alpha/luastra-release.v1.json",
+    "code": "curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-install.mjs\nnode luastra-install.mjs \\\n  --manifest=https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-release.v1.json",
     "signature": "download → verify → atomic install → doctor",
     "parameters": [],
     "returns": null,
     "name": "Release installation contract",
-    "description": "The Node.js bootstrap detects the host, downloads only its archive over HTTPS, verifies the release manifest and archive ledger, then atomically installs the SDK under ~/.luastra/sdk/0.1.0-alpha.",
+    "description": "The Node.js bootstrap detects the host, downloads only its archive over HTTPS, verifies the release manifest and archive ledger, then atomically installs the SDK under ~/.luastra/sdk/0.2.0-alpha.",
     "language": "Shell",
     "points": [
       "Supported archives: macOS arm64/x64, Linux x64, and Windows x64.",
       "A checksum, receipt, or installed-file mismatch fails closed.",
       "The installer never edits shell profiles or the Windows registry."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "installation/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-2",
+    "routeSlug": "offline-installation",
+    "routeId": "installation/offline-installation",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.1.0-alpha release boundary",
+    "module": "0.2.0-alpha release boundary",
     "callable": false,
     "useWhen": "Use this on an offline machine or when release assets are transferred through a controlled internal channel.",
-    "code": "node ./luastra-install.mjs --manifest=./luastra-release.v1.json",
-    "signature": "local manifest + one host archive",
+    "code": "# Every required file is in this release's Assets list:\n# https://github.com/Luastra/luastra/releases/tag/v0.2.0-alpha\n\n# Run from the directory containing the three downloaded files:\nnode ./luastra-install.mjs --manifest=./luastra-release.v1.json",
+    "signature": "GitHub Release assets → one transfer directory → verified install",
     "parameters": [],
     "returns": null,
     "name": "Offline installation",
-    "description": "Copy the installer, release manifest, and matching host archive into one directory. The same manifest and file-ledger checks run without a network request.",
-    "language": "Shell"
+    "description": "On a connected machine, open the v0.2.0-alpha GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.",
+    "language": "Shell",
+    "points": [
+      "macOS Apple Silicon (M1 or newer): luastra-sdk-0.2.0-alpha-darwin-arm64.tar.gz.",
+      "macOS Intel: luastra-sdk-0.2.0-alpha-darwin-x64.tar.gz.",
+      "Linux x64: luastra-sdk-0.2.0-alpha-linux-x64.tar.gz.",
+      "Windows x64: luastra-sdk-0.2.0-alpha-win32-x64.tar.gz.",
+      "GitHub may collapse the list behind Show all assets. Download the archives from the Release page, not from the repository Code tab.",
+      "Keep the original filenames: the manifest selects the current host and the installer verifies the matching archive and its internal file ledger."
+    ],
+    "previousPageId": "installation/item-1",
+    "nextPageId": "installation/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-3",
+    "routeSlug": "system-requirement",
+    "routeId": "installation/system-requirement",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.1.0-alpha release boundary",
+    "module": "0.2.0-alpha release boundary",
     "callable": false,
     "useWhen": "Check this before installation or when the Luastra shim cannot start.",
     "code": "node --version\n# Expected: v24.x or newer",
@@ -52,90 +155,195 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "System requirement",
     "description": "Node.js 24 or newer is the only runtime prerequisite for packaged CLI workflows. No npm install, Rust, Xcode, Android Studio, or repository checkout is required.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "installation/item-2",
+    "nextPageId": "installation/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "installation/item-4",
+    "routeSlug": "make-the-command-available",
+    "routeId": "installation/make-the-command-available",
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.1.0-alpha release boundary",
+    "module": "0.2.0-alpha release boundary",
+    "callable": false,
+    "useWhen": "Use this only when installation succeeds but the shell reports command not found or does not recognize luastra.",
+    "code": "# zsh (macOS default)\necho 'export PATH=\"$HOME/.luastra/bin:$PATH\"' >> ~/.zshrc\nsource ~/.zshrc\n\n# bash\necho 'export PATH=\"$HOME/.luastra/bin:$PATH\"' >> ~/.bashrc\nsource ~/.bashrc\n\n# PowerShell, current window\n$env:Path = \"$HOME\\.luastra\\bin;$env:Path\"\n\nluastra version\nluastra doctor",
+    "signature": "add ~/.luastra/bin to PATH",
+    "parameters": [],
+    "returns": null,
+    "name": "Make the command available",
+    "description": "The installer deliberately leaves shell configuration unchanged. Add its bin directory when a new terminal cannot find the luastra command.",
+    "language": "Shell",
+    "points": [
+      "For a permanent Windows setting, add %USERPROFILE%\\.luastra\\bin to your user PATH, then open a new terminal.",
+      "A successful version command prints JSON whose result is PASS and whose version is 0.2.0-alpha.",
+      "A successful doctor command prints JSON with result PASS. Do not continue if doctor reports a checksum, receipt, host, or installed-file mismatch."
+    ],
+    "previousPageId": "installation/item-3",
+    "nextPageId": "installation/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "installation/item-5",
+    "routeSlug": "verify-and-manage-sd-ks",
+    "routeId": "installation/verify-and-manage-sd-ks",
+    "kind": "entry",
+    "sectionId": "installation",
+    "sectionTitle": "Install Luastra",
+    "module": "0.2.0-alpha release boundary",
     "callable": false,
     "useWhen": "Run doctor after installation or switching; use an older retained version when an update must be rolled back.",
-    "code": "luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use 0.1.0-alpha\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>",
+    "code": "luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use 0.2.0-alpha\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>",
     "signature": "doctor · list · use · update · remove",
     "parameters": [],
     "returns": null,
     "name": "Verify and manage SDKs",
     "description": "Verify the active SDK, retain multiple immutable versions, switch explicitly for rollback, update from another verified manifest, and remove only an inactive verified version.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "installation/item-4",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-1",
+    "routeSlug": "create-and-enter-a-project",
+    "routeId": "quickstart/create-and-enter-a-project",
     "kind": "entry",
     "sectionId": "quickstart",
-    "sectionTitle": "Quick start",
-    "module": "installed luastra CLI",
+    "sectionTitle": "Quick start: run your first app",
+    "module": "installed luastra CLI · about 10 minutes",
     "callable": false,
-    "useWhen": "Start here when creating a new Luastra application in its own directory.",
+    "useWhen": "Start here once Luastra is installed and doctor passes.",
     "code": "luastra create hello-luastra\ncd hello-luastra",
     "signature": "luastra create hello-luastra",
     "parameters": [],
     "returns": null,
-    "name": "Create and enter a project",
-    "description": "Creates the starter project in a new directory.",
-    "language": "Shell"
+    "name": "1. Create and enter a project",
+    "description": "Creates a missing or empty directory, copies the starter, and derives a project id from the directory name.",
+    "language": "Shell",
+    "points": [
+      "The created tree contains luastra.json, src/main.luau, tests/smoke.luau, assets/, and the starter license.",
+      "Open src/main.luau first: it owns state, event handling, and the rendered screen.",
+      "luastra.json declares which modules may be imported and which host capabilities the app may use."
+    ],
+    "previousPageId": null,
+    "nextPageId": "quickstart/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-2",
+    "routeSlug": "make-a-visible-change",
+    "routeId": "quickstart/make-a-visible-change",
     "kind": "entry",
     "sectionId": "quickstart",
-    "sectionTitle": "Quick start",
-    "module": "installed luastra CLI",
+    "sectionTitle": "Quick start: run your first app",
+    "module": "installed luastra CLI · about 10 minutes",
     "callable": false,
-    "useWhen": "Run this after editing source or the manifest and before previewing or building the project.",
+    "useWhen": "Use this after project creation to replace the existing UI.Text block inside Application.render.",
+    "code": "UI.Text {\n    id = \"title\",\n    text = `Hello from my first Luastra app: {interactions}`,\n    variant = \"title\",\n}",
+    "signature": "edit src/main.luau",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Make a visible change",
+    "description": "Change the starter title before running it so you can see the connection between Luau source and host UI.",
+    "language": "Luau",
+    "previousPageId": "quickstart/item-1",
+    "nextPageId": "quickstart/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "quickstart/item-3",
+    "routeSlug": "check-and-test",
+    "routeId": "quickstart/check-and-test",
+    "kind": "entry",
+    "sectionId": "quickstart",
+    "sectionTitle": "Quick start: run your first app",
+    "module": "installed luastra CLI · about 10 minutes",
+    "callable": false,
+    "useWhen": "Run this after each small source or manifest change and before previewing or building.",
     "code": "luastra check\nluastra test",
     "signature": "luastra check · luastra test",
     "parameters": [],
     "returns": null,
-    "name": "Check and test",
-    "description": "Analyze the strict Luau graph and run bounded project tests.",
-    "language": "Shell"
-  },
-  {
-    "id": "quickstart/item-3",
-    "kind": "entry",
-    "sectionId": "quickstart",
-    "sectionTitle": "Quick start",
-    "module": "installed luastra CLI",
-    "callable": false,
-    "useWhen": "Use preview while developing interactively and checking changes in a browser with rebuild feedback.",
-    "code": "luastra run",
-    "signature": "luastra run",
-    "parameters": [],
-    "returns": null,
-    "name": "Preview",
-    "description": "Starts the local development host and prints the URL to open.",
-    "language": "Shell"
+    "name": "3. Check and test",
+    "description": "check validates strict Luau, the module graph, manifest, assets, capabilities, and SDK identity; test executes the test modules declared in luastra.json.",
+    "language": "Shell",
+    "points": [
+      "Both commands should emit JSON with result set to PASS.",
+      "A check failure names the source or manifest problem; fix that first instead of continuing to preview.",
+      "The generated smoke test checks SDK construction, not every interaction you add later."
+    ],
+    "previousPageId": "quickstart/item-2",
+    "nextPageId": "quickstart/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "quickstart/item-4",
+    "routeSlug": "preview-and-interact",
+    "routeId": "quickstart/preview-and-interact",
     "kind": "entry",
     "sectionId": "quickstart",
-    "sectionTitle": "Quick start",
-    "module": "installed luastra CLI",
+    "sectionTitle": "Quick start: run your first app",
+    "module": "installed luastra CLI · about 10 minutes",
     "callable": false,
-    "useWhen": "Build the web target when you need a production-style static artifact for HTTP serving or deployment verification.",
-    "code": "luastra build web",
+    "useWhen": "Use this during development after check and test pass.",
+    "code": "luastra run\n# Open the READY URL, press Continue, then stop with Ctrl+C.",
+    "signature": "luastra run",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Preview and interact",
+    "description": "Starts a watch-mode server on 127.0.0.1, prints the authoritative READY URL, and rebuilds after saved changes.",
+    "language": "Shell",
+    "points": [
+      "The page should show your edited title and a Continue button.",
+      "Each press updates module state through Application.handle and the next render shows a larger interaction count.",
+      "Keep the terminal open while previewing; Ctrl+C stops the local server."
+    ],
+    "previousPageId": "quickstart/item-3",
+    "nextPageId": "quickstart/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "quickstart/item-5",
+    "routeSlug": "build-the-web-target",
+    "routeId": "quickstart/build-the-web-target",
+    "kind": "entry",
+    "sectionId": "quickstart",
+    "sectionTitle": "Quick start: run your first app",
+    "module": "installed luastra CLI · about 10 minutes",
+    "callable": false,
+    "useWhen": "Use this after the interactive preview works and you need a deployable web artifact.",
+    "code": "luastra build web\n# Output: ./dist/web",
     "signature": "luastra build web",
     "parameters": [],
     "returns": null,
-    "name": "Build the web target",
-    "description": "Creates a static web artifact that must be served over HTTP.",
-    "language": "Shell"
+    "name": "5. Build the web target",
+    "description": "Creates the production-style static artifact in dist/web by default.",
+    "language": "Shell",
+    "points": [
+      "The command should emit JSON with result=PASS and the output directory.",
+      "The installed CLI builds web and host-neutral bundle targets; application-facing desktop/mobile packaging is not yet a CLI command.",
+      "Serve dist/web through an HTTP server or hosting provider. Opening index.html through file:// is unsupported."
+    ],
+    "previousPageId": "quickstart/item-4",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-1",
+    "routeSlug": "create-a-project",
+    "routeId": "workflow/create-a-project",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -148,10 +356,16 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Create a project",
     "description": "Creates a new starter project in a missing or empty directory.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "workflow/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-2",
+    "routeSlug": "check",
+    "routeId": "workflow/check",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -164,10 +378,16 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Check",
     "description": "Analyzes the strict Luau graph, manifest, capabilities, assets, and SDK identity.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-1",
+    "nextPageId": "workflow/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-3",
+    "routeSlug": "run-tests",
+    "routeId": "workflow/run-tests",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -180,10 +400,16 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Run tests",
     "description": "Runs the project’s bounded Luau test modules.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-2",
+    "nextPageId": "workflow/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-4",
+    "routeSlug": "run-preview",
+    "routeId": "workflow/run-preview",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -196,10 +422,16 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Run preview",
     "description": "Starts the local development server with rebuilding and reload feedback.",
-    "language": "Shell"
+    "language": "Shell",
+    "previousPageId": "workflow/item-3",
+    "nextPageId": "workflow/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-5",
+    "routeSlug": "build-web",
+    "routeId": "workflow/build-web",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
@@ -211,27 +443,1797 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Build web",
-    "description": "Creates the static web output in dist/web.",
-    "language": "Shell"
+    "description": "Creates a complete static web application in dist/web: the compiled bundle plus the compatible Wasm VM, browser host, renderer, HTML, CSS, JavaScript, and project assets.",
+    "language": "Shell",
+    "points": [
+      "This is the build users can open through an HTTP server or deploy to static hosting.",
+      "Opening dist/web/index.html through file:// is unsupported.",
+      "Use luastra run instead when you need watch-mode rebuilding during development."
+    ],
+    "previousPageId": "workflow/item-4",
+    "nextPageId": "workflow/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "workflow/item-6",
+    "routeSlug": "build-bundle",
+    "routeId": "workflow/build-bundle",
     "kind": "entry",
     "sectionId": "workflow",
     "sectionTitle": "Workflow",
     "module": null,
     "callable": false,
-    "useWhen": "Use when a host workflow needs the compiled Luastra application bundle rather than the complete static website.",
+    "useWhen": "Use when a compatible Luastra host or packaging workflow needs the compiled application separately from its presentation and platform runtime.",
     "code": "luastra build bundle",
     "signature": "luastra build bundle",
     "parameters": [],
     "returns": null,
     "name": "Build bundle",
-    "description": "Creates the host-neutral runtime bundle.",
-    "language": "Shell"
+    "description": "Creates the host-neutral integration artifact in dist/bundle. It contains luastra.bundle.json, content-addressed compiled Luau modules, project-assets.json, and declared project assets, but no VM, renderer, HTML page, or native window.",
+    "language": "Shell",
+    "points": [
+      "The bundle is not a standalone executable or website and cannot be opened directly.",
+      "Use luastra run for an interactive development preview or luastra build web for a browser-ready artifact.",
+      "A custom desktop, mobile, embedded, or test host must verify the bundle manifest, VM/protocol compatibility, capabilities, module hashes, and asset ledger before loading it into the matching Luastra VM.",
+      "The public alpha CLI intentionally has no application-facing run-bundle command; repository runners are integration tools and do not replace a complete host UI."
+    ],
+    "previousPageId": "workflow/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipes/item-1",
+    "routeSlug": "recipe-contract",
+    "routeId": "recipes/recipe-contract",
+    "kind": "guide",
+    "sectionId": "recipes",
+    "sectionTitle": "How to use the build recipes",
+    "module": "copy · verify · understand · adapt",
+    "callable": false,
+    "useWhen": "Use this checklist whenever you follow or write a Luastra recipe.",
+    "code": null,
+    "signature": "goal → files → checks → interaction → explanation",
+    "parameters": [],
+    "returns": null,
+    "name": "Recipe contract",
+    "description": "A recipe is complete only when its imports, manifest dependencies, capabilities, event path, expected UI, and verification boundary are all explicit.",
+    "points": [
+      "Goal: know the visible behavior before copying code.",
+      "Files: replace exactly the listed files in a fresh starter project.",
+      "Checks: do not continue until luastra check and luastra test report result=PASS.",
+      "Interaction: follow the stated clicks and compare the visible result.",
+      "Boundary: automated checks prove contracts; the named browser or device interaction proves presentation."
+    ],
+    "previousPageId": null,
+    "nextPageId": "recipes/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipes/item-2",
+    "routeSlug": "choose-the-next-recipe",
+    "routeId": "recipes/choose-the-next-recipe",
+    "kind": "guide",
+    "sectionId": "recipes",
+    "sectionTitle": "How to use the build recipes",
+    "module": "copy · verify · understand · adapt",
+    "callable": false,
+    "useWhen": "Use this order when you have no particular feature in mind yet.",
+    "code": null,
+    "signature": "stateful UI → timer → navigation → storage → history → form → assets → motion → server → media → Orbit",
+    "parameters": [],
+    "returns": null,
+    "name": "Choose the next recipe",
+    "description": "Begin with the smallest new lifecycle concept and keep the previous recipe available for comparison.",
+    "points": [
+      "Complete mini-app teaches render and handle.",
+      "Delayed action adds a host event without Application.resolve.",
+      "Typed navigation adds checked route state and Back behavior.",
+      "Storage and History add asynchronous host acknowledgements and platform-owned navigation.",
+      "The Form and modal recipe adds controlled input, validation, and accessible focus behavior.",
+      "The Assets and visuals recipe adds packaged images plus semantic host-native geometry.",
+      "Declarative motion adds host-scheduled presentation without an application frame loop.",
+      "The Server Function recipe adds a generated client, trusted handler, and asynchronous result decoding.",
+      "The Audio Playback recipe adds command completion plus event-driven live media state.",
+      "The Constellation Orbit recipe combines semantic nodes, bounded depth, relationships, and focused detail without application-owned coordinates."
+    ],
+    "previousPageId": "recipes/item-1",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-timer/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-timer/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-timer",
+    "sectionTitle": "Recipe: run a delayed action",
+    "module": "luastra/timer · Application.handle · about 10 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project.",
+    "code": "luastra create timer-recipe\ncd timer-recipe",
+    "signature": "luastra create timer-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-timer/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-timer/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-timer/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-timer",
+    "sectionTitle": "Recipe: run a delayed action",
+    "module": "luastra/timer · Application.handle · about 10 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before running check; undeclared timer.control or luastra/timer usage is rejected.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.luastra.timer-recipe\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": {\n    \"contract\": 1\n  },\n  \"capabilities\": [\"timer.control\", \"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/timer\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/timer\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/timer\"]\n}",
+    "signature": "timer.control + ui.render",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The manifest admits the two imported SDK modules and the host capability required to control timers.",
+    "language": "JSON",
+    "previousPageId": "recipe-timer/item-1",
+    "nextPageId": "recipe-timer/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-timer/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-timer/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-timer",
+    "sectionTitle": "Recipe: run a delayed action",
+    "module": "luastra/timer · Application.handle · about 10 minutes",
+    "callable": false,
+    "useWhen": "Replace the entire generated src/main.luau file so every referenced name and lifecycle callback is present.",
+    "code": "--!strict\n\nlocal Timer = require(\"luastra/timer\")\nlocal UI = require(\"luastra/ui\")\n\nlocal Application = {}\nlocal elapsed = 0\nlocal lastValue = \"waiting\"\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"timer-lab\",\n        UI.Text { id = \"timer/status\", text = `{elapsed}:{lastValue}` },\n        UI.Button {\n            id = \"timer/start\",\n            text = \"Start\",\n            onTap = \"start-timer\",\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, value: string)\n    if action == \"start-timer\" and target == \"timer/start\" then\n        Timer.start { id = \"timer/next-card\", delayMs = 25, value = \"next\" }\n    elseif action == \"timer\" and target == \"timer/next-card\" then\n        elapsed += 1\n        lastValue = value\n    end\nend\n\nfunction Application.snapshot()\n    return { elapsed = elapsed, value = lastValue }\nend\n\nreturn Application",
+    "signature": "complete runnable entry module",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "The button starts work; the timer event changes module state; the following render exposes that change.",
+    "wide": true,
+    "previousPageId": "recipe-timer/item-2",
+    "nextPageId": "recipe-timer/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-timer/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-timer/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-timer",
+    "sectionTitle": "Recipe: run a delayed action",
+    "module": "luastra/timer · Application.handle · about 10 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so luastra test verifies application behavior rather than only an isolated UI constructor.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nlocal initial = Application.snapshot()\nassert(initial.elapsed == 0, \"timer recipe must start at zero\")\nassert(initial.value == \"waiting\", \"timer recipe initial value is invalid\")\n\nApplication.handle(\"timer\", \"timer/next-card\", \"next\")\n\nlocal elapsed = Application.snapshot()\nassert(elapsed.elapsed == 1, \"timer event did not advance state\")\nassert(elapsed.value == \"next\", \"timer event did not preserve its value\")\n\nreturn true",
+    "signature": "deterministic state-transition test",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test invokes the same timer event that the host delivers and verifies the state read by the following render.",
+    "wide": true,
+    "previousPageId": "recipe-timer/item-3",
+    "nextPageId": "recipe-timer/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-timer/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-timer/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-timer",
+    "sectionTitle": "Recipe: run a delayed action",
+    "module": "luastra/timer · Application.handle · about 10 minutes",
+    "callable": false,
+    "useWhen": "Run from timer-recipe after all three files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Open the READY URL, press Start, expect 1:next, then stop with Ctrl+C.",
+    "signature": "PASS → Start → 1:next",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "First prove the project contract, then verify the visible event path in the live preview.",
+    "language": "Shell",
+    "points": [
+      "check must report result=PASS.",
+      "test must report tests=1 and passed=1.",
+      "The test proves the state transition; the preview interaction separately proves that this browser host scheduled and delivered the timer event."
+    ],
+    "previousPageId": "recipe-timer/item-4",
+    "nextPageId": "recipe-timer/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-timer/item-6",
+    "routeSlug": "understand-and-adapt",
+    "routeId": "recipe-timer/understand-and-adapt",
+    "kind": "guide",
+    "sectionId": "recipe-timer",
+    "sectionTitle": "Recipe: run a delayed action",
+    "module": "luastra/timer · Application.handle · about 10 minutes",
+    "callable": false,
+    "useWhen": "Read this after the unmodified recipe works once.",
+    "code": null,
+    "signature": "handle(start-timer) → Timer.start → handle(timer)",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand and adapt",
+    "description": "The stable timer id is the event target, while value carries the optional bounded payload.",
+    "points": [
+      "Use restart to replace the delay for the same id.",
+      "Use cancel when the owning screen or state is no longer active.",
+      "Treat an unexpected late timer event as stale instead of applying it to unrelated state.",
+      "Keep delays at or below 60,000 ms; use persisted time or a backend scheduler for longer durable work."
+    ],
+    "previousPageId": "recipe-timer/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-navigation/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-navigation/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-navigation",
+    "sectionTitle": "Recipe: add typed navigation",
+    "module": "luastra/navigation · checked parameters · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project.",
+    "code": "luastra create navigation-recipe\ncd navigation-recipe",
+    "signature": "luastra create navigation-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-navigation/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-navigation/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-navigation/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-navigation",
+    "sectionTitle": "Recipe: add typed navigation",
+    "module": "luastra/navigation · checked parameters · about 15 minutes",
+    "callable": false,
+    "useWhen": "Use this minimal manifest for in-memory typed routing; add navigation.history only when calling the matching Host history API.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.luastra.navigation-recipe\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": {\n    \"contract\": 1\n  },\n  \"capabilities\": [\"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/navigation\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/routing\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/routing\"]\n}",
+    "signature": "luastra/navigation + luastra/ui",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "Pure typed navigation needs no host capability beyond rendering because this recipe does not yet modify browser History.",
+    "language": "JSON",
+    "previousPageId": "recipe-navigation/item-1",
+    "nextPageId": "recipe-navigation/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-navigation/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-navigation/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-navigation",
+    "sectionTitle": "Recipe: add typed navigation",
+    "module": "luastra/navigation · checked parameters · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the entire generated src/main.luau file; the compact layout intentionally omits host History so the router contract is visible first.",
+    "code": "--!strict\n\nlocal Navigation = require(\"luastra/navigation\")\nlocal UI = require(\"luastra/ui\")\n\nlocal routes = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    {\n        name = \"workspace\",\n        path = \"/workspaces/:workspace_id\",\n        params = { workspace_id = { type = \"integer\", minimum = 1, maximum = 999 } },\n    },\n    {\n        name = \"document\",\n        parent = \"workspace\",\n        path = \"documents/:document_slug\",\n        params = { document_slug = { type = \"string\", maximumLength = 32 } },\n        query = { mode = { type = \"enum\", values = { \"read\", \"edit\" }, required = true } },\n    },\n}\n\nlocal router = Navigation.createRouter {\n    compiler = routes,\n    initial = { name = \"home\", params = {}, query = {} },\n}\n\nlocal Application = {}\n\nfunction Application.render(): UI.Node\n    local current = router.current()\n    return UI.Screen {\n        id = \"routing-lab\",\n        UI.Text { id = \"routing/title\", text = \"Routing lab\", variant = \"title\" },\n        UI.Text { id = \"routing/name\", text = \"Route: \" .. current.name },\n        UI.Text { id = \"routing/location\", text = router.currentLocation(), role = \"status\" },\n        UI.Actions {\n            id = \"routing/actions\",\n            UI.Button {\n                id = \"routing/workspace\",\n                text = \"Open workspace\",\n                onTap = \"open-workspace\",\n            },\n            UI.Button {\n                id = \"routing/document\",\n                text = \"Open document\",\n                onTap = \"open-document\",\n            },\n            UI.Button {\n                id = \"routing/back\",\n                text = \"Back\",\n                onTap = \"back\",\n                disabled = not router.canBack(),\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"open-workspace\" and target == \"routing/workspace\" then\n        router.push { name = \"workspace\", params = { workspace_id = 7 }, query = {} }\n    elseif action == \"open-document\" and target == \"routing/document\" then\n        router.push {\n            name = \"document\",\n            params = { workspace_id = 7, document_slug = \"release-notes\" },\n            query = { mode = \"edit\" },\n        }\n    elseif action == \"back\" and target == \"routing/back\" then\n        router.back()\n    end\nend\n\nfunction Application.snapshot()\n    return {\n        name = router.current().name,\n        location = router.currentLocation(),\n    }\nend\n\nreturn Application",
+    "signature": "complete runnable entry module",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "Route definitions validate parameters and queries before a mutation can enter the stack.",
+    "wide": true,
+    "previousPageId": "recipe-navigation/item-2",
+    "nextPageId": "recipe-navigation/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-navigation/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-navigation/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-navigation",
+    "sectionTitle": "Recipe: add typed navigation",
+    "module": "luastra/navigation · checked parameters · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so luastra test verifies the route transitions that the preview exposes.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nassert(Application.snapshot().location == \"/\", \"recipe did not start at home\")\n\nApplication.handle(\"open-workspace\", \"routing/workspace\", \"\")\nassert(Application.snapshot().location == \"/workspaces/7\", \"workspace route failed\")\n\nApplication.handle(\"open-document\", \"routing/document\", \"\")\nlocal document = Application.snapshot()\nassert(document.name == \"document\", \"document route name is invalid\")\nassert(\n    document.location == \"/workspaces/7/documents/release-notes?mode=edit\",\n    \"document location is invalid\"\n)\n\nApplication.handle(\"back\", \"routing/back\", \"\")\nassert(Application.snapshot().location == \"/workspaces/7\", \"Back failed\")\n\nreturn true",
+    "signature": "route sequence test",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test drives the same actions as the buttons and checks every canonical location without needing a browser.",
+    "wide": true,
+    "previousPageId": "recipe-navigation/item-3",
+    "nextPageId": "recipe-navigation/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-navigation/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-navigation/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-navigation",
+    "sectionTitle": "Recipe: add typed navigation",
+    "module": "luastra/navigation · checked parameters · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run from navigation-recipe after all three files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Open the READY URL.\n# Press Open workspace: expect /workspaces/7.\n# Press Open document: expect /workspaces/7/documents/release-notes?mode=edit.\n# Press Back: expect /workspaces/7.",
+    "signature": "home → workspace → document → Back",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "Verify both route names and canonical locations after every interaction.",
+    "language": "Shell",
+    "points": [
+      "check must report result=PASS and test must report tests=1 and passed=1.",
+      "The Back button is disabled at the first route.",
+      "An invalid parameter or missing required query produces a bounded unsuccessful mutation instead of a malformed location."
+    ],
+    "previousPageId": "recipe-navigation/item-4",
+    "nextPageId": "recipe-navigation/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-navigation/item-6",
+    "routeSlug": "understand-and-extend",
+    "routeId": "recipe-navigation/understand-and-extend",
+    "kind": "guide",
+    "sectionId": "recipe-navigation",
+    "sectionTitle": "Recipe: add typed navigation",
+    "module": "luastra/navigation · checked parameters · about 15 minutes",
+    "callable": false,
+    "useWhen": "Read this after the unmodified route sequence works once.",
+    "code": null,
+    "signature": "definitions → compiler → router → render",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand and extend",
+    "description": "The compiler owns path rules; the router owns the current stack; render reads it; handle requests checked mutations.",
+    "points": [
+      "Inspect each mutation result before assuming the route changed in product code.",
+      "Persist router.encode() with State and Host storage only when navigation must survive restart.",
+      "Use Host.historyPushLocation and navigation.history when browser Back and the visible URL must mirror Luau state.",
+      "Never concatenate untrusted path fragments when a compiled route can validate and encode them."
+    ],
+    "previousPageId": "recipe-navigation/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-storage/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-storage/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-storage",
+    "sectionTitle": "Recipe: persist and restore state",
+    "module": "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project.",
+    "code": "luastra create storage-recipe\ncd storage-recipe",
+    "signature": "luastra create storage-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a starter, then replace its manifest, entry module, and smoke test with the complete files below.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-storage/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-storage/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-storage/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-storage",
+    "sectionTitle": "Recipe: persist and restore state",
+    "module": "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before importing Host or State; storage reads and writes require separate capabilities.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.storage-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"storage.get\", \"storage.set\", \"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/host\", \"luastra/state\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/storage\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\", \"luastra/state\"]\n    }\n  ],\n  \"tests\": [\"app/tests/storage\"]\n}",
+    "signature": "storage.get + storage.set + ui.render",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The manifest admits State, Host, and UI modules plus both storage capabilities.",
+    "language": "JSON",
+    "previousPageId": "recipe-storage/item-1",
+    "nextPageId": "recipe-storage/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-storage/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-storage/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-storage",
+    "sectionTitle": "Recipe: persist and restore state",
+    "module": "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the entire entry module. Keep restore separate so malformed persisted data can be tested without a real host request.",
+    "code": "--!strict\n\nlocal Host = require(\"luastra/host\")\nlocal State = require(\"luastra/state\")\nlocal UI = require(\"luastra/ui\")\n\nlocal Application = {}\nlocal count = 0\nlocal message = \"Nothing saved yet\"\nlocal pending: { [number]: string } = {}\n\nlocal function track(id: number, operation: string)\n    pending[id] = operation\nend\n\nfunction Application.restore(payload: string): boolean\n    local decoded = State.decode(payload, 1)\n    if not decoded.success then return false end\n    local restored = tonumber(decoded.fields.count)\n    if restored == nil or restored < 0 or restored % 1 ~= 0 then return false end\n    count = restored\n    return true\nend\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"storage-recipe\",\n        UI.Text { id = \"counter/title\", text = \"Persistent counter\", variant = \"title\" },\n        UI.Text { id = \"counter/value\", text = tostring(count), role = \"status\" },\n        UI.Text { id = \"counter/message\", text = message, role = \"status\" },\n        UI.Actions {\n            id = \"counter/actions\",\n            UI.Button { id = \"counter/add\", text = \"Add\", onTap = \"counter.add\" },\n            UI.Button { id = \"counter/save\", text = \"Save\", onTap = \"counter.save\" },\n            UI.Button { id = \"counter/load\", text = \"Load\", onTap = \"counter.load\" },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"counter.add\" and target == \"counter/add\" then\n        count += 1\n    elseif action == \"counter.save\" and target == \"counter/save\" then\n        local snapshot = State.encode(1, { count = tostring(count) })\n        track(Host.storageSet(\"counter-state\", snapshot), \"save\")\n        message = \"Saving…\"\n    elseif action == \"counter.load\" and target == \"counter/load\" then\n        track(Host.storageGet(\"counter-state\"), \"load\")\n        message = \"Loading…\"\n    end\nend\n\nfunction Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    _errorMessage: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == nil then return end\n    if not success then message = operation .. \" failed: \" .. code return end\n    if operation == \"save\" then message = \"Saved\"\n    elseif Application.restore(payload) then message = \"Loaded\"\n    else message = \"Stored state is invalid\" end\nend\n\nfunction Application.snapshot()\n    return { count = count, message = message }\nend\n\nreturn Application",
+    "signature": "complete asynchronous storage lifecycle",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "Pending request IDs distinguish save and load completions that may arrive out of order.",
+    "wide": true,
+    "previousPageId": "recipe-storage/item-2",
+    "nextPageId": "recipe-storage/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-storage/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-storage/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-storage",
+    "sectionTitle": "Recipe: persist and restore state",
+    "module": "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so test covers both the successful and rejected restore paths.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\nlocal State = require(\"luastra/state\")\n\nApplication.handle(\"counter.add\", \"counter/add\", \"\")\nassert(Application.snapshot().count == 1, \"counter action failed\")\n\nlocal snapshot = State.encode(1, { count = \"7\" })\nassert(Application.restore(snapshot), \"valid snapshot was rejected\")\nassert(Application.snapshot().count == 7, \"valid count was not restored\")\n\nassert(not Application.restore(\"v=1&count=invalid\"), \"invalid count was accepted\")\nassert(Application.snapshot().count == 7, \"invalid restore changed current state\")\n\nreturn true",
+    "signature": "round-trip and rejection test",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test proves valid state restoration and confirms malformed data leaves the current counter unchanged.",
+    "wide": true,
+    "previousPageId": "recipe-storage/item-3",
+    "nextPageId": "recipe-storage/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-storage/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-storage/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-storage",
+    "sectionTitle": "Recipe: persist and restore state",
+    "module": "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run from storage-recipe after all three files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Add twice, Save, Add again, then Load: expect 2.\n# Reload the page, press Load again, and expect 2.",
+    "signature": "save → change → load → reload → load",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "Automated tests verify deterministic state logic; the preview verifies the browser storage adapter and asynchronous resolve path.",
+    "language": "Shell",
+    "points": [
+      "check must report result=PASS and test must report tests=1 and passed=1.",
+      "Loading before the first save may produce a bounded failure or empty payload; keep the current count.",
+      "A browser-host pass does not prove persistence in every desktop or mobile host."
+    ],
+    "previousPageId": "recipe-storage/item-4",
+    "nextPageId": "recipe-storage/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-storage/item-6",
+    "routeSlug": "understand-and-extend",
+    "routeId": "recipe-storage/understand-and-extend",
+    "kind": "guide",
+    "sectionId": "recipe-storage",
+    "sectionTitle": "Recipe: persist and restore state",
+    "module": "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    "callable": false,
+    "useWhen": "Read this after the unmodified save/load sequence works once.",
+    "code": null,
+    "signature": "encode → storageSet → resolve · storageGet → resolve → decode",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand and extend",
+    "description": "Serialization, transport, and domain validation are three separate boundaries.",
+    "points": [
+      "Increment the snapshot version when its meaning changes.",
+      "Use State.migrate when an older released version must remain readable.",
+      "Never store credentials merely because storage accepts a string.",
+      "Ignore unknown RequestIds and clear every matched pending entry before applying a completion."
+    ],
+    "previousPageId": "recipe-storage/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-history/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-history/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-history",
+    "sectionTitle": "Recipe: synchronize Browser and system Back",
+    "module": "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project.",
+    "code": "luastra create history-recipe\ncd history-recipe",
+    "signature": "luastra create history-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a starter, then replace its manifest, entry module, and smoke test.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-history/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-history/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-history/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-history",
+    "sectionTitle": "Recipe: synchronize Browser and system Back",
+    "module": "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before calling any Host history or system Back response API.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.history-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"navigation.history\", \"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/host\", \"luastra/navigation\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/history\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\", \"luastra/navigation\"]\n    }\n  ],\n  \"tests\": [\"app/tests/history\"]\n}",
+    "signature": "navigation.history + ui.render",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The host capability is required for URL/history mutations and platform Back responses.",
+    "language": "JSON",
+    "previousPageId": "recipe-history/item-1",
+    "nextPageId": "recipe-history/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-history/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-history/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-history",
+    "sectionTitle": "Recipe: synchronize Browser and system Back",
+    "module": "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete entry module. resolve reports rejected host requests; only history events restore router state, and only system_back events carry platform Back intents.",
+    "code": "--!strict\n\nlocal Host = require(\"luastra/host\")\nlocal Navigation = require(\"luastra/navigation\")\nlocal UI = require(\"luastra/ui\")\n\nlocal routes = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    { name = \"detail\", path = \"/detail\" },\n}\nlocal router = Navigation.createRouter {\n    compiler = routes,\n    initial = { name = \"home\", params = {}, query = {} },\n}\nlocal Application = {}\nlocal message = \"At home\"\n\nlocal function location(): string\n    return \"#\" .. router.currentLocation()\nend\n\nfunction Application.restoreHistory(value: string): boolean\n    local result = router.restoreEncoded(value)\n    if result.success then message = \"History restored\" end\n    return result.success\nend\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"history-recipe\",\n        UI.Text { id = \"history/title\", text = \"Route: \" .. router.current().name, variant = \"title\" },\n        UI.Text { id = \"history/location\", text = location(), role = \"status\" },\n        UI.Text { id = \"history/message\", text = message, role = \"status\" },\n        UI.Button { id = \"history/open\", text = \"Open detail\", onTap = \"route.open\" },\n    }\nend\n\nfunction Application.handle(action: string, target: string, value: string)\n    if action == \"lifecycle\" and target == \"app\" and value == \"launch\" then\n        Host.historyReplaceLocation(location(), router.encode())\n    elseif action == \"route.open\" and target == \"history/open\" then\n        local result = router.push { name = \"detail\", params = {}, query = {} }\n        if result.success and result.changed then\n            Host.historyPushLocation(location(), router.encode())\n            message = \"Detail opened\"\n        end\n    elseif action == \"history\" and target == \"app\" then\n        if not Application.restoreHistory(value) then message = \"Rejected history state\" end\n    elseif action == \"system_back\" and target == \"app\" then\n        local intent = tonumber(string.match(value, \"^([1-9][0-9]*):[01]$\"))\n        if intent ~= nil then\n            if router.canBack() then Host.systemBackHistory(intent)\n            else Host.systemBackExit(intent) end\n        end\n    end\nend\n\nfunction Application.resolve(\n    _id: number,\n    success: boolean,\n    _payload: string,\n    code: string,\n    diagnostic: string\n)\n    if not success then\n        message = \"History request failed: \" .. code .. \" — \" .. diagnostic\n    end\nend\n\nfunction Application.snapshot()\n    return { name = router.current().name, location = location() }\nend\n\nreturn Application",
+    "signature": "one router owns every navigation outcome",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "The application pushes; the host moves Back; both end by rendering the same validated router.",
+    "wide": true,
+    "previousPageId": "recipe-history/item-2",
+    "nextPageId": "recipe-history/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-history/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-history/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-history",
+    "sectionTitle": "Recipe: synchronize Browser and system Back",
+    "module": "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test to verify atomic history restoration before opening a browser.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\nlocal Navigation = require(\"luastra/navigation\")\n\nlocal routes = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    { name = \"detail\", path = \"/detail\" },\n}\nlocal source = Navigation.createRouter {\n    compiler = routes,\n    initial = { name = \"home\", params = {}, query = {} },\n}\nassert(source.push { name = \"detail\", params = {}, query = {} }.success)\nassert(Application.restoreHistory(source.encode()), \"valid history was rejected\")\nassert(Application.snapshot().location == \"#/detail\", \"detail history was not restored\")\nassert(not Application.restoreHistory(\"invalid\"), \"malformed history was accepted\")\nassert(Application.snapshot().location == \"#/detail\", \"failed restore changed the route\")\nassert(Navigation.decideBack { modalOpen = false, canBack = true } == \"history\")\n\nreturn true",
+    "signature": "valid and invalid history restoration",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test supplies encoded router state directly and proves malformed history cannot replace the current route.",
+    "wide": true,
+    "previousPageId": "recipe-history/item-3",
+    "nextPageId": "recipe-history/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-history/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-history/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-history",
+    "sectionTitle": "Recipe: synchronize Browser and system Back",
+    "module": "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    "callable": false,
+    "useWhen": "Run from history-recipe after all three files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Press Open detail: expect #/detail.\n# Use Browser Back: expect #/ and Route: home.",
+    "signature": "Open detail → Browser Back → Home",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "The test proves state validation; the browser interaction proves URL and popstate integration in this host.",
+    "language": "Shell",
+    "points": [
+      "check and test must report PASS with one passing test.",
+      "On a mobile host, Back at detail delegates to history; Back at root may request application exit.",
+      "Desktop, web, Android, and iOS Back behavior must still be verified independently."
+    ],
+    "previousPageId": "recipe-history/item-4",
+    "nextPageId": "recipe-history/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-history/item-6",
+    "routeSlug": "understand-the-arbitration",
+    "routeId": "recipe-history/understand-the-arbitration",
+    "kind": "guide",
+    "sectionId": "recipe-history",
+    "sectionTitle": "Recipe: synchronize Browser and system Back",
+    "module": "luastra/navigation · luastra/host · navigation.history · about 20 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding a modal or another local navigation layer.",
+    "code": null,
+    "signature": "modal → history → exit",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand the arbitration",
+    "description": "Navigation.decideBack defines priority; the application performs one matching host response for each fresh intent.",
+    "points": [
+      "Dismiss application-owned modal state and acknowledge handled.",
+      "Delegate to host history when a previous route exists.",
+      "Request exit only at the application root where the platform supports it.",
+      "Ignore malformed or repeated intent values; never respond twice to one intent."
+    ],
+    "previousPageId": "recipe-history/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-form-modal/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-form-modal/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-form-modal",
+    "sectionTitle": "Recipe: validate a form and confirm in a modal",
+    "module": "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project.",
+    "code": "luastra create form-modal-recipe\ncd form-modal-recipe",
+    "signature": "luastra create form-modal-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a starter, then replace its manifest, entry module, and smoke test.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-form-modal/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-form-modal/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-form-modal/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-form-modal",
+    "sectionTitle": "Recipe: validate a form and confirm in a modal",
+    "module": "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before importing Data or composing the form primitives.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.form-modal-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/data\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/form-modal\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/form-modal\"]\n}",
+    "signature": "luastra/data + luastra/ui",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "Form validation and modal state are synchronous application logic, so this recipe needs only ui.render.",
+    "language": "JSON",
+    "previousPageId": "recipe-form-modal/item-1",
+    "nextPageId": "recipe-form-modal/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-form-modal/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-form-modal/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-form-modal",
+    "sectionTitle": "Recipe: validate a form and confirm in a modal",
+    "module": "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete entry module. Keep modal visibility in state and use the same dismissal action for Escape, backdrop dismissal, and the visible cancel button.",
+    "code": "--!strict\n\nlocal Data = require(\"luastra/data\")\nlocal UI = require(\"luastra/ui\")\n\nlocal nameSchema = Data.string { minBytes = 2, maxBytes = 60, trim = true }\nlocal emailSchema = Data.string { minBytes = 3, maxBytes = 160, trim = true }\n\nlocal Application = {}\nlocal name = \"\"\nlocal email = \"\"\nlocal nameError: string? = nil\nlocal emailError: string? = nil\nlocal modalOpen = false\nlocal status = \"Complete both fields\"\nlocal submittedName: string? = nil\n\nlocal function validEmail(value: string): boolean\n    return string.match(value, \"^[^%s@]+@[^%s@]+%.[^%s@]+$\") ~= nil\nend\n\nlocal function validate(): boolean\n    local checkedName = Data.decode(nameSchema, name)\n    local checkedEmail = Data.decode(emailSchema, email)\n    if checkedName.success then nameError = nil\n    else nameError = \"Enter 2 to 60 bytes.\" end\n    if checkedEmail.success then emailError = nil\n    else emailError = \"Enter an email address.\" end\n    if checkedEmail.success and not validEmail(checkedEmail.value) then\n        emailError = \"Use a format such as name@example.com.\"\n    end\n    if not checkedName.success or not checkedEmail.success or emailError ~= nil then\n        status = \"Fix the highlighted fields\"\n        return false\n    end\n    name = checkedName.value\n    email = checkedEmail.value\n    modalOpen = true\n    status = \"Review the normalized values\"\n    return true\nend\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"profile\",\n        width = \"content\",\n        padding = \"responsive\",\n        UI.Card {\n            id = \"profile/form\",\n            gap = \"md\",\n            padding = \"lg\",\n            surface = \"elevated\",\n            UI.Text { id = \"profile/title\", text = \"Create profile\", variant = \"title\" },\n            UI.Field {\n                id = \"profile/name-field\",\n                gap = \"xs\",\n                role = \"group\",\n                label = \"Name field\",\n                UI.Text { id = \"profile/name-label\", text = \"Name\" },\n                UI.TextInput {\n                    id = \"profile/name\",\n                    label = \"Name\",\n                    value = name,\n                    onInput = \"form.name\",\n                    autoComplete = \"name\",\n                    enterKeyHint = \"next\",\n                    required = true,\n                    errorId = nameError ~= nil and \"profile/name-error\" or nil,\n                },\n                UI.Text {\n                    id = \"profile/name-error\",\n                    text = nameError or \"\",\n                    role = \"alert\",\n                    tone = \"error\",\n                    hidden = nameError == nil,\n                },\n            },\n            UI.Field {\n                id = \"profile/email-field\",\n                gap = \"xs\",\n                role = \"group\",\n                label = \"Email field\",\n                UI.Text { id = \"profile/email-label\", text = \"Email\" },\n                UI.TextInput {\n                    id = \"profile/email\",\n                    label = \"Email\",\n                    value = email,\n                    onInput = \"form.email\",\n                    inputType = \"email\",\n                    inputMode = \"email\",\n                    autoComplete = \"email\",\n                    enterKeyHint = \"done\",\n                    required = true,\n                    errorId = emailError ~= nil and \"profile/email-error\" or nil,\n                },\n                UI.Text {\n                    id = \"profile/email-error\",\n                    text = emailError or \"\",\n                    role = \"alert\",\n                    tone = \"error\",\n                    hidden = emailError == nil,\n                },\n            },\n            UI.Text { id = \"profile/status\", text = status, role = \"status\" },\n            UI.Actions {\n                id = \"profile/actions\",\n                responsive = true,\n                UI.Button {\n                    id = \"profile/review\",\n                    text = \"Review\",\n                    onTap = \"form.review\",\n                    appearance = \"primary\",\n                },\n            },\n        },\n        UI.Modal {\n            id = \"profile/confirm-modal\",\n            label = \"Confirm profile\",\n            open = modalOpen,\n            onDismiss = \"form.cancel-review\",\n            UI.Stack {\n                id = \"profile/confirm-content\",\n                gap = \"md\",\n                padding = \"lg\",\n                UI.Text { id = \"profile/confirm-title\", text = \"Confirm profile\", variant = \"heading\" },\n                UI.Text { id = \"profile/confirm-name\", text = \"Name: \" .. name },\n                UI.Text { id = \"profile/confirm-email\", text = \"Email: \" .. email },\n                UI.Actions {\n                    id = \"profile/confirm-actions\",\n                    responsive = true,\n                    UI.Button {\n                        id = \"profile/confirm\",\n                        text = \"Confirm\",\n                        onTap = \"form.confirm\",\n                        appearance = \"primary\",\n                    },\n                    UI.Button {\n                        id = \"profile/cancel\",\n                        text = \"Keep editing\",\n                        onTap = \"form.cancel-review\",\n                        appearance = \"secondary\",\n                    },\n                },\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, value: string)\n    if action == \"form.name\" and target == \"profile/name\" then\n        name = value\n        nameError = nil\n    elseif action == \"form.email\" and target == \"profile/email\" then\n        email = value\n        emailError = nil\n    elseif action == \"form.review\" and target == \"profile/review\" then\n        validate()\n    elseif action == \"form.cancel-review\"\n        and (target == \"profile/cancel\" or target == \"profile/confirm-modal\") then\n        modalOpen = false\n        status = \"Continue editing\"\n    elseif action == \"form.confirm\" and target == \"profile/confirm\" and modalOpen then\n        modalOpen = false\n        submittedName = name\n        status = \"Profile confirmed for \" .. name\n    end\nend\n\nfunction Application.snapshot()\n    return {\n        name = name,\n        email = email,\n        nameError = nameError,\n        emailError = emailError,\n        modalOpen = modalOpen,\n        status = status,\n        submittedName = submittedName,\n    }\nend\n\nreturn Application",
+    "signature": "controlled fields → validation → modal → confirmation",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "Every visible value and error comes from Luau state; the modal opens only after normalized values pass both validation layers.",
+    "wide": true,
+    "previousPageId": "recipe-form-modal/item-2",
+    "nextPageId": "recipe-form-modal/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-form-modal/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-form-modal/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-form-modal",
+    "sectionTitle": "Recipe: validate a form and confirm in a modal",
+    "module": "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test to cover invalid input, normalization, both modal exit paths, and confirmation.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nlocal function find(node: any, id: string): any?\n    if node.id == id then return node end\n    for _, child in node.children or {} do\n        local result = find(child, id)\n        if result ~= nil then return result end\n    end\n    return nil\nend\n\nApplication.handle(\"form.review\", \"profile/review\", \"\")\nlocal invalidTree = Application.render()\nassert(Application.snapshot().modalOpen == false, \"invalid form opened the modal\")\nassert((find(invalidTree, \"profile/name\") :: any).properties.errorId == \"profile/name-error\")\nassert((find(invalidTree, \"profile/email-error\") :: any).properties.role == \"alert\")\n\nApplication.handle(\"form.name\", \"profile/name\", \"  Ada  \")\nApplication.handle(\"form.email\", \"profile/email\", \"not-an-email\")\nApplication.handle(\"form.review\", \"profile/review\", \"\")\nassert(Application.snapshot().emailError ~= nil, \"invalid email was accepted\")\n\nApplication.handle(\"form.email\", \"profile/email\", \"ada@example.test\")\nApplication.handle(\"form.review\", \"profile/review\", \"\")\nassert(Application.snapshot().modalOpen == true, \"valid form did not open the modal\")\nassert(Application.snapshot().name == \"Ada\", \"validated name was not trimmed\")\nassert((find(Application.render(), \"profile/confirm-modal\") :: any).properties.open == true)\n\nApplication.handle(\"form.cancel-review\", \"profile/confirm-modal\", \"escape\")\nassert(Application.snapshot().modalOpen == false, \"modal dismissal was ignored\")\nApplication.handle(\"form.review\", \"profile/review\", \"\")\nApplication.handle(\"form.confirm\", \"profile/confirm\", \"\")\nassert(Application.snapshot().submittedName == \"Ada\", \"confirmation was not recorded\")\n\nreturn true",
+    "signature": "invalid → corrected → dismissed → confirmed",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test drives the same actions as the controls and inspects both application state and accessible render properties.",
+    "wide": true,
+    "previousPageId": "recipe-form-modal/item-3",
+    "nextPageId": "recipe-form-modal/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-form-modal/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-form-modal/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-form-modal",
+    "sectionTitle": "Recipe: validate a form and confirm in a modal",
+    "module": "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    "callable": false,
+    "useWhen": "Run from form-modal-recipe after all three files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Press Review while empty: expect two field errors.\n# Enter a name and email, then Review: expect the confirmation modal.\n# Dismiss once, reopen, then Confirm.",
+    "signature": "errors → review → dismiss or confirm",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "Automated checks prove state and semantics; the preview separately proves native input, focus, and dialog behavior in this browser.",
+    "language": "Shell",
+    "points": [
+      "check and test must report PASS with one passing test.",
+      "Tab order follows source order; the modal traps focus and returns it to Review after dismissal.",
+      "At 200% zoom and on a phone, actions must wrap and the focused field must remain reachable above the software keyboard."
+    ],
+    "previousPageId": "recipe-form-modal/item-4",
+    "nextPageId": "recipe-form-modal/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-form-modal/item-6",
+    "routeSlug": "understand-the-boundaries",
+    "routeId": "recipe-form-modal/understand-the-boundaries",
+    "kind": "guide",
+    "sectionId": "recipe-form-modal",
+    "sectionTitle": "Recipe: validate a form and confirm in a modal",
+    "module": "luastra/ui · luastra/data · controlled input · about 20 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding persistence, server submission, or more fields.",
+    "code": null,
+    "signature": "input → state → decode → domain rule → review → commit",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand the boundaries",
+    "description": "Static types, runtime schemas, application rules, and accessible presentation solve different parts of the form.",
+    "points": [
+      "Luau types check your code; Data.decode validates values received at runtime.",
+      "Data string limits count UTF-8 bytes, not visible characters.",
+      "The email pattern is a small UI check, not proof that an address exists or can receive mail.",
+      "Clear a field error when that field changes, then validate the complete form again on Review.",
+      "Keep the modal in the tree with open=false so the host can close it and restore focus deterministically."
+    ],
+    "previousPageId": "recipe-form-modal/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-assets-visuals/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-assets-visuals/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-assets-visuals",
+    "sectionTitle": "Recipe: package an image and compose visuals",
+    "module": "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run this online for the sample, or save your own PNG as assets/luastra-mark.png before continuing.",
+    "code": "luastra create visuals-recipe\ncd visuals-recipe\nmkdir -p assets\ncurl -fL https://raw.githubusercontent.com/Luastra/luastra/main/examples/live-visuals/assets/luastra-mark.png \\\n  -o assets/luastra-mark.png\n# Windows PowerShell alternative:\n# New-Item -ItemType Directory -Force assets\n# Invoke-WebRequest <the same URL> -OutFile assets/luastra-mark.png",
+    "signature": "luastra create visuals-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a starter and place a real PNG at the exact path that the manifest will admit.",
+    "language": "Shell",
+    "points": [
+      "The sample is a 512 × 512 RGBA PNG from the public Luastra repository.",
+      "If you use another image format, change both the filename and mediaType in the manifest."
+    ],
+    "previousPageId": null,
+    "nextPageId": "recipe-assets-visuals/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-assets-visuals/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-assets-visuals/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-assets-visuals",
+    "sectionTitle": "Recipe: package an image and compose visuals",
+    "module": "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest after the image file exists; check fails closed when the path, type, or asset kind is inconsistent.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.visuals-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"ui.render\"],\n  \"assets\": [\n    {\n      \"id\": \"image/luastra-mark\",\n      \"source\": \"assets/luastra-mark.png\",\n      \"mediaType\": \"image/png\"\n    }\n  ],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/assets\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/visuals\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\", \"luastra/assets\"]\n    }\n  ],\n  \"tests\": [\"app/tests/visuals\"]\n}",
+    "signature": "admit image/luastra-mark",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The asset entry binds a stable typed ID to one project-relative file and its exact media type.",
+    "language": "JSON",
+    "previousPageId": "recipe-assets-visuals/item-1",
+    "nextPageId": "recipe-assets-visuals/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-assets-visuals/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-assets-visuals/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-assets-visuals",
+    "sectionTitle": "Recipe: package an image and compose visuals",
+    "module": "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete entry module. Keep the typed reference at module scope and convert it to a URI only at the consuming SDK boundary.",
+    "code": "--!strict\n\nlocal Assets = require(\"luastra/assets\")\nlocal UI = require(\"luastra/ui\")\n\nlocal mark = Assets.image(\"image/luastra-mark\")\nlocal markSource = Assets.uri(mark)\nlocal cover = false\nlocal Application = {}\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"visuals\",\n        width = \"content\",\n        padding = \"responsive\",\n        UI.Card {\n            id = \"visuals/card\",\n            gap = \"lg\",\n            padding = \"lg\",\n            surface = \"elevated\",\n            UI.Text { id = \"visuals/title\", text = \"Packaged visuals\", variant = \"title\" },\n            UI.Image {\n                id = \"visuals/mark\",\n                source = markSource,\n                label = \"Luastra orbit mark\",\n                width = 280,\n                height = 180,\n                fit = cover and \"cover\" or \"contain\",\n                cornerRadius = 24,\n            },\n            UI.Text {\n                id = \"visuals/fit-status\",\n                text = cover and \"Fit: cover\" or \"Fit: contain\",\n                role = \"status\",\n            },\n            UI.Button {\n                id = \"visuals/toggle-fit\",\n                text = cover and \"Show complete image\" or \"Fill the frame\",\n                onTap = \"visuals.toggle-fit\",\n            },\n            UI.Row {\n                id = \"visuals/shapes\",\n                gap = \"lg\",\n                responsive = true,\n                UI.Shape {\n                    id = \"visuals/decoration\",\n                    shape = \"circle\",\n                    width = 72,\n                    height = 72,\n                    fill = \"accent\",\n                    label = \"\",\n                },\n                UI.Shape {\n                    id = \"visuals/featured\",\n                    shape = \"star\",\n                    width = 88,\n                    height = 88,\n                    fill = \"warning\",\n                    stroke = \"text\",\n                    strokeWidth = 2,\n                    label = \"Featured visual\",\n                },\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"visuals.toggle-fit\" and target == \"visuals/toggle-fit\" then\n        cover = not cover\n    end\nend\n\nfunction Application.snapshot()\n    return { source = markSource, cover = cover }\nend\n\nreturn Application",
+    "signature": "typed asset → URI → image · shapes stay code-native",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "The bitmap supplies detailed artwork, while Shape supplies resolution-independent geometry without another packaged file.",
+    "wide": true,
+    "previousPageId": "recipe-assets-visuals/item-2",
+    "nextPageId": "recipe-assets-visuals/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-assets-visuals/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-assets-visuals/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-assets-visuals",
+    "sectionTitle": "Recipe: package an image and compose visuals",
+    "module": "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so the recipe proves both static asset wiring and its visible state transition.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\nlocal Assets = require(\"luastra/assets\")\n\nlocal function find(node: any, id: string): any?\n    if node.id == id then return node end\n    for _, child in node.children or {} do\n        local result = find(child, id)\n        if result ~= nil then return result end\n    end\n    return nil\nend\n\nlocal reference = Assets.image(\"image/luastra-mark\")\nassert(reference.kind == \"image\")\nassert(reference.id == \"image/luastra-mark\")\nassert(Assets.uri(reference) == \"asset:image/luastra-mark\")\n\nlocal initial = Application.render()\nlocal image = find(initial, \"visuals/mark\") :: any\nassert(image.properties.source == \"asset:image/luastra-mark\")\nassert(image.properties.label == \"Luastra orbit mark\")\nassert(string.find(tostring(image.properties.className), \"luastra-fit-contain\", 1, true) ~= nil)\nassert((find(initial, \"visuals/decoration\") :: any).properties.label == \"\")\nassert((find(initial, \"visuals/featured\") :: any).properties.label == \"Featured visual\")\n\nApplication.handle(\"visuals.toggle-fit\", \"visuals/toggle-fit\", \"\")\nassert(Application.snapshot().cover == true)\nlocal changedImage = find(Application.render(), \"visuals/mark\") :: any\nassert(string.find(tostring(changedImage.properties.className), \"luastra-fit-cover\", 1, true) ~= nil)\n\nreturn true",
+    "signature": "asset identity + render semantics + interaction",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test verifies the typed asset contract, image accessibility, decorative geometry, meaningful geometry, and fit toggle.",
+    "wide": true,
+    "previousPageId": "recipe-assets-visuals/item-3",
+    "nextPageId": "recipe-assets-visuals/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-assets-visuals/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-assets-visuals/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-assets-visuals",
+    "sectionTitle": "Recipe: package an image and compose visuals",
+    "module": "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run from visuals-recipe after the PNG and all three text files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Expect the complete mark inside a 280 × 180 frame.\n# Press Fill the frame: expect cropping and Fit: cover.",
+    "signature": "contain → cover → contain",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "Check verifies packaged asset admission; the browser preview separately verifies decoded pixels, sizing, clipping, and accessible presentation.",
+    "language": "Shell",
+    "points": [
+      "check and test must report PASS with one passing test.",
+      "A successful build proves the file ledger and contract, not that every browser can decode arbitrary image bytes.",
+      "Resize and zoom the preview: the frame stays bounded while contain preserves the complete image and cover may crop it."
+    ],
+    "previousPageId": "recipe-assets-visuals/item-4",
+    "nextPageId": "recipe-assets-visuals/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-assets-visuals/item-6",
+    "routeSlug": "understand-the-boundaries",
+    "routeId": "recipe-assets-visuals/understand-the-boundaries",
+    "kind": "guide",
+    "sectionId": "recipe-assets-visuals",
+    "sectionTitle": "Recipe: package an image and compose visuals",
+    "module": "luastra/assets · UI.Image · UI.Shape · about 15 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding application artwork, thumbnails, or generated visuals.",
+    "code": null,
+    "signature": "file → manifest → typed reference → URI → semantic node",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand the boundaries",
+    "description": "Each boundary prevents a different class of accidental mismatch and keeps host packaging deterministic.",
+    "points": [
+      "Use UI.Image for admitted PNG, JPEG, WebP, or AVIF detail; SVG is not admitted by this candidate contract.",
+      "Use UI.Shape for supported scalable geometry; do not make a Shape act like a button.",
+      "Give meaningful images and shapes concise labels. Use label=\"\" only when the visual adds no information.",
+      "width and height reserve stable layout space; fit controls scaling inside that frame.",
+      "Asset IDs are stable application identifiers, while source paths are project implementation details."
+    ],
+    "previousPageId": "recipe-assets-visuals/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-motion/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-motion/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-motion",
+    "sectionTitle": "Recipe: replay declarative motion",
+    "module": "luastra/motion · stable UI identity · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project.",
+    "code": "luastra create motion-recipe\ncd motion-recipe",
+    "signature": "luastra create motion-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Start from the generated project, then replace its manifest, entry module, and smoke test.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-motion/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-motion/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-motion/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-motion",
+    "sectionTitle": "Recipe: replay declarative motion",
+    "module": "luastra/motion · stable UI identity · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before importing Motion. Do not add timer.control because animation frames are host-owned presentation work.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.motion-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/motion\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/motion\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/motion\"]\n}",
+    "signature": "luastra/motion + luastra/ui",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "Declarative UI motion needs no host capability beyond rendering.",
+    "language": "JSON",
+    "previousPageId": "recipe-motion/item-1",
+    "nextPageId": "recipe-motion/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-motion/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-motion/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-motion",
+    "sectionTitle": "Recipe: replay declarative motion",
+    "module": "luastra/motion · stable UI identity · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete entry module. Keep the card ID stable: a descriptor change restarts the affected channels without discarding semantic identity.",
+    "code": "--!strict\n\nlocal Motion = require(\"luastra/motion\")\nlocal UI = require(\"luastra/ui\")\n\nlocal Application = {}\nlocal run = 0\nlocal fromLeft = true\n\nlocal function entrance(): Motion.MotionMap\n    local offset = if fromLeft then -28 else 28\n    return {\n        opacity = Motion.tween {\n            from = 0,\n            to = 1,\n            durationMs = 180,\n            easing = \"easeOutCubic\",\n        },\n        translateX = Motion.tween {\n            from = offset,\n            to = 0,\n            durationMs = 260,\n            easing = \"easeOutCubic\",\n        },\n    }\nend\n\nfunction Application.render(): UI.Node\n    local side = if fromLeft then \"left\" else \"right\"\n    local nextSide = if fromLeft then \"right\" else \"left\"\n    return UI.Screen {\n        id = \"motion-recipe\",\n        width = \"content\",\n        padding = \"responsive\",\n        UI.Card {\n            id = \"motion/card\",\n            gap = \"lg\",\n            padding = \"lg\",\n            surface = \"elevated\",\n            motion = entrance(),\n            UI.Text { id = \"motion/title\", text = \"Declarative entrance\", variant = \"title\" },\n            UI.Text {\n                id = \"motion/status\",\n                text = \"Run \" .. tostring(run) .. \": from \" .. side,\n                role = \"status\",\n            },\n            UI.Text {\n                id = \"motion/explanation\",\n                text = \"Luau changes state once; the host animates the frames.\",\n                tone = \"muted\",\n            },\n            UI.Button {\n                id = \"motion/replay\",\n                text = \"Replay from \" .. nextSide,\n                onTap = \"motion.replay\",\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"motion.replay\" and target == \"motion/replay\" then\n        run += 1\n        fromLeft = not fromLeft\n    end\nend\n\nfunction Application.snapshot()\n    return { run = run, fromLeft = fromLeft }\nend\n\nreturn Application",
+    "signature": "state changes once · host animates frames",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "The card keeps one ID while its changed translateX descriptor deliberately restarts that channel.",
+    "wide": true,
+    "previousPageId": "recipe-motion/item-2",
+    "nextPageId": "recipe-motion/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-motion/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-motion/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-motion",
+    "sectionTitle": "Recipe: replay declarative motion",
+    "module": "luastra/motion · stable UI identity · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so luastra test checks application intent and the public motion descriptors without simulating private scheduler frames.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nlocal function find(node: any, id: string): any?\n    if node.id == id then return node end\n    for _, child in node.children or {} do\n        local result = find(child, id)\n        if result ~= nil then return result end\n    end\n    return nil\nend\n\nlocal initialCard = find(Application.render(), \"motion/card\") :: any\nlocal initialMotion = initialCard.properties.motion :: any\nlocal initialOpacity = initialMotion.opacity :: any\nlocal initialTranslation = initialMotion.translateX :: any\nassert(initialCard.id == \"motion/card\")\nassert(initialOpacity.kind == \"tween\")\nassert(initialOpacity.from == 0 and initialOpacity.to == 1)\nassert(initialTranslation.from == -28)\nassert(initialTranslation.to == 0)\n\nApplication.handle(\"motion.replay\", \"motion/replay\", \"\")\nlocal snapshot = Application.snapshot()\nassert(snapshot.run == 1 and snapshot.fromLeft == false)\n\nlocal changedCard = find(Application.render(), \"motion/card\") :: any\nlocal changedMotion = changedCard.properties.motion :: any\nlocal changedTranslation = changedMotion.translateX :: any\nassert(changedCard.id == initialCard.id)\nassert(changedTranslation.from == 28)\nassert(changedTranslation.to == 0)\n\nreturn true",
+    "signature": "descriptor contract + one state transition",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test verifies the initial descriptors, drives the real button action, and proves the changed direction with the same node ID.",
+    "wide": true,
+    "previousPageId": "recipe-motion/item-3",
+    "nextPageId": "recipe-motion/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-motion/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-motion/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-motion",
+    "sectionTitle": "Recipe: replay declarative motion",
+    "module": "luastra/motion · stable UI identity · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run from motion-recipe after all three files are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Expect Run 0: from left.\n# Press Replay from right, then expect Run 1: from right.",
+    "signature": "left → right → left",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "Automated checks prove the descriptor and state contracts; the preview separately proves visible scheduling in this browser.",
+    "language": "Shell",
+    "points": [
+      "check and test must report PASS with one passing test.",
+      "Each press updates Luau once; Application.render is not called for every animation frame.",
+      "Enable reduced motion in the operating system or browser and reload: content must appear immediately in its final position.",
+      "The animation must never be the only indication of the run or direction; the status text carries the same meaning."
+    ],
+    "previousPageId": "recipe-motion/item-4",
+    "nextPageId": "recipe-motion/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-motion/item-6",
+    "routeSlug": "understand-the-boundaries",
+    "routeId": "recipe-motion/understand-the-boundaries",
+    "kind": "guide",
+    "sectionId": "recipe-motion",
+    "sectionTitle": "Recipe: replay declarative motion",
+    "module": "luastra/motion · stable UI identity · about 15 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding route entrances, feedback motion, or ambient effects.",
+    "code": null,
+    "signature": "state → render descriptor → host scheduler → final presentation",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Understand the boundaries",
+    "description": "Motion remains an optional presentation layer over deterministic layout and semantic content.",
+    "points": [
+      "Supported channels are opacity, translateX, translateY, scaleX, scaleY, rotationDeg, and rotationYDeg.",
+      "Use Motion.tween for one channel, Motion.sequence for ordered Tween/Wait steps, and a named preset when it already fits.",
+      "Use Timer only when elapsed time must change application state; never use it to drive animation frames.",
+      "Layout is calculated at the final position. Translation, scale, and rotation do not repair spacing or reserve new bounds.",
+      "Avoid continuous motion by default. If it is useful, keep it sparse, stop it when inactive, and preserve the same meaning with motion reduced."
+    ],
+    "previousPageId": "recipe-motion/item-5",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-server/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Run this in the directory that should contain the new project. The backend directory holds trusted code that is separate from client Luau.",
+    "code": "luastra create server-recipe\ncd server-recipe\nmkdir backend",
+    "signature": "luastra create server-recipe",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a starter, then add the backend declaration and handler before generating the client module.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-server/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-server/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest. rpc.call is required for Server calls; ui.render remains required for the visible application.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.server-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"rpc.call\", \"ui.render\"],\n  \"backend\": {\n    \"declaration\": \"backend/functions.json\",\n    \"handler\": \"backend/handlers.mjs\",\n    \"generatedClient\": \"src/generated/server-functions.luau\",\n    \"generatedModule\": \"app/server-functions\"\n  },\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"app/server-functions\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/server-functions\",\n      \"source\": \"src/generated/server-functions.luau\",\n      \"dependencies\": [\"luastra/server\"]\n    },\n    {\n      \"id\": \"app/tests/server\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\", \"app/server-functions\"]\n    }\n  ],\n  \"tests\": [\"app/tests/server\"]\n}",
+    "signature": "rpc.call + generated module + backend files",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The manifest declares the capability, trusted files, generated client path, and dependency edge explicitly.",
+    "language": "JSON",
+    "previousPageId": "recipe-server/item-1",
+    "nextPageId": "recipe-server/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-3",
+    "routeSlug": "create-backend-functions-json",
+    "routeId": "recipe-server/create-backend-functions-json",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Create this declaration before generation. Add a new versioned operation instead of silently changing incompatible input or result meaning.",
+    "code": "{\n  \"schemaVersion\": 1,\n  \"types\": {},\n  \"functions\": {\n    \"greeting.message.v1\": {\n      \"clientName\": \"greet\",\n      \"authorization\": \"public\",\n      \"mutation\": false,\n      \"idempotency\": \"none\",\n      \"input\": { \"name\": \"string\" },\n      \"result\": { \"message\": \"string\" }\n    }\n  }\n}",
+    "signature": "one versioned query contract",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Create backend/functions.json",
+    "description": "The declaration names the public operation and gives both sides exact typed fields.",
+    "language": "JSON",
+    "points": [
+      "authorization: public means no signed-in principal is required; it does not make input trustworthy.",
+      "mutation: false declares a read-only query, so this operation does not need an idempotency key.",
+      "clientName becomes greet and decodeGreet in the generated Luau module."
+    ],
+    "previousPageId": "recipe-server/item-2",
+    "nextPageId": "recipe-server/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-4",
+    "routeSlug": "create-backend-handlers-mjs",
+    "routeId": "recipe-server/create-backend-handlers-mjs",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Create this trusted local-backend module. Keep secrets and privileged provider calls here, never in generated or handwritten client Luau.",
+    "code": "export function createHandlers() {\n  return Object.freeze({\n    async \"greeting.message.v1\"(input, context) {\n      const name = input.name.trim();\n      const bytes = new TextEncoder().encode(name).byteLength;\n      if (bytes < 2 || bytes > 60) {\n        context.reject(\"VALIDATION\", \"Name must contain 2 to 60 bytes\");\n      }\n      return { message: `Hello, ${name}!` };\n    },\n  });\n}",
+    "signature": "trusted validation and result",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Create backend/handlers.mjs",
+    "description": "The handler validates untrusted input again and returns exactly the declared result shape.",
+    "language": "JavaScript",
+    "points": [
+      "The operation key must exactly match the declaration.",
+      "context.reject produces a bounded failure code and message for Application.resolve.",
+      "Luastra validates the returned object against the declared result before it crosses the RPC boundary."
+    ],
+    "previousPageId": "recipe-server/item-3",
+    "nextPageId": "recipe-server/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-5",
+    "routeSlug": "generate-the-typed-luau-client",
+    "routeId": "recipe-server/generate-the-typed-luau-client",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Run after creating or changing backend/functions.json. Commit the generated module, but never edit it by hand.",
+    "code": "luastra generate\n# Expect result: PASS and module: app/server-functions",
+    "signature": "declaration → src/generated/server-functions.luau",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Generate the typed Luau client",
+    "description": "Generation creates the only client call and decoder names used by application code.",
+    "language": "Shell",
+    "points": [
+      "greet(input, options) starts the request and returns a numeric RequestId, not the greeting.",
+      "decodeGreet(payload) returns the declared result or nil for malformed, missing, or extra fields.",
+      "luastra check rejects a missing or stale generated client."
+    ],
+    "previousPageId": "recipe-server/item-4",
+    "nextPageId": "recipe-server/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-6",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-server/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Replace the entry module after generation. This is the complete asynchronous client lifecycle rather than a synchronous function return.",
+    "code": "--!strict\n\nlocal ServerFunctions = require(\"app/server-functions\")\nlocal UI = require(\"luastra/ui\")\n\nlocal Application = {}\nlocal name = \"Ada\"\nlocal status = \"Ready\"\nlocal pending: {[number]: boolean} = {}\n\nlocal function busy(): boolean\n    return next(pending) ~= nil\nend\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"server-recipe\",\n        width = \"content\",\n        padding = \"responsive\",\n        UI.Card {\n            id = \"greeting/card\",\n            gap = \"md\",\n            padding = \"lg\",\n            surface = \"elevated\",\n            UI.Text { id = \"greeting/title\", text = \"Server greeting\", variant = \"title\" },\n            UI.Field {\n                id = \"greeting/name-field\",\n                gap = \"xs\",\n                role = \"group\",\n                label = \"Name field\",\n                UI.Text { id = \"greeting/name-label\", text = \"Name\" },\n                UI.TextInput {\n                    id = \"greeting/name\",\n                    label = \"Name\",\n                    value = name,\n                    onInput = \"greeting.name\",\n                    autoComplete = \"name\",\n                    enterKeyHint = \"done\",\n                    required = true,\n                },\n            },\n            UI.Button {\n                id = \"greeting/send\",\n                text = if busy() then \"Waiting...\" else \"Ask the server\",\n                onTap = \"greeting.send\",\n                disabled = busy(),\n            },\n            UI.Text { id = \"greeting/status\", text = status, role = \"status\" },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, value: string)\n    if action == \"greeting.name\" and target == \"greeting/name\" then\n        name = value\n        status = \"Ready\"\n    elseif action == \"greeting.send\" and target == \"greeting/send\" and not busy() then\n        local requestId = ServerFunctions.greet({ name = name }, { deadlineMs = 2000, retry = true })\n        pending[requestId] = true\n        status = \"Waiting for the server...\"\n    end\nend\n\nfunction Application.resolve(\n    requestId: number,\n    success: boolean,\n    payload: string,\n    errorCode: string,\n    errorMessage: string\n)\n    if pending[requestId] ~= true then return end\n    pending[requestId] = nil\n    if not success then\n        status = errorCode .. \": \" .. errorMessage\n        return\n    end\n    local result = ServerFunctions.decodeGreet(payload)\n    if result == nil then\n        status = \"INTERNAL: Invalid greeting response\"\n        return\n    end\n    status = result.message\nend\n\nfunction Application.snapshot()\n    return { name = name, status = status, busy = busy() }\nend\n\nreturn Application",
+    "signature": "input → RequestId → resolve → decode → state",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Replace src/main.luau",
+    "description": "The application stores each request ID and changes visible state only after the matching completion is decoded.",
+    "wide": true,
+    "previousPageId": "recipe-server/item-5",
+    "nextPageId": "recipe-server/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-7",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-server/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Replace the smoke test so checkable decoder and UI behavior stay deterministic without introducing a fake network response.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\nlocal ServerFunctions = require(\"app/server-functions\")\n\nlocal decoded = ServerFunctions.decodeGreet(\"v=1&result.message=Hello%2C%20Ada%21\")\nassert(decoded ~= nil and decoded.message == \"Hello, Ada!\")\nassert(ServerFunctions.decodeGreet(\"v=1\") == nil)\nassert(ServerFunctions.decodeGreet(\"v=1&result.message=Hello&extra=value\") == nil)\n\nlocal initial = Application.snapshot()\nassert(initial.name == \"Ada\" and initial.status == \"Ready\" and not initial.busy)\nApplication.handle(\"greeting.name\", \"greeting/name\", \"Grace\")\nlocal changed = Application.snapshot()\nassert(changed.name == \"Grace\" and changed.status == \"Ready\")\nassert(Application.render().type == \"Screen\")\n\nreturn true",
+    "signature": "generated decoder + controlled UI",
+    "parameters": [],
+    "returns": null,
+    "name": "7. Replace tests/smoke.luau",
+    "description": "The smoke test proves the offline contracts without pretending that its isolated VM owns a live backend.",
+    "wide": true,
+    "previousPageId": "recipe-server/item-6",
+    "nextPageId": "recipe-server/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-8",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-server/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Run from server-recipe after all five authored files are saved. Leave luastra run active while testing the browser flow.",
+    "code": "luastra generate\nluastra check\nluastra test\nluastra run\n# Open the printed local URL and press Ask the server.\n# Expect: Hello, Ada!",
+    "signature": "generate → check → test → live local RPC",
+    "parameters": [],
+    "returns": null,
+    "name": "8. Check and run",
+    "description": "The first three commands verify files and types; the preview then exercises the real local handler boundary.",
+    "language": "Shell",
+    "points": [
+      "generate, check, and test must report PASS with one passing test.",
+      "The browser request reaches the trusted local handler served by luastra run.",
+      "Try a one-character name: expect VALIDATION and the handler message without a client crash.",
+      "The numeric RequestId only correlates completion; it is never the operation result."
+    ],
+    "previousPageId": "recipe-server/item-7",
+    "nextPageId": "recipe-server/item-9",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-9",
+    "routeSlug": "follow-one-request",
+    "routeId": "recipe-server/follow-one-request",
+    "kind": "guide",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Read this when a server call appears to start but the expected result does not reach the interface.",
+    "code": null,
+    "signature": "Luau → RPC transport → handler → typed envelope → Luau",
+    "parameters": [],
+    "returns": null,
+    "name": "9. Follow one request",
+    "description": "Each stage owns one explicit responsibility, so client state never trusts transport text directly.",
+    "points": [
+      "greet encodes declared input and returns a RequestId immediately.",
+      "The host sends server.call.v1 to the local RPC endpoint with the operation name and deadline.",
+      "The backend selects greeting.message.v1, enforces authorization, validates input, and validates its result.",
+      "Application.resolve matches the RequestId and separates transport failure from successful payload decoding.",
+      "decodeGreet admits only the exact declared result before status changes."
+    ],
+    "previousPageId": "recipe-server/item-8",
+    "nextPageId": "recipe-server/item-10",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-server/item-10",
+    "routeSlug": "keep-the-production-boundary-honest",
+    "routeId": "recipe-server/keep-the-production-boundary-honest",
+    "kind": "guide",
+    "sectionId": "recipe-server",
+    "sectionTitle": "Recipe: call a server function",
+    "module": "generated Luau client · trusted JavaScript handler · about 25 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding authentication, database access, provider credentials, or publishing a server-backed application.",
+    "code": null,
+    "signature": "local backend support is not hosted deployment",
+    "parameters": [],
+    "returns": null,
+    "name": "10. Keep the production boundary honest",
+    "description": "The recipe proves local development behavior, not production infrastructure, secrets, or service availability.",
+    "points": [
+      "Client Luau and generated client code are public application artifacts. Never place a secret in either one.",
+      "Public operations still require validation, rate limits, abuse controls, and safe error messages in production.",
+      "Use user or admin authorization for protected work and enforce ownership inside the handler.",
+      "Retries are safe for this read-only query. Mutations need an intentional idempotency policy and stable key.",
+      "The candidate includes a local backend for luastra run; production backend deployment is a separate host decision."
+    ],
+    "previousPageId": "recipe-server/item-9",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-1",
+    "routeSlug": "create-the-project-and-copy-audio",
+    "routeId": "recipe-media/create-the-project-and-copy-audio",
+    "kind": "entry",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Run this where the new project should live, then save the supplied focus.wav fixture at exactly assets/focus.wav.",
+    "code": "luastra create media-recipe\ncd media-recipe\n# Copy focus.wav from this recipe into assets/focus.wav.",
+    "signature": "starter + admitted WAV fixture",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project and copy audio",
+    "description": "Start from a normal project and copy the recipe fixture into its assets directory.",
+    "language": "Shell",
+    "points": [
+      "The documentation validator tests the same WAV fixture from examples/media-player/assets/focus.wav.",
+      "Use your own admitted WAV, MP3, M4A, or OGG file later; browser codec support still varies by format."
+    ],
+    "previousPageId": null,
+    "nextPageId": "recipe-media/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-media/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest after copying the WAV file. A source path alone is not a playable or portable asset reference.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.media-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"media.command\", \"ui.render\"],\n  \"assets\": [\n    {\n      \"id\": \"audio/focus\",\n      \"source\": \"assets/focus.wav\",\n      \"mediaType\": \"audio/wav\"\n    }\n  ],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/assets\", \"luastra/media\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/media\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\", \"luastra/media\"]\n    }\n  ],\n  \"tests\": [\"app/tests/media\"]\n}",
+    "signature": "asset + media.command + ui.render",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The manifest admits both the packaged bytes and the host capability that controls playback.",
+    "language": "JSON",
+    "previousPageId": "recipe-media/item-1",
+    "nextPageId": "recipe-media/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-media/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete entry module. Do not add a timer or frame loop: the host emits bounded progress and lifecycle updates.",
+    "code": "--!strict\n\nlocal Assets = require(\"luastra/assets\")\nlocal Media = require(\"luastra/media\")\nlocal UI = require(\"luastra/ui\")\n\nlocal media: Media.State = {\n    revision = 0,\n    status = \"idle\",\n    itemId = \"\",\n    title = \"\",\n    artist = \"\",\n    positionMs = 0,\n    durationMs = 0,\n    bufferedMs = 0,\n    queueIndex = -1,\n    queueCount = 0,\n    background = false,\n    interruption = \"none\",\n    route = \"default\",\n    error = nil,\n}\nlocal pending: {[number]: string} = {}\nlocal message = \"Waiting for launch\"\nlocal Application = {}\n\nlocal queue: {Media.QueueItem} = {\n    {\n        id = \"focus\",\n        source = Assets.uri(Assets.audio(\"audio/focus\")),\n        title = \"Focus sample\",\n        artist = \"Luastra\",\n    },\n}\n\nlocal function track(requestId: number, label: string)\n    pending[requestId] = label\n    message = label .. \" requested\"\nend\n\nlocal function applyState(payload: string, nextMessage: string?): boolean\n    local decoded = Media.decodeState(payload)\n    if not decoded.success then\n        message = \"Rejected media state: \" .. decoded.error\n        return false\n    end\n    media = decoded.state\n    if nextMessage ~= nil then message = nextMessage end\n    return true\nend\n\nfunction Application.render(): UI.Node\n    local elapsed = math.floor(media.positionMs / 1000)\n    local duration = math.floor(media.durationMs / 1000)\n    return UI.Screen {\n        id = \"media-recipe\",\n        width = \"content\",\n        padding = \"responsive\",\n        UI.Card {\n            id = \"player/card\",\n            gap = \"md\",\n            padding = \"lg\",\n            surface = \"elevated\",\n            UI.Text { id = \"player/title\", text = \"Packaged audio\", variant = \"title\" },\n            UI.Text {\n                id = \"player/item\",\n                text = if media.title == \"\" then \"Nothing loaded\" else media.title,\n                variant = \"heading\",\n            },\n            UI.Text {\n                id = \"player/state\",\n                text = \"Status: \" .. media.status,\n                role = \"status\",\n                tone = if media.status == \"error\" then \"error\" else nil,\n            },\n            UI.Text {\n                id = \"player/progress\",\n                text = \"Progress: \" .. tostring(elapsed) .. \"s / \" .. tostring(duration) .. \"s\",\n            },\n            UI.Text { id = \"player/message\", text = message, role = \"status\", tone = \"muted\" },\n            UI.Actions {\n                id = \"player/actions\",\n                gap = \"sm\",\n                responsive = true,\n                UI.Button {\n                    id = \"player/play\",\n                    text = \"Play\",\n                    onTap = \"media.play\",\n                    disabled = media.status ~= \"ready\" and media.status ~= \"paused\" and media.status ~= \"ended\",\n                },\n                UI.Button {\n                    id = \"player/pause\",\n                    text = \"Pause\",\n                    onTap = \"media.pause\",\n                    appearance = \"secondary\",\n                    disabled = media.status ~= \"playing\" and media.status ~= \"buffering\",\n                },\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, value: string)\n    if action == \"lifecycle\" and target == \"app\" and value == \"launch\" then\n        if media.queueCount == 0 then track(Media.setQueue(queue, 1), \"Queue load\") end\n    elseif action == \"media_state\" then\n        applyState(value, nil)\n    elseif action == \"media.play\" and target == \"player/play\" then\n        track(Media.play(), \"Play\")\n    elseif action == \"media.pause\" and target == \"player/pause\" then\n        track(Media.pause(), \"Pause\")\n    end\nend\n\nfunction Application.resolve(\n    requestId: number,\n    success: boolean,\n    payload: string,\n    errorCode: string,\n    errorMessage: string\n)\n    local label = pending[requestId]\n    if label == nil then return end\n    pending[requestId] = nil\n    if not success then\n        message = label .. \" failed: \" .. errorCode .. \" — \" .. errorMessage\n        return\n    end\n    applyState(payload, label .. \" completed\")\nend\n\nfunction Application.snapshot()\n    return { status = media.status, title = media.title, message = message }\nend\n\nreturn Application",
+    "signature": "launch → queue → commands + events → decoded state",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "The host owns playback and progress; Luau only issues intent and renders validated snapshots.",
+    "wide": true,
+    "previousPageId": "recipe-media/item-2",
+    "nextPageId": "recipe-media/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-media/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so state admission and rejection are verified independently of browser audio policy.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\nlocal Media = require(\"luastra/media\")\n\nlocal ready = table.concat({\n    \"v=1\",\n    \"artist=Luastra\",\n    \"background=false\",\n    \"bufferedMs=1000\",\n    \"durationMs=8000\",\n    \"errorCode=\",\n    \"errorMessage=\",\n    \"interruption=none\",\n    \"itemId=focus\",\n    \"positionMs=0\",\n    \"queueCount=1\",\n    \"queueIndex=0\",\n    \"revision=1\",\n    \"route=default\",\n    \"status=ready\",\n    \"title=Focus%20sample\",\n}, \"&\")\n\nlocal decoded = Media.decodeState(ready)\nassert(decoded.success and decoded.state.title == \"Focus sample\")\nApplication.handle(\"media_state\", \"player\", ready)\nlocal current = Application.snapshot()\nassert(current.status == \"ready\" and current.title == \"Focus sample\")\n\nApplication.handle(\"media_state\", \"player\", \"v=2&status=playing\")\nlocal rejected = Application.snapshot()\nassert(rejected.status == \"ready\")\nassert(rejected.message == \"Rejected media state: invalid_wire\")\nassert(Application.render().type == \"Screen\")\n\nreturn true",
+    "signature": "valid event + malformed state rejection",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The smoke test drives the same media_state path as the host without pretending to play audio in the isolated test VM.",
+    "wide": true,
+    "previousPageId": "recipe-media/item-3",
+    "nextPageId": "recipe-media/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-media/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Run from media-recipe after the manifest, Luau files, and assets/focus.wav are saved.",
+    "code": "luastra check\nluastra test\nluastra run\n# Wait for Status: ready, then press Play.\n# Expect audible audio and Status: playing.\n# Press Pause and expect Status: paused.",
+    "signature": "ready → playing → paused",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "Automated checks prove the contract; the preview separately proves audible playback in the current browser.",
+    "language": "Shell",
+    "points": [
+      "check and test must report PASS with one passing test.",
+      "Play begins only after an explicit user action, which satisfies common browser autoplay policy.",
+      "The progress text should advance from host events; Application.render does not run on an application timer.",
+      "If decoding or playback fails, keep the last admitted state and show a bounded message."
+    ],
+    "previousPageId": "recipe-media/item-4",
+    "nextPageId": "recipe-media/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-6",
+    "routeSlug": "separate-command-completion-from-live-truth",
+    "routeId": "recipe-media/separate-command-completion-from-live-truth",
+    "kind": "guide",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Read this when controls appear to lag, playback changes outside the app, or command success conflicts with a later media event.",
+    "code": null,
+    "signature": "resolve acknowledges · media_state observes",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Separate command completion from live truth",
+    "description": "A completed command and current playback are related signals, not interchangeable promises.",
+    "points": [
+      "setQueue, play, and pause return RequestId immediately; store it only for command correlation.",
+      "Application.resolve reports whether that command completed and may carry a decodable state snapshot.",
+      "media_state reports later changes such as progress, ending, buffering, interruption, route, and errors.",
+      "Render from the newest decoded Media.State rather than assuming that a pressed button already changed playback.",
+      "Ignore unknown RequestIds and reject malformed state payloads without erasing the last valid UI state."
+    ],
+    "previousPageId": "recipe-media/item-5",
+    "nextPageId": "recipe-media/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-7",
+    "routeSlug": "understand-sources-and-queues",
+    "routeId": "recipe-media/understand-sources-and-queues",
+    "kind": "guide",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding another track, protected content, Next and Previous controls, or seeking.",
+    "code": null,
+    "signature": "asset: for packaged files · content: for scoped grants",
+    "parameters": [],
+    "returns": null,
+    "name": "7. Understand sources and queues",
+    "description": "Media accepts admitted sources and a bounded queue rather than arbitrary filesystem or network URLs.",
+    "points": [
+      "Use Assets.audio and Assets.uri for files declared in luastra.json.",
+      "Use content grants issued by a trusted backend for protected media; a content: token is not a public URL.",
+      "Raw https://, file://, absolute paths, data URLs, and short forged content tokens are rejected.",
+      "A queue contains 1 to 32 items. selectedIndex is one-based in Luau even though decoded queueIndex is zero-based.",
+      "Enable Next, Previous, and Seek from decoded queue and duration fields, not from assumptions about the source."
+    ],
+    "previousPageId": "recipe-media/item-6",
+    "nextPageId": "recipe-media/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-media/item-8",
+    "routeSlug": "keep-host-claims-evidence-bound",
+    "routeId": "recipe-media/keep-host-claims-evidence-bound",
+    "kind": "guide",
+    "sectionId": "recipe-media",
+    "sectionTitle": "Recipe: play packaged audio",
+    "module": "luastra/media · live media_state events · about 20 minutes",
+    "callable": false,
+    "useWhen": "Read this before promising playback behavior for web, Tauri, Android, iOS, or a packaged release.",
+    "code": null,
+    "signature": "web playback ≠ native background proof",
+    "parameters": [],
+    "returns": null,
+    "name": "8. Keep host claims evidence-bound",
+    "description": "Foreground browser success does not establish background audio, lock-screen controls, or interruption behavior everywhere.",
+    "points": [
+      "Verify audible foreground playback separately in each supported browser and packaged host.",
+      "Mobile background playback requires a native build, lifecycle configuration, and a physical-device check.",
+      "Lock-screen metadata and hardware controls require explicit target evidence; source code alone is insufficient.",
+      "Test calls, headphones, Bluetooth route changes, audio focus, screen lock, and application disposal where claimed.",
+      "Avoid polling. Supported hosts own event cadence and should stay idle when playback and UI are idle."
+    ],
+    "previousPageId": "recipe-media/item-7",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "recipe-orbit/create-the-project",
+    "kind": "entry",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Run this where the new project should live, then replace the three generated files shown below.",
+    "code": "luastra create orbit-recipe\ncd orbit-recipe",
+    "signature": "one semantic model · two depths · one detail surface",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Start from the normal project skeleton; this recipe needs no assets or asynchronous host capability.",
+    "language": "Shell",
+    "previousPageId": null,
+    "nextPageId": "recipe-orbit/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "recipe-orbit/replace-luastra-json",
+    "kind": "entry",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before adding Orbit components. Add navigation.history or storage capabilities only when a later version of the app actually calls them.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": { \"id\": \"dev.luastra.orbit-recipe\", \"entry\": \"app/main\" },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/orbit\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/orbit\"]\n}",
+    "signature": "ui.render only",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The first Orbit needs only the semantic renderer; navigation state stays local and bounded in this introductory example.",
+    "language": "JSON",
+    "previousPageId": "recipe-orbit/item-1",
+    "nextPageId": "recipe-orbit/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-3",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "recipe-orbit/replace-src-main-luau",
+    "kind": "entry",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete entry module. Keep the component IDs stable: relationships, selection, focus restoration, tests, and future routes all depend on semantic identity.",
+    "code": "--!strict\n\nlocal UI = require(\"luastra/ui\")\n\nlocal Application = {}\nlocal depth = \"root\"\nlocal visitedBuild = false\nlocal selected: string? = nil\n\nlocal details = {\n    [\"orbit/learn\"] = \"Learn the semantic model before adding host capabilities.\",\n    [\"orbit/ship\"] = \"Verify each target separately before making a platform claim.\",\n    [\"orbit/build/interface\"] = \"Compose meaning in Luau and let the host place it.\",\n    [\"orbit/build/adaptive\"] = \"The same nodes become a readable list when space is constrained.\",\n    [\"orbit/build/accessible\"] = \"Keyboard, pointer, and assistive technology reach the same actions.\",\n}\n\nlocal function titleFor(id: string?): string\n    if id == \"orbit/learn\" then return \"Learn\" end\n    if id == \"orbit/ship\" then return \"Ship\" end\n    if id == \"orbit/build/interface\" then return \"Interface\" end\n    if id == \"orbit/build/adaptive\" then return \"Adaptive\" end\n    if id == \"orbit/build/accessible\" then return \"Accessible\" end\n    return \"Node details\"\nend\n\nfunction Application.render(): UI.Node\n    local focusTitle = titleFor(selected)\n    local children: {UI.Node} = {\n        UI.OrbitPath {\n            id = \"orbit/path\",\n            label = \"Orbit path\",\n            UI.OrbitReturn {\n                id = \"orbit/path/root\",\n                text = \"Luastra\",\n                onTap = \"return-root\",\n                disabled = depth == \"root\",\n            },\n            UI.Text {\n                id = \"orbit/path/current\",\n                text = depth == \"root\" and \"Home\" or \"Build\",\n            },\n        },\n        UI.Constellation {\n            id = \"orbit/root\",\n            label = \"Luastra concepts\",\n            depth = 0,\n            layerState = depth == \"root\" and \"active\" or \"behind\",\n            UI.OrbitCenter {\n                id = \"orbit/root/center\",\n                title = \"Luastra\",\n                description = \"Build apps like games.\",\n            },\n            UI.OrbitNode {\n                id = \"orbit/build\",\n                title = \"Build\",\n                description = \"Enter the next constellation.\",\n                nodeKind = \"constellation\",\n                priority = 1,\n                signalIcon = \"compass\",\n                relatedTo = { \"orbit/learn\" },\n                onTap = \"open-build\",\n            },\n            UI.OrbitNode {\n                id = \"orbit/learn\",\n                title = \"Learn\",\n                description = \"Understand the semantic model.\",\n                priority = 1,\n                signalIcon = \"book\",\n                status = \"Guide\",\n                selected = selected == \"orbit/learn\",\n                relatedTo = { \"orbit/build\", \"orbit/ship\" },\n                onTap = \"open-focus\",\n            },\n            UI.OrbitNode {\n                id = \"orbit/ship\",\n                title = \"Ship\",\n                description = \"Verify web, desktop, and mobile.\",\n                priority = 2,\n                signalIcon = \"rocket\",\n                selected = selected == \"orbit/ship\",\n                relatedTo = { \"orbit/learn\" },\n                onTap = \"open-focus\",\n            },\n        },\n    }\n\n    if visitedBuild then\n        table.insert(children, UI.Constellation {\n            id = \"orbit/build-space\",\n            label = \"Build an interface\",\n            depth = 1,\n            layerState = depth == \"build\" and \"active\" or \"ahead\",\n            UI.OrbitCenter {\n                id = \"orbit/build-space/center\",\n                title = \"Build\",\n                description = \"Semantic, adaptive, accessible.\",\n            },\n            UI.OrbitNode {\n                id = \"orbit/build/interface\",\n                title = \"Interface\",\n                description = \"Describe content and actions.\",\n                priority = 1,\n                signalIcon = \"spark\",\n                selected = selected == \"orbit/build/interface\",\n                relatedTo = { \"orbit/build/adaptive\", \"orbit/build/accessible\" },\n                onTap = \"open-focus\",\n            },\n            UI.OrbitNode {\n                id = \"orbit/build/adaptive\",\n                title = \"Adaptive\",\n                description = \"Keep every node available in a list.\",\n                priority = 2,\n                selected = selected == \"orbit/build/adaptive\",\n                relatedTo = { \"orbit/build/interface\" },\n                onTap = \"open-focus\",\n            },\n            UI.OrbitNode {\n                id = \"orbit/build/accessible\",\n                title = \"Accessible\",\n                description = \"Preserve labels, focus, and actions.\",\n                priority = 1,\n                signalIcon = \"check\",\n                status = \"Required\",\n                statusTone = \"success\",\n                selected = selected == \"orbit/build/accessible\",\n                relatedTo = { \"orbit/build/interface\" },\n                onTap = \"open-focus\",\n            },\n        })\n    end\n\n    table.insert(children, UI.FocusSurface {\n        id = \"orbit/focus\",\n        label = focusTitle .. \" details\",\n        open = selected ~= nil,\n        onDismiss = \"close-focus\",\n        UI.FocusHeader {\n            id = \"orbit/focus/header\",\n            UI.Text { id = \"orbit/focus/title\", text = focusTitle, variant = \"heading\" },\n            UI.Button {\n                id = \"orbit/focus/close\",\n                text = \"Return to the constellation\",\n                onTap = \"close-focus\",\n            },\n        },\n        UI.Stack {\n            id = \"orbit/focus/content\",\n            gap = \"md\",\n            UI.Text {\n                id = \"orbit/focus/copy\",\n                text = if selected == nil then \"Choose a node.\" else details[selected],\n            },\n        },\n    })\n\n    return UI.Screen {\n        id = \"orbit-recipe\",\n        documentTitle = \"Orbit recipe — Luastra\",\n        width = \"wide\",\n        UI.Orbit {\n            id = \"orbit\",\n            label = \"Luastra learning orbit\",\n            presentation = \"auto\",\n            orbitTheme = \"luastra\",\n            orbitMotion = \"system\",\n            maxVisible = 8,\n            table.unpack(children),\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"open-build\" and target == \"orbit/build\" then\n        depth = \"build\"\n        visitedBuild = true\n        selected = nil\n    elseif action == \"return-root\" then\n        depth = \"root\"\n        selected = nil\n    elseif action == \"open-focus\" and details[target] ~= nil then\n        selected = target\n    elseif action == \"close-focus\" then\n        selected = nil\n    end\nend\n\nfunction Application.snapshot()\n    return { depth = depth, visitedBuild = visitedBuild, selected = selected }\nend\n\nreturn Application",
+    "signature": "constellations → nodes → Focus Surface",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "One small state machine controls active depth and focused leaf; every visual placement decision remains host-owned.",
+    "wide": true,
+    "previousPageId": "recipe-orbit/item-2",
+    "nextPageId": "recipe-orbit/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-4",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "recipe-orbit/replace-tests-smoke-luau",
+    "kind": "entry",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Replace the smoke test. Test semantic states and contracts in Luau; verify actual layout, motion, focus order, and list fallback separately in supported hosts.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nlocal function byId(node: any, id: string): any\n    if node.id == id then return node end\n    for _, child in node.children do\n        local found = byId(child, id)\n        if found ~= nil then return found end\n    end\n    return nil\nend\n\nlocal function hasClass(node: any, name: string): boolean\n    return string.find(\" \" .. node.properties.className .. \" \", \" \" .. name .. \" \", 1, true) ~= nil\nend\n\nlocal initial = Application.render()\nassert(initial.type == \"Screen\")\nassert(hasClass(byId(initial, \"orbit\"), \"luastra-orbit\"))\nassert(hasClass(byId(initial, \"orbit/root\"), \"luastra-constellation-state-active\"))\nassert(byId(initial, \"orbit/build-space\") == nil)\nassert(byId(initial, \"orbit/build\").properties.orbitRelatedTo == \"orbit/learn\")\n\nApplication.handle(\"open-build\", \"orbit/build\", \"\")\nlocal nested = Application.render()\nassert(hasClass(byId(nested, \"orbit/root\"), \"luastra-constellation-state-behind\"))\nassert(hasClass(byId(nested, \"orbit/build-space\"), \"luastra-constellation-state-active\"))\n\nApplication.handle(\"open-focus\", \"orbit/build/interface\", \"\")\nlocal focused = Application.render()\nassert(byId(focused, \"orbit/focus\").properties.open == true)\nassert(hasClass(byId(focused, \"orbit/build/interface\"), \"luastra-orbit-selected\"))\nassert(byId(focused, \"orbit/focus/title\").properties.text == \"Interface\")\n\nApplication.handle(\"close-focus\", \"orbit/focus/close\", \"\")\nassert(byId(Application.render(), \"orbit/focus\").properties.open == false)\n\nApplication.handle(\"return-root\", \"orbit/path/root\", \"\")\nlocal returned = Application.render()\nassert(hasClass(byId(returned, \"orbit/root\"), \"luastra-constellation-state-active\"))\nassert(hasClass(byId(returned, \"orbit/build-space\"), \"luastra-constellation-state-ahead\"))\nassert(Application.snapshot().depth == \"root\")\n\nreturn true",
+    "signature": "root → nested depth → focus → return",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test follows the meaningful interaction states without asserting host-calculated coordinates or animation frames.",
+    "wide": true,
+    "previousPageId": "recipe-orbit/item-3",
+    "nextPageId": "recipe-orbit/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-5",
+    "routeSlug": "check-and-run",
+    "routeId": "recipe-orbit/check-and-run",
+    "kind": "entry",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Run from orbit-recipe after saving all three files.",
+    "code": "luastra check\nluastra test\nluastra run\n# Open the printed local URL.\n# Select Build, open Interface, close the Focus Surface,\n# then resize the viewport until the host chooses list presentation.",
+    "signature": "spatial when suitable · complete list when constrained",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check and run",
+    "description": "The same authored tree should remain navigable as the host changes presentation for the available viewport.",
+    "language": "Shell",
+    "points": [
+      "check and test must report PASS with one passing test.",
+      "Build moves the root constellation behind and makes the nested depth active.",
+      "Interface opens a labelled Focus Surface and closing it returns focus to the originating node.",
+      "A constrained viewport presents the same nodes and actions as a scrollable list; it is not a second application screen."
+    ],
+    "previousPageId": "recipe-orbit/item-4",
+    "nextPageId": "recipe-orbit/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-6",
+    "routeSlug": "read-the-orbit-anatomy",
+    "routeId": "recipe-orbit/read-the-orbit-anatomy",
+    "kind": "guide",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Read this before adding nodes or another navigation depth.",
+    "code": null,
+    "signature": "Orbit → Path + Constellation(s) + Focus Surface",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Read the Orbit anatomy",
+    "description": "Each primitive owns one semantic responsibility and enforces a bounded structure.",
+    "points": [
+      "UI.Orbit is the presentation boundary and accepts path, search, constellation, and Focus Surface children.",
+      "UI.Constellation represents one depth and requires exactly one center plus 1 to 64 actionable nodes or clusters.",
+      "UI.OrbitCenter names the current space; it is identity, not a button.",
+      "UI.OrbitNode declares a leaf, constellation destination, or action. UI.OrbitCluster represents a real grouped destination.",
+      "UI.FocusSurface contains full leaf detail while the originating constellation remains the navigation context."
+    ],
+    "previousPageId": "recipe-orbit/item-5",
+    "nextPageId": "recipe-orbit/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-7",
+    "routeSlug": "author-meaning-not-coordinates",
+    "routeId": "recipe-orbit/author-meaning-not-coordinates",
+    "kind": "guide",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Read this when you are tempted to position a node manually or build a separate mobile layout.",
+    "code": null,
+    "signature": "priority + relationships + state → host layout",
+    "parameters": [],
+    "returns": null,
+    "name": "7. Author meaning, not coordinates",
+    "description": "Orbit placement is derived from bounded semantic hints, so the same model can survive resizing and different targets.",
+    "points": [
+      "priority expresses relative importance from 1 to 3; it is not a pixel radius.",
+      "relatedTo contains IDs from the same constellation and influences stable neighbourhoods without creating navigation by itself.",
+      "layerState marks one depth active and retained neighbours behind or ahead for bounded transitions.",
+      "presentation = auto lets the host choose spatial or list mode from width, height, density, and label pressure.",
+      "Every hidden, disabled, busy, selected, status, and action value still comes from Luau application state."
+    ],
+    "previousPageId": "recipe-orbit/item-6",
+    "nextPageId": "recipe-orbit/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-8",
+    "routeSlug": "add-routing-only-when-ur-ls-matter",
+    "routeId": "recipe-orbit/add-routing-only-when-ur-ls-matter",
+    "kind": "guide",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Read this after the local interaction works and you need reload restoration, browser history, app links, or mobile system Back.",
+    "code": null,
+    "signature": "local state first · typed Navigation next",
+    "parameters": [],
+    "returns": null,
+    "name": "8. Add routing only when URLs matter",
+    "description": "This recipe isolates Orbit composition; a production information space should make depth and focused leaves restorable when its product requires deep links or system Back.",
+    "points": [
+      "Use the Typed Navigation and Browser/system Back recipes before replacing depth and selected with route entries.",
+      "Make each constellation and focusable leaf a canonical route when users should link to it directly.",
+      "Orbit Path is hierarchical navigation state, not an unlimited log of visited nodes.",
+      "Retain only the bounded adjacent layers needed for transitions; do not keep every historical constellation rendered."
+    ],
+    "previousPageId": "recipe-orbit/item-7",
+    "nextPageId": "recipe-orbit/item-9",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "recipe-orbit/item-9",
+    "routeSlug": "verify-presentation-claims-separately",
+    "routeId": "recipe-orbit/verify-presentation-claims-separately",
+    "kind": "guide",
+    "sectionId": "recipe-orbit",
+    "sectionTitle": "Recipe: build a small Constellation Orbit",
+    "module": "luastra/ui · semantic spatial navigation · about 25 minutes",
+    "callable": false,
+    "useWhen": "Read this before publishing an Orbit application or promising accessibility and performance across targets.",
+    "code": null,
+    "signature": "semantic test ≠ browser/device evidence",
+    "parameters": [],
+    "returns": null,
+    "name": "9. Verify presentation claims separately",
+    "description": "Passing Luau tests proves the model and event transitions, but visual and platform claims need host-specific checks.",
+    "points": [
+      "Check desktop, tablet, phone, and short-landscape sizes; width alone does not determine usable spatial layout.",
+      "Verify keyboard entry, directional movement, Escape dismissal, focus restoration, and complete list-mode parity.",
+      "Test orbitMotion = system with operating-system reduced motion and orbitMotion = off without delayed state changes.",
+      "Check every selected theme for normal text, status, controls, retained layers, and Focus Surface contrast.",
+      "Measure idle work and transition responsiveness with diagnostics; visual smoothness is not a substitute for a budget."
+    ],
+    "previousPageId": "recipe-orbit/item-8",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-1",
+    "routeSlug": "annotations-and-inference",
+    "routeId": "luau-types/annotations-and-inference",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -243,17 +2245,23 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Annotations and inference",
-    "description": "A colon declares the expected type. Luau can infer obvious local values, while function and module boundaries benefit from explicit annotations."
+    "description": "A colon declares the expected type. Luau can infer obvious local values, while function and module boundaries benefit from explicit annotations.",
+    "previousPageId": null,
+    "nextPageId": "luau-types/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-2",
+    "routeSlug": "arrays",
+    "routeId": "luau-types/arrays",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Arrays, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "local colors: {string} = { \"red\", \"green\" }\n\ntable.insert(colors, \"blue\")\nlocal first: string = colors[1]\n\nfor index, color in ipairs(colors) do\n    Debug.log(\"colors\", `{index}: {color}`)\nend",
+    "code": "--!strict\n\nlocal colors: {string} = { \"red\", \"green\" }\nlocal labels: {string} = {}\n\ntable.insert(colors, \"blue\")\nlocal first: string = colors[1]\n\nfor index, color in ipairs(colors) do\n    labels[index] = `{index}: {color}`\nend\n\nassert(first == \"red\" and labels[3] == \"3: blue\")",
     "signature": "{T}",
     "parameters": [],
     "returns": null,
@@ -262,17 +2270,23 @@ export const generatedPages = Object.freeze([
     "points": [
       "An empty number array is local values: {number} = {}.",
       "Use #values and ipairs only for dense sequences without missing indexes."
-    ]
+    ],
+    "previousPageId": "luau-types/item-1",
+    "nextPageId": "luau-types/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-3",
+    "routeSlug": "dictionaries-and-maps",
+    "routeId": "luau-types/dictionaries-and-maps",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Dictionaries and maps, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "local pending: {[number]: string} = {}\n\npending[42] = \"save\"\npending[105] = \"restore\"\n\nlocal operation: string? = pending[42]\npending[42] = nil\n\nfor requestId, name in pairs(pending) do\n    Debug.log(\"pending\", `{requestId}: {name}`)\nend",
+    "code": "--!strict\n\nlocal pending: {[number]: string} = {}\n\npending[42] = \"save\"\npending[105] = \"restore\"\n\nlocal operation: string? = pending[42]\npending[42] = nil\n\nlocal remaining = 0\nfor requestId, name in pairs(pending) do\n    assert(requestId > 0 and #name > 0)\n    remaining += 1\nend\n\nassert(operation == \"save\" and remaining == 1)",
     "signature": "{[Key]: Value}",
     "parameters": [],
     "returns": null,
@@ -281,32 +2295,44 @@ export const generatedPages = Object.freeze([
     "points": [
       "{[string]: number} means string key to number value.",
       "Do not use #table or ipairs for a sparse dictionary."
-    ]
+    ],
+    "previousPageId": "luau-types/item-2",
+    "nextPageId": "luau-types/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-4",
+    "routeSlug": "record-types",
+    "routeId": "luau-types/record-types",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Record types, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type GameState = {\n    interactions: number,\n    correctAnswers: number,\n    selectedColor: Color?,\n    cardRevealed: boolean,\n}\n\nlocal state: GameState = {\n    interactions = 0,\n    correctAnswers = 0,\n    selectedColor = nil,\n    cardRevealed = false,\n}",
+    "code": "--!strict\n\ntype Color = \"red\" | \"green\" | \"blue\"\ntype GameState = {\n    interactions: number,\n    correctAnswers: number,\n    selectedColor: Color?,\n    cardRevealed: boolean,\n}\n\nlocal state: GameState = {\n    interactions = 0,\n    correctAnswers = 0,\n    selectedColor = nil,\n    cardRevealed = false,\n}",
     "signature": "type Name = { field: Type }",
     "parameters": [],
     "returns": null,
     "name": "Record types",
-    "description": "A table type is Luau's struct-like construct. The analyzer checks required fields and their value types."
+    "description": "A table type is Luau's struct-like construct. The analyzer checks required fields and their value types.",
+    "previousPageId": "luau-types/item-3",
+    "nextPageId": "luau-types/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-5",
+    "routeSlug": "enum-like-singleton-unions",
+    "routeId": "luau-types/enum-like-singleton-unions",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Enum-like singleton unions, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type Color = \"red\" | \"green\" | \"blue\"\n\nlocal selected: Color = \"green\"\n-- selected = \"yellow\" -- type error\n\nlocal Colors: { Red: Color, Green: Color, Blue: Color } = {\n    Red = \"red\",\n    Green = \"green\",\n    Blue = \"blue\",\n}\n\ntable.freeze(Colors)",
+    "code": "--!strict\n\ntype Color = \"red\" | \"green\" | \"blue\"\n\nlocal selected: Color = \"green\"\n-- selected = \"yellow\" -- type error\n\nlocal Colors: { Red: Color, Green: Color, Blue: Color } = {\n    Red = \"red\",\n    Green = \"green\",\n    Blue = \"blue\",\n}\n\ntable.freeze(Colors)",
     "signature": "type Color = \"red\" | \"green\"",
     "parameters": [],
     "returns": null,
@@ -315,140 +2341,198 @@ export const generatedPages = Object.freeze([
     "points": [
       "Color exists only for the analyzer.",
       "Colors is a runtime table containing named constants."
-    ]
+    ],
+    "previousPageId": "luau-types/item-4",
+    "nextPageId": "luau-types/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-6",
+    "routeSlug": "optional-values",
+    "routeId": "luau-types/optional-values",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Optional values, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "local selectedColor: Color? = nil\n\nif selectedColor ~= nil then\n    Debug.log(\"selection\", selectedColor)\nend\n\ntype Meditation = {\n    id: string,\n    description: string?,\n}",
+    "code": "--!strict\n\ntype Color = \"red\" | \"green\" | \"blue\"\nlocal selectedColor: Color? = \"green\"\nlocal label = \"No selection\"\n\nif selectedColor ~= nil then\n    label = \"Selected: \" .. selectedColor\nend\n\ntype Meditation = {\n    id: string,\n    description: string?,\n}\n\nlocal session: Meditation = { id = \"morning\" }\nassert(label == \"Selected: green\" and session.description == nil)",
     "signature": "T? = T | nil",
     "parameters": [],
     "returns": null,
     "name": "Optional values",
-    "description": "A question mark means that a value may be absent. Narrow away nil before using the value as T."
+    "description": "A question mark means that a value may be absent. Narrow away nil before using the value as T.",
+    "previousPageId": "luau-types/item-5",
+    "nextPageId": "luau-types/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-7",
+    "routeSlug": "unions-and-type-narrowing",
+    "routeId": "luau-types/unions-and-type-narrowing",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Unions and type narrowing, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "local value: string | number = \"hello\"\n\nif type(value) == \"string\" then\n    local upper = string.upper(value)\nelse\n    local nextValue = value + 1\nend",
+    "code": "--!strict\n\nlocal value: string | number = \"hello\"\nlocal description: string\n\nif type(value) == \"string\" then\n    description = string.upper(value)\nelse\n    description = tostring(value + 1)\nend\n\nassert(description == \"HELLO\")",
     "signature": "A | B",
     "parameters": [],
     "returns": null,
     "name": "Unions and type narrowing",
-    "description": "A value may match either type. A type, typeof, nil, or tag check narrows the union to a safe branch."
+    "description": "A value may match either type. A type, typeof, nil, or tag check narrows the union to a safe branch.",
+    "previousPageId": "luau-types/item-6",
+    "nextPageId": "luau-types/item-8",
+    "relatedPageIds": [
+      "luau-types/item-12"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "luau-types/item-8",
+    "routeSlug": "tagged-unions",
+    "routeId": "luau-types/tagged-unions",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Tagged unions, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type GamePhase =\n    { kind: \"waiting\" }\n    | { kind: \"guessing\", hiddenColor: Color }\n    | {\n        kind: \"revealed\",\n        hiddenColor: Color,\n        guessedColor: Color,\n        correct: boolean,\n    }\n\nlocal function describe(phase: GamePhase): string\n    if phase.kind == \"waiting\" then\n        return \"Press Start\"\n    elseif phase.kind == \"guessing\" then\n        return \"Choose a color\"\n    else\n        return phase.correct and \"Correct\" or \"Try again\"\n    end\nend",
+    "code": "--!strict\n\ntype Color = \"red\" | \"green\" | \"blue\"\ntype GamePhase =\n    { kind: \"waiting\" }\n    | { kind: \"guessing\", hiddenColor: Color }\n    | {\n        kind: \"revealed\",\n        hiddenColor: Color,\n        guessedColor: Color,\n        correct: boolean,\n    }\n\nlocal function describe(phase: GamePhase): string\n    if phase.kind == \"waiting\" then\n        return \"Press Start\"\n    elseif phase.kind == \"guessing\" then\n        return \"Choose a color\"\n    else\n        return phase.correct and \"Correct\" or \"Try again\"\n    end\nend\n\nlocal phase: GamePhase = { kind = \"guessing\", hiddenColor = \"blue\" }\nassert(describe(phase) == \"Choose a color\")",
     "signature": "{ kind: \"a\", ... } | { kind: \"b\", ... }",
     "parameters": [],
     "returns": null,
     "name": "Tagged unions",
     "description": "A shared literal tag safely models states that expose different fields.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "luau-types/item-7",
+    "nextPageId": "luau-types/item-9",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-9",
+    "routeSlug": "generics",
+    "routeId": "luau-types/generics",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Generics, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type Result<T> =\n    { success: true, value: T }\n    | { success: false, error: string }\n\nlocal function first<T>(items: {T}): T?\n    return items[1]\nend\n\nlocal color: Color? = first({ \"red\" :: Color, \"green\" :: Color })\nlocal score: number? = first({ 10, 20, 30 })",
+    "code": "--!strict\n\ntype Color = \"red\" | \"green\" | \"blue\"\ntype Result<T> =\n    { success: true, value: T }\n    | { success: false, error: string }\n\nlocal function first<T>(items: {T}): T?\n    return items[1]\nend\n\nlocal color: Color? = first({ \"red\" :: Color, \"green\" :: Color })\nlocal score: number? = first({ 10, 20, 30 })",
     "signature": "Type<T> · function name<T>(value: T)",
     "parameters": [],
     "returns": null,
     "name": "Generics",
     "description": "A type parameter lets one checked pattern work with many value types without losing their exact result type.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "luau-types/item-8",
+    "nextPageId": "luau-types/item-10",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-10",
+    "routeSlug": "function-types",
+    "routeId": "luau-types/function-types",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Function types, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type TapHandler = (action: string, target: string) -> ()\ntype Validator = (value: string) -> (boolean, string?)\n\nlocal validateEmail: Validator = function(value)\n    if string.find(value, \"@\", 1, true) == nil then\n        return false, \"Email must contain @\"\n    end\n    return true, nil\nend",
+    "code": "--!strict\n\ntype TapHandler = (action: string, target: string) -> ()\ntype Validator = (value: string) -> (boolean, string?)\n\nlocal validateEmail: Validator = function(value)\n    if string.find(value, \"@\", 1, true) == nil then\n        return false, \"Email must contain @\"\n    end\n    return true, nil\nend\n\nlocal accepted, message = validateEmail(\"reader@example.com\")\nassert(accepted and message == nil)",
     "signature": "(Parameters) -> Returns",
     "parameters": [],
     "returns": null,
     "name": "Function types",
-    "description": "Callbacks and ordinary functions can be typed. () after the arrow means the function returns no values."
+    "description": "Callbacks and ordinary functions can be typed. () after the arrow means the function returns no values.",
+    "previousPageId": "luau-types/item-9",
+    "nextPageId": "luau-types/item-11",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-11",
+    "routeSlug": "exported-module-types",
+    "routeId": "luau-types/exported-module-types",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Exported module types, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "-- app/cards.luau\nexport type Card = {\n    id: string,\n    color: \"red\" | \"green\",\n}\n\nlocal Cards = {}\n\nfunction Cards.create(id: string, color: \"red\" | \"green\"): Card\n    return { id = id, color = color }\nend\n\nreturn table.freeze(Cards)\n\n-- app/main.luau\nlocal Cards = require(\"app/cards\")\nlocal card: Cards.Card = Cards.create(\"card-1\", \"green\")",
+    "code": "-- app/cards.luau\n--!strict\n\nexport type Card = {\n    id: string,\n    color: \"red\" | \"green\",\n}\n\nlocal Cards = {}\n\nfunction Cards.create(id: string, color: \"red\" | \"green\"): Card\n    return { id = id, color = color }\nend\n\nreturn table.freeze(Cards)\n\n-- app/main.luau\n--!strict\n\nlocal Cards = require(\"app/cards\")\nlocal card: Cards.Card = Cards.create(\"card-1\", \"green\")\n\nassert(card.id == \"card-1\" and card.color == \"green\")",
     "signature": "export type Name = ...",
     "parameters": [],
     "returns": null,
     "name": "Exported module types",
     "description": "A local type stays inside its module. export type lets consumers refer to it through the name bound by require.",
-    "wide": true
+    "wide": true,
+    "previousPageId": "luau-types/item-10",
+    "nextPageId": "luau-types/item-12",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-12",
+    "routeSlug": "typeof",
+    "routeId": "luau-types/typeof",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply typeof, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "local defaults = {\n    soundEnabled = true,\n    volume = 0.8,\n}\n\ntype Settings = typeof(defaults)\n\nlocal settings: Settings = {\n    soundEnabled = false,\n    volume = 0.5,\n}",
+    "code": "--!strict\n\nlocal defaults = {\n    soundEnabled = true,\n    volume = 0.8,\n}\n\ntype Settings = typeof(defaults)\n\nlocal settings: Settings = {\n    soundEnabled = false,\n    volume = 0.5,\n}",
     "signature": "type Name = typeof(value)",
     "parameters": [],
     "returns": null,
     "name": "typeof",
-    "description": "Derive a type from an existing value. It is convenient for local configuration; an explicit type is often clearer for a public contract."
+    "description": "Derive a type from an existing value. It is convenient for local configuration; an explicit type is often clearer for a public contract.",
+    "previousPageId": "luau-types/item-11",
+    "nextPageId": "luau-types/item-13",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-13",
+    "routeSlug": "intersections",
+    "routeId": "luau-types/intersections",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Intersections, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type Identified = { id: string }\ntype Named = { name: string }\ntype NamedEntity = Identified & Named\n\nlocal item: NamedEntity = {\n    id = \"meditation-1\",\n    name = \"Morning calm\",\n}",
+    "code": "--!strict\n\ntype Identified = { id: string }\ntype Named = { name: string }\ntype NamedEntity = Identified & Named\n\nlocal item: NamedEntity = {\n    id = \"meditation-1\",\n    name = \"Morning calm\",\n}",
     "signature": "A & B",
     "parameters": [],
     "returns": null,
     "name": "Intersections",
-    "description": "Require a value to satisfy both types, which is useful when combining small reusable contracts."
+    "description": "Require a value to satisfy both types, which is useful when combining small reusable contracts.",
+    "previousPageId": "luau-types/item-12",
+    "nextPageId": "luau-types/item-14",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-14",
+    "routeSlug": "any-unknown-and-never",
+    "routeId": "luau-types/any-unknown-and-never",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply any, unknown, and never, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "local value: unknown = \"green\"\n\nif type(value) == \"string\" then\n    local upper = string.upper(value)\nend\n\nlocal function impossible(value: never): never\n    error(\"Unhandled value: \" .. tostring(value))\nend",
+    "code": "--!strict\n\nlocal value: unknown = \"green\"\n\nif type(value) == \"string\" then\n    local upper = string.upper(value)\nend\n\nlocal function impossible(value: never): never\n    error(\"Unhandled value: \" .. tostring(value))\nend",
     "signature": "any · unknown · never",
     "parameters": [],
     "returns": null,
@@ -459,17 +2543,23 @@ export const generatedPages = Object.freeze([
       "Use unknown at untrusted boundaries and narrow it before use.",
       "Keep any as a temporary escape hatch for code that cannot yet be typed.",
       "Use never to prove that every union alternative was handled."
-    ]
+    ],
+    "previousPageId": "luau-types/item-13",
+    "nextPageId": "luau-types/item-15",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-15",
+    "routeSlug": "type-casts-with",
+    "routeId": "luau-types/type-casts-with",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Type casts with ::, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type Color = \"red\" | \"green\"\n\nlocal raw = \"red\"\nlocal selected = raw :: Color\n\n-- Validate unknown storage or server data with luastra/data\n-- before casting it to a trusted application type.",
+    "code": "--!strict\n\ntype Color = \"red\" | \"green\"\n\nlocal raw = \"red\"\nlocal selected = raw :: Color\n\n-- Validate unknown storage or server data with luastra/data\n-- before casting it to a trusted application type.",
     "signature": "expression :: Type",
     "parameters": [],
     "returns": null,
@@ -478,17 +2568,23 @@ export const generatedPages = Object.freeze([
     "points": [
       "Use :: only when you know more than inference can prove.",
       "A cast is not a runtime validator and should not be used to silence a real mismatch."
-    ]
+    ],
+    "previousPageId": "luau-types/item-14",
+    "nextPageId": "luau-types/item-16",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/item-16",
+    "routeSlug": "runtime-immutability-with-table-freeze",
+    "routeId": "luau-types/runtime-immutability-with-table-freeze",
     "kind": "entry",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
     "module": "Luau 0.731 · --!strict",
     "callable": false,
     "useWhen": "Read this page when you need to apply Runtime immutability with table.freeze, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
-    "code": "type Tween = {\n    kind: \"tween\",\n    from: number,\n    to: number,\n}\n\nlocal tween = table.freeze({\n    kind = \"tween\",\n    from = 0,\n    to = 1,\n}) :: Tween\n\n-- tween.to = 2 -- runtime error: the table is frozen",
+    "code": "--!strict\n\ntype Tween = {\n    kind: \"tween\",\n    from: number,\n    to: number,\n}\n\nlocal tween = table.freeze({\n    kind = \"tween\",\n    from = 0,\n    to = 1,\n}) :: Tween\n\n-- tween.to = 2 -- runtime error: the table is frozen",
     "signature": "table.freeze(value)",
     "parameters": [],
     "returns": null,
@@ -498,10 +2594,45 @@ export const generatedPages = Object.freeze([
       "table.freeze affects runtime mutation; it is separate from static typing.",
       "Freeze each nested table separately when deep immutability is required.",
       "Freezing a returned module API prevents consumers from replacing its exported fields."
-    ]
+    ],
+    "previousPageId": "luau-types/item-15",
+    "nextPageId": "luau-types/item-17",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "luau-types/item-17",
+    "routeSlug": "read-analyzer-errors",
+    "routeId": "luau-types/read-analyzer-errors",
+    "kind": "entry",
+    "sectionId": "luau-types",
+    "sectionTitle": "Luau typing quick reference",
+    "module": "Luau 0.731 · --!strict",
+    "callable": false,
+    "useWhen": "Use this exercise when luastra check reports a type error and you are unsure which part of the diagnostic should guide the fix.",
+    "code": "--!strict\n\ntype CounterState = {\n    count: number,\n}\n\nlocal state: CounterState = { count = 0 }\nstate.count += 1\n\n-- Uncomment this line, run luastra check, and inspect its location:\n-- state.count = \"one\"\n\nassert(state.count == 1)",
+    "signature": "path:line:column · message · first cause",
+    "parameters": [],
+    "returns": null,
+    "name": "Read analyzer errors",
+    "description": "Treat analyzer output as a source location plus a mismatch to repair, not as a verdict on the whole application.",
+    "wide": true,
+    "points": [
+      "Start with the first diagnostic that names one of your source files; later messages may be consequences of that mismatch.",
+      "Open the reported line and inspect the complete expression, function call, or table literal—not only the highlighted token.",
+      "Compare the required type with the value actually supplied. Here count is declared number, while the uncommented value would be string.",
+      "Fix the source contract or value instead of adding :: or any merely to silence the analyzer.",
+      "Run luastra check again. A real fix removes the diagnostic without creating a wider, less precise type."
+    ],
+    "previousPageId": "luau-types/item-16",
+    "nextPageId": "luau-types/table-1",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "luau-types/table-1",
+    "routeSlug": "how-to-read-table-types",
+    "routeId": "luau-types/how-to-read-table-types",
     "kind": "parameter-group",
     "sectionId": "luau-types",
     "sectionTitle": "Luau typing quick reference",
@@ -535,216 +2666,580 @@ export const generatedPages = Object.freeze([
         "values": "record",
         "description": "A table with known named fields."
       }
-    ]
+    ],
+    "previousPageId": "luau-types/item-17",
+    "nextPageId": "luau-types/table-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "luau-types/table-2",
+    "routeSlug": "how-to-read-a-check-diagnostic",
+    "routeId": "luau-types/how-to-read-a-check-diagnostic",
+    "kind": "parameter-group",
+    "sectionId": "luau-types",
+    "sectionTitle": "Luau typing quick reference",
+    "module": "Luau 0.731 · --!strict",
+    "name": "How to read a check diagnostic",
+    "signature": "luau-diagnostic-reading",
+    "description": "Shared parameters in the “How to read a check diagnostic” group. A component page links here only when it supports this group.",
+    "parameters": [
+      {
+        "name": "Source location",
+        "values": "path plus line and column",
+        "description": "Open that exact file and inspect the full surrounding expression."
+      },
+      {
+        "name": "Required side",
+        "values": "the declared parameter, return, variable, or field type",
+        "description": "This is the contract the code promised to satisfy."
+      },
+      {
+        "name": "Supplied side",
+        "values": "the inferred type of the actual value",
+        "description": "Trace where that value was created or narrowed."
+      },
+      {
+        "name": "First repair",
+        "values": "change the incorrect value or the genuinely incorrect contract",
+        "description": "Do not begin with a cast, any, or disabled strict mode."
+      },
+      {
+        "name": "Confirmation",
+        "values": "run luastra check again",
+        "description": "The original error should disappear while useful type precision remains."
+      }
+    ],
+    "previousPageId": "luau-types/table-1",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-1",
+    "routeSlug": "create-the-project",
+    "routeId": "beginner-tutorial/create-the-project",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
-    "sectionTitle": "Beginner tutorial: an accessible counter",
-    "module": "UI · state · handle",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
     "callable": false,
-    "useWhen": "Import luastra/ui in every module that constructs or annotates host-neutral UI nodes.",
-    "code": "local UI = require(\"luastra/ui\")",
-    "signature": "local UI = require(\"luastra/ui\")",
+    "useWhen": "Run this in the parent directory where the new project folder should be created.",
+    "code": "luastra create beginner-counter\ncd beginner-counter",
+    "signature": "luastra create beginner-counter",
     "parameters": [],
     "returns": null,
-    "name": "1. Import the UI module",
-    "description": "Only declared public dependencies may be imported."
+    "name": "1. Create the project",
+    "description": "The CLI creates the normal project structure. Enter that directory before replacing the three files below.",
+    "language": "Shell",
+    "points": [
+      "Expect JSON with result=PASS.",
+      "You should now have luastra.json, src/main.luau, and tests/smoke.luau.",
+      "If create rejects the destination, choose a missing or empty safe directory rather than deleting existing work."
+    ],
+    "previousPageId": null,
+    "nextPageId": "beginner-tutorial/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-2",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "beginner-tutorial/replace-luastra-json",
     "kind": "entry",
     "sectionId": "beginner-tutorial",
-    "sectionTitle": "Beginner tutorial: an accessible counter",
-    "module": "UI · state · handle",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
     "callable": false,
-    "useWhen": "Keep small session state in module scope when it must survive renders but does not need persistence across application restarts.",
-    "code": "local count: number = 0",
-    "signature": "local count = 0",
+    "useWhen": "Replace the generated manifest before checking the project so the test can import the application and the application can import luastra/ui.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.luastra.beginner-counter\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": {\n    \"contract\": 1\n  },\n  \"capabilities\": [\"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/counter\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/counter\"]\n}",
+    "signature": "one app module · one test module · ui.render",
     "parameters": [],
     "returns": null,
-    "name": "2. Own application state",
-    "description": "Module state survives ordinary renders in the current application session."
+    "name": "2. Replace luastra.json",
+    "description": "The manifest declares every source file, dependency, test, and host capability used by this tutorial.",
+    "language": "JSON",
+    "points": [
+      "ui.render admits host rendering; it does not grant storage, network, media, or filesystem access.",
+      "Dependencies are per module: app/main imports luastra/ui, while the test imports app/main.",
+      "The test module is listed in both modules and tests because declaration and execution are separate manifest responsibilities."
+    ],
+    "previousPageId": "beginner-tutorial/item-1",
+    "nextPageId": "beginner-tutorial/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-3",
-    "kind": "function",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "beginner-tutorial/replace-src-main-luau",
+    "kind": "entry",
     "sectionId": "beginner-tutorial",
-    "sectionTitle": "Beginner tutorial: an accessible counter",
-    "module": "UI · state · handle",
-    "callable": true,
-    "useWhen": "Implement Application.handle whenever UI or host events need to validate input, update state, start a capability request, or choose the next screen.",
-    "code": "function Application.handle(action: string, target: string, _value: string)\n    if action == \"counter.add\" and target == \"counter/add\" then\n        count += 1\n    end\nend",
-    "signature": "Application.handle(action: string, target: string, value: string)",
-    "parameters": [
-      {
-        "name": "action",
-        "values": "string",
-        "description": "The admitted action declared by onTap, onInput, onDismiss, or a host event."
-      },
-      {
-        "name": "target",
-        "values": "string",
-        "description": "The stable component ID or host target that emitted the event."
-      },
-      {
-        "name": "value",
-        "values": "string",
-        "description": "The committed input value or bounded host-event payload; it may be empty."
-      }
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the complete generated entry module; do not paste only render or handle because the imports, state, snapshot, and returned Application table belong to the same file.",
+    "code": "--!strict\n\nlocal UI = require(\"luastra/ui\")\n\nlocal Application = {}\nlocal count: number = 0\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"counter\",\n        documentTitle = \"Beginner counter\",\n        width = \"full\",\n\n        UI.Column {\n            id = \"counter/content\",\n            width = \"content\",\n            padding = \"responsive\",\n            gap = \"md\",\n\n            UI.Text {\n                id = \"counter/title\",\n                text = \"My first Luastra app\",\n                variant = \"title\",\n            },\n            UI.Text {\n                id = \"counter/value\",\n                text = `Count: {count}`,\n                role = \"status\",\n                label = `Current count: {count}`,\n            },\n            UI.Row {\n                id = \"counter/actions\",\n                gap = \"sm\",\n                responsive = true,\n\n                UI.Button {\n                    id = \"counter/add\",\n                    text = \"Add one\",\n                    onTap = \"counter.add\",\n                },\n                UI.Button {\n                    id = \"counter/reset\",\n                    text = \"Reset\",\n                    appearance = \"secondary\",\n                    disabled = count == 0,\n                    onTap = \"counter.reset\",\n                },\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"counter.add\" and target == \"counter/add\" then\n        count += 1\n    elseif action == \"counter.reset\" and target == \"counter/reset\" then\n        count = 0\n    end\nend\n\nfunction Application.snapshot()\n    return { count = count }\nend\n\nreturn Application",
+    "signature": "complete runnable application",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "Module state owns the count, render describes the current interface, and handle admits exactly two actions from stable controls.",
+    "wide": true,
+    "points": [
+      "--!strict lets luastra check analyze this entire module.",
+      "Application.render has no side effects: it returns a fresh description of UI from count.",
+      "onTap contains an action name; the clicked component's stable id arrives separately as target.",
+      "role=status announces the changed count without moving keyboard focus.",
+      "snapshot is a small test seam used by tests/smoke.luau; the host never calls it."
     ],
-    "returns": "Nothing. After the handler returns, Luastra renders the application again from current state.",
-    "name": "3. Handle the action",
-    "description": "The button emits a bounded action; the handler changes state."
+    "previousPageId": "beginner-tutorial/item-2",
+    "nextPageId": "beginner-tutorial/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "beginner-tutorial/item-4",
-    "kind": "function",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "beginner-tutorial/replace-tests-smoke-luau",
+    "kind": "entry",
     "sectionId": "beginner-tutorial",
-    "sectionTitle": "Beginner tutorial: an accessible counter",
-    "module": "UI · state · handle",
-    "callable": true,
-    "useWhen": "Implement Application.render in every Luastra entry module to describe the complete current interface from application state, using any supported semantic, layout, visual, input, or media-related UI components.",
-    "code": "function Application.render(): UI.Node\n    return UI.Screen {\n        id = \"app\",\n        UI.Text {\n            id = \"counter/title\",\n            text = \"Counter\",\n            variant = \"title\",\n        },\n        UI.Text {\n            id = \"counter/value\",\n            text = tostring(count),\n            role = \"status\",\n        },\n        UI.Button {\n            id = \"counter/add\",\n            text = \"Add\",\n            onTap = \"counter.add\",\n        },\n    }\nend",
-    "signature": "Application.render() -> UI.Node",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so luastra test verifies this application's behavior instead of only constructing an unrelated SDK node.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nassert(Application.snapshot().count == 0, \"counter must start at zero\")\n\nlocal initialTree = Application.render()\nassert(initialTree.type == \"Screen\", \"render must return one Screen root\")\nassert(initialTree.id == \"counter\", \"screen id must remain stable\")\n\nApplication.handle(\"counter.add\", \"counter/add\", \"\")\nassert(Application.snapshot().count == 1, \"Add one must increment the count\")\n\nApplication.handle(\"counter.add\", \"another/control\", \"\")\nassert(Application.snapshot().count == 1, \"an unrelated target must not change state\")\n\nApplication.handle(\"counter.reset\", \"counter/reset\", \"\")\nassert(Application.snapshot().count == 0, \"Reset must restore zero\")\n\nreturn true",
+    "signature": "deterministic interaction test",
     "parameters": [],
-    "returns": "UI.Node — exactly one UI.Screen root containing the current interface.",
-    "name": "4. Render semantic UI",
-    "description": "Return the complete host-neutral UI tree for current application state. This example uses Text and Button, but render may compose any supported Luastra UI components."
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The test imports the real entry module, exercises the same actions emitted by the buttons, and proves that an unrelated target cannot mutate state.",
+    "wide": true,
+    "points": [
+      "The test calls handle directly, so it is deterministic and does not need a browser.",
+      "The live preview separately proves pointer, keyboard, DOM, and visible status behavior in the current host.",
+      "When you add a new product rule, add its state transition here before relying on manual testing alone."
+    ],
+    "previousPageId": "beginner-tutorial/item-3",
+    "nextPageId": "beginner-tutorial/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "beginner-tutorial/item-5",
+    "routeSlug": "check-before-running",
+    "routeId": "beginner-tutorial/check-before-running",
+    "kind": "entry",
+    "sectionId": "beginner-tutorial",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run these commands from beginner-counter after all three files are saved.",
+    "code": "luastra check\nluastra test",
+    "signature": "luastra check → luastra test",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check before running",
+    "description": "First validate the manifest and strict module graph, then execute the declared behavior test.",
+    "language": "Shell",
+    "points": [
+      "check must report result=PASS and project=dev.luastra.beginner-counter.",
+      "test must report tests=1 and passed=1.",
+      "A check error names the source or manifest problem. Fix its first concrete path or line before interpreting later errors.",
+      "If test fails, read the assertion message: it names the product behavior that no longer matches the code."
+    ],
+    "previousPageId": "beginner-tutorial/item-4",
+    "nextPageId": "beginner-tutorial/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "beginner-tutorial/item-6",
+    "routeSlug": "run-and-verify-the-interface",
+    "routeId": "beginner-tutorial/run-and-verify-the-interface",
+    "kind": "entry",
+    "sectionId": "beginner-tutorial",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    "callable": false,
+    "useWhen": "Run only after check and test pass; the preview stays available while this command owns the terminal.",
+    "code": "luastra run\n# Open the READY URL printed by Luastra.\n# Expect Count: 0 and a disabled Reset button.\n# Press Add one: expect Count: 1 and an enabled Reset button.\n# Press Reset: expect Count: 0 and Reset disabled again.\n# Press Tab and Enter to repeat the flow without a mouse.\n# Stop the preview with Ctrl+C.",
+    "signature": "luastra run → READY URL",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Run and verify the interface",
+    "description": "Keep the terminal open, visit the printed local URL, and exercise the actual browser host.",
+    "language": "Shell",
+    "points": [
+      "The URL may use a different free port; use the exact READY URL.",
+      "Keyboard focus should remain on the activated button while the status text changes.",
+      "Automated state tests and live host interaction are complementary evidence, not substitutes for each other."
+    ],
+    "previousPageId": "beginner-tutorial/item-5",
+    "nextPageId": "beginner-tutorial/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "beginner-tutorial/item-7",
+    "routeSlug": "make-one-safe-change",
+    "routeId": "beginner-tutorial/make-one-safe-change",
+    "kind": "guide",
+    "sectionId": "beginner-tutorial",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    "callable": false,
+    "useWhen": "Do this only after the copied tutorial works unchanged once.",
+    "code": null,
+    "signature": "edit → check → test → preview",
+    "parameters": [],
+    "returns": null,
+    "name": "7. Make one safe change",
+    "description": "Change the visible title to your own app name, then repeat the same development loop.",
+    "points": [
+      "Change only counter/title.text first; the existing interaction test should still pass.",
+      "Run luastra check and luastra test after the edit.",
+      "Refresh or return to the live preview and confirm the new title without losing counter behavior.",
+      "For a behavior change such as adding Subtract, update render, handle, and the test together.",
+      "Next, use the Delayed action recipe to add time, Typed navigation to add screens, or Persist state to survive reloads."
+    ],
+    "previousPageId": "beginner-tutorial/item-6",
+    "nextPageId": "beginner-tutorial/table-1",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "beginner-tutorial/table-1",
+    "routeSlug": "how-one-click-becomes-visible-state",
+    "routeId": "beginner-tutorial/how-one-click-becomes-visible-state",
+    "kind": "parameter-group",
+    "sectionId": "beginner-tutorial",
+    "sectionTitle": "Beginner tutorial: build an accessible counter",
+    "module": "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    "name": "How one click becomes visible state",
+    "signature": "beginner-counter-flow",
+    "description": "Shared parameters in the “How one click becomes visible state” group. A component page links here only when it supports this group.",
+    "parameters": [
+      {
+        "name": "1. Declare",
+        "values": "UI.Button onTap=counter.add",
+        "description": "render describes an accessible action and its stable target id."
+      },
+      {
+        "name": "2. Activate",
+        "values": "pointer, touch, Enter, or Space",
+        "description": "the host emits the admitted action and target without embedding application logic."
+      },
+      {
+        "name": "3. Update",
+        "values": "Application.handle",
+        "description": "the application validates both strings and changes count."
+      },
+      {
+        "name": "4. Render",
+        "values": "Application.render",
+        "description": "Luastra requests the complete current tree again."
+      },
+      {
+        "name": "5. Reconcile",
+        "values": "stable node ids",
+        "description": "the host updates the count and disabled state without replacing unrelated UI."
+      }
+    ],
+    "previousPageId": "beginner-tutorial/item-7",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-1",
-    "kind": "function",
+    "routeSlug": "create-the-project",
+    "routeId": "advanced-tutorial/create-the-project",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Compile route definitions when URLs must be generated and matched from one typed, canonical path and query contract.",
-    "code": "local compiler = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    { name = \"item\", path = \"/item/:id\" },\n}",
-    "signature": "Navigation.compile(definitionsValue: any): RouteCompiler",
-    "parameters": [
-      {
-        "name": "definitionsValue",
-        "values": "any",
-        "description": "Checked definitionsValue argument accepted by Compile typed routes."
-      }
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Run this in the parent directory where the new project folder should be created.",
+    "code": "luastra create routed-reading-list\ncd routed-reading-list",
+    "signature": "luastra create routed-reading-list",
+    "parameters": [],
+    "returns": null,
+    "name": "1. Create the project",
+    "description": "Create a normal starter and enter it before replacing the complete manifest, entry module, and test below.",
+    "language": "Shell",
+    "points": [
+      "Expect JSON with result=PASS.",
+      "Keep the generated files until you have the three replacements below ready.",
+      "Use the focused Navigation and Storage recipes first if either capability is still unfamiliar."
     ],
-    "returns": "RouteCompiler — a reusable compiler for matching, generating, and canonicalizing admitted route locations.",
-    "name": "Compile typed routes",
-    "description": "Define canonical locations once and reject malformed parameters."
+    "previousPageId": null,
+    "nextPageId": "advanced-tutorial/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-2",
-    "kind": "function",
+    "routeSlug": "replace-luastra-json",
+    "routeId": "advanced-tutorial/replace-luastra-json",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Encode state before writing a bounded snapshot to host storage so later versions can decode or migrate it explicitly.",
-    "code": "local snapshot = State.encode(1, {\n    route = router.encode(),\n    filter = filter,\n})\nlocal requestId = Host.storageSet(\"app-state\", snapshot)\npending[requestId] = \"save\"",
-    "signature": "State.encode(version: number, fields: Fields): string",
-    "parameters": [
-      {
-        "name": "version",
-        "values": "number",
-        "description": "Checked version argument accepted by Encode a versioned snapshot."
-      },
-      {
-        "name": "fields",
-        "values": "Fields",
-        "description": "Checked fields argument accepted by Encode a versioned snapshot."
-      }
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated manifest before importing Navigation, State, Data, or Host.",
+    "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.luastra.routed-reading-list\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": {\n    \"contract\": 1\n  },\n  \"capabilities\": [\"storage.get\", \"storage.set\", \"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/data\", \"luastra/host\", \"luastra/navigation\", \"luastra/state\", \"luastra/ui\"]\n    },\n    {\n      \"id\": \"app/tests/reading-list\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\"app/main\"]\n    }\n  ],\n  \"tests\": [\"app/tests/reading-list\"]\n}",
+    "signature": "four SDK modules · three host capabilities",
+    "parameters": [],
+    "returns": null,
+    "name": "2. Replace luastra.json",
+    "description": "The manifest admits rendering plus storage reads and writes; every imported module is declared on the exact source file that uses it.",
+    "language": "JSON",
+    "points": [
+      "Navigation, State, and Data are deterministic SDK modules and need no host capability.",
+      "storage.get and storage.set are separate permissions because reading and writing are separate effects.",
+      "This tutorial does not synchronize the browser URL; navigation.history belongs to the dedicated Browser and system Back recipe."
     ],
-    "returns": "string — the validated canonical string produced by this operation.",
-    "name": "Encode a versioned snapshot",
-    "description": "Persist a small deterministic snapshot with an explicit version."
+    "previousPageId": "advanced-tutorial/item-1",
+    "nextPageId": "advanced-tutorial/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-3",
-    "kind": "function",
+    "routeSlug": "replace-src-main-luau",
+    "routeId": "advanced-tutorial/replace-src-main-luau",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Decode with a Data schema whenever a value originates outside trusted Luau state, including forms, storage, URLs, and server payloads.",
-    "code": "local result = Data.decode(snapshotSchema, decodedValue)\nif result.success then\n    restore(result.value)\nend",
-    "signature": "Data.decode(schema: Schema, value: any): Result",
-    "parameters": [
-      {
-        "name": "schema",
-        "values": "Schema",
-        "description": "Checked schema argument accepted by Validate restored values."
-      },
-      {
-        "name": "value",
-        "values": "any",
-        "description": "Checked value argument accepted by Validate restored values."
-      }
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Replace the entire generated entry module. Keep encode and restore near each other so snapshot version, fields, validation, and route restoration remain auditable.",
+    "code": "--!strict\n\nlocal Data = require(\"luastra/data\")\nlocal Host = require(\"luastra/host\")\nlocal Navigation = require(\"luastra/navigation\")\nlocal State = require(\"luastra/state\")\nlocal UI = require(\"luastra/ui\")\n\nlocal routes = Navigation.compile {\n    { name = \"library\", path = \"/\" },\n    {\n        name = \"note\",\n        path = \"/notes/:note_id\",\n        params = { note_id = { type = \"integer\", minimum = 1, maximum = 99 } },\n    },\n}\n\nlocal router = Navigation.createRouter {\n    compiler = routes,\n    initial = { name = \"library\", params = {}, query = {} },\n}\n\nlocal snapshotSchema = Data.object({\n    navigation = Data.string({ minBytes = 5, maxBytes = 4096 }),\n    filter = Data.string({ minBytes = 3, maxBytes = 9 }),\n})\n\nlocal Application = {}\nlocal filter = \"all\"\nlocal message = \"Nothing saved yet\"\nlocal pending: { [number]: string } = {}\n\nlocal function encodeSnapshot(): string\n    return State.encode(1, {\n        navigation = router.encode(),\n        filter = filter,\n    })\nend\n\nlocal function track(id: number, operation: string)\n    pending[id] = operation\nend\n\nfunction Application.restore(payload: string): boolean\n    local decoded = State.decode(payload, 1)\n    if not decoded.success then return false end\n\n    local checked = Data.decode(snapshotSchema, decoded.fields)\n    if not checked.success then return false end\n    local fields = checked.value :: { [string]: any }\n    if fields.filter ~= \"all\" and fields.filter ~= \"favorites\" then return false end\n\n    local restored = router.restoreEncoded(fields.navigation)\n    if not restored.success then return false end\n    filter = fields.filter\n    return true\nend\n\nfunction Application.render(): UI.Node\n    local current = router.current()\n    local location = router.currentLocation()\n    return UI.Screen {\n        id = \"reading-list\",\n        documentTitle = \"Routed reading list\",\n        UI.Column {\n            id = \"reading/content\",\n            width = \"content\",\n            padding = \"responsive\",\n            gap = \"md\",\n\n            UI.Text { id = \"reading/title\", text = \"Routed reading list\", variant = \"title\" },\n            UI.Text { id = \"reading/route\", text = \"Route: \" .. current.name .. \" (\" .. location .. \")\" },\n            UI.Text { id = \"reading/filter\", text = \"Filter: \" .. filter },\n            UI.Text { id = \"reading/message\", text = message, role = \"status\" },\n            UI.Actions {\n                id = \"reading/navigation\",\n                UI.Button { id = \"reading/open\", text = \"Open note 7\", onTap = \"reading.open\" },\n                UI.Button {\n                    id = \"reading/back\",\n                    text = \"Back to library\",\n                    onTap = \"reading.back\",\n                    disabled = not router.canBack(),\n                },\n                UI.Button { id = \"reading/filter-toggle\", text = \"Toggle filter\", onTap = \"reading.filter\" },\n            },\n            UI.Actions {\n                id = \"reading/storage\",\n                UI.Button { id = \"reading/save\", text = \"Save view\", onTap = \"reading.save\" },\n                UI.Button { id = \"reading/load\", text = \"Restore view\", onTap = \"reading.load\" },\n            },\n        },\n    }\nend\n\nfunction Application.handle(action: string, target: string, _value: string)\n    if action == \"reading.open\" and target == \"reading/open\" then\n        local result = router.push { name = \"note\", params = { note_id = 7 }, query = {} }\n        message = result.success and \"Opened note 7\" or \"Could not open note\"\n    elseif action == \"reading.back\" and target == \"reading/back\" then\n        if router.back() then message = \"Returned to library\" end\n    elseif action == \"reading.filter\" and target == \"reading/filter-toggle\" then\n        filter = if filter == \"all\" then \"favorites\" else \"all\"\n        message = \"Filter changed\"\n    elseif action == \"reading.save\" and target == \"reading/save\" then\n        track(Host.storageSet(\"reading-list-view\", encodeSnapshot()), \"save\")\n        message = \"Saving…\"\n    elseif action == \"reading.load\" and target == \"reading/load\" then\n        track(Host.storageGet(\"reading-list-view\"), \"load\")\n        message = \"Loading…\"\n    end\nend\n\nfunction Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    _errorMessage: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == nil then return end\n    if not success then message = operation .. \" failed: \" .. code return end\n    if operation == \"save\" then message = \"View saved\"\n    elseif Application.restore(payload) then message = \"View restored\"\n    else message = \"Saved view is invalid\" end\nend\n\nfunction Application.snapshot()\n    return {\n        name = router.current().name,\n        location = router.currentLocation(),\n        filter = filter,\n        message = message,\n        encoded = encodeSnapshot(),\n    }\nend\n\nreturn Application",
+    "signature": "complete routed and persisted application",
+    "parameters": [],
+    "returns": null,
+    "name": "3. Replace src/main.luau",
+    "description": "One router owns navigation, one versioned snapshot carries the router plus filter, and RequestIds correlate asynchronous storage completions.",
+    "wide": true,
+    "points": [
+      "Navigation.compile validates note_id before a route can enter the stack.",
+      "State.decode checks framing and version; Data.decode then checks the decoded field shapes; the application finally admits only known filter values.",
+      "router.restoreEncoded validates every restored route before replacing the active stack.",
+      "Application.resolve ignores unknown RequestIds and clears known requests before applying their result.",
+      "Rendering reads current state; storage effects start only from admitted button actions."
     ],
-    "returns": "Result — a discriminated validation result; branch on success before reading value or error.",
-    "name": "Validate restored values",
-    "description": "Static Luau types do not make storage or server payloads trustworthy."
+    "previousPageId": "advanced-tutorial/item-2",
+    "nextPageId": "advanced-tutorial/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "advanced-tutorial/item-4",
-    "kind": "function",
+    "routeSlug": "replace-tests-smoke-luau",
+    "routeId": "advanced-tutorial/replace-tests-smoke-luau",
+    "kind": "entry",
     "sectionId": "advanced-tutorial",
-    "sectionTitle": "Advanced tutorial: routed persisted data",
-    "module": "Navigation · State · Host · Data",
-    "callable": true,
-    "useWhen": "Implement Application.resolve when asynchronous Host, Server, or Media requests need to update application state after completion.",
-    "code": "function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    _code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == \"load\" and success then\n        restore(payload)\n    end\nend",
-    "signature": "Application.resolve",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Replace the generated smoke test so check and test cover the complete deterministic state boundary without depending on a browser storage implementation.",
+    "code": "--!strict\n\nlocal Application = require(\"app/main\")\n\nlocal initial = Application.snapshot()\nassert(initial.location == \"/\", \"application must start at the library\")\nassert(initial.filter == \"all\", \"application must start with the all filter\")\n\nApplication.handle(\"reading.open\", \"reading/open\", \"\")\nApplication.handle(\"reading.filter\", \"reading/filter-toggle\", \"\")\nlocal saved = Application.snapshot()\nassert(saved.location == \"/notes/7\", \"note route was not generated\")\nassert(saved.filter == \"favorites\", \"filter did not change\")\n\nApplication.handle(\"reading.back\", \"reading/back\", \"\")\nApplication.handle(\"reading.filter\", \"reading/filter-toggle\", \"\")\nassert(Application.snapshot().location == \"/\", \"Back did not return to the library\")\nassert(Application.snapshot().filter == \"all\", \"filter did not return to all\")\n\nassert(Application.restore(saved.encoded), \"valid snapshot was rejected\")\nassert(Application.snapshot().location == \"/notes/7\", \"saved route was not restored\")\nassert(Application.snapshot().filter == \"favorites\", \"saved filter was not restored\")\n\nlocal beforeInvalid = Application.snapshot()\nassert(not Application.restore(\"v=1&filter=unknown&navigation=invalid\"), \"invalid snapshot was accepted\")\nlocal afterInvalid = Application.snapshot()\nassert(afterInvalid.location == beforeInvalid.location, \"invalid restore changed the route\")\nassert(afterInvalid.filter == beforeInvalid.filter, \"invalid restore changed the filter\")\n\nreturn true",
+    "signature": "route, round-trip, and rejection test",
+    "parameters": [],
+    "returns": null,
+    "name": "4. Replace tests/smoke.luau",
+    "description": "The deterministic test drives route and filter actions, restores their saved snapshot, and proves malformed external data cannot replace current state.",
+    "wide": true,
+    "points": [
+      "The encoded snapshot comes from the real application rather than a duplicated hand-written encoding.",
+      "The test changes current state before restoring, so a false-positive no-op cannot pass.",
+      "The invalid payload check proves the previously valid route and filter remain intact."
+    ],
+    "previousPageId": "advanced-tutorial/item-3",
+    "nextPageId": "advanced-tutorial/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "advanced-tutorial/item-5",
+    "routeSlug": "check-the-deterministic-model",
+    "routeId": "advanced-tutorial/check-the-deterministic-model",
+    "kind": "entry",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Run from routed-reading-list after all three files are saved.",
+    "code": "luastra check\nluastra test",
+    "signature": "luastra check → luastra test",
+    "parameters": [],
+    "returns": null,
+    "name": "5. Check the deterministic model",
+    "description": "Validate the manifest and strict module graph first, then run the route, snapshot, and rejection behavior test.",
+    "language": "Shell",
+    "points": [
+      "check must report result=PASS and project=dev.luastra.routed-reading-list.",
+      "test must report tests=1 and passed=1.",
+      "This proves pure routing, encoding, validation, and restoration logic; it does not prove that a host persisted bytes."
+    ],
+    "previousPageId": "advanced-tutorial/item-4",
+    "nextPageId": "advanced-tutorial/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "advanced-tutorial/item-6",
+    "routeSlug": "run-the-storage-round-trip",
+    "routeId": "advanced-tutorial/run-the-storage-round-trip",
+    "kind": "entry",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Run only after check and test pass; keep the terminal open while verifying the current browser host.",
+    "code": "luastra run\n# Open the READY URL printed by Luastra.\n# Press Open note 7, Toggle filter, then Save view.\n# Press Back to library and Toggle filter: expect / and all.\n# Press Restore view: expect /notes/7 and favorites.\n# Reload the page, press Restore view again, and expect the same saved view.\n# Stop the preview with Ctrl+C.",
+    "signature": "save → change → restore → reload → restore",
+    "parameters": [],
+    "returns": null,
+    "name": "6. Run the storage round trip",
+    "description": "Use the printed preview URL to verify the asynchronous browser-storage boundary separately from the deterministic test.",
+    "language": "Shell",
+    "points": [
+      "Saving… and Loading… are immediate application states; View saved or View restored arrives through Application.resolve.",
+      "Restoring before the first save may fail or return empty data; the current route and filter must remain usable.",
+      "A browser-host pass does not prove storage behavior in every desktop or mobile host."
+    ],
+    "previousPageId": "advanced-tutorial/item-5",
+    "nextPageId": "advanced-tutorial/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "advanced-tutorial/item-7",
+    "routeSlug": "understand-the-trust-boundaries",
+    "routeId": "advanced-tutorial/understand-the-trust-boundaries",
+    "kind": "guide",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "callable": false,
+    "useWhen": "Read this after both the deterministic test and live storage round trip work unchanged.",
+    "code": null,
+    "signature": "route model → snapshot → transport → validated restore",
+    "parameters": [],
+    "returns": null,
+    "name": "7. Understand the trust boundaries",
+    "description": "Each layer solves one problem; keeping them separate makes failures recoverable and tests meaningful.",
+    "points": [
+      "Navigation validates and serializes the route stack; it does not persist anything.",
+      "State provides bounded versioned string framing; it does not decide whether fields are valid product data.",
+      "Data validates decoded external fields; the application still admits domain values such as all or favorites.",
+      "Host transports the string asynchronously; RequestIds prevent an older completion from being mistaken for another operation.",
+      "For a released schema change, increment the State version and add a tested State.migrate path before shipping the new writer."
+    ],
+    "previousPageId": "advanced-tutorial/item-6",
+    "nextPageId": "advanced-tutorial/table-1",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "advanced-tutorial/table-1",
+    "routeSlug": "what-each-verification-proves",
+    "routeId": "advanced-tutorial/what-each-verification-proves",
+    "kind": "parameter-group",
+    "sectionId": "advanced-tutorial",
+    "sectionTitle": "Advanced tutorial: build a routed reading list",
+    "module": "Navigation · State · Data · Host · about 30 minutes",
+    "name": "What each verification proves",
+    "signature": "advanced-evidence-boundaries",
+    "description": "Shared parameters in the “What each verification proves” group. A component page links here only when it supports this group.",
     "parameters": [
       {
-        "name": "id",
-        "values": "number",
-        "description": "The RequestId returned by the Host, Server, or Media operation."
+        "name": "luastra check",
+        "values": "Manifest, dependencies, strict Luau, and admitted SDK calls",
+        "description": "It does not execute the behavior test or a host adapter."
       },
       {
-        "name": "success",
-        "values": "boolean",
-        "description": "Whether the operation completed successfully."
+        "name": "luastra test",
+        "values": "Route transitions, snapshot round trip, and invalid-data preservation",
+        "description": "It does not prove browser storage or visible interaction."
       },
       {
-        "name": "payload",
-        "values": "string",
-        "description": "The bounded successful response payload, or an empty string after failure."
+        "name": "Browser preview",
+        "values": "Buttons, status updates, storage requests, reload, and current web host",
+        "description": "It does not prove Tauri, Capacitor, or another browser."
       },
       {
-        "name": "code",
-        "values": "string",
-        "description": "A stable failure code, or an empty string after success."
-      },
-      {
-        "name": "message",
-        "values": "string",
-        "description": "A bounded diagnostic message, or an empty string after success."
+        "name": "Target-specific QA",
+        "values": "The packaged host and device combination you actually exercised",
+        "description": "Record it separately instead of generalizing it to every target."
       }
     ],
-    "returns": "Nothing. Update state, clear the pending operation, and let Luastra render again.",
-    "name": "Resolve asynchronous work",
-    "description": "Match the RequestId and handle bounded failure information."
+    "previousPageId": "advanced-tutorial/item-7",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "first-app/item-1",
-    "kind": "entry",
+    "routeSlug": "completion-checklist",
+    "routeId": "first-app/completion-checklist",
+    "kind": "guide",
     "sectionId": "first-app",
-    "sectionTitle": "Complete mini-app",
-    "module": "src/main.luau",
+    "sectionTitle": "Complete mini-app checkpoint",
+    "module": "Beginner tutorial · verified manifest · application test",
     "callable": false,
-    "useWhen": "Use this complete example when learning how module state, event handling, semantic UI, and repeated rendering fit together in one Luastra entry module.",
-    "code": "--!strict\nlocal UI = require(\"luastra/ui\")\n\nlocal count = 0\nlocal Application = {}\n\nfunction Application.handle(action: string, _target: string, _value: string)\n    if action == \"add\" then\n        count += 1\n    end\nend\n\nfunction Application.render(): UI.Node\n    return UI.Screen {\n        id = \"app\",\n        UI.Text {\n            id = \"count\",\n            text = tostring(count),\n            role = \"status\",\n        },\n        UI.Button {\n            id = \"add\",\n            text = \"Add\",\n            onTap = \"add\",\n        },\n    }\nend\n\nreturn Application",
-    "signature": "Application.render + Application.handle",
+    "useWhen": "Use this after completing Beginner tutorial and before moving to a capability recipe.",
+    "code": null,
+    "signature": "copy → understand → verify → change",
     "parameters": [],
     "returns": null,
-    "name": "Interaction counter",
-    "description": "A complete minimal app.",
-    "wide": true
+    "name": "Completion checklist",
+    "description": "Finish each checkpoint before treating the counter as a working first application.",
+    "points": [
+      "The three displayed files were copied into one project and both check and test reported PASS.",
+      "The browser showed Count: 0, Add one changed it to 1, and Reset restored 0.",
+      "The same interaction worked with Tab and Enter.",
+      "You changed the title, repeated check and test, and confirmed the preview still behaved correctly.",
+      "You can identify which claims came from the deterministic test and which came from the live browser check."
+    ],
+    "previousPageId": null,
+    "nextPageId": "first-app/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "first-app/item-2",
+    "routeSlug": "choose-the-next-capability",
+    "routeId": "first-app/choose-the-next-capability",
+    "kind": "guide",
+    "sectionId": "first-app",
+    "sectionTitle": "Complete mini-app checkpoint",
+    "module": "Beginner tutorial · verified manifest · application test",
+    "callable": false,
+    "useWhen": "Use this when choosing the first extension to your counter.",
+    "code": null,
+    "signature": "time · routes · persistence",
+    "parameters": [],
+    "returns": null,
+    "name": "Choose the next capability",
+    "description": "Add one concept at a time through a complete checked recipe instead of combining several unfamiliar host boundaries at once.",
+    "points": [
+      "Delayed action teaches timer events delivered to Application.handle.",
+      "Typed navigation teaches named routes and validated canonical locations.",
+      "Persist state teaches versioned snapshots plus asynchronous Host requests and Application.resolve.",
+      "Return to the API reference only after the matching recipe works, then use symbol pages for exact signatures and edge cases."
+    ],
+    "previousPageId": "first-app/item-1",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "application/item-1",
+    "routeSlug": "render",
+    "routeId": "application/render",
     "kind": "function",
     "sectionId": "application",
     "sectionTitle": "Application contract",
@@ -756,10 +3251,22 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "UI.Node — exactly one UI.Screen root.",
     "name": "Application.render",
-    "description": "Returns the complete current interface as exactly one UI.Screen root."
+    "description": "Returns the complete current interface as exactly one UI.Screen root.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Application.render inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": null,
+    "nextPageId": "application/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "application/item-2",
+    "routeSlug": "handle",
+    "routeId": "application/handle",
     "kind": "function",
     "sectionId": "application",
     "sectionTitle": "Application contract",
@@ -787,10 +3294,22 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Nothing. State changes become visible in the render that follows the handler.",
     "name": "Application.handle",
-    "description": "Receives admitted UI and host events before the next render."
+    "description": "Receives admitted UI and host events before the next render.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Application.handle inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "application/item-1",
+    "nextPageId": "application/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "application/item-3",
+    "routeSlug": "resolve",
+    "routeId": "application/resolve",
     "kind": "function",
     "sectionId": "application",
     "sectionTitle": "Application contract",
@@ -828,93 +3347,379 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Nothing. Clear the matching pending operation and update state for the following render.",
     "name": "Application.resolve",
-    "description": "Receives the bounded completion of an asynchronous Host, Server, or Media request."
+    "description": "Receives the bounded completion of an asynchronous Host, Server, or Media request.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Application.resolve inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "application/item-2",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-1",
+    "routeSlug": "route-handle-events-explicitly",
+    "routeId": "events-errors/route-handle-events-explicitly",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this dispatch shape whenever an application has more than one event source.",
+    "code": "function Application.handle(action: string, target: string, value: string)\n    if action == \"counter.add\" and target == \"counter/add\" then\n        count += 1\n    elseif action == \"lifecycle\" and target == \"app\" then\n        handleLifecycle(value)\n    elseif action == \"timer\" and target == \"refresh\" then\n        refresh(value)\n    end\nend",
+    "signature": "action + target + value",
+    "parameters": [],
+    "returns": null,
+    "name": "Route handle events explicitly",
+    "description": "One callback may receive unrelated UI, lifecycle, navigation, timer, and media events, so every mutation needs a narrow branch.",
+    "wide": true,
+    "points": [
+      "action identifies the declared operation or host event family.",
+      "target identifies the stable UI node, timer ID, or app host target.",
+      "value is source-specific and may be empty; never assign it directly to trusted state without validation.",
+      "Ignoring an unknown event is safer than applying it to the nearest-looking state branch."
+    ],
+    "previousPageId": null,
+    "nextPageId": "events-errors/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-2",
+    "routeSlug": "handle-lifecycle-state",
+    "routeId": "events-errors/handle-lifecycle-state",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use lifecycle events for resumable state and user-visible connectivity, not as proof that a remote request succeeded.",
+    "code": "if action == \"lifecycle\" and target == \"app\" then\n    if value == \"launch\" then\n        status = \"Starting\"\n    elseif value == \"foreground\" then\n        status = \"Visible\"\n    elseif value == \"background\" then\n        status = \"Background\"\n    elseif value == \"online\" then\n        connectivity = \"online\"\n    elseif value == \"offline\" then\n        connectivity = \"offline\"\n    end\nend",
+    "signature": "handle(\"lifecycle\", \"app\", value)",
+    "parameters": [],
+    "returns": null,
+    "name": "Handle lifecycle state",
+    "description": "The current hosts emit launch, foreground/background visibility, and online/offline connectivity as serialized application events.",
+    "points": [
+      "Initial web delivery is launch, current visibility, then current connectivity.",
+      "Native app-state integration emits launch and current foreground/background state, followed by connectivity.",
+      "Repeated pending equivalents may be deduplicated; code must not depend on duplicate delivery.",
+      "Background is a state transition, not permission to promise unrestricted background execution."
+    ],
+    "previousPageId": "events-errors/item-1",
+    "nextPageId": "events-errors/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-3",
+    "routeSlug": "decode-a-system-back-intent",
+    "routeId": "events-errors/decode-a-system-back-intent",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this only after declaring navigation.history and deciding which application state owns Back priority.",
+    "code": "local intentText, canGoBackText = string.match(value, \"^([1-9][0-9]*):([01])$\")\nlocal intent = if intentText == nil then nil else tonumber(intentText)\n\nif action == \"system_back\" and target == \"app\" and intent ~= nil then\n    if modalOpen then\n        modalOpen = false\n        Host.systemBackHandled(intent)\n    elseif router.canBack() then\n        Host.systemBackHistory(intent)\n    elseif canGoBackText == \"0\" then\n        Host.systemBackExit(intent)\n    else\n        Host.systemBackHistory(intent)\n    end\nend",
+    "signature": "handle(\"system_back\", \"app\", \"intent:canGoBack\")",
+    "parameters": [],
+    "returns": null,
+    "name": "Decode a system Back intent",
+    "description": "Native Back carries a positive intent ID plus a 1 or 0 host-history hint; the application must answer that exact intent once.",
+    "wide": true,
+    "points": [
+      "Close app-owned transient UI such as a modal before changing navigation.",
+      "Use the parsed positive intent ID, never a locally invented number.",
+      "A stale or repeated intent is rejected by the host.",
+      "systemBackExit is host-dependent and must remain the final root-level decision."
+    ],
+    "previousPageId": "events-errors/item-2",
+    "nextPageId": "events-errors/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-4",
+    "routeSlug": "restore-history-and-opened-ur-ls",
+    "routeId": "events-errors/restore-history-and-opened-ur-ls",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use the History recipe for the complete checked implementation; this card explains the two distinct incoming boundaries.",
+    "code": "if action == \"history\" and target == \"app\" then\n    if not router.restoreEncoded(value).success then\n        message = \"Ignored invalid history state\"\n    end\nelseif action == \"open_url\" and (target == \"browser\" or target == \"app\") then\n    local matched = routes.match(extractLocation(value))\n    if matched.success and matched.entry ~= nil then\n        router.replace(matched.entry)\n    else\n        message = \"Ignored unsupported link\"\n    end\nend",
+    "signature": "history token · admitted URL",
+    "parameters": [],
+    "returns": null,
+    "name": "Restore History and opened URLs",
+    "description": "Browser History carries only an app-authored state token, while open_url carries an admitted browser fragment or native application URL.",
+    "wide": true,
+    "points": [
+      "history target is app and value is the bounded token previously written by this project.",
+      "open_url target is browser for admitted web fragment changes and app for admitted native URL opens.",
+      "Parse and validate the URL into a compiled route; do not concatenate its fragments into application state.",
+      "On failure, keep the current route and show a recoverable status if the user needs feedback."
+    ],
+    "previousPageId": "events-errors/item-3",
+    "nextPageId": "events-errors/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-5",
+    "routeSlug": "decode-live-media-state",
+    "routeId": "events-errors/decode-live-media-state",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this for every media_state event, including interruptions, buffering, background changes, and playback errors.",
+    "code": "if action == \"media_state\" and target == \"app\" then\n    local decoded = Media.decodeState(value)\n    if decoded.success then\n        mediaState = decoded.state\n        mediaMessage = decoded.state.error == nil\n            and \"Playback updated\"\n            or \"Playback error: \" .. decoded.state.error.code\n    else\n        mediaMessage = \"Ignored invalid media state\"\n    end\nend",
+    "signature": "handle(\"media_state\", \"app\", payload)",
+    "parameters": [],
+    "returns": null,
+    "name": "Decode live media state",
+    "description": "Playback truth arrives independently of command acknowledgements and must pass Media.decodeState before its fields are read.",
+    "points": [
+      "A successful command resolve means the request was accepted; it is not the ongoing playback position.",
+      "A decode failure describes an invalid payload, while state.error describes a valid media state reporting playback failure.",
+      "Keep the previous decoded state when a new payload is invalid."
+    ],
+    "previousPageId": "events-errors/item-4",
+    "nextPageId": "events-errors/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-6",
+    "routeSlug": "correlate-asynchronous-completions",
+    "routeId": "events-errors/correlate-asynchronous-completions",
+    "kind": "entry",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this for Host, Server, and Media requests that return RequestId.",
+    "code": "local pending: {[number]: string} = {}\n\nlocal requestId = Host.storageGet(\"app-state\")\npending[requestId] = \"restore\"\n\nfunction Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    _message: string\n)\n    local operation = pending[id]\n    pending[id] = nil\n    if operation == nil then return end\n    if not success then\n        status = operation .. \" failed: \" .. code\n    elseif operation == \"restore\" and not restore(payload) then\n        status = \"Stored state is invalid\"\n    end\nend",
+    "signature": "pending[RequestId] → resolve",
+    "parameters": [],
+    "returns": null,
+    "name": "Correlate asynchronous completions",
+    "description": "The RequestId returned by a capability is the only reliable link between a later completion and the operation that started it.",
+    "wide": true,
+    "points": [
+      "Store the intended operation immediately after receiving the RequestId.",
+      "Clear the matching entry before decoding or mutating state so an error cannot leave it reusable.",
+      "Ignore unknown IDs because they may be stale, duplicated, or belong to state that no longer exists.",
+      "Use code for program decisions; message is bounded human-readable diagnostic context and must not be parsed."
+    ],
+    "previousPageId": "events-errors/item-5",
+    "nextPageId": "events-errors/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/item-7",
+    "routeSlug": "choose-a-recovery-policy",
+    "routeId": "events-errors/choose-a-recovery-policy",
+    "kind": "guide",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "callable": false,
+    "useWhen": "Use this checklist when adding any decoder, capability, or host-event branch.",
+    "code": null,
+    "signature": "reject · preserve · retry · replace",
+    "parameters": [],
+    "returns": null,
+    "name": "Choose a recovery policy",
+    "description": "A recoverable error should have an explicit state outcome instead of merely writing a console message.",
+    "points": [
+      "Malformed external data: reject it and preserve the last valid state.",
+      "User-correctable input: keep the input, attach an accessible field or form error, and retain focus.",
+      "Transient operation failure: expose retry only when repeating the operation is safe; use idempotency for retryable server mutations.",
+      "Unauthorized or forbidden operation: clear invalid session assumptions and return to an admitted state instead of looping retries.",
+      "Unknown or stale event/completion: ignore it without mutating unrelated state.",
+      "Programming assertion: fix the violated contract during development; do not parse or branch on assertion prose."
+    ],
+    "previousPageId": "events-errors/item-6",
+    "nextPageId": "events-errors/table-1",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/table-1",
+    "routeSlug": "exact-event-delivery",
+    "routeId": "events-errors/exact-event-delivery",
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
-    "module": "Application.handle · Application.resolve",
-    "name": "Event delivery",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "name": "Exact event delivery",
     "signature": "event-delivery",
-    "description": "Shared parameters in the “Event delivery” group. A component page links here only when it supports this group.",
+    "description": "Shared parameters in the “Exact event delivery” group. A component page links here only when it supports this group.",
     "parameters": [
       {
-        "name": "UI action",
-        "values": "handle(action, target, value)",
-        "description": "onTap, onInput, and onDismiss send the declared action plus the stable target ID."
+        "name": "UI tap",
+        "values": "handle(onTap, component id, \"\")",
+        "description": "Match both declared action and stable target."
+      },
+      {
+        "name": "UI input",
+        "values": "handle(onInput, component id, committed value)",
+        "description": "Validate value before trusting it."
+      },
+      {
+        "name": "Dismiss",
+        "values": "handle(onDismiss, dismissible component id, \"\")",
+        "description": "Close only the matching transient surface."
+      },
+      {
+        "name": "Lifecycle",
+        "values": "handle(\"lifecycle\", \"app\", launch|foreground|background|online|offline)",
+        "description": "Treat visibility and connectivity as state, not completed work."
       },
       {
         "name": "Timer expiry",
-        "values": "handle(\"timer\", id, value)",
-        "description": "A started or restarted one-shot timer delivers its ID and optional value."
+        "values": "handle(\"timer\", timer id, configured value)",
+        "description": "Reject stale IDs after the owning state ends."
       },
       {
-        "name": "Media state",
-        "values": "handle(\"media_state\", target, payload)",
-        "description": "Decode the payload with Media.decodeState before reading playback fields."
+        "name": "History",
+        "values": "handle(\"history\", \"app\", app-authored token)",
+        "description": "Restore through the typed router."
+      },
+      {
+        "name": "Opened URL",
+        "values": "handle(\"open_url\", browser|app, admitted URL)",
+        "description": "Parse into a compiled route."
       },
       {
         "name": "System Back",
-        "values": "handle(\"system_back\", target, value)",
-        "description": "Close a modal, navigate back, delegate to history, or acknowledge exit according to current state."
+        "values": "handle(\"system_back\", \"app\", positive-id:0|1)",
+        "description": "Answer the exact intent through Host."
       },
       {
-        "name": "Async completion",
-        "values": "resolve(requestId, success, payload, code, message)",
-        "description": "Match the RequestId saved when the capability call was made, then clear the pending entry."
+        "name": "Media state",
+        "values": "handle(\"media_state\", \"app\", encoded state)",
+        "description": "Decode with Media.decodeState."
       }
-    ]
+    ],
+    "previousPageId": "events-errors/item-7",
+    "nextPageId": "events-errors/table-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "events-errors/table-2",
+    "routeSlug": "exact-resolve-delivery",
+    "routeId": "events-errors/exact-resolve-delivery",
     "kind": "parameter-group",
     "sectionId": "events-errors",
     "sectionTitle": "Events and errors",
-    "module": "Application.handle · Application.resolve",
-    "name": "Error handling",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "name": "Exact resolve delivery",
+    "signature": "resolve-delivery",
+    "description": "Shared parameters in the “Exact resolve delivery” group. A component page links here only when it supports this group.",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "positive RequestId",
+        "description": "Match and delete pending[id] before applying the completion."
+      },
+      {
+        "name": "success",
+        "values": "boolean",
+        "description": "Only true admits the successful payload path."
+      },
+      {
+        "name": "payload",
+        "values": "bounded string or empty on failure",
+        "description": "Decode with the operation-specific SDK before trusting it."
+      },
+      {
+        "name": "code",
+        "values": "stable error code or empty on success",
+        "description": "Use for bounded control flow and user-facing recovery choice."
+      },
+      {
+        "name": "message",
+        "values": "bounded diagnostic or empty on success",
+        "description": "Useful for development context; never parse it as a protocol."
+      }
+    ],
+    "previousPageId": "events-errors/table-1",
+    "nextPageId": "events-errors/table-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "events-errors/table-3",
+    "routeSlug": "decoder-and-recovery-map",
+    "routeId": "events-errors/decoder-and-recovery-map",
+    "kind": "parameter-group",
+    "sectionId": "events-errors",
+    "sectionTitle": "Events and errors",
+    "module": "Application.handle · Application.resolve · exact host payloads",
+    "name": "Decoder and recovery map",
     "signature": "error-handling",
-    "description": "Shared parameters in the “Error handling” group. A component page links here only when it supports this group.",
+    "description": "Shared parameters in the “Decoder and recovery map” group. A component page links here only when it supports this group.",
     "parameters": [
       {
         "name": "Data validation",
-        "values": "Data.Result · Data.ValidationError",
-        "description": "Branch on success; failure exposes a bounded code and path."
+        "values": "Data.Result · code + path",
+        "description": "Keep input and show a field/form error."
       },
       {
         "name": "State restore",
         "values": "State.DecodeResult · State.MigrationResult",
-        "description": "Reject invalid snapshots or run explicit ordered migrations."
+        "description": "Keep current state or run an explicit tested migration."
       },
       {
         "name": "Routes",
-        "values": "Navigation.RouteResult · Navigation.MutationResult",
-        "description": "Inspect success and error.code; do not assume an untrusted location is valid."
+        "values": "Navigation.RouteResult · MutationResult",
+        "description": "Keep the current route when generation, match, or mutation fails."
       },
       {
         "name": "Server payload",
         "values": "Server.DecodeResult",
-        "description": "Decode before consuming trusted-backend output."
+        "description": "Keep previous trusted data and expose bounded retry where safe."
       },
       {
         "name": "Media state",
-        "values": "Media.DecodeResult · Media.MediaError",
-        "description": "Separate payload decoding failure from a playback error reported inside state."
+        "values": "Media.DecodeResult · state.error",
+        "description": "Distinguish malformed transport from a valid playback failure."
       },
       {
-        "name": "Assertions",
-        "values": "development failure",
-        "description": "Invalid API use fails clearly during check, test, preview, or event handling; fix the call rather than catching message text."
+        "name": "Assertion",
+        "values": "development contract failure",
+        "description": "Fix the API call or invariant; never catch message text as product flow."
       }
-    ]
+    ],
+    "previousPageId": "events-errors/table-2",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui/item-1",
+    "routeSlug": "properties",
+    "routeId": "ui/properties",
     "kind": "type",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
+    "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
+    "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -935,14 +3740,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "UI.Node — a declarative node in the new render tree.",
     "name": "UI.Properties",
-    "description": "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently."
+    "description": "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently.",
+    "previousPageId": null,
+    "nextPageId": "ui/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui/item-2",
+    "routeSlug": "theme",
+    "routeId": "ui/theme",
     "kind": "type",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
+    "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
+    "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -998,14 +3814,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "UI.Node — a declarative node in the new render tree.",
     "name": "UI.Theme",
-    "description": "UI.Theme is a reusable record of optional screen color overrides. Direct UI.Screen color fields take precedence, while every omitted field inherits Luastra's built-in accessible palette."
+    "description": "UI.Theme is a reusable record of optional screen color overrides. Direct UI.Screen color fields take precedence, while every omitted field inherits Luastra's built-in accessible palette.",
+    "previousPageId": "ui/item-1",
+    "nextPageId": "ui/item-3",
+    "relatedPageIds": [
+      "ui/item-4",
+      "ui/item-5"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion"
+    ]
   },
   {
     "id": "ui/item-3",
+    "routeSlug": "node",
+    "routeId": "ui/node",
     "kind": "type",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
+    "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
+    "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -1041,14 +3874,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "UI.Node — a declarative node in the new render tree.",
     "name": "UI.Node",
-    "description": "UI.Node is the host-neutral declarative value produced by every UI constructor. Nodes contain a validated component kind, stable ID, properties, and children that hosts translate into native semantic interface elements."
+    "description": "UI.Node is the host-neutral declarative value produced by every UI constructor. Nodes contain a validated component kind, stable ID, properties, and children that hosts translate into native semantic interface elements.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Node inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-2",
+    "nextPageId": "ui/item-4",
+    "relatedPageIds": [
+      "ui/item-5"
+    ],
+    "relatedPageRoles": [
+      "next-step"
+    ]
   },
   {
     "id": "ui/item-4",
+    "routeSlug": "screen",
+    "routeId": "ui/screen",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Screen content. Application.render returns exactly one Screen.",
     "accessibility": "Creates the main landmark and owns document language and metadata. Keep one meaningful h1 on each page.",
@@ -1259,14 +4113,37 @@ export const generatedPages = Object.freeze([
       "layout",
       "theme",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Screen inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-3",
+    "nextPageId": "ui/item-5",
+    "relatedPageIds": [
+      "ui/item-2",
+      "ui/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
     "id": "ui/item-5",
+    "routeSlug": "column",
+    "routeId": "ui/column",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Items are arranged from top to bottom.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -1432,14 +4309,35 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-4",
+    "nextPageId": "ui/item-6",
+    "relatedPageIds": [
+      "ui/item-2",
+      "ui/item-3",
+      "ui/item-34",
+      "ui/item-35"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "next-step",
+      "companion"
     ]
   },
   {
     "id": "ui/item-6",
+    "routeSlug": "row",
+    "routeId": "ui/row",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Items flow from left to right and may wrap.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -1605,14 +4503,39 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Row inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-5",
+    "nextPageId": "ui/item-7",
+    "relatedPageIds": [
+      "ui/item-34",
+      "ui/item-35",
+      "ui/item-36"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "next-step"
     ]
   },
   {
     "id": "ui/item-7",
+    "routeSlug": "text",
+    "routeId": "ui/text",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "variant creates the real h1/h2/h3 hierarchy; textAlign changes visual alignment only, not reading order.",
@@ -1743,14 +4666,41 @@ export const generatedPages = Object.freeze([
       "text-style",
       "semantic",
       "motion"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Text inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-6",
+    "nextPageId": "ui/item-8",
+    "relatedPageIds": [
+      "ui/item-10",
+      "ui/item-11",
+      "ui/item-17",
+      "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-8",
+    "routeSlug": "button",
+    "routeId": "ui/button",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Keeps native button semantics, keyboard activation, and visible focus. Do not replace it with a tappable Shape.",
@@ -1759,7 +4709,7 @@ export const generatedPages = Object.freeze([
       "Duplicating the same id across render branches."
     ],
     "callable": true,
-    "useWhen": "Use UI.Button when the user initiates an operation or changes application state. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable.",
+    "useWhen": "Use UI.Button when the user initiates an operation or changes application state. Icon-only buttons require a descriptive label. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable.",
     "code": "UI.Button {\n    id = \"game/start\",\n    text = \"Start\",\n    appearance = \"primary\",\n    onTap = \"game.start\",\n    label = \"Start the game\",\n}",
     "signature": "UI.Button(input: any): Node",
     "parameters": [
@@ -1770,8 +4720,13 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "text",
-        "values": "string, required",
-        "description": "Visible button label."
+        "values": "string?",
+        "description": "Visible button label; may be omitted when icon and label are provided."
+      },
+      {
+        "name": "icon",
+        "values": "activity | palette | pause?",
+        "description": "Host-rendered semantic icon. An icon-only button requires label."
       },
       {
         "name": "onTap",
@@ -1871,19 +4826,44 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
     "name": "UI.Button",
-    "description": "Creates an accessible native action that supports pointer, touch, keyboard, disabled state, and appearance semantics. Activation sends its declared onTap action and stable component ID to Application.handle.",
+    "description": "Creates an accessible native action that supports pointer, touch, keyboard, disabled state, appearance semantics, and a bounded host-rendered icon vocabulary. Activation sends its declared onTap action and stable component ID to Application.handle.",
     "props": [
       "action",
       "text-style",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Button inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-7",
+    "nextPageId": "ui/item-9",
+    "relatedPageIds": [
+      "ui/item-39",
+      "ui/item-38",
+      "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion",
+      "next-step"
     ]
   },
   {
     "id": "ui/item-9",
+    "routeSlug": "link",
+    "routeId": "ui/link",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Keeps native link semantics. Its visible text should explain the destination without relying on surrounding prose.",
@@ -1892,7 +4872,7 @@ export const generatedPages = Object.freeze([
       "Passing a shared-group parameter that is not listed on this component page."
     ],
     "callable": true,
-    "useWhen": "Use UI.Link when activation changes location or opens a documented resource. Use UI.Button when the action modifies current application state without navigating.",
+    "useWhen": "Use UI.Link when activation changes location or opens a documented resource. Use a canonical #/ route for application navigation, a # fragment for one rendered node, and UI.Button when the action only modifies current state.",
     "code": "UI.Link {\n    id = \"docs/button\",\n    text = \"UI.Button\",\n    href = \"#docs/button\",\n    onTap = \"docs.open-button\",\n}",
     "signature": "UI.Link(input: any): Node",
     "parameters": [
@@ -1908,8 +4888,8 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "href",
-        "values": "#fragment | HTTPS URL, required",
-        "description": "Safe internal fragment or external HTTPS destination."
+        "values": "#fragment | #/route | HTTPS URL, required",
+        "description": "Safe internal fragment, canonical application hash route, or external HTTPS destination."
       },
       {
         "name": "external",
@@ -2004,19 +4984,38 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
     "name": "UI.Link",
-    "description": "Creates a semantic link for an admitted internal destination or safe external HTTPS location. Hosts preserve link navigation and accessibility behavior instead of treating it as a generic tap action.",
+    "description": "Creates a semantic link for an admitted node fragment, canonical hash route, or safe external HTTPS location. Hosts preserve link navigation and accessibility behavior instead of treating it as a generic tap action.",
     "props": [
       "action",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-8",
+    "nextPageId": "ui/item-10",
+    "relatedPageIds": [
+      "ui/item-39",
+      "ui/item-38",
+      "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-10",
+    "routeSlug": "code",
+    "routeId": "ui/code",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -2131,14 +5130,33 @@ export const generatedPages = Object.freeze([
     "props": [
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-9",
+    "nextPageId": "ui/item-11",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-17",
+      "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-11",
+    "routeSlug": "code-block",
+    "routeId": "ui/code-block",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -2274,14 +5292,33 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-10",
+    "nextPageId": "ui/item-12",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-17",
+      "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-12",
+    "routeSlug": "divider",
+    "routeId": "ui/divider",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Without label it is decorative; add label only when the divider itself carries meaning.",
@@ -2366,14 +5403,25 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
-    ]
+    ],
+    "previousPageId": "ui/item-11",
+    "nextPageId": "ui/item-13",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui/item-13",
+    "routeSlug": "table",
+    "routeId": "ui/table",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Table rows only.",
     "accessibility": "TableRow and TableCell create a real table; header and scope associate headers with columns and rows.",
@@ -2539,14 +5587,33 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-12",
+    "nextPageId": "ui/item-14",
+    "relatedPageIds": [
+      "ui/item-15",
+      "ui/item-21",
+      "ui/item-22"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion"
     ]
   },
   {
     "id": "ui/item-14",
+    "routeSlug": "table-row",
+    "routeId": "ui/table-row",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Table cells only.",
     "accessibility": "Does not create a separate accessible name; its header cells establish the row meaning.",
@@ -2667,14 +5734,31 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-13",
+    "nextPageId": "ui/item-15",
+    "relatedPageIds": [
+      "ui/item-21",
+      "ui/item-22"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-15",
+    "routeSlug": "table-cell",
+    "routeId": "ui/table-cell",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Optional nested nodes instead of short text.",
     "accessibility": "For a header, set header=true and the appropriate scope=col or scope=row.",
@@ -2815,14 +5899,33 @@ export const generatedPages = Object.freeze([
       "layout",
       "text-style",
       "semantic"
+    ],
+    "previousPageId": "ui/item-14",
+    "nextPageId": "ui/item-16",
+    "relatedPageIds": [
+      "ui/item-13",
+      "ui/item-21",
+      "ui/item-22"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-16",
+    "routeSlug": "flip-card",
+    "routeId": "ui/flip-card",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "First child is the front and second is the back; FlipCard owns the size.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -2902,14 +6005,33 @@ export const generatedPages = Object.freeze([
     "props": [
       "visual",
       "motion"
+    ],
+    "previousPageId": "ui/item-15",
+    "nextPageId": "ui/item-17",
+    "relatedPageIds": [
+      "ui/item-18",
+      "ui/item-37",
+      "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
     ]
   },
   {
     "id": "ui/item-17",
+    "routeSlug": "image",
+    "routeId": "ui/image",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "label is required; use an empty string only for a genuinely decorative image.",
@@ -2918,7 +6040,7 @@ export const generatedPages = Object.freeze([
       "Omitting the required label."
     ],
     "callable": true,
-    "useWhen": "Use UI.Image for packaged raster or supported vector artwork. Use UI.Shape for geometry that can be expressed without an asset, and supply a meaningful label unless the image is decorative.",
+    "useWhen": "Use UI.Image for packaged PNG, JPEG, WebP, or AVIF artwork. Use UI.Shape for scalable geometry that does not need an asset, and supply a meaningful label unless the image is genuinely decorative.",
     "code": "local Assets = require(\"luastra/assets\")\n\nUI.Image {\n    id = \"card/back\",\n    source = Assets.uri(Assets.image(\"image/card-back\")),\n    width = 274,\n    height = 382,\n    fit = \"cover\",\n    label = \"Card back\",\n}",
     "signature": "UI.Image(input: any): Node",
     "parameters": [
@@ -2995,14 +6117,41 @@ export const generatedPages = Object.freeze([
       "visual",
       "label",
       "motion"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Image inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-16",
+    "nextPageId": "ui/item-18",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-10",
+      "ui/item-11",
+      "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
     "id": "ui/item-18",
+    "routeSlug": "layer",
+    "routeId": "ui/layer",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "The first child defines the bounds; later children overlay the same area.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -3174,14 +6323,33 @@ export const generatedPages = Object.freeze([
       "text-style",
       "semantic",
       "motion"
+    ],
+    "previousPageId": "ui/item-17",
+    "nextPageId": "ui/item-19",
+    "relatedPageIds": [
+      "ui/item-16",
+      "ui/item-37",
+      "ui/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion",
+      "prerequisite"
     ]
   },
   {
     "id": "ui/item-19",
+    "routeSlug": "shape",
+    "routeId": "ui/shape",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -3277,14 +6445,41 @@ export const generatedPages = Object.freeze([
       "visual",
       "label",
       "motion"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Shape inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-18",
+    "nextPageId": "ui/item-20",
+    "relatedPageIds": [
+      "ui/item-7",
+      "ui/item-10",
+      "ui/item-11",
+      "ui/item-17"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
     "id": "ui/item-20",
+    "routeSlug": "text-input",
+    "routeId": "ui/text-input",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "label is required. required, disabled, and errorId expose state to screen readers; an error hint should be a visible role=alert.",
@@ -3419,14 +6614,35 @@ export const generatedPages = Object.freeze([
     "props": [
       "input",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.TextInput inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-19",
+    "nextPageId": "ui/item-21",
+    "relatedPageIds": [
+      "ui/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
     "id": "ui/item-21",
+    "routeSlug": "list",
+    "routeId": "ui/list",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "List items only.",
     "accessibility": "Creates a real list; provide label when a nearby heading does not make the list purpose clear.",
@@ -3592,14 +6808,33 @@ export const generatedPages = Object.freeze([
       "label",
       "layout",
       "semantic"
+    ],
+    "previousPageId": "ui/item-20",
+    "nextPageId": "ui/item-22",
+    "relatedPageIds": [
+      "ui/item-13",
+      "ui/item-14",
+      "ui/item-15"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-22",
+    "routeSlug": "list-item",
+    "routeId": "ui/list-item",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Must be a direct child of UI.List to preserve correct list semantics.",
@@ -3765,14 +7000,33 @@ export const generatedPages = Object.freeze([
       "text",
       "layout",
       "semantic"
+    ],
+    "previousPageId": "ui/item-21",
+    "nextPageId": "ui/item-23",
+    "relatedPageIds": [
+      "ui/item-13",
+      "ui/item-14",
+      "ui/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-23",
+    "routeSlug": "modal",
+    "routeId": "ui/modal",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Heading, content, and close action.",
     "accessibility": "The host traps focus inside the open dialog, Escape invokes onDismiss, and closing restores focus to the trigger.",
@@ -3892,14 +7146,1605 @@ export const generatedPages = Object.freeze([
     "props": [
       "modal",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Modal inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-22",
+    "nextPageId": "ui/item-24",
+    "relatedPageIds": [
+      "ui/item-8",
+      "ui/item-9",
+      "ui/item-39",
+      "ui/item-38"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui/item-24",
+    "routeSlug": "orbit",
+    "routeId": "ui/orbit",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Orbit experience content with at least one constellation.",
+    "accessibility": "The host preserves one semantic model across spatial and list presentations and isolates every inactive constellation from interaction.",
+    "commonMistakes": [
+      "Adding application-owned absolute coordinates.",
+      "Assuming spatial mode is guaranteed when bounds require the list fallback."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.Orbit when an application benefits from spatial discovery while still requiring a complete list fallback, stable navigation state, keyboard access, and identical meaning across host presentations.",
+    "code": "UI.Orbit {\n    id = \"map\",\n    label = \"Application map\",\n    UI.Constellation {\n        id = \"map/root\",\n        UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n        UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n    },\n}",
+    "signature": "UI.Orbit(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique Orbit ID."
+      },
+      {
+        "name": "presentation",
+        "values": "auto | spatial | list?",
+        "description": "Preferred presentation; unsafe spatial geometry still falls back to list."
+      },
+      {
+        "name": "orbitTheme",
+        "values": "built-in theme ID?",
+        "description": "One of the curated Orbit themes."
+      },
+      {
+        "name": "orbitMotion",
+        "values": "system | off?",
+        "description": "Orbit-owned motion preference."
+      },
+      {
+        "name": "maxVisible",
+        "values": "integer 4…32?",
+        "description": "Density bound before list fallback."
+      },
+      {
+        "name": "children",
+        "values": "OrbitPath | OrbitSearch | Constellation | FocusSurface[]",
+        "description": "Orbit experience content with at least one constellation."
+      },
+      {
+        "name": "gap",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Space between children. Group: Layout and surfaces."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "align",
+        "values": "start | center | end | stretch | between",
+        "description": "Cross-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "justify",
+        "values": "start | center | end | between",
+        "description": "Main-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "flow",
+        "values": "wrap | nowrap",
+        "description": "Flex wrapping. Group: Layout and surfaces."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean",
+        "description": "Narrow-screen adaptation. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "tone",
+        "values": "muted | error | success",
+        "description": "Semantic text tone. Group: State and semantics."
+      },
+      {
+        "name": "appearance",
+        "values": "primary | secondary | danger | ghost",
+        "description": "Action appearance. Group: State and semantics."
+      },
+      {
+        "name": "variant",
+        "values": "body | subheading | heading | title",
+        "description": "Body text or h3, h2, and h1 heading semantics. Group: State and semantics."
+      },
+      {
+        "name": "role",
+        "values": "alert | group | status",
+        "description": "Supported ARIA role. Group: State and semantics."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      },
+      {
+        "name": "required",
+        "values": "boolean",
+        "description": "Required input state. Group: State and semantics."
+      },
+      {
+        "name": "errorId",
+        "values": "component id",
+        "description": "Associates a visible role=alert. Group: State and semantics."
+      },
+      {
+        "name": "textColor",
+        "values": "token | #RRGGBB",
+        "description": "Local or inherited foreground. Group: Text and local colors."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "token | #RRGGBB",
+        "description": "Component-box background. Group: Text and local colors."
+      },
+      {
+        "name": "Color tokens",
+        "values": "accent | danger | muted | surface | success | text | transparent | warning",
+        "description": "Current Screen theme colors. Group: Text and local colors."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.Orbit",
+    "description": "Creates the bounded root for Constellation Orbit navigation and delegates geometry, semantic zoom, focus movement, inactive-depth isolation, themes, and reduced-motion behavior to the host.",
+    "props": [
+      "layout",
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Orbit inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-23",
+    "nextPageId": "ui/item-25",
+    "relatedPageIds": [
+      "ui/item-26",
+      "ui/item-27",
+      "ui/item-28",
+      "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
+    ]
+  },
+  {
+    "id": "ui/item-25",
+    "routeSlug": "orbit-path",
+    "routeId": "ui/orbit-path",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Return controls, current depth, and stable Orbit preferences.",
+    "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
+    "commonMistakes": [
+      "Using a duplicate id or an uppercase path segment.",
+      "Passing a shared-group parameter that is not listed on this component page."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitPath for ancestor return controls, the current depth label, and Orbit-wide preferences that must remain available without being duplicated inside every constellation.",
+    "code": "UI.OrbitPath {\n    id = \"map/path\",\n    label = \"Orbit path\",\n    UI.OrbitReturn { id = \"map/back\", text = \"Back\", onTap = \"back\" },\n    UI.Text { id = \"map/current\", text = \"Build\" },\n}",
+    "signature": "UI.OrbitPath(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique path ID."
+      },
+      {
+        "name": "children",
+        "values": "Button | Text[]",
+        "description": "Return controls, current depth, and stable Orbit preferences."
+      },
+      {
+        "name": "gap",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Space between children. Group: Layout and surfaces."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "align",
+        "values": "start | center | end | stretch | between",
+        "description": "Cross-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "justify",
+        "values": "start | center | end | between",
+        "description": "Main-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "flow",
+        "values": "wrap | nowrap",
+        "description": "Flex wrapping. Group: Layout and surfaces."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean",
+        "description": "Narrow-screen adaptation. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "tone",
+        "values": "muted | error | success",
+        "description": "Semantic text tone. Group: State and semantics."
+      },
+      {
+        "name": "appearance",
+        "values": "primary | secondary | danger | ghost",
+        "description": "Action appearance. Group: State and semantics."
+      },
+      {
+        "name": "variant",
+        "values": "body | subheading | heading | title",
+        "description": "Body text or h3, h2, and h1 heading semantics. Group: State and semantics."
+      },
+      {
+        "name": "role",
+        "values": "alert | group | status",
+        "description": "Supported ARIA role. Group: State and semantics."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      },
+      {
+        "name": "required",
+        "values": "boolean",
+        "description": "Required input state. Group: State and semantics."
+      },
+      {
+        "name": "errorId",
+        "values": "component id",
+        "description": "Associates a visible role=alert. Group: State and semantics."
+      },
+      {
+        "name": "textColor",
+        "values": "token | #RRGGBB",
+        "description": "Local or inherited foreground. Group: Text and local colors."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "token | #RRGGBB",
+        "description": "Component-box background. Group: Text and local colors."
+      },
+      {
+        "name": "Color tokens",
+        "values": "accent | danger | muted | surface | success | text | transparent | warning",
+        "description": "Current Screen theme colors. Group: Text and local colors."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitPath",
+    "description": "Creates the stable navigation and preference rail above an Orbit, containing only semantic buttons and text while the active constellation and Focus Surface change beneath it.",
+    "props": [
+      "layout",
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitPath inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-24",
+    "nextPageId": "ui/item-26",
+    "relatedPageIds": [
+      "ui/item-27",
+      "ui/item-28",
+      "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
+    ]
+  },
+  {
+    "id": "ui/item-26",
+    "routeSlug": "orbit-search",
+    "routeId": "ui/orbit-search",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "The generated result summary is a live status; Escape clears a non-empty query before it performs Orbit return navigation.",
+    "commonMistakes": [
+      "Filtering only the visual layer while leaving hidden nodes interactive.",
+      "Putting the query into host-only state instead of Luau state."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitSearch when the active constellation can become difficult to scan. Keep the query in Luau state, preserve stable node IDs, and hide non-matching nodes instead of creating a parallel result model.",
+    "code": "UI.OrbitSearch {\n    id = \"map/search\",\n    query = query,\n    resultCount = resultCount,\n    totalCount = #nodes,\n    onInput = \"search\",\n}",
+    "signature": "UI.OrbitSearch(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique search ID."
+      },
+      {
+        "name": "query",
+        "values": "string ≤ 160 bytes?",
+        "description": "Controlled local query."
+      },
+      {
+        "name": "resultCount",
+        "values": "non-negative integer, required",
+        "description": "Visible matching node count."
+      },
+      {
+        "name": "totalCount",
+        "values": "integer ≥ resultCount, required",
+        "description": "Total node count before filtering."
+      },
+      {
+        "name": "label",
+        "values": "string?",
+        "description": "Accessible input name."
+      },
+      {
+        "name": "placeholder",
+        "values": "string?",
+        "description": "Visible empty-query hint."
+      },
+      {
+        "name": "onInput",
+        "values": "action string, required",
+        "description": "Committed query action."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitSearch",
+    "description": "Creates a controlled local-constellation search input plus a live result summary. The application owns filtering and supplies both the current result count and total count.",
+    "props": [
+      "semantic"
+    ],
+    "previousPageId": "ui/item-25",
+    "nextPageId": "ui/item-27",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-28",
+      "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
+    ]
+  },
+  {
+    "id": "ui/item-27",
+    "routeSlug": "constellation",
+    "routeId": "ui/constellation",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Complete content of this navigation depth.",
+    "accessibility": "Only the active layer remains interactive and exposed to assistive technology; source order remains the list and reading order.",
+    "commonMistakes": [
+      "Rendering more than one center.",
+      "Referencing a related node outside the same constellation."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.Constellation for each root or nested content space in an Orbit. Keep inactive neighbours as behind or ahead only when they are needed for bounded transitions.",
+    "code": "UI.Constellation {\n    id = \"map/root\",\n    layerState = \"active\",\n    UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n    UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n}",
+    "signature": "UI.Constellation(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique constellation ID."
+      },
+      {
+        "name": "layerState",
+        "values": "active | behind | ahead?",
+        "description": "Current transition and accessibility state."
+      },
+      {
+        "name": "depth",
+        "values": "integer 0…32?",
+        "description": "Semantic navigation depth."
+      },
+      {
+        "name": "children",
+        "values": "one OrbitCenter + 1…64 OrbitNode or OrbitCluster",
+        "description": "Complete content of this navigation depth."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.Constellation",
+    "description": "Creates one Orbit navigation depth with exactly one semantic center and between one and sixty-four nodes or clusters. The host owns spatial placement and list fallback.",
+    "props": [
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Constellation inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-26",
+    "nextPageId": "ui/item-28",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-25",
+      "ui/item-29"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "prerequisite"
+    ]
+  },
+  {
+    "id": "ui/item-28",
+    "routeSlug": "orbit-center",
+    "routeId": "ui/orbit-center",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
+    "commonMistakes": [
+      "Using a duplicate id or an uppercase path segment.",
+      "Passing a shared-group parameter that is not listed on this component page."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitCenter exactly once in each UI.Constellation to name the current semantic space. Do not use it as an action or encode application coordinates in its content.",
+    "code": "UI.OrbitCenter {\n    id = \"map/root/center\",\n    title = \"My app\",\n    description = \"Choose a direction.\",\n}",
+    "signature": "UI.OrbitCenter(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique center ID."
+      },
+      {
+        "name": "title",
+        "values": "string 1…160 bytes, required",
+        "description": "Current constellation identity."
+      },
+      {
+        "name": "description",
+        "values": "string ≤ 320 bytes?",
+        "description": "Optional supporting summary."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitCenter",
+    "description": "Creates the non-interactive identity at the center of a constellation from a required title and optional description. The host preserves it in both spatial and list presentations.",
+    "props": [
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitCenter inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-27",
+    "nextPageId": "ui/item-29",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-25",
+      "ui/item-26"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
+    ]
+  },
+  {
+    "id": "ui/item-29",
+    "routeSlug": "orbit-node",
+    "routeId": "ui/orbit-node",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "The complete title, description, status, relationships, and native button semantics remain accessible at every semantic zoom tier.",
+    "commonMistakes": [
+      "Using a single letter instead of a bounded signalIcon.",
+      "Encoding essential status only through statusTone color."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitNode for every individually actionable concept in a constellation. Supply stable meaning and state; let the host select coordinates and the visible Signal, Identity, or Preview tier.",
+    "code": "UI.OrbitNode {\n    id = \"map/build\",\n    title = \"Build\",\n    description = \"Compose the interface.\",\n    nodeKind = \"constellation\",\n    signalIcon = \"spark\",\n    priority = 1,\n    onTap = \"open-build\",\n}",
+    "signature": "UI.OrbitNode(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique node ID."
+      },
+      {
+        "name": "title",
+        "values": "string 1…160 bytes, required",
+        "description": "Stable node identity."
+      },
+      {
+        "name": "description",
+        "values": "string ≤ 320 bytes?",
+        "description": "Supporting Preview content."
+      },
+      {
+        "name": "nodeKind",
+        "values": "constellation | leaf | action?",
+        "description": "Semantic activation kind."
+      },
+      {
+        "name": "priority",
+        "values": "integer 1…3?",
+        "description": "Detail and placement importance; one is highest."
+      },
+      {
+        "name": "ring",
+        "values": "integer 1…3?",
+        "description": "Optional authoritative ring hint."
+      },
+      {
+        "name": "relatedTo",
+        "values": "component ID[] 1…8?",
+        "description": "Neutral same-constellation relationships."
+      },
+      {
+        "name": "signalIcon",
+        "values": "bounded icon name?",
+        "description": "Host-rendered compact Signal icon."
+      },
+      {
+        "name": "status",
+        "values": "string 1…80 bytes?",
+        "description": "Human-readable state."
+      },
+      {
+        "name": "statusTone",
+        "values": "neutral | active | success | warning | error?",
+        "description": "Redundant visual state treatment."
+      },
+      {
+        "name": "selected",
+        "values": "boolean?",
+        "description": "Current leaf selection."
+      },
+      {
+        "name": "onTap",
+        "values": "action string, required",
+        "description": "Semantic activation action."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitNode",
+    "description": "Creates an interactive leaf, constellation destination, or bounded action with priority, optional ring hint, relationships, compact icon, status, selection, busy, and disabled semantics.",
+    "props": [
+      "action",
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitNode inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-28",
+    "nextPageId": "ui/item-30",
+    "relatedPageIds": [
+      "ui/item-24",
+      "ui/item-25",
+      "ui/item-26",
+      "ui/item-27"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion",
+      "next-step"
+    ]
+  },
+  {
+    "id": "ui/item-30",
+    "routeSlug": "orbit-cluster",
+    "routeId": "ui/orbit-cluster",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "The group title and item count form one accessible button name; cluster membership and navigation remain application-authored.",
+    "commonMistakes": [
+      "Using a cluster as visual decoration without a semantic group.",
+      "Supplying a count that does not match the authored destination."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitCluster when several nodes have a real domain grouping and a local destination constellation. Do not group items only because their current screen coordinates happen to be close.",
+    "code": "UI.OrbitCluster {\n    id = \"map/examples\",\n    title = \"Examples\",\n    count = 48,\n    signalIcon = \"grid\",\n    onTap = \"open-examples\",\n}",
+    "signature": "UI.OrbitCluster(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique cluster ID."
+      },
+      {
+        "name": "title",
+        "values": "string 1…160 bytes, required",
+        "description": "Stable group identity."
+      },
+      {
+        "name": "count",
+        "values": "integer 1…9999, required",
+        "description": "Authored group item count."
+      },
+      {
+        "name": "priority",
+        "values": "integer 1…3?",
+        "description": "Detail and placement importance."
+      },
+      {
+        "name": "ring",
+        "values": "integer 1…3?",
+        "description": "Optional authoritative ring hint."
+      },
+      {
+        "name": "relatedTo",
+        "values": "component ID[] 1…8?",
+        "description": "Neutral same-constellation relationships."
+      },
+      {
+        "name": "signalIcon",
+        "values": "bounded icon name?",
+        "description": "Host-rendered compact Signal icon."
+      },
+      {
+        "name": "status",
+        "values": "string 1…80 bytes?",
+        "description": "Human-readable state."
+      },
+      {
+        "name": "statusTone",
+        "values": "neutral | active | success | warning | error?",
+        "description": "Redundant visual state treatment."
+      },
+      {
+        "name": "onTap",
+        "values": "action string, required",
+        "description": "Opens the authored local constellation."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitCluster",
+    "description": "Creates one semantic entry for an application-authored group and exposes its bounded item count. It participates in relationships, priority placement, semantic zoom, and list fallback as one button.",
+    "props": [
+      "action",
+      "semantic"
+    ],
+    "previousPageId": "ui/item-29",
+    "nextPageId": "ui/item-31",
+    "relatedPageIds": [
+      "ui/item-32",
+      "ui/item-33",
+      "ui/item-24"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
+    ]
+  },
+  {
+    "id": "ui/item-31",
+    "routeSlug": "focus-surface",
+    "routeId": "ui/focus-surface",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "FocusHeader followed by full leaf content.",
+    "accessibility": "The host names the dialog from its visible heading, traps focus, supports Escape, and restores focus to the originating node.",
+    "commonMistakes": [
+      "Opening it outside navigation state.",
+      "Removing the explicit return control and relying only on Escape."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.FocusSurface for focused leaf content that belongs to the current Orbit route. Keep open state and dismissal in Luau navigation so Back, direct links, and visible controls reach the same outcome.",
+    "code": "UI.FocusSurface {\n    id = \"map/focus\",\n    label = \"Build details\",\n    open = focused,\n    onDismiss = \"close-focus\",\n    UI.FocusHeader {\n        id = \"map/focus/header\",\n        UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n        UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n    },\n}",
+    "signature": "UI.FocusSurface(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique focus dialog ID."
+      },
+      {
+        "name": "open",
+        "values": "boolean?",
+        "description": "Whether the Focus Surface is visible."
+      },
+      {
+        "name": "label",
+        "values": "string, required",
+        "description": "Accessible dialog name."
+      },
+      {
+        "name": "onDismiss",
+        "values": "action string, required",
+        "description": "Dismissal action shared by host gestures and application controls."
+      },
+      {
+        "name": "children",
+        "values": "UI.Node[]",
+        "description": "FocusHeader followed by full leaf content."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.FocusSurface",
+    "description": "Creates the full-detail dialog opened from an Orbit leaf while retaining deterministic focus restoration, host-owned transition geometry, bounded scrolling, and reduced-motion behavior.",
+    "props": [
+      "modal",
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.FocusSurface inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-30",
+    "nextPageId": "ui/item-32",
+    "relatedPageIds": [
+      "ui/item-29",
+      "ui/item-33",
+      "ui/item-8"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
+    ]
+  },
+  {
+    "id": "ui/item-32",
+    "routeSlug": "focus-header",
+    "routeId": "ui/focus-header",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "Sticky visible identity and return action.",
+    "accessibility": "The heading precedes the available return button in reading and focus order even while the header remains visually sticky.",
+    "commonMistakes": [
+      "Using a non-heading Text for the title.",
+      "Disabling or hiding the required return button."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.FocusHeader at the beginning of every scrollable Focus Surface so the current leaf title and explicit return action remain visible without changing dialog focus order.",
+    "code": "UI.FocusHeader {\n    id = \"map/focus/header\",\n    UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n    UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n}",
+    "signature": "UI.FocusHeader(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique header ID."
+      },
+      {
+        "name": "children",
+        "values": "one heading Text + one available Button",
+        "description": "Sticky visible identity and return action."
+      },
+      {
+        "name": "gap",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Space between children. Group: Layout and surfaces."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "align",
+        "values": "start | center | end | stretch | between",
+        "description": "Cross-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "justify",
+        "values": "start | center | end | between",
+        "description": "Main-axis alignment. Group: Layout and surfaces."
+      },
+      {
+        "name": "flow",
+        "values": "wrap | nowrap",
+        "description": "Flex wrapping. Group: Layout and surfaces."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean",
+        "description": "Narrow-screen adaptation. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "tone",
+        "values": "muted | error | success",
+        "description": "Semantic text tone. Group: State and semantics."
+      },
+      {
+        "name": "appearance",
+        "values": "primary | secondary | danger | ghost",
+        "description": "Action appearance. Group: State and semantics."
+      },
+      {
+        "name": "variant",
+        "values": "body | subheading | heading | title",
+        "description": "Body text or h3, h2, and h1 heading semantics. Group: State and semantics."
+      },
+      {
+        "name": "role",
+        "values": "alert | group | status",
+        "description": "Supported ARIA role. Group: State and semantics."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      },
+      {
+        "name": "required",
+        "values": "boolean",
+        "description": "Required input state. Group: State and semantics."
+      },
+      {
+        "name": "errorId",
+        "values": "component id",
+        "description": "Associates a visible role=alert. Group: State and semantics."
+      },
+      {
+        "name": "textColor",
+        "values": "token | #RRGGBB",
+        "description": "Local or inherited foreground. Group: Text and local colors."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "token | #RRGGBB",
+        "description": "Component-box background. Group: Text and local colors."
+      },
+      {
+        "name": "Color tokens",
+        "values": "accent | danger | muted | surface | success | text | transparent | warning",
+        "description": "Current Screen theme colors. Group: Text and local colors."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.FocusHeader",
+    "description": "Creates the sticky identity and return rail inside a Focus Surface. It requires exactly one visible heading Text and one available Button in a stable reading order.",
+    "props": [
+      "layout",
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.FocusHeader inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-31",
+    "nextPageId": "ui/item-33",
+    "relatedPageIds": [
+      "ui/item-29",
+      "ui/item-30",
+      "ui/item-8"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
+    ]
+  },
+  {
+    "id": "ui/item-33",
+    "routeSlug": "orbit-return",
+    "routeId": "ui/orbit-return",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "Uses native button semantics and the same Luau action that the host invokes for an eligible Escape return.",
+    "commonMistakes": [
+      "Keeping it enabled at the root without a return destination.",
+      "Using a different action from system or keyboard Back."
+    ],
+    "callable": true,
+    "useWhen": "Use UI.OrbitReturn for returning from a nested constellation. Disable the root control when no ancestor exists, and do not add a second hidden Back implementation.",
+    "code": "UI.OrbitReturn {\n    id = \"map/back\",\n    text = \"Back\",\n    onTap = \"back\",\n    disabled = atRoot,\n}",
+    "signature": "UI.OrbitReturn(input: any): Node",
+    "parameters": [
+      {
+        "name": "id",
+        "values": "lowercase path, required",
+        "description": "Unique return-control ID."
+      },
+      {
+        "name": "text",
+        "values": "string, required",
+        "description": "Visible ancestor label."
+      },
+      {
+        "name": "onTap",
+        "values": "action string, required",
+        "description": "Canonical return action."
+      },
+      {
+        "name": "padding",
+        "values": "none | xs | sm | md | lg | xl | responsive",
+        "description": "All-side inner spacing; responsive is supported only by padding. Group: Layout and surfaces."
+      },
+      {
+        "name": "margin",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "All-side outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingX / paddingY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "paddingTop / paddingBottom / paddingStart / paddingEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific inner spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginX / marginY",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Axis-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "marginTop / marginBottom / marginStart / marginEnd",
+        "values": "none | xs | sm | md | lg | xl",
+        "description": "Logical side-specific outer spacing. Group: Layout and surfaces."
+      },
+      {
+        "name": "surface",
+        "values": "plain | card | elevated | accent",
+        "description": "Background, border, and elevation. Group: Layout and surfaces."
+      },
+      {
+        "name": "width",
+        "values": "full | content | wide",
+        "description": "Available width, 720 px maximum, or 1180 px maximum. Group: Layout and surfaces."
+      },
+      {
+        "name": "className",
+        "values": "safe string ≤ 256 bytes",
+        "description": "Additional admitted class tokens. Group: Layout and surfaces."
+      },
+      {
+        "name": "label",
+        "values": "string",
+        "description": "Accessible name. Group: State and semantics."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean",
+        "description": "Visibility state. Group: State and semantics."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean",
+        "description": "Disabled state. Group: State and semantics."
+      },
+      {
+        "name": "busy",
+        "values": "boolean",
+        "description": "aria-busy state. Group: State and semantics."
+      }
+    ],
+    "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
+    "name": "UI.OrbitReturn",
+    "description": "Creates the canonical semantic return button used by an Orbit path. The host can route Escape through the same declared action, preserving one application-owned navigation outcome.",
+    "props": [
+      "action",
+      "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-orbit",
+      "title": "build a small Constellation Orbit",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.OrbitReturn inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-32",
+    "nextPageId": "ui/item-34",
+    "relatedPageIds": [
+      "ui/item-29",
+      "ui/item-30",
+      "ui/item-31"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
+    ]
+  },
+  {
+    "id": "ui/item-34",
+    "routeSlug": "stack",
+    "routeId": "ui/stack",
+    "kind": "entry",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Vertical stack; semantically equivalent to Column.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4064,14 +8909,39 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Stack inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-33",
+    "nextPageId": "ui/item-35",
+    "relatedPageIds": [
+      "ui/item-5",
+      "ui/item-6",
+      "ui/item-36"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
-    "id": "ui/item-25",
+    "id": "ui/item-35",
+    "routeSlug": "grid",
+    "routeId": "ui/grid",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Cards or other repeated grid items.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4242,14 +9112,33 @@ export const generatedPages = Object.freeze([
       "layout",
       "columns",
       "semantic"
+    ],
+    "previousPageId": "ui/item-34",
+    "nextPageId": "ui/item-36",
+    "relatedPageIds": [
+      "ui/item-5",
+      "ui/item-6",
+      "ui/item-37"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
     ]
   },
   {
-    "id": "ui/item-26",
+    "id": "ui/item-36",
+    "routeSlug": "scroll",
+    "routeId": "ui/scroll",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Content of the scrollable region.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4415,19 +9304,38 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Node — a validated declarative UI node that becomes part of the next host-neutral render tree.",
     "name": "UI.Scroll",
-    "description": "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds.",
+    "description": "Creates a bounded vertical or horizontal scrolling region and preserves its children as one navigable group. It prevents oversized content from forcing the surrounding screen beyond its intended bounds while allowing wheel input on the unused axis to continue through the surrounding page.",
     "props": [
       "layout",
       "scroll",
       "semantic"
+    ],
+    "previousPageId": "ui/item-35",
+    "nextPageId": "ui/item-37",
+    "relatedPageIds": [
+      "ui/item-5",
+      "ui/item-6",
+      "ui/item-34"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "companion"
     ]
   },
   {
-    "id": "ui/item-27",
+    "id": "ui/item-37",
+    "routeSlug": "card",
+    "routeId": "ui/card",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Content of one visual card.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4599,14 +9507,41 @@ export const generatedPages = Object.freeze([
       "surface",
       "motion",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Card inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-36",
+    "nextPageId": "ui/item-38",
+    "relatedPageIds": [
+      "ui/item-18",
+      "ui/item-16",
+      "ui/item-17",
+      "ui/item-19"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "next-step",
+      "companion"
     ]
   },
   {
-    "id": "ui/item-28",
+    "id": "ui/item-38",
+    "routeSlug": "field",
+    "routeId": "ui/field",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Related elements of one form field.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4772,14 +9707,39 @@ export const generatedPages = Object.freeze([
       "layout",
       "label",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Field inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-37",
+    "nextPageId": "ui/item-39",
+    "relatedPageIds": [
+      "ui/item-8",
+      "ui/item-9",
+      "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
     ]
   },
   {
-    "id": "ui/item-29",
+    "id": "ui/item-39",
+    "routeSlug": "actions",
+    "routeId": "ui/actions",
     "kind": "entry",
     "sectionId": "ui",
     "sectionTitle": "Interface components",
     "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
+    "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Group of primary and secondary actions.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4944,10 +9904,30 @@ export const generatedPages = Object.freeze([
     "props": [
       "layout",
       "semantic"
+    ],
+    "completeRecipe": {
+      "sectionId": "recipe-navigation",
+      "title": "add typed navigation",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses UI.Actions inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "ui/item-38",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "ui/item-8",
+      "ui/item-9",
+      "ui/item-23"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
     ]
   },
   {
     "id": "ui-properties/table-1",
+    "routeSlug": "layout-and-surfaces",
+    "routeId": "ui-properties/layout-and-surfaces",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5036,10 +10016,16 @@ export const generatedPages = Object.freeze([
         "values": "safe string ≤ 256 bytes",
         "description": "Additional admitted class tokens."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "ui-properties/table-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-2",
+    "routeSlug": "state-and-semantics",
+    "routeId": "ui-properties/state-and-semantics",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5098,10 +10084,16 @@ export const generatedPages = Object.freeze([
         "values": "component id",
         "description": "Associates a visible role=alert."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-1",
+    "nextPageId": "ui-properties/table-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-3",
+    "routeSlug": "text-and-local-colors",
+    "routeId": "ui-properties/text-and-local-colors",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5130,10 +10122,16 @@ export const generatedPages = Object.freeze([
         "values": "accent | danger | muted | surface | success | text | transparent | warning",
         "description": "Current Screen theme colors."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-2",
+    "nextPageId": "ui-properties/table-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-4",
+    "routeSlug": "ui-screen-theme",
+    "routeId": "ui-properties/ui-screen-theme",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5187,10 +10185,16 @@ export const generatedPages = Object.freeze([
         "values": "#RRGGBB",
         "description": "warning theme color."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-3",
+    "nextPageId": "ui-properties/table-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-5",
+    "routeSlug": "text-input",
+    "routeId": "ui-properties/text-input",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5234,10 +10238,16 @@ export const generatedPages = Object.freeze([
         "values": "action string",
         "description": "Committed IME update action."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-4",
+    "nextPageId": "ui-properties/table-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-6",
+    "routeSlug": "events-and-motion",
+    "routeId": "ui-properties/events-and-motion",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5266,10 +10276,16 @@ export const generatedPages = Object.freeze([
         "values": "{ [property]: Tween | Sequence }",
         "description": "Opacity, rotation, scale, and translation channels."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-5",
+    "nextPageId": "ui-properties/table-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "ui-properties/table-7",
+    "routeSlug": "image-shape-and-flip-card",
+    "routeId": "ui-properties/image-shape-and-flip-card",
     "kind": "parameter-group",
     "sectionId": "ui-properties",
     "sectionTitle": "UI parameters",
@@ -5318,10 +10334,16 @@ export const generatedPages = Object.freeze([
         "values": "0…64",
         "description": "Outline thickness."
       }
-    ]
+    ],
+    "previousPageId": "ui-properties/table-6",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "visuals/item-1",
+    "routeSlug": "admitted-image",
+    "routeId": "visuals/admitted-image",
     "kind": "entry",
     "sectionId": "visuals",
     "sectionTitle": "Images, shapes, layers, and flip cards",
@@ -5333,10 +10355,16 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Admitted image",
-    "description": "check verifies the file before display."
+    "description": "check verifies the file before display.",
+    "previousPageId": null,
+    "nextPageId": "visuals/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "visuals/item-2",
+    "routeSlug": "shape-overlay",
+    "routeId": "visuals/shape-overlay",
     "kind": "entry",
     "sectionId": "visuals",
     "sectionTitle": "Images, shapes, layers, and flip cards",
@@ -5348,14 +10376,25 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": null,
     "name": "Shape overlay",
-    "description": "The first child defines shared bounds."
+    "description": "The first child defines shared bounds.",
+    "previousPageId": "visuals/item-1",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-1",
+    "routeSlug": "easing",
+    "routeId": "motion/easing",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Easing when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Easing = \"linear\" | \"easeOutCubic\" | \"easeInOutCubic\"",
@@ -5369,14 +10408,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Easing",
-    "description": "Motion.Easing is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Easing is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": null,
+    "nextPageId": "motion/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-2",
+    "routeSlug": "tween-options",
+    "routeId": "motion/tween-options",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.TweenOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type TweenOptions = {\n    from: number,\n    to: number,\n    durationMs: number,\n    easing: Easing?,\n}",
@@ -5405,14 +10455,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.TweenOptions",
-    "description": "Motion.TweenOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Motion.TweenOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "motion/item-1",
+    "nextPageId": "motion/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-3",
+    "routeSlug": "tween-type",
+    "routeId": "motion/tween-type",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Tween when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Tween = {\n    kind: \"tween\",\n    from: number,\n    to: number,\n    durationMs: number,\n    easing: Easing,\n}",
@@ -5446,14 +10507,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Tween",
-    "description": "Motion.Tween is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Tween is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-2",
+    "nextPageId": "motion/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-4",
+    "routeSlug": "wait-type",
+    "routeId": "motion/wait-type",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Wait when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Wait = { kind: \"wait\", durationMs: number }",
@@ -5472,14 +10544,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Wait",
-    "description": "Motion.Wait is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Wait is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-3",
+    "nextPageId": "motion/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-5",
+    "routeSlug": "sequence-type",
+    "routeId": "motion/sequence-type",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Sequence when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Sequence = { kind: \"sequence\", steps: { Tween | Wait }, iterations: number }",
@@ -5503,14 +10586,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Sequence",
-    "description": "Motion.Sequence is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Sequence is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-4",
+    "nextPageId": "motion/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-6",
+    "routeSlug": "descriptor",
+    "routeId": "motion/descriptor",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Descriptor when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Descriptor = Tween | Sequence",
@@ -5524,14 +10618,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.Descriptor",
-    "description": "Motion.Descriptor is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.Descriptor is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "previousPageId": "motion/item-5",
+    "nextPageId": "motion/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-7",
+    "routeSlug": "motion-map",
+    "routeId": "motion/motion-map",
     "kind": "type",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
+    "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.MotionMap when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type MotionMap = { [string]: Descriptor }",
@@ -5545,14 +10650,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Motion.MotionMap",
-    "description": "Motion.MotionMap is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame."
+    "description": "Motion.MotionMap is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.",
+    "completeRecipe": {
+      "sectionId": "recipe-motion",
+      "title": "replay declarative motion",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Motion.MotionMap inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "motion/item-6",
+    "nextPageId": "motion/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-8",
+    "routeSlug": "tween-function",
+    "routeId": "motion/tween-function",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.tween when you need direct control of one opacity, translation, scale, or rotation channel. Prefer a named preset when it already expresses the intended interaction and respect reduced-motion behavior supplied by the host.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal grow = Motion.tween { from = 1, to = 1.08, durationMs = 300, easing = \"easeOutCubic\" }",
@@ -5586,14 +10708,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Tween — an immutable descriptor for one bounded numeric transition.",
     "name": "Motion.tween",
-    "description": "Creates one deterministic numeric transition from a starting value to an ending value over a bounded duration and easing curve. A Tween becomes meaningful only when assigned to a supported motion channel or placed in a Sequence."
+    "description": "Creates one deterministic numeric transition from a starting value to an ending value over a bounded duration and easing curve. A Tween becomes meaningful only when assigned to a supported motion channel or placed in a Sequence.",
+    "completeRecipe": {
+      "sectionId": "recipe-motion",
+      "title": "replay declarative motion",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Motion.tween inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "motion/item-7",
+    "nextPageId": "motion/item-9",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-9",
+    "routeSlug": "wait-function",
+    "routeId": "motion/wait-function",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.wait between sequence steps when timing is part of the visual story, such as holding a revealed state before returning. Use Timer instead when the delay must change application state or dispatch application logic.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal pause = Motion.wait(500)",
@@ -5607,14 +10746,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Wait — an immutable delay step for a motion sequence.",
     "name": "Motion.wait",
-    "description": "Creates a non-visual delay step for Motion.sequence. It advances no property itself and exists only to postpone the next Tween in the same channel."
+    "description": "Creates a non-visual delay step for Motion.sequence. It advances no property itself and exists only to postpone the next Tween in the same channel.",
+    "previousPageId": "motion/item-8",
+    "nextPageId": "motion/item-10",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-10",
+    "routeSlug": "sequence-function",
+    "routeId": "motion/sequence-function",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.sequence for multi-stage motion of one property, such as fade-hold-fade or rotate-return. It is not a MotionMap by itself: assign the Sequence as a channel value inside the component's motion table.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal reveal = Motion.sequence({\n    Motion.wait(300),\n    Motion.tween { from = 0, to = 180, durationMs = 500 },\n}, 1)\nlocal motion = { rotationYDeg = reveal }",
@@ -5633,14 +10783,29 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Sequence — an immutable ordered motion-channel sequence containing Tween and Wait steps.",
     "name": "Motion.sequence",
-    "description": "Combines Tween and Wait steps into one ordered value for a single motion channel, optionally repeating the sequence. Each step begins after the previous step finishes, so timing remains deterministic across hosts."
+    "description": "Combines Tween and Wait steps into one ordered value for a single motion channel, optionally repeating the sequence. Each step begins after the previous step finishes, so timing remains deterministic across hosts.",
+    "previousPageId": "motion/item-9",
+    "nextPageId": "motion/item-11",
+    "relatedPageIds": [
+      "motion/item-8"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "motion/item-11",
+    "routeSlug": "fade-in",
+    "routeId": "motion/fade-in",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.fadeIn for newly appearing supporting content when opacity communicates entry without changing layout. Avoid it for essential immediate feedback or when reduced motion should present the final state instantly.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.fadeIn { durationMs = 240 }",
@@ -5664,17 +10829,28 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.fadeIn",
-    "description": "Returns a complete MotionMap that transitions opacity from a lower value to fully visible using bounded preset defaults and optional overrides. The map can be assigned directly to a component's motion property."
+    "description": "Returns a complete MotionMap that transitions opacity from a lower value to fully visible using bounded preset defaults and optional overrides. The map can be assigned directly to a component's motion property.",
+    "previousPageId": "motion/item-10",
+    "nextPageId": "motion/item-12",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-12",
+    "routeSlug": "slide-in",
+    "routeId": "motion/slide-in",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.slideIn to introduce a panel, card, or route whose direction reinforces where it came from. Do not use it to repair layout spacing, and keep the distance modest for frequently repeated elements.",
-    "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.slideIn { fromY = 24, durationMs = 300 }",
+    "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.slideIn { y = 24, durationMs = 300 }",
     "signature": "Motion.slideIn(options: any?): MotionMap",
     "parameters": [
       {
@@ -5705,14 +10881,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.slideIn",
-    "description": "Returns a MotionMap that combines translation with the preset's arrival timing, moving content from an offset into its final layout position. Layout is calculated at the destination; motion changes only the rendered transform."
+    "description": "Returns a MotionMap that combines translation with the preset's arrival timing, moving content from an offset into its final layout position. Layout is calculated at the destination; motion changes only the rendered transform.",
+    "previousPageId": "motion/item-11",
+    "nextPageId": "motion/item-13",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-13",
+    "routeSlug": "scale-in",
+    "routeId": "motion/scale-in",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.scaleIn for a newly created card, badge, or focused object when gentle emphasis helps orientation. Avoid scaling dense text or controls so often that reading and targeting become unstable.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.scaleIn { from = 0.92, durationMs = 220 }",
@@ -5741,17 +10928,28 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.scaleIn",
-    "description": "Returns a MotionMap that grows a component from a smaller scale to its final size without changing the space reserved by layout. Optional values tune the starting scale, duration, and easing within admitted bounds."
+    "description": "Returns a MotionMap that grows a component from a smaller scale to its final size without changing the space reserved by layout. Optional values tune the starting scale, duration, and easing within admitted bounds.",
+    "previousPageId": "motion/item-12",
+    "nextPageId": "motion/item-14",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-14",
+    "routeSlug": "sway",
+    "routeId": "motion/sway",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.sway for occasional ambient motion on a decorative or game-like object, such as a hidden card. Keep the angle small, stop it when the object is inactive, and rely on host reduced-motion handling.",
-    "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.sway { rotationDeg = 2, durationMs = 2400, iterations = 0 }",
+    "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.sway { angleDeg = 2, durationMs = 2400, iterations = 0 }",
     "signature": "Motion.sway(options: any?): MotionMap",
     "parameters": [
       {
@@ -5782,14 +10980,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.sway",
-    "description": "Returns a repeating rotation MotionMap that alternates around the resting angle, producing a gentle rocking effect. Iteration and duration options control whether it settles or continues."
+    "description": "Returns a repeating rotation MotionMap that alternates around the resting angle, producing a gentle rocking effect. Iteration and duration options control whether it settles or continues.",
+    "previousPageId": "motion/item-13",
+    "nextPageId": "motion/item-15",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-15",
+    "routeSlug": "pulse",
+    "routeId": "motion/pulse",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.pulse sparingly for a current target, waiting object, or time-sensitive affordance. Do not run it continuously on many elements or use motion as the only way to convey status.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.pulse { scale = 1.05, durationMs = 1800, iterations = 0 }",
@@ -5828,14 +11037,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.pulse",
-    "description": "Returns a repeating scale MotionMap that expands and contracts around the component's normal size. The component keeps its original layout bounds while the transform provides visual emphasis."
+    "description": "Returns a repeating scale MotionMap that expands and contracts around the component's normal size. The component keeps its original layout bounds while the transform provides visual emphasis.",
+    "previousPageId": "motion/item-14",
+    "nextPageId": "motion/item-16",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-16",
+    "routeSlug": "shake",
+    "routeId": "motion/shake",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.shake after a rejected guess or invalid action when the UI also exposes an accessible text or status explanation. Do not use it for ordinary errors that have not yet been caused by user action.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.shake { distance = 8, durationMs = 360 }",
@@ -5864,14 +11084,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.shake",
-    "description": "Returns a short horizontal translation MotionMap that moves away from and back to the resting position. It is designed as bounded feedback rather than an ambient loop."
+    "description": "Returns a short horizontal translation MotionMap that moves away from and back to the resting position. It is designed as bounded feedback rather than an ambient loop.",
+    "previousPageId": "motion/item-15",
+    "nextPageId": "motion/item-17",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "motion/item-17",
+    "routeSlug": "flip",
+    "routeId": "motion/flip",
     "kind": "entry",
     "sectionId": "motion",
     "sectionTitle": "Declarative motion",
     "module": "luastra/motion",
+    "beforeYouUse": "Add luastra/motion to this module's dependencies in luastra.json, then import it with require(\"luastra/motion\"). Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.",
+    "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
+    "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.flip only with UI.FlipCard when application state changes which of its two children is visible. Update the state and angle together; use a general rotation tween for single-sided objects.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.flip { fromDeg = 0, toDeg = 180, durationMs = 500 }",
@@ -5905,14 +11136,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MotionMap — a complete property-to-motion map that can be assigned directly to a supported component motion field.",
     "name": "Motion.flip",
-    "description": "Returns a rotationY MotionMap tailored to UI.FlipCard, moving between front and back angles over a bounded duration. The FlipCard host uses the channel to hide the reverse face correctly during the 3D transition."
+    "description": "Returns a rotationY MotionMap tailored to UI.FlipCard, moving between front and back angles over a bounded duration. The FlipCard host uses the channel to hide the reverse face correctly during the 3D transition.",
+    "previousPageId": "motion/item-16",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-1",
+    "routeSlug": "image-type",
+    "routeId": "assets/image-type",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
+    "expectedOutcome": "A type-safe image, audio, font, or union reference.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Image when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Image = { kind: \"image\", id: string, uri: string }",
@@ -5936,14 +11178,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Image",
-    "description": "Assets.Image is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Image is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": null,
+    "nextPageId": "assets/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-2",
+    "routeSlug": "audio-type",
+    "routeId": "assets/audio-type",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
+    "expectedOutcome": "A type-safe image, audio, font, or union reference.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Audio when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Audio = { kind: \"audio\", id: string, uri: string }",
@@ -5967,14 +11220,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Audio",
-    "description": "Assets.Audio is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Audio is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "assets/item-1",
+    "nextPageId": "assets/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-3",
+    "routeSlug": "font-type",
+    "routeId": "assets/font-type",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
+    "expectedOutcome": "A type-safe image, audio, font, or union reference.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Font when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Font = { kind: \"font\", id: string, uri: string }",
@@ -5998,14 +11262,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Font",
-    "description": "Assets.Font is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Font is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "assets/item-2",
+    "nextPageId": "assets/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-4",
+    "routeSlug": "reference",
+    "routeId": "assets/reference",
     "kind": "type",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
+    "expectedOutcome": "A type-safe image, audio, font, or union reference.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Reference when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Reference = Image | Audio | Font",
@@ -6019,14 +11294,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Assets.Reference",
-    "description": "Assets.Reference is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Assets.Reference is an exported, statically checked data contract of luastra/assets. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "assets/item-3",
+    "nextPageId": "assets/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-5",
+    "routeSlug": "image-function",
+    "routeId": "assets/image-function",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
+    "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.image at module initialization or in a small asset helper when UI.Image needs packaged artwork. The identifier must match an admitted image asset; this function does not load arbitrary files or remote URLs.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal cardBack = Assets.image(\"image/card-back\")",
@@ -6040,14 +11326,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Image — a typed image reference admitted from the project manifest.",
     "name": "Assets.image",
-    "description": "Creates a typed reference to an image declared in luastra.json. Construction validates the asset identifier and preserves its media kind so an image cannot be passed accidentally where audio or a font is required."
+    "description": "Creates a typed reference to an image declared in luastra.json. Construction validates the asset identifier and preserves its media kind so an image cannot be passed accidentally where audio or a font is required.",
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Assets.image inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "assets/item-4",
+    "nextPageId": "assets/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-6",
+    "routeSlug": "audio-function",
+    "routeId": "assets/audio-function",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
+    "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.audio when building Media.QueueItem values for sounds shipped with the application. Use a trusted HTTPS source only where the media contract explicitly admits one; do not disguise a filesystem path as an asset ID.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal intro = Assets.audio(\"audio/intro\")",
@@ -6061,14 +11364,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Audio — a typed audio reference admitted from the project manifest.",
     "name": "Assets.audio",
-    "description": "Creates a typed reference to an admitted audio asset while retaining the asset kind and canonical asset URI. The reference can be stored safely before a media queue is assembled."
+    "description": "Creates a typed reference to an admitted audio asset while retaining the asset kind and canonical asset URI. The reference can be stored safely before a media queue is assembled.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Assets.audio inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "assets/item-5",
+    "nextPageId": "assets/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-7",
+    "routeSlug": "font-function",
+    "routeId": "assets/font-function",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
+    "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.font when a supported styling or host workflow requests a packaged font reference. Keep font licensing and the manifest declaration alongside the asset; creating the reference alone does not apply the font to text.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal displayFont = Assets.font(\"font/display\")",
@@ -6082,14 +11402,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Font — a typed font reference admitted from the project manifest.",
     "name": "Assets.font",
-    "description": "Creates a typed reference to a font declared by the project manifest. The result distinguishes font resources from images and audio before a host attempts to consume them."
+    "description": "Creates a typed reference to a font declared by the project manifest. The result distinguishes font resources from images and audio before a host attempts to consume them.",
+    "previousPageId": "assets/item-6",
+    "nextPageId": "assets/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "assets/item-8",
+    "routeSlug": "uri",
+    "routeId": "assets/uri",
     "kind": "entry",
     "sectionId": "assets",
     "sectionTitle": "Typed assets",
     "module": "luastra/assets",
+    "beforeYouUse": "Add luastra/assets to this module's dependencies in luastra.json, then import it with require(\"luastra/assets\"). Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.",
+    "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
+    "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
+    "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.uri at the final SDK boundary that expects a URI string, such as UI.Image.source or a media queue item. Keep the typed reference until that boundary so asset kinds remain checked for as long as possible.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal source = Assets.uri(Assets.audio(\"audio/intro\"))",
@@ -6103,14 +11434,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "Assets.uri",
-    "description": "Returns the canonical asset URI carried by a typed Image, Audio, Font, or general Reference. The URI is host-neutral and points only to a resource already admitted by the project manifest."
+    "description": "Returns the canonical asset URI carried by a typed Image, Audio, Font, or general Reference. The URI is host-neutral and points only to a resource already admitted by the project manifest.",
+    "completeRecipe": {
+      "sectionId": "recipe-assets-visuals",
+      "title": "package an image and compose visuals",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Assets.uri inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "assets/item-7",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "assets/item-6"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "data/item-1",
+    "routeSlug": "validation-error",
+    "routeId": "data/validation-error",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.ValidationError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type ValidationError = {\n    code: string,\n    path: string,\n}",
@@ -6129,14 +11481,100 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.ValidationError",
-    "description": "Data.ValidationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Data.ValidationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_schema",
+        "meaning": "The supplied schema is not a valid Data.Schema value."
+      },
+      {
+        "code": "maximum_depth",
+        "meaning": "Nested validation exceeded the supported schema depth."
+      },
+      {
+        "code": "schema_cycle",
+        "meaning": "The schema recursively references itself."
+      },
+      {
+        "code": "expected_string",
+        "meaning": "The value at path is not a string."
+      },
+      {
+        "code": "too_short",
+        "meaning": "A string contains fewer bytes than minBytes."
+      },
+      {
+        "code": "too_long",
+        "meaning": "A string contains more bytes than maxBytes."
+      },
+      {
+        "code": "expected_number",
+        "meaning": "The value is not a finite number."
+      },
+      {
+        "code": "expected_integer",
+        "meaning": "The value is not an integer required by the schema."
+      },
+      {
+        "code": "too_small",
+        "meaning": "A number is below the configured minimum."
+      },
+      {
+        "code": "too_large",
+        "meaning": "A number is above the configured maximum."
+      },
+      {
+        "code": "expected_boolean",
+        "meaning": "The value at path is not a boolean."
+      },
+      {
+        "code": "expected_array",
+        "meaning": "The value is not a dense one-based array."
+      },
+      {
+        "code": "too_few_items",
+        "meaning": "An array contains fewer items than minItems."
+      },
+      {
+        "code": "too_many_items",
+        "meaning": "An array contains more items than maxItems."
+      },
+      {
+        "code": "expected_object",
+        "meaning": "The value at path is not an object table."
+      },
+      {
+        "code": "unexpected_field",
+        "meaning": "An exact object contains a field absent from its schema."
+      },
+      {
+        "code": "unknown_schema",
+        "meaning": "The schema kind is not supported by this SDK version."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": null,
+    "nextPageId": "data/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-2",
+    "routeSlug": "success",
+    "routeId": "data/success",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Success after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type Success = { success: true, value: any, error: nil }",
@@ -6160,14 +11598,29 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Success",
-    "description": "Data.Success represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "Data.Success represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "data/item-1",
+    "nextPageId": "data/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-3",
+    "routeSlug": "failure",
+    "routeId": "data/failure",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Failure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type Failure = { success: false, value: nil, error: ValidationError }",
@@ -6191,14 +11644,100 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Failure",
-    "description": "Data.Failure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Data.Failure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_schema",
+        "meaning": "The supplied schema is not a valid Data.Schema value."
+      },
+      {
+        "code": "maximum_depth",
+        "meaning": "Nested validation exceeded the supported schema depth."
+      },
+      {
+        "code": "schema_cycle",
+        "meaning": "The schema recursively references itself."
+      },
+      {
+        "code": "expected_string",
+        "meaning": "The value at path is not a string."
+      },
+      {
+        "code": "too_short",
+        "meaning": "A string contains fewer bytes than minBytes."
+      },
+      {
+        "code": "too_long",
+        "meaning": "A string contains more bytes than maxBytes."
+      },
+      {
+        "code": "expected_number",
+        "meaning": "The value is not a finite number."
+      },
+      {
+        "code": "expected_integer",
+        "meaning": "The value is not an integer required by the schema."
+      },
+      {
+        "code": "too_small",
+        "meaning": "A number is below the configured minimum."
+      },
+      {
+        "code": "too_large",
+        "meaning": "A number is above the configured maximum."
+      },
+      {
+        "code": "expected_boolean",
+        "meaning": "The value at path is not a boolean."
+      },
+      {
+        "code": "expected_array",
+        "meaning": "The value is not a dense one-based array."
+      },
+      {
+        "code": "too_few_items",
+        "meaning": "An array contains fewer items than minItems."
+      },
+      {
+        "code": "too_many_items",
+        "meaning": "An array contains more items than maxItems."
+      },
+      {
+        "code": "expected_object",
+        "meaning": "The value at path is not an object table."
+      },
+      {
+        "code": "unexpected_field",
+        "meaning": "An exact object contains a field absent from its schema."
+      },
+      {
+        "code": "unknown_schema",
+        "meaning": "The schema kind is not supported by this SDK version."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "data/item-2",
+    "nextPageId": "data/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-4",
+    "routeSlug": "result",
+    "routeId": "data/result",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Result at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type Result = Success | Failure",
@@ -6212,14 +11751,104 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Result",
-    "description": "Data.Result is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Data.Result is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "invalid_schema",
+        "meaning": "The supplied schema is not a valid Data.Schema value."
+      },
+      {
+        "code": "maximum_depth",
+        "meaning": "Nested validation exceeded the supported schema depth."
+      },
+      {
+        "code": "schema_cycle",
+        "meaning": "The schema recursively references itself."
+      },
+      {
+        "code": "expected_string",
+        "meaning": "The value at path is not a string."
+      },
+      {
+        "code": "too_short",
+        "meaning": "A string contains fewer bytes than minBytes."
+      },
+      {
+        "code": "too_long",
+        "meaning": "A string contains more bytes than maxBytes."
+      },
+      {
+        "code": "expected_number",
+        "meaning": "The value is not a finite number."
+      },
+      {
+        "code": "expected_integer",
+        "meaning": "The value is not an integer required by the schema."
+      },
+      {
+        "code": "too_small",
+        "meaning": "A number is below the configured minimum."
+      },
+      {
+        "code": "too_large",
+        "meaning": "A number is above the configured maximum."
+      },
+      {
+        "code": "expected_boolean",
+        "meaning": "The value at path is not a boolean."
+      },
+      {
+        "code": "expected_array",
+        "meaning": "The value is not a dense one-based array."
+      },
+      {
+        "code": "too_few_items",
+        "meaning": "An array contains fewer items than minItems."
+      },
+      {
+        "code": "too_many_items",
+        "meaning": "An array contains more items than maxItems."
+      },
+      {
+        "code": "expected_object",
+        "meaning": "The value at path is not an object table."
+      },
+      {
+        "code": "unexpected_field",
+        "meaning": "An exact object contains a field absent from its schema."
+      },
+      {
+        "code": "unknown_schema",
+        "meaning": "The schema kind is not supported by this SDK version."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "data/item-3",
+    "nextPageId": "data/item-5",
+    "relatedPageIds": [
+      "data/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "data/item-5",
+    "routeSlug": "string-options",
+    "routeId": "data/string-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.StringOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type StringOptions = { minBytes: number?, maxBytes: number?, trim: boolean? }",
@@ -6243,14 +11872,29 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.StringOptions",
-    "description": "Data.StringOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.StringOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-4",
+    "nextPageId": "data/item-6",
+    "relatedPageIds": [
+      "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "next-step"
+    ]
   },
   {
     "id": "data/item-6",
+    "routeSlug": "number-options",
+    "routeId": "data/number-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.NumberOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type NumberOptions = { integer: boolean?, min: number?, max: number? }",
@@ -6274,14 +11918,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.NumberOptions",
-    "description": "Data.NumberOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.NumberOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-5",
+    "nextPageId": "data/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-7",
+    "routeSlug": "array-options",
+    "routeId": "data/array-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.ArrayOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type ArrayOptions = { minItems: number?, maxItems: number? }",
@@ -6300,14 +11955,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.ArrayOptions",
-    "description": "Data.ArrayOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.ArrayOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-6",
+    "nextPageId": "data/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-8",
+    "routeSlug": "object-options",
+    "routeId": "data/object-options",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.ObjectOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type ObjectOptions = { exact: boolean? }",
@@ -6321,14 +11987,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.ObjectOptions",
-    "description": "Data.ObjectOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Data.ObjectOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "data/item-7",
+    "nextPageId": "data/item-9",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-9",
+    "routeSlug": "schema",
+    "routeId": "data/schema",
     "kind": "type",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
+    "expectedOutcome": "A checked schema/result annotation.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Schema when annotating values that cross the public luastra/data boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Schema = {\n    kind: string,\n    optional: boolean?,\n    options: { [string]: any }?,\n    item: Schema?,\n    fields: { [string]: Schema }?,\n}",
@@ -6362,16 +12039,27 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Data.Schema",
-    "description": "Data.Schema is an exported, statically checked data contract of luastra/data. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Data.Schema is an exported, statically checked data contract of luastra/data. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "data/item-8",
+    "nextPageId": "data/item-10",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-10",
+    "routeSlug": "string",
+    "routeId": "data/string",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
-    "useWhen": "Use Data.string for form fields, URL parameters, storage fields, or server properties that must be text at runtime. Add the narrowest useful constraints at the untrusted boundary instead of checking them repeatedly in application logic.",
+    "useWhen": "Use Data.string for form fields, URL parameters, storage fields, or server properties that must be text at runtime. Add the narrowest useful byte bounds at the untrusted boundary; this alpha has no pattern option, so validate application-specific formats separately.",
     "code": "local Data = require(\"luastra/data\")\nlocal title = Data.string { minBytes = 1, maxBytes = 80, trim = true }",
     "signature": "Data.string(optionsValue: StringOptions?): Schema",
     "parameters": [
@@ -6398,14 +12086,39 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.string",
-    "description": "Builds a runtime schema for string input with optional length, pattern, or other bounded constraints defined by Data.StringOptions. The schema is a description only; validation occurs later through Data.decode."
+    "description": "Builds a runtime schema for string input with optional UTF-8 byte-length bounds and trimming defined by Data.StringOptions. The schema is a description only; validation occurs later through Data.decode.",
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Data.string inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "data/item-9",
+    "nextPageId": "data/item-11",
+    "relatedPageIds": [
+      "data/item-5",
+      "data/item-16",
+      "data/item-15"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "data/item-11",
+    "routeSlug": "number",
+    "routeId": "data/number",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.number whenever an external value becomes a score, index, duration, amount, or other numeric application value. Constrain the range before using it in layout, navigation, persistence, or calculations.",
     "code": "local Data = require(\"luastra/data\")\nlocal score = Data.number { integer = true, min = 0, max = 100 }",
@@ -6434,14 +12147,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.number",
-    "description": "Builds a schema that accepts finite numeric values and can enforce the documented minimum, maximum, or integer constraints. Non-numbers and non-finite values fail with structured validation information."
+    "description": "Builds a schema that accepts finite numeric values and can enforce the documented minimum, maximum, or integer constraints. Non-numbers and non-finite values fail with structured validation information.",
+    "previousPageId": "data/item-10",
+    "nextPageId": "data/item-12",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-12",
+    "routeSlug": "boolean",
+    "routeId": "data/boolean",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.boolean for persisted toggles and server fields whose wire contract is genuinely Boolean. Normalize legacy encodings before this boundary or migrate them explicitly rather than relying on implicit coercion.",
     "code": "local Data = require(\"luastra/data\")\nlocal enabled = Data.boolean()",
@@ -6449,14 +12173,25 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.boolean",
-    "description": "Builds a strict boolean schema that accepts only true or false. It does not coerce strings such as \"true\", numeric flags, or other truthy values."
+    "description": "Builds a strict boolean schema that accepts only true or false. It does not coerce strings such as \"true\", numeric flags, or other truthy values.",
+    "previousPageId": "data/item-11",
+    "nextPageId": "data/item-13",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "data/item-13",
+    "routeSlug": "array",
+    "routeId": "data/array",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.array for ordered JSON-style collections with contiguous indexes and one element contract. Use Data.object for named fields or a custom migration when the input is a sparse keyed map.",
     "code": "local Data = require(\"luastra/data\")\nlocal tags = Data.array(Data.string { maxBytes = 40 }, { maxItems = 12 })",
@@ -6485,14 +12220,29 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.array",
-    "description": "Builds a dense-array schema whose every element must satisfy the supplied item schema, with optional array-length bounds. Validation records the failing index so callers can identify malformed members."
+    "description": "Builds a dense-array schema whose every element must satisfy the supplied item schema, with optional array-length bounds. Validation records the failing index so callers can identify malformed members.",
+    "previousPageId": "data/item-12",
+    "nextPageId": "data/item-14",
+    "relatedPageIds": [
+      "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "data/item-14",
+    "routeSlug": "object",
+    "routeId": "data/object",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.object at storage, server, or form boundaries where several named values must be accepted together. Declare all trusted fields explicitly and decide deliberately whether unknown fields should be rejected.",
     "code": "local Data = require(\"luastra/data\")\nlocal form = Data.object({ name = Data.string { minBytes = 1 }, active = Data.boolean() })",
@@ -6516,14 +12266,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.object",
-    "description": "Builds a schema for a table with named fields, validating each field through its own child schema and applying the object options for unknown keys. Nested schemas preserve a structured path to every failure."
+    "description": "Builds a schema for a table with named fields, validating each field through its own child schema and applying the object options for unknown keys. Nested schemas preserve a structured path to every failure.",
+    "previousPageId": "data/item-13",
+    "nextPageId": "data/item-15",
+    "relatedPageIds": [
+      "data/item-12",
+      "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "data/item-15",
+    "routeSlug": "optional",
+    "routeId": "data/optional",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.optional for fields that may be absent by design, not merely because validation is inconvenient. Keep required identifiers, security decisions, and version fields non-optional.",
     "code": "local Data = require(\"luastra/data\")\nlocal note = Data.optional(Data.string { maxBytes = 240 })",
@@ -6537,14 +12304,29 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Schema — an immutable runtime schema that can be composed or passed to Data.decode.",
     "name": "Data.optional",
-    "description": "Wraps another schema so nil is accepted in addition to the wrapped value. A non-nil value still passes through the complete nested validation contract."
+    "description": "Wraps another schema so nil is accepted in addition to the wrapped value. A non-nil value still passes through the complete nested validation contract.",
+    "previousPageId": "data/item-14",
+    "nextPageId": "data/item-16",
+    "relatedPageIds": [
+      "data/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "data/item-16",
+    "routeSlug": "decode",
+    "routeId": "data/decode",
     "kind": "entry",
     "sectionId": "data",
     "sectionTitle": "Runtime data validation",
     "module": "luastra/data",
+    "beforeYouUse": "Add luastra/data to this module's dependencies in luastra.json, then import it with require(\"luastra/data\"). No host capability is required. Define schemas outside render when they are reused.",
+    "lifecycle": "Data.decode validates an untrusted value synchronously. Branch on result.success before reading result.value or result.error.",
+    "expectedOutcome": "A tagged success containing a trusted value, or a failure containing a bounded code and path.",
+    "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.decode immediately after receiving untrusted form, URL, storage, or server data and before casting it to an application type. Branch on result.success and present or log only appropriate bounded failure details.",
     "code": "local Data = require(\"luastra/data\")\nlocal validatedScore: number? = nil\nlocal result = Data.decode(\n    Data.number { integer = true, min = 0 },\n    42\n)\nif result.success then\n    validatedScore = result.value\nend",
@@ -6563,14 +12345,37 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Result — a discriminated validation result; branch on success before reading value or error.",
     "name": "Data.decode",
-    "description": "Validates an unknown runtime value against a Schema and returns a discriminated Data.Result instead of throwing for ordinary invalid input. Success contains the trusted value; failure contains a bounded code and path."
+    "description": "Validates an unknown runtime value against a Schema and returns a discriminated Data.Result instead of throwing for ordinary invalid input. Success contains the trusted value; failure contains a bounded code and path.",
+    "completeRecipe": {
+      "sectionId": "recipe-form-modal",
+      "title": "validate a form and confirm in a modal",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Data.decode inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "data/item-15",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "data/item-4",
+      "data/item-11"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "state/item-1",
+    "routeSlug": "fields",
+    "routeId": "state/fields",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.Fields when annotating values that cross the public luastra/state boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Fields = { [string]: string }",
@@ -6584,14 +12389,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.Fields",
-    "description": "State.Fields is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "State.Fields is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": null,
+    "nextPageId": "state/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-2",
+    "routeSlug": "decode-error",
+    "routeId": "state/decode-error",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeError = { code: string }",
@@ -6605,14 +12421,66 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeError",
-    "description": "State.DecodeError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.DecodeError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_expected_version",
+        "meaning": "expectedVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The version prefix or field structure is malformed."
+      },
+      {
+        "code": "unsupported_version",
+        "meaning": "The encoded version differs from expectedVersion."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The encoded state contains more than 32 fields."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name is invalid or duplicated."
+      },
+      {
+        "code": "invalid_encoding",
+        "meaning": "A field contains invalid or non-canonical percent encoding."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
+    "previousPageId": "state/item-1",
+    "nextPageId": "state/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-3",
+    "routeSlug": "decode-success",
+    "routeId": "state/decode-success",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type DecodeSuccess = { success: true, version: number, fields: Fields, error: nil }",
@@ -6641,14 +12509,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeSuccess",
-    "description": "State.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "State.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
+    "previousPageId": "state/item-2",
+    "nextPageId": "state/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-4",
+    "routeSlug": "decode-failure",
+    "routeId": "state/decode-failure",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeFailure = { success: false, version: nil, fields: nil, error: DecodeError }",
@@ -6677,14 +12562,66 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeFailure",
-    "description": "State.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_expected_version",
+        "meaning": "expectedVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The version prefix or field structure is malformed."
+      },
+      {
+        "code": "unsupported_version",
+        "meaning": "The encoded version differs from expectedVersion."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The encoded state contains more than 32 fields."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name is invalid or duplicated."
+      },
+      {
+        "code": "invalid_encoding",
+        "meaning": "A field contains invalid or non-canonical percent encoding."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
+    "previousPageId": "state/item-3",
+    "nextPageId": "state/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-5",
+    "routeSlug": "decode-result",
+    "routeId": "state/decode-result",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type DecodeResult = DecodeSuccess | DecodeFailure",
@@ -6698,14 +12635,66 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.DecodeResult",
-    "description": "State.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "State.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_expected_version",
+        "meaning": "expectedVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The version prefix or field structure is malformed."
+      },
+      {
+        "code": "unsupported_version",
+        "meaning": "The encoded version differs from expectedVersion."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The encoded state contains more than 32 fields."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name is invalid or duplicated."
+      },
+      {
+        "code": "invalid_encoding",
+        "meaning": "A field contains invalid or non-canonical percent encoding."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
+    "previousPageId": "state/item-4",
+    "nextPageId": "state/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-6",
+    "routeSlug": "migration-error",
+    "routeId": "state/migration-error",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type MigrationError = { code: string }",
@@ -6719,14 +12708,76 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationError",
-    "description": "State.MigrationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.MigrationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded source state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded source state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_target_version",
+        "meaning": "targetVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "invalid_migrations",
+        "meaning": "The migration collection is not a table."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The source version prefix is missing or invalid."
+      },
+      {
+        "code": "newer_version",
+        "meaning": "The source version is newer than the requested target."
+      },
+      {
+        "code": "too_many_migrations",
+        "meaning": "The migration would require more than 32 steps."
+      },
+      {
+        "code": "missing_migration",
+        "meaning": "No migration function exists for the current version."
+      },
+      {
+        "code": "migration_failed",
+        "meaning": "A migration function raised an error."
+      },
+      {
+        "code": "invalid_migration",
+        "meaning": "A migration returned, encoded, or verified an invalid replacement."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "state/item-5",
+    "nextPageId": "state/item-7",
+    "relatedPageIds": [
+      "state/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "state/item-7",
+    "routeSlug": "migration-success",
+    "routeId": "state/migration-success",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type MigrationSuccess = { success: true, version: number, fields: Fields, encoded: string, error: nil }",
@@ -6760,14 +12811,33 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationSuccess",
-    "description": "State.MigrationSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "State.MigrationSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "state/item-6",
+    "nextPageId": "state/item-8",
+    "relatedPageIds": [
+      "state/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "state/item-8",
+    "routeSlug": "migration-failure",
+    "routeId": "state/migration-failure",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type MigrationFailure = { success: false, version: nil, fields: nil, encoded: nil, error: MigrationError }",
@@ -6801,14 +12871,76 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationFailure",
-    "description": "State.MigrationFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "State.MigrationFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded source state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded source state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_target_version",
+        "meaning": "targetVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "invalid_migrations",
+        "meaning": "The migration collection is not a table."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The source version prefix is missing or invalid."
+      },
+      {
+        "code": "newer_version",
+        "meaning": "The source version is newer than the requested target."
+      },
+      {
+        "code": "too_many_migrations",
+        "meaning": "The migration would require more than 32 steps."
+      },
+      {
+        "code": "missing_migration",
+        "meaning": "No migration function exists for the current version."
+      },
+      {
+        "code": "migration_failed",
+        "meaning": "A migration function raised an error."
+      },
+      {
+        "code": "invalid_migration",
+        "meaning": "A migration returned, encoded, or verified an invalid replacement."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "state/item-7",
+    "nextPageId": "state/item-9",
+    "relatedPageIds": [
+      "state/item-10"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "state/item-9",
+    "routeSlug": "migration-result",
+    "routeId": "state/migration-result",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type MigrationResult = MigrationSuccess | MigrationFailure",
@@ -6822,14 +12954,72 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.MigrationResult",
-    "description": "State.MigrationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "State.MigrationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded source state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded source state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_target_version",
+        "meaning": "targetVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "invalid_migrations",
+        "meaning": "The migration collection is not a table."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The source version prefix is missing or invalid."
+      },
+      {
+        "code": "newer_version",
+        "meaning": "The source version is newer than the requested target."
+      },
+      {
+        "code": "too_many_migrations",
+        "meaning": "The migration would require more than 32 steps."
+      },
+      {
+        "code": "missing_migration",
+        "meaning": "No migration function exists for the current version."
+      },
+      {
+        "code": "migration_failed",
+        "meaning": "A migration function raised an error."
+      },
+      {
+        "code": "invalid_migration",
+        "meaning": "A migration returned, encoded, or verified an invalid replacement."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "state/item-8",
+    "nextPageId": "state/item-10",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-10",
+    "routeSlug": "migration",
+    "routeId": "state/migration",
     "kind": "type",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
+    "expectedOutcome": "A checked snapshot or result annotation.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.Migration when annotating values that cross the public luastra/state boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Migration = (fields: Fields) -> Fields",
@@ -6843,14 +13033,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "State.Migration",
-    "description": "State.Migration is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "State.Migration is an exported, statically checked data contract of luastra/state. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "state/item-9",
+    "nextPageId": "state/item-11",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-11",
+    "routeSlug": "encode",
+    "routeId": "state/encode",
     "kind": "entry",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
+    "expectedOutcome": "A deterministic encoded snapshot or a tagged success/failure result.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": true,
     "useWhen": "Use State.encode immediately before Host.storageSet when small application state must survive restarts. Persist only bounded non-secret data and increment the version whenever the stored schema changes incompatibly.",
     "code": "local State = require(\"luastra/state\")\nlocal snapshot = State.encode(1, { score = tostring(score), screen = \"game\" })",
@@ -6869,14 +13070,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "State.encode",
-    "description": "Serializes a finite field map together with an explicit positive version into Luastra's deterministic snapshot format. The output is suitable for host storage and can be compared or migrated predictably."
+    "description": "Serializes a finite field map together with an explicit positive version into Luastra's deterministic snapshot format. The output is suitable for host storage and can be compared or migrated predictably.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses State.encode inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "state/item-10",
+    "nextPageId": "state/item-12",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-12",
+    "routeSlug": "decode",
+    "routeId": "state/decode",
     "kind": "entry",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
+    "expectedOutcome": "A deterministic encoded snapshot or a tagged success/failure result.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": true,
     "useWhen": "Use State.decode after reading storage when only the current snapshot version is accepted. Branch on success before restoring fields; use State.migrate when older admitted versions must be upgraded.",
     "code": "local State = require(\"luastra/state\")\nlocal restored = State.decode(snapshot, 1)\nif restored.success then score = tonumber(restored.fields.score) or 0 end",
@@ -6895,14 +13113,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "DecodeResult — a discriminated decode result; branch on success before reading decoded fields or failure data.",
     "name": "State.decode",
-    "description": "Parses a snapshot string, verifies its structure and version, and returns a discriminated DecodeResult. A version mismatch or malformed value remains a normal failure branch rather than becoming trusted state."
+    "description": "Parses a snapshot string, verifies its structure and version, and returns a discriminated DecodeResult. A version mismatch or malformed value remains a normal failure branch rather than becoming trusted state.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses State.decode inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "state/item-11",
+    "nextPageId": "state/item-13",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "state/item-13",
+    "routeSlug": "migrate",
+    "routeId": "state/migrate",
     "kind": "entry",
     "sectionId": "state",
     "sectionTitle": "Versioned state",
     "module": "luastra/state",
+    "beforeYouUse": "Add luastra/state to this module's dependencies in luastra.json, then import it with require(\"luastra/state\"). No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.",
+    "lifecycle": "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
+    "expectedOutcome": "A deterministic encoded snapshot or a tagged success/failure result.",
+    "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
     "callable": true,
     "useWhen": "Use State.migrate during application startup when released versions must preserve user state across schema changes. Keep every migration deterministic, test each supported starting version, and never silently reinterpret unknown future data.",
     "code": "local State = require(\"luastra/state\")\nlocal result = State.migrate(oldSnapshot, 2, { [1] = function(fields) return { score = fields.score or \"0\" } end })",
@@ -6926,14 +13161,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "MigrationResult — the exact MigrationResult value declared by the SDK contract.",
     "name": "State.migrate",
-    "description": "Decodes a snapshot and applies explicitly ordered Migration functions until it reaches the requested target version. The result records structured failure if a step is missing, invalid, or does not advance correctly."
+    "description": "Decodes a snapshot and applies explicitly ordered Migration functions until it reaches the requested target version. The result records structured failure if a step is missing, invalid, or does not advance correctly.",
+    "previousPageId": "state/item-12",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-1",
+    "routeSlug": "snapshot",
+    "routeId": "navigation/snapshot",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.Snapshot when annotating values that cross the public luastra/navigation boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Snapshot = { version: number, routes: { string } }",
@@ -6952,14 +13198,33 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.Snapshot",
-    "description": "Navigation.Snapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Navigation.Snapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": null,
+    "nextPageId": "navigation/item-2",
+    "relatedPageIds": [
+      "navigation/item-4",
+      "navigation/item-5",
+      "navigation/item-14"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-2",
+    "routeSlug": "restore-error",
+    "routeId": "navigation/restore-error",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RestoreError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type RestoreError = { code: string }",
@@ -6973,16 +13238,57 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RestoreError",
-    "description": "Navigation.RestoreError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Navigation.RestoreError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_snapshot",
+        "meaning": "The snapshot shape, version, or encoded form is invalid."
+      },
+      {
+        "code": "invalid_stack",
+        "meaning": "The restored stack is empty, too deep, sparse, or inconsistent."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "A restored route is not admitted by the string stack."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "A restored typed entry cannot be matched or generated."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-14",
+      "navigation/item-15"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "navigation/item-1",
+    "nextPageId": "navigation/item-3",
+    "relatedPageIds": [
+      "navigation/item-11",
+      "navigation/item-13"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-3",
+    "routeSlug": "restore-result",
+    "routeId": "navigation/restore-result",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
-    "useWhen": "Use Navigation.RestoreResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
+    "useWhen": "Use Navigation.RestoreResult for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.",
     "code": "export type RestoreResult = { success: boolean, error: RestoreError? }",
     "signature": "export type RestoreResult = { success: boolean, error: RestoreError? }",
     "parameters": [
@@ -6999,14 +13305,55 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RestoreResult",
-    "description": "Navigation.RestoreResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Navigation.RestoreResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "errorCodes": [
+      {
+        "code": "invalid_snapshot",
+        "meaning": "The snapshot shape, version, or encoded form is invalid."
+      },
+      {
+        "code": "invalid_stack",
+        "meaning": "The restored stack is empty, too deep, sparse, or inconsistent."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "A restored route is not admitted by the string stack."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "A restored typed entry cannot be matched or generated."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-14",
+      "navigation/item-15"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "navigation/item-2",
+    "nextPageId": "navigation/item-4",
+    "relatedPageIds": [
+      "navigation/item-11",
+      "navigation/item-13"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-4",
+    "routeSlug": "options",
+    "routeId": "navigation/options",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.Options when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type Options = { routes: { string }, initial: string, maximumDepth: number? }",
@@ -7030,14 +13377,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.Options",
-    "description": "Navigation.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Navigation.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "navigation/item-3",
+    "nextPageId": "navigation/item-5",
+    "relatedPageIds": [
+      "navigation/item-14",
+      "navigation/item-1"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-5",
+    "routeSlug": "stack",
+    "routeId": "navigation/stack",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.Stack as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.",
     "code": "export type Stack = {\n    current: () -> string,\n    canBack: () -> boolean,\n    push: (route: string) -> boolean,\n    replace: (route: string) -> boolean,\n    back: () -> boolean,\n    snapshot: () -> Snapshot,\n    restore: (snapshot: any) -> RestoreResult,\n}",
@@ -7081,14 +13445,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.Stack",
-    "description": "Navigation.Stack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables."
+    "description": "Navigation.Stack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.",
+    "previousPageId": "navigation/item-4",
+    "nextPageId": "navigation/item-6",
+    "relatedPageIds": [
+      "navigation/item-14",
+      "navigation/item-1"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "prerequisite"
+    ]
   },
   {
     "id": "navigation/item-6",
+    "routeSlug": "route-error",
+    "routeId": "navigation/route-error",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type RouteError = { code: string }",
@@ -7102,14 +13483,64 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteError",
-    "description": "Navigation.RouteError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Navigation.RouteError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_location",
+        "meaning": "The location is malformed, non-canonical, or exceeds route segment limits."
+      },
+      {
+        "code": "route_not_found",
+        "meaning": "No compiled route definition matches the location."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "The typed route entry has an invalid shape or parameters."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "The entry names a route absent from the compiler."
+      },
+      {
+        "code": "invalid_parameter",
+        "meaning": "A required path parameter is missing or invalid."
+      },
+      {
+        "code": "missing_query",
+        "meaning": "A required query parameter is absent."
+      },
+      {
+        "code": "invalid_query",
+        "meaning": "A supplied query parameter cannot be decoded or validated."
+      },
+      {
+        "code": "location_too_large",
+        "meaning": "The generated canonical location exceeds 2048 bytes."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-16"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "navigation/item-5",
+    "nextPageId": "navigation/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-7",
+    "routeSlug": "route-entry",
+    "routeId": "navigation/route-entry",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteEntry when annotating values that cross the public luastra/navigation boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type RouteEntry = { name: string, params: { [string]: any }, query: { [string]: any } }",
@@ -7133,16 +13564,37 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteEntry",
-    "description": "Navigation.RouteEntry is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Navigation.RouteEntry is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "navigation/item-6",
+    "nextPageId": "navigation/item-8",
+    "relatedPageIds": [
+      "navigation/item-9",
+      "navigation/item-12",
+      "navigation/item-15",
+      "navigation/item-16"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-8",
+    "routeSlug": "route-result",
+    "routeId": "navigation/route-result",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
-    "useWhen": "Use Navigation.RouteResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
+    "useWhen": "Use Navigation.RouteResult for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.",
     "code": "export type RouteResult = { success: boolean, entry: RouteEntry?, location: string?, error: RouteError? }",
     "signature": "export type RouteResult = { success: boolean, entry: RouteEntry?, location: string?, error: RouteError? }",
     "parameters": [
@@ -7169,14 +13621,64 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteResult",
-    "description": "Navigation.RouteResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Navigation.RouteResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "errorCodes": [
+      {
+        "code": "invalid_location",
+        "meaning": "The location is malformed, non-canonical, or exceeds route segment limits."
+      },
+      {
+        "code": "route_not_found",
+        "meaning": "No compiled route definition matches the location."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "The typed route entry has an invalid shape or parameters."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "The entry names a route absent from the compiler."
+      },
+      {
+        "code": "invalid_parameter",
+        "meaning": "A required path parameter is missing or invalid."
+      },
+      {
+        "code": "missing_query",
+        "meaning": "A required query parameter is absent."
+      },
+      {
+        "code": "invalid_query",
+        "meaning": "A supplied query parameter cannot be decoded or validated."
+      },
+      {
+        "code": "location_too_large",
+        "meaning": "The generated canonical location exceeds 2048 bytes."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-16"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "navigation/item-7",
+    "nextPageId": "navigation/item-9",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-9",
+    "routeSlug": "route-compiler",
+    "routeId": "navigation/route-compiler",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteCompiler as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.",
     "code": "export type RouteCompiler = {\n    match: (location: string) -> RouteResult,\n    generate: (entry: any) -> RouteResult,\n    canonicalize: (location: string) -> RouteResult,\n}",
@@ -7200,14 +13702,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.RouteCompiler",
-    "description": "Navigation.RouteCompiler is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables."
+    "description": "Navigation.RouteCompiler is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.",
+    "previousPageId": "navigation/item-8",
+    "nextPageId": "navigation/item-10",
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-12",
+      "navigation/item-15",
+      "navigation/item-16"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "next-step"
+    ]
   },
   {
     "id": "navigation/item-10",
+    "routeSlug": "entry-snapshot",
+    "routeId": "navigation/entry-snapshot",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.EntrySnapshot when annotating values that cross the public luastra/navigation boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type EntrySnapshot = { version: number, entries: { RouteEntry } }",
@@ -7226,16 +13749,27 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.EntrySnapshot",
-    "description": "Navigation.EntrySnapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Navigation.EntrySnapshot is an exported, statically checked data contract of luastra/navigation. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "previousPageId": "navigation/item-9",
+    "nextPageId": "navigation/item-11",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "navigation/item-11",
+    "routeSlug": "mutation-result",
+    "routeId": "navigation/mutation-result",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
-    "useWhen": "Use Navigation.MutationResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
+    "useWhen": "Use Navigation.MutationResult for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.",
     "code": "export type MutationResult = { success: boolean, changed: boolean, error: RouteError? }",
     "signature": "export type MutationResult = { success: boolean, changed: boolean, error: RouteError? }",
     "parameters": [
@@ -7257,14 +13791,68 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.MutationResult",
-    "description": "Navigation.MutationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Navigation.MutationResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "errorCodes": [
+      {
+        "code": "invalid_entry",
+        "meaning": "The typed route entry cannot be generated."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "The entry names a route absent from the compiler."
+      },
+      {
+        "code": "invalid_parameter",
+        "meaning": "A required path parameter is missing or invalid."
+      },
+      {
+        "code": "missing_query",
+        "meaning": "A required query parameter is absent."
+      },
+      {
+        "code": "invalid_query",
+        "meaning": "A supplied query parameter cannot be decoded or validated."
+      },
+      {
+        "code": "location_too_large",
+        "meaning": "The generated canonical location exceeds 2048 bytes."
+      },
+      {
+        "code": "stack_depth_exceeded",
+        "meaning": "Push would exceed the configured navigation stack depth."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-15"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "navigation/item-10",
+    "nextPageId": "navigation/item-12",
+    "relatedPageIds": [
+      "navigation/item-2",
+      "navigation/item-3",
+      "navigation/item-13"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-12",
+    "routeSlug": "entry-stack",
+    "routeId": "navigation/entry-stack",
     "kind": "type",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
+    "expectedOutcome": "A checked route/navigation annotation.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.EntryStack as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.",
     "code": "export type EntryStack = {\n    current: () -> RouteEntry,\n    currentLocation: () -> string,\n    canBack: () -> boolean,\n    push: (entry: any) -> MutationResult,\n    pushLocation: (location: string) -> MutationResult,\n    replace: (entry: any) -> MutationResult,\n    replaceLocation: (location: string) -> MutationResult,\n    back: () -> boolean,\n    snapshot: () -> EntrySnapshot,\n    encode: () -> string,\n    restore: (snapshot: any) -> RestoreResult,\n    restoreEncoded: (value: string) -> RestoreResult,\n}",
@@ -7333,14 +13921,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Navigation.EntryStack",
-    "description": "Navigation.EntryStack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables."
+    "description": "Navigation.EntryStack is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.",
+    "previousPageId": "navigation/item-11",
+    "nextPageId": "navigation/item-13",
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-9",
+      "navigation/item-15",
+      "navigation/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-13",
+    "routeSlug": "decide-back",
+    "routeId": "navigation/decide-back",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.decideBack inside a system_back handler when several layers may consume Back. Execute the returned decision explicitly—close a modal, pop a route, delegate to history, acknowledge handled, or request exit.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal decision = Navigation.decideBack { modalOpen = helpOpen, canBack = navigation.canBack() }",
@@ -7364,14 +13973,39 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "string — the validated canonical string produced by this operation.",
     "name": "Navigation.decideBack",
-    "description": "Evaluates the current modal, application stack, browser history, and root-exit conditions and returns the bounded Back action the application should take. It centralizes priority so platform Back behaves consistently."
+    "description": "Evaluates the current modal, application stack, browser history, and root-exit conditions and returns the bounded Back action the application should take. It centralizes priority so platform Back behaves consistently.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Navigation.decideBack inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "navigation/item-12",
+    "nextPageId": "navigation/item-14",
+    "relatedPageIds": [
+      "navigation/item-2",
+      "navigation/item-3",
+      "navigation/item-11"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-14",
+    "routeSlug": "create",
+    "routeId": "navigation/create",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.create for an application whose routes can be represented by stable names and optional state tokens without typed path parameters. Render from stack.current() and mutate the same stack in Application.handle.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal navigation = Navigation.create {\n    routes = { \"home\", \"game\" },\n    initial = \"home\",\n}\nnavigation.push(\"game\")",
@@ -7400,14 +14034,33 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "Stack — a stateful named-route stack; create it once and call its public methods across renders.",
     "name": "Navigation.create",
-    "description": "Creates a named-route stack initialized from Navigation.Options and exposes operations such as current, push, replace, back, encode, and restore. The stack is ordinary application state and survives renders when created once at module scope."
+    "description": "Creates a named-route stack initialized from Navigation.Options and exposes operations such as current, push, replace, back, encode, and restore. The stack is ordinary application state and survives renders when created once at module scope.",
+    "previousPageId": "navigation/item-13",
+    "nextPageId": "navigation/item-15",
+    "relatedPageIds": [
+      "navigation/item-4",
+      "navigation/item-5",
+      "navigation/item-1"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion"
+    ]
   },
   {
     "id": "navigation/item-15",
+    "routeSlug": "create-router",
+    "routeId": "navigation/create-router",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.createRouter when each history entry needs typed route data that can later be compiled to or restored from a location. Prefer Navigation.create for a simpler name-only stack.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal router = Navigation.createRouter {\n    compiler = compiler,\n    initial = {\n        name = \"home\",\n        params = {},\n        query = {},\n    },\n}",
@@ -7436,14 +14089,39 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "EntryStack — a stateful typed-route stack with canonical location and snapshot operations.",
     "name": "Navigation.createRouter",
-    "description": "Creates an entry-based navigation stack whose entries carry a route name, parameters, query values, and optional state. Mutations return structured results rather than relying on unchecked table shapes."
+    "description": "Creates an entry-based navigation stack whose entries carry a route name, parameters, query values, and optional state. Mutations return structured results rather than relying on unchecked table shapes.",
+    "completeRecipe": {
+      "sectionId": "recipe-navigation",
+      "title": "add typed navigation",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Navigation.createRouter inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "navigation/item-14",
+    "nextPageId": "navigation/item-16",
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-9",
+      "navigation/item-12"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite"
+    ]
   },
   {
     "id": "navigation/item-16",
+    "routeSlug": "compile",
+    "routeId": "navigation/compile",
     "kind": "entry",
     "sectionId": "navigation",
     "sectionTitle": "Navigation and routes",
     "module": "luastra/navigation",
+    "beforeYouUse": "Add luastra/navigation to this module's dependencies in luastra.json, then import it with require(\"luastra/navigation\"). No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.",
+    "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
+    "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.compile once at module initialization when web URLs or deep links must share one source of truth with application routes. Generate links through the compiler and validate incoming locations before changing the navigation stack.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal compiler = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    { name = \"card\", path = \"/card/:id\" },\n}",
@@ -7457,14 +14135,39 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RouteCompiler — a reusable compiler for matching, generating, and canonicalizing admitted route locations.",
     "name": "Navigation.compile",
-    "description": "Compiles route definitions into a RouteCompiler that generates canonical locations and matches incoming path and query strings back to typed route entries. Invalid definitions and malformed locations produce bounded route errors."
+    "description": "Compiles route definitions into a RouteCompiler that generates canonical locations and matches incoming path and query strings back to typed route entries. Invalid definitions and malformed locations produce bounded route errors.",
+    "completeRecipe": {
+      "sectionId": "recipe-navigation",
+      "title": "add typed navigation",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Navigation.compile inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "navigation/item-15",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "navigation/item-7",
+      "navigation/item-9",
+      "navigation/item-12"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite",
+      "companion"
+    ]
   },
   {
     "id": "timer/item-1",
+    "routeSlug": "request-id",
+    "routeId": "timer/request-id",
     "kind": "type",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
     "module": "luastra/timer",
+    "beforeYouUse": "Add luastra/timer to this module's dependencies in luastra.json, then import it with require(\"luastra/timer\"). Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.",
+    "lifecycle": "Timer types describe the options or acknowledgement identifier.",
+    "expectedOutcome": "A checked timer option or acknowledgement annotation.",
+    "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
     "callable": false,
     "useWhen": "Use Timer.RequestId when recording the acknowledgement returned by start, restart, or cancel. Do not wait for Application.resolve: the timer expiry is delivered as a timer event to Application.handle.",
     "code": "export type RequestId = number",
@@ -7478,14 +14181,33 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Timer.RequestId",
-    "description": "Timer.RequestId is the numeric acknowledgement returned by a timer control call. It confirms that the command crossed the SDK boundary, while the stable string timer ID identifies the later expiry delivered to Application.handle."
+    "description": "Timer.RequestId is the numeric acknowledgement returned by a timer control call. It confirms that the command crossed the SDK boundary, while the stable string timer ID identifies the later expiry delivered to Application.handle.",
+    "previousPageId": null,
+    "nextPageId": "timer/item-2",
+    "relatedPageIds": [
+      "timer/item-3",
+      "timer/item-4",
+      "timer/item-5"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "timer/item-2",
+    "routeSlug": "start-options",
+    "routeId": "timer/start-options",
     "kind": "type",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
     "module": "luastra/timer",
+    "beforeYouUse": "Add luastra/timer to this module's dependencies in luastra.json, then import it with require(\"luastra/timer\"). Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.",
+    "lifecycle": "Timer types describe the options or acknowledgement identifier.",
+    "expectedOutcome": "A checked timer option or acknowledgement annotation.",
+    "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
     "callable": false,
     "useWhen": "Use Timer.StartOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type StartOptions = {\n    id: string,\n    delayMs: number,\n    value: string?,\n}",
@@ -7509,14 +14231,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Timer.StartOptions",
-    "description": "Timer.StartOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Timer.StartOptions is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "timer/item-1",
+    "nextPageId": "timer/item-3",
+    "relatedPageIds": [
+      "timer/item-4",
+      "timer/item-5"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "timer/item-3",
+    "routeSlug": "start",
+    "routeId": "timer/start",
     "kind": "entry",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
     "module": "luastra/timer",
+    "beforeYouUse": "Add luastra/timer to this module's dependencies in luastra.json, then import it with require(\"luastra/timer\"). Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.",
+    "lifecycle": "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
+    "expectedOutcome": "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
+    "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
     "callable": true,
     "useWhen": "Use Timer.start for delayed transitions, temporary feedback, debouncing, or advancing a game after the user has had time to see a result. Choose a stable purpose-specific ID and handle repeated starts deliberately rather than creating unbounded timers.",
     "code": "local Timer = require(\"luastra/timer\")\nTimer.start { id = \"game/next-card\", delayMs = 1500, value = \"advance\" }",
@@ -7534,7 +14273,7 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "options.delayMs",
-        "values": "integer (0..86400000)",
+        "values": "integer (0..60000)",
         "description": "Delay before delivery, in milliseconds."
       },
       {
@@ -7543,16 +14282,39 @@ export const generatedPages = Object.freeze([
         "description": "Optional bounded value delivered with the timer event."
       }
     ],
-    "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
+    "returns": "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.",
     "name": "Timer.start",
-    "description": "Registers a one-shot timer under the supplied stable string ID and returns an acknowledgement RequestId. After the delay, Luastra sends handle(\"timer\", id, value); it does not call Application.resolve for expiry."
+    "description": "Registers a one-shot timer under the supplied stable string ID and returns an acknowledgement RequestId. After the delay, Luastra sends handle(\"timer\", id, value); it does not call Application.resolve for expiry.",
+    "completeRecipe": {
+      "sectionId": "recipe-timer",
+      "title": "run a delayed action",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Timer.start inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "timer/item-2",
+    "nextPageId": "timer/item-4",
+    "relatedPageIds": [
+      "timer/item-1",
+      "timer/item-5"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion"
+    ]
   },
   {
     "id": "timer/item-4",
+    "routeSlug": "restart",
+    "routeId": "timer/restart",
     "kind": "entry",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
     "module": "luastra/timer",
+    "beforeYouUse": "Add luastra/timer to this module's dependencies in luastra.json, then import it with require(\"luastra/timer\"). Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.",
+    "lifecycle": "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
+    "expectedOutcome": "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
+    "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
     "callable": true,
     "useWhen": "Use Timer.restart for inactivity deadlines, search debounce, and any timeout whose countdown must begin again after a new event. Use start for a new logical timer and cancel when the pending work is no longer relevant.",
     "code": "local Timer = require(\"luastra/timer\")\nTimer.restart { id = \"game/next-card\", delayMs = 1500, value = \"advance\" }",
@@ -7570,7 +14332,7 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "options.delayMs",
-        "values": "integer (0..86400000)",
+        "values": "integer (0..60000)",
         "description": "Fresh delay before the replacement timer fires."
       },
       {
@@ -7579,16 +14341,33 @@ export const generatedPages = Object.freeze([
         "description": "Optional bounded value delivered with the replacement event."
       }
     ],
-    "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
+    "returns": "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.",
     "name": "Timer.restart",
-    "description": "Replaces the pending one-shot timer with the same ID and schedules a fresh delay and value. This makes repeated input postpone one logical deadline instead of allowing several expiries to race."
+    "description": "Replaces the pending one-shot timer with the same ID and schedules a fresh delay and value. This makes repeated input postpone one logical deadline instead of allowing several expiries to race.",
+    "previousPageId": "timer/item-3",
+    "nextPageId": "timer/item-5",
+    "relatedPageIds": [
+      "timer/item-1",
+      "timer/item-2"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "timer/item-5",
+    "routeSlug": "cancel",
+    "routeId": "timer/cancel",
     "kind": "entry",
     "sectionId": "timer",
     "sectionTitle": "Application timers",
     "module": "luastra/timer",
+    "beforeYouUse": "Add luastra/timer to this module's dependencies in luastra.json, then import it with require(\"luastra/timer\"). Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.",
+    "lifecycle": "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
+    "expectedOutcome": "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
+    "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
     "callable": true,
     "useWhen": "Use Timer.cancel when leaving the owning screen, completing work early, or replacing an automatic transition with a user decision. Cancellation should be safe even if application state has already moved on.",
     "code": "local Timer = require(\"luastra/timer\")\nTimer.cancel(\"game/next-card\")",
@@ -7600,16 +14379,35 @@ export const generatedPages = Object.freeze([
         "description": "Stable string ID of the pending logical timer to cancel."
       }
     ],
-    "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
+    "returns": "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.",
     "name": "Timer.cancel",
-    "description": "Cancels the pending timer identified by the stable string ID and returns a request acknowledgement. A successfully cancelled timer will not later emit its timer event."
+    "description": "Cancels the pending timer identified by the stable string ID and returns a request acknowledgement. A successfully cancelled timer will not later emit its timer event.",
+    "previousPageId": "timer/item-4",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "timer/item-1",
+      "timer/item-2",
+      "timer/item-3"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "host/item-1",
+    "routeSlug": "request-id",
+    "routeId": "host/request-id",
     "kind": "type",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare the capability named on the function page in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "Host.RequestId is an opaque correlation value for one asynchronous host operation.",
+    "expectedOutcome": "An opaque positive request identifier used only for correlation.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": false,
     "useWhen": "Use Host.RequestId as the key in a pending-operation map after starting an asynchronous Host request. Match and remove that key in Application.resolve instead of relying on completion order.",
     "code": "export type RequestId = number",
@@ -7623,14 +14421,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Host.RequestId",
-    "description": "Host.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text."
+    "description": "Host.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
+    "previousPageId": null,
+    "nextPageId": "host/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-2",
+    "routeSlug": "storage-get",
+    "routeId": "host/storage-get",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare storage.get in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.storageGet during startup or on demand for small persisted application data. Record the RequestId before returning, distinguish missing data from other failures, and decode the payload before trusting it.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.storageGet(\"game-state\")",
@@ -7644,14 +14453,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.storageGet",
-    "description": "Starts an asynchronous read of the named host storage entry and returns a RequestId. Completion arrives in Application.resolve with the stored string or a bounded failure code."
+    "description": "Starts an asynchronous read of the named host storage entry and returns a RequestId. Completion arrives in Application.resolve with the stored string or a bounded failure code.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.storageGet inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "host/item-1",
+    "nextPageId": "host/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-3",
+    "routeSlug": "storage-set",
+    "routeId": "host/storage-set",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare storage.set in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.storageSet after State.encode or another explicit serialization step. Track the RequestId when UI must report save progress or failure, and never store credentials merely because the API accepts a string.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.storageSet(\"game-state\", snapshot)",
@@ -7670,29 +14496,57 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.storageSet",
-    "description": "Starts an asynchronous write of a bounded string to the named host storage entry and returns a RequestId. Resolve confirms whether the host committed the value."
+    "description": "Starts an asynchronous write of a bounded string to the named host storage entry and returns a RequestId. Resolve confirms whether the host committed the value.",
+    "completeRecipe": {
+      "sectionId": "recipe-storage",
+      "title": "persist and restore state",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.storageSet inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "host/item-2",
+    "nextPageId": "host/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-4",
+    "routeSlug": "launch-url",
+    "routeId": "host/launch-url",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare app.launchurl.get in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
-    "useWhen": "Use Host.launchUrl only in the corresponding host-mediated flow when an external location must open outside Luastra rendering. Prefer UI.Link for ordinary visible navigation initiated directly by a user.",
-    "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.launchUrl()",
+    "useWhen": "Use Host.launchUrl during startup when a deep link or host-provided launch location must select initial application state. Save the RequestId, validate the resolve payload before routing, and use UI.Link—not Host.launchUrl—to open a visible external HTTPS link.",
+    "code": "local Host = require(\"luastra/host\")\nlocal launchRequestId = Host.launchUrl()\n\nfunction Application.resolve(id: number, success: boolean, payload: string)\n    if id == launchRequestId and success then applyLaunchLocation(payload) end\nend",
     "signature": "Host.launchUrl(): RequestId",
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.launchUrl",
-    "description": "Requests that the host open the URL currently associated with the admitted launch-url event contract and returns a RequestId. The host validates scheme and policy before leaving the application."
+    "description": "Requests the URL or fragment with which the host launched the application and returns a RequestId. The host answers through Application.resolve; this function reads launch context and never opens an external destination.",
+    "previousPageId": "host/item-3",
+    "nextPageId": "host/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-5",
+    "routeSlug": "clipboard-write",
+    "routeId": "host/clipboard-write",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare clipboard.write in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.clipboardWrite after a clear user action such as Copy code or Copy link. Confirm success accessibly when useful and avoid copying secrets or personal data without an explicit user expectation.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.clipboardWrite(\"luastra check\")",
@@ -7706,14 +14560,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.clipboardWrite",
-    "description": "Requests that the host place a bounded string on the system clipboard and returns a RequestId for completion. Clipboard access remains an explicit capability rather than a hidden side effect."
+    "description": "Requests that the host place a bounded string on the system clipboard and returns a RequestId for completion. Clipboard access remains an explicit capability rather than a hidden side effect.",
+    "previousPageId": "host/item-4",
+    "nextPageId": "host/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-6",
+    "routeSlug": "history-push",
+    "routeId": "host/history-push",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyPush when application navigation should create a Back destination without changing the visible URL. Prefer historyPushLocation when the route also has a canonical location.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyPush(router.encode())",
@@ -7727,14 +14592,29 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyPush",
-    "description": "Adds a new browser-history entry with the supplied opaque application state token while retaining the current location. The asynchronous acknowledgement is delivered through Application.resolve."
+    "description": "Adds a new browser-history entry with the supplied opaque application state token while retaining the current location. The asynchronous acknowledgement is delivered through Application.resolve.",
+    "previousPageId": "host/item-5",
+    "nextPageId": "host/item-7",
+    "relatedPageIds": [
+      "host/item-8"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "host/item-7",
+    "routeSlug": "history-replace",
+    "routeId": "host/history-replace",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyReplace when correcting or initializing the current entry so Back should not revisit the previous state. Use push for a user-visible navigation step.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyReplace(router.encode())",
@@ -7748,14 +14628,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyReplace",
-    "description": "Replaces the current browser-history state token without adding a new Back entry. It keeps the current location and returns a RequestId for host acknowledgement."
+    "description": "Replaces the current browser-history state token without adding a new Back entry. It keeps the current location and returns a RequestId for host acknowledgement.",
+    "previousPageId": "host/item-6",
+    "nextPageId": "host/item-8",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-8",
+    "routeSlug": "history-push-location",
+    "routeId": "host/history-push-location",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyPushLocation after a successful typed route mutation that should be reversible with Back. Generate the location through Navigation.compile rather than concatenating untrusted path or query fragments.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyPushLocation(\"#/card/red\", router.encode())",
@@ -7774,14 +14665,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyPushLocation",
-    "description": "Adds a browser-history entry containing both a canonical location and an opaque application state token. This keeps the address bar, deep-link representation, and application stack synchronized."
+    "description": "Adds a browser-history entry containing both a canonical location and an opaque application state token, then returns the document viewport to its start. This keeps the address bar, deep-link representation, application stack, and newly opened page position synchronized.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.historyPushLocation inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "host/item-7",
+    "nextPageId": "host/item-9",
+    "relatedPageIds": [
+      "host/item-6"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "host/item-9",
+    "routeSlug": "history-replace-location",
+    "routeId": "host/history-replace-location",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyReplaceLocation for redirects, canonicalization, and restoring the initial route when the obsolete location should not remain reachable through Back.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyReplaceLocation(\"#/\", router.encode())",
@@ -7800,14 +14712,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyReplaceLocation",
-    "description": "Replaces the current browser-history location and state token without extending the Back stack. The host validates and acknowledges the requested history mutation asynchronously."
+    "description": "Replaces the current browser-history location and state token without extending the Back stack, then returns the document viewport to its start. The host validates and acknowledges the requested history mutation asynchronously.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.historyReplaceLocation inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "host/item-8",
+    "nextPageId": "host/item-10",
+    "relatedPageIds": [
+      "host/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
+    ]
   },
   {
     "id": "host/item-10",
+    "routeSlug": "history-back",
+    "routeId": "host/history-back",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyBack after Navigation.decideBack delegates to browser history or when a UI Back control intentionally mirrors browser Back. Do not also pop application state independently unless the history event contract requires it.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyBack()",
@@ -7815,14 +14748,25 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyBack",
-    "description": "Requests one step back in the host browser history and returns a RequestId. The resulting location or system-Back event remains part of the normal navigation event flow."
+    "description": "Requests one step back in the host browser history and returns a RequestId. The resulting location or system-Back event remains part of the normal navigation event flow.",
+    "previousPageId": "host/item-9",
+    "nextPageId": "host/item-11",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-11",
+    "routeSlug": "history-current",
+    "routeId": "host/history-current",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyCurrent at startup or after an external history change when the application must match the browser's current entry. Validate and compile the returned location before rendering a route.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.historyCurrent()",
@@ -7830,14 +14774,25 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.historyCurrent",
-    "description": "Requests the host's current location and associated state token, returning a RequestId whose payload can initialize or reconcile application navigation."
+    "description": "Requests the host's current location and associated state token, returning a RequestId whose payload can initialize or reconcile application navigation.",
+    "previousPageId": "host/item-10",
+    "nextPageId": "host/item-12",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-12",
+    "routeSlug": "system-back-handled",
+    "routeId": "host/system-back-handled",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.systemBackHandled after closing an open modal or handling Back entirely in application state. Call it once for the current intent after the state change has been accepted.",
     "code": "local Host = require(\"luastra/host\")\nHost.systemBackHandled(intentId)",
@@ -7851,14 +14806,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.systemBackHandled",
-    "description": "Acknowledges that the application consumed a specific system-Back intent without delegating to browser history or exiting. The intent ID prevents an unrelated or stale Back request from being acknowledged."
+    "description": "Acknowledges that the application consumed a specific system-Back intent without delegating to browser history or exiting. The intent ID prevents an unrelated or stale Back request from being acknowledged.",
+    "previousPageId": "host/item-11",
+    "nextPageId": "host/item-13",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-13",
+    "routeSlug": "system-back-history",
+    "routeId": "host/system-back-history",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.systemBackHistory when Navigation.decideBack determines that browser or host history owns the next Back step. Do not use it when an application modal or local route must close first.",
     "code": "local Host = require(\"luastra/host\")\nHost.systemBackHistory(intentId)",
@@ -7872,14 +14838,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.systemBackHistory",
-    "description": "Delegates a specific system-Back intent to the host history mechanism and returns a RequestId. It preserves platform navigation behavior when an earlier history entry is available."
+    "description": "Delegates a specific system-Back intent to the host history mechanism and returns a RequestId. It preserves platform navigation behavior when an earlier history entry is available.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.systemBackHistory inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "host/item-12",
+    "nextPageId": "host/item-14",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "host/item-14",
+    "routeSlug": "system-back-exit",
+    "routeId": "host/system-back-exit",
     "kind": "entry",
     "sectionId": "host",
     "sectionTitle": "Host capabilities",
     "module": "luastra/host",
+    "beforeYouUse": "Add luastra/host to this module's dependencies in luastra.json, then import it with require(\"luastra/host\"). Declare navigation.history in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.",
+    "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+    "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
+    "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.systemBackExit only when no modal, local route, or history entry can consume Back and the platform permits root exit. Desktop and web hosts may interpret this boundary differently.",
     "code": "local Host = require(\"luastra/host\")\nHost.systemBackExit(intentId)",
@@ -7893,14 +14876,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Host.systemBackExit",
-    "description": "Acknowledges a root-level system-Back intent by requesting the host's admitted exit behavior. The intent ID correlates the decision with the exact pending Back event."
+    "description": "Acknowledges a root-level system-Back intent by requesting the host's admitted exit behavior. The intent ID correlates the decision with the exact pending Back event.",
+    "completeRecipe": {
+      "sectionId": "recipe-history",
+      "title": "synchronize Browser and system Back",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Host.systemBackExit inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "host/item-13",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "server/item-1",
+    "routeSlug": "request-id",
+    "routeId": "server/request-id",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
+    "expectedOutcome": "A checked request/result annotation.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.RequestId as the key in a pending-operation map after starting an asynchronous Server request. Match and remove that key in Application.resolve instead of relying on completion order.",
     "code": "export type RequestId = number",
@@ -7914,14 +14914,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.RequestId",
-    "description": "Server.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text."
+    "description": "Server.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
+    "previousPageId": null,
+    "nextPageId": "server/item-2",
+    "relatedPageIds": [
+      "server/item-6",
+      "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "server/item-2",
+    "routeSlug": "options",
+    "routeId": "server/options",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
+    "expectedOutcome": "A checked request/result annotation.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.Options when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type Options = { deadlineMs: number?, idempotencyKey: string?, retry: boolean? }",
@@ -7945,14 +14962,31 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.Options",
-    "description": "Server.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted."
+    "description": "Server.Options is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.",
+    "previousPageId": "server/item-1",
+    "nextPageId": "server/item-3",
+    "relatedPageIds": [
+      "server/item-6",
+      "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "server/item-3",
+    "routeSlug": "decode-success",
+    "routeId": "server/decode-success",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
+    "expectedOutcome": "A checked request/result annotation.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.DecodeSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type DecodeSuccess = { success: true, fields: { [string]: string }, error: nil }",
@@ -7976,14 +15010,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.DecodeSuccess",
-    "description": "Server.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "Server.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "server/item-7"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "server/item-2",
+    "nextPageId": "server/item-4",
+    "relatedPageIds": [
+      "server/item-5",
+      "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "prerequisite"
+    ]
   },
   {
     "id": "server/item-4",
+    "routeSlug": "decode-failure",
+    "routeId": "server/decode-failure",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
+    "expectedOutcome": "A checked request/result annotation.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.DecodeFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeFailure = { success: false, fields: nil, error: string }",
@@ -8007,14 +15062,56 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.DecodeFailure",
-    "description": "Server.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Server.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_size",
+        "meaning": "The wire payload is empty, not a string, or larger than 4096 bytes."
+      },
+      {
+        "code": "invalid_version",
+        "meaning": "The wire payload does not declare protocol version v=1."
+      },
+      {
+        "code": "malformed",
+        "meaning": "A field token is missing its name/value separator."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name, value encoding, or duplicate field is invalid."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The wire payload contains more than 128 fields."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "server/item-7"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "server/item-3",
+    "nextPageId": "server/item-5",
+    "relatedPageIds": [
+      "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "companion"
+    ]
   },
   {
     "id": "server/item-5",
+    "routeSlug": "decode-result",
+    "routeId": "server/decode-result",
     "kind": "type",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
+    "expectedOutcome": "A checked request/result annotation.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.DecodeResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type DecodeResult = DecodeSuccess | DecodeFailure",
@@ -8028,14 +15125,58 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Server.DecodeResult",
-    "description": "Server.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Server.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "invalid_size",
+        "meaning": "The wire payload is empty, not a string, or larger than 4096 bytes."
+      },
+      {
+        "code": "invalid_version",
+        "meaning": "The wire payload does not declare protocol version v=1."
+      },
+      {
+        "code": "malformed",
+        "meaning": "A field token is missing its name/value separator."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name, value encoding, or duplicate field is invalid."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The wire payload contains more than 128 fields."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "server/item-7"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "server/item-4",
+    "nextPageId": "server/item-6",
+    "relatedPageIds": [
+      "server/item-3",
+      "server/item-7"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "server/item-6",
+    "routeSlug": "call",
+    "routeId": "server/call",
     "kind": "entry",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "Server.call starts asynchronous trusted work. Application.resolve reports transport success or failure; decode a successful payload with Server.decode and then validate operation-specific fields.",
+    "expectedOutcome": "A RequestId now, then one resolve completion from the configured backend.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": true,
     "useWhen": "Use Server.call for declared backend work that cannot safely or reliably run in the client, such as privileged data access. Track the RequestId, handle transport failure in Application.resolve, and validate successful payloads before use.",
     "code": "local Server = require(\"luastra/server\")\nlocal requestId = Server.call(\"records.list.v1\", { cursor = \"\" }, { deadlineMs = 3000, retry = true })",
@@ -8074,17 +15215,40 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Server.call",
-    "description": "Starts a versioned request to a trusted backend operation with a bounded string map and optional request settings, returning a RequestId. Server authentication, authorization, validation, and secrets remain outside client Luau."
+    "description": "Starts a versioned request to a trusted backend operation with a bounded string map and optional request settings, returning a RequestId. Server authentication, authorization, validation, and secrets remain outside client Luau.",
+    "completeRecipe": {
+      "sectionId": "recipe-server",
+      "title": "call a server function",
+      "evidence": "generated-client",
+      "description": "This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind Server.call."
+    },
+    "previousPageId": "server/item-5",
+    "nextPageId": "server/item-7",
+    "relatedPageIds": [
+      "server/item-1",
+      "server/item-2"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "server/item-7",
+    "routeSlug": "decode",
+    "routeId": "server/decode",
     "kind": "entry",
     "sectionId": "server",
     "sectionTitle": "Server functions",
     "module": "luastra/server",
+    "beforeYouUse": "Add luastra/server to this module's dependencies in luastra.json, then import it with require(\"luastra/server\"). Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.",
+    "lifecycle": "Server.decode synchronously validates only the Luastra response envelope and returns fields on success; it does not validate your domain model.",
+    "expectedOutcome": "A tagged result containing result.fields or a bounded decode error.",
+    "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
     "callable": true,
     "useWhen": "Use Server.decode on a successful server resolve payload before reading operation data. Treat decode failure as an untrusted or incompatible response and keep application state unchanged or move to an explicit error state.",
-    "code": "local Server = require(\"luastra/server\")\nlocal result = Server.decode(payload)\nif result.success then records = result.value end",
+    "code": "local Server = require(\"luastra/server\")\nlocal result = Server.decode(payload)\nif result.success then records = result.fields else errorMessage = result.error end",
     "signature": "Server.decode(value: string): DecodeResult",
     "parameters": [
       {
@@ -8095,14 +15259,41 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "DecodeResult — a discriminated decode result; branch on success before reading decoded fields or failure data.",
     "name": "Server.decode",
-    "description": "Parses the bounded payload returned by a Luastra server operation into a discriminated DecodeResult. It separates envelope validity from the transport success reported to Application.resolve."
+    "description": "Parses the bounded payload returned by a Luastra server operation into a discriminated DecodeResult. It separates envelope validity from the transport success reported to Application.resolve.",
+    "completeRecipe": {
+      "sectionId": "recipe-server",
+      "title": "call a server function",
+      "evidence": "generated-client",
+      "description": "This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind Server.decode."
+    },
+    "previousPageId": "server/item-6",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "server/item-1",
+      "server/item-2",
+      "server/item-3",
+      "server/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "media/item-1",
+    "routeSlug": "request-id",
+    "routeId": "media/request-id",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.RequestId as the key in a pending-operation map after starting an asynchronous Media request. Match and remove that key in Application.resolve instead of relying on completion order.",
     "code": "export type RequestId = number",
@@ -8116,14 +15307,33 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.RequestId",
-    "description": "Media.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text."
+    "description": "Media.RequestId is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.",
+    "previousPageId": null,
+    "nextPageId": "media/item-2",
+    "relatedPageIds": [
+      "media/item-4",
+      "media/item-8",
+      "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "next-step"
+    ]
   },
   {
     "id": "media/item-2",
+    "routeSlug": "queue-item",
+    "routeId": "media/queue-item",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.QueueItem when annotating values that cross the public luastra/media boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type QueueItem = { id: string, source: string, title: string, artist: string }",
@@ -8152,23 +15362,48 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.QueueItem",
-    "description": "Media.QueueItem is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Media.QueueItem is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.QueueItem inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "media/item-1",
+    "nextPageId": "media/item-3",
+    "relatedPageIds": [
+      "media/item-4",
+      "media/item-8",
+      "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "media/item-3",
+    "routeSlug": "media-error",
+    "routeId": "media/media-error",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
-    "useWhen": "Use Media.MediaError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
+    "useWhen": "Use this type after a media event reports a playback failure. Branch only on codes explicitly documented by the active host or target, show a safe message, and keep playback state recoverable.",
     "code": "export type MediaError = { code: string, message: string }",
     "signature": "export type MediaError = { code: string, message: string }",
     "parameters": [
       {
         "name": "code",
         "values": "string",
-        "description": "Stable machine-readable failure code suitable for branching and diagnostics."
+        "description": "Stable machine-readable code for this failure. The vocabulary is defined by the active host or target and may differ across hosts."
       },
       {
         "name": "message",
@@ -8178,14 +15413,30 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.MediaError",
-    "description": "Media.MediaError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Media.MediaError reports an admitted playback failure from the active host. Its code is stable for that reported failure, but the set of possible codes is host-specific rather than a portable SDK-wide enum.",
+    "errorCodeNote": "MediaError.code and message describe an admitted host playback failure. The code vocabulary is host-specific and intentionally not presented as one portable closed list; handle the visible message and preserve a safe playback state.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "media/item-2",
+    "nextPageId": "media/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "media/item-4",
+    "routeSlug": "state-type",
+    "routeId": "media/state-type",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.State when annotating values that cross the public luastra/media boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type State = {\n    revision: number, status: string, itemId: string, title: string, artist: string,\n    positionMs: number, durationMs: number, bufferedMs: number, queueIndex: number, queueCount: number,\n    background: boolean, interruption: string, route: string, error: MediaError?,\n}",
@@ -8264,14 +15515,41 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.State",
-    "description": "Media.State is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis."
+    "description": "Media.State is an exported, statically checked data contract of luastra/media. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.State inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "media/item-3",
+    "nextPageId": "media/item-5",
+    "relatedPageIds": [
+      "media/item-1",
+      "media/item-2",
+      "media/item-8",
+      "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "next-step"
+    ]
   },
   {
     "id": "media/item-5",
+    "routeSlug": "decode-success",
+    "routeId": "media/decode-success",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.DecodeSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type DecodeSuccess = { success: true, state: State, error: nil }",
@@ -8295,14 +15573,35 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.DecodeSuccess",
-    "description": "Media.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union."
+    "description": "Media.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "media/item-4",
+    "nextPageId": "media/item-6",
+    "relatedPageIds": [
+      "media/item-7",
+      "media/item-17"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "media/item-6",
+    "routeSlug": "decode-failure",
+    "routeId": "media/decode-failure",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.DecodeFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeFailure = { success: false, state: nil, error: string }",
@@ -8326,14 +15625,58 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.DecodeFailure",
-    "description": "Media.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message."
+    "description": "Media.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_wire",
+        "meaning": "The media-state wire payload cannot be decoded."
+      },
+      {
+        "code": "missing_field",
+        "meaning": "A required media-state field is absent."
+      },
+      {
+        "code": "invalid_state",
+        "meaning": "The field set, status, or background flag is invalid."
+      },
+      {
+        "code": "invalid_number",
+        "meaning": "A required numeric field is not a valid number."
+      },
+      {
+        "code": "invalid_error",
+        "meaning": "The host error code and message fields are inconsistent."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "media/item-5",
+    "nextPageId": "media/item-7",
+    "relatedPageIds": [
+      "media/item-17",
+      "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "media/item-7",
+    "routeSlug": "decode-result",
+    "routeId": "media/decode-result",
     "kind": "type",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
+    "expectedOutcome": "A checked media input/state/result annotation.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.DecodeResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type DecodeResult = DecodeSuccess | DecodeFailure",
@@ -8347,14 +15690,60 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.DecodeResult",
-    "description": "Media.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit."
+    "description": "Media.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "invalid_wire",
+        "meaning": "The media-state wire payload cannot be decoded."
+      },
+      {
+        "code": "missing_field",
+        "meaning": "A required media-state field is absent."
+      },
+      {
+        "code": "invalid_state",
+        "meaning": "The field set, status, or background flag is invalid."
+      },
+      {
+        "code": "invalid_number",
+        "meaning": "A required numeric field is not a valid number."
+      },
+      {
+        "code": "invalid_error",
+        "meaning": "The host error code and message fields are inconsistent."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
+    "previousPageId": "media/item-6",
+    "nextPageId": "media/item-8",
+    "relatedPageIds": [
+      "media/item-5",
+      "media/item-17",
+      "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "media/item-8",
+    "routeSlug": "set-queue",
+    "routeId": "media/set-queue",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.setQueue before play when the application owns a new playlist, meditation sequence, or sound set. Keep stable item IDs, validate the selected index, and avoid rebuilding an unchanged queue on every render.",
     "code": "local Media = require(\"luastra/media\")\nMedia.setQueue({ { id = \"intro\", source = \"asset:audio/intro\", title = \"Intro\", artist = \"Luastra\" } })",
@@ -8393,14 +15782,41 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.setQueue",
-    "description": "Replaces the host playback queue with validated QueueItem values and optionally selects a one-based item, returning a RequestId. The host reports later playback changes through media_state events."
+    "description": "Replaces the host playback queue with validated QueueItem values and optionally selects a one-based item, returning a RequestId. The host reports later playback changes through media_state events.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.setQueue inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "media/item-7",
+    "nextPageId": "media/item-9",
+    "relatedPageIds": [
+      "media/item-1",
+      "media/item-2",
+      "media/item-4",
+      "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion",
+      "prerequisite"
+    ]
   },
   {
     "id": "media/item-9",
+    "routeSlug": "play",
+    "routeId": "media/play",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.play after a user action or admitted autoplay decision when a queue item is selected. Update visible controls from decoded media state rather than assuming the command succeeded immediately.",
     "code": "local Media = require(\"luastra/media\")\nMedia.play()",
@@ -8408,14 +15824,39 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.play",
-    "description": "Requests playback of the selected queue item, resuming from the current position when the host state permits it. The returned RequestId acknowledges the command; live truth comes from media_state."
+    "description": "Requests playback of the selected queue item, resuming from the current position when the host state permits it. The returned RequestId acknowledges the command; live truth comes from media_state.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.play inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "media/item-8",
+    "nextPageId": "media/item-10",
+    "relatedPageIds": [
+      "media/item-11",
+      "media/item-12",
+      "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "media/item-10",
+    "routeSlug": "pause",
+    "routeId": "media/pause",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.pause when the user temporarily stops listening or application lifecycle policy requires a resumable pause. Use stop when position should return to the beginning.",
     "code": "local Media = require(\"luastra/media\")\nMedia.pause()",
@@ -8423,14 +15864,37 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.pause",
-    "description": "Requests that playback pause while retaining the selected item and current position for a later resume. Completion and subsequent live state are delivered through the normal media contracts."
+    "description": "Requests that playback pause while retaining the selected item and current position for a later resume. Completion and subsequent live state are delivered through the normal media contracts.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.pause inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "media/item-9",
+    "nextPageId": "media/item-11",
+    "relatedPageIds": [
+      "media/item-12",
+      "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "next-step",
+      "companion"
+    ]
   },
   {
     "id": "media/item-11",
+    "routeSlug": "stop",
+    "routeId": "media/stop",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.stop when the session ends but the same queue may be played again. Use pause for a resumable interruption and unload when the queue is no longer needed.",
     "code": "local Media = require(\"luastra/media\")\nMedia.stop()",
@@ -8438,14 +15902,31 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.stop",
-    "description": "Requests that playback stop and reset the current item according to the host contract while retaining the queue. It differs from unload, which releases the active media resources."
+    "description": "Requests that playback stop and reset the current item according to the host contract while retaining the queue. It differs from unload, which releases the active media resources.",
+    "previousPageId": "media/item-10",
+    "nextPageId": "media/item-12",
+    "relatedPageIds": [
+      "media/item-9",
+      "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion"
+    ]
   },
   {
     "id": "media/item-12",
+    "routeSlug": "unload",
+    "routeId": "media/unload",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.unload when leaving the media feature, signing out, or replacing the session with unrelated content. Do not unload for a brief pause because it discards resumable host state.",
     "code": "local Media = require(\"luastra/media\")\nMedia.unload()",
@@ -8453,14 +15934,33 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.unload",
-    "description": "Requests release of the active media queue and playback resources, clearing state that should not survive the current media session. A later play requires setting an appropriate queue again."
+    "description": "Requests release of the active media queue and playback resources, clearing state that should not survive the current media session. A later play requires setting an appropriate queue again.",
+    "previousPageId": "media/item-11",
+    "nextPageId": "media/item-13",
+    "relatedPageIds": [
+      "media/item-9",
+      "media/item-10",
+      "media/item-16"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "prerequisite",
+      "companion"
+    ]
   },
   {
     "id": "media/item-13",
+    "routeSlug": "next",
+    "routeId": "media/next",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.next for an explicit Next control or a policy that advances after completion. Disable or explain the control when decoded media state shows that no next item is available.",
     "code": "local Media = require(\"luastra/media\")\nMedia.next()",
@@ -8468,14 +15968,31 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.next",
-    "description": "Requests selection of the next item in the current queue according to host queue boundaries. The actual selected index and playback state arrive through media_state."
+    "description": "Requests selection of the next item in the current queue according to host queue boundaries. The actual selected index and playback state arrive through media_state.",
+    "previousPageId": "media/item-12",
+    "nextPageId": "media/item-14",
+    "relatedPageIds": [
+      "media/item-4",
+      "media/item-15"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "prerequisite"
+    ]
   },
   {
     "id": "media/item-14",
+    "routeSlug": "previous",
+    "routeId": "media/previous",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.previous for an explicit Previous control and derive availability from decoded media state. Define separately whether a near-start press should restart the current item in application UX.",
     "code": "local Media = require(\"luastra/media\")\nMedia.previous()",
@@ -8483,14 +16000,29 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.previous",
-    "description": "Requests selection of the previous item in the current queue according to host queue boundaries. It does not let application code assume whether the host restarts or changes items without observing state."
+    "description": "Requests selection of the previous item in the current queue according to host queue boundaries. It does not let application code assume whether the host restarts or changes items without observing state.",
+    "previousPageId": "media/item-13",
+    "nextPageId": "media/item-15",
+    "relatedPageIds": [
+      "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion"
+    ]
   },
   {
     "id": "media/item-15",
+    "routeSlug": "state-function",
+    "routeId": "media/state-function",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.state to initialize controls after startup, restoration, or a suspected missed event. Prefer live media_state events for routine updates instead of polling continuously.",
     "code": "local Media = require(\"luastra/media\")\nlocal requestId = Media.state()",
@@ -8498,14 +16030,35 @@ export const generatedPages = Object.freeze([
     "parameters": [],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.state",
-    "description": "Requests a current snapshot of queue, selection, playback, position, duration, and bounded media error state. The asynchronous payload is decoded with Media.decodeState."
+    "description": "Requests a current snapshot of queue, selection, playback, position, duration, and bounded media error state. The asynchronous payload is decoded with Media.decodeState.",
+    "previousPageId": "media/item-14",
+    "nextPageId": "media/item-16",
+    "relatedPageIds": [
+      "media/item-1",
+      "media/item-2",
+      "media/item-4",
+      "media/item-8"
+    ],
+    "relatedPageRoles": [
+      "prerequisite",
+      "companion",
+      "prerequisite",
+      "next-step"
+    ]
   },
   {
     "id": "media/item-16",
+    "routeSlug": "seek",
+    "routeId": "media/seek",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.seek for a user-operated scrubber, skip control, or explicit chapter jump. Base the target on decoded duration and position, and do not issue a request for every unthrottled pointer movement.",
     "code": "local Media = require(\"luastra/media\")\nMedia.seek(30_000)",
@@ -8519,17 +16072,38 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "RequestId — an opaque request identifier used to correlate the asynchronous completion in Application.resolve.",
     "name": "Media.seek",
-    "description": "Requests movement of the selected media item to the supplied non-negative millisecond position. The host clamps or rejects values according to the current duration and reports the resulting state asynchronously."
+    "description": "Requests movement of the selected media item to the supplied non-negative millisecond position. The host clamps or rejects values according to the current duration and reports the resulting state asynchronously.",
+    "previousPageId": "media/item-15",
+    "nextPageId": "media/item-17",
+    "relatedPageIds": [
+      "media/item-9",
+      "media/item-10",
+      "media/item-11",
+      "media/item-12"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "companion",
+      "companion"
+    ]
   },
   {
     "id": "media/item-17",
+    "routeSlug": "decode-state",
+    "routeId": "media/decode-state",
     "kind": "entry",
     "sectionId": "media",
     "sectionTitle": "Audio and media queue",
     "module": "luastra/media",
+    "beforeYouUse": "Add luastra/media to this module's dependencies in luastra.json, then import it with require(\"luastra/media\"). Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.",
+    "lifecycle": "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state.",
+    "expectedOutcome": "A tagged result containing result.state or a bounded decode error.",
+    "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.decodeState for every media_state event and successful Media.state response before updating controls, lock-screen-facing state, or persistence. Preserve the previous known state when decoding fails.",
-    "code": "local Media = require(\"luastra/media\")\nlocal state = Media.decodeState(payload)\nif state.success then positionMs = state.positionMs end",
+    "code": "local Media = require(\"luastra/media\")\nlocal result = Media.decodeState(payload)\nif result.success then positionMs = result.state.positionMs else errorMessage = result.error end",
     "signature": "Media.decodeState(payload: string): DecodeResult",
     "parameters": [
       {
@@ -8540,14 +16114,41 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "DecodeResult — a discriminated decode result; branch on success before reading decoded fields or failure data.",
     "name": "Media.decodeState",
-    "description": "Validates and decodes a media-state payload into a discriminated Media.DecodeResult containing the typed playback State or a bounded failure. This keeps host strings outside trusted application state until checked."
+    "description": "Validates and decodes a media-state payload into a discriminated Media.DecodeResult containing the typed playback State or a bounded failure. This keeps host strings outside trusted application state until checked.",
+    "completeRecipe": {
+      "sectionId": "recipe-media",
+      "title": "play packaged audio",
+      "evidence": "authored-files",
+      "description": "This checked recipe uses Media.decodeState inside complete authored files with the required manifest, test, and run steps."
+    },
+    "previousPageId": "media/item-16",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "media/item-5",
+      "media/item-6",
+      "media/item-7",
+      "media/item-4"
+    ],
+    "relatedPageRoles": [
+      "companion",
+      "companion",
+      "prerequisite",
+      "prerequisite"
+    ]
   },
   {
     "id": "debug/item-1",
+    "routeSlug": "log",
+    "routeId": "debug/log",
     "kind": "entry",
     "sectionId": "debug",
     "sectionTitle": "Debug output",
     "module": "luastra/debug",
+    "beforeYouUse": "Add luastra/debug to this module's dependencies in luastra.json, then import it with require(\"luastra/debug\"). No additional host capability is required. Keep user-visible errors in UI state rather than relying on a developer console.",
+    "lifecycle": "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
+    "expectedOutcome": "A prefixed diagnostic appears in the active host's development log.",
+    "failureGuidance": "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
+    "availability": "Public-source alpha diagnostic API in 0.2.0-alpha.",
     "callable": true,
     "useWhen": "Use Debug.log for temporary progress, state-transition, and correlation diagnostics during local development. Remove noisy calls before release and never include credentials, tokens, personal data, or complete sensitive payloads.",
     "code": "local Debug = require(\"luastra/debug\")\nDebug.log(\"game\", \"round started\")",
@@ -8561,14 +16162,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "nil — the exact nil value declared by the SDK contract.",
     "name": "Debug.log",
-    "description": "Emits a development diagnostic at the ordinary log level, serializing the supplied values through the host's bounded debug channel. It has no role in application state or user-visible status."
+    "description": "Emits a development diagnostic at the ordinary log level, serializing the supplied values through the host's bounded debug channel. It has no role in application state or user-visible status.",
+    "previousPageId": null,
+    "nextPageId": "debug/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "debug/item-2",
+    "routeSlug": "warn",
+    "routeId": "debug/warn",
     "kind": "entry",
     "sectionId": "debug",
     "sectionTitle": "Debug output",
     "module": "luastra/debug",
+    "beforeYouUse": "Add luastra/debug to this module's dependencies in luastra.json, then import it with require(\"luastra/debug\"). No additional host capability is required. Keep user-visible errors in UI state rather than relying on a developer console.",
+    "lifecycle": "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
+    "expectedOutcome": "A prefixed diagnostic appears in the active host's development log.",
+    "failureGuidance": "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
+    "availability": "Public-source alpha diagnostic API in 0.2.0-alpha.",
     "callable": true,
     "useWhen": "Use Debug.warn when the application can continue but a fallback, stale value, or unusual branch deserves developer attention. User-correctable validation belongs in the UI, not only in the debug console.",
     "code": "local Debug = require(\"luastra/debug\")\nDebug.warn(\"storage\", \"snapshot was empty\")",
@@ -8582,14 +16194,25 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "nil — the exact nil value declared by the SDK contract.",
     "name": "Debug.warn",
-    "description": "Emits a warning-level development diagnostic for an unexpected but recoverable condition. Hosts may distinguish it visually from normal logs while preserving the same bounded argument handling."
+    "description": "Emits a warning-level development diagnostic for an unexpected but recoverable condition. Hosts may distinguish it visually from normal logs while preserving the same bounded argument handling.",
+    "previousPageId": "debug/item-1",
+    "nextPageId": "debug/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "debug/item-3",
+    "routeSlug": "error",
+    "routeId": "debug/error",
     "kind": "entry",
     "sectionId": "debug",
     "sectionTitle": "Debug output",
     "module": "luastra/debug",
+    "beforeYouUse": "Add luastra/debug to this module's dependencies in luastra.json, then import it with require(\"luastra/debug\"). No additional host capability is required. Keep user-visible errors in UI state rather than relying on a developer console.",
+    "lifecycle": "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
+    "expectedOutcome": "A prefixed diagnostic appears in the active host's development log.",
+    "failureGuidance": "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
+    "availability": "Public-source alpha diagnostic API in 0.2.0-alpha.",
     "callable": true,
     "useWhen": "Use Debug.error when an operation reaches a failure branch that should be conspicuous during development. Still update user-visible state and handle the Result or resolve failure explicitly; do not use logging as control flow.",
     "code": "local Debug = require(\"luastra/debug\")\nDebug.error(\"server\", \"request failed\")",
@@ -8603,71 +16226,109 @@ export const generatedPages = Object.freeze([
     ],
     "returns": "nil — the exact nil value declared by the SDK contract.",
     "name": "Debug.error",
-    "description": "Emits an error-level diagnostic without replacing structured application error handling or automatically terminating execution. The message is intended for developers observing a failing operation."
+    "description": "Emits an error-level diagnostic without replacing structured application error handling or automatically terminating execution. The message is intended for developers observing a failing operation.",
+    "previousPageId": "debug/item-2",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "cli/table-1",
+    "routeSlug": "commands-and-outputs",
+    "routeId": "cli/commands-and-outputs",
     "kind": "parameter-group",
     "sectionId": "cli",
     "sectionTitle": "Command line",
-    "module": "bin/luastra",
-    "name": "Alpha commands",
-    "description": "Shared parameters in the “Alpha commands” group. A component page links here only when it supports this group.",
+    "module": "installed luastra CLI",
+    "name": "Commands and outputs",
+    "signature": "cli-commands",
+    "description": "Shared parameters in the “Commands and outputs” group. A component page links here only when it supports this group.",
     "parameters": [
       {
         "name": "version",
-        "values": "command",
-        "description": "Runs the version workflow."
+        "values": "luastra version",
+        "description": "Prints JSON containing command, result=PASS, and the selected product version."
+      },
+      {
+        "name": "doctor",
+        "values": "luastra doctor [--root=<directory>]",
+        "description": "Verifies Node, host selection, manager state, the active SDK receipt, every installed file, and the PATH shim."
       },
       {
         "name": "create",
-        "values": "command",
-        "description": "Runs the create workflow."
+        "values": "luastra create <directory>",
+        "description": "Copies the starter into a missing or empty safe directory and derives project.id from its name."
       },
       {
         "name": "check",
-        "values": "command",
-        "description": "Runs the check workflow."
+        "values": "luastra check [--project=<path>]",
+        "description": "Analyzes strict Luau, manifest, modules, capabilities, assets, and SDK identities without keeping a build artifact."
       },
       {
         "name": "test",
-        "values": "command",
-        "description": "Runs the test workflow."
+        "values": "luastra test [--project=<path>]",
+        "description": "Executes every test module listed in the project manifest and prints a bounded result summary."
       },
       {
         "name": "conformance",
-        "values": "command",
-        "description": "Runs the conformance workflow."
+        "values": "luastra conformance [--project=<path>]",
+        "description": "Builds the project and checks its declared behavior against the supported conformance contract."
       },
       {
         "name": "generate",
-        "values": "command",
-        "description": "Runs the generate workflow."
+        "values": "luastra generate [--project=<path>]",
+        "description": "Regenerates the typed server client. The manifest must declare backend.declaration, handler, generatedClient, and generatedModule."
       },
       {
         "name": "run",
-        "values": "command",
-        "description": "Runs the run workflow."
+        "values": "luastra run [--project=<path>] [--port=<port>] [--no-watch]",
+        "description": "Builds and serves a local preview. Default port is 4175; watch mode rebuilds after source changes; Ctrl+C stops it."
       },
       {
         "name": "build web",
-        "values": "command",
-        "description": "Runs the build web workflow."
+        "values": "luastra build web [--project=<path>] [--out=<path>]",
+        "description": "Writes a static web artifact to dist/web by default. The destination must satisfy the build's safety and replacement rules."
       },
       {
         "name": "build bundle",
-        "values": "command",
-        "description": "Runs the build bundle workflow."
+        "values": "luastra build bundle [--project=<path>] [--out=<path>]",
+        "description": "Writes the compiled host-neutral application bundle to dist/bundle by default. It contains bytecode, manifest metadata, hashes, and project assets, but no VM or UI host; it is not directly runnable."
       },
       {
         "name": "sdk install",
-        "values": "command",
-        "description": "Runs the sdk install workflow."
+        "values": "luastra sdk install --manifest=<path-or-https-url> [--no-use]",
+        "description": "Verifies and installs an immutable release; activates it unless --no-use is supplied."
+      },
+      {
+        "name": "sdk list",
+        "values": "luastra sdk list [--root=<directory>]",
+        "description": "Lists installed immutable SDK versions and identifies the active selection."
+      },
+      {
+        "name": "sdk use",
+        "values": "luastra sdk use <version> [--root=<directory>]",
+        "description": "Selects a previously installed verified version; use this for rollback."
+      },
+      {
+        "name": "sdk update",
+        "values": "luastra sdk update --manifest=<path-or-https-url>",
+        "description": "Installs and activates the version named by another verified release manifest."
+      },
+      {
+        "name": "sdk remove",
+        "values": "luastra sdk remove <inactive-version>",
+        "description": "Removes a verified inactive SDK. Removing the active version is rejected."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-1",
+    "routeSlug": "minimal-manifest",
+    "routeId": "manifest/minimal-manifest",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -8680,10 +16341,43 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Minimal manifest",
     "description": "check enforces this explicit contract.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": null,
+    "nextPageId": "manifest/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "manifest/item-2",
+    "routeSlug": "web-metadata",
+    "routeId": "manifest/web-metadata",
+    "kind": "entry",
+    "sectionId": "manifest",
+    "sectionTitle": "Project manifest",
+    "module": "luastra.json · schema v2",
+    "callable": false,
+    "useWhen": "Read this page when you need to apply Web metadata, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+    "code": "\"web\": {\n  \"title\": \"My Luastra app\",\n  \"description\": \"A concise description for search and social previews.\",\n  \"canonicalUrl\": \"https://example.com/\",\n  \"index\": true\n}",
+    "signature": "web{}",
+    "parameters": [],
+    "returns": null,
+    "name": "Web metadata",
+    "description": "Optional bounded metadata for an indexable production web shell.",
+    "language": "JSON",
+    "points": [
+      "The web build emits title, description, canonical, robots, Open Graph, and Twitter metadata.",
+      "index=true emits robots.txt and a one-location sitemap.xml; hash routes are not separate indexable documents.",
+      "The build escapes metadata and rejects credentials, query strings, fragments, and non-HTTPS canonical URLs."
+    ],
+    "previousPageId": "manifest/item-1",
+    "nextPageId": "manifest/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
+  },
+  {
+    "id": "manifest/item-3",
+    "routeSlug": "assets",
+    "routeId": "manifest/assets",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -8696,10 +16390,16 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Assets",
     "description": "Admitted project files.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "manifest/item-2",
+    "nextPageId": "manifest/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
-    "id": "manifest/item-3",
+    "id": "manifest/item-4",
+    "routeSlug": "capabilities",
+    "routeId": "manifest/capabilities",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -8712,10 +16412,16 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Capabilities",
     "description": "Explicit host privileges.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "manifest/item-3",
+    "nextPageId": "manifest/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
-    "id": "manifest/item-4",
+    "id": "manifest/item-5",
+    "routeSlug": "backend",
+    "routeId": "manifest/backend",
     "kind": "entry",
     "sectionId": "manifest",
     "sectionTitle": "Project manifest",
@@ -8728,46 +16434,63 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Backend",
     "description": "Trusted operations and generated clients.",
-    "language": "JSON"
+    "language": "JSON",
+    "previousPageId": "manifest/item-4",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "support/table-1",
+    "routeSlug": "current-evidence-boundary",
+    "routeId": "support/current-evidence-boundary",
     "kind": "parameter-group",
     "sectionId": "support",
     "sectionTitle": "Support and boundaries",
     "module": null,
-    "name": "Source alpha status",
-    "description": "Shared parameters in the “Source alpha status” group. A component page links here only when it supports this group.",
+    "name": "Current evidence boundary",
+    "description": "Shared parameters in the “Current evidence boundary” group. A component page links here only when it supports this group.",
     "parameters": [
       {
-        "name": "Core runtime and web",
-        "values": "Verified",
-        "description": "check, test, run, and build."
+        "name": "CLI, runtime, and web build",
+        "values": "Repository-verified",
+        "description": "create, check, test, run, bundle, and static web build have automated coverage for the release checkout."
       },
       {
-        "name": "UI, IME, accessibility",
-        "values": "Verified",
-        "description": "Recorded cross-host evidence."
+        "name": "Web UI and accessibility",
+        "values": "Browser-verified",
+        "description": "Semantic DOM, keyboard, zoom, IME, responsive layout, and selected flows have bounded browser evidence; this is not every assistive technology."
       },
       {
-        "name": "Motion and Timer",
-        "values": "Verified",
-        "description": "Lifecycle and cancellation coverage."
+        "name": "Desktop host sources",
+        "values": "Tauri evidence",
+        "description": "The web artifact has bounded macOS, Linux, and Windows build/launch evidence; no signed installer, notarization, store package, or updater is promised."
       },
       {
-        "name": "Media",
+        "name": "Mobile host sources",
+        "values": "Capacitor evidence",
+        "description": "Android/iOS simulator and selected physical-device flows have bounded evidence; no public store package or universal device certification is promised."
+      },
+      {
+        "name": "Media and background behavior",
         "values": "Host-dependent",
-        "description": "Production packaging remains separate."
+        "description": "Autoplay, interruption, background playback, hardware controls, and packaging require target-specific verification."
       },
       {
         "name": "Public release",
-        "values": "Source alpha",
-        "description": "Pre-release APIs may change; production stability is not promised."
+        "values": "0.2.0-alpha",
+        "description": "Pre-release APIs may change. The public installer exposes bundle and web builds; native packaging remains a separately evidenced source workflow."
       }
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-1",
+    "routeSlug": "contact-routes",
+    "routeId": "policies/contact-routes",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8785,10 +16508,16 @@ export const generatedPages = Object.freeze([
       "Private user support: support@luastra.dev.",
       "Security reports: security@luastra.dev; prefer GitHub private vulnerability reporting when available.",
       "Privacy enquiries: privacy@luastra.dev. Licensing, trademark, and legal enquiries: legal@luastra.dev."
-    ]
+    ],
+    "previousPageId": null,
+    "nextPageId": "policies/item-2",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-2",
+    "routeSlug": "security-policy",
+    "routeId": "policies/security-policy",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8806,10 +16535,16 @@ export const generatedPages = Object.freeze([
       "Use GitHub private vulnerability reporting for confidential coordination; use security@luastra.dev if that route is unavailable.",
       "Include the exact version or commit, affected hosts, safe reproduction steps, expected impact, and known preconditions.",
       "Never include real credentials, personal data, production tokens, or unrelated private source."
-    ]
+    ],
+    "previousPageId": "policies/item-1",
+    "nextPageId": "policies/item-3",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-3",
+    "routeSlug": "support-policy",
+    "routeId": "policies/support-policy",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8827,10 +16562,16 @@ export const generatedPages = Object.freeze([
       "A defect report should include the exact version, host and target, minimal reproduction, expected and actual behavior, and sanitized error output.",
       "Public issues are for reproducible defects; Discussions are for usage and design questions.",
       "Use support@luastra.dev only when a support or conduct enquiry contains context that should not be public."
-    ]
+    ],
+    "previousPageId": "policies/item-2",
+    "nextPageId": "policies/item-4",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-4",
+    "routeSlug": "privacy-notice",
+    "routeId": "policies/privacy-notice",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8848,10 +16589,16 @@ export const generatedPages = Object.freeze([
       "A local presentation preference may remain on the visitor's device; GitHub Pages may process technical request information under GitHub's own terms.",
       "Direct email provides the sender address, message, attachments, and any information the sender chooses to include.",
       "Privacy questions and requests concerning information sent to the project may be addressed to privacy@luastra.dev."
-    ]
+    ],
+    "previousPageId": "policies/item-3",
+    "nextPageId": "policies/item-5",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-5",
+    "routeSlug": "licensing-boundary",
+    "routeId": "policies/licensing-boundary",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8869,10 +16616,16 @@ export const generatedPages = Object.freeze([
       "Starter templates and scaffolding fragments use 0BSD so generated applications are not forced to be open source.",
       "User-authored applications and content remain owned by their respective rights holders.",
       "Send licensing questions to legal@luastra.dev; an email response changes no license unless it expressly says so in writing."
-    ]
+    ],
+    "previousPageId": "policies/item-4",
+    "nextPageId": "policies/item-6",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-6",
+    "routeSlug": "trademark-policy",
+    "routeId": "policies/trademark-policy",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8890,10 +16643,16 @@ export const generatedPages = Object.freeze([
       "Truthful nominative references such as built with Luastra are intended to be allowed when they do not imply endorsement.",
       "Product names, domains, confusingly similar logos, merchandise, certification claims, and modified brand assets require separate written permission.",
       "Send permission requests to legal@luastra.dev; sending an enquiry does not itself grant permission."
-    ]
+    ],
+    "previousPageId": "policies/item-5",
+    "nextPageId": "policies/item-7",
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   },
   {
     "id": "policies/item-7",
+    "routeSlug": "releases",
+    "routeId": "policies/releases",
     "kind": "guide",
     "sectionId": "policies",
     "sectionTitle": "Project policies",
@@ -8901,7 +16660,7 @@ export const generatedPages = Object.freeze([
     "callable": false,
     "useWhen": "Read this when selecting a downloadable release or checking what stability and compatibility the source alpha promises.",
     "code": null,
-    "signature": "0.1.0-alpha",
+    "signature": "0.2.0-alpha",
     "parameters": [],
     "returns": null,
     "name": "Releases",
@@ -8910,6 +16669,10 @@ export const generatedPages = Object.freeze([
       "The current release is pre-release software, not a stable production promise.",
       "Verify downloaded files against the release manifest before installation.",
       "Use the compatibility and support policies to distinguish verified targets from host-dependent claims."
-    ]
+    ],
+    "previousPageId": "policies/item-6",
+    "nextPageId": null,
+    "relatedPageIds": [],
+    "relatedPageRoles": []
   }
 ]);

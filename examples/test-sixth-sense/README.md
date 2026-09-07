@@ -32,7 +32,7 @@ luastra.json                 modules, capabilities, assets, and tests
 
 ## Requirements
 
-Requirements: Node.js 24 or newer and an installed Luastra 0.1.0-alpha SDK. Run the following commands from this application directory.
+Requirements: Node.js 24 or newer and an installed Luastra 0.2.0-alpha SDK. Run the following commands from this application directory.
 
 ## Check and test
 

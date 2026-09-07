@@ -17,6 +17,24 @@ function pageId(sectionId, index) {
   return `${sectionId}/item-${index + 1}`;
 }
 
+function pageSlug(name) {
+  const publicSymbol = /^[A-Z][A-Za-z0-9]*\.([A-Za-z][A-Za-z0-9]*)$/u.exec(name);
+  const unqualified = publicSymbol ? publicSymbol[1] : name;
+  const slug = unqualified
+    .replace(/^\d+\.\s*/u, "")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  if (!/^[a-z0-9][a-z0-9-]{0,95}$/u.test(slug)) fail(`cannot create a stable route slug for ${name}`);
+  return slug;
+}
+
+function pageRouteId(sectionId, name) {
+  return `${sectionId}/${pageSlug(name)}`;
+}
+
 const sdkDirectory = resolve(import.meta.dirname, "../../../sdk/luastra");
 const sdkSources = {};
 for (const moduleName of Object.keys(sdkInventory)) {
@@ -218,12 +236,12 @@ const sdkExpandedParameters = Object.freeze({
   ],
   "Timer.start": [
     { name: "options.id", values: "string", description: "Stable lowercase path ID delivered with the one-shot timer event." },
-    { name: "options.delayMs", values: "integer (0..86400000)", description: "Delay before delivery, in milliseconds." },
+    { name: "options.delayMs", values: "integer (0..60000)", description: "Delay before delivery, in milliseconds." },
     { name: "options.value", values: "string?", description: "Optional bounded value delivered with the timer event." },
   ],
   "Timer.restart": [
     { name: "options.id", values: "string", description: "Existing or new stable timer ID to replace atomically." },
-    { name: "options.delayMs", values: "integer (0..86400000)", description: "Fresh delay before the replacement timer fires." },
+    { name: "options.delayMs", values: "integer (0..60000)", description: "Fresh delay before the replacement timer fires." },
     { name: "options.value", values: "string?", description: "Optional bounded value delivered with the replacement event." },
   ],
   "Server.call": [
@@ -260,6 +278,9 @@ function declarationReturn(signature, publicName) {
   const close = signature.lastIndexOf("):");
   if (close < 0) return null;
   const type = signature.slice(close + 2).trim();
+  if (type === "RequestId" && publicName.startsWith("Timer.")) {
+    return "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.";
+  }
   const descriptions = {
     Node: "a validated declarative UI node that becomes part of the next host-neutral render tree",
     RequestId: "an opaque request identifier used to correlate the asynchronous completion in Application.resolve",
@@ -575,6 +596,77 @@ UI.Image {
     UI.Text { id = "help/title", text = "Help", variant = "heading" },
     UI.Button { id = "help/close", text = "Close", onTap = "help.close" },
 }`,
+  "UI.Orbit": `UI.Orbit {
+    id = "map",
+    label = "Application map",
+    UI.Constellation {
+        id = "map/root",
+        UI.OrbitCenter { id = "map/root/center", title = "My app" },
+        UI.OrbitNode { id = "map/start", title = "Start", onTap = "start" },
+    },
+}`,
+  "UI.OrbitPath": `UI.OrbitPath {
+    id = "map/path",
+    label = "Orbit path",
+    UI.OrbitReturn { id = "map/back", text = "Back", onTap = "back" },
+    UI.Text { id = "map/current", text = "Build" },
+}`,
+  "UI.OrbitSearch": `UI.OrbitSearch {
+    id = "map/search",
+    query = query,
+    resultCount = resultCount,
+    totalCount = #nodes,
+    onInput = "search",
+}`,
+  "UI.Constellation": `UI.Constellation {
+    id = "map/root",
+    layerState = "active",
+    UI.OrbitCenter { id = "map/root/center", title = "My app" },
+    UI.OrbitNode { id = "map/start", title = "Start", onTap = "start" },
+}`,
+  "UI.OrbitCenter": `UI.OrbitCenter {
+    id = "map/root/center",
+    title = "My app",
+    description = "Choose a direction.",
+}`,
+  "UI.OrbitNode": `UI.OrbitNode {
+    id = "map/build",
+    title = "Build",
+    description = "Compose the interface.",
+    nodeKind = "constellation",
+    signalIcon = "spark",
+    priority = 1,
+    onTap = "open-build",
+}`,
+  "UI.OrbitCluster": `UI.OrbitCluster {
+    id = "map/examples",
+    title = "Examples",
+    count = 48,
+    signalIcon = "grid",
+    onTap = "open-examples",
+}`,
+  "UI.FocusSurface": `UI.FocusSurface {
+    id = "map/focus",
+    label = "Build details",
+    open = focused,
+    onDismiss = "close-focus",
+    UI.FocusHeader {
+        id = "map/focus/header",
+        UI.Text { id = "map/focus/title", text = "Build", variant = "heading" },
+        UI.Button { id = "map/focus/close", text = "Back", onTap = "close-focus" },
+    },
+}`,
+  "UI.FocusHeader": `UI.FocusHeader {
+    id = "map/focus/header",
+    UI.Text { id = "map/focus/title", text = "Build", variant = "heading" },
+    UI.Button { id = "map/focus/close", text = "Back", onTap = "close-focus" },
+}`,
+  "UI.OrbitReturn": `UI.OrbitReturn {
+    id = "map/back",
+    text = "Back",
+    onTap = "back",
+    disabled = atRoot,
+}`,
 });
 
 const apiExamples = Object.freeze({
@@ -607,9 +699,9 @@ end`,
   "Motion.wait": `local Motion = require("luastra/motion")\nlocal pause = Motion.wait(500)`,
   "Motion.sequence": `local Motion = require("luastra/motion")\nlocal reveal = Motion.sequence({\n    Motion.wait(300),\n    Motion.tween { from = 0, to = 180, durationMs = 500 },\n}, 1)\nlocal motion = { rotationYDeg = reveal }`,
   "Motion.fadeIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.fadeIn { durationMs = 240 }`,
-  "Motion.slideIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.slideIn { fromY = 24, durationMs = 300 }`,
+  "Motion.slideIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.slideIn { y = 24, durationMs = 300 }`,
   "Motion.scaleIn": `local Motion = require("luastra/motion")\nlocal motion = Motion.scaleIn { from = 0.92, durationMs = 220 }`,
-  "Motion.sway": `local Motion = require("luastra/motion")\nlocal motion = Motion.sway { rotationDeg = 2, durationMs = 2400, iterations = 0 }`,
+  "Motion.sway": `local Motion = require("luastra/motion")\nlocal motion = Motion.sway { angleDeg = 2, durationMs = 2400, iterations = 0 }`,
   "Motion.pulse": `local Motion = require("luastra/motion")\nlocal motion = Motion.pulse { scale = 1.05, durationMs = 1800, iterations = 0 }`,
   "Motion.shake": `local Motion = require("luastra/motion")\nlocal motion = Motion.shake { distance = 8, durationMs = 360 }`,
   "Motion.flip": `local Motion = require("luastra/motion")\nlocal motion = Motion.flip { fromDeg = 0, toDeg = 180, durationMs = 500 }`,
@@ -639,7 +731,12 @@ local router = Navigation.createRouter {
   "State.migrate": `local State = require("luastra/state")\nlocal result = State.migrate(oldSnapshot, 2, { [1] = function(fields) return { score = fields.score or "0" } end })`,
   "Host.storageGet": `local Host = require("luastra/host")\nlocal requestId = Host.storageGet("game-state")`,
   "Host.storageSet": `local Host = require("luastra/host")\nlocal requestId = Host.storageSet("game-state", snapshot)`,
-  "Host.launchUrl": `local Host = require("luastra/host")\nlocal requestId = Host.launchUrl()`,
+  "Host.launchUrl": `local Host = require("luastra/host")
+local launchRequestId = Host.launchUrl()
+
+function Application.resolve(id: number, success: boolean, payload: string)
+    if id == launchRequestId and success then applyLaunchLocation(payload) end
+end`,
   "Host.clipboardWrite": `local Host = require("luastra/host")\nlocal requestId = Host.clipboardWrite("luastra check")`,
   "Host.historyPush": `local Host = require("luastra/host")\nHost.historyPush(router.encode())`,
   "Host.historyReplace": `local Host = require("luastra/host")\nHost.historyReplace(router.encode())`,
@@ -651,7 +748,9 @@ local router = Navigation.createRouter {
   "Host.systemBackHistory": `local Host = require("luastra/host")\nHost.systemBackHistory(intentId)`,
   "Host.systemBackExit": `local Host = require("luastra/host")\nHost.systemBackExit(intentId)`,
   "Server.call": `local Server = require("luastra/server")\nlocal requestId = Server.call("records.list.v1", { cursor = "" }, { deadlineMs = 3000, retry = true })`,
-  "Server.decode": `local Server = require("luastra/server")\nlocal result = Server.decode(payload)\nif result.success then records = result.value end`,
+  "Server.decode": `local Server = require("luastra/server")
+local result = Server.decode(payload)
+if result.success then records = result.fields else errorMessage = result.error end`,
   "Media.setQueue": `local Media = require("luastra/media")\nMedia.setQueue({ { id = "intro", source = "asset:audio/intro", title = "Intro", artist = "Luastra" } })`,
   "Media.play": `local Media = require("luastra/media")\nMedia.play()`,
   "Media.pause": `local Media = require("luastra/media")\nMedia.pause()`,
@@ -661,7 +760,9 @@ local router = Navigation.createRouter {
   "Media.previous": `local Media = require("luastra/media")\nMedia.previous()`,
   "Media.state": `local Media = require("luastra/media")\nlocal requestId = Media.state()`,
   "Media.seek": `local Media = require("luastra/media")\nMedia.seek(30_000)`,
-  "Media.decodeState": `local Media = require("luastra/media")\nlocal state = Media.decodeState(payload)\nif state.success then positionMs = state.positionMs end`,
+  "Media.decodeState": `local Media = require("luastra/media")
+local result = Media.decodeState(payload)
+if result.success then positionMs = result.state.positionMs else errorMessage = result.error end`,
 });
 
 const layoutParameters = [
@@ -695,7 +796,7 @@ const uiAllowedInheritedParameters = Object.freeze({
   "UI.Shape": [...framedParameters, "width / height", "cornerRadius", "shape", "fill / stroke", "strokeWidth", "label", "hidden", ...motionParameters],
   "UI.FlipCard": [...framedParameters, "width / height", "aspectRatio", "label", "role", "hidden", ...motionParameters],
   "UI.Text": [...boxParameters, ...colorParameters, "tone", "variant", "role", "label", "hidden", "busy", ...motionParameters],
-  "UI.Button": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "onTap", "appearance", "label", "hidden", "disabled", "busy", ...motionParameters],
+  "UI.Button": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "icon", "onTap", "appearance", "label", "hidden", "disabled", "busy", ...motionParameters],
   "UI.Link": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "onTap", "label", "hidden", "busy", ...motionParameters],
   "UI.Code": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "role", "label", "hidden", ...motionParameters],
   "UI.CodeBlock": [...layoutParameters, "textColor", "backgroundColor", "Color tokens", "role", "label", "hidden"],
@@ -707,6 +808,16 @@ const uiAllowedInheritedParameters = Object.freeze({
   "UI.List": [...containerParameters],
   "UI.ListItem": [...containerParameters],
   "UI.Modal": [...boxParameters, "onDismiss", "label", "hidden", "busy", "textColor", "backgroundColor", "Color tokens", ...motionParameters],
+  "UI.Orbit": [...containerParameters],
+  "UI.OrbitPath": [...containerParameters],
+  "UI.OrbitSearch": [...boxParameters, "hidden"],
+  "UI.Constellation": [...framedParameters, "label", "hidden"],
+  "UI.OrbitCenter": [...boxParameters, "hidden"],
+  "UI.OrbitNode": [...boxParameters, "onTap", "label", "hidden", "disabled", "busy"],
+  "UI.OrbitCluster": [...boxParameters, "onTap", "label", "hidden", "disabled", "busy"],
+  "UI.FocusSurface": [...boxParameters, "onDismiss", "label", "hidden", "busy"],
+  "UI.FocusHeader": [...containerParameters],
+  "UI.OrbitReturn": [...boxParameters, "onTap", "label", "hidden", "disabled", "busy"],
 });
 
 const direct = (name, values, description) => ({ name, values, description });
@@ -731,8 +842,8 @@ const uiDirectParameters = Object.freeze({
   "UI.Shape": [direct("id", "lowercase path, required", "Unique ID."), direct("shape", "supported shape, required", "Shape geometry."), direct("width", "number 1…4096, required", "Width in CSS pixels."), direct("height", "number 1…4096, required", "Height in CSS pixels.")],
   "UI.FlipCard": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "exactly 2 UI.Node", "First child is the front and second is the back; FlipCard owns the size.")],
   "UI.Text": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string, required", "Visible text; use \\n for an explicit line break.")],
-  "UI.Button": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string, required", "Visible button label."), direct("onTap", "action string, required", "Action delivered to Application.handle after activation.")],
-  "UI.Link": [direct("id", "lowercase path, required", "Unique link ID."), direct("text", "string, required", "Visible link text."), direct("href", "#fragment | HTTPS URL, required", "Safe internal fragment or external HTTPS destination."), direct("external", "boolean?", "Opens an external destination according to host policy."), direct("onTap", "action string?", "Optional admitted action delivered when the link is activated.")],
+  "UI.Button": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Visible button label; may be omitted when icon and label are provided."), direct("icon", "activity | palette | pause?", "Host-rendered semantic icon. An icon-only button requires label."), direct("onTap", "action string, required", "Action delivered to Application.handle after activation.")],
+  "UI.Link": [direct("id", "lowercase path, required", "Unique link ID."), direct("text", "string, required", "Visible link text."), direct("href", "#fragment | #/route | HTTPS URL, required", "Safe internal fragment, canonical application hash route, or external HTTPS destination."), direct("external", "boolean?", "Opens an external destination according to host policy."), direct("onTap", "action string?", "Optional admitted action delivered when the link is activated.")],
   "UI.Code": [direct("id", "lowercase path, required", "Unique ID."), direct("code", "string ≤ 4096 bytes, required", "Inline source text rendered without interpretation."), direct("language", "safe language name?", "Optional source-language label.")],
   "UI.CodeBlock": [direct("id", "lowercase path, required", "Unique ID."), direct("code", "string ≤ 4096 bytes, required", "Multiline source text rendered without interpretation."), direct("language", "safe language name?", "Optional source-language label.")],
   "UI.Divider": [direct("id", "lowercase path, required", "Unique ID."), direct("label", "string?", "Optional accessible name; omit it for a decorative divider.")],
@@ -743,6 +854,16 @@ const uiDirectParameters = Object.freeze({
   "UI.List": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.ListItem[]", "List items only.")],
   "UI.ListItem": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Short text; children may be supplied instead.")],
   "UI.Modal": [direct("id", "lowercase path, required", "Unique dialog ID."), direct("open", "boolean, required", "Shows or hides the modal."), direct("label", "string, required", "Accessible dialog name."), direct("children", "UI.Node[]", "Heading, content, and close action.")],
+  "UI.Orbit": [direct("id", "lowercase path, required", "Unique Orbit ID."), direct("presentation", "auto | spatial | list?", "Preferred presentation; unsafe spatial geometry still falls back to list."), direct("orbitTheme", "built-in theme ID?", "One of the curated Orbit themes."), direct("orbitMotion", "system | off?", "Orbit-owned motion preference."), direct("maxVisible", "integer 4…32?", "Density bound before list fallback."), direct("children", "OrbitPath | OrbitSearch | Constellation | FocusSurface[]", "Orbit experience content with at least one constellation.")],
+  "UI.OrbitPath": [direct("id", "lowercase path, required", "Unique path ID."), direct("children", "Button | Text[]", "Return controls, current depth, and stable Orbit preferences.")],
+  "UI.OrbitSearch": [direct("id", "lowercase path, required", "Unique search ID."), direct("query", "string ≤ 160 bytes?", "Controlled local query."), direct("resultCount", "non-negative integer, required", "Visible matching node count."), direct("totalCount", "integer ≥ resultCount, required", "Total node count before filtering."), direct("label", "string?", "Accessible input name."), direct("placeholder", "string?", "Visible empty-query hint."), direct("onInput", "action string, required", "Committed query action.")],
+  "UI.Constellation": [direct("id", "lowercase path, required", "Unique constellation ID."), direct("layerState", "active | behind | ahead?", "Current transition and accessibility state."), direct("depth", "integer 0…32?", "Semantic navigation depth."), direct("children", "one OrbitCenter + 1…64 OrbitNode or OrbitCluster", "Complete content of this navigation depth.")],
+  "UI.OrbitCenter": [direct("id", "lowercase path, required", "Unique center ID."), direct("title", "string 1…160 bytes, required", "Current constellation identity."), direct("description", "string ≤ 320 bytes?", "Optional supporting summary.")],
+  "UI.OrbitNode": [direct("id", "lowercase path, required", "Unique node ID."), direct("title", "string 1…160 bytes, required", "Stable node identity."), direct("description", "string ≤ 320 bytes?", "Supporting Preview content."), direct("nodeKind", "constellation | leaf | action?", "Semantic activation kind."), direct("priority", "integer 1…3?", "Detail and placement importance; one is highest."), direct("ring", "integer 1…3?", "Optional authoritative ring hint."), direct("relatedTo", "component ID[] 1…8?", "Neutral same-constellation relationships."), direct("signalIcon", "bounded icon name?", "Host-rendered compact Signal icon."), direct("status", "string 1…80 bytes?", "Human-readable state."), direct("statusTone", "neutral | active | success | warning | error?", "Redundant visual state treatment."), direct("selected", "boolean?", "Current leaf selection."), direct("onTap", "action string, required", "Semantic activation action.")],
+  "UI.OrbitCluster": [direct("id", "lowercase path, required", "Unique cluster ID."), direct("title", "string 1…160 bytes, required", "Stable group identity."), direct("count", "integer 1…9999, required", "Authored group item count."), direct("priority", "integer 1…3?", "Detail and placement importance."), direct("ring", "integer 1…3?", "Optional authoritative ring hint."), direct("relatedTo", "component ID[] 1…8?", "Neutral same-constellation relationships."), direct("signalIcon", "bounded icon name?", "Host-rendered compact Signal icon."), direct("status", "string 1…80 bytes?", "Human-readable state."), direct("statusTone", "neutral | active | success | warning | error?", "Redundant visual state treatment."), direct("onTap", "action string, required", "Opens the authored local constellation.")],
+  "UI.FocusSurface": [direct("id", "lowercase path, required", "Unique focus dialog ID."), direct("open", "boolean?", "Whether the Focus Surface is visible."), direct("label", "string, required", "Accessible dialog name."), direct("onDismiss", "action string, required", "Dismissal action shared by host gestures and application controls."), direct("children", "UI.Node[]", "FocusHeader followed by full leaf content.")],
+  "UI.FocusHeader": [direct("id", "lowercase path, required", "Unique header ID."), direct("children", "one heading Text + one available Button", "Sticky visible identity and return action.")],
+  "UI.OrbitReturn": [direct("id", "lowercase path, required", "Unique return-control ID."), direct("text", "string, required", "Visible ancestor label."), direct("onTap", "action string, required", "Canonical return action.")],
 });
 
 const uiAccessibility = Object.freeze({
@@ -753,6 +874,14 @@ const uiAccessibility = Object.freeze({
   "UI.TextInput": "label is required. required, disabled, and errorId expose state to screen readers; an error hint should be a visible role=alert.",
   "UI.Image": "label is required; use an empty string only for a genuinely decorative image.",
   "UI.Modal": "The host traps focus inside the open dialog, Escape invokes onDismiss, and closing restores focus to the trigger.",
+  "UI.Orbit": "The host preserves one semantic model across spatial and list presentations and isolates every inactive constellation from interaction.",
+  "UI.OrbitSearch": "The generated result summary is a live status; Escape clears a non-empty query before it performs Orbit return navigation.",
+  "UI.Constellation": "Only the active layer remains interactive and exposed to assistive technology; source order remains the list and reading order.",
+  "UI.OrbitNode": "The complete title, description, status, relationships, and native button semantics remain accessible at every semantic zoom tier.",
+  "UI.OrbitCluster": "The group title and item count form one accessible button name; cluster membership and navigation remain application-authored.",
+  "UI.FocusSurface": "The host names the dialog from its visible heading, traps focus, supports Escape, and restores focus to the originating node.",
+  "UI.FocusHeader": "The heading precedes the available return button in reading and focus order even while the header remains visually sticky.",
+  "UI.OrbitReturn": "Uses native button semantics and the same Luau action that the host invokes for an eligible Escape return.",
   "UI.Table": "TableRow and TableCell create a real table; header and scope associate headers with columns and rows.",
   "UI.TableRow": "Does not create a separate accessible name; its header cells establish the row meaning.",
   "UI.TableCell": "For a header, set header=true and the appropriate scope=col or scope=row.",
@@ -773,6 +902,14 @@ const uiMistakes = Object.freeze({
   "UI.Button": ["Using uppercase letters or spaces in the onTap action.", "Duplicating the same id across render branches."],
   "UI.TextInput": ["Changing value outside application state.", "Treating intermediate IME composition as committed text."],
   "UI.Modal": ["Removing the close button and relying only on Escape.", "Rendering interactive content outside and above an open modal."],
+  "UI.Orbit": ["Adding application-owned absolute coordinates.", "Assuming spatial mode is guaranteed when bounds require the list fallback."],
+  "UI.OrbitSearch": ["Filtering only the visual layer while leaving hidden nodes interactive.", "Putting the query into host-only state instead of Luau state."],
+  "UI.Constellation": ["Rendering more than one center.", "Referencing a related node outside the same constellation."],
+  "UI.OrbitNode": ["Using a single letter instead of a bounded signalIcon.", "Encoding essential status only through statusTone color."],
+  "UI.OrbitCluster": ["Using a cluster as visual decoration without a semantic group.", "Supplying a count that does not match the authored destination."],
+  "UI.FocusSurface": ["Opening it outside navigation state.", "Removing the explicit return control and relying only on Escape."],
+  "UI.FocusHeader": ["Using a non-heading Text for the title.", "Disabling or hiding the required return button."],
+  "UI.OrbitReturn": ["Keeping it enabled at the root without a return destination.", "Using a different action from system or keyboard Back."],
 });
 
 function uiGuidance(name) {
@@ -784,6 +921,271 @@ function uiGuidance(name) {
     childRules: children?.description ?? "This component does not accept arbitrary child nodes; named parameters provide its content.",
     accessibility: uiAccessibility[name] ?? "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
     commonMistakes: uiMistakes[name] ?? ["Using a duplicate id or an uppercase path segment.", "Passing a shared-group parameter that is not listed on this component page."],
+  };
+}
+
+const hostCapabilities = Object.freeze({
+  "Host.storageGet": "storage.get",
+  "Host.storageSet": "storage.set",
+  "Host.launchUrl": "app.launchurl.get",
+  "Host.clipboardWrite": "clipboard.write",
+  "Host.historyPush": "navigation.history",
+  "Host.historyReplace": "navigation.history",
+  "Host.historyPushLocation": "navigation.history",
+  "Host.historyReplaceLocation": "navigation.history",
+  "Host.historyBack": "navigation.history",
+  "Host.historyCurrent": "navigation.history",
+  "Host.systemBackHandled": "navigation.history",
+  "Host.systemBackHistory": "navigation.history",
+  "Host.systemBackExit": "navigation.history",
+});
+
+function operationalGuidance(name, moduleName, kind) {
+  if (typeof moduleName !== "string" || !moduleName.startsWith("luastra/")) return {};
+  const dependency = `Add ${moduleName} to this module's dependencies in luastra.json, then import it with require(\"${moduleName}\").`;
+  const typePage = kind === "type";
+  if (moduleName === "luastra/ui") return {
+    beforeYouUse: `${dependency} The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.`,
+    lifecycle: typePage
+      ? "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type."
+      : "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+    expectedOutcome: typePage ? "A checked annotation that matches the exact exported declaration." : "A validated declarative node appears after it is returned as part of the current render tree.",
+    failureGuidance: typePage ? "If the annotation fails, compare the value with the exact declaration and the producing or consuming function." : "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
+    availability: name.startsWith("UI.Orbit") || name === "UI.Constellation" || name === "UI.FocusSurface" || name === "UI.FocusHeader"
+      ? `Experimental Constellation Orbit API in ${release.publishedVersion}. Verify it against the selected SDK before depending on its shape.`
+      : `Public-source alpha API in ${release.publishedVersion}. Verify host-specific behavior against the selected release.`,
+  };
+  if (moduleName === "luastra/assets") return {
+    beforeYouUse: `${dependency} Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.`,
+    lifecycle: typePage ? "Asset types describe checked references and are erased after Luau analysis." : "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
+    expectedOutcome: typePage ? "A type-safe image, audio, font, or union reference." : "A checked reference or canonical asset URI that a compatible API can consume.",
+    failureGuidance: "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; supported consumers vary by asset kind.`,
+  };
+  if (moduleName === "luastra/data") return {
+    beforeYouUse: `${dependency} No host capability is required. Define schemas outside render when they are reused.`,
+    lifecycle: typePage ? "The exported type describes schemas or the tagged success/failure result returned by Data.decode." : name === "Data.decode" ? "Data.decode validates an untrusted value synchronously. Branch on result.success before reading result.value or result.error." : "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
+    expectedOutcome: typePage ? "A checked schema/result annotation." : name === "Data.decode" ? "A tagged success containing a trusted value, or a failure containing a bounded code and path." : "An immutable schema ready to compose or pass to Data.decode.",
+    failureGuidance: "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; host-independent and synchronous.`,
+  };
+  if (moduleName === "luastra/debug") return {
+    beforeYouUse: `${dependency} No additional host capability is required. Keep user-visible errors in UI state rather than relying on a developer console.`,
+    lifecycle: "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
+    expectedOutcome: "A prefixed diagnostic appears in the active host's development log.",
+    failureGuidance: "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
+    availability: `Public-source alpha diagnostic API in ${release.publishedVersion}.`,
+  };
+  if (moduleName === "luastra/timer") return {
+    beforeYouUse: `${dependency} Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.`,
+    lifecycle: typePage ? "Timer types describe the options or acknowledgement identifier." : "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
+    expectedOutcome: typePage ? "A checked timer option or acknowledgement annotation." : "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
+    failureGuidance: "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; exact background timing remains host-dependent.`,
+  };
+  if (moduleName === "luastra/motion") return {
+    beforeYouUse: `${dependency} Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.`,
+    lifecycle: typePage ? "Motion types describe immutable timing data and are erased after analysis." : "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    expectedOutcome: typePage ? "A checked descriptor, sequence, channel map, or easing value." : "A descriptor or MotionMap ready to attach to a supported UI node.",
+    failureGuidance: "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; presentation follows host and reduced-motion policy.`,
+  };
+  if (moduleName === "luastra/navigation") return {
+    beforeYouUse: `${dependency} No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.`,
+    lifecycle: typePage ? "The type describes a route, stack, compiler, or checked result used by navigation operations." : "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    expectedOutcome: typePage ? "A checked route/navigation annotation." : "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
+    failureGuidance: "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; URL integration is a separate host capability.`,
+  };
+  if (moduleName === "luastra/state") return {
+    beforeYouUse: `${dependency} No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.`,
+    lifecycle: typePage ? "The type describes string fields, migration functions, or tagged decode/migration results." : "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
+    expectedOutcome: typePage ? "A checked snapshot or result annotation." : "A deterministic encoded snapshot or a tagged success/failure result.",
+    failureGuidance: "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; persistence support is host-dependent.`,
+  };
+  if (moduleName === "luastra/host") {
+    const capability = hostCapabilities[name] ?? "the capability named on the function page";
+    return {
+      beforeYouUse: `${dependency} Declare ${capability} in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.`,
+      lifecycle: typePage ? "Host.RequestId is an opaque correlation value for one asynchronous host operation." : "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+      expectedOutcome: typePage ? "An opaque positive request identifier used only for correlation." : "A RequestId now, followed later by one matching Application.resolve completion.",
+      failureGuidance: "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
+      availability: `Public-source alpha capability API in ${release.publishedVersion}; verify each claimed host independently.`,
+    };
+  }
+  if (moduleName === "luastra/server") return {
+    beforeYouUse: `${dependency} Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.`,
+    lifecycle: typePage ? "The type describes request options or the tagged envelope-decoding result." : name === "Server.call" ? "Server.call starts asynchronous trusted work. Application.resolve reports transport success or failure; decode a successful payload with Server.decode and then validate operation-specific fields." : "Server.decode synchronously validates only the Luastra response envelope and returns fields on success; it does not validate your domain model.",
+    expectedOutcome: typePage ? "A checked request/result annotation." : name === "Server.call" ? "A RequestId now, then one resolve completion from the configured backend." : "A tagged result containing result.fields or a bounded decode error.",
+    failureGuidance: "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; production backend deployment remains application-owned.`,
+  };
+  if (moduleName === "luastra/media") return {
+    beforeYouUse: `${dependency} Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.`,
+    lifecycle: typePage ? "The type describes queue input, live playback state, or the tagged state-decoding result." : name === "Media.decodeState" ? "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state." : "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    expectedOutcome: typePage ? "A checked media input/state/result annotation." : name === "Media.decodeState" ? "A tagged result containing result.state or a bounded decode error." : "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
+    failureGuidance: "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; background playback and system controls require target-specific verification.`,
+  };
+  return {};
+}
+
+const checkedRecipeSections = sections.filter((section) => section.id.startsWith("recipe-"));
+const checkedRecipeCode = new Map(checkedRecipeSections.map((section) => [
+  section.id,
+  (section.cards ?? []).map((card) => card.code ?? "").join("\n"),
+]));
+const completeRecipeOverrides = Object.freeze({
+  "Server.call": "recipe-server",
+  "Server.decode": "recipe-server",
+});
+
+const errorCodeGroups = Object.freeze({
+  data: {
+    module: "luastra/data",
+    entries: [
+      ["invalid_schema", "The supplied schema is not a valid Data.Schema value."],
+      ["maximum_depth", "Nested validation exceeded the supported schema depth."],
+      ["schema_cycle", "The schema recursively references itself."],
+      ["expected_string", "The value at path is not a string."],
+      ["too_short", "A string contains fewer bytes than minBytes."],
+      ["too_long", "A string contains more bytes than maxBytes."],
+      ["expected_number", "The value is not a finite number."],
+      ["expected_integer", "The value is not an integer required by the schema."],
+      ["too_small", "A number is below the configured minimum."],
+      ["too_large", "A number is above the configured maximum."],
+      ["expected_boolean", "The value at path is not a boolean."],
+      ["expected_array", "The value is not a dense one-based array."],
+      ["too_few_items", "An array contains fewer items than minItems."],
+      ["too_many_items", "An array contains more items than maxItems."],
+      ["expected_object", "The value at path is not an object table."],
+      ["unexpected_field", "An exact object contains a field absent from its schema."],
+      ["unknown_schema", "The schema kind is not supported by this SDK version."],
+    ],
+  },
+  stateDecode: {
+    module: "luastra/state",
+    entries: [
+      ["empty", "The encoded state is empty or not a string."],
+      ["too_large", "The encoded state exceeds 4096 bytes."],
+      ["invalid_expected_version", "expectedVersion is not an integer from 1 through 999."],
+      ["malformed", "The version prefix or field structure is malformed."],
+      ["unsupported_version", "The encoded version differs from expectedVersion."],
+      ["too_many_fields", "The encoded state contains more than 32 fields."],
+      ["invalid_field", "A field name is invalid or duplicated."],
+      ["invalid_encoding", "A field contains invalid or non-canonical percent encoding."],
+    ],
+  },
+  stateMigration: {
+    module: "luastra/state",
+    entries: [
+      ["empty", "The encoded source state is empty or not a string."],
+      ["too_large", "The encoded source state exceeds 4096 bytes."],
+      ["invalid_target_version", "targetVersion is not an integer from 1 through 999."],
+      ["invalid_migrations", "The migration collection is not a table."],
+      ["malformed", "The source version prefix is missing or invalid."],
+      ["newer_version", "The source version is newer than the requested target."],
+      ["too_many_migrations", "The migration would require more than 32 steps."],
+      ["missing_migration", "No migration function exists for the current version."],
+      ["migration_failed", "A migration function raised an error."],
+      ["invalid_migration", "A migration returned, encoded, or verified an invalid replacement."],
+    ],
+  },
+  navigationRestore: {
+    module: "luastra/navigation",
+    entries: [
+      ["invalid_snapshot", "The snapshot shape, version, or encoded form is invalid."],
+      ["invalid_stack", "The restored stack is empty, too deep, sparse, or inconsistent."],
+      ["unknown_route", "A restored route is not admitted by the string stack."],
+      ["invalid_entry", "A restored typed entry cannot be matched or generated."],
+    ],
+  },
+  navigationRoute: {
+    module: "luastra/navigation",
+    entries: [
+      ["invalid_location", "The location is malformed, non-canonical, or exceeds route segment limits."],
+      ["route_not_found", "No compiled route definition matches the location."],
+      ["invalid_entry", "The typed route entry has an invalid shape or parameters."],
+      ["unknown_route", "The entry names a route absent from the compiler."],
+      ["invalid_parameter", "A required path parameter is missing or invalid."],
+      ["missing_query", "A required query parameter is absent."],
+      ["invalid_query", "A supplied query parameter cannot be decoded or validated."],
+      ["location_too_large", "The generated canonical location exceeds 2048 bytes."],
+    ],
+  },
+  navigationMutation: {
+    module: "luastra/navigation",
+    entries: [
+      ["invalid_entry", "The typed route entry cannot be generated."],
+      ["unknown_route", "The entry names a route absent from the compiler."],
+      ["invalid_parameter", "A required path parameter is missing or invalid."],
+      ["missing_query", "A required query parameter is absent."],
+      ["invalid_query", "A supplied query parameter cannot be decoded or validated."],
+      ["location_too_large", "The generated canonical location exceeds 2048 bytes."],
+      ["stack_depth_exceeded", "Push would exceed the configured navigation stack depth."],
+    ],
+  },
+  serverDecode: {
+    module: "luastra/server",
+    entries: [
+      ["invalid_size", "The wire payload is empty, not a string, or larger than 4096 bytes."],
+      ["invalid_version", "The wire payload does not declare protocol version v=1."],
+      ["malformed", "A field token is missing its name/value separator."],
+      ["invalid_field", "A field name, value encoding, or duplicate field is invalid."],
+      ["too_many_fields", "The wire payload contains more than 128 fields."],
+    ],
+  },
+  mediaDecode: {
+    module: "luastra/media",
+    entries: [
+      ["invalid_wire", "The media-state wire payload cannot be decoded."],
+      ["missing_field", "A required media-state field is absent."],
+      ["invalid_state", "The field set, status, or background flag is invalid."],
+      ["invalid_number", "A required numeric field is not a valid number."],
+      ["invalid_error", "The host error code and message fields are inconsistent."],
+    ],
+  },
+});
+
+const errorCodeTargets = Object.freeze({
+  "Data.ValidationError": "data", "Data.Failure": "data", "Data.Result": "data",
+  "State.DecodeError": "stateDecode", "State.DecodeFailure": "stateDecode", "State.DecodeResult": "stateDecode",
+  "State.MigrationError": "stateMigration", "State.MigrationFailure": "stateMigration", "State.MigrationResult": "stateMigration",
+  "Navigation.RestoreError": "navigationRestore", "Navigation.RestoreResult": "navigationRestore",
+  "Navigation.RouteError": "navigationRoute", "Navigation.RouteResult": "navigationRoute",
+  "Navigation.MutationResult": "navigationMutation",
+  "Server.DecodeFailure": "serverDecode", "Server.DecodeResult": "serverDecode",
+  "Media.DecodeFailure": "mediaDecode", "Media.DecodeResult": "mediaDecode",
+});
+
+const typeFlowFamilies = Object.freeze([
+  { types: ["Data.ValidationError", "Data.Success", "Data.Failure", "Data.Result"], producedBy: ["Data.decode"] },
+  { types: ["State.DecodeError", "State.DecodeSuccess", "State.DecodeFailure", "State.DecodeResult"], producedBy: ["State.decode"], consumedBy: ["State.migrate"] },
+  { types: ["State.MigrationError", "State.MigrationSuccess", "State.MigrationFailure", "State.MigrationResult"], producedBy: ["State.migrate"] },
+  { types: ["Navigation.RestoreError", "Navigation.RestoreResult"], producedBy: ["Navigation.create", "Navigation.createRouter"] },
+  { types: ["Navigation.RouteError", "Navigation.RouteResult"], producedBy: ["Navigation.compile"] },
+  { types: ["Navigation.MutationResult"], producedBy: ["Navigation.createRouter"] },
+  { types: ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult"], producedBy: ["Server.decode"] },
+  { types: ["Media.MediaError", "Media.DecodeSuccess", "Media.DecodeFailure", "Media.DecodeResult"], producedBy: ["Media.decodeState"] },
+]);
+
+function completeRecipeFor(symbol) {
+  if (typeof symbol !== "string" || !symbol.includes(".")) return null;
+  const escaped = symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const exactSymbol = new RegExp(`(^|[^A-Za-z0-9_.])${escaped}(?![A-Za-z0-9_])`, "m");
+  const overrideId = completeRecipeOverrides[symbol];
+  const section = overrideId == null
+    ? checkedRecipeSections.find((candidate) => exactSymbol.test(checkedRecipeCode.get(candidate.id) ?? ""))
+    : checkedRecipeSections.find((candidate) => candidate.id === overrideId);
+  if (!section) return null;
+  return {
+    sectionId: section.id,
+    title: section.title.replace(/^Recipe:\s*/u, ""),
+    evidence: overrideId == null ? "authored-files" : "generated-client",
+    description: overrideId == null
+      ? `This checked recipe uses ${symbol} inside complete authored files with the required manifest, test, and run steps.`
+      : `This checked recipe provides the declaration, generated client, trusted handler, manifest, test, and run context behind ${symbol}.`,
   };
 }
 
@@ -825,10 +1227,13 @@ for (const section of sections) {
     }
     pages.push({
       id: pageId(section.id, index),
+      routeSlug: pageSlug(card.name),
+      routeId: pageRouteId(section.id, card.name),
       kind: "entry",
       sectionId: section.id,
       sectionTitle: section.title,
       module: section.module ?? null,
+      ...operationalGuidance(card.name, section.module, card.kind),
       ...uiGuidance(card.name),
       callable: card.kind === "function" || functionDeclaration !== null,
       useWhen: card.useWhen ?? section.summary,
@@ -839,6 +1244,7 @@ for (const section of sections) {
         : uniqueParameters([...(uiDirectParameters[card.name] ?? declarationParameters(functionDeclaration ?? "", card.name)), ...(card.parameters ?? []), ...inheritedParameters]),
       returns: card.returns ?? (functionDeclaration ? declarationReturn(functionDeclaration, card.name) : (card.name?.startsWith("UI.") ? "UI.Node — a declarative node in the new render tree." : null)),
       ...card,
+      ...(completeRecipeFor(card.name) ? { completeRecipe: completeRecipeFor(card.name) } : {}),
       kind: card.kind ?? "entry",
       callable: card.kind === "function" || functionDeclaration !== null,
       signature: typeDeclaration ?? functionDeclaration ?? card.signature,
@@ -853,6 +1259,8 @@ for (const section of sections) {
     const id = `${section.id}/table-${index + 1}`;
     pages.push({
       id,
+      routeSlug: pageSlug(table.title),
+      routeId: pageRouteId(section.id, table.title),
       kind: "parameter-group",
       sectionId: section.id,
       sectionTitle: section.title,
@@ -863,6 +1271,169 @@ for (const section of sections) {
       parameters: table.rows,
     });
     parameterGroupPages[table.id] = id;
+  }
+}
+
+const relatedFamilies = [
+  ["UI.Screen", "UI.Theme", "UI.Node", "UI.Column"],
+  ["UI.Column", "UI.Row", "UI.Stack", "UI.Grid", "UI.Scroll"],
+  ["UI.Text", "UI.Code", "UI.CodeBlock", "UI.Image", "UI.Shape"],
+  ["UI.Button", "UI.Link", "UI.Actions", "UI.Field", "UI.Modal"],
+  ["UI.Table", "UI.TableRow", "UI.TableCell", "UI.List", "UI.ListItem"],
+  ["UI.Layer", "UI.FlipCard", "UI.Card", "UI.Image", "UI.Shape"],
+  ["UI.Orbit", "UI.OrbitPath", "UI.OrbitSearch", "UI.Constellation", "UI.OrbitCenter", "UI.OrbitNode"],
+  ["UI.OrbitNode", "UI.OrbitCluster", "UI.FocusSurface", "UI.FocusHeader", "UI.OrbitReturn"],
+  ["Timer.RequestId", "Timer.StartOptions", "Timer.start", "Timer.restart", "Timer.cancel"],
+  ["Server.RequestId", "Server.Options", "Server.call", "Server.decode"],
+  ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult", "Server.decode"],
+  ["Media.RequestId", "Media.QueueItem", "Media.State", "Media.setQueue", "Media.state"],
+  ["Media.play", "Media.pause", "Media.stop", "Media.unload", "Media.seek"],
+  ["Media.next", "Media.previous", "Media.State", "Media.state"],
+  ["Media.DecodeSuccess", "Media.DecodeFailure", "Media.DecodeResult", "Media.decodeState", "Media.State"],
+  ["Navigation.Options", "Navigation.Stack", "Navigation.create", "Navigation.Snapshot"],
+  ["Navigation.RouteEntry", "Navigation.RouteCompiler", "Navigation.EntryStack", "Navigation.createRouter", "Navigation.compile"],
+  ["Navigation.RestoreError", "Navigation.RestoreResult", "Navigation.MutationResult", "Navigation.decideBack"],
+];
+
+const pageByName = new Map(pages.map((page) => [page.name, page]));
+const routeCandidates = new Map();
+for (const page of pages) {
+  const candidates = routeCandidates.get(page.routeId) ?? [];
+  candidates.push(page);
+  routeCandidates.set(page.routeId, candidates);
+}
+for (const [routeId, candidates] of routeCandidates) {
+  if (candidates.length < 2) continue;
+  for (const page of candidates) {
+    const suffix = page.kind === "type" ? "type" : page.kind === "parameter-group" ? "parameters" : page.callable ? "function" : "guide";
+    page.routeSlug = `${page.routeSlug}-${suffix}`;
+    page.routeId = `${page.sectionId}/${page.routeSlug}`;
+  }
+}
+const pageByRouteId = new Map();
+for (const page of pages) {
+  if (pageByRouteId.has(page.routeId)) fail(`duplicate stable page route: ${page.routeId}`);
+  pageByRouteId.set(page.routeId, page);
+}
+
+function literalErrorCodes(source) {
+  const codes = [];
+  const pattern = /(?:failure|migrationFailure)\("([a-z_]+)"|code\s*=\s*"([a-z_]+)"|error\s*=\s*"([a-z_]+)"/g;
+  for (const match of source.matchAll(pattern)) {
+    const code = match[1] ?? match[2] ?? match[3];
+    if (!codes.includes(code)) codes.push(code);
+  }
+  return codes.sort();
+}
+
+for (const moduleName of ["luastra/data", "luastra/state", "luastra/navigation", "luastra/server", "luastra/media"]) {
+  const documented = [];
+  for (const group of Object.values(errorCodeGroups)) {
+    if (group.module !== moduleName) continue;
+    for (const [code] of group.entries) if (!documented.includes(code)) documented.push(code);
+  }
+  documented.sort();
+  const actual = literalErrorCodes(sdkSources[moduleName]);
+  if (JSON.stringify(documented) !== JSON.stringify(actual)) {
+    fail(`${moduleName} error-code documentation differs from SDK literals: documented=${documented.join(",")} actual=${actual.join(",")}`);
+  }
+}
+
+for (const [pageName, groupName] of Object.entries(errorCodeTargets)) {
+  const page = pageByName.get(pageName);
+  const group = errorCodeGroups[groupName];
+  if (!page || !group) fail(`${pageName} error-code target is unavailable`);
+  page.errorCodes = group.entries.map(([code, meaning]) => ({ code, meaning }));
+  page.errorCodeNote = "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.";
+}
+
+const mediaErrorPage = pageByName.get("Media.MediaError");
+if (!mediaErrorPage) fail("Media.MediaError page is unavailable");
+mediaErrorPage.description = "Media.MediaError reports an admitted playback failure from the active host. Its code is stable for that reported failure, but the set of possible codes is host-specific rather than a portable SDK-wide enum.";
+mediaErrorPage.useWhen = "Use this type after a media event reports a playback failure. Branch only on codes explicitly documented by the active host or target, show a safe message, and keep playback state recoverable.";
+for (const parameter of mediaErrorPage.parameters ?? []) {
+  if (parameter.name === "code") {
+    parameter.description = "Stable machine-readable code for this failure. The vocabulary is defined by the active host or target and may differ across hosts.";
+  }
+}
+mediaErrorPage.errorCodeNote = "MediaError.code and message describe an admitted host playback failure. The code vocabulary is host-specific and intentionally not presented as one portable closed list; handle the visible message and preserve a safe playback state.";
+
+for (const family of typeFlowFamilies) {
+  const producerPageIds = family.producedBy.map((name) => pageByName.get(name)?.id ?? fail(`${name} producer page is unavailable`));
+  const consumerPageIds = (family.consumedBy ?? []).map((name) => pageByName.get(name)?.id ?? fail(`${name} consumer page is unavailable`));
+  for (const typeName of family.types) {
+    const page = pageByName.get(typeName);
+    if (!page) fail(`${typeName} flow target is unavailable`);
+    page.producerPageIds = producerPageIds;
+    page.consumerPageIds = consumerPageIds;
+  }
+}
+
+const explicitRelated = new Map();
+for (const family of relatedFamilies) {
+  const admitted = family.filter((name) => pageByName.has(name));
+  for (const name of admitted) {
+    const values = explicitRelated.get(name) ?? [];
+    for (const relatedName of admitted) {
+      if (relatedName !== name && !values.includes(relatedName)) values.push(relatedName);
+    }
+    explicitRelated.set(name, values);
+  }
+}
+
+function relationText(page) {
+  return [page.signature, page.description, page.useWhen, page.code].filter(Boolean).join("\n");
+}
+
+function mentionsPage(text, page) {
+  const shortName = page.name.includes(".") ? page.name.slice(page.name.indexOf(".") + 1) : page.name;
+  return text.includes(page.name) || (shortName.length >= 4 && text.includes(shortName));
+}
+
+function relationshipFor(page, candidate) {
+  if (mentionsPage(relationText(page), candidate)) return "prerequisite";
+  if (mentionsPage(relationText(candidate), page)) return "next-step";
+  return "companion";
+}
+
+for (const section of sections) {
+  const sectionPages = pages.filter((page) => page.sectionId === section.id);
+  for (const [index, page] of sectionPages.entries()) {
+    page.previousPageId = sectionPages[index - 1]?.id ?? null;
+    page.nextPageId = sectionPages[index + 1]?.id ?? null;
+    const excluded = new Set([page.id, page.previousPageId, page.nextPageId].filter(Boolean));
+    const selected = [];
+    const add = (candidate) => {
+      if (candidate && !excluded.has(candidate.id) && !selected.includes(candidate.id) && selected.length < 4) {
+        selected.push(candidate.id);
+      }
+    };
+    for (const name of explicitRelated.get(page.name) ?? []) add(pageByName.get(name));
+
+    const sourceText = relationText(page);
+    const scored = sectionPages
+      .filter((candidate) => !excluded.has(candidate.id) && !selected.includes(candidate.id))
+      .map((candidate, candidateIndex) => {
+        const shortName = candidate.name.includes(".") ? candidate.name.slice(candidate.name.indexOf(".") + 1) : candidate.name;
+        const reciprocal = relationText(candidate);
+        let score = 0;
+        if (sourceText.includes(candidate.name)) score += 12;
+        if (shortName.length >= 4 && sourceText.includes(shortName)) score += 5;
+        if (reciprocal.includes(page.name)) score += 8;
+        if (page.kind !== candidate.kind) score += 2;
+        score -= Math.abs(index - candidateIndex) / 100;
+        return { candidate, score };
+      })
+      .sort((left, right) => right.score - left.score || left.candidate.id.localeCompare(right.candidate.id));
+    for (const item of scored) {
+      if (selected.length < 3 && item.score >= 8) add(item.candidate);
+    }
+    page.relatedPageIds = selected;
+    page.relatedPageRoles = selected.map((relatedId) => {
+      const candidate = pages.find((item) => item.id === relatedId);
+      if (!candidate) fail(`${page.id} links to missing related page ${relatedId}`);
+      return relationshipFor(page, candidate);
+    });
   }
 }
 

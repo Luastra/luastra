@@ -1,9 +1,14 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { navigationGroups, release, sdkInventory, sdkTypeInventory, sections } from "../site/reference-data.js";
 import { generatedPages } from "../site/generated-reference-data.js";
+import packageManifest from "../../package.json" with { type: "json" };
+import releaseAdmission from "../../release/sdk-release-admission.v1.json" with { type: "json" };
+import sourceManifest from "../../sdk/source-manifest.v1.json" with { type: "json" };
+import runtimeManifest from "../../platform/runtime-manifest.v2.json" with { type: "json" };
+import sourceBuildContract from "../../platform/source-build/source-build-contract.v1.json" with { type: "json" };
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const candidateSdk = resolve(root, "..", "sdk", "luastra");
@@ -33,10 +38,34 @@ function same(left, right) {
 
 const sectionIds = sections.map((section) => section.id);
 if (new Set(sectionIds).size !== sectionIds.length) fail("reference contains duplicate section IDs");
-if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
-if (release.sourceSdk !== "Source SDK contract 10") fail("reference source SDK label is stale");
-if (release.runtimeSdk !== "Runtime SDK alpha 8") fail("reference runtime SDK label is stale");
-for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "events-errors", "policies"])
+if (sectionIds.some((id) => !/^[a-z][a-z0-9-]{0,63}$/.test(id))) fail("reference contains a non-canonical section ID");
+const expectedGeneratedPages = sections.reduce((total, section) => total + (section.cards?.length ?? 0) + (section.tables?.length ?? 0), 0);
+if (generatedPages.length !== expectedGeneratedPages) fail(`generated reference page count differs: expected=${expectedGeneratedPages} actual=${generatedPages.length}`);
+const routeIds = generatedPages.map((page) => page.routeId);
+if (new Set(routeIds).size !== routeIds.length) fail("generated reference contains duplicate stable routes");
+for (const page of generatedPages) {
+  if (!/^[a-z][a-z0-9-]{0,63}\/[a-z0-9][a-z0-9-]{0,95}$/u.test(page.routeId)) fail(`${page.id} has a non-canonical stable route`);
+  if (page.routeId !== `${page.sectionId}/${page.routeSlug}`) fail(`${page.id} stable route fields disagree`);
+}
+if (generatedPages.find((page) => page.name === "UI.Button")?.routeId !== "ui/button") fail("UI.Button stable route is incorrect");
+for (const section of sections) {
+  const expected = (section.cards?.length ?? 0) + (section.tables?.length ?? 0);
+  const sectionPages = generatedPages.filter((page) => page.sectionId === section.id);
+  const actual = sectionPages.length;
+  if (actual !== expected) fail(`${section.id} generated reference page count differs: expected=${expected} actual=${actual}`);
+  for (let index = 0; index < sectionPages.length; index += 1) {
+    const expectedPrevious = sectionPages[index - 1]?.id ?? null;
+    const expectedNext = sectionPages[index + 1]?.id ?? null;
+    if (sectionPages[index].previousPageId !== expectedPrevious) fail(`${sectionPages[index].id} has an invalid Previous target`);
+    if (sectionPages[index].nextPageId !== expectedNext) fail(`${sectionPages[index].id} has an invalid Next target`);
+  }
+}
+if (release.version !== packageManifest.version) fail("reference candidate version differs from package.json");
+if (release.publishedVersion !== releaseAdmission.version) fail("reference published version differs from release admission");
+if (!release.sourceSdk.endsWith(sourceManifest.identity.match(/contract-(\d+)$/u)?.[1] ?? "<invalid>")) fail("reference source SDK label is stale");
+if (!release.runtimeSdk.endsWith(runtimeManifest.identity.match(/alpha-(\d+)$/u)?.[1] ?? "<invalid>")) fail("reference runtime SDK label is stale");
+if (release.luauVersion !== sourceBuildContract.luau.tag) fail("reference Luau label is stale");
+for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "recipe-server", "recipe-media", "recipe-orbit", "events-errors", "policies"])
   if (!sectionIds.includes(id)) fail(`reference misses required learning section: ${id}`);
 const navigationIds = navigationGroups.flatMap((group) => group.items.map(([id]) => id));
 if (new Set(navigationIds).size !== navigationIds.length) fail("navigation contains duplicate targets");
@@ -68,12 +97,55 @@ for (const section of sections) {
     }
   }
   for (const link of section.links ?? []) {
+    const internal = /^#\/docs\/([a-z][a-z0-9-]{0,63})$/.exec(link.href);
+    if (internal) {
+      if (!sectionIds.includes(internal[1])) fail(`reference link targets an unknown documentation section: ${link.href}`);
+      continue;
+    }
     let parsed;
     try { parsed = new URL(link.href); } catch { fail(`reference link is not an absolute URL: ${link.href}`); }
     if (parsed.protocol !== "https:" || parsed.hostname !== "github.com" || !parsed.pathname.startsWith("/Luastra/luastra"))
       fail(`reference link is outside the admitted public project boundary: ${link.href}`);
   }
 }
+
+const installation = sections.find((section) => section.id === "installation");
+const offlineInstallation = installation?.cards?.find((card) => card.name === "Offline installation");
+const offlineInstallationText = JSON.stringify(offlineInstallation);
+const currentReleaseUrl = `https://github.com/Luastra/luastra/releases/tag/v${releaseAdmission.version}`;
+for (const requiredReleaseDetail of [
+  currentReleaseUrl,
+  "luastra-install.mjs",
+  "luastra-release.v1.json",
+  `luastra-sdk-${releaseAdmission.version}-darwin-arm64.tar.gz`,
+  `luastra-sdk-${releaseAdmission.version}-darwin-x64.tar.gz`,
+  `luastra-sdk-${releaseAdmission.version}-linux-x64.tar.gz`,
+  `luastra-sdk-${releaseAdmission.version}-win32-x64.tar.gz`,
+]) {
+  if (!offlineInstallationText.includes(requiredReleaseDetail)) {
+    fail(`offline installation misses required release detail: ${requiredReleaseDetail}`);
+  }
+}
+if (!installation.links?.some((link) => link.href === currentReleaseUrl)) {
+  fail("installation overview misses the exact release-assets link");
+}
+
+const workflow = sections.find((section) => section.id === "workflow");
+const bundleWorkflow = workflow?.cards?.find((card) => card.name === "Build bundle");
+const bundleWorkflowText = JSON.stringify(bundleWorkflow);
+for (const requiredBundleDetail of [
+  "dist/bundle",
+  "luastra.bundle.json",
+  "project-assets.json",
+  "not a standalone executable or website",
+  "no application-facing run-bundle command",
+]) {
+  if (!bundleWorkflowText.includes(requiredBundleDetail)) {
+    fail(`build bundle guidance misses required detail: ${requiredBundleDetail}`);
+  }
+}
+const webWorkflow = workflow?.cards?.find((card) => card.name === "Build web");
+if (!JSON.stringify(webWorkflow).includes("file://")) fail("build web guidance misses the file URL boundary");
 
 for (const section of sections.filter((item) => item.id === item.module?.slice("luastra/".length))) {
   if ((section.summary?.length ?? 0) < 140) fail(`${section.id} needs a complete module overview`);
@@ -82,11 +154,23 @@ for (const section of sections.filter((item) => item.id === item.module?.slice("
 
 const typing = sections.find((section) => section.id === "luau-types");
 const typingNames = typing.cards.map((card) => card.name);
-for (const name of ["Arrays", "Dictionaries and maps", "Record types", "Optional values", "Unions and type narrowing", "Tagged unions", "Generics", "Function types", "Exported module types", "typeof", "Intersections", "any, unknown, and never", "Type casts with ::", "Runtime immutability with table.freeze"])
+for (const name of ["Arrays", "Dictionaries and maps", "Record types", "Optional values", "Unions and type narrowing", "Tagged unions", "Generics", "Function types", "Exported module types", "typeof", "Intersections", "any, unknown, and never", "Type casts with ::", "Runtime immutability with table.freeze", "Read analyzer errors"])
   if (!typingNames.includes(name)) fail(`Luau typing reference misses ${name}`);
 if (typing.cards.length < 16) fail("Luau typing reference was unexpectedly condensed");
+for (const card of typing.cards) {
+  if (typeof card.code !== "string" || (!card.code.startsWith("--!strict\n") && !card.code.startsWith("-- app/cards.luau\n--!strict\n"))) {
+    fail(`Luau typing example is not self-contained strict code: ${card.name}`);
+  }
+}
+if (typing.cards.some((card) => card.code.includes("Debug."))) fail("Luau typing examples must not depend on an undeclared Debug module");
 if (typing.cards.find((card) => card.name === "Type casts with ::").code.includes("::") === false) fail(":: page lacks a cast example");
 if (typing.cards.find((card) => card.name === "Runtime immutability with table.freeze").code.includes("table.freeze") === false) fail("table.freeze page lacks a freeze example");
+
+const events = sections.find((section) => section.id === "events-errors");
+const eventNames = [...events.cards, ...events.tables].map((item) => item.name ?? item.title);
+for (const name of ["Route handle events explicitly", "Handle lifecycle state", "Decode a system Back intent", "Restore History and opened URLs", "Decode live media state", "Correlate asynchronous completions", "Choose a recovery policy", "Exact event delivery", "Exact resolve delivery", "Decoder and recovery map"])
+  if (!eventNames.includes(name)) fail(`Events and errors reference misses ${name}`);
+if ((events.links ?? []).length !== 4 || events.links.some((link) => !link.href.startsWith("#/docs/recipe-"))) fail("Events and errors needs four internal recovery recipes");
 
 const policies = sections.find((section) => section.id === "policies");
 if ((policies.links ?? []).length !== 0) fail("bundled policy navigation must not depend on external GitHub links");
@@ -123,6 +207,9 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
     if (typeof page.code !== "string" || page.code.length === 0) {
       fail(`${qualified} generated website card lacks a minimal example`);
     }
+    for (const field of ["beforeYouUse", "lifecycle", "expectedOutcome", "failureGuidance", "availability"]) {
+      if (typeof page[field] !== "string" || page[field].length < 40) fail(`${qualified} lacks operational ${field} guidance`);
+    }
   }
   const shippedTypes = [...source.matchAll(/^export type ([A-Za-z][A-Za-z0-9]*)\s*=/gm)].map((match) => match[1]).sort();
   const documentedTypes = [...(sdkTypeInventory[moduleId] ?? [])].sort();
@@ -135,6 +222,64 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
     if (cards.length !== 1) fail(`exported type must have exactly one visible reference entry: ${qualified}`);
   }
   moduleResults.push({ module: moduleId, functions: shippedNames.length, types: shippedTypes.length });
+}
+
+const pageByName = new Map(generatedPages.map((page) => [page.name, page]));
+const recipeSections = new Map(sections.filter((section) => section.id.startsWith("recipe-")).map((section) => [section.id, section]));
+const linkedRecipeIds = new Set();
+for (const page of generatedPages.filter((item) => item.completeRecipe)) {
+  const recipe = recipeSections.get(page.completeRecipe.sectionId);
+  if (!recipe) fail(`${page.name} links to a missing complete recipe`);
+  const escaped = page.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const exactSymbol = new RegExp(`(^|[^A-Za-z0-9_.])${escaped}(?![A-Za-z0-9_])`, "m");
+  const recipeCode = (recipe.cards ?? []).map((card) => card.code ?? "").join("\n");
+  if (page.completeRecipe.evidence === "authored-files" && !exactSymbol.test(recipeCode)) {
+    fail(`${page.name} links to a recipe that does not use the symbol`);
+  }
+  if (page.completeRecipe.evidence === "generated-client"
+      && (page.module !== "luastra/server" || recipe.id !== "recipe-server")) {
+    fail(`${page.name} has an invalid generated-client recipe boundary`);
+  }
+  if (typeof page.completeRecipe.description !== "string" || !page.completeRecipe.description.includes(page.name)) {
+    fail(`${page.name} complete-recipe link lacks symbol-specific guidance`);
+  }
+  linkedRecipeIds.add(recipe.id);
+}
+for (const recipeId of recipeSections.keys()) {
+  if (!linkedRecipeIds.has(recipeId)) fail(`${recipeId} has no generated API entry point`);
+}
+for (const [name, recipeId] of Object.entries({
+  "Timer.start": "recipe-timer",
+  "Navigation.createRouter": "recipe-navigation",
+  "Host.storageGet": "recipe-storage",
+  "Navigation.decideBack": "recipe-history",
+  "Data.decode": "recipe-form-modal",
+  "Assets.image": "recipe-assets-visuals",
+  "Motion.tween": "recipe-motion",
+  "Media.play": "recipe-media",
+  "UI.Orbit": "recipe-orbit",
+})) {
+  if (pageByName.get(name)?.completeRecipe?.sectionId !== recipeId) fail(`${name} links to the wrong complete recipe`);
+}
+for (const page of generatedPages.filter((item) => item.kind !== "parameter-group" && item.name.includes(".") && (sdkInventory[item.module]?.includes(item.name.slice(item.name.indexOf(".") + 1)) || sdkTypeInventory[item.module]?.includes(item.name.slice(item.name.indexOf(".") + 1))))) {
+  for (const field of ["beforeYouUse", "lifecycle", "expectedOutcome", "failureGuidance", "availability"]) {
+    if (typeof page[field] !== "string" || page[field].length < 20) fail(`${page.name} lacks operational ${field} guidance`);
+  }
+}
+if (!pageByName.get("Motion.slideIn")?.code.includes("y = 24") || pageByName.get("Motion.slideIn")?.code.includes("fromY")) fail("Motion.slideIn example is stale");
+if (!pageByName.get("Motion.sway")?.code.includes("angleDeg = 2") || pageByName.get("Motion.sway")?.code.includes("rotationDeg = 2")) fail("Motion.sway example is stale");
+if (!pageByName.get("Server.decode")?.code.includes("result.fields") || pageByName.get("Server.decode")?.code.includes("result.value")) fail("Server.decode example reads the wrong success field");
+if (!pageByName.get("Media.decodeState")?.code.includes("result.state.positionMs")) fail("Media.decodeState example reads the wrong success field");
+if (!pageByName.get("Host.launchUrl")?.description.includes("never opens an external destination")) fail("Host.launchUrl purpose is stale");
+for (const name of ["Timer.start", "Timer.restart"]) {
+  const delay = pageByName.get(name)?.parameters.find((parameter) => parameter.name === "options.delayMs");
+  if (delay?.values !== "integer (0..60000)") fail(`${name} delay limit is stale`);
+}
+for (const name of ["Timer.start", "Timer.restart", "Timer.cancel"]) {
+  const returns = pageByName.get(name)?.returns ?? "";
+  if (!returns.includes("do not enter Application.resolve") || returns.includes("correlate the asynchronous completion")) {
+    fail(`${name} return guidance contradicts timer lifecycle semantics`);
+  }
 }
 
 for (const moduleId of [
@@ -154,12 +299,14 @@ for (const name of sdkInventory["luastra/ui"]) {
   }
 }
 
-const index = await readFile(resolve(root, "site", "index.html"), "utf8");
-for (const asset of ["styles.css", "app.js", "assets/mark.svg"]) {
-  if (!index.includes(asset)) fail(`index.html does not reference ${asset}`);
+for (const obsoletePath of ["site/index.html", "site/app.js", "site/styles.css", "site/assets/mark.svg"]) {
+  try {
+    await access(resolve(root, obsoletePath));
+    fail(`obsolete single-page renderer is still present: ${obsoletePath}`);
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
 }
-if (/<script(?![^>]*\bsrc=)/i.test(index)) fail("inline scripts are not allowed");
-if (/<style\b/i.test(index)) fail("inline styles are not allowed");
 
 const tauriConfig = JSON.parse(await readFile(resolve(root, "src-tauri", "tauri.conf.json"), "utf8"));
 const desktopCsp = tauriConfig?.app?.security?.csp;
@@ -176,6 +323,7 @@ const summary = {
   types: moduleResults.reduce((total, item) => total + item.types, 0),
   components: sdkInventory["luastra/ui"].length,
   sections: sectionIds.length,
+  pages: generatedPages.length,
   inventory: moduleResults,
 };
 process.stdout.write(`${JSON.stringify(summary)}\n`);

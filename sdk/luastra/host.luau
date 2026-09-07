@@ -46,8 +46,8 @@ local function historyToken(value: string): string
 end
 
 local function locationFragment(value: string): string
-    assert(type(value) == "string" and #value >= 3 and #value <= maximumLocationBytes, "history location must contain 3 to 1024 bytes")
-    assert(string.sub(value, 1, 2) == "#/" and string.match(string.sub(value, 3), "^[A-Za-z0-9%%._~!$&'()*+,;=:@/?%-]+$") ~= nil, "history location must be an admitted fragment route")
+    assert(type(value) == "string" and #value >= 2 and #value <= maximumLocationBytes, "history location must contain 2 to 1024 bytes")
+    assert(string.sub(value, 1, 2) == "#/" and string.sub(value, 3, 3) ~= "/" and string.match(string.sub(value, 3), "^[A-Za-z0-9%%._~!$&'()*+,;=:@/?%-]*$") ~= nil, "history location must be an admitted fragment route")
     return value
 end
 

@@ -4,7 +4,8 @@
 
 | Version | Security status |
 |---|---|
-| `0.1.0-alpha` | Pre-release; not supported for production use |
+| `0.2.0-alpha` | Current pre-release; not supported for production use |
+| `0.1.0-alpha` | Retained for rollback; upgrade to the current alpha for fixes |
 | Earlier private prototypes | Unsupported |
 
 The alpha has no security response-time or production compatibility guarantee.

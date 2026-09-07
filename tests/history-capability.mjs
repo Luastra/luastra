@@ -16,8 +16,11 @@ function locationPayload(location, token) { return `${location.length}:${locatio
 function fakeEnvironment() {
   const listeners = new Map([["popstate", new Set()], ["hashchange", new Set()]]);
   const calls = [];
+  const scrolls = [];
   return {
     calls,
+    scrolls,
+    scrollTarget: { scrollTo(value, left) { scrolls.push(left === undefined ? value : { top: value, left }); } },
     historyTarget: {
       state: null,
       pushState(state, title, location) { this.state = state; calls.push({ operation: "push", state, title, ...(location === undefined ? {} : { location }) }); },
@@ -80,11 +83,18 @@ test("history location operations bind a safe fragment to the same opaque projec
   const environment = fakeEnvironment();
   const platform = createPlatformCapabilities("dev.luastra.catalogue", environment);
   try {
-    assert.equal((await platform.handle(request(1, "replace-location", locationPayload("#/catalogue", "state-0")))).response.status, "ok");
+    assert.equal((await platform.handle(request(1, "replace-location", locationPayload("#/", "state-root")))).response.status, "ok");
+    assert.equal((await platform.handle(request(8, "replace-location", locationPayload("#/catalogue", "state-0")))).response.status, "ok");
     assert.equal((await platform.handle(request(2, "push-location", locationPayload("#/detail/focus", "state-1")))).response.status, "ok");
     assert.deepEqual(environment.calls, [
+      { operation: "replace", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-root" } }, title: "", location: "#/" },
       { operation: "replace", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-0" } }, title: "", location: "#/catalogue" },
       { operation: "push", state: { luastra: { version: 1, projectId: "dev.luastra.catalogue", token: "state-1" } }, title: "", location: "#/detail/focus" },
+    ]);
+    assert.deepEqual(environment.scrolls, [
+      { top: 0, left: 0, behavior: "auto" },
+      { top: 0, left: 0, behavior: "auto" },
+      { top: 0, left: 0, behavior: "auto" },
     ]);
     for (const [id, input] of [
       [3, "0:state"],
@@ -92,6 +102,7 @@ test("history location operations bind a safe fragment to the same opaque projec
       [5, locationPayload("#/detail/💥", "state")],
       [6, "9999:#/shortstate"],
       [7, locationPayload("#/detail/focus", "")],
+      [9, locationPayload("#//example.test", "state")],
     ]) assert.equal((await platform.handle(request(id, "push-location", input))).response.payload.code, "VALIDATION");
   } finally { platform.dispose(); }
 });

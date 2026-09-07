@@ -45,9 +45,19 @@ test("responsive catalogue classes are admitted by the packaged design system", 
     assert.match(css, /@media \(prefers-color-scheme: dark\)/);
     assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
     assert.match(css, /@media \(forced-colors: active\)/);
+    const documentationBrandRule = /\.luastra-site-brand::before\s*\{([^}]+)\}/.exec(css)?.[1] ?? "";
+    assert.match(documentationBrandRule, /url\("\.\.\/brand\/luastra-mark\.svg"\)/, "documentation header must use the canonical brand asset");
+    assert.doesNotMatch(documentationBrandRule, /clip-path:/, "documentation header must not approximate the logo with CSS geometry");
+    assert.deepEqual(
+      await readFile(resolve(web, "brand/luastra-mark.svg")),
+      await readFile(resolve(prototype, "platform/brand/mark.svg")),
+      "packaged documentation brand must match the canonical Luastra mark",
+    );
     assert.match(css, /@supports \(font: -apple-system-body\)/, "packaged iOS WebKit CSS must opt into Dynamic Type");
     assert.match(css, /@media \(hover: none\)[\s\S]*font: -apple-system-body/, "Dynamic Type must be limited to touch WebKit so macOS sizing is unchanged");
     assert.match(css, /min-height: 44px/);
+    assert.match(css, /\.luastra-scroll-horizontal\s*\{[^}]*overscroll-behavior-x:\s*contain;[^}]*overscroll-behavior-y:\s*auto;/s, "horizontal Scroll must not trap vertical page scrolling");
+    assert.match(css, /\.luastra-link:hover\s*\{[^}]*color:\s*var\(--luastra-local-text-color,\s*var\(--luastra-color-accent-strong\)\);/s, "link hover must preserve scoped surface contrast");
     assert.match(css, /\[hidden\]\s*\{[^}]*display:\s*none\s*!important/s, "layout classes must not override semantic hidden state");
     assert.match(html, /viewport-fit=cover/);
     assert.match(html, /style-src 'self'/);

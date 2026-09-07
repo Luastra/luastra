@@ -24,6 +24,11 @@ const colorTokens = Object.freeze({
   surface: "var(--luastra-color-surface)", success: "var(--luastra-color-success)", text: "var(--luastra-color-text)",
   transparent: "transparent", warning: "var(--luastra-color-highlight)",
 });
+const buttonIconPaths = Object.freeze({
+  activity: ["M3 12h4l2.5-7 5 14 2.5-7h4"],
+  palette: ["M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.6-3.2 2 2 0 0 1 1.6-3.2H18A3 3 0 0 0 21 12a9 9 0 0 0-9-9Z", "M7.5 10h.01M9.5 6.5h.01M14.5 6.5h.01M17 10h.01"],
+  pause: ["M9 5v14M15 5v14"],
+});
 
 function colorValue(value) { return colorTokens[value] ?? value; }
 
@@ -56,10 +61,12 @@ export class DomAdapter {
   #enterKeyListeners = new WeakMap();
   #modalState = new WeakMap();
   #modalOrigins = new WeakMap();
+  #pendingModalClosures = new WeakMap();
   #dispatch;
+  #deferModalClose;
   #initialMetadata;
 
-  constructor(root, { dispatch = null } = {}) {
+  constructor(root, { dispatch = null, deferModalClose = null } = {}) {
     if (!root?.ownerDocument) fail("DOM root is required");
     this.#document = root.ownerDocument;
     this.#initialMetadata = {
@@ -68,7 +75,9 @@ export class DomAdapter {
       description: this.#document.querySelector?.('meta[name="description"]')?.getAttribute("content") ?? "",
     };
     if (dispatch !== null && typeof dispatch !== "function") fail("DOM event dispatch must be a function");
+    if (deferModalClose !== null && typeof deferModalClose !== "function") fail("Deferred modal close handler must be a function");
     this.#dispatch = dispatch;
+    this.#deferModalClose = deferModalClose;
     this.#nodes.set("host-root", root);
   }
 
@@ -154,7 +163,10 @@ export class DomAdapter {
     }
     const target = this.#nodes.get(patch.target);
     if (!target) fail(`unknown DOM target: ${patch.target}`);
-    if (patch.kind === "text") target.textContent = patch.value;
+    if (patch.kind === "text") {
+      target.textContent = patch.value;
+      this.#syncButtonIcon(target);
+    }
     else if (patch.kind === "attribute") this.#setAttribute(target, patch.name, patch.value);
     else if (patch.kind === "remove-attribute") this.#removeAttribute(target, patch.name);
     else if (patch.kind === "event") this.#setEvent(target, patch.target, patch.name, patch.value);
@@ -179,10 +191,35 @@ export class DomAdapter {
   #setModal(target, state) {
     this.#modalState.set(target, state);
     if (state === "open") {
+      const pending = this.#pendingModalClosures.get(target);
+      if (pending) {
+        this.#pendingModalClosures.delete(target);
+        pending.cancel?.();
+      }
       if (!this.#modalOrigins.has(target)) this.#modalOrigins.set(target, this.#document.activeElement ?? null);
       this.#openModal(target);
       return;
     }
+    if (target.open && this.#deferModalClose) {
+      const pending = {};
+      this.#pendingModalClosures.set(target, pending);
+      const complete = () => {
+        if (this.#pendingModalClosures.get(target) !== pending || this.#modalState.get(target) !== "closed") return false;
+        this.#pendingModalClosures.delete(target);
+        this.#finishModalClose(target);
+        return true;
+      };
+      const cancellation = this.#deferModalClose(target, complete);
+      if (cancellation !== false) {
+        pending.cancel = typeof cancellation === "function" ? cancellation : null;
+        return;
+      }
+      if (this.#pendingModalClosures.get(target) === pending) this.#pendingModalClosures.delete(target);
+    }
+    this.#finishModalClose(target);
+  }
+
+  #finishModalClose(target) {
     if (typeof target.close === "function" && target.open) target.close();
     else target.removeAttribute("open");
     const origin = this.#modalOrigins.get(target);
@@ -213,6 +250,11 @@ export class DomAdapter {
   }
 
   #setAttribute(target, name, value) {
+    if (name === "data-luastra-icon") {
+      target.setAttribute(name, value);
+      this.#syncButtonIcon(target);
+      return;
+    }
     if (name.startsWith("data-luastra-document-")) {
       this.#setDocumentMetadata(name, value);
       target.setAttribute(name, value);
@@ -292,6 +334,7 @@ export class DomAdapter {
   }
 
   #removeAttribute(target, name) {
+    if (name === "data-luastra-icon") target.querySelector?.(":scope > .luastra-button-icon")?.remove();
     if (name === "enterkeyhint") this.#removeEnterKeyListener(target);
     if (dynamicStyleAttributes[name]) {
       const propertyValue = dynamicStyleAttributes[name][0];
@@ -301,6 +344,34 @@ export class DomAdapter {
     }
     if (name.startsWith("data-luastra-document-")) this.#restoreDocumentMetadata(name);
     target.removeAttribute(name);
+  }
+
+  #syncButtonIcon(target) {
+    const iconName = target.dataset?.luastraIcon ?? "";
+    const paths = buttonIconPaths[iconName];
+    const previous = target.querySelector?.(":scope > .luastra-button-icon");
+    if (!paths) {
+      previous?.remove();
+      return;
+    }
+    if (previous?.dataset?.icon === iconName) return;
+    previous?.remove();
+    const icon = this.#document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    icon.classList.add("luastra-button-icon");
+    icon.dataset.icon = iconName;
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("aria-hidden", "true");
+    icon.setAttribute("fill", "none");
+    icon.setAttribute("stroke", "currentColor");
+    icon.setAttribute("stroke-width", iconName === "pause" ? "2.5" : "2");
+    icon.setAttribute("stroke-linecap", "round");
+    icon.setAttribute("stroke-linejoin", "round");
+    for (const pathData of paths) {
+      const path = this.#document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      icon.append(path);
+    }
+    target.prepend(icon);
   }
 
   #setDocumentMetadata(name, value) {
@@ -346,6 +417,12 @@ export class DomAdapter {
     const listener = (event) => {
       if (eventName === "input" && (event.isComposing === true || this.#composing.has(event.currentTarget))) return;
       if (eventName === "dismiss") event.preventDefault();
+      if (eventName === "click" && event.currentTarget?.tagName?.toLowerCase() === "a") {
+        const modified = event.metaKey === true || event.ctrlKey === true || event.shiftKey === true || event.altKey === true;
+        const nonPrimary = event.button !== undefined && event.button !== 0;
+        if (modified || nonPrimary) return;
+        event.preventDefault();
+      }
       const value = "value" in event.currentTarget ? String(event.currentTarget.value) : "";
       this.#dispatch({ action, target: targetId, value, nativeEvent: event });
     };
@@ -373,6 +450,11 @@ export class DomAdapter {
       if (removedIds.some((id) => key.startsWith(`${id}:`))) this.#listeners.delete(key);
     }
     for (const removed of [node, ...descendants]) {
+      const pending = this.#pendingModalClosures.get(removed);
+      if (pending) {
+        this.#pendingModalClosures.delete(removed);
+        pending.cancel?.();
+      }
       this.#removeEnterKeyListener(removed);
     }
   }

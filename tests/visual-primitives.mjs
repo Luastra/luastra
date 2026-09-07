@@ -80,6 +80,21 @@ test("protocol admits custom button colors without changing button semantics", (
   assert.equal(validateRendererTree({ ...buttonTree, children: [{ ...buttonTree.children[0], properties: { ...buttonTree.children[0].properties, backgroundColor: "red" } }] }), false);
 });
 
+test("buttons admit bounded host-rendered icons with accessible icon-only controls", () => {
+  const iconButton = {
+    type: "Button", id: "button/theme", properties: {
+      className: "luastra-button", icon: "palette", label: "Choose a theme", onTap: "choose-theme",
+    }, children: [],
+  };
+  assert.equal(validateRendererTree(iconButton), true);
+  const node = materializeRendererTree(iconButton);
+  assert.equal(node.attributes["data-luastra-icon"], "palette");
+  assert.equal(node.attributes["aria-label"], "Choose a theme");
+  assert.throws(() => materializeRendererTree({ ...iconButton, properties: { ...iconButton.properties, icon: "moon" } }), /invalid icon/);
+  const { label: _label, ...unlabelledProperties } = iconButton.properties;
+  assert.throws(() => materializeRendererTree({ ...iconButton, properties: unlabelledProperties }), /icon-only Button requires a label/);
+});
+
 test("materialization resolves admitted images and emits safe visual attributes", () => {
   const materialized = materializeRendererTree(tree, { resolveAsset(reference, kind) {
     assert.equal(reference, "asset:image/card-back"); assert.equal(kind, "image");

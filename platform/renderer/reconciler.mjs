@@ -27,7 +27,10 @@ const assetImagePattern = /^asset:image\/[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/
 const colorPattern = /^#[0-9a-fA-F]{6}$/;
 const colorTokens = new Set(["accent", "danger", "muted", "surface", "success", "text", "transparent", "warning"]);
 const fragmentPattern = /^#[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const routeFragmentPattern = /^#[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/;
 const languagePattern = /^[A-Za-z0-9_+.-]{1,32}$/;
+const orbitIdentifierPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const buttonIcons = new Set(["activity", "palette", "pause"]);
 const screenThemeAttributes = Object.freeze({
   accentColor: "data-luastra-theme-accent",
   backgroundColor: "data-luastra-theme-background",
@@ -52,6 +55,12 @@ function patch(kind, target, name = "", value = "") {
 function safeHref(value) {
   if (typeof value !== "string" || new TextEncoder().encode(value).byteLength > 2048) return false;
   if (fragmentPattern.test(value)) return true;
+  if (value.startsWith("#/") && !value.startsWith("#//") && routeFragmentPattern.test(value)) {
+    for (let index = value.indexOf("%"); index !== -1; index = value.indexOf("%", index + 3)) {
+      if (!/^[0-9A-Fa-f]{2}$/.test(value.slice(index + 1, index + 3))) return false;
+    }
+    return true;
+  }
   try {
     const url = new URL(value);
     return url.protocol === "https:" && url.username === "" && url.password === "";
@@ -75,8 +84,15 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   if (properties.onInput !== undefined) events.input = String(properties.onInput);
   if (properties.onDismiss !== undefined) events.dismiss = String(properties.onDismiss);
   if (type === "Button") attributes.type ??= "button";
+  if (properties.icon !== undefined) {
+    if (!buttonIcons.has(properties.icon)) fail("Button has an invalid icon");
+    if ((properties.text === undefined || properties.text === "") && (typeof properties.label !== "string" || properties.label.length < 1 || properties.label.length > 160)) {
+      fail("An icon-only Button requires a label containing 1 to 160 characters");
+    }
+    attributes["data-luastra-icon"] = properties.icon;
+  }
   if (type === "Link") {
-    if (!safeHref(properties.href) || typeof properties.text !== "string") fail("Link requires string text and a safe fragment or HTTPS href");
+    if (!safeHref(properties.href) || typeof properties.text !== "string") fail("Link requires string text and a safe fragment, hash route, or HTTPS href");
     attributes.href = properties.href;
     if (properties.external === true) {
       if (!properties.href.startsWith("https://")) fail("Only an HTTPS Link can be external");
@@ -107,6 +123,17 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   }
   if (properties.label !== undefined && type !== "Image") attributes["aria-label"] = properties.label;
   if (properties.className !== undefined) attributes.class = properties.className;
+  if (properties.orbitRelatedTo !== undefined) {
+    const targets = typeof properties.orbitRelatedTo === "string" ? properties.orbitRelatedTo.split(",") : [];
+    if (type !== "Button" || targets.length < 1 || targets.length > 8 || new Set(targets).size !== targets.length ||
+        targets.some((target) => !orbitIdentifierPattern.test(target) || target === id)) fail("Button has invalid Orbit relationship targets");
+    attributes["data-luastra-orbit-related-to"] = properties.orbitRelatedTo;
+  }
+  if (properties.orbitSignalIcon !== undefined) {
+    const icons = new Set(["bolt", "book", "check", "compass", "gauge", "grid", "play", "rocket", "search", "settings", "spark", "star"]);
+    if (type !== "Button" || !icons.has(properties.orbitSignalIcon)) fail("Button has an invalid Orbit signal icon");
+    attributes["data-luastra-orbit-signal-icon"] = properties.orbitSignalIcon;
+  }
   if (properties.busy !== undefined) attributes["aria-busy"] = properties.busy ? "true" : "false";
   if (properties.errorId !== undefined) {
     attributes["aria-invalid"] = "true";
