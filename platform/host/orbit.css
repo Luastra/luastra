@@ -378,6 +378,7 @@
 
 .luastra-focus-surface {
   --luastra-orbit-focus-padding: clamp(1rem, 3vw, 2rem);
+  z-index: 50;
   width: min(42rem, calc(100% - 2rem));
   max-height: min(40rem, calc(100dvh - 3rem));
   padding: var(--luastra-orbit-focus-padding);
@@ -419,6 +420,13 @@
 }
 #host-root .luastra-focus-surface .luastra-button:hover { background: var(--luastra-orbit-focus-control-bg, #e4ad3a); filter: brightness(.92); }
 #host-root .luastra-focus-surface .luastra-button:focus-visible { outline: 3px solid var(--luastra-orbit-focus-border, #16342e); outline-offset: 3px; }
+#host-root .luastra-focus-surface .luastra-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--luastra-orbit-focus-ink, #16342e);
+  font-weight: 700;
+}
 .luastra-focus-surface[data-luastra-orbit-transition] { will-change: transform, opacity, border-radius; }
 .luastra-focus-surface[data-luastra-orbit-transition="closing"] { pointer-events: none; }
 .luastra-focus-surface[data-luastra-orbit-transition="closing"] > :not(.luastra-focus-transition-copy) { visibility: hidden; }

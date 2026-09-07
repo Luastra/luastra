@@ -190,7 +190,8 @@ async function sample(client) {
       horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - viewportWidth),
       orbit: orbit ? rect(orbit) : null,
       path: path ? rect(path) : null,
-      focus: focus && focus.open ? { ...rect(focus), scrollable: focus.scrollHeight > focus.clientHeight } : null,
+      focus: focus && focus.open ? { ...rect(focus), scrollable: focus.scrollHeight > focus.clientHeight, zIndex: Number.parseInt(getComputedStyle(focus).zIndex, 10) } : null,
+      constellationZIndex: constellationStyle ? Number.parseInt(constellationStyle.zIndex, 10) : null,
       brand: brand ? { ...rect(brand), alt: brand.alt, loaded: brand.complete && brand.naturalWidth > 0, source: brand.getAttribute('src') } : null,
       minimumTarget: controls.reduce((minimum, node) => Math.min(minimum, rect(node).width, rect(node).height), Infinity),
       nodesInsideOrbit: Boolean(orbit) && nodes.every((node) => horizontallyInside(rect(node), rect(orbit))) &&
@@ -208,7 +209,8 @@ function samplePass(value, { constrained = false, focus = false } = {}) {
     value.brand?.loaded === true && value.brand.alt === "Luastra" && value.brand.source?.endsWith("/brand/luastra-lockup.svg") && value.brand.width >= 112 &&
     value.errors.length === 0 && value.icons.length === 2 && value.icons.every((icon) => icon.svg && icon.bounds.width >= 44 && icon.bounds.height >= 44) &&
     Math.abs(value.path.height - 56) <= 1 && (!constrained || value.mode === "list") &&
-    (!focus || (value.focus && value.focus.left >= -1 && value.focus.right <= value.viewport.width + 1 && value.focus.top >= -1 && value.focus.bottom <= value.viewport.height + 1));
+    (!focus || (value.focus && value.focus.left >= -1 && value.focus.right <= value.viewport.width + 1 && value.focus.top >= -1 && value.focus.bottom <= value.viewport.height + 1 &&
+      Number.isFinite(value.focus.zIndex) && Number.isFinite(value.constellationZIndex) && value.focus.zIndex > value.constellationZIndex));
 }
 
 async function main() {
@@ -261,6 +263,19 @@ async function main() {
       const value = await sample(client);
       themeSamples.push({ expected: themes[index], ...value, pass: value.theme === themes[index] && samplePass(value, { constrained: true, focus: true }) });
     }
+
+    await route(client, "#/examples/routing", "location.hash === '#/examples/routing' && document.querySelector('[data-luastra-id=\"landing/focus\"]')?.open === true");
+    const exampleDetail = await sample(client);
+    const exampleDetailContent = await evaluate(client, `(() => ({
+      difficulty: document.querySelector('[data-luastra-id="landing/focus/difficulty"]')?.textContent?.trim() ?? null,
+      commands: document.querySelector('[data-luastra-id="landing/focus/run-code"]')?.textContent ?? null,
+      files: document.querySelector('[data-luastra-id="landing/focus/files-code"]')?.textContent ?? null,
+      capabilities: document.querySelector('[data-luastra-id="landing/focus/capabilities-value"]')?.textContent?.trim() ?? null,
+      evidence: document.querySelector('[data-luastra-id="landing/focus/evidence-value"]')?.textContent?.trim() ?? null,
+      docs: document.querySelector('[data-luastra-id="landing/focus/docs"]')?.textContent?.trim() ?? null,
+      source: document.querySelector('[data-luastra-id="landing/focus/source"]')?.getAttribute('href') ?? null,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
 
     await client.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
     await route(client, "#/", "location.hash === '#/'");
@@ -432,6 +447,11 @@ async function main() {
     const assertions = {
       viewportMatrix: viewportSamples.every((value) => value.pass),
       themeMatrix: themeSamples.every((value) => value.pass),
+      examplePages: samplePass(exampleDetail, { constrained: true, focus: true }) && exampleDetail.focus?.scrollable === true &&
+        exampleDetailContent.difficulty === "Difficulty: Beginner" && exampleDetailContent.commands?.includes("luastra run --project=examples/routing-lab") &&
+        exampleDetailContent.files?.includes("examples/routing-lab/src/main.luau") && exampleDetailContent.capabilities === "ui.render" &&
+        exampleDetailContent.evidence?.includes("navigation.history") && exampleDetailContent.docs === "Read the documentation" &&
+        exampleDetailContent.source === "https://github.com/Luastra/luastra/tree/main/examples/routing-lab",
       reducedMotionSettles: reducedMotion.diagnostics?.activeMotionCount === 0 && reducedMotion.diagnostics?.framePending === false,
       keyboardOnly: keyboard.initial === "landing/product" && keyboard.searchShortcut === "landing/search/input" &&
         keyboard.rootBeforeArrow === "landing/product" && keyboard.rootAfterArrow !== keyboard.rootBeforeArrow && keyboard.rootRovingStops === 1 &&
@@ -465,7 +485,7 @@ async function main() {
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
         ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...typingGuide.errors,
-        ...eventsGuide.errors, ...documentationDetail.errors].length === 0,
+        ...eventsGuide.errors, ...documentationDetail.errors, ...exampleDetail.errors, ...exampleDetailContent.errors].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -480,6 +500,7 @@ async function main() {
       assertions,
       viewportSamples,
       themeSamples,
+      exampleDetail: { ...exampleDetail, content: exampleDetailContent },
       reducedMotion,
       keyboard,
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },

@@ -61,4 +61,20 @@ assert(Landing.snapshot().section == "examples")
 assert(findNode(examples, "landing/example-map") ~= nil)
 assert(findNode(examples, "landing/examples/orbit") ~= nil)
 
+Landing.handle("landing.open-focus", "landing/examples/routing", "")
+local routingDetail = Landing.render()
+assert((findNode(routingDetail, "landing/focus").properties :: any).open == true)
+assert((findNode(routingDetail, "landing/focus/difficulty").properties :: any).text == "Difficulty: Beginner")
+assert(string.find((findNode(routingDetail, "landing/focus/run-code").properties :: any).text, "examples/routing-lab", 1, true) ~= nil)
+assert((findNode(routingDetail, "landing/focus/capabilities-value").properties :: any).text == "ui.render")
+assert(string.find((findNode(routingDetail, "landing/focus/evidence-value").properties :: any).text, "navigation.history", 1, true) ~= nil)
+assert(Landing.handle("landing.open-focus-docs", "landing/focus/docs", "") == "recipe-navigation")
+
+Landing.handle("landing.close-focus", "landing/focus/close", "")
+Landing.handle("landing.open-focus", "landing/examples/orbit", "")
+local orbitDetail = Landing.render()
+assert((findNode(orbitDetail, "landing/focus/difficulty").properties :: any).text == "Difficulty: Advanced")
+assert(findNode(orbitDetail, "landing/focus/source") == nil)
+assert(Landing.handle("landing.open-focus-docs", "landing/focus/docs", "") == "recipe-orbit")
+
 return true

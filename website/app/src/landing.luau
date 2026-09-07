@@ -68,14 +68,108 @@ local details: {[string]: any} = {
     ["landing/source"] = { title = "Public source alpha", summary = "The current release is intentionally early and inspectable.", body = "Read the source, release inventory, compatibility boundaries, and examples before depending on an alpha API. Published release artifacts remain immutable while development continues privately.", docs = "policies", source = "https://github.com/Luastra/luastra" },
 }
 
+local exampleDetails: {[string]: any} = {
+    ["landing/examples/catalogue"] = {
+        title = "Animated Catalogue",
+        summary = "Navigation, versioned state migration, browser history, and declarative entrance motion in one catalogue flow.",
+        difficulty = "Advanced",
+        body = "Choose a catalogue card, open its detail view, use Back, reload the page, and observe the selected card and route being restored. The application also admits launch URLs and distinguishes online from offline lifecycle state.",
+        commands = "luastra check --project=examples/animated-catalogue\nluastra test --project=examples/animated-catalogue\nluastra run --project=examples/animated-catalogue",
+        keyFiles = "examples/animated-catalogue/luastra.json\nexamples/animated-catalogue/src/main.luau\nexamples/animated-catalogue/src/test.luau\nexamples/animated-catalogue/src/test-navigation-state.luau",
+        capabilities = "app.launchurl.get · navigation.history · storage.get · storage.set · ui.render",
+        evidence = "Automated Luau tests cover catalogue behavior, typed navigation, restoration, migration rejection, and deterministic encoding. Run the preview to verify browser History and motion presentation; those checks do not prove a native host.",
+        docs = "recipe-history",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/animated-catalogue",
+    },
+    ["landing/examples/orbit"] = {
+        title = "Constellation Orbit",
+        summary = "A spatial constellation with semantic relationships, nested navigation, Focus Surfaces, themes, motion preferences, and a complete list fallback.",
+        difficulty = "Advanced",
+        body = "Explore the root constellation, open a nested group, inspect a Focus Surface, search nodes, switch themes, disable motion, and resize the viewport to see the same semantic model adapt without application-owned coordinates.",
+        commands = "luastra check --project=examples/constellation-orbit\nluastra test --project=examples/constellation-orbit\nluastra run --project=examples/constellation-orbit",
+        keyFiles = "examples/constellation-orbit/luastra.json\nexamples/constellation-orbit/src/main.luau\nexamples/constellation-orbit/src/test.luau",
+        capabilities = "app.launchurl.get · navigation.history · storage.get · storage.set · timer.control · ui.render",
+        evidence = "The private candidate has automated semantic tests plus Chromium, Firefox, Safari, responsive, accessibility, and performance evidence. Capacitor, Tauri, real zoom, and assistive-technology admission remain separate open gates.",
+        docs = "recipe-orbit",
+    },
+    ["landing/examples/meditation"] = {
+        title = "Meditation",
+        summary = "A larger application joining media playback, persisted state, authenticated server functions, local identity, and packaged audio content.",
+        difficulty = "Advanced",
+        body = "Sign in through the local development identity flow, load meditation content, select a session, and exercise playback while application state crosses explicit storage, RPC, and media boundaries.",
+        commands = "luastra generate --project=examples/meditation\nluastra check --project=examples/meditation\nluastra test --project=examples/meditation\nluastra run --project=examples/meditation",
+        keyFiles = "examples/meditation/luastra.json\nexamples/meditation/src/main.luau\nexamples/meditation/backend/functions.json\nexamples/meditation/backend/handlers.mjs\nexamples/meditation/src/test-flow.luau\nexamples/meditation/content/",
+        capabilities = "media.command · rpc.call · storage.get · storage.set · ui.render",
+        evidence = "The checked flow test covers deterministic application transitions and the generated client boundary. A browser preview proves only that host; background playback, interruptions, hardware controls, and native packaging require device-specific evidence.",
+        docs = "recipe-media",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/meditation",
+    },
+    ["landing/examples/forms"] = {
+        title = "Forms and CRUD",
+        summary = "Validated form input and explicit create, update, and delete operations through a generated server-function client.",
+        difficulty = "Intermediate",
+        body = "Submit an invalid form to see field-level feedback, create and update records, delete a record, and inspect how offline state keeps an unsent mutation available for an explicit retry.",
+        commands = "luastra generate --project=examples/forms-crud\nluastra check --project=examples/forms-crud\nluastra test --project=examples/forms-crud\nluastra run --project=examples/forms-crud",
+        keyFiles = "examples/forms-crud/luastra.json\nexamples/forms-crud/src/main.luau\nexamples/forms-crud/src/model.luau\nexamples/forms-crud/backend/functions.json\nexamples/forms-crud/backend/handlers.mjs\nexamples/forms-crud/src/test-crud.luau",
+        capabilities = "rpc.call · ui.render",
+        evidence = "Three Luau test modules cover schemas and model operations, CRUD state transitions, and generated backend-client calls. They do not establish production authentication, deployment, concurrency, or a remote database provider.",
+        docs = "recipe-server",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/forms-crud",
+    },
+    ["landing/examples/media"] = {
+        title = "Media Player",
+        summary = "A compact queue player demonstrating typed packaged audio, asynchronous media commands, progress state, seeking, and lifecycle events.",
+        difficulty = "Intermediate",
+        body = "Load the two packaged samples, then play, pause, seek, and move through the queue. The interface renders decoded host media state instead of assuming that an acknowledged command changed playback.",
+        commands = "luastra check --project=examples/media-player\nluastra test --project=examples/media-player\nluastra run --project=examples/media-player",
+        keyFiles = "examples/media-player/luastra.json\nexamples/media-player/src/main.luau\nexamples/media-player/src/test-media.luau\nexamples/media-player/assets/focus.wav\nexamples/media-player/assets/rest.wav",
+        capabilities = "media.command · ui.render",
+        evidence = "The test validates media-state decoding and rejects unadmitted raw or malformed sources. Audible playback and controls require a live host check; web evidence must not be reused as proof of native background playback.",
+        docs = "recipe-media",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/media-player",
+    },
+    ["landing/examples/routing"] = {
+        title = "Routing Lab",
+        summary = "A small deterministic example of typed routes, nested path parameters, required query values, canonical locations, and in-memory Back behavior.",
+        difficulty = "Beginner",
+        body = "Open a workspace, then a nested document route, and move Back through the local router stack while the current canonical location remains visible on screen.",
+        commands = "luastra check --project=examples/routing-lab\nluastra test --project=examples/routing-lab\nluastra run --project=examples/routing-lab",
+        keyFiles = "examples/routing-lab/luastra.json\nexamples/routing-lab/src/main.luau\nexamples/routing-lab/src/test.luau",
+        capabilities = "ui.render",
+        evidence = "The deterministic test proves route generation and local Back transitions. This example intentionally does not request navigation.history, so its address bar and the platform Back button are outside the demonstrated contract.",
+        docs = "recipe-navigation",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/routing-lab",
+    },
+    ["landing/examples/visuals"] = {
+        title = "Live Visuals",
+        summary = "A visual specimen combining a packaged image, application theme tokens, shapes, layers, a flip card, and event-driven motion presets.",
+        difficulty = "Intermediate",
+        body = "Reveal and cover the card, inspect the layered front and back, and resize the adaptive shape gallery. Motion frames exist only while an admitted effect is active; application code does not own a permanent frame loop.",
+        commands = "luastra check --project=examples/live-visuals\nluastra test --project=examples/live-visuals\nluastra run --project=examples/live-visuals",
+        keyFiles = "examples/live-visuals/luastra.json\nexamples/live-visuals/src/main.luau\nexamples/live-visuals/src/test.luau\nexamples/live-visuals/assets/luastra-mark.png",
+        capabilities = "ui.render",
+        evidence = "The Luau test verifies theme fields, aligned text, and flip state. Shape geometry, image fitting, animation smoothness, reduced motion, and contrast remain host-rendered presentation claims that need browser or device inspection.",
+        docs = "recipe-assets-visuals",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/live-visuals",
+    },
+    ["landing/examples/debug"] = {
+        title = "Debug Lab",
+        summary = "The smallest example of structured debug, warning, and error output crossing the Luau runtime boundary.",
+        difficulty = "Beginner",
+        body = "Start the application and inspect the terminal or host diagnostics while the semantic screen confirms that all three debug calls ran during module initialization.",
+        commands = "luastra check --project=examples/debug-lab\nluastra run --project=examples/debug-lab",
+        keyFiles = "examples/debug-lab/luastra.json\nexamples/debug-lab/src/main.luau",
+        capabilities = "ui.render",
+        evidence = "The project is analyzer-checked but currently has no declared test module. A live run proves that the selected host receives the messages; log persistence, remote collection, and production telemetry are not provided by this example.",
+        docs = "debug",
+        source = "https://github.com/Luastra/luastra/tree/main/examples/debug-lab",
+    },
+}
+
 for _, item in productNodes do
     details[item.id] = { title = item.title, summary = item.description, body = "Open the conventional documentation view for complete, searchable, version-bound guidance and API links.", docs = item.docs }
 end
-for _, item in exampleNodes do
-    details[item.id] = { title = item.title, summary = item.description, body = "This repository example is a real Luastra project with Luau source and tests, not a screenshot or renderer-specific mockup.", source = "https://github.com/Luastra/luastra/tree/main/examples/" .. item.source }
-end
-details["landing/examples/orbit"].source = nil
-details["landing/examples/orbit"].docs = "ui"
+for id, detail in exampleDetails do details[id] = detail end
 
 local function activeItems(): {any}
     if section == "product" then return productNodes end
@@ -121,8 +215,47 @@ local function focusChildren(detail: any): {UI.Node}
     local output: {UI.Node} = {
         UI.Text { id = "landing/focus/summary", text = detail.summary, variant = "subheading" },
         UI.Text { id = "landing/focus/body", text = detail.body },
-        UI.Divider { id = "landing/focus/divider" },
     }
+    if detail.difficulty ~= nil then
+        table.insert(output, UI.Text {
+            id = "landing/focus/difficulty",
+            text = "Difficulty: " .. detail.difficulty,
+            tone = "success",
+        })
+    end
+    if detail.commands ~= nil then
+        table.insert(output, UI.Stack {
+            id = "landing/focus/run",
+            gap = "sm",
+            UI.Text { id = "landing/focus/run-title", text = "Run from the repository root", variant = "heading" },
+            UI.CodeBlock { id = "landing/focus/run-code", code = detail.commands, language = "Shell" },
+        })
+    end
+    if detail.keyFiles ~= nil then
+        table.insert(output, UI.Stack {
+            id = "landing/focus/files",
+            gap = "sm",
+            UI.Text { id = "landing/focus/files-title", text = "Key files", variant = "heading" },
+            UI.CodeBlock { id = "landing/focus/files-code", code = detail.keyFiles, language = "Text" },
+        })
+    end
+    if detail.capabilities ~= nil then
+        table.insert(output, UI.Stack {
+            id = "landing/focus/capabilities",
+            gap = "sm",
+            UI.Text { id = "landing/focus/capabilities-title", text = "Declared capabilities", variant = "heading" },
+            UI.Text { id = "landing/focus/capabilities-value", text = detail.capabilities },
+        })
+    end
+    if detail.evidence ~= nil then
+        table.insert(output, UI.Stack {
+            id = "landing/focus/evidence",
+            gap = "sm",
+            UI.Text { id = "landing/focus/evidence-title", text = "Evidence boundary", variant = "heading" },
+            UI.Text { id = "landing/focus/evidence-value", text = detail.evidence },
+        })
+    end
+    table.insert(output, UI.Divider { id = "landing/focus/divider" })
     if detail.docs ~= nil then
         table.insert(output, UI.Button { id = "landing/focus/docs", text = "Read the documentation", onTap = "landing.open-focus-docs" })
     end
