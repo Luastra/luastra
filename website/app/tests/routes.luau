@@ -107,6 +107,17 @@ assert(findNode(buttonPage, "docs/detail/related-next-step-1") ~= nil)
 assert((findNode(buttonPage, "docs/detail/inventory").properties :: any).href == "#/docs/ui")
 assert(findNode(buttonPage, "docs/pages/ui") == nil)
 
+Application.handle("open_url", "browser", "https://luastra.dev/#/reference/data%2Fitem-4")
+local dataResultPage = Application.render()
+assert(findNode(dataResultPage, "docs/detail/error-codes/row-17") ~= nil)
+assert((findNode(dataResultPage, "docs/detail/produced-by-1").properties :: any).href == "#/reference/data%2Fitem-16")
+
+Application.handle("open_url", "browser", "https://luastra.dev/#/reference/media%2Fitem-3")
+local mediaErrorPage = Application.render()
+assert(findNode(mediaErrorPage, "docs/detail/error-codes") == nil)
+assert(string.find((findNode(mediaErrorPage, "docs/detail/error-codes-note").properties :: any).text, "host-specific", 1, true) ~= nil)
+assert((findNode(mediaErrorPage, "docs/detail/produced-by-1").properties :: any).href == "#/reference/media%2Fitem-17")
+
 for _, pageId in { "recipe-form-modal/item-3", "recipe-media/item-3", "recipe-orbit/item-3", "advanced-tutorial/item-3" } do
     Application.handle("open_url", "browser", `https://luastra.dev/#/reference/{string.gsub(pageId, "/", "%%2F")}`)
     local longExample = Application.render()

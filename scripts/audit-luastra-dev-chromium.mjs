@@ -480,6 +480,23 @@ async function main() {
       const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
       return { hovered: link?.matches(':hover') === true, foreground, background, contrast: (values[0] + .05) / (values[1] + .05) };
     })()`);
+    await route(client, "#/reference/data%2Fitem-4", "location.hash === '#/reference/data%2Fitem-4' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/error-codes/row-17\"]'))");
+    const dataResult = await evaluate(client, `(() => ({
+      rows: [...document.querySelectorAll('[data-luastra-id^="docs/detail/error-codes/row-"]')]
+        .filter((node) => !node.dataset.luastraId.slice('docs/detail/error-codes/row-'.length).includes('/')).length,
+      producer: document.querySelector('[data-luastra-id="docs/detail/produced-by-1"]')?.getAttribute('href') ?? null,
+      note: document.querySelector('[data-luastra-id="docs/detail/error-codes-note"]')?.textContent?.trim() ?? null,
+      scrollContained: getComputedStyle(document.querySelector('[data-luastra-id="docs/detail/error-codes-scroll"]')).overflowX === 'auto',
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    await route(client, "#/reference/media%2Fitem-3", "location.hash === '#/reference/media%2Fitem-3' && Boolean(document.querySelector('[data-luastra-id=\"docs/detail/error-codes-note\"]'))");
+    const mediaError = await evaluate(client, `(() => ({
+      hasClosedTable: document.querySelector('[data-luastra-id="docs/detail/error-codes"]') !== null,
+      note: document.querySelector('[data-luastra-id="docs/detail/error-codes-note"]')?.textContent?.trim() ?? null,
+      producer: document.querySelector('[data-luastra-id="docs/detail/produced-by-1"]')?.getAttribute('href') ?? null,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    const resultTypes = { dataResult, mediaError };
     const detailSequence = await auditDetailSequence(client);
 
     const assertions = {
@@ -523,6 +540,10 @@ async function main() {
         documentationDetail.previous === "#/reference/ui%2Fitem-7" && documentationDetail.next === "#/reference/ui%2Fitem-9" &&
         documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
         recipeHover.hovered && recipeHover.contrast >= 4.5,
+      resultTypes: dataResult.rows === 17 && dataResult.producer === "#/reference/data%2Fitem-16" &&
+        dataResult.note?.includes("complete closed vocabulary") && dataResult.scrollContained &&
+        mediaError.hasClosedTable === false && mediaError.note?.includes("host-specific") &&
+        mediaError.producer === "#/reference/media%2Fitem-17",
       detailNavigationSequence: detailSequence.pages === generatedPages.length &&
         detailSequence.forwardTargets === generatedPages.length - detailSequence.sections &&
         detailSequence.backwardTargets === generatedPages.length - detailSequence.sections &&
@@ -533,7 +554,8 @@ async function main() {
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
         ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...typingGuide.errors,
         ...eventsGuide.errors, ...documentationDetail.errors, ...exampleDetail.errors, ...exampleDetailContent.errors,
-        ...Object.values(productPages).flatMap((value) => value.errors)].length === 0,
+        ...Object.values(productPages).flatMap((value) => value.errors),
+        ...Object.values(resultTypes).flatMap((value) => value.errors)].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -555,6 +577,7 @@ async function main() {
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
       documentationOnboarding: { beginnerTutorial, firstAppCheckpoint, advancedTutorial, typingGuide, eventsGuide },
       documentationDetail,
+      resultTypes,
       detailSequence,
       recipeHover,
       result,

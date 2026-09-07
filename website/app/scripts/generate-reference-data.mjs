@@ -1023,6 +1023,135 @@ const completeRecipeOverrides = Object.freeze({
   "Server.decode": "recipe-server",
 });
 
+const errorCodeGroups = Object.freeze({
+  data: {
+    module: "luastra/data",
+    entries: [
+      ["invalid_schema", "The supplied schema is not a valid Data.Schema value."],
+      ["maximum_depth", "Nested validation exceeded the supported schema depth."],
+      ["schema_cycle", "The schema recursively references itself."],
+      ["expected_string", "The value at path is not a string."],
+      ["too_short", "A string contains fewer bytes than minBytes."],
+      ["too_long", "A string contains more bytes than maxBytes."],
+      ["expected_number", "The value is not a finite number."],
+      ["expected_integer", "The value is not an integer required by the schema."],
+      ["too_small", "A number is below the configured minimum."],
+      ["too_large", "A number is above the configured maximum."],
+      ["expected_boolean", "The value at path is not a boolean."],
+      ["expected_array", "The value is not a dense one-based array."],
+      ["too_few_items", "An array contains fewer items than minItems."],
+      ["too_many_items", "An array contains more items than maxItems."],
+      ["expected_object", "The value at path is not an object table."],
+      ["unexpected_field", "An exact object contains a field absent from its schema."],
+      ["unknown_schema", "The schema kind is not supported by this SDK version."],
+    ],
+  },
+  stateDecode: {
+    module: "luastra/state",
+    entries: [
+      ["empty", "The encoded state is empty or not a string."],
+      ["too_large", "The encoded state exceeds 4096 bytes."],
+      ["invalid_expected_version", "expectedVersion is not an integer from 1 through 999."],
+      ["malformed", "The version prefix or field structure is malformed."],
+      ["unsupported_version", "The encoded version differs from expectedVersion."],
+      ["too_many_fields", "The encoded state contains more than 32 fields."],
+      ["invalid_field", "A field name is invalid or duplicated."],
+      ["invalid_encoding", "A field contains invalid or non-canonical percent encoding."],
+    ],
+  },
+  stateMigration: {
+    module: "luastra/state",
+    entries: [
+      ["empty", "The encoded source state is empty or not a string."],
+      ["too_large", "The encoded source state exceeds 4096 bytes."],
+      ["invalid_target_version", "targetVersion is not an integer from 1 through 999."],
+      ["invalid_migrations", "The migration collection is not a table."],
+      ["malformed", "The source version prefix is missing or invalid."],
+      ["newer_version", "The source version is newer than the requested target."],
+      ["too_many_migrations", "The migration would require more than 32 steps."],
+      ["missing_migration", "No migration function exists for the current version."],
+      ["migration_failed", "A migration function raised an error."],
+      ["invalid_migration", "A migration returned, encoded, or verified an invalid replacement."],
+    ],
+  },
+  navigationRestore: {
+    module: "luastra/navigation",
+    entries: [
+      ["invalid_snapshot", "The snapshot shape, version, or encoded form is invalid."],
+      ["invalid_stack", "The restored stack is empty, too deep, sparse, or inconsistent."],
+      ["unknown_route", "A restored route is not admitted by the string stack."],
+      ["invalid_entry", "A restored typed entry cannot be matched or generated."],
+    ],
+  },
+  navigationRoute: {
+    module: "luastra/navigation",
+    entries: [
+      ["invalid_location", "The location is malformed, non-canonical, or exceeds route segment limits."],
+      ["route_not_found", "No compiled route definition matches the location."],
+      ["invalid_entry", "The typed route entry has an invalid shape or parameters."],
+      ["unknown_route", "The entry names a route absent from the compiler."],
+      ["invalid_parameter", "A required path parameter is missing or invalid."],
+      ["missing_query", "A required query parameter is absent."],
+      ["invalid_query", "A supplied query parameter cannot be decoded or validated."],
+      ["location_too_large", "The generated canonical location exceeds 2048 bytes."],
+    ],
+  },
+  navigationMutation: {
+    module: "luastra/navigation",
+    entries: [
+      ["invalid_entry", "The typed route entry cannot be generated."],
+      ["unknown_route", "The entry names a route absent from the compiler."],
+      ["invalid_parameter", "A required path parameter is missing or invalid."],
+      ["missing_query", "A required query parameter is absent."],
+      ["invalid_query", "A supplied query parameter cannot be decoded or validated."],
+      ["location_too_large", "The generated canonical location exceeds 2048 bytes."],
+      ["stack_depth_exceeded", "Push would exceed the configured navigation stack depth."],
+    ],
+  },
+  serverDecode: {
+    module: "luastra/server",
+    entries: [
+      ["invalid_size", "The wire payload is empty, not a string, or larger than 4096 bytes."],
+      ["invalid_version", "The wire payload does not declare protocol version v=1."],
+      ["malformed", "A field token is missing its name/value separator."],
+      ["invalid_field", "A field name, value encoding, or duplicate field is invalid."],
+      ["too_many_fields", "The wire payload contains more than 128 fields."],
+    ],
+  },
+  mediaDecode: {
+    module: "luastra/media",
+    entries: [
+      ["invalid_wire", "The media-state wire payload cannot be decoded."],
+      ["missing_field", "A required media-state field is absent."],
+      ["invalid_state", "The field set, status, or background flag is invalid."],
+      ["invalid_number", "A required numeric field is not a valid number."],
+      ["invalid_error", "The host error code and message fields are inconsistent."],
+    ],
+  },
+});
+
+const errorCodeTargets = Object.freeze({
+  "Data.ValidationError": "data", "Data.Failure": "data", "Data.Result": "data",
+  "State.DecodeError": "stateDecode", "State.DecodeFailure": "stateDecode", "State.DecodeResult": "stateDecode",
+  "State.MigrationError": "stateMigration", "State.MigrationFailure": "stateMigration", "State.MigrationResult": "stateMigration",
+  "Navigation.RestoreError": "navigationRestore", "Navigation.RestoreResult": "navigationRestore",
+  "Navigation.RouteError": "navigationRoute", "Navigation.RouteResult": "navigationRoute",
+  "Navigation.MutationResult": "navigationMutation",
+  "Server.DecodeFailure": "serverDecode", "Server.DecodeResult": "serverDecode",
+  "Media.DecodeFailure": "mediaDecode", "Media.DecodeResult": "mediaDecode",
+});
+
+const typeFlowFamilies = Object.freeze([
+  { types: ["Data.ValidationError", "Data.Success", "Data.Failure", "Data.Result"], producedBy: ["Data.decode"] },
+  { types: ["State.DecodeError", "State.DecodeSuccess", "State.DecodeFailure", "State.DecodeResult"], producedBy: ["State.decode"], consumedBy: ["State.migrate"] },
+  { types: ["State.MigrationError", "State.MigrationSuccess", "State.MigrationFailure", "State.MigrationResult"], producedBy: ["State.migrate"] },
+  { types: ["Navigation.RestoreError", "Navigation.RestoreResult"], producedBy: ["Navigation.create", "Navigation.createRouter"] },
+  { types: ["Navigation.RouteError", "Navigation.RouteResult"], producedBy: ["Navigation.compile"] },
+  { types: ["Navigation.MutationResult"], producedBy: ["Navigation.createRouter"] },
+  { types: ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult"], producedBy: ["Server.decode"] },
+  { types: ["Media.MediaError", "Media.DecodeSuccess", "Media.DecodeFailure", "Media.DecodeResult"], producedBy: ["Media.decodeState"] },
+]);
+
 function completeRecipeFor(symbol) {
   if (typeof symbol !== "string" || !symbol.includes(".")) return null;
   const escaped = symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -1145,6 +1274,60 @@ const relatedFamilies = [
 ];
 
 const pageByName = new Map(pages.map((page) => [page.name, page]));
+
+function literalErrorCodes(source) {
+  const codes = [];
+  const pattern = /(?:failure|migrationFailure)\("([a-z_]+)"|code\s*=\s*"([a-z_]+)"|error\s*=\s*"([a-z_]+)"/g;
+  for (const match of source.matchAll(pattern)) {
+    const code = match[1] ?? match[2] ?? match[3];
+    if (!codes.includes(code)) codes.push(code);
+  }
+  return codes.sort();
+}
+
+for (const moduleName of ["luastra/data", "luastra/state", "luastra/navigation", "luastra/server", "luastra/media"]) {
+  const documented = [];
+  for (const group of Object.values(errorCodeGroups)) {
+    if (group.module !== moduleName) continue;
+    for (const [code] of group.entries) if (!documented.includes(code)) documented.push(code);
+  }
+  documented.sort();
+  const actual = literalErrorCodes(sdkSources[moduleName]);
+  if (JSON.stringify(documented) !== JSON.stringify(actual)) {
+    fail(`${moduleName} error-code documentation differs from SDK literals: documented=${documented.join(",")} actual=${actual.join(",")}`);
+  }
+}
+
+for (const [pageName, groupName] of Object.entries(errorCodeTargets)) {
+  const page = pageByName.get(pageName);
+  const group = errorCodeGroups[groupName];
+  if (!page || !group) fail(`${pageName} error-code target is unavailable`);
+  page.errorCodes = group.entries.map(([code, meaning]) => ({ code, meaning }));
+  page.errorCodeNote = "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.";
+}
+
+const mediaErrorPage = pageByName.get("Media.MediaError");
+if (!mediaErrorPage) fail("Media.MediaError page is unavailable");
+mediaErrorPage.description = "Media.MediaError reports an admitted playback failure from the active host. Its code is stable for that reported failure, but the set of possible codes is host-specific rather than a portable SDK-wide enum.";
+mediaErrorPage.useWhen = "Use this type after a media event reports a playback failure. Branch only on codes explicitly documented by the active host or target, show a safe message, and keep playback state recoverable.";
+for (const parameter of mediaErrorPage.parameters ?? []) {
+  if (parameter.name === "code") {
+    parameter.description = "Stable machine-readable code for this failure. The vocabulary is defined by the active host or target and may differ across hosts.";
+  }
+}
+mediaErrorPage.errorCodeNote = "MediaError.code and message describe an admitted host playback failure. The code vocabulary is host-specific and intentionally not presented as one portable closed list; handle the visible message and preserve a safe playback state.";
+
+for (const family of typeFlowFamilies) {
+  const producerPageIds = family.producedBy.map((name) => pageByName.get(name)?.id ?? fail(`${name} producer page is unavailable`));
+  const consumerPageIds = (family.consumedBy ?? []).map((name) => pageByName.get(name)?.id ?? fail(`${name} consumer page is unavailable`));
+  for (const typeName of family.types) {
+    const page = pageByName.get(typeName);
+    if (!page) fail(`${typeName} flow target is unavailable`);
+    page.producerPageIds = producerPageIds;
+    page.consumerPageIds = consumerPageIds;
+  }
+}
+
 const explicitRelated = new Map();
 for (const family of relatedFamilies) {
   const admitted = family.filter((name) => pageByName.has(name));

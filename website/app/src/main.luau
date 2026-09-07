@@ -635,6 +635,51 @@ local function renderParameterGroups(page: any): UI.Node?
     return UI.Column(input)
 end
 
+local function renderErrorCodes(page: any): UI.Node?
+    if page.errorCodes == nil or #page.errorCodes == 0 then return nil end
+    local tableInput: any = { id = "docs/detail/error-codes", label = "Error codes" }
+    table.insert(tableInput, UI.TableRow {
+        id = "docs/detail/error-codes/header",
+        UI.TableCell { id = "docs/detail/error-codes/header/code", header = true, scope = "col", text = "Code" },
+        UI.TableCell { id = "docs/detail/error-codes/header/meaning", header = true, scope = "col", text = "When it occurs" },
+    })
+    for index, entry in page.errorCodes do
+        table.insert(tableInput, UI.TableRow {
+            id = `docs/detail/error-codes/row-{index}`,
+            UI.TableCell { id = `docs/detail/error-codes/row-{index}/code`, header = true, scope = "row", text = entry.code },
+            UI.TableCell { id = `docs/detail/error-codes/row-{index}/meaning`, text = entry.meaning },
+        })
+    end
+    return UI.Scroll {
+        id = "docs/detail/error-codes-scroll",
+        label = "Scrollable error-code table",
+        scroll = "horizontal",
+        UI.Table(tableInput),
+    }
+end
+
+local function renderTypeFlow(page: any): UI.Node?
+    local producers = page.producerPageIds :: any
+    local consumers = page.consumerPageIds :: any
+    if (producers == nil or #producers == 0) and (consumers == nil or #consumers == 0) then return nil end
+    local input: any = { id = "docs/detail/type-flow", gap = "md" }
+    for _, group in {
+        { id = "produced-by", title = "Produced by", pageIds = producers },
+        { id = "consumed-by", title = "Consumed by the SDK", pageIds = consumers },
+    } do
+        if group.pageIds ~= nil and #group.pageIds > 0 then
+            local links: any = { id = `docs/detail/{group.id}`, gap = "xs" }
+            table.insert(input, UI.Text { id = `docs/detail/{group.id}-title`, text = group.title, variant = "heading" })
+            for index, pageId in group.pageIds do
+                local target = pageById[pageId]
+                if target ~= nil then table.insert(links, link(`docs/detail/{group.id}-{index}`, target.name, target.id)) end
+            end
+            table.insert(input, UI.Column(links))
+        end
+    end
+    return UI.Stack(input)
+end
+
 local function insertCodeBlocks(input: any, id: string, code: string, language: string)
     local start = 1
     local index = 1
@@ -695,6 +740,17 @@ local function renderDetail(page: any): UI.Node
     if page.kind == "type" or page.callable == true then
         table.insert(input, UI.Text { id = "docs/detail/parameters-title", text = if page.kind == "type" then "Fields or definition" else "Parameters", variant = "subheading" })
         table.insert(input, renderParameters(page))
+    end
+    if page.errorCodeNote ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/error-codes-title", text = "Error codes", variant = "subheading" })
+        table.insert(input, UI.Text { id = "docs/detail/error-codes-note", text = page.errorCodeNote })
+        local errorCodes = renderErrorCodes(page)
+        if errorCodes ~= nil then table.insert(input, errorCodes) end
+    end
+    local typeFlow = renderTypeFlow(page)
+    if typeFlow ~= nil then
+        table.insert(input, UI.Text { id = "docs/detail/type-flow-title", text = "SDK type flow", variant = "subheading" })
+        table.insert(input, typeFlow)
     end
     if page.childRules ~= nil then
         table.insert(input, UI.Text { id = "docs/detail/children-title", text = "Children and layout", variant = "subheading" })

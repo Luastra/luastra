@@ -11054,6 +11054,81 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Data.ValidationError",
     "description": "Data.ValidationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_schema",
+        "meaning": "The supplied schema is not a valid Data.Schema value."
+      },
+      {
+        "code": "maximum_depth",
+        "meaning": "Nested validation exceeded the supported schema depth."
+      },
+      {
+        "code": "schema_cycle",
+        "meaning": "The schema recursively references itself."
+      },
+      {
+        "code": "expected_string",
+        "meaning": "The value at path is not a string."
+      },
+      {
+        "code": "too_short",
+        "meaning": "A string contains fewer bytes than minBytes."
+      },
+      {
+        "code": "too_long",
+        "meaning": "A string contains more bytes than maxBytes."
+      },
+      {
+        "code": "expected_number",
+        "meaning": "The value is not a finite number."
+      },
+      {
+        "code": "expected_integer",
+        "meaning": "The value is not an integer required by the schema."
+      },
+      {
+        "code": "too_small",
+        "meaning": "A number is below the configured minimum."
+      },
+      {
+        "code": "too_large",
+        "meaning": "A number is above the configured maximum."
+      },
+      {
+        "code": "expected_boolean",
+        "meaning": "The value at path is not a boolean."
+      },
+      {
+        "code": "expected_array",
+        "meaning": "The value is not a dense one-based array."
+      },
+      {
+        "code": "too_few_items",
+        "meaning": "An array contains fewer items than minItems."
+      },
+      {
+        "code": "too_many_items",
+        "meaning": "An array contains more items than maxItems."
+      },
+      {
+        "code": "expected_object",
+        "meaning": "The value at path is not an object table."
+      },
+      {
+        "code": "unexpected_field",
+        "meaning": "An exact object contains a field absent from its schema."
+      },
+      {
+        "code": "unknown_schema",
+        "meaning": "The schema kind is not supported by this SDK version."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
     "previousPageId": null,
     "nextPageId": "data/item-2",
     "relatedPageIds": [],
@@ -11094,6 +11169,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Data.Success",
     "description": "Data.Success represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "data/item-1",
     "nextPageId": "data/item-3",
     "relatedPageIds": [],
@@ -11134,6 +11213,81 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Data.Failure",
     "description": "Data.Failure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_schema",
+        "meaning": "The supplied schema is not a valid Data.Schema value."
+      },
+      {
+        "code": "maximum_depth",
+        "meaning": "Nested validation exceeded the supported schema depth."
+      },
+      {
+        "code": "schema_cycle",
+        "meaning": "The schema recursively references itself."
+      },
+      {
+        "code": "expected_string",
+        "meaning": "The value at path is not a string."
+      },
+      {
+        "code": "too_short",
+        "meaning": "A string contains fewer bytes than minBytes."
+      },
+      {
+        "code": "too_long",
+        "meaning": "A string contains more bytes than maxBytes."
+      },
+      {
+        "code": "expected_number",
+        "meaning": "The value is not a finite number."
+      },
+      {
+        "code": "expected_integer",
+        "meaning": "The value is not an integer required by the schema."
+      },
+      {
+        "code": "too_small",
+        "meaning": "A number is below the configured minimum."
+      },
+      {
+        "code": "too_large",
+        "meaning": "A number is above the configured maximum."
+      },
+      {
+        "code": "expected_boolean",
+        "meaning": "The value at path is not a boolean."
+      },
+      {
+        "code": "expected_array",
+        "meaning": "The value is not a dense one-based array."
+      },
+      {
+        "code": "too_few_items",
+        "meaning": "An array contains fewer items than minItems."
+      },
+      {
+        "code": "too_many_items",
+        "meaning": "An array contains more items than maxItems."
+      },
+      {
+        "code": "expected_object",
+        "meaning": "The value at path is not an object table."
+      },
+      {
+        "code": "unexpected_field",
+        "meaning": "An exact object contains a field absent from its schema."
+      },
+      {
+        "code": "unknown_schema",
+        "meaning": "The schema kind is not supported by this SDK version."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "data/item-2",
     "nextPageId": "data/item-4",
     "relatedPageIds": [],
@@ -11164,6 +11318,81 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Data.Result",
     "description": "Data.Result is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "invalid_schema",
+        "meaning": "The supplied schema is not a valid Data.Schema value."
+      },
+      {
+        "code": "maximum_depth",
+        "meaning": "Nested validation exceeded the supported schema depth."
+      },
+      {
+        "code": "schema_cycle",
+        "meaning": "The schema recursively references itself."
+      },
+      {
+        "code": "expected_string",
+        "meaning": "The value at path is not a string."
+      },
+      {
+        "code": "too_short",
+        "meaning": "A string contains fewer bytes than minBytes."
+      },
+      {
+        "code": "too_long",
+        "meaning": "A string contains more bytes than maxBytes."
+      },
+      {
+        "code": "expected_number",
+        "meaning": "The value is not a finite number."
+      },
+      {
+        "code": "expected_integer",
+        "meaning": "The value is not an integer required by the schema."
+      },
+      {
+        "code": "too_small",
+        "meaning": "A number is below the configured minimum."
+      },
+      {
+        "code": "too_large",
+        "meaning": "A number is above the configured maximum."
+      },
+      {
+        "code": "expected_boolean",
+        "meaning": "The value at path is not a boolean."
+      },
+      {
+        "code": "expected_array",
+        "meaning": "The value is not a dense one-based array."
+      },
+      {
+        "code": "too_few_items",
+        "meaning": "An array contains fewer items than minItems."
+      },
+      {
+        "code": "too_many_items",
+        "meaning": "An array contains more items than maxItems."
+      },
+      {
+        "code": "expected_object",
+        "meaning": "The value at path is not an object table."
+      },
+      {
+        "code": "unexpected_field",
+        "meaning": "An exact object contains a field absent from its schema."
+      },
+      {
+        "code": "unknown_schema",
+        "meaning": "The schema kind is not supported by this SDK version."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "data/item-16"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "data/item-3",
     "nextPageId": "data/item-5",
     "relatedPageIds": [
@@ -11731,6 +11960,47 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.DecodeError",
     "description": "State.DecodeError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_expected_version",
+        "meaning": "expectedVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The version prefix or field structure is malformed."
+      },
+      {
+        "code": "unsupported_version",
+        "meaning": "The encoded version differs from expectedVersion."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The encoded state contains more than 32 fields."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name is invalid or duplicated."
+      },
+      {
+        "code": "invalid_encoding",
+        "meaning": "A field contains invalid or non-canonical percent encoding."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
     "previousPageId": "state/item-1",
     "nextPageId": "state/item-3",
     "relatedPageIds": [],
@@ -11776,6 +12046,12 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.DecodeSuccess",
     "description": "State.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
     "previousPageId": "state/item-2",
     "nextPageId": "state/item-4",
     "relatedPageIds": [],
@@ -11821,6 +12097,47 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.DecodeFailure",
     "description": "State.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_expected_version",
+        "meaning": "expectedVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The version prefix or field structure is malformed."
+      },
+      {
+        "code": "unsupported_version",
+        "meaning": "The encoded version differs from expectedVersion."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The encoded state contains more than 32 fields."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name is invalid or duplicated."
+      },
+      {
+        "code": "invalid_encoding",
+        "meaning": "A field contains invalid or non-canonical percent encoding."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
     "previousPageId": "state/item-3",
     "nextPageId": "state/item-5",
     "relatedPageIds": [],
@@ -11851,6 +12168,47 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.DecodeResult",
     "description": "State.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_expected_version",
+        "meaning": "expectedVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The version prefix or field structure is malformed."
+      },
+      {
+        "code": "unsupported_version",
+        "meaning": "The encoded version differs from expectedVersion."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The encoded state contains more than 32 fields."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name is invalid or duplicated."
+      },
+      {
+        "code": "invalid_encoding",
+        "meaning": "A field contains invalid or non-canonical percent encoding."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-12"
+    ],
+    "consumerPageIds": [
+      "state/item-13"
+    ],
     "previousPageId": "state/item-4",
     "nextPageId": "state/item-6",
     "relatedPageIds": [],
@@ -11881,6 +12239,53 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.MigrationError",
     "description": "State.MigrationError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded source state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded source state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_target_version",
+        "meaning": "targetVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "invalid_migrations",
+        "meaning": "The migration collection is not a table."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The source version prefix is missing or invalid."
+      },
+      {
+        "code": "newer_version",
+        "meaning": "The source version is newer than the requested target."
+      },
+      {
+        "code": "too_many_migrations",
+        "meaning": "The migration would require more than 32 steps."
+      },
+      {
+        "code": "missing_migration",
+        "meaning": "No migration function exists for the current version."
+      },
+      {
+        "code": "migration_failed",
+        "meaning": "A migration function raised an error."
+      },
+      {
+        "code": "invalid_migration",
+        "meaning": "A migration returned, encoded, or verified an invalid replacement."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "state/item-5",
     "nextPageId": "state/item-7",
     "relatedPageIds": [
@@ -11935,6 +12340,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.MigrationSuccess",
     "description": "State.MigrationSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "state/item-6",
     "nextPageId": "state/item-8",
     "relatedPageIds": [
@@ -11989,6 +12398,53 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.MigrationFailure",
     "description": "State.MigrationFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded source state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded source state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_target_version",
+        "meaning": "targetVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "invalid_migrations",
+        "meaning": "The migration collection is not a table."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The source version prefix is missing or invalid."
+      },
+      {
+        "code": "newer_version",
+        "meaning": "The source version is newer than the requested target."
+      },
+      {
+        "code": "too_many_migrations",
+        "meaning": "The migration would require more than 32 steps."
+      },
+      {
+        "code": "missing_migration",
+        "meaning": "No migration function exists for the current version."
+      },
+      {
+        "code": "migration_failed",
+        "meaning": "A migration function raised an error."
+      },
+      {
+        "code": "invalid_migration",
+        "meaning": "A migration returned, encoded, or verified an invalid replacement."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "state/item-7",
     "nextPageId": "state/item-9",
     "relatedPageIds": [
@@ -12023,6 +12479,53 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "State.MigrationResult",
     "description": "State.MigrationResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "empty",
+        "meaning": "The encoded source state is empty or not a string."
+      },
+      {
+        "code": "too_large",
+        "meaning": "The encoded source state exceeds 4096 bytes."
+      },
+      {
+        "code": "invalid_target_version",
+        "meaning": "targetVersion is not an integer from 1 through 999."
+      },
+      {
+        "code": "invalid_migrations",
+        "meaning": "The migration collection is not a table."
+      },
+      {
+        "code": "malformed",
+        "meaning": "The source version prefix is missing or invalid."
+      },
+      {
+        "code": "newer_version",
+        "meaning": "The source version is newer than the requested target."
+      },
+      {
+        "code": "too_many_migrations",
+        "meaning": "The migration would require more than 32 steps."
+      },
+      {
+        "code": "missing_migration",
+        "meaning": "No migration function exists for the current version."
+      },
+      {
+        "code": "migration_failed",
+        "meaning": "A migration function raised an error."
+      },
+      {
+        "code": "invalid_migration",
+        "meaning": "A migration returned, encoded, or verified an invalid replacement."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "state/item-13"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "state/item-8",
     "nextPageId": "state/item-10",
     "relatedPageIds": [],
@@ -12248,6 +12751,30 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Navigation.RestoreError",
     "description": "Navigation.RestoreError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_snapshot",
+        "meaning": "The snapshot shape, version, or encoded form is invalid."
+      },
+      {
+        "code": "invalid_stack",
+        "meaning": "The restored stack is empty, too deep, sparse, or inconsistent."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "A restored route is not admitted by the string stack."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "A restored typed entry cannot be matched or generated."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-14",
+      "navigation/item-15"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "navigation/item-1",
     "nextPageId": "navigation/item-3",
     "relatedPageIds": [
@@ -12289,6 +12816,30 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Navigation.RestoreResult",
     "description": "Navigation.RestoreResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "errorCodes": [
+      {
+        "code": "invalid_snapshot",
+        "meaning": "The snapshot shape, version, or encoded form is invalid."
+      },
+      {
+        "code": "invalid_stack",
+        "meaning": "The restored stack is empty, too deep, sparse, or inconsistent."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "A restored route is not admitted by the string stack."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "A restored typed entry cannot be matched or generated."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-14",
+      "navigation/item-15"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "navigation/item-2",
     "nextPageId": "navigation/item-4",
     "relatedPageIds": [
@@ -12437,6 +12988,45 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Navigation.RouteError",
     "description": "Navigation.RouteError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_location",
+        "meaning": "The location is malformed, non-canonical, or exceeds route segment limits."
+      },
+      {
+        "code": "route_not_found",
+        "meaning": "No compiled route definition matches the location."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "The typed route entry has an invalid shape or parameters."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "The entry names a route absent from the compiler."
+      },
+      {
+        "code": "invalid_parameter",
+        "meaning": "A required path parameter is missing or invalid."
+      },
+      {
+        "code": "missing_query",
+        "meaning": "A required query parameter is absent."
+      },
+      {
+        "code": "invalid_query",
+        "meaning": "A supplied query parameter cannot be decoded or validated."
+      },
+      {
+        "code": "location_too_large",
+        "meaning": "The generated canonical location exceeds 2048 bytes."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-16"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "navigation/item-5",
     "nextPageId": "navigation/item-7",
     "relatedPageIds": [],
@@ -12532,6 +13122,45 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Navigation.RouteResult",
     "description": "Navigation.RouteResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "errorCodes": [
+      {
+        "code": "invalid_location",
+        "meaning": "The location is malformed, non-canonical, or exceeds route segment limits."
+      },
+      {
+        "code": "route_not_found",
+        "meaning": "No compiled route definition matches the location."
+      },
+      {
+        "code": "invalid_entry",
+        "meaning": "The typed route entry has an invalid shape or parameters."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "The entry names a route absent from the compiler."
+      },
+      {
+        "code": "invalid_parameter",
+        "meaning": "A required path parameter is missing or invalid."
+      },
+      {
+        "code": "missing_query",
+        "meaning": "A required query parameter is absent."
+      },
+      {
+        "code": "invalid_query",
+        "meaning": "A supplied query parameter cannot be decoded or validated."
+      },
+      {
+        "code": "location_too_large",
+        "meaning": "The generated canonical location exceeds 2048 bytes."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-16"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "navigation/item-7",
     "nextPageId": "navigation/item-9",
     "relatedPageIds": [],
@@ -12657,6 +13286,41 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Navigation.MutationResult",
     "description": "Navigation.MutationResult is a result record with a boolean success field and optional success- or failure-specific fields. Check success before reading entry, location, changed, or error; the exported declaration does not encode automatic Luau union narrowing.",
+    "errorCodes": [
+      {
+        "code": "invalid_entry",
+        "meaning": "The typed route entry cannot be generated."
+      },
+      {
+        "code": "unknown_route",
+        "meaning": "The entry names a route absent from the compiler."
+      },
+      {
+        "code": "invalid_parameter",
+        "meaning": "A required path parameter is missing or invalid."
+      },
+      {
+        "code": "missing_query",
+        "meaning": "A required query parameter is absent."
+      },
+      {
+        "code": "invalid_query",
+        "meaning": "A supplied query parameter cannot be decoded or validated."
+      },
+      {
+        "code": "location_too_large",
+        "meaning": "The generated canonical location exceeds 2048 bytes."
+      },
+      {
+        "code": "stack_depth_exceeded",
+        "meaning": "Push would exceed the configured navigation stack depth."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "navigation/item-15"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "navigation/item-10",
     "nextPageId": "navigation/item-12",
     "relatedPageIds": [
@@ -13787,6 +14451,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Server.DecodeSuccess",
     "description": "Server.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "server/item-7"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "server/item-2",
     "nextPageId": "server/item-4",
     "relatedPageIds": [
@@ -13833,6 +14501,33 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Server.DecodeFailure",
     "description": "Server.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_size",
+        "meaning": "The wire payload is empty, not a string, or larger than 4096 bytes."
+      },
+      {
+        "code": "invalid_version",
+        "meaning": "The wire payload does not declare protocol version v=1."
+      },
+      {
+        "code": "malformed",
+        "meaning": "A field token is missing its name/value separator."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name, value encoding, or duplicate field is invalid."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The wire payload contains more than 128 fields."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "server/item-7"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "server/item-3",
     "nextPageId": "server/item-5",
     "relatedPageIds": [
@@ -13867,6 +14562,33 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Server.DecodeResult",
     "description": "Server.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "invalid_size",
+        "meaning": "The wire payload is empty, not a string, or larger than 4096 bytes."
+      },
+      {
+        "code": "invalid_version",
+        "meaning": "The wire payload does not declare protocol version v=1."
+      },
+      {
+        "code": "malformed",
+        "meaning": "A field token is missing its name/value separator."
+      },
+      {
+        "code": "invalid_field",
+        "meaning": "A field name, value encoding, or duplicate field is invalid."
+      },
+      {
+        "code": "too_many_fields",
+        "meaning": "The wire payload contains more than 128 fields."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "server/item-7"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "server/item-4",
     "nextPageId": "server/item-6",
     "relatedPageIds": [
@@ -14100,14 +14822,14 @@ export const generatedPages = Object.freeze([
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
     "availability": "Current development candidate API; background playback and system controls require target-specific verification.",
     "callable": false,
-    "useWhen": "Use Media.MediaError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
+    "useWhen": "Use this type after a media event reports a playback failure. Branch only on codes explicitly documented by the active host or target, show a safe message, and keep playback state recoverable.",
     "code": "export type MediaError = { code: string, message: string }",
     "signature": "export type MediaError = { code: string, message: string }",
     "parameters": [
       {
         "name": "code",
         "values": "string",
-        "description": "Stable machine-readable failure code suitable for branching and diagnostics."
+        "description": "Stable machine-readable code for this failure. The vocabulary is defined by the active host or target and may differ across hosts."
       },
       {
         "name": "message",
@@ -14117,7 +14839,12 @@ export const generatedPages = Object.freeze([
     ],
     "returns": null,
     "name": "Media.MediaError",
-    "description": "Media.MediaError represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "description": "Media.MediaError reports an admitted playback failure from the active host. Its code is stable for that reported failure, but the set of possible codes is host-specific rather than a portable SDK-wide enum.",
+    "errorCodeNote": "MediaError.code and message describe an admitted host playback failure. The code vocabulary is host-specific and intentionally not presented as one portable closed list; handle the visible message and preserve a safe playback state.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "media/item-2",
     "nextPageId": "media/item-4",
     "relatedPageIds": [],
@@ -14269,6 +14996,10 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Media.DecodeSuccess",
     "description": "Media.DecodeSuccess represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "media/item-4",
     "nextPageId": "media/item-6",
     "relatedPageIds": [
@@ -14315,6 +15046,33 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Media.DecodeFailure",
     "description": "Media.DecodeFailure represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.",
+    "errorCodes": [
+      {
+        "code": "invalid_wire",
+        "meaning": "The media-state wire payload cannot be decoded."
+      },
+      {
+        "code": "missing_field",
+        "meaning": "A required media-state field is absent."
+      },
+      {
+        "code": "invalid_state",
+        "meaning": "The field set, status, or background flag is invalid."
+      },
+      {
+        "code": "invalid_number",
+        "meaning": "A required numeric field is not a valid number."
+      },
+      {
+        "code": "invalid_error",
+        "meaning": "The host error code and message fields are inconsistent."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "media/item-5",
     "nextPageId": "media/item-7",
     "relatedPageIds": [
@@ -14351,6 +15109,33 @@ export const generatedPages = Object.freeze([
     "returns": null,
     "name": "Media.DecodeResult",
     "description": "Media.DecodeResult is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.",
+    "errorCodes": [
+      {
+        "code": "invalid_wire",
+        "meaning": "The media-state wire payload cannot be decoded."
+      },
+      {
+        "code": "missing_field",
+        "meaning": "A required media-state field is absent."
+      },
+      {
+        "code": "invalid_state",
+        "meaning": "The field set, status, or background flag is invalid."
+      },
+      {
+        "code": "invalid_number",
+        "meaning": "A required numeric field is not a valid number."
+      },
+      {
+        "code": "invalid_error",
+        "meaning": "The host error code and message fields are inconsistent."
+      }
+    ],
+    "errorCodeNote": "This is the complete closed vocabulary emitted by the named operation in this Source SDK contract.",
+    "producerPageIds": [
+      "media/item-17"
+    ],
+    "consumerPageIds": [],
     "previousPageId": "media/item-6",
     "nextPageId": "media/item-8",
     "relatedPageIds": [

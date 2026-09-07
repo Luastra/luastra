@@ -61,6 +61,27 @@ for _, page in ReferenceData.pages do
     end
 end
 
+local errorCodeCounts: {[string]: number} = {
+    ["Data.Result"] = 17,
+    ["State.DecodeResult"] = 8,
+    ["State.MigrationResult"] = 10,
+    ["Navigation.RestoreResult"] = 4,
+    ["Navigation.RouteResult"] = 8,
+    ["Navigation.MutationResult"] = 7,
+    ["Server.DecodeResult"] = 5,
+    ["Media.DecodeResult"] = 5,
+}
+for name, expectedCount in errorCodeCounts do
+    local page = pageByName[name]
+    assert(page ~= nil and #page.errorCodes == expectedCount, `{name} error-code table is incomplete`)
+    assert(type(page.errorCodeNote) == "string" and #page.errorCodeNote > 40)
+    assert(type(page.producerPageIds) == "table" and #page.producerPageIds >= 1)
+    for _, producerId in (page.producerPageIds :: {any}) do assert(pageById[producerId :: string] ~= nil) end
+end
+assert(pageByName["State.DecodeResult"].consumerPageIds[1] == pageByName["State.migrate"].id)
+assert(pageByName["Media.MediaError"].errorCodes == nil)
+assert(string.find(pageByName["Media.MediaError"].errorCodeNote :: string, "host-specific", 1, true) ~= nil)
+
 for _, name in { "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
     local page = pageByName[name]
     assert(page ~= nil, `{name} page is missing`)
