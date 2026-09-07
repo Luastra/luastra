@@ -23,7 +23,7 @@ function detailBlock(id) {
   const start = landingSource.indexOf(marker);
   if (start < 0) fail(`missing example page: ${id}`);
   const next = landingSource.indexOf("\n    [\"landing/examples/", start + marker.length);
-  const end = next >= 0 ? next : landingSource.indexOf("\n}\n\nfor _, item in productNodes", start);
+  const end = next >= 0 ? next : landingSource.indexOf("\n}\n\nlocal productDetails", start);
   if (end < 0) fail(`cannot find the end of example page: ${id}`);
   return landingSource.slice(start, end);
 }

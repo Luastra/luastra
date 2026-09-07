@@ -70,8 +70,24 @@ Landing.handle("landing.search", "landing/search/input", "semantic")
 assert(Landing.snapshot().query == "semantic")
 Landing.handle("landing.open-focus", "landing/product/ui", "")
 assert(Landing.snapshot().selectedId == "landing/product/ui")
+local semanticUiDetail = Landing.render()
+assert(string.find((findNode(semanticUiDetail, "landing/focus/body").properties :: any).text, "Application.render", 1, true) ~= nil)
+assert(string.find((findNode(semanticUiDetail, "landing/focus/section-2/body").properties :: any).text, "Constellation Orbit", 1, true) ~= nil)
 assert(Landing.handle("landing.open-focus-docs", "landing/focus/docs", "") == "ui")
 Landing.handle("landing.close-focus", "landing/focus/close", "")
+
+local productIds = { "install", "quickstart", "learn", "ui", "state", "hosts" }
+local productBodies: {[string]: boolean} = {}
+for _, id in productIds do
+    assert(Landing.restore("product", "landing/product/" .. id))
+    local detail = Landing.render()
+    local body = (findNode(detail, "landing/focus/body").properties :: any).text
+    assert(type(body) == "string" and #body >= 180)
+    assert(not productBodies[body])
+    productBodies[body] = true
+    assert(findNode(detail, "landing/focus/section-1/body") ~= nil)
+    assert(findNode(detail, "landing/focus/section-3/body") ~= nil)
+end
 
 Landing.handle("landing.return-root", "landing/path/root", "")
 Landing.handle("landing.open-examples", "landing/examples", "")

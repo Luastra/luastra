@@ -204,8 +204,77 @@ local exampleDetails: {[string]: any} = {
     },
 }
 
-for _, item in productNodes do
-    details[item.id] = { title = item.title, summary = item.description, body = "Open the conventional documentation view for complete, searchable, version-bound guidance and API links.", docs = item.docs }
+local productDetails: {[string]: any} = {
+    ["landing/product/install"] = {
+        title = "Install",
+        summary = "Set up the versioned Luastra CLI and verify that its SDK files match the published release manifest.",
+        body = "Download the installer, release manifest, and matching host archive from one immutable GitHub Release. The installer verifies checksums before activating the SDK, so a partial, modified, or wrong-platform archive fails closed instead of becoming the active toolchain.",
+        sections = {
+            { title = "Choose the matching archive", text = "Use darwin-arm64 for Apple Silicon, darwin-x64 for Intel macOS, linux-x64 for x64 Linux, or win32-x64 for x64 Windows. Online and offline installation use the same verified archive path." },
+            { title = "Verify before creating an app", text = "Add ~/.luastra/bin to PATH, then run luastra version and luastra doctor. Continue only when doctor reports PASS for the active version, receipt, host, and installed-file ledger." },
+            { title = "Version management", text = "luastra sdk list shows installed SDKs, sdk update installs another admitted release, sdk use selects a verified version, and sdk remove refuses to delete the active version." },
+        },
+        docs = "installation",
+    },
+    ["landing/product/quickstart"] = {
+        title = "Quick start",
+        summary = "Create, inspect, modify, check, test, and preview a complete first application.",
+        body = "The quick start follows the actual development loop rather than stopping after scaffolding. You create a strict Luau project, inspect its manifest and modules, make a visible change, prove the model with check and test, then run the browser preview and interact with it.",
+        sections = {
+            { title = "What gets created", text = "A project contains luastra.json, an application entry module, declared tests, and explicit SDK module dependencies and host capabilities." },
+            { title = "The safe iteration loop", text = "Run luastra check after source or manifest changes, luastra test after behavior changes, and luastra run for a rebuilding local preview. Fix the first reported contract error before continuing." },
+            { title = "What comes next", text = "Once the starter works, build web for a deployable HTTP-served artifact or follow the beginner tutorial to add accessible stateful interaction." },
+        },
+        docs = "quickstart",
+    },
+    ["landing/product/learn"] = {
+        title = "Learn Luastra",
+        summary = "Move from basic Luau knowledge to complete, checked Luastra applications through one deliberate path.",
+        body = "Start with the application lifecycle and semantic UI model, then build a cumulative beginner project before moving to routing, persistence, host capabilities, and the advanced tutorial. Recipes remain complete projects you can copy and verify rather than disconnected snippets.",
+        sections = {
+            { title = "First understand four boundaries", text = "Your application owns state, the Source SDK validates declarations, the Wasm runtime executes admitted code, and the host renders UI and performs declared platform work." },
+            { title = "Learn by changing a working project", text = "The beginner tutorial builds an accessible counter with deterministic tests. The advanced tutorial combines typed routing, versioned persistence, restoration, and asynchronous host results." },
+            { title = "Use recipes for features", text = "Timer, navigation, storage, history, forms, assets, motion, server, media, and Orbit recipes show complete authored files plus the commands and capability declarations required to run them." },
+        },
+        docs = "learning-path",
+    },
+    ["landing/product/ui"] = {
+        title = "Semantic UI",
+        summary = "Describe the meaning and state of an interface in Luau while the host owns its accessible presentation.",
+        body = "Application.render returns a complete semantic tree built from checked UI components. Stable IDs let the renderer reconcile changes, route events to Application.handle, restore focus, and animate admitted properties without requiring application-owned DOM, CSS, coordinates, or a permanent frame loop.",
+        sections = {
+            { title = "Ordinary application surfaces", text = "Screens, rows, columns, text, inputs, buttons, links, lists, tables, images, modals, and validation metadata express familiar interface intent across supported hosts." },
+            { title = "Game-like presentation without canvas UI", text = "Shapes, layers, flip cards, declarative motion, and Constellation Orbit add visual and spatial behavior while retaining semantic DOM, keyboard access, list fallback, and reduced-motion outcomes." },
+            { title = "The host contract", text = "The current web, Tauri, and Capacitor targets reconcile semantic nodes through the host renderer. Native capability adapters do not imply that every UI node becomes a platform-native widget." },
+        },
+        docs = "ui",
+    },
+    ["landing/product/state"] = {
+        title = "State and navigation",
+        summary = "Keep application state, routes, snapshots, and restoration explicit, typed, and independently testable.",
+        body = "Luastra does not hide mutable application state inside widgets or browser history. Your Luau model decides the current screen, the typed router validates locations, versioned snapshots preserve admitted values, and host history mirrors only opaque state and safe locations when that capability is declared.",
+        sections = {
+            { title = "Typed routes", text = "Define bounded path and query parameters, generate canonical locations, parse launch URLs, and reject unknown or malformed routes before mutating the model." },
+            { title = "Persistence and migration", text = "Encode versioned snapshots, validate decoded fields, migrate known older versions deliberately, and keep a safe initial state when storage is missing or invalid." },
+            { title = "Back is an application decision", text = "In-memory navigation, browser History, system Back, reload restoration, and nested Orbit depth all converge on explicit semantic state rather than independent visual stacks." },
+        },
+        docs = "navigation",
+    },
+    ["landing/product/hosts"] = {
+        title = "Host capabilities",
+        summary = "Cross browser, desktop, mobile, storage, network, timer, and media boundaries through declared bounded APIs.",
+        body = "Application code requests trusted platform work through Host, Server, and Media modules instead of importing environment-specific APIs. Every required capability appears in luastra.json, requests carry stable IDs, and asynchronous results return through the documented resolve or event boundary.",
+        sections = {
+            { title = "Fail closed", text = "Undeclared capabilities, malformed payloads, unsafe URLs, unknown assets, stale generated clients, oversized values, and unsupported host operations are rejected with bounded errors." },
+            { title = "Keep secrets behind the boundary", text = "Server handlers, identity-provider material, database credentials, and trusted storage implementations stay outside the public application bundle. Generated Luau clients expose only admitted function contracts." },
+            { title = "Evidence stays host-specific", text = "A successful browser test does not prove native background media, secure credentials, permissions, lifecycle, packaging, signing, or store behavior. Each host must provide its own evidence." },
+        },
+        docs = "host",
+    },
+}
+
+for id, detail in productDetails do
+    details[id] = detail
 end
 for id, detail in exampleDetails do details[id] = detail end
 
