@@ -11,7 +11,7 @@
     {
       "path": "package-lock.json",
       "bytes": 42362,
-      "sha256": "33167be523189c59a71253c8d906b55d1423dd6561cdfa12c745bc1a6e20cfbb"
+      "sha256": "09ade848e39a82912c4fa9329b193036ebbe0230cbee9ffc324d01ee55ebb1be"
     },
     {
       "path": "ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",

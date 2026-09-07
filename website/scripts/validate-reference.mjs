@@ -112,20 +112,21 @@ for (const section of sections) {
 const installation = sections.find((section) => section.id === "installation");
 const offlineInstallation = installation?.cards?.find((card) => card.name === "Offline installation");
 const offlineInstallationText = JSON.stringify(offlineInstallation);
+const currentReleaseUrl = `https://github.com/Luastra/luastra/releases/tag/v${releaseAdmission.version}`;
 for (const requiredReleaseDetail of [
-  "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha",
+  currentReleaseUrl,
   "luastra-install.mjs",
   "luastra-release.v1.json",
-  "luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz",
-  "luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz",
-  "luastra-sdk-0.1.0-alpha-linux-x64.tar.gz",
-  "luastra-sdk-0.1.0-alpha-win32-x64.tar.gz",
+  `luastra-sdk-${releaseAdmission.version}-darwin-arm64.tar.gz`,
+  `luastra-sdk-${releaseAdmission.version}-darwin-x64.tar.gz`,
+  `luastra-sdk-${releaseAdmission.version}-linux-x64.tar.gz`,
+  `luastra-sdk-${releaseAdmission.version}-win32-x64.tar.gz`,
 ]) {
   if (!offlineInstallationText.includes(requiredReleaseDetail)) {
     fail(`offline installation misses required release detail: ${requiredReleaseDetail}`);
   }
 }
-if (!installation.links?.some((link) => link.href === "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha")) {
+if (!installation.links?.some((link) => link.href === currentReleaseUrl)) {
   fail("installation overview misses the exact release-assets link");
 }
 

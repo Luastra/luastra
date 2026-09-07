@@ -7,7 +7,7 @@ import { canonicalJson } from "../assets/package-assets.mjs";
 
 const manifestName = "CLEAN_EXPORT_MANIFEST.json";
 const forbiddenPathSegments = new Set([
-  ".git", "owner-dogfood", "private-candidates", "Project Planning",
+  ".git", ".local-development", "owner-dogfood", "private-candidates", "Project Planning",
   "Phase 1 - Project Research Pack", "Phase 2 - Focused Competitor Analysis",
   "Phase 2.5 - Legal and Architecture Clearance", "Phase 3 - Technical Feasibility",
   "Phase 4 - Build vs Buy Validation", "Phase 5 - Platform MVP and Reference Applications",
@@ -35,10 +35,12 @@ function inside(root, path) {
   return local !== ".." && !local.startsWith(`..${sep}`) && !isAbsolute(local);
 }
 function generated(path) {
+  if (path === ".DS_Store" || path.endsWith("/.DS_Store")) return true;
   if (path === ".git" || path.startsWith(".git/")) return true;
+  if (path === ".local-development" || path.startsWith(".local-development/")) return true;
   const segments = path.split("/");
   return segments.includes("node_modules") || segments.includes(".luastra") || segments.includes("target") ||
-    /^examples\/[^/]+\/dist(?:\/|$)/.test(path) || path.startsWith("website/luastra-site/") ||
+    /^examples\/[^/]+\/dist(?:\/|$)/.test(path) || path.startsWith("website/app/dist/") || path.startsWith("website/luastra-site/") ||
     path.startsWith("hosts/tauri/www/") || /(?:^|\/)src-tauri\/gen(?:\/|$)/.test(path);
 }
 
@@ -59,9 +61,10 @@ async function actualFiles(root, directory = root) {
 
 export async function auditCleanCandidate({ root = resolve(dirname(fileURLToPath(import.meta.url)), "..") } = {}) {
   const candidate = await realpath(resolve(root));
+  const packageManifest = JSON.parse(await readFile(resolve(candidate, "package.json"), "utf8"));
   const manifestBytes = await readFile(resolve(candidate, manifestName));
   const manifest = JSON.parse(manifestBytes);
-  if (manifest.schemaVersion !== 2 || manifest.identity !== "luastra-clean-public-candidate/0.1.0-alpha" ||
+  if (manifest.schemaVersion !== 2 || manifest.identity !== `luastra-clean-public-candidate/${packageManifest.version}` ||
       manifest.publicationAuthorized !== false || manifest.manifestPath !== manifestName || !Array.isArray(manifest.files)) {
     fail("invalid clean candidate manifest");
   }
@@ -122,7 +125,7 @@ export async function auditCleanCandidate({ root = resolve(dirname(fileURLToPath
     fail("unsafe or incomplete luastra.dev publishing workflow");
   }
   const releaseModule = await import(`${pathToFileURL(resolve(candidate, "release/build-sdk-release.mjs")).href}?audit=${Date.now()}`);
-  const release = await releaseModule.verifySdkReleaseSet(resolve(candidate, "release-artifacts/0.1.0-alpha"));
+  const release = await releaseModule.verifySdkReleaseSet(resolve(candidate, `release-artifacts/${packageManifest.version}`));
   return Object.freeze({ result: "PASS", identity: manifest.identity, files: manifest.files.length + 1,
     contentSha256: manifest.contentSha256, releaseContentSha256: release.manifest.contentSha256,
     publicationAuthorized: manifest.publicationAuthorized });

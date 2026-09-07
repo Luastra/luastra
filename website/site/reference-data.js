@@ -13,11 +13,11 @@ function numberedIdentity(identity, pattern, label) {
 export const release = Object.freeze({
   version: packageManifest.version,
   publishedVersion: releaseAdmission.version,
-  date: "2026-08-28",
+  date: "2026-09-07",
   sourceSdk: numberedIdentity(sourceManifest.identity, /\/phase5-contract-(\d+)$/u, "Source SDK contract"),
   runtimeSdk: numberedIdentity(runtimeManifest.identity, /\/phase5-alpha-(\d+)$/u, "Runtime SDK alpha"),
   luauVersion: sourceBuildContract.luau.tag,
-  status: `Development candidate based on ${releaseAdmission.version}`,
+  status: `Public-source alpha ${releaseAdmission.version}`,
 });
 
 export const sdkInventory = Object.freeze({
@@ -408,7 +408,7 @@ export const sections = Object.freeze([
   {
     id: "overview",
     title: "Start here: build apps like games",
-    eyebrow: `Luastra development candidate · base release ${release.version}`,
+    eyebrow: `Luastra ${release.version} public-source alpha`,
     summary: "Write strict Luau that returns semantic UI from explicit state. Luastra checks and compiles the project, then its current web-based hosts render the same application model on web, desktop, and mobile.",
     hero: true,
     badges: [release.sourceSdk, release.runtimeSdk, `Luau ${release.luauVersion}`, "Web · Tauri · Capacitor"],
@@ -417,7 +417,7 @@ export const sections = Object.freeze([
       "New here? Follow Installation, Quick start, and Beginner tutorial in that order. Use API pages after the first app runs, and read Support and boundaries before choosing a production target.",
     ],
     notes: [
-      "The public installer selects the immutable 0.1.0-alpha SDK. This website checkout documents the next development candidate and labels unreleased APIs accordingly.",
+      `The public installer selects the immutable ${release.publishedVersion} SDK. The older 0.1.0-alpha release remains available as a separate rollback boundary.`,
       "Desktop and mobile host sources package the web artifact through Tauri and Capacitor; the installed CLI currently exposes application-facing bundle and web builds only.",
       "Host-neutral means application state and semantic nodes stay in Luau. It does not mean every visual is a platform-native widget or that every host capability behaves identically.",
     ],
@@ -430,32 +430,32 @@ export const sections = Object.freeze([
   {
     id: "installation",
     title: "Install Luastra",
-    module: "0.1.0-alpha release boundary",
+    module: `${release.publishedVersion} release boundary`,
     summary: "Install a checksum-verified, host-specific SDK into an immutable version directory.",
     guide: [
       "First run node --version and confirm v24 or newer. Then use the online installer on macOS or Linux, or download the same installer and run it with Node on Windows.",
       "The installer writes only under your user-owned .luastra directory and does not edit shell configuration. If luastra is not found afterward, add the bin directory to PATH, open a new terminal, then run luastra version and luastra doctor.",
     ],
     cards: [
-      entry("Release installation contract", "download → verify → atomic install → doctor", "The Node.js bootstrap detects the host, downloads only its archive over HTTPS, verifies the release manifest and archive ledger, then atomically installs the SDK under ~/.luastra/sdk/0.1.0-alpha.", {
+      entry("Release installation contract", "download → verify → atomic install → doctor", `The Node.js bootstrap detects the host, downloads only its archive over HTTPS, verifies the release manifest and archive ledger, then atomically installs the SDK under ~/.luastra/sdk/${release.publishedVersion}.`, {
         language: "Shell",
-        code: `curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.1.0-alpha/luastra-install.mjs\nnode luastra-install.mjs \\\n  --manifest=https://github.com/Luastra/luastra/releases/download/v0.1.0-alpha/luastra-release.v1.json`,
+        code: `curl -fsSLO https://github.com/Luastra/luastra/releases/download/v${release.publishedVersion}/luastra-install.mjs\nnode luastra-install.mjs \\\n  --manifest=https://github.com/Luastra/luastra/releases/download/v${release.publishedVersion}/luastra-release.v1.json`,
         useWhen: "Use this when installing Luastra on a supported machine for the first time or when installing an explicitly selected release version.",
         points: ["Supported archives: macOS arm64/x64, Linux x64, and Windows x64.", "A checksum, receipt, or installed-file mismatch fails closed.", "The installer never edits shell profiles or the Windows registry."],
       }),
-      entry("Offline installation", "GitHub Release assets → one transfer directory → verified install", "On a connected machine, open the v0.1.0-alpha GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.", {
+      entry("Offline installation", "GitHub Release assets → one transfer directory → verified install", `On a connected machine, open the v${release.publishedVersion} GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.`, {
         language: "Shell",
         code: `# Every required file is in this release's Assets list:
-# https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha
+# https://github.com/Luastra/luastra/releases/tag/v${release.publishedVersion}
 
 # Run from the directory containing the three downloaded files:
 node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
         useWhen: "Use this on an offline machine or when release assets are transferred through a controlled internal channel.",
         points: [
-          "macOS Apple Silicon (M1 or newer): luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz.",
-          "macOS Intel: luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz.",
-          "Linux x64: luastra-sdk-0.1.0-alpha-linux-x64.tar.gz.",
-          "Windows x64: luastra-sdk-0.1.0-alpha-win32-x64.tar.gz.",
+          `macOS Apple Silicon (M1 or newer): luastra-sdk-${release.publishedVersion}-darwin-arm64.tar.gz.`,
+          `macOS Intel: luastra-sdk-${release.publishedVersion}-darwin-x64.tar.gz.`,
+          `Linux x64: luastra-sdk-${release.publishedVersion}-linux-x64.tar.gz.`,
+          `Windows x64: luastra-sdk-${release.publishedVersion}-win32-x64.tar.gz.`,
           "GitHub may collapse the list behind Show all assets. Download the archives from the Release page, not from the repository Code tab.",
           "Keep the original filenames: the manifest selects the current host and the installer verifies the matching archive and its internal file ledger.",
         ],
@@ -469,18 +469,18 @@ node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
         language: "Shell",
         code: `# zsh (macOS default)\necho 'export PATH="$HOME/.luastra/bin:$PATH"' >> ~/.zshrc\nsource ~/.zshrc\n\n# bash\necho 'export PATH="$HOME/.luastra/bin:$PATH"' >> ~/.bashrc\nsource ~/.bashrc\n\n# PowerShell, current window\n$env:Path = "$HOME\\.luastra\\bin;$env:Path"\n\nluastra version\nluastra doctor`,
         useWhen: "Use this only when installation succeeds but the shell reports command not found or does not recognize luastra.",
-        points: ["For a permanent Windows setting, add %USERPROFILE%\\.luastra\\bin to your user PATH, then open a new terminal.", "A successful version command prints JSON whose result is PASS and whose version is 0.1.0-alpha.", "A successful doctor command prints JSON with result PASS. Do not continue if doctor reports a checksum, receipt, host, or installed-file mismatch."],
+        points: ["For a permanent Windows setting, add %USERPROFILE%\\.luastra\\bin to your user PATH, then open a new terminal.", `A successful version command prints JSON whose result is PASS and whose version is ${release.publishedVersion}.`, "A successful doctor command prints JSON with result PASS. Do not continue if doctor reports a checksum, receipt, host, or installed-file mismatch."],
       }),
       entry("Verify and manage SDKs", "doctor · list · use · update · remove", "Verify the active SDK, retain multiple immutable versions, switch explicitly for rollback, update from another verified manifest, and remove only an inactive verified version.", {
         language: "Shell",
-        code: `luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use 0.1.0-alpha\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>`,
+        code: `luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use ${release.publishedVersion}\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>`,
         useWhen: "Run doctor after installation or switching; use an older retained version when an update must be rolled back.",
       }),
     ],
     links: [
       {
-        text: "Open the v0.1.0-alpha Release assets",
-        href: "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha",
+        text: `Open the v${release.publishedVersion} Release assets`,
+        href: `https://github.com/Luastra/luastra/releases/tag/v${release.publishedVersion}`,
       },
     ],
     callout: "SHA-256 proves equality with the manifest obtained from the release channel. The source alpha does not claim publisher signatures, Apple notarization, Windows Authenticode, GUI installers, or stores.",
@@ -541,7 +541,7 @@ node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
         ],
       }),
     ],
-    callout: "These candidate recipes are verified from the repository checkout. The public 0.1.0-alpha installer may expose an older contract until the next release is published.",
+    callout: `These recipes are verified against the ${release.publishedVersion} repository and SDK contracts. An older installed SDK can expose an older contract until you explicitly install and select this release.`,
   },
   {
     id: "recipe-timer",
@@ -3730,7 +3730,7 @@ end`,
     callout: "A PASS from check proves project validity for the selected SDK; it does not prove tests, browser behavior, native packaging, signing, deployment, or production service readiness.",
   },
   { id: "manifest", title: "Project manifest", module: "luastra.json · schema v2", summary: "Declares entry, dependencies, capabilities, assets, tests, web metadata, and backend.", cards: [entry("Minimal manifest", "schemaVersion: 2", "check enforces this explicit contract.", { language: "JSON", code: `{\n  "schemaVersion": 2,\n  "project": {\n    "id": "dev.luastra.example",\n    "entry": "app/main"\n  },\n  "sdk": { "contract": 1 },\n  "capabilities": ["ui.render"],\n  "modules": [\n    {\n      "id": "app/main",\n      "source": "src/main.luau",\n      "dependencies": ["luastra/ui"]\n    }\n  ]\n}` }), entry("Web metadata", "web{}", "Optional bounded metadata for an indexable production web shell.", { language: "JSON", code: `"web": {\n  "title": "My Luastra app",\n  "description": "A concise description for search and social previews.",\n  "canonicalUrl": "https://example.com/",\n  "index": true\n}`, points: ["The web build emits title, description, canonical, robots, Open Graph, and Twitter metadata.", "index=true emits robots.txt and a one-location sitemap.xml; hash routes are not separate indexable documents.", "The build escapes metadata and rejects credentials, query strings, fragments, and non-HTTPS canonical URLs."] }), entry("Assets", "assets[]", "Admitted project files.", { language: "JSON", code: `"assets": [\n  {\n    "id": "image/card-back",\n    "source": "assets/card-back.png",\n    "mediaType": "image/png"\n  }\n]` }), entry("Capabilities", "capabilities[]", "Explicit host privileges.", { language: "JSON", code: `"capabilities": [\n  "ui.render",\n  "storage.get",\n  "storage.set"\n]` }), entry("Backend", "backend{}", "Trusted operations and generated clients.", { language: "JSON", code: `"backend": {\n  "declaration": "backend/functions.json",\n  "handler": "backend/handlers.mjs",\n  "generatedClient": "src/generated/server-functions.luau",\n  "generatedModule": "app/server-functions"\n}` })] },
-  { id: "support", title: "Support and boundaries", summary: "Keep source contracts, automated checks, browser/device evidence, packaging, and production promises separate.", guide: ["Verified below means repository tests or recorded host evidence for a named version—not universal device coverage or production readiness.", "The public 0.1.0-alpha release is immutable. This documentation checkout is a development candidate and may describe APIs that are not present in the installed public release."], tables: [{ title: "Current evidence boundary", rows: [row("CLI, runtime, and web build", "Repository-verified", "create, check, test, run, bundle, and static web build have automated coverage for the candidate checkout."), row("Web UI and accessibility", "Browser-verified", "Semantic DOM, keyboard, zoom, IME, responsive layout, and selected flows have bounded browser evidence; this is not every assistive technology."), row("Desktop host sources", "Tauri evidence", "The web artifact has bounded macOS, Linux, and Windows build/launch evidence; no signed installer, notarization, store package, or updater is promised."), row("Mobile host sources", "Capacitor evidence", "Android/iOS simulator and selected physical-device flows have bounded evidence; no public store package or universal device certification is promised."), row("Media and background behavior", "Host-dependent", "Autoplay, interruption, background playback, hardware controls, and packaging require target-specific verification."), row("Public release", "0.1.0-alpha", "Pre-release APIs may change. The public installer exposes bundle and web builds; candidate documentation is not a release asset until publication.")] }], callout: "A green test, source build, or one-device run is not evidence of signing, notarization, store admission, universal accessibility, hosted backend deployment, or production-service readiness." },
+  { id: "support", title: "Support and boundaries", summary: "Keep source contracts, automated checks, browser/device evidence, packaging, and production promises separate.", guide: ["Verified below means repository tests or recorded host evidence for a named version—not universal device coverage or production readiness.", `The public ${release.publishedVersion} release is immutable. The 0.1.0-alpha assets remain separately available for deliberate rollback and historical verification.`], tables: [{ title: "Current evidence boundary", rows: [row("CLI, runtime, and web build", "Repository-verified", "create, check, test, run, bundle, and static web build have automated coverage for the release checkout."), row("Web UI and accessibility", "Browser-verified", "Semantic DOM, keyboard, zoom, IME, responsive layout, and selected flows have bounded browser evidence; this is not every assistive technology."), row("Desktop host sources", "Tauri evidence", "The web artifact has bounded macOS, Linux, and Windows build/launch evidence; no signed installer, notarization, store package, or updater is promised."), row("Mobile host sources", "Capacitor evidence", "Android/iOS simulator and selected physical-device flows have bounded evidence; no public store package or universal device certification is promised."), row("Media and background behavior", "Host-dependent", "Autoplay, interruption, background playback, hardware controls, and packaging require target-specific verification."), row("Public release", release.publishedVersion, "Pre-release APIs may change. The public installer exposes bundle and web builds; native packaging remains a separately evidenced source workflow.")] }], callout: "A green test, source build, or one-device run is not evidence of signing, notarization, store admission, universal accessibility, hosted backend deployment, or production-service readiness." },
   {
     id: "policies",
     title: "Project policies",
@@ -3800,7 +3800,7 @@ end`,
           "Send permission requests to legal@luastra.dev; sending an enquiry does not itself grant permission.",
         ],
       }),
-      entry("Releases", "0.1.0-alpha", "The tagged source-alpha release binds source, host archives, checksums, notices, SBOMs, and installation instructions.", {
+      entry("Releases", release.publishedVersion, "The tagged source-alpha release binds source, host archives, checksums, notices, SBOMs, and installation instructions.", {
         kind: "guide",
         useWhen: "Read this when selecting a downloadable release or checking what stability and compatibility the source alpha promises.",
         points: [

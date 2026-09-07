@@ -37,7 +37,7 @@ end
 local rootNodes = {
     { id = "landing/product", title = "Build with Luastra", description = "Follow the framework from first install to a verified web build.", kind = "constellation", priority = 1, icon = "compass", status = "Start", tone = "active", relatedTo = { "landing/reference", "landing/why" } },
     { id = "landing/examples", title = "Example galaxy", description = "Explore applications built from the same semantic SDK.", kind = "cluster", priority = 1, icon = "grid", count = 8, relatedTo = { "landing/product" } },
-    { id = "landing/reference", title = "SDK Reference", description = "Read the complete version-bound API documentation.", kind = "action", priority = 1, icon = "book", status = "0.1.0-alpha", tone = "neutral", relatedTo = { "landing/product" } },
+    { id = "landing/reference", title = "SDK Reference", description = "Read the complete version-bound API documentation.", kind = "action", priority = 1, icon = "book", status = ReferenceData.release.version, tone = "neutral", relatedTo = { "landing/product" } },
     { id = "landing/why", title = "Why Luastra", description = "Use a game-like development loop for application interfaces.", kind = "leaf", priority = 2, icon = "spark", relatedTo = { "landing/targets" } },
     { id = "landing/targets", title = "One application model", description = "Target web, desktop, and mobile without forking app state.", kind = "leaf", priority = 2, icon = "rocket", relatedTo = { "landing/why" } },
     { id = "landing/source", title = "Public source alpha", description = "Inspect the SDK, hosts, examples, and release evidence.", kind = "leaf", priority = 3, icon = "star", status = "Open source", tone = "success" },
@@ -85,23 +85,23 @@ local details: {[string]: any} = {
             { title = "Desktop and mobile today", text = "The current Tauri and Capacitor targets package that web artifact. Native adapters implement selected capability boundaries such as media or secure credentials; current application UI is not translated into platform-native widgets." },
             { title = "Portability rule", text = "A shared semantic model reduces application forks, but it does not erase platform differences. Browser success proves the browser target only; Tauri, Capacitor, permissions, background behavior, and physical devices are admitted separately." },
         },
-        evidence = "The private candidate has strong web and cross-browser evidence. Desktop and mobile claims remain limited to the separately verified behaviors named by their host gates; unfinished native admission is not implied by this page.",
+        evidence = `The {ReferenceData.release.version} web surface has strong cross-browser evidence. Desktop and mobile claims remain limited to the separately verified behaviors named by their host gates; unfinished native admission is not implied by this page.`,
         docs = "application",
     },
     ["landing/source"] = {
         title = "Public source alpha",
-        summary = "Luastra is inspectable, but the published release and the private development candidate are deliberately different boundaries.",
-        body = "Use the public repository and immutable release assets when evaluating what users can install today. Treat this local Orbit site as a preview of the next candidate until a separate public audit, merge, release, and exact-SHA deployment are complete.",
+        summary = "The public source, downloadable SDK, documentation, and release evidence are bound to one immutable version.",
+        body = `Use the v{ReferenceData.release.publishedVersion} repository tag and release assets when evaluating what users can install today. Every archive, manifest, checksum, notice, documentation claim, and source revision remains version-bound instead of being silently replaced.`,
         sections = {
-            { title = "Published now", text = "v0.1.0-alpha is the immutable public release. Its installer, manifest, SDK archives, checksums, notices, documentation claims, and supported commands remain version-bound." },
-            { title = "Visible in this preview", text = `This private checkout uses {ReferenceData.release.sourceSdk} and contains unreleased Constellation Orbit APIs, the migrated luastra.dev experience, and documentation improvements. Those changes are not part of the installed public alpha yet.` },
-            { title = "How publication works", text = "A future candidate must be cleaned, compared with public main, validated without changing old release artifacts, reviewed through a public pull request, and deployed from the exact merged commit." },
+            { title = "Current release", text = `v{ReferenceData.release.publishedVersion} is the current public-source alpha. Its installer selects one of four host archives and verifies both the release checksum and the installed-file ledger before activation.` },
+            { title = "Historical rollback", text = "v0.1.0-alpha remains immutable and separately downloadable. Keep it installed or use its own manifest when an explicit rollback is needed; never combine assets from different releases." },
+            { title = "Publication integrity", text = "A release is cleaned, compared with public main, validated without changing old artifacts, reviewed through a public pull request, tagged at the exact merged commit, and used as the exact source of the luastra.dev deployment." },
         },
         evidence = "Open-source visibility makes implementation auditable; it does not replace compatibility guarantees, security review, host-specific testing, or evidence from independent applications.",
         docs = "policies",
         source = "https://github.com/Luastra/luastra",
         links = {
-            { id = "release", text = "Open the immutable v0.1.0-alpha release", href = "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha" },
+            { id = "release", text = `Open the immutable v{ReferenceData.release.publishedVersion} release`, href = `https://github.com/Luastra/luastra/releases/tag/v{ReferenceData.release.publishedVersion}` },
         },
     },
 }
@@ -127,7 +127,7 @@ local exampleDetails: {[string]: any} = {
         commands = "luastra check --project=examples/constellation-orbit\nluastra test --project=examples/constellation-orbit\nluastra run --project=examples/constellation-orbit",
         keyFiles = "examples/constellation-orbit/luastra.json\nexamples/constellation-orbit/src/main.luau\nexamples/constellation-orbit/src/test.luau",
         capabilities = "app.launchurl.get · navigation.history · storage.get · storage.set · timer.control · ui.render",
-        evidence = "The private candidate has automated semantic tests plus Chromium, Firefox, Safari, responsive, accessibility, and performance evidence. Capacitor, Tauri, real zoom, and assistive-technology admission remain separate open gates.",
+        evidence = `The {ReferenceData.release.version} implementation has automated semantic tests plus Chromium, Firefox, Safari, responsive, accessibility, and performance evidence. Capacitor, Tauri, real zoom, and assistive-technology admission remain separate evidence boundaries.`,
         docs = "recipe-orbit",
     },
     ["landing/examples/meditation"] = {

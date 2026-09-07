@@ -1,6 +1,6 @@
 {
   "name": "luastra",
-  "version": "0.1.0-alpha",
+  "version": "0.2.0-alpha",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -20,6 +20,7 @@
     "audit:luastra-dev:public-baseline:firefox": "node scripts/compare-luastra-dev-public-baseline-webdriver.mjs --browser=firefox --candidate-port=4213 --driver-port=4463",
     "audit:luastra-dev:public-baseline:safari": "node scripts/compare-luastra-dev-public-baseline-webdriver.mjs --browser=safari --candidate-port=4214 --driver-port=4464",
     "docs:check": "node website/scripts/validate-reference.mjs && node website/scripts/validate-reference-code.mjs && node website/scripts/validate-recipes.mjs && node website/scripts/validate-typing-examples.mjs && node website/scripts/validate-example-pages.mjs && node cli/luastra.mjs check --project=website/app/luastra.json && node cli/luastra.mjs test --project=website/app/luastra.json",
+    "alpha:manifest": "node release/generate-clean-export-manifest.mjs",
     "alpha:audit": "node release/audit-public-candidate.mjs",
     "sdk:release": "node release/build-sdk-release.mjs",
     "runtime:package": "node platform/packaging/package-runtime-sdk.mjs",

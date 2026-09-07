@@ -87,7 +87,9 @@ jobs:
           $project = Join-Path $env:RUNNER_TEMP "luastra-fresh-project"
           $webOut = Join-Path $env:RUNNER_TEMP "luastra-fresh-web"
           Set-Location "$env:CANDIDATE"
-          node release/luastra-install.mjs --manifest=release-artifacts/0.1.0-alpha/luastra-release.v1.json --root="$manager"
+          $version = (Get-Content "package.json" | ConvertFrom-Json).version
+          $releaseRoot = "release-artifacts/$version"
+          node release/luastra-install.mjs --manifest="$releaseRoot/luastra-release.v1.json" --root="$manager"
           node "$manager/shim.mjs" version
           node "$manager/shim.mjs" doctor --root="$manager"
           node "$manager/shim.mjs" create "$project"
@@ -97,8 +99,8 @@ jobs:
           $proof = Join-Path $env:RUNNER_TEMP "luastra-clean-proof"
           New-Item -ItemType Directory -Path $proof | Out-Null
           Copy-Item "CLEAN_EXPORT_MANIFEST.json" "$proof/CLEAN_EXPORT_MANIFEST.json"
-          Copy-Item "release-artifacts/0.1.0-alpha/luastra-release.v1.json" "$proof/luastra-release.v1.json"
-          Copy-Item "release-artifacts/0.1.0-alpha/SHA256SUMS" "$proof/SHA256SUMS"
+          Copy-Item "$releaseRoot/luastra-release.v1.json" "$proof/luastra-release.v1.json"
+          Copy-Item "$releaseRoot/SHA256SUMS" "$proof/SHA256SUMS"
           Copy-Item "website/luastra-site/asset-manifest.json" "$proof/website-asset-manifest.json"
           Copy-Item "$manager/state.v1.json" "$proof/manager-state.v1.json"
           Copy-Item "$webOut/asset-manifest.json" "$proof/fresh-web-asset-manifest.json"

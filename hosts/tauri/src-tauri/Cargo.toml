@@ -1,6 +1,6 @@
 [package]
 name = "luastra-phase5-desktop-host"
-version = "0.1.0-alpha"
+version = "0.2.0-alpha"
 description = "Phase 5-owned Luastra Tauri desktop host"
 authors = ["Viacheslav Beliaev"]
 license = "Apache-2.0"

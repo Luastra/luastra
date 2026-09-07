@@ -1,19 +1,19 @@
 # Trusted SDK installation and release contract
 
-Date: 2026-08-28
+Date: 2026-09-07
 
-Status: `0.1.0-alpha release contract`
+Status: `0.2.0-alpha release contract`
 
 ## Scope
 
-Luastra `0.1.0-alpha` is distributed as four deterministic SDK archives:
+Luastra `0.2.0-alpha` is distributed as four deterministic SDK archives:
 
 | Host | Release asset |
 | --- | --- |
-| macOS Apple Silicon | `luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz` |
-| macOS Intel | `luastra-sdk-0.1.0-alpha-darwin-x64.tar.gz` |
-| Linux x64 | `luastra-sdk-0.1.0-alpha-linux-x64.tar.gz` |
-| Windows x64 | `luastra-sdk-0.1.0-alpha-win32-x64.tar.gz` |
+| macOS Apple Silicon | `luastra-sdk-0.2.0-alpha-darwin-arm64.tar.gz` |
+| macOS Intel | `luastra-sdk-0.2.0-alpha-darwin-x64.tar.gz` |
+| Linux x64 | `luastra-sdk-0.2.0-alpha-linux-x64.tar.gz` |
+| Windows x64 | `luastra-sdk-0.2.0-alpha-win32-x64.tar.gz` |
 
 Node.js 24 or newer is required. The packaged CLI workflows do not require an
 npm install, Rust, Xcode, Android Studio, or a source checkout.
@@ -24,17 +24,17 @@ public-source alpha contract.
 
 ## Release assets
 
-The GitHub Release tag and title are both `v0.1.0-alpha`. Its immutable asset
+The GitHub Release tag and title are both `v0.2.0-alpha`. Its immutable asset
 set is:
 
 - `luastra-release.v1.json` — exact release manifest and host selector;
 - `SHA256SUMS` — digest for every host and companion asset;
 - `luastra-install.mjs` — Node.js bootstrap installer;
 - the four host archives listed above;
-- `luastra-sdk-0.1.0-alpha.spdx.json` — exact SDK SPDX inventory;
-- `luastra-sdk-0.1.0-alpha-THIRD_PARTY_NOTICES.md`;
-- `luastra-sdk-0.1.0-alpha-licenses.tar.gz` — exact license texts and ledger;
-- `luastra-0.1.0-alpha-RELEASE_NOTES.md`.
+- `luastra-sdk-0.2.0-alpha.spdx.json` — exact SDK SPDX inventory;
+- `luastra-sdk-0.2.0-alpha-THIRD_PARTY_NOTICES.md`;
+- `luastra-sdk-0.2.0-alpha-licenses.tar.gz` — exact license texts and ledger;
+- `luastra-0.2.0-alpha-RELEASE_NOTES.md`.
 
 The release builder and verifier reject missing, extra, changed, reordered, or
 non-admitted assets. Published release bytes are never replaced in place; a
@@ -46,15 +46,15 @@ Download the installer and let it select and verify the current host archive
 from the same HTTPS release location:
 
 ```sh
-curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.1.0-alpha/luastra-install.mjs
+curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-install.mjs
 node luastra-install.mjs \
-  --manifest=https://github.com/Luastra/luastra/releases/download/v0.1.0-alpha/luastra-release.v1.json
+  --manifest=https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-release.v1.json
 ```
 
 ## Offline installation
 
 On a machine with internet access, open the
-[`v0.1.0-alpha` GitHub Release](https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha)
+[`v0.2.0-alpha` GitHub Release](https://github.com/Luastra/luastra/releases/tag/v0.2.0-alpha)
 and expand its **Assets** list. Download these three files:
 
 1. `luastra-install.mjs`;
@@ -77,7 +77,7 @@ For example, an Apple Silicon Mac directory contains:
 offline-luastra-install/
   luastra-install.mjs
   luastra-release.v1.json
-  luastra-sdk-0.1.0-alpha-darwin-arm64.tar.gz
+  luastra-sdk-0.2.0-alpha-darwin-arm64.tar.gz
 ```
 
 The installer detects the offline machine, finds the matching filename named
@@ -94,7 +94,7 @@ The installer writes only beneath `~/.luastra` by default:
   bin/luastra.cmd
   shim.mjs
   state.v1.json
-  sdk/0.1.0-alpha/
+  sdk/0.2.0-alpha/
 ```
 
 Construction happens in a sibling partial directory. Verification completes
@@ -110,7 +110,7 @@ installer deliberately does not edit shell profiles or the Windows registry.
 luastra version
 luastra doctor
 luastra sdk list
-luastra sdk use 0.1.0-alpha
+luastra sdk use 0.2.0-alpha
 luastra sdk update --manifest=<path-or-https-url>
 luastra sdk remove <inactive-version>
 ```
@@ -130,7 +130,7 @@ non-canonical metadata, and trailing data.
 
 SHA-256 proves equality with the manifest obtained from the release channel; it
 is not a cryptographic publisher signature. Code signing and notarization are
-explicitly not claimed by `0.1.0-alpha`.
+explicitly not claimed by `0.2.0-alpha`.
 
 ## Failure and rollback rules
 
@@ -143,3 +143,8 @@ explicitly not claimed by `0.1.0-alpha`.
 - Rollback: run `luastra sdk use <verified-version>`.
 - Removal: reject the active version and verify an inactive version before
   deleting it.
+
+The immutable `0.1.0-alpha` release remains available as a historical rollback
+target when it is already installed or deliberately downloaded from its own
+GitHub Release. Never combine its manifest or archives with `0.2.0-alpha`
+assets.

@@ -1,15 +1,15 @@
 # Luastra SDK Reference
 
-Version-bound English documentation for the development candidate based on
-Luastra `0.1.0-alpha`. The macOS application and generated `luastra.dev` site
-run the same Luastra project. The public installer continues to select the
-immutable `0.1.0-alpha` release until a separately reviewed publication.
+Version-bound English documentation for Luastra `0.2.0-alpha`. The macOS
+application and generated `luastra.dev` site run the same Luastra project. The
+immutable `0.1.0-alpha` release remains a separate historical rollback
+boundary.
 
-The private post-alpha candidate dogfoods Constellation Orbit for the landing
+The 0.2.0-alpha release dogfoods Constellation Orbit for the landing
 experience, product map, and example discovery. Documentation and API-reference
 content deliberately remain in a conventional searchable reading layout. The
-current public site remains the rollback baseline until content, SEO,
-accessibility, responsive, and performance parity are audited separately.
+previous public site remains the rollback baseline retained by deployment
+history.
 
 The candidate exposes canonical `#/` application routes for the landing,
 product, examples, documentation, and individual reference surfaces. Browser

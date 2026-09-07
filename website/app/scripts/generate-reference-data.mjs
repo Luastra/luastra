@@ -952,57 +952,57 @@ function operationalGuidance(name, moduleName, kind) {
     expectedOutcome: typePage ? "A checked annotation that matches the exact exported declaration." : "A validated declarative node appears after it is returned as part of the current render tree.",
     failureGuidance: typePage ? "If the annotation fails, compare the value with the exact declaration and the producing or consuming function." : "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
     availability: name.startsWith("UI.Orbit") || name === "UI.Constellation" || name === "UI.FocusSurface" || name === "UI.FocusHeader"
-      ? "Development candidate: experimental Constellation Orbit API. Verify it against the selected candidate SDK before depending on it."
-      : "Current development candidate API. The public installer still selects the immutable 0.1.0-alpha release until the next release is published.",
+      ? `Experimental Constellation Orbit API in ${release.publishedVersion}. Verify it against the selected SDK before depending on its shape.`
+      : `Public-source alpha API in ${release.publishedVersion}. Verify host-specific behavior against the selected release.`,
   };
   if (moduleName === "luastra/assets") return {
     beforeYouUse: `${dependency} Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.`,
     lifecycle: typePage ? "Asset types describe checked references and are erased after Luau analysis." : "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
     expectedOutcome: typePage ? "A type-safe image, audio, font, or union reference." : "A checked reference or canonical asset URI that a compatible API can consume.",
     failureGuidance: "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    availability: "Current development candidate API; supported consumers vary by asset kind.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; supported consumers vary by asset kind.`,
   };
   if (moduleName === "luastra/data") return {
     beforeYouUse: `${dependency} No host capability is required. Define schemas outside render when they are reused.`,
     lifecycle: typePage ? "The exported type describes schemas or the tagged success/failure result returned by Data.decode." : name === "Data.decode" ? "Data.decode validates an untrusted value synchronously. Branch on result.success before reading result.value or result.error." : "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     expectedOutcome: typePage ? "A checked schema/result annotation." : name === "Data.decode" ? "A tagged success containing a trusted value, or a failure containing a bounded code and path." : "An immutable schema ready to compose or pass to Data.decode.",
     failureGuidance: "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    availability: "Current development candidate API; host-independent and synchronous.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; host-independent and synchronous.`,
   };
   if (moduleName === "luastra/debug") return {
     beforeYouUse: `${dependency} No additional host capability is required. Keep user-visible errors in UI state rather than relying on a developer console.`,
     lifecycle: "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
     expectedOutcome: "A prefixed diagnostic appears in the active host's development log.",
     failureGuidance: "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
-    availability: "Current development candidate diagnostic API.",
+    availability: `Public-source alpha diagnostic API in ${release.publishedVersion}.`,
   };
   if (moduleName === "luastra/timer") return {
     beforeYouUse: `${dependency} Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.`,
     lifecycle: typePage ? "Timer types describe the options or acknowledgement identifier." : "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
     expectedOutcome: typePage ? "A checked timer option or acknowledgement annotation." : "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
     failureGuidance: "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
-    availability: "Current development candidate API; exact background timing remains host-dependent.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; exact background timing remains host-dependent.`,
   };
   if (moduleName === "luastra/motion") return {
     beforeYouUse: `${dependency} Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.`,
     lifecycle: typePage ? "Motion types describe immutable timing data and are erased after analysis." : "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     expectedOutcome: typePage ? "A checked descriptor, sequence, channel map, or easing value." : "A descriptor or MotionMap ready to attach to a supported UI node.",
     failureGuidance: "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    availability: "Current development candidate API; presentation follows host and reduced-motion policy.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; presentation follows host and reduced-motion policy.`,
   };
   if (moduleName === "luastra/navigation") return {
     beforeYouUse: `${dependency} No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.`,
     lifecycle: typePage ? "The type describes a route, stack, compiler, or checked result used by navigation operations." : "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
     expectedOutcome: typePage ? "A checked route/navigation annotation." : "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
     failureGuidance: "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    availability: "Current development candidate API; URL integration is a separate host capability.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; URL integration is a separate host capability.`,
   };
   if (moduleName === "luastra/state") return {
     beforeYouUse: `${dependency} No capability is required for encoding, decoding, or migration. Persistence additionally needs luastra/host plus storage.get and storage.set.`,
     lifecycle: typePage ? "The type describes string fields, migration functions, or tagged decode/migration results." : "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
     expectedOutcome: typePage ? "A checked snapshot or result annotation." : "A deterministic encoded snapshot or a tagged success/failure result.",
     failureGuidance: "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    availability: "Current development candidate API; persistence support is host-dependent.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; persistence support is host-dependent.`,
   };
   if (moduleName === "luastra/host") {
     const capability = hostCapabilities[name] ?? "the capability named on the function page";
@@ -1011,7 +1011,7 @@ function operationalGuidance(name, moduleName, kind) {
       lifecycle: typePage ? "Host.RequestId is an opaque correlation value for one asynchronous host operation." : "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
       expectedOutcome: typePage ? "An opaque positive request identifier used only for correlation." : "A RequestId now, followed later by one matching Application.resolve completion.",
       failureGuidance: "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-      availability: "Current development candidate capability API; verify each claimed host independently.",
+      availability: `Public-source alpha capability API in ${release.publishedVersion}; verify each claimed host independently.`,
     };
   }
   if (moduleName === "luastra/server") return {
@@ -1019,14 +1019,14 @@ function operationalGuidance(name, moduleName, kind) {
     lifecycle: typePage ? "The type describes request options or the tagged envelope-decoding result." : name === "Server.call" ? "Server.call starts asynchronous trusted work. Application.resolve reports transport success or failure; decode a successful payload with Server.decode and then validate operation-specific fields." : "Server.decode synchronously validates only the Luastra response envelope and returns fields on success; it does not validate your domain model.",
     expectedOutcome: typePage ? "A checked request/result annotation." : name === "Server.call" ? "A RequestId now, then one resolve completion from the configured backend." : "A tagged result containing result.fields or a bounded decode error.",
     failureGuidance: "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    availability: "Current development candidate API; production backend deployment remains application-owned.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; production backend deployment remains application-owned.`,
   };
   if (moduleName === "luastra/media") return {
     beforeYouUse: `${dependency} Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.`,
     lifecycle: typePage ? "The type describes queue input, live playback state, or the tagged state-decoding result." : name === "Media.decodeState" ? "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state." : "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     expectedOutcome: typePage ? "A checked media input/state/result annotation." : name === "Media.decodeState" ? "A tagged result containing result.state or a bounded decode error." : "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     failureGuidance: "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    availability: "Current development candidate API; background playback and system controls require target-specific verification.",
+    availability: `Public-source alpha API in ${release.publishedVersion}; background playback and system controls require target-specific verification.`,
   };
   return {};
 }

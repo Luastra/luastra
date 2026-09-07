@@ -1,6 +1,6 @@
 # Luastra support
 
-Luastra `0.1.0-alpha` is pre-release software. Community support is best-effort;
+Luastra `0.2.0-alpha` is pre-release software. Community support is best-effort;
 there is no service-level, response-time, production, or compatibility
 commitment.
 

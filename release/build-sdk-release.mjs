@@ -9,13 +9,14 @@ import { canonicalJson } from "../assets/package-assets.mjs";
 import { buildCanonicalGzip, buildCanonicalTar, parseCanonicalTar } from "../platform/packaging/build-runtime-archives.mjs";
 import { verifyReleaseManifestBytes, verifySdkArchiveBytes } from "./luastra-install.mjs";
 
-const version = "0.1.0-alpha";
-const releaseIdentity = `luastra-sdk-release/${version}`;
 const sdkIdentity = "luastra-sdk-installation/v1";
 const releaseRoot = dirname(fileURLToPath(import.meta.url));
 const prototypeRoot = resolve(releaseRoot, "..");
 const repositoryRoot = existsSync(resolve(prototypeRoot, "LICENSE")) ? prototypeRoot : resolve(prototypeRoot, "../..");
 const admissionPath = resolve(releaseRoot, "sdk-release-admission.v1.json");
+const archivedAdmissionsRoot = resolve(releaseRoot, "admissions");
+const sourceVersion = JSON.parse(await readFile(resolve(prototypeRoot, "package.json"), "utf8")).version;
+if (!/^[0-9]+\.[0-9]+\.[0-9]+-alpha$/u.test(sourceVersion)) throw new Error("invalid source alpha version");
 const productDirectories = Object.freeze(["assets", "backend", "cli", "host", "platform", "project", "sdk", "templates"]);
 const legalFiles = Object.freeze(["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "TRADEMARKS.md"]);
 const hosts = Object.freeze([
@@ -39,10 +40,10 @@ function canonicalMode(path) {
   if (path === "bin/luastra" || /^platform\/artifacts\/(?!vm-wasm\/)/.test(path)) return 0o755;
   return 0o644;
 }
-function archiveRoot(host) { return `luastra-sdk-${version}-${host.id}`; }
-function archiveFilename(host) { return `${archiveRoot(host)}.tar.gz`; }
+function archiveRoot(host, version) { return `luastra-sdk-${version}-${host.id}`; }
+function archiveFilename(host, version) { return `${archiveRoot(host, version)}.tar.gz`; }
 function asset(filename, bytes) { return Object.freeze({ filename, bytes: bytes.byteLength, sha256: sha256(bytes) }); }
-async function sdkLicenseLedgerBytes() {
+async function sdkLicenseLedgerBytes(version) {
   const source = JSON.parse(await readFile(resolve(releaseRoot, "license-bundle.v1.json"), "utf8"));
   if (source.schemaVersion !== 1 || !Array.isArray(source.files) || source.files.length !== 7) fail("invalid source runtime license bundle");
   return Buffer.from(canonicalJson({ schemaVersion: 1, identity: `luastra-sdk-license-bundle/${version}`, version, files: source.files }));
@@ -69,50 +70,50 @@ async function inventory(root, directory = root, excluded = new Set()) {
   }
   return files.sort((left, right) => left.path.localeCompare(right.path));
 }
-function publicReadme(host) {
+function publicReadme(host, version) {
   return `# Luastra SDK ${version}\n\n` +
     `Target: ${host.id}. This is a checksum-verified public-source alpha candidate.\n\n` +
     "Requirements: Node.js 24 or newer. No npm install or repository checkout is required.\n\n" +
     "Run `luastra doctor` after installation, then use `luastra create <directory>`.\n";
 }
-async function scaffoldSdk(root, host) {
+async function scaffoldSdk(root, host, version) {
   await mkdir(resolve(root, "bin"), { recursive: true });
   const shell = "#!/bin/sh\nset -eu\nLUASTRA_HOME=$(CDPATH= cd -- \"$(dirname -- \"$0\")/..\" && pwd)\nexec node \"$LUASTRA_HOME/cli/luastra.mjs\" \"$@\"\n";
   const command = "@echo off\r\nnode \"%~dp0..\\cli\\luastra.mjs\" %*\r\n";
   await writeFile(resolve(root, "bin/luastra"), shell, { mode: 0o755 });
   await chmod(resolve(root, "bin/luastra"), 0o755);
   await writeFile(resolve(root, "bin/luastra.cmd"), command, { mode: 0o644 });
-  await writeFile(resolve(root, "README.md"), publicReadme(host), { mode: 0o644 });
+  await writeFile(resolve(root, "README.md"), publicReadme(host, version), { mode: 0o644 });
   await writeFile(resolve(root, "package.json"), `${JSON.stringify({
     name: "@luastra/sdk", version, private: false, license: "Apache-2.0", type: "module", engines: { node: ">=24" }, bin: { luastra: "./cli/luastra.mjs" },
   }, null, 2)}\n`, { mode: 0o644 });
   await writeFile(resolve(root, "platform/product-version.mjs"), `export const productVersion = "${version}";\n`, { mode: 0o644 });
 }
-async function copySdk(root, host) {
+async function copySdk(root, host, version) {
   for (const directory of productDirectories) await cp(resolve(prototypeRoot, directory), resolve(root, directory), { recursive: true, errorOnExist: true, force: false });
   for (const name of legalFiles) await cp(resolve(repositoryRoot, name), resolve(root, name), { errorOnExist: true, force: false });
   await cp(resolve(releaseRoot, "licenses"), resolve(root, "licenses"), { recursive: true, errorOnExist: true, force: false });
-  await writeFile(resolve(root, "runtime-license-bundle.v1.json"), await sdkLicenseLedgerBytes(), { mode: 0o644 });
+  await writeFile(resolve(root, "runtime-license-bundle.v1.json"), await sdkLicenseLedgerBytes(version), { mode: 0o644 });
   await mkdir(resolve(root, "release"), { recursive: true });
   await cp(resolve(releaseRoot, "luastra-install.mjs"), resolve(root, "release/luastra-install.mjs"), { errorOnExist: true, force: false });
   for (const target of hosts) if (target.id !== host.id) await rm(resolve(root, "platform/artifacts", target.id), { recursive: true, force: true });
-  await scaffoldSdk(root, host);
+  await scaffoldSdk(root, host, version);
 }
-async function buildSdkArchive(workspace, host) {
+async function buildSdkArchive(workspace, host, version) {
   const root = resolve(workspace, host.id);
-  await copySdk(root, host);
+  await copySdk(root, host, version);
   const files = await inventory(root, root, new Set(["SDK_MANIFEST.json"]));
   const ledger = files.map(({ path, mode, bytes, sha256: digest }) => ({ path, mode, bytes, sha256: digest }));
   const base = { schemaVersion: 1, identity: sdkIdentity, version,
     target: { id: host.id, platform: host.platform, architecture: host.architecture }, node: ">=24", files: ledger };
   const sdkManifest = { ...base, contentSha256: sha256(Buffer.from(canonicalJson(base))) };
   const sdkManifestBytes = Buffer.from(canonicalJson(sdkManifest));
-  const entries = [...files.map((file) => ({ path: `${archiveRoot(host)}/${file.path}`, mode: file.mode, bytes: file.content })),
-    { path: `${archiveRoot(host)}/SDK_MANIFEST.json`, mode: 0o644, bytes: sdkManifestBytes }];
+  const entries = [...files.map((file) => ({ path: `${archiveRoot(host, version)}/${file.path}`, mode: file.mode, bytes: file.content })),
+    { path: `${archiveRoot(host, version)}/SDK_MANIFEST.json`, mode: 0o644, bytes: sdkManifestBytes }];
   const archiveBytes = buildCanonicalGzip(buildCanonicalTar(entries));
-  return Object.freeze({ host, root: archiveRoot(host), filename: archiveFilename(host), archiveBytes, sdkManifest, sdkManifestBytes });
+  return Object.freeze({ host, root: archiveRoot(host, version), filename: archiveFilename(host, version), archiveBytes, sdkManifest, sdkManifestBytes });
 }
-function generateSdkSbom() {
+function generateSdkSbom(version) {
   const packages = [
     ["luastra-core", "Luastra SDK and CLI", version, "Apache-2.0"],
     ["luastra-templates", "Luastra starter templates", version, "0BSD"],
@@ -125,36 +126,35 @@ function generateSdkSbom() {
     creationInfo: { created: "2026-08-28T00:00:00Z", creators: ["Tool: Luastra SDK release builder v1"] },
     documentDescribes: packages.map((item) => item.SPDXID), packages }));
 }
-function releaseNotes() {
-  return Buffer.from(`# Luastra ${version}\n\n` +
-    "Public-source alpha release. This is pre-release software with bounded support and compatibility guarantees.\n\n" +
-    "## Assets\n\n" +
-    `Host archives use \`luastra-sdk-${version}-<host>.tar.gz\`. Download the release manifest and installer from the same GitHub Release, then run the installer.\n\n` +
-    "Every asset is retained with `SHA256SUMS`; the manifest binds the host matrix, SDK content identities, SBOM, notices, license bundle, and installer.\n\n" +
-    "## Retention\n\nPublished release assets are immutable. A correction receives a new version; existing bytes are never silently replaced.\n");
+async function releaseNotes(version) {
+  return readFile(resolve(releaseRoot, "notes", `${version}.md`));
 }
-async function buildLicenseArchive() {
+async function buildLicenseArchive(version) {
   const licensesRoot = resolve(releaseRoot, "licenses");
   const files = await inventory(licensesRoot, licensesRoot);
   const entries = files.map((file) => ({ path: `luastra-sdk-${version}-licenses/licenses/${file.path}`, mode: 0o644, bytes: file.content }));
   entries.push({ path: `luastra-sdk-${version}-licenses/runtime-license-bundle.v1.json`, mode: 0o644,
-    bytes: await sdkLicenseLedgerBytes() });
+    bytes: await sdkLicenseLedgerBytes(version) });
   return buildCanonicalGzip(buildCanonicalTar(entries));
 }
 function checksumText(assets, manifestBytes) {
   return [...assets.map((item) => `${item.sha256}  ${item.filename}`), `${sha256(manifestBytes)}  luastra-release.v1.json`]
     .sort((left, right) => left.localeCompare(right)).join("\n") + "\n";
 }
-async function loadAdmission() {
-  const bytes = await readFile(admissionPath);
-  const admission = JSON.parse(bytes);
+async function loadAdmission(version) {
+  let bytes = await readFile(admissionPath);
+  let admission = JSON.parse(bytes);
+  if (admission.version !== version) {
+    bytes = await readFile(resolve(archivedAdmissionsRoot, `${version}.v1.json`));
+    admission = JSON.parse(bytes);
+  }
   if (!exactKeys(admission, ["schemaVersion", "identity", "version", "manifestSha256", "checksumsSha256", "contentSha256", "assets"]) ||
       admission.schemaVersion !== 1 || admission.identity !== "luastra-sdk-release-admission/v1" || admission.version !== version ||
       !Array.isArray(admission.assets)) fail("invalid SDK release admission contract");
   if (!bytes.equals(Buffer.from(canonicalJson(admission)))) fail("SDK release admission contract is not canonical");
   return admission;
 }
-function verifySbom(bytes) {
+function verifySbom(bytes, version) {
   const sbom = JSON.parse(bytes);
   if (sbom.spdxVersion !== "SPDX-2.3" || sbom.name !== `Luastra SDK ${version} release inventory` ||
       !Array.isArray(sbom.packages) || sbom.packages.length !== 4 || sbom.packages.some((item) => item.licenseDeclared === "NOASSERTION")) {
@@ -162,7 +162,7 @@ function verifySbom(bytes) {
   }
   if (!bytes.equals(Buffer.from(canonicalJson(sbom)))) fail("SDK release SBOM is not canonical");
 }
-function verifyLicenseArchive(bytes) {
+function verifyLicenseArchive(bytes, version) {
   let tar;
   try { tar = gunzipSync(bytes); } catch { fail("invalid gzip SDK license bundle"); }
   const entries = parseCanonicalTar(tar);
@@ -185,6 +185,7 @@ export async function verifySdkReleaseSet(releaseSet, { requireAdmission = true 
   const root = await realpath(resolve(releaseSet));
   const manifestBytes = await readFile(resolve(root, "luastra-release.v1.json"));
   const manifest = verifyReleaseManifestBytes(manifestBytes);
+  const version = manifest.version;
   const expectedAssets = [...manifest.hosts.map((record) => record.archive), manifest.installer, ...Object.values(manifest.compliance), manifest.releaseNotes]
     .sort((left, right) => left.filename.localeCompare(right.filename));
   const names = (await readdir(root)).sort();
@@ -195,8 +196,8 @@ export async function verifySdkReleaseSet(releaseSet, { requireAdmission = true 
     if (bytes.byteLength !== record.bytes || sha256(bytes) !== record.sha256) fail(`SDK release asset mismatch: ${record.filename}`);
   }
   for (const host of manifest.hosts) verifySdkArchiveBytes(await readFile(resolve(root, host.archive.filename)), manifest, host);
-  verifySbom(await readFile(resolve(root, manifest.compliance.sbom.filename)));
-  verifyLicenseArchive(await readFile(resolve(root, manifest.compliance.licenseBundle.filename)));
+  verifySbom(await readFile(resolve(root, manifest.compliance.sbom.filename)), version);
+  verifyLicenseArchive(await readFile(resolve(root, manifest.compliance.licenseBundle.filename)), version);
   const notices = await readFile(resolve(root, manifest.compliance.notices.filename), "utf8");
   if (!notices.includes("Luau 0.731") || !notices.includes("Emscripten 6.0.6") || !notices.includes("Excluded development and host dependencies")) {
     fail("SDK third-party notices are incomplete");
@@ -206,11 +207,13 @@ export async function verifySdkReleaseSet(releaseSet, { requireAdmission = true 
   const evidence = { schemaVersion: 1, identity: "luastra-sdk-release-admission/v1", version,
     manifestSha256: sha256(manifestBytes), checksumsSha256: sha256(checksumsBytes), contentSha256: manifest.contentSha256,
     assets: expectedAssets.map((item) => ({ filename: item.filename, bytes: item.bytes, sha256: item.sha256 })) };
-  if (requireAdmission && canonicalJson(evidence) !== canonicalJson(await loadAdmission())) fail("SDK release set differs from admitted contract");
+  if (requireAdmission && canonicalJson(evidence) !== canonicalJson(await loadAdmission(version))) fail("SDK release set differs from admitted contract");
   return Object.freeze({ result: "PASS", root, manifest: Object.freeze(manifest), admission: Object.freeze(evidence) });
 }
 
-export async function buildSdkRelease({ output, requireAdmission = true } = {}) {
+export async function buildSdkRelease({ output, requireAdmission = true, version = sourceVersion } = {}) {
+  if (version !== sourceVersion) fail(`release version must match package version: ${sourceVersion}`);
+  const releaseIdentity = `luastra-sdk-release/${version}`;
   const requested = resolve(output ?? fail("SDK release output is required"));
   const parentPath = dirname(requested);
   if (!(await stat(parentPath).catch(() => null))?.isDirectory()) fail(`SDK release parent does not exist: ${parentPath}`);
@@ -223,16 +226,16 @@ export async function buildSdkRelease({ output, requireAdmission = true } = {}) 
   try {
     const builtHosts = [];
     for (const host of hosts) {
-      const built = await buildSdkArchive(workspace, host);
+      const built = await buildSdkArchive(workspace, host, version);
       await writeFile(resolve(temporary, built.filename), built.archiveBytes, { mode: 0o644 });
       builtHosts.push({ id: host.id, platform: host.platform, architecture: host.architecture, root: built.root,
         archive: asset(built.filename, built.archiveBytes), sdkContentSha256: built.sdkManifest.contentSha256 });
     }
     const installerBytes = await readFile(resolve(releaseRoot, "luastra-install.mjs"));
-    const sbomBytes = generateSdkSbom();
+    const sbomBytes = generateSdkSbom(version);
     const noticesBytes = await readFile(resolve(releaseRoot, "SDK_THIRD_PARTY_NOTICES.md"));
-    const licenseBytes = await buildLicenseArchive();
-    const notesBytes = releaseNotes();
+    const licenseBytes = await buildLicenseArchive(version);
+    const notesBytes = await releaseNotes(version);
     const installer = asset("luastra-install.mjs", installerBytes);
     const compliance = {
       sbom: asset(`luastra-sdk-${version}.spdx.json`, sbomBytes),

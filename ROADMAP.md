@@ -13,7 +13,7 @@ licensing, and security boundaries pass the applicable gate.
 - Repeat owner dogfood against the exact documented candidate.
 - Enable public security reporting and protected repository workflows.
 
-## `0.2.0-alpha` candidate — Constellation Orbit vertical slice
+## `0.2.0-alpha` — Constellation Orbit vertical slice
 
 - Admit the experimental Constellation Orbit semantic UI family through the
   public Luau SDK without application-owned coordinates or renderer escape

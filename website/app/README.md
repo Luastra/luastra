@@ -1,10 +1,10 @@
 # Luastra SDK Reference dogfood application
 
-Source for the English Luastra-native documentation application for the
-development candidate based on `0.1.0-alpha`. It deliberately uses the same
-candidate SDK that it documents and serves as both the `luastra.dev` source and
-a web-application dogfood fixture. The installed public release remains the
-immutable `0.1.0-alpha` boundary until a separately reviewed publication.
+Source for the English Luastra-native documentation application for
+`0.2.0-alpha`. It deliberately uses the same SDK that it documents and serves
+as both the `luastra.dev` source and a web-application dogfood fixture. The
+immutable `0.1.0-alpha` release remains available as a separate historical
+rollback boundary.
 
 ## What is here
 
@@ -35,7 +35,7 @@ table.
 Every public SDK function and exported type must additionally document what to
 declare or import before use, where it belongs in the application lifecycle,
 what result or event follows, how bounded failures are handled, and whether the
-contract is part of the current development candidate or requires host-specific
+contract is part of the current release or requires host-specific
 verification. Focused snippets are not labelled as standalone runnable apps;
 complete workflows live in the tutorials and module-level examples.
 

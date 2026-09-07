@@ -6,6 +6,8 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ## [Unreleased]
 
+## [0.2.0-alpha] - 2026-09-07
+
 ### Added
 
 - Full-content documentation search with an explicit clear action, copy support
@@ -95,5 +97,6 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 - Deterministic runtime packages, archives, immutable installation receipts,
   checksums, SBOMs, notices, and clean-export controls.
 
-[Unreleased]: https://github.com/Luastra/luastra/compare/v0.1.0-alpha...HEAD
+[Unreleased]: https://github.com/Luastra/luastra/compare/v0.2.0-alpha...HEAD
+[0.2.0-alpha]: https://github.com/Luastra/luastra/compare/v0.1.0-alpha...v0.2.0-alpha
 [0.1.0-alpha]: https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha

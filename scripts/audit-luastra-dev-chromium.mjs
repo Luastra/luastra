@@ -7,6 +7,7 @@ import { dirname, resolve } from "node:path";
 
 import { runProject } from "../project/run-project.mjs";
 import { generatedPages } from "../website/site/generated-reference-data.js";
+import { release } from "../website/site/reference-data.js";
 
 const themes = ["luastra", "abyss", "sakura", "atlas", "arctic", "biolume", "arcade", "bauhaus", "editorial", "copper", "candy"];
 const viewports = [
@@ -302,10 +303,11 @@ async function main() {
       openedAtTop: document.querySelector('[data-luastra-id="landing/focus"]')?.scrollTop <= 1,
       errors: [...(window.__luastraSiteAudit?.errors ?? [])],
     }))()`);
-    await route(client, "#/about/source", "location.hash === '#/about/source' && document.querySelector('[data-luastra-id=\"landing/focus/section-1/body\"]')?.textContent?.includes('v0.1.0-alpha')");
+    await route(client, "#/about/source", `location.hash === '#/about/source' && document.querySelector('[data-luastra-id="landing/focus/section-1/body"]')?.textContent?.includes('v${release.publishedVersion}')`);
     const productSource = await evaluate(client, `(() => ({
       published: document.querySelector('[data-luastra-id="landing/focus/section-1/body"]')?.textContent?.trim() ?? null,
-      preview: document.querySelector('[data-luastra-id="landing/focus/section-2/body"]')?.textContent?.trim() ?? null,
+      rollback: document.querySelector('[data-luastra-id="landing/focus/section-2/body"]')?.textContent?.trim() ?? null,
+      integrity: document.querySelector('[data-luastra-id="landing/focus/section-3/body"]')?.textContent?.trim() ?? null,
       release: document.querySelector('[data-luastra-id="landing/focus/link-release"]')?.getAttribute('href') ?? null,
       errors: [...(window.__luastraSiteAudit?.errors ?? [])],
     }))()`);
@@ -518,8 +520,9 @@ async function main() {
         productTargets.webArtifact?.includes("Wasm VM") && productTargets.currentHosts?.includes("Tauri and Capacitor") &&
         productWhyScrolled && productTargets.openedAtTop && productTargets.currentHosts?.includes("not translated into platform-native widgets") &&
         productTargets.evidence?.includes("host gates") &&
-        productSource.published?.includes("v0.1.0-alpha") && productSource.preview?.includes("Source SDK contract 13") &&
-        productSource.release === "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha",
+        productSource.published?.includes(`v${release.publishedVersion}`) && productSource.rollback?.includes("v0.1.0-alpha") &&
+        productSource.integrity?.includes("exact merged commit") &&
+        productSource.release === `https://github.com/Luastra/luastra/releases/tag/v${release.publishedVersion}`,
       reducedMotionSettles: reducedMotion.diagnostics?.activeMotionCount === 0 && reducedMotion.diagnostics?.framePending === false,
       keyboardOnly: keyboard.initial === "landing/product" && keyboard.searchShortcut === "landing/search/input" &&
         keyboard.rootBeforeArrow === "landing/product" && keyboard.rootAfterArrow !== keyboard.rootBeforeArrow && keyboard.rootRovingStops === 1 &&

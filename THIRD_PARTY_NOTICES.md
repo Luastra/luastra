@@ -1,6 +1,6 @@
 # Luastra third-party notices
 
-This file describes the currently admitted `0.1.0-alpha` baseline. Exact
+This file describes the currently admitted `0.2.0-alpha` baseline. Exact
 license texts, package hashes, and platform-specific inventories are retained
 with the release and native-host compliance records. Every public release must
 include the notice set applicable to its exact artifacts.
