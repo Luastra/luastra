@@ -25,6 +25,12 @@ Luastra 0.2.0-alpha is a public-source prerelease focused on semantic, game-like
 - Signed desktop installers, notarization, public mobile-store packages, production backend deployment, and universal device or assistive-technology certification are not claimed by this release.
 - `Assets.font` creates a typed packaged font reference, but 0.2.0-alpha does not yet expose a public text-style consumer for applying custom fonts.
 
+## Security
+
+- The Capacitor host uses `@xmldom/xmldom` 0.9.12, resolving GHSA-6gmq-8vp8-gcm6 in the host dependency closure.
+- The Tauri GTK3 dependency closure applies the official `glib::VariantStrIter` safety backport for RUSTSEC-2024-0429 to `glib` 0.18.5. The canonical crate archive, exact upstream fix, patched-file digest, license, SBOM, notices, and release-mode Linux integration test are recorded and checked in the repository.
+- These host dependencies are not embedded in the checksum-verified SDK archives; their security evidence belongs to the corresponding Capacitor and Tauri host source closures.
+
 ## Installation
 
 Download `luastra-install.mjs`, `luastra-release.v1.json`, and the archive matching the destination host from the same GitHub Release. The installer verifies the release manifest, archive checksum, and installed-file ledger before activating the SDK. Run `luastra doctor` after installation.
