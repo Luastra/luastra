@@ -92,8 +92,24 @@ async function sendKeys(base, sessionId, selector, text) {
 }
 
 async function sendActiveKeys(base, sessionId, text) {
+  const characters = [...text];
+  const codePoint = characters.length === 1 ? characters[0].codePointAt(0) : null;
+  if (codePoint !== null && codePoint >= 0xE000 && codePoint <= 0xE05D) {
+    await webdriver(base, "POST", `/session/${sessionId}/actions`, {
+      actions: [{
+        type: "key",
+        id: "active-key",
+        actions: [
+          { type: "keyDown", value: text },
+          { type: "keyUp", value: text },
+        ],
+      }],
+    });
+    await webdriver(base, "DELETE", `/session/${sessionId}/actions`);
+    return;
+  }
   const active = await webdriver(base, "GET", `/session/${sessionId}/element/active`);
-  await webdriver(base, "POST", `/session/${sessionId}/element/${elementId(active)}/value`, { text, value: [...text] });
+  await webdriver(base, "POST", `/session/${sessionId}/element/${elementId(active)}/value`, { text, value: characters });
 }
 
 async function sendKeyChord(base, sessionId, modifier, key) {

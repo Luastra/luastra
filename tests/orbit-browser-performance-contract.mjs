@@ -54,6 +54,11 @@ test("Orbit browser performance budgets are explicit and wired into the public c
   assert.match(webdriverBaselineAudit, /separate retained tabs/);
   assert.match(webdriverBaselineAudit, /noLuastraDriverWarnings/);
 
+  const safariAccessibilityAudit = await readFile(resolve(repository, "scripts/audit-safari-accessibility-lab.mjs"), "utf8");
+  assert.match(safariAccessibilityAudit, /codePoint >= 0xE000 && codePoint <= 0xE05D/);
+  assert.match(safariAccessibilityAudit, /id: "active-key"/);
+  assert.match(safariAccessibilityAudit, /`\/session\/\$\{sessionId\}\/actions`/);
+
   const documentation = await readFile(resolve(repository, "docs/constellation-orbit.md"), "utf8");
   assert.match(documentation, /average measured interaction-time Orbit layout at or below 8 ms/);
   assert.match(documentation, /maximum measured interaction-time Orbit layout at or below 33\.34 ms/);

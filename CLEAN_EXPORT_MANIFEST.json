@@ -1,5 +1,5 @@
 {
-  "contentSha256": "d831aad9faad59102a9c5e6bf368c649d9300069070c41e5ba05be127b98786a",
+  "contentSha256": "1940c503d89a0039d5e78349cbdc55ea6cc97a4b338da76d1d92bbbce8e9c7fc",
   "files": [
     {
       "bytes": 182,
@@ -2552,10 +2552,10 @@
       "sha256": "99e73f77051944a43d3280c3902a1ef5e3c533b825689183b855b8eb4f4f27cb"
     },
     {
-      "bytes": 16867,
+      "bytes": 17411,
       "mode": 420,
       "path": "scripts/audit-safari-accessibility-lab.mjs",
-      "sha256": "fabea72df29478d17819390c4e336d9d0d0f8d7f1eafe7831c04183af3ecd248"
+      "sha256": "6d197a3b339be3398d81198e48de6177a1bfebed4995512a7dd321d1cf5285c5"
     },
     {
       "bytes": 8417,
@@ -2942,10 +2942,10 @@
       "sha256": "70a302e04f7f7f996268359f5135fadb7043f3d8b260f45dc1e65c0764c09d95"
     },
     {
-      "bytes": 4169,
+      "bytes": 4529,
       "mode": 420,
       "path": "tests/orbit-browser-performance-contract.mjs",
-      "sha256": "737a00d35dcb4a853ac479ceb5209f7b7f3af1d39daa9294088bb17754f89188"
+      "sha256": "cbc6cbb0ad582844d80c1ba7a48f7e969ae83193718529a0b8a48d6966292815"
     },
     {
       "bytes": 3294,
