@@ -4,8 +4,10 @@ local ReferenceData = require("app/reference-data")
 
 assert(type(ReferenceData.release.version) == "string")
 assert(ReferenceData.release.version == "0.1.0-alpha")
-assert(ReferenceData.release.sourceSdk == "Source SDK contract 13")
-assert(ReferenceData.release.runtimeSdk == "Runtime SDK alpha 8")
+assert(ReferenceData.release.publishedVersion == "0.1.0-alpha")
+assert(string.match(ReferenceData.release.sourceSdk :: string, "^Source SDK contract [0-9]+$") ~= nil)
+assert(string.match(ReferenceData.release.runtimeSdk :: string, "^Runtime SDK alpha [0-9]+$") ~= nil)
+assert(string.match(ReferenceData.release.luauVersion :: string, "^[0-9]+%.[0-9]+$") ~= nil)
 assert(#ReferenceData.sections > 32, "documentation routing must scale beyond an enum")
 assert(#ReferenceData.navigationGroups >= 5)
 

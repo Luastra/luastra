@@ -44,7 +44,7 @@
     {
       "id": "app/landing",
       "source": "src/landing.luau",
-      "dependencies": ["luastra/ui"]
+      "dependencies": ["app/reference-data", "luastra/ui"]
     },
     {
       "id": "app/reference-data",

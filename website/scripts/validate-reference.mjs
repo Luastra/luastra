@@ -4,6 +4,11 @@ import { fileURLToPath } from "node:url";
 
 import { navigationGroups, release, sdkInventory, sdkTypeInventory, sections } from "../site/reference-data.js";
 import { generatedPages } from "../site/generated-reference-data.js";
+import packageManifest from "../../package.json" with { type: "json" };
+import releaseAdmission from "../../release/sdk-release-admission.v1.json" with { type: "json" };
+import sourceManifest from "../../sdk/source-manifest.v1.json" with { type: "json" };
+import runtimeManifest from "../../platform/runtime-manifest.v2.json" with { type: "json" };
+import sourceBuildContract from "../../platform/source-build/source-build-contract.v1.json" with { type: "json" };
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const candidateSdk = resolve(root, "..", "sdk", "luastra");
@@ -55,9 +60,11 @@ for (const section of sections) {
     if (sectionPages[index].nextPageId !== expectedNext) fail(`${sectionPages[index].id} has an invalid Next target`);
   }
 }
-if (release.version !== "0.1.0-alpha") fail("reference is not bound to 0.1.0-alpha");
-if (release.sourceSdk !== "Source SDK contract 13") fail("reference source SDK label is stale");
-if (release.runtimeSdk !== "Runtime SDK alpha 8") fail("reference runtime SDK label is stale");
+if (release.version !== packageManifest.version) fail("reference candidate version differs from package.json");
+if (release.publishedVersion !== releaseAdmission.version) fail("reference published version differs from release admission");
+if (!release.sourceSdk.endsWith(sourceManifest.identity.match(/contract-(\d+)$/u)?.[1] ?? "<invalid>")) fail("reference source SDK label is stale");
+if (!release.runtimeSdk.endsWith(runtimeManifest.identity.match(/alpha-(\d+)$/u)?.[1] ?? "<invalid>")) fail("reference runtime SDK label is stale");
+if (release.luauVersion !== sourceBuildContract.luau.tag) fail("reference Luau label is stale");
 for (const id of ["installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "recipe-server", "recipe-media", "recipe-orbit", "events-errors", "policies"])
   if (!sectionIds.includes(id)) fail(`reference misses required learning section: ${id}`);
 const navigationIds = navigationGroups.flatMap((group) => group.items.map(([id]) => id));

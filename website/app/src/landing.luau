@@ -1,5 +1,6 @@
 --!strict
 
+local ReferenceData = require("app/reference-data")
 local UI = require("luastra/ui")
 
 local Landing = {}
@@ -93,7 +94,7 @@ local details: {[string]: any} = {
         body = "Use the public repository and immutable release assets when evaluating what users can install today. Treat this local Orbit site as a preview of the next candidate until a separate public audit, merge, release, and exact-SHA deployment are complete.",
         sections = {
             { title = "Published now", text = "v0.1.0-alpha is the immutable public release. Its installer, manifest, SDK archives, checksums, notices, documentation claims, and supported commands remain version-bound." },
-            { title = "Visible in this preview", text = "This private checkout uses Source SDK contract 13 and contains unreleased Constellation Orbit APIs, the migrated luastra.dev experience, and documentation improvements. Those changes are not part of the installed public alpha yet." },
+            { title = "Visible in this preview", text = `This private checkout uses {ReferenceData.release.sourceSdk} and contains unreleased Constellation Orbit APIs, the migrated luastra.dev experience, and documentation improvements. Those changes are not part of the installed public alpha yet.` },
             { title = "How publication works", text = "A future candidate must be cleaned, compared with public main, validated without changing old release artifacts, reviewed through a public pull request, and deployed from the exact merged commit." },
         },
         evidence = "Open-source visibility makes implementation auditable; it does not replace compatibility guarantees, security review, host-specific testing, or evidence from independent applications.",

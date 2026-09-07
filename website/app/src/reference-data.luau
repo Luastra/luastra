@@ -4,9 +4,11 @@
 local ReferenceData: any = {
     ["release"] = {
         ["version"] = "0.1.0-alpha",
+        ["publishedVersion"] = "0.1.0-alpha",
         ["date"] = "2026-08-28",
         ["sourceSdk"] = "Source SDK contract 13",
         ["runtimeSdk"] = "Runtime SDK alpha 8",
+        ["luauVersion"] = "0.731",
         ["status"] = "Development candidate based on 0.1.0-alpha",
     },
     ["sdkInventory"] = {

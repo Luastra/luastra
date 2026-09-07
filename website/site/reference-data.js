@@ -1,9 +1,23 @@
+import packageManifest from "../../package.json" with { type: "json" };
+import releaseAdmission from "../../release/sdk-release-admission.v1.json" with { type: "json" };
+import sourceManifest from "../../sdk/source-manifest.v1.json" with { type: "json" };
+import runtimeManifest from "../../platform/runtime-manifest.v2.json" with { type: "json" };
+import sourceBuildContract from "../../platform/source-build/source-build-contract.v1.json" with { type: "json" };
+
+function numberedIdentity(identity, pattern, label) {
+  const match = pattern.exec(identity);
+  if (!match) throw new Error(`unsupported ${label} identity: ${identity}`);
+  return `${label} ${match[1]}`;
+}
+
 export const release = Object.freeze({
-  version: "0.1.0-alpha",
+  version: packageManifest.version,
+  publishedVersion: releaseAdmission.version,
   date: "2026-08-28",
-  sourceSdk: "Source SDK contract 13",
-  runtimeSdk: "Runtime SDK alpha 8",
-  status: "Development candidate based on 0.1.0-alpha",
+  sourceSdk: numberedIdentity(sourceManifest.identity, /\/phase5-contract-(\d+)$/u, "Source SDK contract"),
+  runtimeSdk: numberedIdentity(runtimeManifest.identity, /\/phase5-alpha-(\d+)$/u, "Runtime SDK alpha"),
+  luauVersion: sourceBuildContract.luau.tag,
+  status: `Development candidate based on ${releaseAdmission.version}`,
 });
 
 export const sdkInventory = Object.freeze({
@@ -397,7 +411,7 @@ export const sections = Object.freeze([
     eyebrow: `Luastra development candidate · base release ${release.version}`,
     summary: "Write strict Luau that returns semantic UI from explicit state. Luastra checks and compiles the project, then its current web-based hosts render the same application model on web, desktop, and mobile.",
     hero: true,
-    badges: [release.sourceSdk, release.runtimeSdk, "Luau 0.731", "Web · Tauri · Capacitor"],
+    badges: [release.sourceSdk, release.runtimeSdk, `Luau ${release.luauVersion}`, "Web · Tauri · Capacitor"],
     guide: [
       "The mental model is state → Application.render → semantic UI. A button or host event enters Application.handle, asynchronous capability work completes in Application.resolve, and Luastra renders the new state.",
       "New here? Follow Installation, Quick start, and Beginner tutorial in that order. Use API pages after the first app runs, and read Support and boundaries before choosing a production target.",

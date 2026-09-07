@@ -60,7 +60,7 @@ assert(string.find((findNode(targetsDetail, "landing/focus/evidence-value").prop
 assert(Landing.restore("root", "landing/source"))
 local sourceDetail = Landing.render()
 assert(string.find((findNode(sourceDetail, "landing/focus/section-1/body").properties :: any).text, "v0.1.0-alpha", 1, true) ~= nil)
-assert(string.find((findNode(sourceDetail, "landing/focus/section-2/body").properties :: any).text, "Source SDK contract 13", 1, true) ~= nil)
+assert(string.find((findNode(sourceDetail, "landing/focus/section-2/body").properties :: any).text, "Source SDK contract", 1, true) ~= nil)
 assert((findNode(sourceDetail, "landing/focus/link-release").properties :: any).href == "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha")
 
 Landing.handle("landing.open-product", "landing/product", "")
