@@ -12,7 +12,22 @@ const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 test("Capacitor host closure proof binds retained inputs and compliance outputs", async () => {
   const proof = JSON.parse(await readFile(resolve(host, "compliance/host-closure-proof.v1.json"), "utf8"));
-  assert.equal(proof.identity, "luastra-capacitor-host-closure/phase5-alpha-3");
+  const lock = JSON.parse(await readFile(resolve(host, "package-lock.json"), "utf8"));
+  assert.equal(proof.identity, "luastra-capacitor-host-closure/phase5-alpha-4");
+  assert.equal(proof.securityRemediation.advisory, "GHSA-6gmq-8vp8-gcm6");
+  assert.equal(proof.securityRemediation.toVersion, "0.9.12");
+  assert.equal(lock.packages["node_modules/@xmldom/xmldom"].version, proof.securityRemediation.toVersion);
+  assert.deepEqual(proof.securityRemediation.checks, {
+    npmCleanInstall: "PASS",
+    npmAudit: "PASS_ZERO_VULNERABILITIES",
+    invalidEntityReferenceCreation: "PASS_REJECTED",
+    mutatedEntityReferenceStrictSerialization: "PASS_REJECTED",
+    validEntityReferenceSerialization: "PASS",
+    plistRoundTrip: "PASS",
+    capacitorSync: "PASS_NO_TRACKED_NATIVE_DIFF",
+    iosSimulatorBuild: "PASS",
+    androidDebugBuild: "PASS",
+  });
   assert.equal(proof.builds.iosSimulator.result, "PASS");
   assert.equal(proof.builds.androidDebug.result, "PASS");
   assert.equal(proof.builds.androidNavigationEmulator.result, "PASS");

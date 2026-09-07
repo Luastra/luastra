@@ -1,5 +1,5 @@
 {
-  "contentSha256": "1940c503d89a0039d5e78349cbdc55ea6cc97a4b338da76d1d92bbbce8e9c7fc",
+  "contentSha256": "3271f10c714a7c485cb9f897bca0741cb30d49345c45869707646d1039b7bb95",
   "files": [
     {
       "bytes": 182,
@@ -992,10 +992,10 @@
       "sha256": "7252e84d16e296addf9e0203d761bf3f95b91c55fa4e53d3100498fee3bfa3c4"
     },
     {
-      "bytes": 3541,
+      "bytes": 4777,
       "mode": 420,
       "path": "hosts/capacitor/compliance/host-closure-proof.v1.json",
-      "sha256": "fef4d23cf3cf800d2c32ce376257d90c14b46d6b0658229e0f4d06f5b3008c1a"
+      "sha256": "2ca62e8ba7c84da3c958ece9087fd5bb05971ccf5d830c66f7c12078c51d2960"
     },
     {
       "bytes": 38674,
@@ -1157,7 +1157,7 @@
       "bytes": 42362,
       "mode": 420,
       "path": "hosts/capacitor/package-lock.json",
-      "sha256": "09ade848e39a82912c4fa9329b193036ebbe0230cbee9ffc324d01ee55ebb1be"
+      "sha256": "91669b6d801d1ec6f301c6ccb22a6fb0604f0c36ac6b600256c821f66618b904"
     },
     {
       "bytes": 818,
@@ -2816,10 +2816,10 @@
       "sha256": "c91850a89b17e1fbf2e3a53e55937a6c52ea3895229b934e409153092594328c"
     },
     {
-      "bytes": 8827,
+      "bytes": 9596,
       "mode": 420,
       "path": "tests/capacitor-host-closure.mjs",
-      "sha256": "4b2a2126bf5be7c5367e716a5a687c3bba962aecc0f50300d535a759f1c6f4e4"
+      "sha256": "6f67053cac990188d43c5cb1a15b46c18156110f31cfa2d15c97f83be1721fff"
     },
     {
       "bytes": 28828,
