@@ -626,19 +626,20 @@ export function createOrbitController({
     const surface = orbit.querySelector(":scope > .luastra-focus-surface");
     const open = surface?.hasAttribute?.("open") === true;
     const heading = surface?.querySelector?.("h1, h2, h3, h4, h5, h6");
+    const selected = open ? orbit.querySelector(".luastra-orbit-node.luastra-orbit-selected") : null;
+    const selectedId = selected?.dataset?.luastraId ?? null;
+    const focusSurfaceChanged = open && orbitState.focusSurfaceOpen && selectedId !== null &&
+      selectedId !== orbitState.focusSurfaceNodeId;
     if (heading?.id) surface.setAttribute("aria-labelledby", heading.id);
-    if (open) {
-      const selected = orbit.querySelector(".luastra-orbit-node.luastra-orbit-selected");
-      if (selected?.dataset?.luastraId) orbitState.focusSurfaceNodeId = selected.dataset.luastraId;
-    }
-    if (open && !orbitState.focusSurfaceOpen) {
+    if (selectedId !== null) orbitState.focusSurfaceNodeId = selectedId;
+    if ((open && !orbitState.focusSurfaceOpen) || focusSurfaceChanged) {
       if (heading) {
         heading.tabIndex = -1;
         surface.scrollTop = 0;
         heading.focus({ preventScroll: true });
         surface.scrollTop = 0;
       }
-      animateFocusSurface(orbit, orbitState, surface);
+      if (!orbitState.focusSurfaceOpen) animateFocusSurface(orbit, orbitState, surface);
     }
     if (!open && orbitState.focusSurfaceOpen) {
       orbitState.focusAnimation?.cancel?.();

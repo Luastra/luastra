@@ -277,6 +277,40 @@ async function main() {
       errors: [...(window.__luastraSiteAudit?.errors ?? [])],
     }))()`);
 
+    await route(client, "#/", "location.hash === '#/' && Boolean(document.querySelector('[data-luastra-id=\"landing/root/center\"]'))");
+    const productRoot = await evaluate(client, `(() => ({
+      center: document.querySelector('[data-luastra-id="landing/root/center"]')?.textContent?.trim() ?? null,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    await route(client, "#/about/why", "location.hash === '#/about/why' && document.querySelector('[data-luastra-id=\"landing/focus/section-1/body\"]')?.textContent?.includes('Application.render')");
+    const productWhy = await evaluate(client, `(() => ({
+      contract: document.querySelector('[data-luastra-id="landing/focus/section-1/body"]')?.textContent?.trim() ?? null,
+      sloganBoundary: document.querySelector('[data-luastra-id="landing/focus/section-3/body"]')?.textContent?.trim() ?? null,
+      evidence: document.querySelector('[data-luastra-id="landing/focus/evidence-value"]')?.textContent?.trim() ?? null,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    const productWhyScrolled = await evaluate(client, `(() => {
+      const surface = document.querySelector('[data-luastra-id="landing/focus"]');
+      surface.scrollTop = surface.scrollHeight;
+      return surface.scrollTop > 0;
+    })()`);
+    await route(client, "#/about/targets", "location.hash === '#/about/targets' && document.querySelector('[data-luastra-id=\"landing/focus/section-1/body\"]')?.textContent?.includes('Wasm VM')");
+    const productTargets = await evaluate(client, `(() => ({
+      webArtifact: document.querySelector('[data-luastra-id="landing/focus/section-1/body"]')?.textContent?.trim() ?? null,
+      currentHosts: document.querySelector('[data-luastra-id="landing/focus/section-2/body"]')?.textContent?.trim() ?? null,
+      evidence: document.querySelector('[data-luastra-id="landing/focus/evidence-value"]')?.textContent?.trim() ?? null,
+      openedAtTop: document.querySelector('[data-luastra-id="landing/focus"]')?.scrollTop <= 1,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    await route(client, "#/about/source", "location.hash === '#/about/source' && document.querySelector('[data-luastra-id=\"landing/focus/section-1/body\"]')?.textContent?.includes('v0.1.0-alpha')");
+    const productSource = await evaluate(client, `(() => ({
+      published: document.querySelector('[data-luastra-id="landing/focus/section-1/body"]')?.textContent?.trim() ?? null,
+      preview: document.querySelector('[data-luastra-id="landing/focus/section-2/body"]')?.textContent?.trim() ?? null,
+      release: document.querySelector('[data-luastra-id="landing/focus/link-release"]')?.getAttribute('href') ?? null,
+      errors: [...(window.__luastraSiteAudit?.errors ?? [])],
+    }))()`);
+    const productPages = { root: productRoot, why: productWhy, targets: productTargets, source: productSource };
+
     await client.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
     await route(client, "#/", "location.hash === '#/'");
     await evaluate(client, `document.querySelector('[data-luastra-id="landing/product"]').click()`);
@@ -452,6 +486,13 @@ async function main() {
         exampleDetailContent.files?.includes("examples/routing-lab/src/main.luau") && exampleDetailContent.capabilities === "ui.render" &&
         exampleDetailContent.evidence?.includes("navigation.history") && exampleDetailContent.docs === "Read the documentation" &&
         exampleDetailContent.source === "https://github.com/Luastra/luastra/tree/main/examples/routing-lab",
+      productPages: productRoot.center?.includes("New here?") && productWhy.contract?.includes("Application.render") &&
+        productWhy.sloganBoundary?.includes("does not mean redrawing") && productWhy.evidence?.includes("does not yet prove broad market demand") &&
+        productTargets.webArtifact?.includes("Wasm VM") && productTargets.currentHosts?.includes("Tauri and Capacitor") &&
+        productWhyScrolled && productTargets.openedAtTop && productTargets.currentHosts?.includes("not translated into platform-native widgets") &&
+        productTargets.evidence?.includes("host gates") &&
+        productSource.published?.includes("v0.1.0-alpha") && productSource.preview?.includes("Source SDK contract 13") &&
+        productSource.release === "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha",
       reducedMotionSettles: reducedMotion.diagnostics?.activeMotionCount === 0 && reducedMotion.diagnostics?.framePending === false,
       keyboardOnly: keyboard.initial === "landing/product" && keyboard.searchShortcut === "landing/search/input" &&
         keyboard.rootBeforeArrow === "landing/product" && keyboard.rootAfterArrow !== keyboard.rootBeforeArrow && keyboard.rootRovingStops === 1 &&
@@ -485,7 +526,8 @@ async function main() {
       noBrowserErrors: [...viewportSamples.flatMap((value) => [...value.root.errors, ...value.focus.errors]), ...themeSamples.flatMap((value) => value.errors),
         ...reducedMotion.errors, ...keyboard.errors, ...forcedRoot.errors, ...forcedFocus.errors,
         ...beginnerTutorial.errors, ...firstAppCheckpoint.errors, ...advancedTutorial.errors, ...typingGuide.errors,
-        ...eventsGuide.errors, ...documentationDetail.errors, ...exampleDetail.errors, ...exampleDetailContent.errors].length === 0,
+        ...eventsGuide.errors, ...documentationDetail.errors, ...exampleDetail.errors, ...exampleDetailContent.errors,
+        ...Object.values(productPages).flatMap((value) => value.errors)].length === 0,
     };
     const result = Object.values(assertions).every(Boolean) ? "PASS" : "FAIL";
     const report = {
@@ -501,6 +543,7 @@ async function main() {
       viewportSamples,
       themeSamples,
       exampleDetail: { ...exampleDetail, content: exampleDetailContent },
+      productPages,
       reducedMotion,
       keyboard,
       forcedColors: { media: forcedColors, root: forcedRoot, focus: forcedFocus },
@@ -523,7 +566,7 @@ async function main() {
     client?.close();
     browser.kill("SIGTERM");
     await application.close();
-    await rm(profile, { recursive: true, force: true });
+    await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   }
 }
 

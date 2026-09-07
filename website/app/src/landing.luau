@@ -63,9 +63,46 @@ local exampleNodes = {
 }
 
 local details: {[string]: any} = {
-    ["landing/why"] = { title = "Build apps like games", summary = "Luastra brings a tight create, run, observe, and refine loop to application development.", body = "Application code declares semantic UI and state in Luau. Hosts provide platform rendering, navigation, storage, media, and other bounded capabilities without turning the application into platform-specific glue.", docs = "overview" },
-    ["landing/targets"] = { title = "One semantic application", summary = "The same application model can adapt to different screens and hosts.", body = "Responsive presentation belongs to the host, while stable IDs, events, routes, and state remain application-owned. Host support is verified independently; success on web is never treated as native evidence.", docs = "application" },
-    ["landing/source"] = { title = "Public source alpha", summary = "The current release is intentionally early and inspectable.", body = "Read the source, release inventory, compatibility boundaries, and examples before depending on an alpha API. Published release artifacts remain immutable while development continues privately.", docs = "policies", source = "https://github.com/Luastra/luastra" },
+    ["landing/why"] = {
+        title = "Build apps like games",
+        summary = "Luastra applies a tight create, verify, run, observe, and refine loop to application development.",
+        body = "Application code owns strict Luau state and returns semantic UI. The runtime dispatches explicit events, while hosts render the current tree and provide bounded platform capabilities. This keeps product logic out of platform-specific glue without hiding the platform boundary.",
+        sections = {
+            { title = "The application contract", text = "Application.render returns the complete UI.Screen for current state. Application.handle receives controls and host events. Application.resolve correlates asynchronous Host, Server, and Media completions by RequestId." },
+            { title = "The game-like loop", text = "Edit a small piece of strict Luau, run luastra check and luastra test, preview it with luastra run, observe the visible state and diagnostics, then refine. Stable IDs and deterministic state make each iteration inspectable." },
+            { title = "What the slogan does not promise", text = "Build apps like games does not mean redrawing every screen continuously or treating ordinary UI as a canvas. Luastra reconciles semantic changes, and motion schedules frames only while an admitted effect is active." },
+        },
+        evidence = "The alpha proves an end-to-end framework and checked examples. It does not yet prove broad market demand, production suitability for every application, or equivalent maturity on every host.",
+        docs = "overview",
+    },
+    ["landing/targets"] = {
+        title = "One semantic application",
+        summary = "The same Luau state, stable IDs, events, routes, and semantic UI tree can adapt to different screens and supported hosts.",
+        body = "Responsive presentation belongs to the host. Application code describes intent rather than desktop, mobile, or browser coordinates, but each host still has its own packaging, permission, lifecycle, and evidence boundary.",
+        sections = {
+            { title = "Web artifact", text = "luastra build web creates a static application containing the compiled Luau bundle, compatible Wasm VM, browser host and renderer, HTML, CSS, JavaScript, and declared assets. Serve it over HTTP or deploy it to static hosting." },
+            { title = "Desktop and mobile today", text = "The current Tauri and Capacitor targets package that web artifact. Native adapters implement selected capability boundaries such as media or secure credentials; current application UI is not translated into platform-native widgets." },
+            { title = "Portability rule", text = "A shared semantic model reduces application forks, but it does not erase platform differences. Browser success proves the browser target only; Tauri, Capacitor, permissions, background behavior, and physical devices are admitted separately." },
+        },
+        evidence = "The private candidate has strong web and cross-browser evidence. Desktop and mobile claims remain limited to the separately verified behaviors named by their host gates; unfinished native admission is not implied by this page.",
+        docs = "application",
+    },
+    ["landing/source"] = {
+        title = "Public source alpha",
+        summary = "Luastra is inspectable, but the published release and the private development candidate are deliberately different boundaries.",
+        body = "Use the public repository and immutable release assets when evaluating what users can install today. Treat this local Orbit site as a preview of the next candidate until a separate public audit, merge, release, and exact-SHA deployment are complete.",
+        sections = {
+            { title = "Published now", text = "v0.1.0-alpha is the immutable public release. Its installer, manifest, SDK archives, checksums, notices, documentation claims, and supported commands remain version-bound." },
+            { title = "Visible in this preview", text = "This private checkout uses Source SDK contract 13 and contains unreleased Constellation Orbit APIs, the migrated luastra.dev experience, and documentation improvements. Those changes are not part of the installed public alpha yet." },
+            { title = "How publication works", text = "A future candidate must be cleaned, compared with public main, validated without changing old release artifacts, reviewed through a public pull request, and deployed from the exact merged commit." },
+        },
+        evidence = "Open-source visibility makes implementation auditable; it does not replace compatibility guarantees, security review, host-specific testing, or evidence from independent applications.",
+        docs = "policies",
+        source = "https://github.com/Luastra/luastra",
+        links = {
+            { id = "release", text = "Open the immutable v0.1.0-alpha release", href = "https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha" },
+        },
+    },
 }
 
 local exampleDetails: {[string]: any} = {
@@ -223,6 +260,15 @@ local function focusChildren(detail: any): {UI.Node}
             tone = "success",
         })
     end
+    for index, sectionDetail in detail.sections or {} do
+        local id = "landing/focus/section-" .. tostring(index)
+        table.insert(output, UI.Stack {
+            id = id,
+            gap = "sm",
+            UI.Text { id = id .. "/title", text = sectionDetail.title, variant = "heading" },
+            UI.Text { id = id .. "/body", text = sectionDetail.text },
+        })
+    end
     if detail.commands ~= nil then
         table.insert(output, UI.Stack {
             id = "landing/focus/run",
@@ -262,6 +308,15 @@ local function focusChildren(detail: any): {UI.Node}
     if detail.source ~= nil then
         table.insert(output, UI.Link { id = "landing/focus/source", text = "Open the source on GitHub", href = detail.source, external = true, label = "Open the source on GitHub" })
     end
+    for _, link in detail.links or {} do
+        table.insert(output, UI.Link {
+            id = "landing/focus/link-" .. link.id,
+            text = link.text,
+            href = link.href,
+            external = true,
+            label = link.text,
+        })
+    end
     return output
 end
 
@@ -297,7 +352,7 @@ function Landing.render(): UI.Node
         UI.Constellation {
             id = "landing/root", label = "Luastra product overview", depth = 0,
             layerState = depth == 0 and "active" or "behind",
-            UI.OrbitCenter { id = "landing/root/center", title = "Luastra", description = "Build apps like games." },
+            UI.OrbitCenter { id = "landing/root/center", title = "Luastra", description = "New here? Open Build with Luastra to start, or Documentation for a conventional guide." },
             table.unpack(renderNodes(rootNodes, searches.root)),
         },
     }

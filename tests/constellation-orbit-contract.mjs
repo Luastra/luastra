@@ -326,6 +326,8 @@ test("Constellation Orbit reference compiles, tests and packages its host-owned 
     assert.match(orbitController, /aria-current/);
     assert.match(orbitController, /aria-haspopup/);
     assert.match(orbitController, /aria-labelledby/);
+    assert.match(orbitController, /focusSurfaceChanged/);
+    assert.match(orbitController, /selectedId !== orbitState\.focusSurfaceNodeId/);
     assert.match(orbitController, /aria-live/);
     assert.match(orbitController, /event\.key === "Enter"/);
     assert.match(orbitController, /event\.key === "\/"/);
