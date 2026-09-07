@@ -6,5 +6,15 @@
   "spdxFallbackCount": 40,
   "missingTextCount": 0,
   "missingPackages": [],
+  "securityBackportCount": 1,
+  "securityBackports": [
+    {
+      "package": "glib",
+      "version": "0.18.5",
+      "advisory": "RUSTSEC-2024-0429",
+      "upstreamFix": "https://github.com/gtk-rs/gtk-rs-core/commit/05dff0ee696f9bcd8617cd48c4b812d046d440cb",
+      "patchedFileSha256": "a0f5ee8acb8faa089bcdfbc9a57372609fce7654026ccef7d9a224d05a654ccc"
+    }
+  ],
   "admissionStatus": "ADMITTED"
 }

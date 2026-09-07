@@ -33,6 +33,27 @@ const expressionTokens = (expression = "") => [...new Set(
 )];
 const normalizeText = (text) => `${text.replace(/\r\n?/g, "\n").split("\n").map((line) => line.trimEnd()).join("\n").trimEnd()}\n`;
 
+const securityBackport = (packageRoot, pkg) => {
+  try {
+    const evidence = JSON.parse(readFileSync(join(packageRoot, "LUASTRA_SECURITY_BACKPORT.json"), "utf8"));
+    if (evidence.schemaVersion !== 1 || evidence.package !== pkg.name || evidence.version !== pkg.version) {
+      throw new Error(`invalid security-backport identity for ${pkg.name}@${pkg.version}`);
+    }
+    if (typeof evidence.patchedFile !== "string" || evidence.patchedFile.split("/").some((part) => !part || part === "..")) {
+      throw new Error(`unsafe security-backport path for ${pkg.name}@${pkg.version}`);
+    }
+    const patchedBytes = readFileSync(join(packageRoot, evidence.patchedFile));
+    const patchedSha256 = createHash("sha256").update(patchedBytes).digest("hex");
+    if (patchedSha256 !== evidence.patchedFileSha256) {
+      throw new Error(`security-backport digest mismatch for ${pkg.name}@${pkg.version}`);
+    }
+    return evidence;
+  } catch (error) {
+    if (error?.code === "ENOENT") return null;
+    throw error;
+  }
+};
+
 const canonicalText = (identifier) => {
   for (const extension of ["txt", "md", "html"]) {
     try {
@@ -79,6 +100,7 @@ const packageEvidence = packages.map((pkg) => {
     source: pkg.source ?? null,
     texts: files.length > 0 ? files : fallback,
     noticeStatus: files.length > 0 ? "CRATE_TEXT" : fallback.length > 0 ? "SPDX_FALLBACK" : "MISSING_TEXT",
+    securityBackport: securityBackport(packageRoot, pkg),
   };
 });
 
@@ -91,8 +113,14 @@ const components = packageEvidence.map((pkg) => ({
   purl: `pkg:cargo/${encodeURIComponent(pkg.name)}@${pkg.version}`,
   externalReferences: pkg.repository ? [{ type: "vcs", url: pkg.repository }] : [],
   properties: [
-    { name: "luastra:cargo-source", value: pkg.source ?? "workspace" },
+    { name: "luastra:cargo-source", value: pkg.source ?? (pkg.securityBackport ? "repository-path-security-backport" : "workspace") },
     { name: "luastra:notice-status", value: pkg.noticeStatus },
+    ...(pkg.securityBackport ? [
+      { name: "luastra:security-advisory", value: pkg.securityBackport.advisory },
+      { name: "luastra:upstream-fix", value: pkg.securityBackport.upstreamFix },
+      { name: "luastra:source-archive-sha256", value: pkg.securityBackport.sourceArchiveSha256 },
+      { name: "luastra:patched-file-sha256", value: pkg.securityBackport.patchedFileSha256 },
+    ] : []),
   ],
 }));
 
@@ -104,6 +132,15 @@ const notices = [
 ];
 for (const pkg of packageEvidence) {
   notices.push(`## ${pkg.name} ${pkg.version}`, "", `License expression: ${pkg.license ?? "UNDECLARED"}`, `Notice source: ${pkg.noticeStatus}`, "");
+  if (pkg.securityBackport) {
+    notices.push(
+      `Security backport: ${pkg.securityBackport.advisory}`,
+      `Upstream fix: ${pkg.securityBackport.upstreamFix}`,
+      `Canonical source archive SHA-256: ${pkg.securityBackport.sourceArchiveSha256}`,
+      `Patched file SHA-256: ${pkg.securityBackport.patchedFileSha256}`,
+      "",
+    );
+  }
   for (const text of pkg.texts) {
     notices.push(`### ${text.name}`, "", "```text", text.text.trimEnd(), "```", "");
   }
@@ -119,6 +156,14 @@ const report = {
   spdxFallbackCount: packageEvidence.filter((pkg) => pkg.noticeStatus === "SPDX_FALLBACK").length,
   missingTextCount: missing.length,
   missingPackages: missing.map(({ name, version, license }) => ({ name, version, license })),
+  securityBackportCount: packageEvidence.filter((pkg) => pkg.securityBackport).length,
+  securityBackports: packageEvidence.filter((pkg) => pkg.securityBackport).map((pkg) => ({
+    package: pkg.name,
+    version: pkg.version,
+    advisory: pkg.securityBackport.advisory,
+    upstreamFix: pkg.securityBackport.upstreamFix,
+    patchedFileSha256: pkg.securityBackport.patchedFileSha256,
+  })),
   admissionStatus: missing.length === 0 ? "ADMITTED" : "NOT_YET_ADMITTED",
 };
 

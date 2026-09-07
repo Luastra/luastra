@@ -13,3 +13,8 @@ tauri-build = { version = "=2.6.3", features = [] }
 
 [dependencies]
 tauri = { version = "=2.11.5", features = [] }
+
+# Tauri 2 currently requires gtk-rs 0.18 on Linux. This local copy carries the
+# exact upstream fix for RUSTSEC-2024-0429 without changing the GTK ABI.
+[patch.crates-io]
+glib = { path = "../../third_party/rust/glib-0.18.5" }
