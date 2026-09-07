@@ -44,9 +44,28 @@ test("Tauri locked Cargo graph has complete admitted notices and SBOM", async ()
   assert.equal(report.missingTextCount, 0);
   assert.equal(report.packageCount, 428);
   assert.equal(report.crateTextCount + report.spdxFallbackCount, report.packageCount);
+  assert.equal(report.securityBackportCount, 1);
+  assert.deepEqual(report.securityBackports, [{
+    package: "glib",
+    version: "0.18.5",
+    advisory: "RUSTSEC-2024-0429",
+    upstreamFix: "https://github.com/gtk-rs/gtk-rs-core/commit/05dff0ee696f9bcd8617cd48c4b812d046d440cb",
+    patchedFileSha256: "a0f5ee8acb8faa089bcdfbc9a57372609fce7654026ccef7d9a224d05a654ccc",
+  }]);
   assert.equal(sbom.bomFormat, "CycloneDX");
   assert.equal(sbom.specVersion, "1.6");
   assert.equal(sbom.components.length, report.packageCount);
+  const glib = sbom.components.find((component) => component.name === "glib" && component.version === "0.18.5");
+  assert.ok(glib);
+  assert.deepEqual(glib.properties.filter(({ name }) => name.startsWith("luastra:")), [
+    { name: "luastra:cargo-source", value: "repository-path-security-backport" },
+    { name: "luastra:notice-status", value: "CRATE_TEXT" },
+    { name: "luastra:security-advisory", value: "RUSTSEC-2024-0429" },
+    { name: "luastra:upstream-fix", value: "https://github.com/gtk-rs/gtk-rs-core/commit/05dff0ee696f9bcd8617cd48c4b812d046d440cb" },
+    { name: "luastra:source-archive-sha256", value: "233daaf6e83ae6a12a52055f568f9d7cf4671dabb78ff9560ab6da230ce00ee5" },
+    { name: "luastra:patched-file-sha256", value: "a0f5ee8acb8faa089bcdfbc9a57372609fce7654026ccef7d9a224d05a654ccc" },
+  ]);
   assert.match(notices, /# Luastra Tauri third-party notices/);
+  assert.match(notices, /Security backport: RUSTSEC-2024-0429/);
   assert.doesNotMatch(notices, /No admitted license or notice text was found/);
 });

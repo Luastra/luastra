@@ -6,6 +6,8 @@ on:
     paths:
       - ".github/workflows/tauri-desktop-multi-host.yml"
       - "hosts/tauri/**"
+      - "third_party/rust/glib-0.18.5/**"
+      - "tests/glib-security-backport.mjs"
       - "tests/tauri-host-closure.mjs"
 
 permissions:
@@ -62,7 +64,15 @@ jobs:
 
       - name: Verify Tauri host and compliance contract
         shell: pwsh
-        run: node ../../tests/tauri-host-closure.mjs
+        run: |
+          node ../../tests/glib-security-backport.mjs
+          node ../../tests/tauri-host-closure.mjs
+
+      - name: Exercise the GLib security backport under optimization
+        if: matrix.target == 'linux-x64'
+        run: |
+          cargo test --locked --release --manifest-path src-tauri/Cargo.toml --test glib_security_backport
+          cargo check --locked --manifest-path ../../website/src-tauri/Cargo.toml
 
       - name: Build exact Luastra media fixture
         shell: pwsh
@@ -74,7 +84,10 @@ jobs:
 
       - name: Generate exact Cargo compliance closure
         shell: pwsh
-        run: npm run compliance
+        run: |
+          npm run compliance
+          node ../../tests/tauri-host-closure.mjs
+          git diff --exit-code -- compliance/THIRD_PARTY_NOTICES.generated.md compliance/cargo-compliance-report.v1.json compliance/cargo-sbom.cdx.json
 
       - name: Run Linux host in a real WebKitGTK display
         if: matrix.target == 'linux-x64'

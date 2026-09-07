@@ -20576,6 +20576,11 @@ SOFTWARE.
 License expression: MIT
 Notice source: CRATE_TEXT
 
+Security backport: RUSTSEC-2024-0429
+Upstream fix: https://github.com/gtk-rs/gtk-rs-core/commit/05dff0ee696f9bcd8617cd48c4b812d046d440cb
+Canonical source archive SHA-256: 233daaf6e83ae6a12a52055f568f9d7cf4671dabb78ff9560ab6da230ce00ee5
+Patched file SHA-256: a0f5ee8acb8faa089bcdfbc9a57372609fce7654026ccef7d9a224d05a654ccc
+
 ### COPYRIGHT
 
 ```text
