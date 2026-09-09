@@ -29,6 +29,7 @@ function analyze(entrySource) {
     `luastra/navigation=${navigationSource}`,
     `luastra/state=${stateSource}`,
     `luastra/ui=${uiSource}`,
+    `luastra/assets=${resolve(prototype, "sdk/luastra/assets.luau")}`,
   ], { encoding: "utf8" });
 }
 

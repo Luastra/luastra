@@ -60,6 +60,7 @@ jobs:
       - name: Build and verify the exact documentation site
         run: |
           npm ci
+          npm ci --prefix website
           npm run alpha:audit
           npm run docs:check
           npm --prefix website run reference:build

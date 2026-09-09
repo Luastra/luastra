@@ -21,7 +21,7 @@ test("independent project uses central typed nested routing without generated-ho
       outputDirectory: workspace,
       target: "bundle",
     });
-    assert.equal(built.modules, 3);
+    assert.equal(built.modules, 4);
     const result = await runWasmBundle({
       bundlePath: built.bundlePath,
       runtimeModulePath: resolve(prototype, "platform/artifacts/vm-wasm/luastra-vm.js"),

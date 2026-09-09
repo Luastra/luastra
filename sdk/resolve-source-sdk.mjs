@@ -20,7 +20,7 @@ export async function resolveSourceSdk(manifestValue = defaultManifest) {
   const canonicalSdkRoot = await realpath(sdkRoot);
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   exactObject(manifest, ["schemaVersion", "identity", "compatibility", "modules"], "source SDK manifest");
-  if (manifest.schemaVersion !== 1 || manifest.identity !== "luastra-source-sdk/phase5-contract-14") fail("unsupported source SDK identity");
+  if (manifest.schemaVersion !== 1 || manifest.identity !== "luastra-source-sdk/phase5-contract-15") fail("unsupported source SDK identity");
   exactObject(manifest.compatibility, ["analyzer", "compiler", "vm", "protocol"], "source SDK compatibility");
   if (!["analyzer", "compiler", "vm"].every((name) => typeof manifest.compatibility[name] === "string" && manifest.compatibility[name].length > 0) || manifest.compatibility.protocol !== 1) {
     fail("invalid source SDK compatibility");

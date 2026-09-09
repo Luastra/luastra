@@ -1,3 +1,4 @@
+import { validateTypographyClasses } from "./typography.mjs";
 import { validateRendererPatch } from "../protocol/generated/protocol.mjs";
 
 const componentTags = Object.freeze({
@@ -122,7 +123,10 @@ export function component(type, properties = {}, children = [], { resolveAsset =
     }
   }
   if (properties.label !== undefined && type !== "Image") attributes["aria-label"] = properties.label;
-  if (properties.className !== undefined) attributes.class = properties.className;
+  if (properties.className !== undefined) {
+    validateTypographyClasses(properties.className, resolveAsset);
+    attributes.class = properties.className;
+  }
   if (properties.orbitRelatedTo !== undefined) {
     const targets = typeof properties.orbitRelatedTo === "string" ? properties.orbitRelatedTo.split(",") : [];
     if (type !== "Button" || targets.length < 1 || targets.length > 8 || new Set(targets).size !== targets.length ||

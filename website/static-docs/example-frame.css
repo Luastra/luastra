@@ -1,0 +1,3 @@
+html, body, #host-root, [id="example/root"] { min-height: 0; margin: 0; }
+body { background: transparent; }
+#host-root { padding: 0; }

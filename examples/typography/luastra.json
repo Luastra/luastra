@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.typography", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["ui.render"],
+  "assets": [{ "id": "font/atkinson-regular", "source": "assets/fonts/atkinson-regular.woff2", "mediaType": "font/woff2" }],
+  "modules": [
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["luastra/ui", "luastra/assets", "app/font-license"] },
+    { "id": "app/font-license", "source": "src/font-license.luau", "dependencies": [] },
+    { "id": "app/test", "source": "src/test.luau", "dependencies": ["app/main", "luastra/ui", "luastra/assets"] }
+  ],
+  "tests": ["app/test"]
+}

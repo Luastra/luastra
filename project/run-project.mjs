@@ -1,5 +1,5 @@
 import { createReadStream, watch as watchFiles } from "node:fs";
-import { mkdir, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import { dirname, extname, isAbsolute, normalize, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -20,6 +20,7 @@ const phase5Host = resolve(projectModuleRoot, "../host");
 const brandAssets = resolve(platformRoot, "brand");
 const runMarker = ".luastra-generated-run";
 const staticFiles = new Map([
+  ["/platform/renderer/typography.mjs", resolve(platformRoot, "renderer/typography.mjs")],
   ["/", resolve(phase5Host, "index.html")],
   ["/index.html", resolve(phase5Host, "index.html")],
   ["/bootstrap-errors.js", resolve(platformRoot, "host/bootstrap-errors.js")],
@@ -127,6 +128,7 @@ async function prepareRunRoot(root) {
 }
 
 function safeMountedFile(urlPath, bundleRoot) {
+  if (urlPath === "/project-typography.css") return resolve(bundleRoot, "project-typography.css");
   if (urlPath.startsWith("/assets/")) {
     const local = decodeURIComponent(urlPath.slice(1));
     const file = resolve(bundleRoot, normalize(local));
@@ -271,6 +273,12 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
         response.write(": connected\n\n");
         eventClients.add(response);
         request.once("close", () => eventClients.delete(response));
+        return;
+      }
+      if (pathname === "/" || pathname === "/index.html") {
+        const html = (await readFile(staticFiles.get("/"), "utf8")).replace("</head>", '<link rel="stylesheet" href="/project-typography.css" /></head>');
+        response.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" });
+        response.end(request.method === "HEAD" ? undefined : html);
         return;
       }
       const file = safeMountedFile(pathname, activeBundle);

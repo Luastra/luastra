@@ -5,7 +5,7 @@ import { dirname, extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const site = resolve(dirname(fileURLToPath(import.meta.url)), "..", "luastra-site");
-const port = 4180;
+const port = Number(process.env.PORT ?? 4180);
 const types = Object.freeze({
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -19,7 +19,7 @@ const types = Object.freeze({
 const server = createServer(async (request, response) => {
   try {
     const url = new URL(request.url ?? "/", "http://127.0.0.1");
-    const requested = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
+    const requested = decodeURIComponent(url.pathname.endsWith("/") ? `${url.pathname}index.html` : url.pathname);
     const path = resolve(site, `.${requested}`);
     if (path !== site && !path.startsWith(`${site}${sep}`)) throw new Error("invalid path");
     const info = await stat(path);

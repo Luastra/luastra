@@ -61,7 +61,7 @@ test("forms fixture performs validated create, read, update and delete through W
   try {
     const built = await buildProject({ manifestPath: project, outputDirectory: workspace, target: "bundle" });
     const bundle = JSON.parse(await readFile(resolve(workspace, "luastra.bundle.json"), "utf8"));
-    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/data", "app/model", "luastra/server", "app/server-functions", "luastra/ui", "app/main"]);
+    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/data", "app/model", "luastra/server", "app/server-functions", "luastra/assets", "luastra/ui", "app/main"]);
     const capabilityHandler = await backendFixture();
 
     const invalid = await execute(built.bundlePath, [{ action: "save-record", target: "crud/save", value: "" }]);

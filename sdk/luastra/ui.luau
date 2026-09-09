@@ -1,5 +1,7 @@
 --!strict
 
+local Assets = require("luastra/assets")
+
 export type Properties = { [string]: any }
 export type Theme = {
     backgroundColor: string?,
@@ -16,6 +18,14 @@ export type Node = {
     id: string,
     properties: Properties,
     children: { Node },
+}
+
+export type TextStyle = {
+    font: Assets.Font?,
+    size: number?,
+    weight: number?,
+    lineHeight: number?,
+    fallback: ("sans" | "serif" | "mono")?,
 }
 
 -- Author-facing fields are checked before execution. Dynamic tables and
@@ -109,6 +119,7 @@ export type Input = {
     surface: string?,
     surfaceColor: string?,
     text: string?,
+    textStyle: TextStyle?,
     textAlign: string?,
     textColor: string?,
     theme: Theme?,
@@ -306,6 +317,37 @@ local function customClasses(classes: { string }, value: any)
     appendClass(classes, value)
 end
 
+local function typography(classes: { string }, value: any, componentType: string)
+    assert(componentType == "Text" or componentType == "Button" or componentType == "Link" or componentType == "TextInput" or componentType == "Code" or componentType == "CodeBlock", "textStyle requires a text component")
+    assert(type(value) == "table", "textStyle must be a table")
+    for key, item in pairs(value) do
+        local token = nil
+        if key == "font" then
+            assert(type(item) == "table", "textStyle font must be an Assets.font reference")
+            local fontId: any = (item :: any).id
+            local fontKind: any = (item :: any).kind
+            local fontUri: any = (item :: any).uri
+            assert(fontKind == "font" and validIdentifier(fontId) and #fontId <= 128 and fontUri == "asset:" .. fontId, "textStyle font must be an Assets.font reference")
+            local encoded = {}
+            for index = 1, #fontId do table.insert(encoded, string.format("%02x", string.byte(fontId, index))) end
+            token = "font-" .. table.concat(encoded)
+        elseif key == "fallback" then
+            assert(item == "sans" or item == "serif" or item == "mono", "invalid textStyle fallback")
+            token = "fallback-" .. item
+        elseif key == "size" then
+            assert(type(item) == "number" and item % 1 == 0 and item >= 8 and item <= 128, "textStyle size must be an integer from 8 to 128")
+            token = "size-" .. tostring(item)
+        elseif key == "weight" then
+            assert(type(item) == "number" and item % 100 == 0 and item >= 100 and item <= 900, "textStyle weight must be 100 through 900 in steps of 100")
+            token = "weight-" .. tostring(item)
+        elseif key == "lineHeight" then
+            assert(type(item) == "number" and item >= 1 and item <= 3 and math.abs(item * 100 - math.round(item * 100)) < 0.000001, "textStyle lineHeight must be 1 through 3 in steps of 0.01")
+            token = "leading-" .. tostring(math.round(item * 100))
+        else error("unknown textStyle field: " .. tostring(key)) end
+        table.insert(classes, "luastra-type-" .. (token :: string))
+    end
+end
+
 local function make(componentType: string, input: any, semanticClass: string?): Node
     assert(type(input) == "table", componentType .. " requires a table")
     assert(validIdentifier(input.id), componentType .. " id must use lowercase path segments (letters, digits, _ or -)")
@@ -320,6 +362,8 @@ local function make(componentType: string, input: any, semanticClass: string?): 
             assert(key > 0 and key % 1 == 0, componentType .. " children must use positive integer keys")
             numericKeys += 1
             children[key :: number] = value :: Node
+        elseif key == "textStyle" then
+            typography(classes, value, componentType)
         elseif key == "className" then
             customClasses(classes, value)
         elseif key == "responsive" then

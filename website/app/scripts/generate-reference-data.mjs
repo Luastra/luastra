@@ -1,3 +1,4 @@
+import { propertyGroupTableIds } from "../../site/property-groups.mjs";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -387,22 +388,7 @@ function typeFields(declaration, publicName) {
   });
 }
 
-const propertyGroupTableIds = Object.freeze({
-  action: "ui-properties-events",
-  columns: "ui-properties-layout",
-  input: "ui-properties-input",
-  label: "ui-properties-semantics",
-  layout: "ui-properties-layout",
-  modal: "ui-properties-semantics",
-  motion: "ui-properties-events",
-  scroll: "ui-properties-layout",
-  semantic: "ui-properties-semantics",
-  surface: "ui-properties-layout",
-  text: "ui-properties-text-style",
-  "text-style": "ui-properties-text-style",
-  theme: "ui-properties-theme",
-  visual: "ui-properties-visual",
-});
+
 
 const uiExamples = Object.freeze({
   "UI.Theme": `local appTheme: UI.Theme = {
@@ -865,6 +851,10 @@ const uiDirectParameters = Object.freeze({
   "UI.FocusHeader": [direct("id", "lowercase path, required", "Unique header ID."), direct("children", "one heading Text + one available Button", "Sticky visible identity and return action.")],
   "UI.OrbitReturn": [direct("id", "lowercase path, required", "Unique return-control ID."), direct("text", "string, required", "Visible ancestor label."), direct("onTap", "action string, required", "Canonical return action.")],
 });
+for (const name of ["UI.Text", "UI.Button", "UI.Link", "UI.TextInput", "UI.Code", "UI.CodeBlock"]) {
+  uiDirectParameters[name].push(direct("textStyle", "UI.TextStyle?", "Local packaged font and bounded size, weight, lineHeight and fallback. Requires the 0.3 source SDK; omitted fields retain defaults."));
+}
+
 
 const uiAccessibility = Object.freeze({
   "UI.Screen": "Creates the main landmark and owns document language and metadata. Keep one meaningful h1 on each page.",
@@ -914,6 +904,12 @@ const uiMistakes = Object.freeze({
 
 function uiGuidance(name) {
   if (!name?.startsWith("UI.")) return {};
+  if (name === "UI.TextStyle") return {
+    mentalModel: "A checked style record consumed by a text component on each render.",
+    childRules: "This is a style value, not a UI node; it has no children or id.",
+    accessibility: "Prefer readable sizes and line heights, and keep fallback text readable while a font loads.",
+    commonMistakes: ["Using an undeclared font asset.", "Assuming a Latin-only font covers every script.", "Expecting a font-ready event or container-level inheritance."],
+  };
   const directParameters = uiDirectParameters[name] ?? [];
   const children = directParameters.find((parameter) => parameter.name === "children");
   return {
@@ -953,13 +949,13 @@ function operationalGuidance(name, moduleName, kind) {
     failureGuidance: typePage ? "If the annotation fails, compare the value with the exact declaration and the producing or consuming function." : "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
     availability: name.startsWith("UI.Orbit") || name === "UI.Constellation" || name === "UI.FocusSurface" || name === "UI.FocusHeader"
       ? `Experimental Constellation Orbit API in ${release.publishedVersion}. Verify it against the selected SDK before depending on its shape.`
-      : `Public-source alpha API in ${release.publishedVersion}. Verify host-specific behavior against the selected release.`,
+      : `Source API in ${release.version}; the public installer targets ${release.publishedVersion}. Verify host-specific behavior against the selected SDK.`,
   };
   if (moduleName === "luastra/assets") return {
     beforeYouUse: `${dependency} Declare the referenced file in luastra.json with its stable asset id and admitted media type. Image assets are PNG, JPEG, WebP, or AVIF; audio assets and WOFF2 fonts use their own declared types.`,
     lifecycle: typePage ? "Asset types describe checked references and are erased after Luau analysis." : "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
     expectedOutcome: typePage ? "A type-safe image, audio, font, or union reference." : "A checked reference or canonical asset URI that a compatible API can consume.",
-    failureGuidance: "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
+    failureGuidance: "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font can be applied through UI.TextStyle in the 0.3 source SDK. A missing or wrong-kind font fails when the rendered tree resolves its asset; a failed browser font decode/load retains the selected fallback.",
     availability: `Public-source alpha API in ${release.publishedVersion}; supported consumers vary by asset kind.`,
   };
   if (moduleName === "luastra/data") return {
