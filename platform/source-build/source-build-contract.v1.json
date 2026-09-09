@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "identity": "luastra-runtime-source-build/phase5-alpha-8",
+  "identity": "luastra-runtime-source-build/phase5-alpha-9",
   "sourceDateEpoch": 1787529600,
   "luau": {
     "tag": "0.731",
@@ -18,8 +18,8 @@
   "sourceFiles": [
     {
       "path": "runtime/CMakeLists.txt",
-      "bytes": 4287,
-      "sha256": "4ed9e13ac05c5dc873fe36816649a2737468db5830e88dfb250834cd54617a21"
+      "bytes": 4324,
+      "sha256": "84c2c98a75bd9dc96ecb26f54e5b6382ce89634bcd20d4d75076182392896698"
     },
     {
       "path": "runtime/analyze.cpp",
@@ -33,8 +33,8 @@
     },
     {
       "path": "runtime/vm_wasm.cpp",
-      "bytes": 43428,
-      "sha256": "318c7c98b90ad37837e6d3aa4f046b0af6be369cd2f4715e4659b4512a586635"
+      "bytes": 47286,
+      "sha256": "617e1c770b643a1022672e616dc1c7841a5eb56939ba2ebee6929361d3603530"
     }
   ],
   "protocolFiles": [

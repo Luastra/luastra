@@ -98,7 +98,7 @@ if(EMSCRIPTEN)
         -sASSERTIONS=0
         -sEMIT_EMSCRIPTEN_LICENSE=1
         "-sEXPORTED_RUNTIME_METHODS=['cwrap','UTF8ToString','writeArrayToMemory']"
-        "-sEXPORTED_FUNCTIONS=['_malloc','_free','_luastra_vm_wasm_version','_luastra_vm_wasm_memory_bytes','_luastra_vm_session_create','_luastra_vm_session_add_module','_luastra_vm_session_allow_capability','_luastra_vm_session_start','_luastra_vm_session_start_ui','_luastra_vm_session_dispatch','_luastra_vm_session_take_request','_luastra_vm_session_resolve_rpc','_luastra_vm_session_destroy']"
+        "-sEXPORTED_FUNCTIONS=['_malloc','_free','_luastra_vm_wasm_version','_luastra_vm_wasm_memory_bytes','_luastra_vm_session_create','_luastra_vm_session_create_startup','_luastra_vm_session_add_module','_luastra_vm_session_allow_capability','_luastra_vm_session_start','_luastra_vm_session_start_ui','_luastra_vm_session_dispatch','_luastra_vm_session_take_request','_luastra_vm_session_resolve_rpc','_luastra_vm_session_destroy']"
         -Wl,--gc-sections
     )
 endif()

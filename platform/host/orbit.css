@@ -424,9 +424,10 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: var(--luastra-orbit-focus-ink, #16342e);
   font-weight: 700;
 }
+#host-root .luastra-focus-surface .luastra-link.luastra-button { justify-content: center; text-align: center; }
+#host-root .luastra-focus-surface .luastra-link:not(.luastra-button) { color: var(--luastra-orbit-focus-ink, #16342e); }
 .luastra-focus-surface[data-luastra-orbit-transition] { will-change: transform, opacity, border-radius; }
 .luastra-focus-surface[data-luastra-orbit-transition="closing"] { pointer-events: none; }
 .luastra-focus-surface[data-luastra-orbit-transition="closing"] > :not(.luastra-focus-transition-copy) { visibility: hidden; }

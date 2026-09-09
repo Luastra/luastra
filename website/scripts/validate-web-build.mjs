@@ -46,6 +46,7 @@ for (const path of ["/docs/", ...routes.map(route => route.path)]) {
   requireText(page, 'src="/docs/reader.js"', `progressive controls for ${path}`);
   const { document } = parseHTML(page);
   const scripts = [...document.querySelectorAll("script")];
+  if (document.querySelector('[data-luastra-startup-host],link[href$="startup.css"]')) fail(`static documentation retains a startup overlay: ${path}`);
   if (document.querySelector("iframe")) fail(`example must load only after a reader action: ${path}`);
   for (const control of document.querySelectorAll("[data-docs-example]")) {
     const href = control.getAttribute("data-docs-example");

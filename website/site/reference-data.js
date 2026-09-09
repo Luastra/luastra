@@ -13,7 +13,7 @@ function numberedIdentity(identity, pattern, label) {
 export const release = Object.freeze({
   version: packageManifest.version,
   publishedVersion: releaseAdmission.version,
-  date: "2026-09-07",
+  date: "2026-09-09",
   sourceSdk: numberedIdentity(sourceManifest.identity, /\/phase5-contract-(\d+)$/u, "Source SDK contract"),
   runtimeSdk: numberedIdentity(runtimeManifest.identity, /\/phase5-alpha-(\d+)$/u, "Runtime SDK alpha"),
   luauVersion: sourceBuildContract.luau.tag,
@@ -48,7 +48,7 @@ export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
   { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
   { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"], ["recipe-media", "Audio playback"], ["recipe-orbit", "Constellation Orbit"]] },
-  { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["motion", "luastra/motion"]] },
+  { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["startup-screens", "Startup screens"], ["motion", "luastra/motion"]] },
   { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
   { label: "Tools", items: [["debug", "luastra/debug"], ["cli", "CLI"], ["manifest", "luastra.json"], ["support", "Support and boundaries"], ["policies", "Project policies"]] },
@@ -3532,6 +3532,32 @@ luastra test`,
     ],
     callout: "Do not paste isolated snippets from several recipes into the counter at once. Make one bounded change, update its test, and repeat check → test → run—the Luastra development loop behind Build apps like games.",
   },
+  {
+    id: "startup-screens", title: "Startup screens", module: "app/startup",
+    summary: "Author loading and failure screens in Luau and export HTML/CSS during the web build.",
+    guide: ["Declare a separate app/startup module with its dependencies, then add startup: { entry: \"app/startup\" } to luastra.json. The module returns render() and optionally renderFailure(), each producing one UI.Screen.",
+      "Both functions run at build time in separate restricted VM sessions. No startup bytecode or author JavaScript is shipped. They cannot inspect the eventual network error, browser storage or runtime application state.",
+      "Screen, Column, Row, Text, Image, Shape, Divider and HTTPS Link are supported. Assets must be declared. Motion and ordinary event handlers are rejected. Only renderFailure may use UI.Button with onTap = \"startup.retry\"; the platform reloads the document for this action.",
+      "The host removes startup content after initialization and first paint. A failure reveals the prebuilt error screen and focuses its alert. Without renderFailure, the platform provides a default. With JavaScript disabled, an explanatory notice and HTTPS links remain available.",
+      "Startup uses one project-authored palette; automatic theme selection is intentionally outside this release. Native pre-WebView splash screens are not implemented. Startup screens were introduced in 0.4.0-alpha; earlier SDKs do not include this feature."],
+    cards: [entry("Loading and failure", "render() / renderFailure() -> UI.Node", "Use the same Luau file to describe both states.", {
+      kind: "guide", code: `local UI = require("luastra/ui")
+return {
+    render = function()
+        return UI.Screen { id = "loading",
+            UI.Text { id = "message", text = "Opening your application…" },
+        }
+    end,
+    renderFailure = function()
+        return UI.Screen { id = "failure",
+            UI.Text { id = "message", text = "Could not open the application." },
+            UI.Button { id = "retry", text = "Try again", onTap = "startup.retry" },
+            UI.Link { id = "help", text = "Documentation", href = "https://luastra.dev/docs/", external = true },
+        }
+    end,
+}`,
+    })],
+  },
   { id: "application", title: "Application contract", module: "app/main", summary: "render is always required; handle is required when events can arrive; resolve is required when non-timer capability requests can complete.", guide: ["The entry module creates and returns an Application table. Initial render describes the screen without side effects; later handle or resolve calls update module state, then Luastra renders again.", "Implement handle before declaring controls, timers, lifecycle behavior, history, or media-state events. Implement resolve before starting Host, Server, or Media requests. Timer acknowledgements do not enter resolve; timer expiry enters handle."], cards: [entry("Application.render", "Application.render() -> UI.Node", "Returns the complete current interface as exactly one UI.Screen root.", { kind: "function", returns: "UI.Node — exactly one UI.Screen root.", useWhen: "Implement render in every application entry module; it is the required source of the complete current host-neutral UI tree.", code: `function Application.render(): UI.Node\n    return UI.Screen {\n        id = "app",\n    }\nend` }), entry("Application.handle", "Application.handle(action: string, target: string, value: string)", "Receives admitted UI and host events before the next render.", { kind: "function", parameters: [row("action", "string", "An onTap/onInput/onDismiss action or a host event such as lifecycle, timer, history, open_url, system_back, or media_state."), row("target", "string", "The stable component ID or host target such as app or browser."), row("value", "string", "The committed input value or bounded event payload; it may be empty.")], returns: "Nothing. State changes become visible in the render that follows the handler.", useWhen: "Implement handle when the application reacts to controls, input, timers, navigation, lifecycle, media state, or other admitted host events.", code: `function Application.handle(\n    action: string,\n    target: string,\n    value: string\n)\n    -- Validate the event and update module state.\nend` }), entry("Application.resolve", "Application.resolve(id: number, success: boolean, payload: string, code: string, message: string)", "Receives the bounded completion of an asynchronous Host, Server, or Media request.", { kind: "function", parameters: [row("id", "number", "The RequestId returned when the operation started."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The successful bounded payload, or an empty string after failure."), row("code", "string", "The stable failure code, or an empty string after success."), row("message", "string", "The bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Clear the matching pending operation and update state for the following render.", useWhen: "Implement resolve when the application starts asynchronous Host, Server, or Media operations and must correlate their results by RequestId.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    message: string\n)\n    -- Match id, clear pending work, then update state.\nend` })], callout: "Keep Application.render deterministic: describe UI from current state, and start timers, storage, media, or server work from initialization or event logic—not as a render side effect." },
   {
     id: "events-errors",
@@ -3733,7 +3759,133 @@ end`,
     ] }],
     callout: "A PASS from check proves project validity for the selected SDK; it does not prove tests, browser behavior, native packaging, signing, deployment, or production service readiness.",
   },
-  { id: "manifest", title: "Project manifest", module: "luastra.json · schema v2", summary: "Declares entry, dependencies, capabilities, assets, tests, web metadata, and backend.", cards: [entry("Minimal manifest", "schemaVersion: 2", "check enforces this explicit contract.", { language: "JSON", code: `{\n  "schemaVersion": 2,\n  "project": {\n    "id": "dev.luastra.example",\n    "entry": "app/main"\n  },\n  "sdk": { "contract": 1 },\n  "capabilities": ["ui.render"],\n  "modules": [\n    {\n      "id": "app/main",\n      "source": "src/main.luau",\n      "dependencies": ["luastra/ui"]\n    }\n  ]\n}` }), entry("Web metadata", "web{}", "Optional bounded metadata for an indexable production web shell.", { language: "JSON", code: `"web": {\n  "title": "My Luastra app",\n  "description": "A concise description for search and social previews.",\n  "canonicalUrl": "https://example.com/",\n  "index": true\n}`, points: ["The web build emits title, description, canonical, robots, Open Graph, and Twitter metadata.", "index=true emits robots.txt and a one-location sitemap.xml; hash routes are not separate indexable documents.", "The build escapes metadata and rejects credentials, query strings, fragments, and non-HTTPS canonical URLs."] }), entry("Assets", "assets[]", "Admitted project files.", { language: "JSON", code: `"assets": [\n  {\n    "id": "image/card-back",\n    "source": "assets/card-back.png",\n    "mediaType": "image/png"\n  }\n]` }), entry("Capabilities", "capabilities[]", "Explicit host privileges.", { language: "JSON", code: `"capabilities": [\n  "ui.render",\n  "storage.get",\n  "storage.set"\n]` }), entry("Backend", "backend{}", "Trusted operations and generated clients.", { language: "JSON", code: `"backend": {\n  "declaration": "backend/functions.json",\n  "handler": "backend/handlers.mjs",\n  "generatedClient": "src/generated/server-functions.luau",\n  "generatedModule": "app/server-functions"\n}` })] },
+  {
+  "id": "manifest",
+  "title": "Project manifest",
+  "module": "luastra.json · schema v2",
+  "summary": "Declares entry, dependencies, capabilities, assets, tests, web metadata, and backend.",
+  "cards": [
+    {
+      "name": "Minimal manifest",
+      "signature": "schemaVersion: 2",
+      "description": "check enforces this explicit contract.",
+      "useWhen": "Read this page when you need to apply Minimal manifest, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+      "language": "JSON",
+      "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.luastra.example\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": { \"contract\": 1 },\n  \"capabilities\": [\"ui.render\"],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\"luastra/ui\"]\n    }\n  ]\n}",
+      "points": [
+        "project.id is a lowercase dotted identity, for example dev.example.notes. Hosts use it to namespace project data; keep it stable. project.entry is a declared module ID, not a file path.",
+        "modules contains 1–256 unique entries. Each needs id, source and dependencies (an empty array is allowed). source is a relative .luau path within the project; parent traversal and duplicate sources are rejected.",
+        "The luastra/ module namespace belongs to the SDK. List every direct require in the importing module’s dependencies, using its logical ID. Do not declare SDK files as project modules. Missing dependencies, self-dependencies and cycles are invalid.",
+        "Production builds follow dependencies from the selected entry. Merely declaring a module does not add it to the application bundle."
+      ]
+    },
+    {
+      "name": "Web metadata",
+      "signature": "web{}",
+      "description": "Optional bounded metadata for an indexable production web shell.",
+      "useWhen": "Read this page when you need to apply Web metadata, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+      "language": "JSON",
+      "code": "\"web\": {\n  \"title\": \"My Luastra app\",\n  \"description\": \"A concise description for search and social previews.\",\n  \"canonicalUrl\": \"https://example.com/\",\n  \"index\": true\n}",
+      "points": [
+        "The web build emits title, description, canonical, robots, Open Graph, and Twitter metadata.",
+        "index=true emits robots.txt and a one-location sitemap.xml; hash routes are not separate indexable documents.",
+        "The build escapes metadata and rejects credentials, query strings, fragments, and non-HTTPS canonical URLs.",
+        "All four fields are required when web is present. title accepts 1–160 nonblank characters; description 1–320; index is a JSON boolean.",
+        "Omitting web retains default shell metadata. index=false emits a disallowing robots.txt. Metadata does not generate static HTML for application routes or provide access control."
+      ]
+    },
+    {
+      "name": "Assets",
+      "signature": "assets[]",
+      "description": "Admitted project files.",
+      "useWhen": "Read this page when you need to apply Assets, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+      "language": "JSON",
+      "code": "\"assets\": [\n  {\n    \"id\": \"image/card-back\",\n    \"source\": \"assets/card-back.png\",\n    \"mediaType\": \"image/png\"\n  }\n]",
+      "points": [
+        "Optional, default empty; maximum 256 entries. Each requires unique id and source under assets/, plus mediaType. The file must exist inside the project.",
+        "Supported: image/avif, image/jpeg, image/png, image/webp, audio/mpeg, audio/mp4, audio/ogg, audio/wav and font/woff2. File contents and byte budgets are also validated.",
+        "Reference IDs through Assets.image, Assets.audio or Assets.font. Startup images/fonts use this same registry. These assets ship to clients."
+      ]
+    },
+    {
+      "name": "Capabilities",
+      "signature": "capabilities[]",
+      "description": "Explicit host privileges.",
+      "useWhen": "Read this page when you need to apply Capabilities, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+      "language": "JSON",
+      "code": "\"capabilities\": [\n  \"ui.render\",\n  \"storage.get\",\n  \"storage.set\"\n]",
+      "points": [
+        "Required array of unique host capability names. ui.render permits rendering; storage.get and storage.set permit storage operations.",
+        "Importing luastra/host does not grant privileges; listing a capability does not import a module or guarantee target-host support.",
+        "Startup rendering uses a separate restricted ui.render-only profile and does not inherit application capabilities."
+      ]
+    },
+    {
+      "name": "Backend",
+      "signature": "backend{}",
+      "description": "Trusted operations and generated clients.",
+      "useWhen": "Read this page when you need to apply Backend, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
+      "language": "JSON",
+      "code": "\"backend\": {\n  \"declaration\": \"backend/functions.json\",\n  \"handler\": \"backend/handlers.mjs\",\n  \"generatedClient\": \"src/generated/server-functions.luau\",\n  \"generatedModule\": \"app/server-functions\"\n}",
+      "points": [
+        "Optional object. declaration (.json), handler (.mjs), generatedClient (.luau) and generatedModule are required; file paths must stay inside the project.",
+        "generatedModule must appear in modules with source matching generatedClient and dependencies including luastra/server. Importers must declare that dependency. Use luastra backend generate to generate or refresh the client.",
+        "authentication: development (default) or session. database: omitted for memory, or { \"provider\": \"sqlite\", \"path\": \"data/app.sqlite\" } for a safe relative persistent .sqlite path.",
+        "identity: optional { \"provider\": \"local-password\" } (requires SQLite), or { \"provider\": \"supabase\" } (requires session authentication). Keep provider credentials out of the public manifest.",
+        "content: optional array of at most 64 entries, each with id, source under content/ and an admitted image/audio mediaType. Server content is distinct from client assets; fonts are not admitted here.",
+        "A backend declaration does not deploy a production service. See the server recipes and host configuration."
+      ]
+    },
+    {
+      "name": "Tests",
+      "signature": "tests[]",
+      "description": "Select declared test modules.",
+      "useWhen": "Use this when adding a test file and registering it for luastra test without including it in the production entry closure.",
+      "kind": "guide",
+      "language": "JSON",
+      "code": "{\n  \"modules\": [\n    {\n      \"id\": \"app/tests/smoke\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\n        \"app/main\"\n      ]\n    }\n  ],\n  \"tests\": [\n    \"app/tests/smoke\"\n  ]\n}",
+      "points": [
+        "Merge this module into the existing modules array; the fragment is not a complete manifest.",
+        "tests defaults to empty. It accepts up to 64 unique declared module IDs, not paths. The application entry cannot also be a test entry.",
+        "Keep test modules out of the production dependency closure to avoid shipping them."
+      ]
+    },
+    {
+      "name": "Startup configuration",
+      "signature": "startup.entry",
+      "description": "Build-time loading and failure screens (0.4.0-alpha).",
+      "useWhen": "Use this when opting a web project into prebuilt startup screens and wiring the separate startup module.",
+      "kind": "guide",
+      "language": "JSON",
+      "code": "{\n  \"startup\": {\n    \"entry\": \"app/startup\"\n  },\n  \"modules\": [\n    {\n      \"id\": \"app/startup\",\n      \"source\": \"src/startup.luau\",\n      \"dependencies\": [\n        \"luastra/ui\"\n      ]\n    }\n  ]\n}",
+      "points": [
+        "Merge the module into the existing modules array. startup.entry must name a declared module different from project.entry. The production application must not depend on this entry.",
+        "Only entry is accepted in startup. render() and optional renderFailure() are exports from the Luau module, not JSON fields. Each returns one UI.Screen.",
+        "Web builds render both states in separate restricted VM sessions. No startup bytecode or author JavaScript ships. A failure Button may use only onTap=\"startup.retry\".",
+        "Omitting startup retains the usual bootstrap. This option requires 0.4.0-alpha or newer; see Startup screens for the supported subset."
+      ]
+    },
+    {
+      "name": "Complete web project",
+      "signature": "luastra.json",
+      "description": "Combine required declarations, tests, an asset, web metadata and startup.",
+      "useWhen": "Use this as a complete starting manifest when a web application needs a logo, startup screen, tests and public metadata.",
+      "kind": "guide",
+      "language": "JSON",
+      "code": "{\n  \"schemaVersion\": 2,\n  \"project\": {\n    \"id\": \"dev.example.notes\",\n    \"entry\": \"app/main\"\n  },\n  \"sdk\": {\n    \"contract\": 1\n  },\n  \"capabilities\": [\n    \"ui.render\"\n  ],\n  \"modules\": [\n    {\n      \"id\": \"app/main\",\n      \"source\": \"src/main.luau\",\n      \"dependencies\": [\n        \"luastra/ui\"\n      ]\n    },\n    {\n      \"id\": \"app/startup\",\n      \"source\": \"src/startup.luau\",\n      \"dependencies\": [\n        \"luastra/assets\",\n        \"luastra/ui\"\n      ]\n    },\n    {\n      \"id\": \"app/tests/smoke\",\n      \"source\": \"tests/smoke.luau\",\n      \"dependencies\": [\n        \"app/main\"\n      ]\n    }\n  ],\n  \"tests\": [\n    \"app/tests/smoke\"\n  ],\n  \"assets\": [\n    {\n      \"id\": \"image/logo\",\n      \"source\": \"assets/logo.png\",\n      \"mediaType\": \"image/png\"\n    }\n  ],\n  \"web\": {\n    \"title\": \"Notes\",\n    \"description\": \"A small notes application.\",\n    \"canonicalUrl\": \"https://example.com/\",\n    \"index\": true\n  },\n  \"startup\": {\n    \"entry\": \"app/startup\"\n  }\n}",
+      "points": [
+        "Create the three declared Luau files and assets/logo.png before checking this example. Replace project identity, metadata and canonical URL.",
+        "Backend is optional and intentionally omitted. Its fields are explained separately above."
+      ]
+    }
+  ],
+  "guide": [
+    "luastra.json is strict JSON: double quotes, no comments or trailing commas. Unknown properties are rejected. Paths are relative to this manifest, not the terminal working directory.",
+    "Required: schemaVersion, project, sdk, capabilities, modules. Optional: assets, tests, web, backend, startup. Omit unused optional objects rather than supplying null.",
+    "schemaVersion must be 2 and sdk.contract must be 1. These are contract numbers, not the Luastra release version or a dependency version range.",
+    "Run luastra check after changes, then luastra test and luastra build web. check analyzes declarations and modules; the web build executes and validates startup rendering. Referenced source and asset files must exist."
+  ]
+},
   { id: "support", title: "Support and boundaries", summary: "Keep source contracts, automated checks, browser/device evidence, packaging, and production promises separate.", guide: ["Verified below means repository tests or recorded host evidence for a named version—not universal device coverage or production readiness.", ...(release.version !== release.publishedVersion ? [`This documentation previews the ${release.version} development candidate. It is not yet a published SDK release; the public installer still selects ${release.publishedVersion}. Candidate checks and local browser verification do not extend earlier desktop or mobile evidence to this version.`] : []), `The public ${release.publishedVersion} release is immutable. The 0.1.0-alpha assets remain separately available for deliberate rollback and historical verification.`], tables: [{ title: "Current evidence boundary", rows: [row("CLI, runtime, and web build", "Repository-verified", "create, check, test, run, bundle, and static web build have automated coverage for the release checkout."), row("Web UI and accessibility", "Browser-verified", "Semantic DOM, keyboard, zoom, IME, responsive layout, and selected flows have bounded browser evidence; this is not every assistive technology."), row("Desktop host sources", "Tauri evidence", "The web artifact has bounded macOS, Linux, and Windows build/launch evidence; no signed installer, notarization, store package, or updater is promised."), row("Mobile host sources", "Capacitor evidence", "Android/iOS simulator and selected physical-device flows have bounded evidence; no public store package or universal device certification is promised."), row("Media and background behavior", "Host-dependent", "Autoplay, interruption, background playback, hardware controls, and packaging require target-specific verification."), row("Public release", release.publishedVersion, "Pre-release APIs may change. The public installer exposes bundle and web builds; native packaging remains a separately evidenced source workflow.")] }], callout: "A green test, source build, or one-device run is not evidence of signing, notarization, store admission, universal accessibility, hosted backend deployment, or production-service readiness." },
   {
     id: "policies",

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "identity": "luastra-artifact-matrix/phase5-alpha-8",
-  "runtimeSdkIdentity": "luastra-runtime-sdk/phase5-alpha-8",
-  "sourceBuildIdentity": "luastra-runtime-source-build/phase5-alpha-8",
+  "identity": "luastra-artifact-matrix/phase5-alpha-9",
+  "runtimeSdkIdentity": "luastra-runtime-sdk/phase5-alpha-9",
+  "sourceBuildIdentity": "luastra-runtime-source-build/phase5-alpha-9",
   "targets": [
     {
       "id": "darwin-x64",
@@ -83,14 +83,14 @@
         {
           "role": "runtimeJavaScript",
           "path": "artifacts/vm-wasm/luastra-vm.js",
-          "bytes": 26435,
-          "sha256": "f0ef7e8d096aa7760c366ef8203fd8d985baf7ce6927b67524278252568c5400"
+          "bytes": 26392,
+          "sha256": "137bd026d98675a302ca9ec24229bc73d7e68e6fc2d7b16b82e15e11a74b2c7b"
         },
         {
           "role": "runtimeWasm",
           "path": "artifacts/vm-wasm/luastra-vm.wasm",
-          "bytes": 481949,
-          "sha256": "ceaf6eb5637e79af0ecf51f86ba7d18e72909da14fa91d2640b717dd4d4503c0"
+          "bytes": 501976,
+          "sha256": "b73ceae1cc659533e94990db5d8cfc21b9f6bedf05dce24b8a88719dd0791366"
         }
       ]
     }

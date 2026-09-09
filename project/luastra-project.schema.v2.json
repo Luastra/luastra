@@ -16,6 +16,12 @@
         "entry": { "$ref": "#/$defs/moduleId" }
       }
     },
+    "startup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry"],
+      "properties": { "entry": { "$ref": "#/$defs/moduleId" } }
+    },
     "sdk": {
       "type": "object",
       "additionalProperties": false,

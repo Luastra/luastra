@@ -46,8 +46,8 @@ export async function verifyRuntimePackage(packageRoot) {
   const root = await realpath(resolve(packageRoot));
   const manifest = JSON.parse(await readFile(resolve(root, "runtime-package.v1.json"), "utf8"));
   if (!exactKeys(manifest, ["schemaVersion", "identity", "sdkIdentity", "sourceBuildIdentity", "artifactMatrixIdentity", "target", "artifacts", "contentSha256"]) ||
-      manifest.schemaVersion !== 1 || manifest.identity !== packageIdentity || manifest.sdkIdentity !== "luastra-runtime-sdk/phase5-alpha-8" ||
-      manifest.sourceBuildIdentity !== "luastra-runtime-source-build/phase5-alpha-8" || manifest.artifactMatrixIdentity !== "luastra-artifact-matrix/phase5-alpha-8") fail("invalid runtime package manifest");
+      manifest.schemaVersion !== 1 || manifest.identity !== packageIdentity || manifest.sdkIdentity !== "luastra-runtime-sdk/phase5-alpha-9" ||
+      manifest.sourceBuildIdentity !== "luastra-runtime-source-build/phase5-alpha-9" || manifest.artifactMatrixIdentity !== "luastra-artifact-matrix/phase5-alpha-9") fail("invalid runtime package manifest");
   const admittedTarget = targets[manifest.target?.id];
   if (!admittedTarget || !exactKeys(manifest.target, ["id", "platform", "architecture"]) ||
       manifest.target.platform !== admittedTarget.platform || manifest.target.architecture !== admittedTarget.architecture) fail("invalid runtime package target");

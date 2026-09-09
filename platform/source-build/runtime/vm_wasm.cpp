@@ -1,5 +1,6 @@
 #include <cctype>
 #include <cstddef>
+#include <cstdlib>
 #include <algorithm>
 #include <exception>
 #include <cmath>
@@ -42,6 +43,8 @@ struct PendingRequest
 
 struct Session
 {
+    bool startup = false;
+    size_t allocatedBytes = 0;
     lua_State* globalState = nullptr;
     lua_State* scriptState = nullptr;
     std::string entry;
@@ -728,9 +731,68 @@ int requestHostCapability(lua_State* state)
     return 1;
 }
 
+void* startupAllocate(void* userdata, void* pointer, size_t oldSize, size_t newSize)
+{
+    auto& session = *static_cast<Session*>(userdata);
+    const size_t previous = pointer ? oldSize : 0;
+    if (newSize == 0)
+    {
+        session.allocatedBytes -= previous;
+        std::free(pointer);
+        return nullptr;
+    }
+    constexpr size_t budget = 32 * 1024 * 1024;
+    if (newSize > budget || session.allocatedBytes - previous > budget - newSize) return nullptr;
+    void* result = std::realloc(pointer, newSize);
+    if (result) session.allocatedBytes = session.allocatedBytes - previous + newSize;
+    return result;
+}
+
+void retainFields(lua_State* state, int index, const std::unordered_set<std::string>& allowed)
+{
+    const int table = lua_absindex(state, index);
+    std::vector<std::string> removed;
+    lua_pushnil(state);
+    while (lua_next(state, table))
+    {
+        if (lua_type(state, -2) == LUA_TSTRING && !allowed.count(lua_tostring(state, -2)))
+            removed.emplace_back(lua_tostring(state, -2));
+        lua_pop(state, 1);
+    }
+    for (const auto& name : removed)
+    {
+        lua_pushnil(state);
+        lua_setfield(state, table, name.c_str());
+    }
+}
+
+void restrictStartupGlobals(lua_State* state)
+{
+    // Filter the original library tables, including the string metatable's
+    // method table, before any module or user closure can capture a reference.
+    const std::vector<std::pair<std::string, std::unordered_set<std::string>>> libraries = {
+        {"math", {"abs", "acos", "asin", "atan", "atan2", "ceil", "clamp", "cos", "cosh", "deg", "exp", "floor", "fmod", "frexp", "huge", "ldexp", "log", "log10", "max", "min", "modf", "pi", "pow", "rad", "round", "sign", "sin", "sinh", "sqrt", "tan", "tanh"}},
+        {"string", {"byte", "char", "find", "format", "gmatch", "gsub", "len", "lower", "match", "rep", "reverse", "split", "sub", "upper"}},
+        {"table", {"clear", "clone", "concat", "create", "find", "freeze", "insert", "isfrozen", "maxn", "move", "pack", "remove", "sort", "unpack"}},
+        {"utf8", {"char", "charpattern", "codepoint", "codes", "len", "offset"}},
+        {"bit32", {"arshift", "band", "bnot", "bor", "btest", "bxor", "countlz", "countrz", "extract", "lrotate", "lshift", "replace", "rrotate", "rshift"}},
+    };
+    for (const auto& library : libraries)
+    {
+        lua_getglobal(state, library.first.c_str());
+        if (lua_istable(state, -1)) retainFields(state, -1, library.second);
+        lua_pop(state, 1);
+    }
+    retainFields(state, LUA_GLOBALSINDEX, {
+        "_VERSION", "assert", "error", "ipairs", "next", "pairs", "pcall", "select",
+        "tonumber", "tostring", "type", "typeof", "unpack", "xpcall", "require",
+        "math", "string", "table", "utf8", "bit32",
+    });
+}
+
 bool configure(Session& session, std::string& error)
 {
-    session.globalState = luaL_newstate();
+    session.globalState = session.startup ? lua_newstate(startupAllocate, &session) : luaL_newstate();
     if (!session.globalState)
     {
         error = "failed to allocate Luau state";
@@ -745,10 +807,19 @@ bool configure(Session& session, std::string& error)
     lua_pushcfunction(session.globalState, requestHostCapability, "HostCapability.request");
     lua_setfield(session.globalState, -2, "request");
     lua_setglobal(session.globalState, "HostCapability");
+    if (session.startup) restrictStartupGlobals(session.globalState);
     luaL_sandbox(session.globalState);
     session.scriptState = lua_newthread(session.globalState);
     lua_setthreaddata(session.scriptState, &session);
     luaL_sandboxthread(session.scriptState);
+    if (session.startup)
+    {
+        // Fastcall/import optimizations assume standard builtins are present.
+        // This profile deliberately removes some of them, so force lookup of
+        // the restricted globals even for compiler-recognized builtin calls.
+        lua_setsafeenv(session.globalState, LUA_GLOBALSINDEX, false);
+        lua_setsafeenv(session.scriptState, LUA_GLOBALSINDEX, false);
+    }
     return true;
 }
 
@@ -806,6 +877,18 @@ LUASTRA_EXPORT int luastra_vm_session_create()
     return handle;
 }
 
+LUASTRA_EXPORT int luastra_vm_session_create_startup()
+{
+    if (sessions.size() >= maximumSessions) return 0;
+    auto session = std::make_unique<Session>();
+    session->startup = true;
+    std::string error;
+    if (!configure(*session, error)) return 0;
+    const int handle = nextSessionHandle++;
+    sessions.emplace(handle, std::move(session));
+    return handle;
+}
+
 LUASTRA_EXPORT const char* luastra_vm_session_add_module(
     int handle,
     const char* idValue,
@@ -832,6 +915,7 @@ LUASTRA_EXPORT const char* luastra_vm_session_allow_capability(int handle, const
 {
     Session* session = findSession(handle);
     if (!session) return result(false, "unknown session");
+    if (session->startup) return result(false, "startup profile forbids host capabilities");
     if (session->started) return result(false, "capabilities are sealed after session start");
     const std::string kind = kindValue ? kindValue : "";
     if (!Luastra::ProtocolV1::validCapabilityKind(kind)) return result(false, "unknown host capability");

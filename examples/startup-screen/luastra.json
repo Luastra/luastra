@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.startup-example", "entry": "app/main" },
+  "startup": { "entry": "app/startup" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["ui.render"],
+  "modules": [
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["luastra/ui"] },
+    { "id": "app/startup", "source": "src/startup.luau", "dependencies": ["luastra/ui"] }
+  ]
+}

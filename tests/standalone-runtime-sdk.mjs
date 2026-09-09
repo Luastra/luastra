@@ -20,9 +20,9 @@ function admittedCopy(source) {
 
 test("runtime SDK owns and verifies the promoted Phase 5 artifact closure", async () => {
   const sdk = await verifyRuntimeSdk();
-  assert.equal(sdk.identity, "luastra-runtime-sdk/phase5-alpha-8");
+  assert.equal(sdk.identity, "luastra-runtime-sdk/phase5-alpha-9");
   assert.equal(sdk.targetId, `${process.platform}-${process.arch}`);
-  assert.equal(sdk.artifactMatrixIdentity, "luastra-artifact-matrix/phase5-alpha-8");
+  assert.equal(sdk.artifactMatrixIdentity, "luastra-artifact-matrix/phase5-alpha-9");
   assert.deepEqual(Object.keys(sdk.artifacts).sort(), ["analyzer", "compiler", "runtimeJavaScript", "runtimeWasm"]);
   if (process.platform !== "win32") {
     assert.equal((await stat(sdk.artifacts.analyzer)).mode & 0o111, 0o111);
@@ -87,7 +87,7 @@ test("an isolated Phase 5 copy builds a deterministic web application without hi
     });
     assert.equal(execution.status, 0, execution.stderr || execution.stdout);
     const result = JSON.parse(execution.stdout);
-    assert.equal(result.first.binarySdkIdentity, "luastra-runtime-sdk/phase5-alpha-8");
+    assert.equal(result.first.binarySdkIdentity, "luastra-runtime-sdk/phase5-alpha-9");
     assert.equal(result.first.projectContentSha256, result.second.projectContentSha256);
     assert.equal(result.first.assetManifestSha256, result.second.assetManifestSha256);
     assert.equal((await stat(resolve(firstOutput, "platform/artifacts/vm-wasm/luastra-vm.wasm"))).isFile(), true);

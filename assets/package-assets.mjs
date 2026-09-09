@@ -26,11 +26,13 @@ export async function packageProjectAssets(project, outputRoot) {
   return Object.freeze({ entries: Object.freeze(entries), ledgerSha256: sha256(ledgerText) });
 }
 
-export function projectContentDigest(project, bundleContentSha256, assets) {
+export function projectContentDigest(project, bundleContentSha256, assets, startupContentSha256 = null) {
   return sha256(canonicalJson({
     schemaVersion: 2,
     project: project.id,
     bundleContentSha256,
+    ...(project.startup ? { startup: project.startup } : {}),
+    ...(startupContentSha256 ? { startupContentSha256 } : {}),
     web: project.web,
     backend: project.backend ? {
       declarationSha256: project.backend.declaration.sha256,
