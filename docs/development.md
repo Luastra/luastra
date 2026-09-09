@@ -1,6 +1,6 @@
 # Development and release checks
 
-This release targets 0.2.1-alpha. `release/published-release.v1.json` records
+This release targets 0.3.0-alpha. `release/published-release.v1.json` records
 the documentation installation target independently from the development
 candidate admission. Its tag is immutable after publication.
 

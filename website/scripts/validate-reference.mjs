@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { navigationGroups, release, sdkInventory, sdkTypeInventory, sections } from "../site/reference-data.js";
 import { generatedPages } from "../site/generated-reference-data.js";
 import packageManifest from "../../package.json" with { type: "json" };
-import releaseAdmission from "../../release/sdk-release-admission.v1.json" with { type: "json" };
+import releaseAdmission from "../../release/published-release.v1.json" with { type: "json" };
 import sourceManifest from "../../sdk/source-manifest.v1.json" with { type: "json" };
 import runtimeManifest from "../../platform/runtime-manifest.v2.json" with { type: "json" };
 import sourceBuildContract from "../../platform/source-build/source-build-contract.v1.json" with { type: "json" };

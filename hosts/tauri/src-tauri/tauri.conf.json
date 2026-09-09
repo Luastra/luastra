@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Luastra Alpha",
-  "version": "0.2.1-alpha",
+  "version": "0.3.0-alpha",
   "identifier": "dev.luastra.alpha.desktop",
   "build": {
     "frontendDist": "../www"

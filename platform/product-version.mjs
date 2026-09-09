@@ -1,1 +1,1 @@
-export const productVersion = "0.2.1-alpha";
+export const productVersion = "0.3.0-alpha";

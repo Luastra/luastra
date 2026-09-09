@@ -116,6 +116,7 @@ async function buildWeb({ manifestPath, outputDirectory, rpcProof }) {
     [resolve(platformRoot, "protocol/request-ledger.mjs"), "platform/protocol/request-ledger.mjs"],
     [resolve(platformRoot, "renderer/from-protocol-tree.mjs"), "platform/renderer/from-protocol-tree.mjs"],
     [resolve(platformRoot, "renderer/reconciler.mjs"), "platform/renderer/reconciler.mjs"],
+    [resolve(platformRoot, "renderer/typography.mjs"), "platform/renderer/typography.mjs"],
     [resolve(platformRoot, "renderer/dom-adapter.mjs"), "platform/renderer/dom-adapter.mjs"],
     [resolve(platformRoot, "renderer/dom-motion-adapter.mjs"), "platform/renderer/dom-motion-adapter.mjs"],
     [resolve(platformRoot, "renderer/motion-renderer-session.mjs"), "platform/renderer/motion-renderer-session.mjs"],

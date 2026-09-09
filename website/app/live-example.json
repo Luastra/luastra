@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.docs-example", "entry": "app/live-example" },
+  "sdk": { "contract": 1 },
+  "web": { "title": "Live Luastra example", "description": "Interactive examples running in Luastra.", "canonicalUrl": "https://luastra.dev/live-example/", "index": false },
+  "capabilities": ["ui.render", "app.launchurl.get"],
+  "modules": [
+    { "id": "app/live-example", "source": "src/live-example.luau", "dependencies": ["app/examples", "luastra/ui", "luastra/host"] },
+    { "id": "app/examples", "source": "src/examples.luau", "dependencies": ["luastra/ui"] },
+    { "id": "app/tests/live-example", "source": "tests/live-example.luau", "dependencies": ["app/live-example"] }
+  ],
+  "tests": ["app/tests/live-example"]
+}

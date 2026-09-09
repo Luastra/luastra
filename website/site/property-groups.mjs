@@ -1,0 +1,16 @@
+export const propertyGroupTableIds = Object.freeze({
+  action: "ui-properties-events",
+  columns: "ui-properties-layout",
+  input: "ui-properties-input",
+  label: "ui-properties-semantics",
+  layout: "ui-properties-layout",
+  modal: "ui-properties-semantics",
+  motion: "ui-properties-events",
+  scroll: "ui-properties-layout",
+  semantic: "ui-properties-semantics",
+  surface: "ui-properties-layout",
+  text: "ui-properties-text-style",
+  "text-style": "ui-properties-text-style",
+  theme: "ui-properties-theme",
+  visual: "ui-properties-visual",
+});

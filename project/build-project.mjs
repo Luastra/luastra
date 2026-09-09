@@ -1,3 +1,4 @@
+import { projectTypographyCss } from "../assets/typography.mjs";
 import { createHash } from "node:crypto";
 import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -144,7 +145,7 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
       </header>
 `, `      <span id="status" role="status" aria-live="polite" hidden></span>
 `);
-        await writeFile(resolve(output, "index.html"), hostHtml);
+        await writeFile(resolve(output, "index.html"), hostHtml.replace("  </head>", '    <link rel="stylesheet" href="./project-typography.css" />\n  </head>'));
         await copyFile(resolve(phase5Host, "phase5-ui.css"), resolve(output, "platform/phase5-ui.css"));
         if (project.web) {
           const sitemapUrl = new URL("sitemap.xml", project.web.canonicalUrl).href;
@@ -159,6 +160,7 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
         }
       }
       const packagedAssets = await packageProjectAssets(project, output);
+      await writeFile(resolve(output, "project-typography.css"), projectTypographyCss(packagedAssets.entries));
       const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries);
       let result = { ...base, bundleContentSha256, projectContentSha256, projectAssets: packagedAssets.entries.length, projectAssetLedgerSha256: packagedAssets.ledgerSha256 };
       if (target === "web") {

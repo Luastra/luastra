@@ -373,7 +373,7 @@ local function focusChildren(detail: any): {UI.Node}
     end
     table.insert(output, UI.Divider { id = "landing/focus/divider" })
     if detail.docs ~= nil then
-        table.insert(output, UI.Button { id = "landing/focus/docs", text = "Read the documentation", onTap = "landing.open-focus-docs" })
+        table.insert(output, UI.Link { id = "landing/focus/docs", text = "Read the documentation", href = `https://luastra.dev/docs/{detail.docs}/`, className = "luastra-button" })
     end
     if detail.source ~= nil then
         table.insert(output, UI.Link { id = "landing/focus/source", text = "Open the source on GitHub", href = detail.source, external = true, label = "Open the source on GitHub" })

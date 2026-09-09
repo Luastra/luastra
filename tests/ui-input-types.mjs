@@ -13,6 +13,8 @@ test("UI constructor field types reject invalid author inputs before rendering",
   try {
     assert.equal(run(["create", project]).status, 0);
     const cases = [
+      ['UI.Text { id = "title", textStyle = { size = "big" } }', "size"],
+      ['UI.Text { id = "title", textStyle = { fallback = "remote" } }', "fallback"],
       ['UI.Button { id = "action", text = "Go", onTap = 42 }', "onTap"],
       ['UI.Text { id = "title", text = false }', "text"],
       ['UI.TextInput { id = "input", value = 5, onInput = "edit" }', "value"],

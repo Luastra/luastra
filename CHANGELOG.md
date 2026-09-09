@@ -6,6 +6,16 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ## [Unreleased]
 
+### Added
+
+- Standalone HTML documentation generated from the shared reference source,
+  including navigation, canonical metadata, a sitemap and responsive reading styles.
+- Bounded `UI.TextStyle` with packaged WOFF2 fonts, system fallbacks, size, weight
+  and line height; a licensed typography example demonstrates live style changes.
+
+The source SDK advances to contract 15; the runtime binary remains unchanged.
+No hydration or universal application-to-HTML export is included.
+
 ## [0.2.1-alpha] - 2026-09-09
 
 ### Fixed

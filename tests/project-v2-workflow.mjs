@@ -56,7 +56,7 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     const beforeCheck = await inventory(project);
     const checked = JSON.parse(run(["check", `--project=${project}`]).stdout);
     assert.equal(checked.result, "PASS");
-    assert.equal(checked.modules, 3);
+    assert.equal(checked.modules, 4);
     assert.equal(checked.projectAssets, 1);
     assert.match(checked.sourceSdkIdentity, /^luastra-source-sdk\//);
     assert.deepEqual(await inventory(project), beforeCheck, "check mutated the user project");
@@ -66,7 +66,7 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     assert.equal(bundleA.contentSha256, bundleB.contentSha256);
     assert.deepEqual(await readFile(resolve(project, "dist/bundle-a/luastra.bundle.json")), await readFile(resolve(project, "dist/bundle-b/luastra.bundle.json")));
     const builtBundle = JSON.parse(await readFile(resolve(project, "dist/bundle-a/luastra.bundle.json"), "utf8"));
-    assert.deepEqual(builtBundle.modules.map((module) => module.id), ["luastra/ui", "app/main"]);
+    assert.deepEqual(builtBundle.modules.map((module) => module.id), ["luastra/assets", "luastra/ui", "app/main"]);
     assert.equal(builtBundle.modules.some((module) => module.source.startsWith("sources/luastra/")), true);
     assert.equal(builtBundle.modules.some((module) => module.id.includes("tests")), false, "production bundle contains tests");
     const assetLedger = JSON.parse(await readFile(resolve(project, "dist/bundle-a/project-assets.json"), "utf8"));
@@ -168,12 +168,12 @@ test("animated catalogue resolves its SDK closure and renders through Wasm", asy
   const project = resolve(prototype, "examples/animated-catalogue");
   const checked = JSON.parse(run(["check", `--project=${project}`]).stdout);
   assert.equal(checked.result, "PASS");
-  assert.equal(checked.modules, 8);
+  assert.equal(checked.modules, 9);
   const output = await mkdtemp(resolve(tmpdir(), "luastra-catalogue-bundle-"));
   try {
     run(["build", "bundle", `--project=${project}`, `--out=${output}`]);
     const bundle = JSON.parse(await readFile(resolve(output, "luastra.bundle.json"), "utf8"));
-    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/host", "luastra/motion", "luastra/navigation", "luastra/state", "luastra/ui", "app/main"]);
+    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/host", "luastra/motion", "luastra/navigation", "luastra/state", "luastra/assets", "luastra/ui", "app/main"]);
     const executed = await runWasmBundle({
       bundlePath: resolve(output, "luastra.bundle.json"),
       runtimeModulePath: resolve(prototype, "platform/artifacts/vm-wasm/luastra-vm.js"),

@@ -72,6 +72,7 @@ jobs:
           $PSNativeCommandUseErrorActionPreference = $true
           Set-Location "$env:CANDIDATE"
           npm ci
+          npm ci --prefix website
           npm run alpha:audit
           npm test
           npm run docs:check
