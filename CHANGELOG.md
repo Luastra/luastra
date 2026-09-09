@@ -6,6 +6,8 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ## [Unreleased]
 
+## [0.2.1-alpha] - 2026-09-09
+
 ### Fixed
 
 - Preserve successful web and bundle output when a rebuild fails, with staged
@@ -15,8 +17,8 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 - Show complete Orbit introductions in list mode, distinct reference-page
   document titles, and the built website from the local preview server.
 
-The working 0.2.1-alpha SDK set is an unpublished candidate. Existing published
-archives and native-host evidence remain unchanged.
+Existing published archives remain unchanged. Native-host evidence retains its
+explicit historical scope.
 
 ## [0.2.0-alpha] - 2026-09-07
 
@@ -109,6 +111,7 @@ archives and native-host evidence remain unchanged.
 - Deterministic runtime packages, archives, immutable installation receipts,
   checksums, SBOMs, notices, and clean-export controls.
 
-[Unreleased]: https://github.com/Luastra/luastra/compare/v0.2.0-alpha...HEAD
+[Unreleased]: https://github.com/Luastra/luastra/compare/v0.2.1-alpha...HEAD
+[0.2.1-alpha]: https://github.com/Luastra/luastra/compare/v0.2.0-alpha...v0.2.1-alpha
 [0.2.0-alpha]: https://github.com/Luastra/luastra/compare/v0.1.0-alpha...v0.2.0-alpha
 [0.1.0-alpha]: https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha

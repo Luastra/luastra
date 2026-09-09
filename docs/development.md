@@ -1,8 +1,8 @@
 # Development and release checks
 
-The working version is 0.2.1-alpha, an unpublished candidate. Public installation
-links still target 0.2.0-alpha. `release/published-release.v1.json` records the
-published baseline independently from the current candidate admission.
+This release targets 0.2.1-alpha. `release/published-release.v1.json` records
+the documentation installation target independently from the development
+candidate admission. Its tag is immutable after publication.
 
 ## Before integration
 
@@ -42,6 +42,6 @@ Before publication, review the exact candidate SHA, required CI, source/export
 audit, installation evidence and relevant browser/native checks. Integrate the
 audited public diff, verify public main, create immutable versioned artifacts,
 and verify deployment against that commit. A private commit or local build does
-not publish the website. Update the published-release record only when the
-release is actually published. Sponsors configuration remains a separate change
+not publish the website. Update the documentation release target during release finalization and deploy
+that site only after the corresponding release is published. Sponsors configuration remains a separate change
 and requires a publicly reachable approved Sponsors profile before activation.

@@ -1,9 +1,9 @@
 {
   "assets": [
     {
-      "bytes": 1323,
+      "bytes": 1331,
       "filename": "luastra-0.2.1-alpha-RELEASE_NOTES.md",
-      "sha256": "996e0b088045d149854bf8f97fffb478bce24e23c6a72afa0e44cde45ef6a5e4"
+      "sha256": "5b6a2218a033c0b97150f337980c582f497416b1ec1f70206c99b9cda1b9b87b"
     },
     {
       "bytes": 21667,
@@ -46,10 +46,10 @@
       "sha256": "35607a06f79ce898dd9cbaf96f599d159824b0842308adfbaadc9fbaf5126858"
     }
   ],
-  "checksumsSha256": "1e529b8e98f6ce7ab868f52d62007acb54286d90ad82b56ff28ca135213caaef",
-  "contentSha256": "28d831c81eca37af5664030f657205a92a8fd3fd189de1dbea2cc868066b7e05",
+  "checksumsSha256": "fb89e1a073dd4f6555d483cb54b77da3f81e8a44f0ad9a0fd25d22b1d3f1ab9c",
+  "contentSha256": "1ae34f198a9cc1e8ac6654657310cb029b63cbbba7be213468bf87b5ceaded32",
   "identity": "luastra-sdk-release-admission/v1",
-  "manifestSha256": "1da72abe23a5a1c9004d2dc616262b5327ec25936f86835f06e1e6cbe9a7d46c",
+  "manifestSha256": "b8e2d5e825e064e4e0b7c265e5011fe076546fa51746d457065c93fcbb888acf",
   "schemaVersion": 1,
   "version": "0.2.1-alpha"
 }

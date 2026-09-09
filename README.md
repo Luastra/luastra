@@ -2,16 +2,12 @@
 
 **Build apps like games.**
 
-> Development checkout: `0.2.1-alpha` is an unpublished defect-fix candidate.
-> The public installer below still selects the immutable `0.2.0-alpha` release.
-> See [development checks and release gates](./docs/development.md).
-
 Luastra is a Luau-first application platform for building web, desktop, and
 mobile applications from one host-neutral project. Application code owns the
 UI tree, state, routes, events, timers, media commands, and server declarations;
 Luastra supplies the checked SDK, runtime, renderer, and admitted host adapters.
 
-> **Release status:** `0.2.0-alpha` is an early public-source release. APIs may
+> **Release status:** `0.2.1-alpha` is an early public-source release. APIs may
 > change, and no signed installer, store release, production service, or
 > production-stability guarantee is included.
 >
@@ -77,9 +73,9 @@ Luastra requires Node.js 24 or newer. Download the bootstrap installer and let
 it select and verify the SDK archive for the current host:
 
 ```sh
-curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-install.mjs
+curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.2.1-alpha/luastra-install.mjs
 node luastra-install.mjs \
-  --manifest=https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-release.v1.json
+  --manifest=https://github.com/Luastra/luastra/releases/download/v0.2.1-alpha/luastra-release.v1.json
 ```
 
 Add `~/.luastra/bin` to `PATH` if necessary, then use the installed CLI without

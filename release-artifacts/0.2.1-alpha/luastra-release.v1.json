@@ -17,7 +17,7 @@
       "sha256": "35607a06f79ce898dd9cbaf96f599d159824b0842308adfbaadc9fbaf5126858"
     }
   },
-  "contentSha256": "28d831c81eca37af5664030f657205a92a8fd3fd189de1dbea2cc868066b7e05",
+  "contentSha256": "1ae34f198a9cc1e8ac6654657310cb029b63cbbba7be213468bf87b5ceaded32",
   "hosts": [
     {
       "architecture": "arm64",
@@ -77,9 +77,9 @@
   "node": ">=24",
   "publication": "PUBLIC_SOURCE_ALPHA",
   "releaseNotes": {
-    "bytes": 1323,
+    "bytes": 1331,
     "filename": "luastra-0.2.1-alpha-RELEASE_NOTES.md",
-    "sha256": "996e0b088045d149854bf8f97fffb478bce24e23c6a72afa0e44cde45ef6a5e4"
+    "sha256": "5b6a2218a033c0b97150f337980c582f497416b1ec1f70206c99b9cda1b9b87b"
   },
   "schemaVersion": 1,
   "version": "0.2.1-alpha"

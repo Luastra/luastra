@@ -1,7 +1,8 @@
-# Luastra 0.2.1-alpha — unpublished development candidate
+# Luastra 0.2.1-alpha
 
-This local candidate fixes developer feedback and rebuild recovery. It is not
-an announced release, a public download, or a completed native-host admission.
+This patch release improves developer feedback and rebuild recovery. It ships
+the source SDK and four host SDK archives; it does not add signed native
+installers, store packages or new physical-device admission.
 
 - Failed web and bundle builds preserve the last successful output. Output
   replacement happens after compilation, asset packaging and ledger creation.
@@ -18,5 +19,6 @@ Source SDK identity: phase5-contract-14; runtime VM/protocol are unchanged.
 Existing correctly typed applications retain their behavior. Code passing
 incorrectly typed UI fields must be corrected before check/build succeeds.
 
-The published 0.1.0-alpha and 0.2.0-alpha assets remain immutable. Public
-publication requires exact-candidate review and separate host/browser evidence.
+The published 0.1.0-alpha and 0.2.0-alpha assets remain immutable.
+
+Static documentation pages and font consumption are planned for 0.3.0-alpha.
