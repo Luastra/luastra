@@ -4,12 +4,15 @@ import { createServer } from "node:http";
 import { dirname, extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const site = resolve(dirname(fileURLToPath(import.meta.url)), "..", "site");
+const site = resolve(dirname(fileURLToPath(import.meta.url)), "..", "luastra-site");
 const port = 4180;
 const types = Object.freeze({
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".wasm": "application/wasm",
   ".svg": "image/svg+xml",
 });
 
@@ -24,7 +27,6 @@ const server = createServer(async (request, response) => {
     response.writeHead(200, {
       "Content-Type": types[extname(path)] ?? "application/octet-stream",
       "Cache-Control": "no-store",
-      "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'",
       "X-Content-Type-Options": "nosniff",
     });
     createReadStream(path).pipe(response);

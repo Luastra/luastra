@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 
 import { buildBundle } from "./build-bundle.mjs";
 import { resolveRuntime } from "../resolve-runtime.mjs";
+import { withGeneratedOutput } from "../../project/output-transaction.mjs";
 
 const platformRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const brandAssets = resolve(platformRoot, "brand");
@@ -50,6 +51,10 @@ async function listFiles(root, directory = root) {
 }
 
 export async function packageWeb({ manifestPath, outputDirectory, rpcProof = false }) {
+  return withGeneratedOutput(outputDirectory, "web", (candidate) => buildWeb({ manifestPath, outputDirectory: candidate, rpcProof }));
+}
+
+async function buildWeb({ manifestPath, outputDirectory, rpcProof }) {
   const output = resolve(outputDirectory);
   await prepareOutput(output);
   const sdk = await resolveRuntime();

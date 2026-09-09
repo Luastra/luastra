@@ -2,6 +2,10 @@
 
 **Build apps like games.**
 
+> Development checkout: `0.2.1-alpha` is an unpublished defect-fix candidate.
+> The public installer below still selects the immutable `0.2.0-alpha` release.
+> See [development checks and release gates](./docs/development.md).
+
 Luastra is a Luau-first application platform for building web, desktop, and
 mobile applications from one host-neutral project. Application code owns the
 UI tree, state, routes, events, timers, media commands, and server declarations;

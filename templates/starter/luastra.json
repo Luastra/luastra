@@ -17,7 +17,7 @@
     {
       "id": "app/tests/smoke",
       "source": "tests/smoke.luau",
-      "dependencies": ["luastra/ui"]
+      "dependencies": ["app/main"]
     }
   ],
   "tests": ["app/tests/smoke"]

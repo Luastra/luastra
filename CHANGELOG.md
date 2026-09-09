@@ -6,6 +6,18 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ## [Unreleased]
 
+### Fixed
+
+- Preserve successful web and bundle output when a rebuild fails, with staged
+  replacement, rollback and concurrent-output locking.
+- Check primitive UI constructor inputs statically and test the actual starter
+  application's render and action behavior.
+- Show complete Orbit introductions in list mode, distinct reference-page
+  document titles, and the built website from the local preview server.
+
+The working 0.2.1-alpha SDK set is an unpublished candidate. Existing published
+archives and native-host evidence remain unchanged.
+
 ## [0.2.0-alpha] - 2026-09-07
 
 ### Added

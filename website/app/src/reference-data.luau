@@ -3,10 +3,10 @@
 
 local ReferenceData: any = {
     ["release"] = {
-        ["version"] = "0.2.0-alpha",
+        ["version"] = "0.2.1-alpha",
         ["publishedVersion"] = "0.2.0-alpha",
         ["date"] = "2026-09-07",
-        ["sourceSdk"] = "Source SDK contract 13",
+        ["sourceSdk"] = "Source SDK contract 14",
         ["runtimeSdk"] = "Runtime SDK alpha 8",
         ["luauVersion"] = "0.731",
         ["status"] = "Public-source alpha 0.2.0-alpha",
@@ -135,6 +135,7 @@ local ReferenceData: any = {
             "Properties",
             "Theme",
             "Node",
+            "Input",
         },
         ["luastra/assets"] = {
             "Image",
@@ -337,6 +338,7 @@ local ReferenceData: any = {
             ["Properties"] = "ui/item-1",
             ["Theme"] = "ui/item-2",
             ["Node"] = "ui/item-3",
+            ["Input"] = "ui/item-40",
         },
         ["luastra/assets"] = {
             ["Image"] = "assets/item-1",
@@ -4521,7 +4523,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Screen exactly once at the root of Application.render. Choose it when starting a page or route; use Column, Row, or another container for every nested region.",
             ["code"] = "return UI.Screen {\n    id = \"app/root\",\n    width = \"full\",\n    theme = appTheme,\n    documentTitle = \"My Luastra app\",\n    UI.Text { id = \"app/title\", text = \"Hello\", variant = \"title\" },\n}",
-            ["signature"] = "UI.Screen(input: any): Node",
+            ["signature"] = "UI.Screen(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -4762,7 +4764,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Column for forms, articles, settings, and other top-to-bottom flows. Choose Layer instead when children must overlap, or Row when the primary flow is horizontal.",
             ["code"] = "UI.Column {\n    id = \"profile/content\",\n    width = \"full\",\n    gap = \"md\",\n    align = \"center\",\n    UI.Text { id = \"profile/title\", text = \"Profile\", variant = \"heading\" },\n    UI.Text { id = \"profile/status\", text = \"Ready\" },\n}",
-            ["signature"] = "UI.Column(input: any): Node",
+            ["signature"] = "UI.Column(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -4956,7 +4958,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Row for toolbars, compact metadata, button groups, and side-by-side content. Enable wrapping or responsive behavior when the combined child widths may exceed a phone viewport.",
             ["code"] = "UI.Row {\n    id = \"toolbar/actions\",\n    width = \"full\",\n    gap = \"sm\",\n    justify = \"between\",\n    responsive = true,\n    UI.Button { id = \"toolbar/back\", text = \"Back\", onTap = \"back\" },\n    UI.Button { id = \"toolbar/save\", text = \"Save\", onTap = \"save\" },\n}",
-            ["signature"] = "UI.Row(input: any): Node",
+            ["signature"] = "UI.Row(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -5154,7 +5156,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Text for every visible label, paragraph, heading, status announcement, or validation message that is not the built-in label of another control. Pick a heading variant only when it represents the document hierarchy.",
             ["code"] = "UI.Text {\n    id = \"page/title\",\n    width = \"full\",\n    text = \"Centered title\",\n    variant = \"title\",\n    textAlign = \"center\",\n    textColor = \"accent\",\n}",
-            ["signature"] = "UI.Text(input: any): Node",
+            ["signature"] = "UI.Text(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -5319,7 +5321,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Button when the user initiates an operation or changes application state. Icon-only buttons require a descriptive label. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable.",
             ["code"] = "UI.Button {\n    id = \"game/start\",\n    text = \"Start\",\n    appearance = \"primary\",\n    onTap = \"game.start\",\n    label = \"Start the game\",\n}",
-            ["signature"] = "UI.Button(input: any): Node",
+            ["signature"] = "UI.Button(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -5482,7 +5484,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Link when activation changes location or opens a documented resource. Use a canonical #/ route for application navigation, a # fragment for one rendered node, and UI.Button when the action only modifies current state.",
             ["code"] = "UI.Link {\n    id = \"docs/button\",\n    text = \"UI.Button\",\n    href = \"#docs/button\",\n    onTap = \"docs.open-button\",\n}",
-            ["signature"] = "UI.Link(input: any): Node",
+            ["signature"] = "UI.Link(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -5634,7 +5636,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Code for command names, identifiers, property values, and short expressions inside explanatory content. Use UI.CodeBlock for multiline source or commands.",
             ["code"] = "UI.Code { id = \"docs/signature\", code = \"UI.Button { ... }\", language = \"Luau\" }",
-            ["signature"] = "UI.Code(input: any): Node",
+            ["signature"] = "UI.Code(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -5775,7 +5777,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.CodeBlock for complete snippets, terminal sessions, JSON, or other preformatted material. Keep prose and very short identifiers in UI.Text or UI.Code.",
             ["code"] = "UI.CodeBlock { id = \"docs/example\", code = \"local UI = require(\\\"luastra/ui\\\")\", language = \"Luau\" }",
-            ["signature"] = "UI.CodeBlock(input: any): Node",
+            ["signature"] = "UI.CodeBlock(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -5937,7 +5939,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Divider when grouping is otherwise unclear between neighbouring sections. Mark purely decorative separators accordingly and prefer spacing when separation alone is sufficient.",
             ["code"] = "UI.Divider { id = \"docs/divider\", label = \"API details\" }",
-            ["signature"] = "UI.Divider(input: any): Node",
+            ["signature"] = "UI.Divider(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6040,7 +6042,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Table for genuinely two-dimensional data where headers identify values across rows or columns. Use List or Grid for collections that do not require table relationships.",
             ["code"] = "UI.Table {\n    id = \"docs/parameters\",\n    label = \"Parameters\",\n    UI.TableRow {\n        id = \"docs/parameters/header\",\n        UI.TableCell {\n            id = \"docs/parameters/name\",\n            text = \"Name\",\n            header = true,\n            scope = \"col\",\n        },\n    },\n}",
-            ["signature"] = "UI.Table(input: any): Node",
+            ["signature"] = "UI.Table(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6232,7 +6234,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.TableRow only as a direct child of UI.Table, once per header or data row. Keep every row's cell structure consistent with the table headers.",
             ["code"] = "UI.TableRow {\n    id = \"docs/row\",\n    UI.TableCell {\n        id = \"docs/row/name\",\n        text = \"width\",\n        header = true,\n        scope = \"row\",\n    },\n}",
-            ["signature"] = "UI.TableRow(input: any): Node",
+            ["signature"] = "UI.TableRow(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6377,7 +6379,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.TableCell only inside UI.TableRow. Mark cells as headers when they label a row or column; use ordinary cells for values.",
             ["code"] = "UI.TableCell { id = \"docs/cell\", text = \"full | content | wide\" }",
-            ["signature"] = "UI.TableCell(input: any): Node",
+            ["signature"] = "UI.TableCell(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6544,7 +6546,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.FlipCard for reveal interactions where two complete visual trees occupy one card-sized area. Use Layer inside either face when that face needs an image, shape, and overlaid text.",
             ["code"] = "UI.FlipCard {\n    id = \"game/card\",\n    width = 274,\n    height = 382,\n    motion = Motion.flip { fromDeg = revealed and 0 or 180, toDeg = revealed and 180 or 0, durationMs = 500 },\n    UI.Image { id = \"game/card/back\", source = cardBack, label = \"Hidden card\" },\n    UI.Shape { id = \"game/card/color\", shape = \"roundedRectangle\", width = 274, height = 382, fill = hiddenColor },\n}",
-            ["signature"] = "UI.FlipCard(input: any): Node",
+            ["signature"] = "UI.FlipCard(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6650,7 +6652,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Image for packaged PNG, JPEG, WebP, or AVIF artwork. Use UI.Shape for scalable geometry that does not need an asset, and supply a meaningful label unless the image is genuinely decorative.",
             ["code"] = "local Assets = require(\"luastra/assets\")\n\nUI.Image {\n    id = \"card/back\",\n    source = Assets.uri(Assets.image(\"image/card-back\")),\n    width = 274,\n    height = 382,\n    fit = \"cover\",\n    label = \"Card back\",\n}",
-            ["signature"] = "UI.Image(input: any): Node",
+            ["signature"] = "UI.Image(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6770,7 +6772,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Layer for text over artwork, badges, card faces, and other overlapping compositions. Put the size-defining background first and wrap overlay content in a full-size Column or Row when it needs predictable alignment.",
             ["code"] = "UI.Layer {\n    id = \"welcome/layer\",\n    width = 280,\n    height = 380,\n    UI.Shape { id = \"welcome/background\", shape = \"roundedRectangle\", width = 280, height = 380, fill = \"surface\" },\n    UI.Column { id = \"welcome/content\", width = \"full\", align = \"center\", justify = \"center\",\n        UI.Text { id = \"welcome/title\", width = \"full\", textAlign = \"center\", text = \"Welcome\" },\n    },\n}",
-            ["signature"] = "UI.Layer(input: any): Node",
+            ["signature"] = "UI.Layer(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -6968,7 +6970,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Shape for rectangles, circles, polygons, stars, outlines, and colored card faces. Use UI.Image when the visual contains texture or detail that geometry cannot represent.",
             ["code"] = "UI.Shape {\n    id = \"status/star\",\n    shape = \"star\",\n    width = 96,\n    height = 96,\n    fill = \"warning\",\n    stroke = \"accent\",\n    strokeWidth = 2,\n    label = \"Achievement\",\n}",
-            ["signature"] = "UI.Shape(input: any): Node",
+            ["signature"] = "UI.Shape(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -7098,7 +7100,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.TextInput for editable text, email, password, search, telephone, or numeric entry. Update its state from onInput and return the new value on the following render; use a custom component only for unsupported multiline editing.",
             ["code"] = "UI.TextInput {\n    id = \"form/email\",\n    label = \"Email\",\n    value = email,\n    onInput = \"form.email-change\",\n    inputType = \"email\",\n    inputMode = \"email\",\n    enterKeyHint = \"next\",\n    required = true,\n}",
-            ["signature"] = "UI.TextInput(input: any): Node",
+            ["signature"] = "UI.TextInput(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -7261,7 +7263,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.List when sibling items form one meaningful sequence or set. Use Column for unrelated blocks and Table for values with row-and-column relationships.",
             ["code"] = "UI.List {\n    id = \"checklist\",\n    label = \"Release checklist\",\n    UI.ListItem { id = \"checklist/check\", text = \"Run luastra check\" },\n    UI.ListItem { id = \"checklist/test\", text = \"Run luastra test\" },\n}",
-            ["signature"] = "UI.List(input: any): Node",
+            ["signature"] = "UI.List(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -7453,7 +7455,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.ListItem only as a direct child of UI.List, once per conceptual item. Put buttons, links, and descriptive content inside the item when they belong to that entry.",
             ["code"] = "UI.ListItem {\n    id = \"steps/build\",\n    text = \"Build the web target\",\n}",
-            ["signature"] = "UI.ListItem(input: any): Node",
+            ["signature"] = "UI.ListItem(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -7645,7 +7647,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Modal for short blocking decisions or focused information that must be handled before returning to the page. Use an ordinary routed screen for long, independently navigable workflows.",
             ["code"] = "UI.Modal {\n    id = \"help/modal\",\n    open = helpOpen,\n    label = \"Help\",\n    onDismiss = \"help.close\",\n    UI.Text { id = \"help/title\", text = \"Help\", variant = \"heading\" },\n    UI.Button { id = \"help/close\", text = \"Close\", onTap = \"help.close\" },\n}",
-            ["signature"] = "UI.Modal(input: any): Node",
+            ["signature"] = "UI.Modal(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -7799,7 +7801,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Orbit when an application benefits from spatial discovery while still requiring a complete list fallback, stable navigation state, keyboard access, and identical meaning across host presentations.",
             ["code"] = "UI.Orbit {\n    id = \"map\",\n    label = \"Application map\",\n    UI.Constellation {\n        id = \"map/root\",\n        UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n        UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n    },\n}",
-            ["signature"] = "UI.Orbit(input: any): Node",
+            ["signature"] = "UI.Orbit(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8018,7 +8020,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.OrbitPath for ancestor return controls, the current depth label, and Orbit-wide preferences that must remain available without being duplicated inside every constellation.",
             ["code"] = "UI.OrbitPath {\n    id = \"map/path\",\n    label = \"Orbit path\",\n    UI.OrbitReturn { id = \"map/back\", text = \"Back\", onTap = \"back\" },\n    UI.Text { id = \"map/current\", text = \"Build\" },\n}",
-            ["signature"] = "UI.OrbitPath(input: any): Node",
+            ["signature"] = "UI.OrbitPath(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8215,7 +8217,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.OrbitSearch when the active constellation can become difficult to scan. Keep the query in Luau state, preserve stable node IDs, and hide non-matching nodes instead of creating a parallel result model.",
             ["code"] = "UI.OrbitSearch {\n    id = \"map/search\",\n    query = query,\n    resultCount = resultCount,\n    totalCount = #nodes,\n    onInput = \"search\",\n}",
-            ["signature"] = "UI.OrbitSearch(input: any): Node",
+            ["signature"] = "UI.OrbitSearch(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8345,7 +8347,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Constellation for each root or nested content space in an Orbit. Keep inactive neighbours as behind or ahead only when they are needed for bounded transitions.",
             ["code"] = "UI.Constellation {\n    id = \"map/root\",\n    layerState = \"active\",\n    UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n    UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n}",
-            ["signature"] = "UI.Constellation(input: any): Node",
+            ["signature"] = "UI.Constellation(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8446,7 +8448,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.OrbitCenter exactly once in each UI.Constellation to name the current semantic space. Do not use it as an action or encode application coordinates in its content.",
             ["code"] = "UI.OrbitCenter {\n    id = \"map/root/center\",\n    title = \"My app\",\n    description = \"Choose a direction.\",\n}",
-            ["signature"] = "UI.OrbitCenter(input: any): Node",
+            ["signature"] = "UI.OrbitCenter(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8562,7 +8564,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.OrbitNode for every individually actionable concept in a constellation. Supply stable meaning and state; let the host select coordinates and the visible Signal, Identity, or Preview tier.",
             ["code"] = "UI.OrbitNode {\n    id = \"map/build\",\n    title = \"Build\",\n    description = \"Compose the interface.\",\n    nodeKind = \"constellation\",\n    signalIcon = \"spark\",\n    priority = 1,\n    onTap = \"open-build\",\n}",
-            ["signature"] = "UI.OrbitNode(input: any): Node",
+            ["signature"] = "UI.OrbitNode(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8741,7 +8743,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.OrbitCluster when several nodes have a real domain grouping and a local destination constellation. Do not group items only because their current screen coordinates happen to be close.",
             ["code"] = "UI.OrbitCluster {\n    id = \"map/examples\",\n    title = \"Examples\",\n    count = 48,\n    signalIcon = \"grid\",\n    onTap = \"open-examples\",\n}",
-            ["signature"] = "UI.OrbitCluster(input: any): Node",
+            ["signature"] = "UI.OrbitCluster(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -8902,7 +8904,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.FocusSurface for focused leaf content that belongs to the current Orbit route. Keep open state and dismissal in Luau navigation so Back, direct links, and visible controls reach the same outcome.",
             ["code"] = "UI.FocusSurface {\n    id = \"map/focus\",\n    label = \"Build details\",\n    open = focused,\n    onDismiss = \"close-focus\",\n    UI.FocusHeader {\n        id = \"map/focus/header\",\n        UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n        UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n    },\n}",
-            ["signature"] = "UI.FocusSurface(input: any): Node",
+            ["signature"] = "UI.FocusSurface(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -9034,7 +9036,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.FocusHeader at the beginning of every scrollable Focus Surface so the current leaf title and explicit return action remain visible without changing dialog focus order.",
             ["code"] = "UI.FocusHeader {\n    id = \"map/focus/header\",\n    UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n    UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n}",
-            ["signature"] = "UI.FocusHeader(input: any): Node",
+            ["signature"] = "UI.FocusHeader(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -9231,7 +9233,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.OrbitReturn for returning from a nested constellation. Disable the root control when no ancestor exists, and do not add a second hidden Back implementation.",
             ["code"] = "UI.OrbitReturn {\n    id = \"map/back\",\n    text = \"Back\",\n    onTap = \"back\",\n    disabled = atRoot,\n}",
-            ["signature"] = "UI.OrbitReturn(input: any): Node",
+            ["signature"] = "UI.OrbitReturn(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -9363,7 +9365,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Stack for straightforward vertical groups where the semantic name improves readability. Use UI.Column when you want the canonical general-purpose vertical container or need examples shared across all hosts.",
             ["code"] = "UI.Stack {\n    id = \"article/frame\",\n    width = \"wide\",\n    gap = \"lg\",\n    UI.Text { id = \"article/title\", text = \"Guide\", variant = \"title\" },\n    UI.Text { id = \"article/body\", text = \"Readable content\" },\n}",
-            ["signature"] = "UI.Stack(input: any): Node",
+            ["signature"] = "UI.Stack(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -9560,7 +9562,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Grid for galleries, dashboards, feature cards, and repeated items of comparable importance. Use Table for relational data and Row when content must remain one-dimensional.",
             ["code"] = "UI.Grid {\n    id = \"catalog/grid\",\n    width = \"full\",\n    columns = \"adaptive\",\n    gap = \"md\",\n    UI.Card { id = \"catalog/one\", UI.Text { id = \"catalog/one/title\", text = \"One\" } },\n    UI.Card { id = \"catalog/two\", UI.Text { id = \"catalog/two/title\", text = \"Two\" } },\n}",
-            ["signature"] = "UI.Grid(input: any): Node",
+            ["signature"] = "UI.Grid(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -9757,7 +9759,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Scroll when a specific region—not the whole document—must scroll, such as filter chips, long panels, or media strips. Avoid nested scroll regions unless the interaction genuinely needs independent axes.",
             ["code"] = "UI.Scroll {\n    id = \"filters/scroll\",\n    width = \"full\",\n    scroll = \"horizontal\",\n    UI.Row {\n        id = \"filters/items\",\n        flow = \"nowrap\",\n        UI.Button { id = \"filters/all\", text = \"All\", onTap = \"filter-all\" },\n        UI.Button { id = \"filters/new\", text = \"New\", onTap = \"filter-new\" },\n    },\n}",
-            ["signature"] = "UI.Scroll(input: any): Node",
+            ["signature"] = "UI.Scroll(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -9954,7 +9956,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Card to visually group one concept such as a result, article preview, or setting. Use FlipCard for two-sided reveals and plain Column when no surface treatment is needed.",
             ["code"] = "UI.Card {\n    id = \"result/card\",\n    width = \"full\",\n    surface = \"elevated\",\n    padding = \"lg\",\n    gap = \"sm\",\n    UI.Text { id = \"result/title\", text = \"Result\", variant = \"heading\" },\n    UI.Text { id = \"result/value\", text = \"42\" },\n}",
-            ["signature"] = "UI.Card(input: any): Node",
+            ["signature"] = "UI.Card(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -10160,7 +10162,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Field around each form control that needs visible guidance or validation. Keep the input and its related error inside the same field and connect errorId where applicable.",
             ["code"] = "UI.Field {\n    id = \"form/email-field\",\n    label = \"Email field\",\n    gap = \"xs\",\n    UI.Text { id = \"form/email-label\", text = \"Email\" },\n    UI.TextInput { id = \"form/email\", label = \"Email\", value = email, onInput = \"email-change\" },\n}",
-            ["signature"] = "UI.Field(input: any): Node",
+            ["signature"] = "UI.Field(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -10358,7 +10360,7 @@ local ReferenceData: any = {
             ["callable"] = true,
             ["useWhen"] = "Use UI.Actions for form submission controls, dialog choices, or page-level action groups. Use Row for horizontal content that is not specifically a set of user actions.",
             ["code"] = "UI.Actions {\n    id = \"dialog/actions\",\n    gap = \"sm\",\n    UI.Button { id = \"dialog/cancel\", text = \"Cancel\", appearance = \"secondary\", onTap = \"cancel\" },\n    UI.Button { id = \"dialog/confirm\", text = \"Confirm\", onTap = \"confirm\" },\n}",
-            ["signature"] = "UI.Actions(input: any): Node",
+            ["signature"] = "UI.Actions(input: Input): Node",
             ["parameters"] = {
                 {
                     ["name"] = "id",
@@ -10520,7 +10522,7 @@ local ReferenceData: any = {
                 ["description"] = "This checked recipe uses UI.Actions inside complete authored files with the required manifest, test, and run steps.",
             },
             ["previousPageId"] = "ui/item-38",
-            ["nextPageId"] = nil,
+            ["nextPageId"] = "ui/item-40",
             ["relatedPageIds"] = {
                 "ui/item-8",
                 "ui/item-9",
@@ -10530,6 +10532,529 @@ local ReferenceData: any = {
                 "prerequisite",
                 "companion",
                 "companion",
+            },
+        },
+        {
+            ["id"] = "ui/item-40",
+            ["routeSlug"] = "input",
+            ["routeId"] = "ui/input",
+            ["kind"] = "type",
+            ["sectionId"] = "ui",
+            ["sectionTitle"] = "Interface components",
+            ["module"] = "luastra/ui",
+            ["beforeYouUse"] = "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+            ["lifecycle"] = "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
+            ["expectedOutcome"] = "A checked annotation that matches the exact exported declaration.",
+            ["failureGuidance"] = "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
+            ["availability"] = "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+            ["mentalModel"] = "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+            ["childRules"] = "This component does not accept arbitrary child nodes; named parameters provide its content.",
+            ["accessibility"] = "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
+            ["commonMistakes"] = {
+                "Using a duplicate id or an uppercase path segment.",
+                "Passing a shared-group parameter that is not listed on this component page.",
+            },
+            ["callable"] = false,
+            ["useWhen"] = "Use UI.Input for a reusable constructor table. Known field types and the required id are checked statically; component-specific properties, vocabularies, numeric bounds, motion descriptors and child structure are validated at runtime. An explicit any value bypasses static checking.",
+            ["code"] = "export type Input = {\n    [number]: Node,\n    id: string,\n    accentColor: string?,\n    align: string?,\n    appearance: string?,\n    aspectRatio: number?,\n    autoComplete: string?,\n    backgroundColor: string?,\n    busy: boolean?,\n    className: string?,\n    code: string?,\n    columns: string?,\n    cornerRadius: number?,\n    count: number?,\n    dangerColor: string?,\n    depth: number?,\n    description: string?,\n    disabled: boolean?,\n    documentDescription: string?,\n    documentLanguage: string?,\n    documentTitle: string?,\n    enterKeyHint: string?,\n    errorId: string?,\n    external: boolean?,\n    fill: string?,\n    fit: string?,\n    flow: string?,\n    gap: string?,\n    header: boolean?,\n    height: number?,\n    hidden: boolean?,\n    href: string?,\n    icon: string?,\n    inputMode: string?,\n    inputType: string?,\n    justify: string?,\n    label: string?,\n    language: string?,\n    layerState: string?,\n    margin: string?,\n    marginBottom: string?,\n    marginEnd: string?,\n    marginStart: string?,\n    marginTop: string?,\n    marginX: string?,\n    marginY: string?,\n    maxVisible: number?,\n    motion: unknown,\n    mutedColor: string?,\n    nodeKind: string?,\n    onDismiss: string?,\n    onInput: string?,\n    onTap: string?,\n    open: boolean?,\n    orbitMotion: string?,\n    orbitTheme: string?,\n    padding: string?,\n    paddingBottom: string?,\n    paddingEnd: string?,\n    paddingStart: string?,\n    paddingTop: string?,\n    paddingX: string?,\n    paddingY: string?,\n    placeholder: string?,\n    presentation: string?,\n    priority: number?,\n    query: string?,\n    relatedTo: { string }?,\n    required: boolean?,\n    responsive: boolean?,\n    resultCount: number?,\n    ring: number?,\n    role: string?,\n    scope: string?,\n    scroll: string?,\n    selected: boolean?,\n    shape: string?,\n    signalIcon: string?,\n    source: string?,\n    status: string?,\n    statusTone: string?,\n    stroke: string?,\n    strokeWidth: number?,\n    successColor: string?,\n    surface: string?,\n    surfaceColor: string?,\n    text: string?,\n    textAlign: string?,\n    textColor: string?,\n    theme: Theme?,\n    title: string?,\n    tone: string?,\n    totalCount: number?,\n    value: string?,\n    variant: string?,\n    warningColor: string?,\n    width: (string | number)?,\n}",
+            ["signature"] = "export type Input = {\n    [number]: Node,\n    id: string,\n    accentColor: string?,\n    align: string?,\n    appearance: string?,\n    aspectRatio: number?,\n    autoComplete: string?,\n    backgroundColor: string?,\n    busy: boolean?,\n    className: string?,\n    code: string?,\n    columns: string?,\n    cornerRadius: number?,\n    count: number?,\n    dangerColor: string?,\n    depth: number?,\n    description: string?,\n    disabled: boolean?,\n    documentDescription: string?,\n    documentLanguage: string?,\n    documentTitle: string?,\n    enterKeyHint: string?,\n    errorId: string?,\n    external: boolean?,\n    fill: string?,\n    fit: string?,\n    flow: string?,\n    gap: string?,\n    header: boolean?,\n    height: number?,\n    hidden: boolean?,\n    href: string?,\n    icon: string?,\n    inputMode: string?,\n    inputType: string?,\n    justify: string?,\n    label: string?,\n    language: string?,\n    layerState: string?,\n    margin: string?,\n    marginBottom: string?,\n    marginEnd: string?,\n    marginStart: string?,\n    marginTop: string?,\n    marginX: string?,\n    marginY: string?,\n    maxVisible: number?,\n    motion: unknown,\n    mutedColor: string?,\n    nodeKind: string?,\n    onDismiss: string?,\n    onInput: string?,\n    onTap: string?,\n    open: boolean?,\n    orbitMotion: string?,\n    orbitTheme: string?,\n    padding: string?,\n    paddingBottom: string?,\n    paddingEnd: string?,\n    paddingStart: string?,\n    paddingTop: string?,\n    paddingX: string?,\n    paddingY: string?,\n    placeholder: string?,\n    presentation: string?,\n    priority: number?,\n    query: string?,\n    relatedTo: { string }?,\n    required: boolean?,\n    responsive: boolean?,\n    resultCount: number?,\n    ring: number?,\n    role: string?,\n    scope: string?,\n    scroll: string?,\n    selected: boolean?,\n    shape: string?,\n    signalIcon: string?,\n    source: string?,\n    status: string?,\n    statusTone: string?,\n    stroke: string?,\n    strokeWidth: number?,\n    successColor: string?,\n    surface: string?,\n    surfaceColor: string?,\n    text: string?,\n    textAlign: string?,\n    textColor: string?,\n    theme: Theme?,\n    title: string?,\n    tone: string?,\n    totalCount: number?,\n    value: string?,\n    variant: string?,\n    warningColor: string?,\n    width: (string | number)?,\n}",
+            ["parameters"] = {
+                {
+                    ["name"] = "[number]",
+                    ["values"] = "Node",
+                    ["description"] = "Index signature mapping Node; every key and value must satisfy this contract.",
+                },
+                {
+                    ["name"] = "id",
+                    ["values"] = "string",
+                    ["description"] = "Stable identifier used to correlate or address this value across operations.",
+                },
+                {
+                    ["name"] = "accentColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked accentColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "align",
+                    ["values"] = "string?",
+                    ["description"] = "Checked align field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "appearance",
+                    ["values"] = "string?",
+                    ["description"] = "Checked appearance field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "aspectRatio",
+                    ["values"] = "number?",
+                    ["description"] = "Checked aspectRatio field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "autoComplete",
+                    ["values"] = "string?",
+                    ["description"] = "Checked autoComplete field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "backgroundColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked backgroundColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "busy",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked busy field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "className",
+                    ["values"] = "string?",
+                    ["description"] = "Checked className field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "code",
+                    ["values"] = "string?",
+                    ["description"] = "Stable machine-readable failure code suitable for branching and diagnostics.",
+                },
+                {
+                    ["name"] = "columns",
+                    ["values"] = "string?",
+                    ["description"] = "Checked columns field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "cornerRadius",
+                    ["values"] = "number?",
+                    ["description"] = "Checked cornerRadius field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "count",
+                    ["values"] = "number?",
+                    ["description"] = "Checked count field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "dangerColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked dangerColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "depth",
+                    ["values"] = "number?",
+                    ["description"] = "Checked depth field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "description",
+                    ["values"] = "string?",
+                    ["description"] = "Checked description field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "disabled",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked disabled field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "documentDescription",
+                    ["values"] = "string?",
+                    ["description"] = "Checked documentDescription field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "documentLanguage",
+                    ["values"] = "string?",
+                    ["description"] = "Checked documentLanguage field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "documentTitle",
+                    ["values"] = "string?",
+                    ["description"] = "Checked documentTitle field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "enterKeyHint",
+                    ["values"] = "string?",
+                    ["description"] = "Checked enterKeyHint field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "errorId",
+                    ["values"] = "string?",
+                    ["description"] = "Checked errorId field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "external",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked external field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "fill",
+                    ["values"] = "string?",
+                    ["description"] = "Checked fill field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "fit",
+                    ["values"] = "string?",
+                    ["description"] = "Checked fit field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "flow",
+                    ["values"] = "string?",
+                    ["description"] = "Checked flow field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "gap",
+                    ["values"] = "string?",
+                    ["description"] = "Checked gap field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "header",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked header field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "height",
+                    ["values"] = "number?",
+                    ["description"] = "Checked height field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "hidden",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked hidden field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "href",
+                    ["values"] = "string?",
+                    ["description"] = "Checked href field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "icon",
+                    ["values"] = "string?",
+                    ["description"] = "Checked icon field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "inputMode",
+                    ["values"] = "string?",
+                    ["description"] = "Checked inputMode field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "inputType",
+                    ["values"] = "string?",
+                    ["description"] = "Checked inputType field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "justify",
+                    ["values"] = "string?",
+                    ["description"] = "Checked justify field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "label",
+                    ["values"] = "string?",
+                    ["description"] = "Checked label field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "language",
+                    ["values"] = "string?",
+                    ["description"] = "Checked language field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "layerState",
+                    ["values"] = "string?",
+                    ["description"] = "Checked layerState field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "margin",
+                    ["values"] = "string?",
+                    ["description"] = "Checked margin field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "marginBottom",
+                    ["values"] = "string?",
+                    ["description"] = "Checked marginBottom field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "marginEnd",
+                    ["values"] = "string?",
+                    ["description"] = "Checked marginEnd field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "marginStart",
+                    ["values"] = "string?",
+                    ["description"] = "Checked marginStart field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "marginTop",
+                    ["values"] = "string?",
+                    ["description"] = "Checked marginTop field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "marginX",
+                    ["values"] = "string?",
+                    ["description"] = "Checked marginX field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "marginY",
+                    ["values"] = "string?",
+                    ["description"] = "Checked marginY field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "maxVisible",
+                    ["values"] = "number?",
+                    ["description"] = "Checked maxVisible field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "motion",
+                    ["values"] = "unknown",
+                    ["description"] = "Checked motion field of UI.Input; its exact admitted type is unknown.",
+                },
+                {
+                    ["name"] = "mutedColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked mutedColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "nodeKind",
+                    ["values"] = "string?",
+                    ["description"] = "Checked nodeKind field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "onDismiss",
+                    ["values"] = "string?",
+                    ["description"] = "Checked onDismiss field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "onInput",
+                    ["values"] = "string?",
+                    ["description"] = "Checked onInput field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "onTap",
+                    ["values"] = "string?",
+                    ["description"] = "Checked onTap field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "open",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked open field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "orbitMotion",
+                    ["values"] = "string?",
+                    ["description"] = "Checked orbitMotion field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "orbitTheme",
+                    ["values"] = "string?",
+                    ["description"] = "Checked orbitTheme field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "padding",
+                    ["values"] = "string?",
+                    ["description"] = "Checked padding field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "paddingBottom",
+                    ["values"] = "string?",
+                    ["description"] = "Checked paddingBottom field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "paddingEnd",
+                    ["values"] = "string?",
+                    ["description"] = "Checked paddingEnd field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "paddingStart",
+                    ["values"] = "string?",
+                    ["description"] = "Checked paddingStart field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "paddingTop",
+                    ["values"] = "string?",
+                    ["description"] = "Checked paddingTop field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "paddingX",
+                    ["values"] = "string?",
+                    ["description"] = "Checked paddingX field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "paddingY",
+                    ["values"] = "string?",
+                    ["description"] = "Checked paddingY field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "placeholder",
+                    ["values"] = "string?",
+                    ["description"] = "Checked placeholder field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "presentation",
+                    ["values"] = "string?",
+                    ["description"] = "Checked presentation field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "priority",
+                    ["values"] = "number?",
+                    ["description"] = "Checked priority field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "query",
+                    ["values"] = "string?",
+                    ["description"] = "Decoded query values associated with a route entry.",
+                },
+                {
+                    ["name"] = "relatedTo",
+                    ["values"] = "{ string }?",
+                    ["description"] = "Checked relatedTo field of UI.Input; its exact admitted type is { string }?.",
+                },
+                {
+                    ["name"] = "required",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked required field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "responsive",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked responsive field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "resultCount",
+                    ["values"] = "number?",
+                    ["description"] = "Checked resultCount field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "ring",
+                    ["values"] = "number?",
+                    ["description"] = "Checked ring field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "role",
+                    ["values"] = "string?",
+                    ["description"] = "Checked role field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "scope",
+                    ["values"] = "string?",
+                    ["description"] = "Checked scope field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "scroll",
+                    ["values"] = "string?",
+                    ["description"] = "Checked scroll field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "selected",
+                    ["values"] = "boolean?",
+                    ["description"] = "Checked selected field of UI.Input; its exact admitted type is boolean?.",
+                },
+                {
+                    ["name"] = "shape",
+                    ["values"] = "string?",
+                    ["description"] = "Checked shape field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "signalIcon",
+                    ["values"] = "string?",
+                    ["description"] = "Checked signalIcon field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "source",
+                    ["values"] = "string?",
+                    ["description"] = "Checked source field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "status",
+                    ["values"] = "string?",
+                    ["description"] = "Checked status field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "statusTone",
+                    ["values"] = "string?",
+                    ["description"] = "Checked statusTone field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "stroke",
+                    ["values"] = "string?",
+                    ["description"] = "Checked stroke field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "strokeWidth",
+                    ["values"] = "number?",
+                    ["description"] = "Checked strokeWidth field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "successColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked successColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "surface",
+                    ["values"] = "string?",
+                    ["description"] = "Checked surface field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "surfaceColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked surfaceColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "text",
+                    ["values"] = "string?",
+                    ["description"] = "Checked text field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "textAlign",
+                    ["values"] = "string?",
+                    ["description"] = "Checked textAlign field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "textColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked textColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "theme",
+                    ["values"] = "Theme?",
+                    ["description"] = "Checked theme field of UI.Input; its exact admitted type is Theme?.",
+                },
+                {
+                    ["name"] = "title",
+                    ["values"] = "string?",
+                    ["description"] = "Checked title field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "tone",
+                    ["values"] = "string?",
+                    ["description"] = "Checked tone field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "totalCount",
+                    ["values"] = "number?",
+                    ["description"] = "Checked totalCount field of UI.Input; its exact admitted type is number?.",
+                },
+                {
+                    ["name"] = "value",
+                    ["values"] = "string?",
+                    ["description"] = "Validated value available on the successful result branch.",
+                },
+                {
+                    ["name"] = "variant",
+                    ["values"] = "string?",
+                    ["description"] = "Checked variant field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "warningColor",
+                    ["values"] = "string?",
+                    ["description"] = "Checked warningColor field of UI.Input; its exact admitted type is string?.",
+                },
+                {
+                    ["name"] = "width",
+                    ["values"] = "(string | number)?",
+                    ["description"] = "Checked width field of UI.Input; its exact admitted type is (string | number)?.",
+                },
+            },
+            ["returns"] = "UI.Node — a declarative node in the new render tree.",
+            ["name"] = "UI.Input",
+            ["description"] = "The author-facing constructor table combines a required semantic id, ordered UI.Node children and typed optional properties. Runtime validation additionally checks whether each property and child is supported by the selected component.",
+            ["previousPageId"] = "ui/item-39",
+            ["nextPageId"] = nil,
+            ["relatedPageIds"] = {
+                "ui/item-3",
+            },
+            ["relatedPageRoles"] = {
+                "prerequisite",
             },
         },
         {
@@ -17306,11 +17831,11 @@ local ReferenceData: any = {
         {
             ["id"] = "overview",
             ["title"] = "Start here: build apps like games",
-            ["eyebrow"] = "Luastra 0.2.0-alpha public-source alpha",
+            ["eyebrow"] = "Luastra 0.2.1-alpha public-source alpha",
             ["summary"] = "Write strict Luau that returns semantic UI from explicit state. Luastra checks and compiles the project, then its current web-based hosts render the same application model on web, desktop, and mobile.",
             ["hero"] = true,
             ["badges"] = {
-                "Source SDK contract 13",
+                "Source SDK contract 14",
                 "Runtime SDK alpha 8",
                 "Luau 0.731",
                 "Web · Tauri · Capacitor",
@@ -19815,6 +20340,13 @@ local ReferenceData: any = {
                         "layout",
                         "semantic",
                     },
+                },
+                {
+                    ["name"] = "UI.Input",
+                    ["signature"] = "export type Input",
+                    ["description"] = "The author-facing constructor table combines a required semantic id, ordered UI.Node children and typed optional properties. Runtime validation additionally checks whether each property and child is supported by the selected component.",
+                    ["useWhen"] = "Use UI.Input for a reusable constructor table. Known field types and the required id are checked statically; component-specific properties, vocabularies, numeric bounds, motion descriptors and child structure are validated at runtime. An explicit any value bypasses static checking.",
+                    ["kind"] = "type",
                 },
             },
             ["example"] = "local UI = require(\"luastra/ui\")\n\nreturn UI.Screen {\n    id = \"app\",\n    UI.Column {\n        id = \"welcome/content\",\n        gap = \"md\",\n        align = \"center\",\n        UI.Text {\n            id = \"welcome/title\",\n            text = \"Welcome to Luastra\",\n            variant = \"title\",\n            textAlign = \"center\",\n        },\n        UI.Button {\n            id = \"welcome/start\",\n            text = \"Start\",\n            onTap = \"welcome.start\",\n        },\n    },\n}",
