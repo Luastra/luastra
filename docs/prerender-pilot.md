@@ -21,11 +21,14 @@ The small `/docs/reader.js` script adds theme persistence, mobile navigation,
 Escape/scrim dismissal, clipboard actions with failure feedback, and full-content
 search. Copy actions retain the complete source, including split code blocks.
 The theme storage key is shared with the existing Luastra documentation app.
-No Wasm, hydration, renderer session or Lua VM runs on a static article.
+The static article itself runs no Wasm, hydration or renderer session. An embedded
+example starts its own Luastra runtime only after the reader selects Run example.
 
 Internal reference links use ordinary static paths. The home control is a native
-link to Constellation Orbit. Live examples and learning-step controls link to the
-interactive Luastra app instead of presenting frozen controls as live examples.
+link to Constellation Orbit. Live examples and learning-step controls use an
+on-demand iframe application built from the same app/examples module. A small
+same-origin message bridge synchronizes theme colors and frame height; example
+state and events remain in Luau. No frame or example runtime is loaded initially.
 With scripting unavailable, content and links remain available and the mobile
 navigation is shown inline; script-dependent buttons are disabled.
 
@@ -39,4 +42,5 @@ inventory. Regression tests cover renderer output, deterministic generation,
 copy sources and the live-example boundary. Browser checks cover light/dark,
 persistence across pages, copied text, search, mobile navigation and Orbit return.
 
-Physical-device and public-deployment verification remain separate release gates.
+Physical-device typography fidelity is not inferred from browser checks. Public
+deployment is verified separately against the exact release commit.

@@ -1,5 +1,5 @@
 {
-  "contentSha256": "a918780d83553fd6f1cd5402e49cb00d37d237615800a9141a4ef2bc5a563449",
+  "contentSha256": "bb54382a1bec4bc1d176e799422ef4904ac020e915592876a11bc99d796ddbaa",
   "files": [
     {
       "bytes": 182,
@@ -326,10 +326,10 @@
       "sha256": "3144a33ab32097150e3b6234c8a0d9b39e951567d2ca61455aacb5286e9151b2"
     },
     {
-      "bytes": 2420,
+      "bytes": 2732,
       "mode": 420,
       "path": "docs/prerender-pilot.md",
-      "sha256": "d2860ccb28d5e8ae7e3293df4ee576b810b077e03cf065c43642cfb83477c63b"
+      "sha256": "d946e07af0ccd5b6d563a11434f55ce18b2753c713f3ebd445164e4f234ce0bf"
     },
     {
       "bytes": 2130,
