@@ -23,6 +23,7 @@ test("release-facing package, host, documentation, and artifact versions agree",
     assert.equal((await json(path)).version, version, path);
   }
 
+  assert.equal((await json("hosts/tauri/compliance/cargo-sbom.cdx.json")).metadata.component.version, version);
   assert.equal((await json("release/sdk-release-admission.v1.json")).version, version);
   assert.equal((await json(`release-artifacts/${version}/luastra-release.v1.json`)).version, version);
   assert.equal((await json("hosts/tauri/src-tauri/tauri.conf.json")).version, version);

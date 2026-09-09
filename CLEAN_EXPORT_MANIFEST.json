@@ -1,5 +1,5 @@
 {
-  "contentSha256": "293e084cf22fdd8d1253993e4fc4df36054b811378d2909c983e72de7e795d6a",
+  "contentSha256": "53eb0d1a2c498a5220c147d7d3b88dece8a0e3d1a1579d0860887075b0a30f6b",
   "files": [
     {
       "bytes": 182,
@@ -1211,7 +1211,7 @@
       "bytes": 292826,
       "mode": 420,
       "path": "hosts/tauri/compliance/cargo-sbom.cdx.json",
-      "sha256": "5fac862d1657509b83a39caf12099db61df6e402e705767633832b0d9942fd04"
+      "sha256": "2f6463a0376bbba5a1ef7b48bc61b40f104c7871f4ab8f1984957a2ba72875ef"
     },
     {
       "bytes": 665,
@@ -3098,10 +3098,10 @@
       "sha256": "c57d1a8dde2092db73550334da5e0380ef0e3aa08c674e3659070ac488f284c5"
     },
     {
-      "bytes": 1594,
+      "bytes": 1706,
       "mode": 420,
       "path": "tests/release-version-consistency.mjs",
-      "sha256": "96d2fad3598b86ea058cb52ccfc8a335896fda410a97404c0e75cee01b89017b"
+      "sha256": "d217267d7921baa19b376e4da654b62f24cc4fd0c098ccb1de6c531976648764"
     },
     {
       "bytes": 11079,
