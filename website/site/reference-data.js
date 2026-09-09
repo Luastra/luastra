@@ -1,5 +1,5 @@
 import packageManifest from "../../package.json" with { type: "json" };
-import releaseAdmission from "../../release/sdk-release-admission.v1.json" with { type: "json" };
+import releaseAdmission from "../../release/published-release.v1.json" with { type: "json" };
 import sourceManifest from "../../sdk/source-manifest.v1.json" with { type: "json" };
 import runtimeManifest from "../../platform/runtime-manifest.v2.json" with { type: "json" };
 import sourceBuildContract from "../../platform/source-build/source-build-contract.v1.json" with { type: "json" };
@@ -31,7 +31,7 @@ export const sdkInventory = Object.freeze({
 });
 
 export const sdkTypeInventory = Object.freeze({
-  "luastra/ui": ["Properties", "Theme", "Node"],
+  "luastra/ui": ["Properties", "Theme", "Node", "Input"],
   "luastra/assets": ["Image", "Audio", "Font", "Reference"],
   "luastra/data": ["ValidationError", "Success", "Failure", "Result", "StringOptions", "NumberOptions", "ArrayOptions", "ObjectOptions", "Schema"],
   "luastra/debug": [],
@@ -74,6 +74,7 @@ const typePurpose = (moduleName, name) => {
   if (name.endsWith("Result")) return `${qualified} is a discriminated union covering successful output and bounded failure. Branching on success narrows the value to the correct exported record and makes error handling explicit.`;
   if (name === "Node") return "UI.Node is the host-neutral declarative value produced by every UI constructor. Nodes contain a validated component kind, stable ID, properties, and children that hosts translate into native semantic interface elements.";
   if (name === "Theme") return "UI.Theme is a reusable record of optional screen color overrides. Direct UI.Screen color fields take precedence, while every omitted field inherits Luastra's built-in accessible palette.";
+  if (name === "Input") return "The author-facing constructor table combines a required semantic id, ordered UI.Node children and typed optional properties. Runtime validation additionally checks whether each property and child is supported by the selected component.";
   if (name === "Properties") return "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently.";
   if (name.includes("Stack") || name.includes("Compiler")) return `${qualified} is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.`;
   if (["Tween", "Wait", "Sequence", "Descriptor", "MotionMap", "Easing"].includes(name)) return `${qualified} is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.`;
@@ -90,6 +91,7 @@ const typeUseWhen = (moduleName, name) => {
   if (name.endsWith("Result")) return `Use ${qualified} at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.`;
   if (name === "Node") return "Use UI.Node as the return type of helpers that construct interface fragments and as the required return type of Application.render. Application code should create nodes through UI constructors rather than assembling raw node tables.";
   if (name === "Theme") return "Use UI.Theme to define one reusable palette and pass it to multiple UI.Screen roots. Override only the colors your product owns; omitted fields intentionally retain Luastra's accessible defaults.";
+  if (name === "Input") return "Use UI.Input for a reusable constructor table. Known field types and the required id are checked statically; component-specific properties, vocabularies, numeric bounds, motion descriptors and child structure are validated at runtime. An explicit any value bypasses static checking.";
   if (name === "Properties") return "Use UI.Properties when a generic helper needs to inspect or pass a validated node property map. Most applications should prefer the named fields of individual UI constructors instead of constructing this map directly.";
   if (name.includes("Stack") || name.includes("Compiler")) return `Use ${qualified} as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.`;
   if (["Tween", "Wait", "Sequence", "Descriptor", "MotionMap", "Easing"].includes(name)) return `Use ${qualified} when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.`;
@@ -138,7 +140,7 @@ const uiGuidance = {
 const uiProps = {
   Screen: ["layout", "theme", "semantic"], Column: ["layout", "text-style", "semantic"], Row: ["layout", "text-style", "semantic"], Text: ["text-style", "semantic", "motion"], Button: ["action", "text-style", "semantic"], Link: ["action", "text-style", "semantic"], Code: ["text-style", "semantic"], CodeBlock: ["layout", "text-style", "semantic"], Divider: ["layout", "semantic"], Table: ["layout", "text-style", "semantic"], TableRow: ["layout", "text-style", "semantic"], TableCell: ["layout", "text-style", "semantic"], FlipCard: ["visual", "motion"], Image: ["visual", "label", "motion"], Layer: ["layout", "text-style", "semantic", "motion"], Shape: ["visual", "label", "motion"], TextInput: ["input", "semantic"], List: ["label", "layout", "semantic"], ListItem: ["text", "layout", "semantic"], Modal: ["modal", "semantic"], Orbit: ["layout", "semantic"], OrbitPath: ["layout", "semantic"], OrbitSearch: ["semantic"], Constellation: ["semantic"], OrbitCenter: ["semantic"], OrbitNode: ["action", "semantic"], OrbitCluster: ["action", "semantic"], FocusSurface: ["modal", "semantic"], FocusHeader: ["layout", "semantic"], OrbitReturn: ["action", "semantic"], Stack: ["layout", "semantic"], Grid: ["layout", "columns", "semantic"], Scroll: ["layout", "scroll", "semantic"], Card: ["layout", "surface", "motion", "semantic"], Field: ["layout", "label", "semantic"], Actions: ["layout", "semantic"],
 };
-const uiCards = [...typeCards("luastra/ui"), ...sdkInventory["luastra/ui"].map((item) => entry(`UI.${item}`, `UI.${item} { ... } -> UI.Node`, uiGuidance[item][0], { useWhen: uiGuidance[item][1], props: uiProps[item] }))];
+const uiCards = [...typeCards("luastra/ui").filter((card) => card.name !== "UI.Input"), ...sdkInventory["luastra/ui"].map((item) => entry(`UI.${item}`, `UI.${item} { ... } -> UI.Node`, uiGuidance[item][0], { useWhen: uiGuidance[item][1], props: uiProps[item] })), ...typeCards("luastra/ui").filter((card) => card.name === "UI.Input")];
 
 const apiGuidance = {
   "luastra/assets": {

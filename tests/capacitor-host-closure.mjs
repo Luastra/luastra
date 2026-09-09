@@ -13,6 +13,14 @@ const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 test("Capacitor host closure proof binds retained inputs and compliance outputs", async () => {
   const proof = JSON.parse(await readFile(resolve(host, "compliance/host-closure-proof.v1.json"), "utf8"));
   const lock = JSON.parse(await readFile(resolve(host, "package-lock.json"), "utf8"));
+  if (proof.versionMetadataUpdate) {
+    const update = proof.versionMetadataUpdate;
+    const text = await readFile(resolve(host, "package-lock.json"), "utf8");
+    assert.equal(update.nativeValidationRerun, false);
+    assert.equal(lock.version, update.toVersion);
+    assert.equal(sha256(Buffer.from(text.replaceAll(update.toVersion, update.fromVersion))), update.previousLockSha256,
+      "historical native evidence permits only version-label changes, not dependency changes");
+  }
   assert.equal(proof.identity, "luastra-capacitor-host-closure/phase5-alpha-4");
   assert.equal(proof.securityRemediation.advisory, "GHSA-6gmq-8vp8-gcm6");
   assert.equal(proof.securityRemediation.toVersion, "0.9.12");

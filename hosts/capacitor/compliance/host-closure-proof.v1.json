@@ -11,7 +11,7 @@
     {
       "path": "package-lock.json",
       "bytes": 42362,
-      "sha256": "91669b6d801d1ec6f301c6ccb22a6fb0604f0c36ac6b600256c821f66618b904"
+      "sha256": "8dd0a35f4316c776c7958e616b92c3f6b79992a870a490ead3f80707bd44ec2f"
     },
     {
       "path": "ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",
@@ -81,7 +81,10 @@
       "result": "PASS",
       "xcode": "26.3 (17C529)",
       "destination": "generic/platform=iOS Simulator",
-      "architectures": ["arm64", "x86_64"],
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
       "codeSigning": "DISABLED"
     },
     "androidDebug": {
@@ -117,5 +120,12 @@
       "artifactRetained": false
     }
   },
-  "boundary": "This proves compile and dependency/license/notice closure plus fragment deep-link and system-Back behavior for one Android emulator and one Pixel 7 Pro. It does not claim HTTPS App Links, arbitrary/nested routing, iOS Universal Links, signing, store acceptance, system media controls, interruption handling or energy behavior."
+  "boundary": "This proves compile and dependency/license/notice closure plus fragment deep-link and system-Back behavior for one Android emulator and one Pixel 7 Pro. It does not claim HTTPS App Links, arbitrary/nested routing, iOS Universal Links, signing, store acceptance, system media controls, interruption handling or energy behavior.",
+  "versionMetadataUpdate": {
+    "fromVersion": "0.2.0-alpha",
+    "toVersion": "0.2.1-alpha",
+    "previousLockSha256": "91669b6d801d1ec6f301c6ccb22a6fb0604f0c36ac6b600256c821f66618b904",
+    "nativeValidationRerun": false,
+    "boundary": "Only host package version labels changed. Recorded native builds remain historical 0.2.0-alpha evidence, not validation of this candidate."
+  }
 }

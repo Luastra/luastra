@@ -11,6 +11,7 @@ import { canonicalJson, fileLedger, packageProjectAssets, projectContentDigest }
 import { verifyGeneratedClient } from "../backend/generate-client.mjs";
 import { resolveSourceSdk } from "../sdk/resolve-source-sdk.mjs";
 import { prepareGeneratedOutput } from "./generated-output.mjs";
+import { withGeneratedOutput } from "./output-transaction.mjs";
 import { loadProject } from "./load-project.mjs";
 
 function fail(message) { throw new Error(message); }
@@ -118,23 +119,24 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
   if (!Array.isArray(selectedRoots) || selectedRoots.length === 0 || selectedRoots.some((id) => !project.modules.has(id))) fail("build roots must be declared project modules");
   const staged = await stage(project, sourceSdk, { entry: selectedEntry, roots: selectedRoots });
   try {
-    const output = target === "bundle" ? await prepareGeneratedOutput(outputDirectory, "bundle") : outputDirectory;
-    const base = target === "web"
-      ? await packageWeb({ manifestPath: staged.manifestPath, outputDirectory: output })
-      : await buildBundle({
-        manifestPath: staged.manifestPath,
-        outputDirectory: output,
-        analyzerPath: binarySdk.artifacts.analyzer,
-        compilerPath: binarySdk.artifacts.compiler,
-      });
-    const bundleContentSha256 = base.contentSha256;
-    if (target === "web") {
-      const metadata = webMetadata(project.web);
-      const title = escapeHtml(project.web?.title ?? "Luastra Application");
-      const hostHtml = (await readFile(resolve(phase5Host, "index.html"), "utf8"))
-        .replace("    <title>Luastra Preview</title>", `${metadata.head}    <title>${title}</title>`)
-        .replace("  <body>\n", `  <body>\n${metadata.fallback}`)
-        .replace(`      <header class="luastra-host-brand" aria-label="Luastra development host">
+    return await withGeneratedOutput(outputDirectory, target, async (candidate) => {
+      const output = target === "bundle" ? await prepareGeneratedOutput(candidate, "bundle") : candidate;
+      const base = target === "web"
+        ? await packageWeb({ manifestPath: staged.manifestPath, outputDirectory: output })
+        : await buildBundle({
+          manifestPath: staged.manifestPath,
+          outputDirectory: output,
+          analyzerPath: binarySdk.artifacts.analyzer,
+          compilerPath: binarySdk.artifacts.compiler,
+        });
+      const bundleContentSha256 = base.contentSha256;
+      if (target === "web") {
+        const metadata = webMetadata(project.web);
+        const title = escapeHtml(project.web?.title ?? "Luastra Application");
+        const hostHtml = (await readFile(resolve(phase5Host, "index.html"), "utf8"))
+          .replace("    <title>Luastra Preview</title>", `${metadata.head}    <title>${title}</title>`)
+          .replace("  <body>\n", `  <body>\n${metadata.fallback}`)
+          .replace(`      <header class="luastra-host-brand" aria-label="Luastra development host">
         <span class="luastra-host-lockup">
           <img src="./brand/luastra-lockup.svg" alt="Luastra" />
         </span>
@@ -142,48 +144,49 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
       </header>
 `, `      <span id="status" role="status" aria-live="polite" hidden></span>
 `);
-      await writeFile(resolve(output, "index.html"), hostHtml);
-      await copyFile(resolve(phase5Host, "phase5-ui.css"), resolve(output, "platform/phase5-ui.css"));
-      if (project.web) {
-        const sitemapUrl = new URL("sitemap.xml", project.web.canonicalUrl).href;
-        const robots = project.web.index
-          ? `User-agent: *\nAllow: /\nSitemap: ${sitemapUrl}\n`
-          : "User-agent: *\nDisallow: /\n";
-        await writeFile(resolve(output, "robots.txt"), robots);
-        if (project.web.index) {
-          const location = escapeHtml(project.web.canonicalUrl);
-          await writeFile(resolve(output, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${location}</loc></url>\n</urlset>\n`);
+        await writeFile(resolve(output, "index.html"), hostHtml);
+        await copyFile(resolve(phase5Host, "phase5-ui.css"), resolve(output, "platform/phase5-ui.css"));
+        if (project.web) {
+          const sitemapUrl = new URL("sitemap.xml", project.web.canonicalUrl).href;
+          const robots = project.web.index
+            ? `User-agent: *\nAllow: /\nSitemap: ${sitemapUrl}\n`
+            : "User-agent: *\nDisallow: /\n";
+          await writeFile(resolve(output, "robots.txt"), robots);
+          if (project.web.index) {
+            const location = escapeHtml(project.web.canonicalUrl);
+            await writeFile(resolve(output, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${location}</loc></url>\n</urlset>\n`);
+          }
         }
       }
-    }
-    const packagedAssets = await packageProjectAssets(project, output);
-    const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries);
-    let result = { ...base, bundleContentSha256, projectContentSha256, projectAssets: packagedAssets.entries.length, projectAssetLedgerSha256: packagedAssets.ledgerSha256 };
-    if (target === "web") {
-      const assets = await fileLedger(output);
-      const webLedger = {
-        schemaVersion: 2,
-        profile: "luastra-phase5-web",
+      const packagedAssets = await packageProjectAssets(project, output);
+      const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries);
+      let result = { ...base, bundleContentSha256, projectContentSha256, projectAssets: packagedAssets.entries.length, projectAssetLedgerSha256: packagedAssets.ledgerSha256 };
+      if (target === "web") {
+        const assets = await fileLedger(output);
+        const webLedger = {
+          schemaVersion: 2,
+          profile: "luastra-phase5-web",
+          project: project.id,
+          sourceSdkIdentity: sourceSdk.identity,
+          binarySdkIdentity: binarySdk.identity,
+          bundleContentSha256,
+          projectContentSha256,
+          assets,
+        };
+        const ledgerText = canonicalJson(webLedger);
+        await writeFile(resolve(output, "asset-manifest.json"), ledgerText);
+        result = { ...result, assets: assets.length, assetManifestSha256: sha256(ledgerText) };
+      }
+      return Object.freeze({
+        target,
         project: project.id,
+        modules: staged.modules.length,
         sourceSdkIdentity: sourceSdk.identity,
         binarySdkIdentity: binarySdk.identity,
-        bundleContentSha256,
-        projectContentSha256,
-        assets,
-      };
-      const ledgerText = canonicalJson(webLedger);
-      await writeFile(resolve(output, "asset-manifest.json"), ledgerText);
-      result = { ...result, assets: assets.length, assetManifestSha256: sha256(ledgerText) };
-    }
-    return Object.freeze({
-      target,
-      project: project.id,
-      modules: staged.modules.length,
-      sourceSdkIdentity: sourceSdk.identity,
-      binarySdkIdentity: binarySdk.identity,
-      binarySdkOrigin: binarySdk.origin,
-      ...(generatedBackend ? { backendContractSha256: project.backend.declaration.sha256, generatedBackendClientSha256: generatedBackend.sha256 } : {}),
-      ...result,
+        binarySdkOrigin: binarySdk.origin,
+        ...(generatedBackend ? { backendContractSha256: project.backend.declaration.sha256, generatedBackendClientSha256: generatedBackend.sha256 } : {}),
+        ...result,
+      });
     });
   } finally {
     await rm(staged.temporary, { recursive: true, force: true });

@@ -18,6 +18,109 @@ export type Node = {
     children: { Node },
 }
 
+-- Author-facing fields are checked before execution. Dynamic tables and
+-- semantic constraints (ranges, vocabularies, child structure) still pass
+-- through the runtime validators below.
+export type Input = {
+    [number]: Node,
+    id: string,
+    accentColor: string?,
+    align: string?,
+    appearance: string?,
+    aspectRatio: number?,
+    autoComplete: string?,
+    backgroundColor: string?,
+    busy: boolean?,
+    className: string?,
+    code: string?,
+    columns: string?,
+    cornerRadius: number?,
+    count: number?,
+    dangerColor: string?,
+    depth: number?,
+    description: string?,
+    disabled: boolean?,
+    documentDescription: string?,
+    documentLanguage: string?,
+    documentTitle: string?,
+    enterKeyHint: string?,
+    errorId: string?,
+    external: boolean?,
+    fill: string?,
+    fit: string?,
+    flow: string?,
+    gap: string?,
+    header: boolean?,
+    height: number?,
+    hidden: boolean?,
+    href: string?,
+    icon: string?,
+    inputMode: string?,
+    inputType: string?,
+    justify: string?,
+    label: string?,
+    language: string?,
+    layerState: string?,
+    margin: string?,
+    marginBottom: string?,
+    marginEnd: string?,
+    marginStart: string?,
+    marginTop: string?,
+    marginX: string?,
+    marginY: string?,
+    maxVisible: number?,
+    motion: unknown,
+    mutedColor: string?,
+    nodeKind: string?,
+    onDismiss: string?,
+    onInput: string?,
+    onTap: string?,
+    open: boolean?,
+    orbitMotion: string?,
+    orbitTheme: string?,
+    padding: string?,
+    paddingBottom: string?,
+    paddingEnd: string?,
+    paddingStart: string?,
+    paddingTop: string?,
+    paddingX: string?,
+    paddingY: string?,
+    placeholder: string?,
+    presentation: string?,
+    priority: number?,
+    query: string?,
+    relatedTo: { string }?,
+    required: boolean?,
+    responsive: boolean?,
+    resultCount: number?,
+    ring: number?,
+    role: string?,
+    scope: string?,
+    scroll: string?,
+    selected: boolean?,
+    shape: string?,
+    signalIcon: string?,
+    source: string?,
+    status: string?,
+    statusTone: string?,
+    stroke: string?,
+    strokeWidth: number?,
+    successColor: string?,
+    surface: string?,
+    surfaceColor: string?,
+    text: string?,
+    textAlign: string?,
+    textColor: string?,
+    theme: Theme?,
+    title: string?,
+    tone: string?,
+    totalCount: number?,
+    value: string?,
+    variant: string?,
+    warningColor: string?,
+    width: (string | number)?,
+}
+
 local defaultClasses: { [string]: string } = {
     Screen = "luastra-screen",
     Column = "luastra-column",
@@ -299,7 +402,7 @@ local function sourceNode(componentType: string, input: any): Node
     if input.language ~= nil then
         assert(type(input.language) == "string" and #input.language <= 32 and string.match(input.language, "^[A-Za-z0-9_+.-]+$") ~= nil, componentType .. " language is invalid")
     end
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     normalized.text = normalized.code
     normalized.code = nil
     local node = make(componentType, normalized)
@@ -308,24 +411,24 @@ local function sourceNode(componentType: string, input: any): Node
 end
 
 local UI = {}
-UI.Screen = function(input: any): Node
+UI.Screen = function(input: Input): Node
     assert(type(input) == "table", "Screen requires a table")
     if input.theme == nil then return make("Screen", input) end
 
     assert(type(input.theme) == "table", "Screen theme must be a UI.Theme table")
-    local merged = table.clone(input)
+    local merged: any = table.clone(input)
     merged.theme = nil
-    for key, value in pairs(input.theme) do
+    for key, value in pairs(input.theme :: any) do
         assert(type(key) == "string" and screenColorProperties[key] == true, "Screen theme contains an unsupported property")
         assert(validHexColor(value), "Screen theme " .. key .. " must be #RRGGBB")
         if merged[key] == nil then merged[key] = value end
     end
     return make("Screen", merged)
 end
-UI.Column = function(input: any): Node return make("Column", input) end
-UI.Row = function(input: any): Node return make("Row", input) end
-UI.Text = function(input: any): Node return make("Text", input) end
-UI.Button = function(input: any): Node
+UI.Column = function(input: Input): Node return make("Column", input) end
+UI.Row = function(input: Input): Node return make("Row", input) end
+UI.Text = function(input: Input): Node return make("Text", input) end
+UI.Button = function(input: Input): Node
     assert(type(input) == "table", "Button requires a table")
     if input.icon ~= nil then
         assert(type(input.icon) == "string" and buttonIcons[input.icon] == true, "Button icon must be activity, palette or pause")
@@ -335,7 +438,7 @@ UI.Button = function(input: any): Node
     end
     return make("Button", input)
 end
-UI.Link = function(input: any): Node
+UI.Link = function(input: Input): Node
     assert(type(input) == "table", "Link requires a table")
     assert(type(input.text) == "string", "Link requires string text")
     assert(validLink(input.href), "Link href must be a safe node fragment, canonical hash route, or HTTPS URL without credentials")
@@ -344,14 +447,14 @@ UI.Link = function(input: any): Node
     assert(#node.children == 0, "Link does not accept children")
     return node
 end
-UI.Code = function(input: any): Node return sourceNode("Code", input) end
-UI.CodeBlock = function(input: any): Node return sourceNode("CodeBlock", input) end
-UI.Divider = function(input: any): Node
+UI.Code = function(input: Input): Node return sourceNode("Code", input) end
+UI.CodeBlock = function(input: Input): Node return sourceNode("CodeBlock", input) end
+UI.Divider = function(input: Input): Node
     local node = make("Divider", input)
     assert(#node.children == 0, "Divider does not accept children")
     return node
 end
-UI.Image = function(input: any): Node
+UI.Image = function(input: Input): Node
     assert(type(input) == "table", "Image requires a table")
     assert(type(input.source) == "string" and string.match(input.source, "^asset:image/[a-z][a-z0-9_/%-]*$") ~= nil, "Image requires an admitted image source")
     assert(type(input.label) == "string", "Image requires a string label; use an empty label for decorative images")
@@ -359,7 +462,7 @@ UI.Image = function(input: any): Node
     assert(#node.children == 0, "Image does not accept children")
     return node
 end
-UI.Shape = function(input: any): Node
+UI.Shape = function(input: Input): Node
     assert(type(input) == "table", "Shape requires a table")
     assert(type(input.shape) == "string" and styleOptions.shape[input.shape] ~= nil, "Shape requires a supported shape")
     assert(type(input.width) == "number" and input.width >= 1 and input.width <= 4096, "Shape width must be between 1 and 4096")
@@ -368,37 +471,37 @@ UI.Shape = function(input: any): Node
     assert(#node.children == 0, "Shape does not accept children")
     return node
 end
-UI.Layer = function(input: any): Node return make("Layer", input) end
-UI.FlipCard = function(input: any): Node
+UI.Layer = function(input: Input): Node return make("Layer", input) end
+UI.FlipCard = function(input: Input): Node
     local node = make("FlipCard", input)
     assert(#node.children == 2, "FlipCard requires exactly two children: front and back")
     return node
 end
-UI.TextInput = function(input: any): Node return make("TextInput", input) end
-UI.List = function(input: any): Node return make("List", input) end
-UI.ListItem = function(input: any): Node return make("ListItem", input) end
-UI.Table = function(input: any): Node
+UI.TextInput = function(input: Input): Node return make("TextInput", input) end
+UI.List = function(input: Input): Node return make("List", input) end
+UI.ListItem = function(input: Input): Node return make("ListItem", input) end
+UI.Table = function(input: Input): Node
     local node = make("Table", input)
     for _, child in node.children do assert(child.type == "TableRow", "Table children must be TableRow nodes") end
     return node
 end
-UI.TableRow = function(input: any): Node
+UI.TableRow = function(input: Input): Node
     local node = make("TableRow", input)
     for _, child in node.children do assert(child.type == "TableCell", "TableRow children must be TableCell nodes") end
     return node
 end
-UI.TableCell = function(input: any): Node
+UI.TableCell = function(input: Input): Node
     assert(type(input) == "table", "TableCell requires a table")
     if input.header ~= nil then assert(type(input.header) == "boolean", "TableCell header must be a boolean") end
     if input.scope ~= nil then assert(input.header == true and (input.scope == "col" or input.scope == "row"), "TableCell scope requires a header cell and must be col or row") end
     return make("TableCell", input)
 end
-UI.Modal = function(input: any): Node return make("Modal", input) end
+UI.Modal = function(input: Input): Node return make("Modal", input) end
 local function addSemanticClass(input: any, semanticClass: string): any
     assert(type(input) == "table", "semantic UI component requires a table")
     local customClass = input.className
     assert(customClass == nil or type(customClass) == "string", "className must be a string")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     normalized.className = customClass == nil and semanticClass or (customClass :: string) .. " " .. semanticClass
     return normalized
 end
@@ -435,7 +538,7 @@ local function orbitRelatedTargets(componentType: string, input: any): string?
     return table.concat(targets, ",")
 end
 
-UI.Orbit = function(input: any): Node
+UI.Orbit = function(input: Input): Node
     assert(type(input) == "table", "Orbit requires a table")
     local presentation = input.presentation == nil and "auto" or input.presentation
     local orbitTheme = input.orbitTheme == nil and "luastra" or input.orbitTheme
@@ -445,7 +548,7 @@ UI.Orbit = function(input: any): Node
     assert(type(orbitTheme) == "string" and orbitThemes[orbitTheme] == true, "Orbit orbitTheme is not supported")
     assert(orbitMotion == "system" or orbitMotion == "off", "Orbit orbitMotion must be system or off")
     assert(type(maxVisible) == "number" and maxVisible % 1 == 0 and maxVisible >= 4 and maxVisible <= 32, "Orbit maxVisible must be an integer between 4 and 32")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     normalized.presentation = nil
     normalized.orbitTheme = nil
     normalized.orbitMotion = nil
@@ -460,14 +563,14 @@ UI.Orbit = function(input: any): Node
     assert(constellationCount > 0, "Orbit requires at least one Constellation")
     return node
 end
-UI.OrbitPath = function(input: any): Node
+UI.OrbitPath = function(input: Input): Node
     local normalized = addSemanticClass(input, "luastra-orbit-path")
     if normalized.role == nil then normalized.role = "navigation" end
     local node = make("Row", normalized)
     for _, child in node.children do assert(child.type == "Button" or child.type == "Text", "OrbitPath children must be Button or Text nodes") end
     return node
 end
-UI.OrbitSearch = function(input: any): Node
+UI.OrbitSearch = function(input: Input): Node
     assert(type(input) == "table", "OrbitSearch requires a table")
     local query = input.query == nil and "" or input.query
     local resultCount = input.resultCount
@@ -480,7 +583,7 @@ UI.OrbitSearch = function(input: any): Node
     assert(type(label) == "string" and #label >= 1 and #label <= 160, "OrbitSearch label must contain 1 to 160 bytes")
     assert(type(placeholder) == "string" and #placeholder <= 160, "OrbitSearch placeholder must be a string of at most 160 bytes")
     assert(validAction(input.onInput), "OrbitSearch onInput must be a valid action")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     normalized.query = nil
     normalized.resultCount = nil
     normalized.totalCount = nil
@@ -506,13 +609,13 @@ UI.OrbitSearch = function(input: any): Node
     table.insert(node.children, make("Text", { id = node.id .. "/status", text = status, role = "status" }))
     return node
 end
-UI.Constellation = function(input: any): Node
+UI.Constellation = function(input: Input): Node
     assert(type(input) == "table", "Constellation requires a table")
     local layerState = input.layerState == nil and "active" or input.layerState
     local depth = input.depth == nil and 0 or input.depth
     assert(layerState == "active" or layerState == "behind" or layerState == "ahead", "Constellation layerState must be active, behind or ahead")
     assert(type(depth) == "number" and depth % 1 == 0 and depth >= 0 and depth <= 32, "Constellation depth must be an integer between 0 and 32")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     normalized.layerState = nil
     normalized.depth = nil
     normalized = addSemanticClass(normalized, "luastra-constellation luastra-constellation-state-" .. layerState .. " luastra-constellation-depth-" .. tostring(depth))
@@ -546,7 +649,7 @@ local function orbitTextComponent(componentType: string, input: any): Node
     assert(type(input) == "table", componentType .. " requires a table")
     assert(type(input.title) == "string" and #input.title >= 1 and #input.title <= 160, componentType .. " title must contain 1 to 160 bytes")
     assert(input.description == nil or (type(input.description) == "string" and #input.description <= 320), componentType .. " description must be a string of at most 320 bytes")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     local title = normalized.title
     local description = normalized.description
     normalized.title = nil
@@ -562,7 +665,7 @@ local function orbitTextComponent(componentType: string, input: any): Node
     return node
 end
 
-UI.OrbitCenter = function(input: any): Node return orbitTextComponent("OrbitCenter", input) end
+UI.OrbitCenter = function(input: Input): Node return orbitTextComponent("OrbitCenter", input) end
 local function orbitStatus(componentType: string, input: any): (string?, string?)
     local status = input.status
     local statusTone = input.statusTone
@@ -595,7 +698,7 @@ local function orbitSignalIcon(componentType: string, input: any): string?
     assert(icon == nil or orbitSignalIcons[icon] == true, componentType .. " signalIcon must be bolt, book, check, compass, gauge, grid, play, rocket, search, settings, spark or star")
     return icon
 end
-UI.OrbitNode = function(input: any): Node
+UI.OrbitNode = function(input: Input): Node
     assert(type(input) == "table", "OrbitNode requires a table")
     local nodeKind = input.nodeKind == nil and "leaf" or input.nodeKind
     local priority = input.priority == nil and 2 or input.priority
@@ -607,7 +710,7 @@ UI.OrbitNode = function(input: any): Node
     assert(type(priority) == "number" and priority % 1 == 0 and priority >= 1 and priority <= 3, "OrbitNode priority must be an integer between 1 and 3")
     assert(ring == nil or (type(ring) == "number" and ring % 1 == 0 and ring >= 1 and ring <= 3), "OrbitNode ring must be an integer between 1 and 3")
     assert(input.selected == nil or type(input.selected) == "boolean", "OrbitNode selected must be a boolean")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     normalized.nodeKind = nil
     normalized.priority = nil
     normalized.ring = nil
@@ -628,7 +731,7 @@ UI.OrbitNode = function(input: any): Node
     end
     return node
 end
-UI.OrbitCluster = function(input: any): Node
+UI.OrbitCluster = function(input: Input): Node
     assert(type(input) == "table", "OrbitCluster requires a table")
     assert(type(input.title) == "string" and #input.title >= 1 and #input.title <= 160, "OrbitCluster title must contain 1 to 160 bytes")
     assert(type(input.count) == "number" and input.count % 1 == 0 and input.count >= 1 and input.count <= 9999, "OrbitCluster count must be an integer between 1 and 9999")
@@ -639,7 +742,7 @@ UI.OrbitCluster = function(input: any): Node
     local status, statusTone = orbitStatus("OrbitCluster", input)
     assert(type(priority) == "number" and priority % 1 == 0 and priority >= 1 and priority <= 3, "OrbitCluster priority must be an integer between 1 and 3")
     assert(ring == nil or (type(ring) == "number" and ring % 1 == 0 and ring >= 1 and ring <= 3), "OrbitCluster ring must be an integer between 1 and 3")
-    local normalized = table.clone(input)
+    local normalized: any = table.clone(input)
     local title = normalized.title
     local count = normalized.count
     normalized.title = nil
@@ -668,12 +771,12 @@ UI.OrbitCluster = function(input: any): Node
     end
     return node
 end
-UI.FocusSurface = function(input: any): Node
+UI.FocusSurface = function(input: Input): Node
     local normalized = addSemanticClass(input, "luastra-focus-surface")
     if normalized.open == nil then normalized.open = false end
     return make("Modal", normalized)
 end
-UI.FocusHeader = function(input: any): Node
+UI.FocusHeader = function(input: Input): Node
     local node = make("Row", addSemanticClass(input, "luastra-focus-header"))
     local textCount = 0
     local buttonCount = 0
@@ -690,12 +793,12 @@ UI.FocusHeader = function(input: any): Node
     assert(textCount == 1 and buttonCount == 1, "FocusHeader requires exactly one Text and one Button")
     return node
 end
-UI.OrbitReturn = function(input: any): Node return make("Button", addSemanticClass(input, "luastra-orbit-return")) end
-UI.Stack = function(input: any): Node return make("Column", input, "luastra-stack") end
-UI.Grid = function(input: any): Node return make("Row", input, "luastra-grid") end
-UI.Scroll = function(input: any): Node return make("Column", input, "luastra-scroll") end
-UI.Card = function(input: any): Node return make("Column", input, "luastra-card") end
-UI.Field = function(input: any): Node return make("Column", input, "luastra-field") end
-UI.Actions = function(input: any): Node return make("Row", input, "luastra-actions") end
+UI.OrbitReturn = function(input: Input): Node return make("Button", addSemanticClass(input, "luastra-orbit-return")) end
+UI.Stack = function(input: Input): Node return make("Column", input, "luastra-stack") end
+UI.Grid = function(input: Input): Node return make("Row", input, "luastra-grid") end
+UI.Scroll = function(input: Input): Node return make("Column", input, "luastra-scroll") end
+UI.Card = function(input: Input): Node return make("Column", input, "luastra-card") end
+UI.Field = function(input: Input): Node return make("Column", input, "luastra-field") end
+UI.Actions = function(input: Input): Node return make("Row", input, "luastra-actions") end
 
 return table.freeze(UI)

@@ -89,15 +89,15 @@ export const generatedPages = Object.freeze([
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.2.0-alpha release boundary",
+    "module": "0.2.1-alpha release boundary",
     "callable": false,
     "useWhen": "Use this when installing Luastra on a supported machine for the first time or when installing an explicitly selected release version.",
-    "code": "curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-install.mjs\nnode luastra-install.mjs \\\n  --manifest=https://github.com/Luastra/luastra/releases/download/v0.2.0-alpha/luastra-release.v1.json",
+    "code": "curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.2.1-alpha/luastra-install.mjs\nnode luastra-install.mjs \\\n  --manifest=https://github.com/Luastra/luastra/releases/download/v0.2.1-alpha/luastra-release.v1.json",
     "signature": "download → verify → atomic install → doctor",
     "parameters": [],
     "returns": null,
     "name": "Release installation contract",
-    "description": "The Node.js bootstrap detects the host, downloads only its archive over HTTPS, verifies the release manifest and archive ledger, then atomically installs the SDK under ~/.luastra/sdk/0.2.0-alpha.",
+    "description": "The Node.js bootstrap detects the host, downloads only its archive over HTTPS, verifies the release manifest and archive ledger, then atomically installs the SDK under ~/.luastra/sdk/0.2.1-alpha.",
     "language": "Shell",
     "points": [
       "Supported archives: macOS arm64/x64, Linux x64, and Windows x64.",
@@ -116,21 +116,21 @@ export const generatedPages = Object.freeze([
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.2.0-alpha release boundary",
+    "module": "0.2.1-alpha release boundary",
     "callable": false,
     "useWhen": "Use this on an offline machine or when release assets are transferred through a controlled internal channel.",
-    "code": "# Every required file is in this release's Assets list:\n# https://github.com/Luastra/luastra/releases/tag/v0.2.0-alpha\n\n# Run from the directory containing the three downloaded files:\nnode ./luastra-install.mjs --manifest=./luastra-release.v1.json",
+    "code": "# Every required file is in this release's Assets list:\n# https://github.com/Luastra/luastra/releases/tag/v0.2.1-alpha\n\n# Run from the directory containing the three downloaded files:\nnode ./luastra-install.mjs --manifest=./luastra-release.v1.json",
     "signature": "GitHub Release assets → one transfer directory → verified install",
     "parameters": [],
     "returns": null,
     "name": "Offline installation",
-    "description": "On a connected machine, open the v0.2.0-alpha GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.",
+    "description": "On a connected machine, open the v0.2.1-alpha GitHub Release and download three assets: luastra-install.mjs, luastra-release.v1.json, and exactly one SDK archive matching the offline destination machine. Copy those three files, without renaming them, into one directory on the offline machine.",
     "language": "Shell",
     "points": [
-      "macOS Apple Silicon (M1 or newer): luastra-sdk-0.2.0-alpha-darwin-arm64.tar.gz.",
-      "macOS Intel: luastra-sdk-0.2.0-alpha-darwin-x64.tar.gz.",
-      "Linux x64: luastra-sdk-0.2.0-alpha-linux-x64.tar.gz.",
-      "Windows x64: luastra-sdk-0.2.0-alpha-win32-x64.tar.gz.",
+      "macOS Apple Silicon (M1 or newer): luastra-sdk-0.2.1-alpha-darwin-arm64.tar.gz.",
+      "macOS Intel: luastra-sdk-0.2.1-alpha-darwin-x64.tar.gz.",
+      "Linux x64: luastra-sdk-0.2.1-alpha-linux-x64.tar.gz.",
+      "Windows x64: luastra-sdk-0.2.1-alpha-win32-x64.tar.gz.",
       "GitHub may collapse the list behind Show all assets. Download the archives from the Release page, not from the repository Code tab.",
       "Keep the original filenames: the manifest selects the current host and the installer verifies the matching archive and its internal file ledger."
     ],
@@ -146,7 +146,7 @@ export const generatedPages = Object.freeze([
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.2.0-alpha release boundary",
+    "module": "0.2.1-alpha release boundary",
     "callable": false,
     "useWhen": "Check this before installation or when the Luastra shim cannot start.",
     "code": "node --version\n# Expected: v24.x or newer",
@@ -168,7 +168,7 @@ export const generatedPages = Object.freeze([
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.2.0-alpha release boundary",
+    "module": "0.2.1-alpha release boundary",
     "callable": false,
     "useWhen": "Use this only when installation succeeds but the shell reports command not found or does not recognize luastra.",
     "code": "# zsh (macOS default)\necho 'export PATH=\"$HOME/.luastra/bin:$PATH\"' >> ~/.zshrc\nsource ~/.zshrc\n\n# bash\necho 'export PATH=\"$HOME/.luastra/bin:$PATH\"' >> ~/.bashrc\nsource ~/.bashrc\n\n# PowerShell, current window\n$env:Path = \"$HOME\\.luastra\\bin;$env:Path\"\n\nluastra version\nluastra doctor",
@@ -180,7 +180,7 @@ export const generatedPages = Object.freeze([
     "language": "Shell",
     "points": [
       "For a permanent Windows setting, add %USERPROFILE%\\.luastra\\bin to your user PATH, then open a new terminal.",
-      "A successful version command prints JSON whose result is PASS and whose version is 0.2.0-alpha.",
+      "A successful version command prints JSON whose result is PASS and whose version is 0.2.1-alpha.",
       "A successful doctor command prints JSON with result PASS. Do not continue if doctor reports a checksum, receipt, host, or installed-file mismatch."
     ],
     "previousPageId": "installation/item-3",
@@ -195,10 +195,10 @@ export const generatedPages = Object.freeze([
     "kind": "entry",
     "sectionId": "installation",
     "sectionTitle": "Install Luastra",
-    "module": "0.2.0-alpha release boundary",
+    "module": "0.2.1-alpha release boundary",
     "callable": false,
     "useWhen": "Run doctor after installation or switching; use an older retained version when an update must be rolled back.",
-    "code": "luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use 0.2.0-alpha\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>",
+    "code": "luastra version\nluastra doctor\nluastra sdk list\nluastra sdk use 0.2.1-alpha\nluastra sdk update --manifest=<path-or-https-url>\nluastra sdk remove <inactive-version>",
     "signature": "doctor · list · use · update · remove",
     "parameters": [],
     "returns": null,
@@ -3719,7 +3719,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
     "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
     "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -3758,7 +3758,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
     "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
     "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -3838,7 +3838,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
     "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
     "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -3902,7 +3902,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Screen content. Application.render returns exactly one Screen.",
     "accessibility": "Creates the main landmark and owns document language and metadata. Keep one meaningful h1 on each page.",
@@ -3913,7 +3913,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Screen exactly once at the root of Application.render. Choose it when starting a page or route; use Column, Row, or another container for every nested region.",
     "code": "return UI.Screen {\n    id = \"app/root\",\n    width = \"full\",\n    theme = appTheme,\n    documentTitle = \"My Luastra app\",\n    UI.Text { id = \"app/title\", text = \"Hello\", variant = \"title\" },\n}",
-    "signature": "UI.Screen(input: any): Node",
+    "signature": "UI.Screen(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -4143,7 +4143,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Items are arranged from top to bottom.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4154,7 +4154,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Column for forms, articles, settings, and other top-to-bottom flows. Choose Layer instead when children must overlap, or Row when the primary flow is horizontal.",
     "code": "UI.Column {\n    id = \"profile/content\",\n    width = \"full\",\n    gap = \"md\",\n    align = \"center\",\n    UI.Text { id = \"profile/title\", text = \"Profile\", variant = \"heading\" },\n    UI.Text { id = \"profile/status\", text = \"Ready\" },\n}",
-    "signature": "UI.Column(input: any): Node",
+    "signature": "UI.Column(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -4337,7 +4337,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Items flow from left to right and may wrap.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -4348,7 +4348,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Row for toolbars, compact metadata, button groups, and side-by-side content. Enable wrapping or responsive behavior when the combined child widths may exceed a phone viewport.",
     "code": "UI.Row {\n    id = \"toolbar/actions\",\n    width = \"full\",\n    gap = \"sm\",\n    justify = \"between\",\n    responsive = true,\n    UI.Button { id = \"toolbar/back\", text = \"Back\", onTap = \"back\" },\n    UI.Button { id = \"toolbar/save\", text = \"Save\", onTap = \"save\" },\n}",
-    "signature": "UI.Row(input: any): Node",
+    "signature": "UI.Row(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -4535,7 +4535,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "variant creates the real h1/h2/h3 hierarchy; textAlign changes visual alignment only, not reading order.",
@@ -4546,7 +4546,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Text for every visible label, paragraph, heading, status announcement, or validation message that is not the built-in label of another control. Pick a heading variant only when it represents the document hierarchy.",
     "code": "UI.Text {\n    id = \"page/title\",\n    width = \"full\",\n    text = \"Centered title\",\n    variant = \"title\",\n    textAlign = \"center\",\n    textColor = \"accent\",\n}",
-    "signature": "UI.Text(input: any): Node",
+    "signature": "UI.Text(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -4700,7 +4700,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Keeps native button semantics, keyboard activation, and visible focus. Do not replace it with a tappable Shape.",
@@ -4711,7 +4711,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Button when the user initiates an operation or changes application state. Icon-only buttons require a descriptive label. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable.",
     "code": "UI.Button {\n    id = \"game/start\",\n    text = \"Start\",\n    appearance = \"primary\",\n    onTap = \"game.start\",\n    label = \"Start the game\",\n}",
-    "signature": "UI.Button(input: any): Node",
+    "signature": "UI.Button(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -4863,7 +4863,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Keeps native link semantics. Its visible text should explain the destination without relying on surrounding prose.",
@@ -4874,7 +4874,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Link when activation changes location or opens a documented resource. Use a canonical #/ route for application navigation, a # fragment for one rendered node, and UI.Button when the action only modifies current state.",
     "code": "UI.Link {\n    id = \"docs/button\",\n    text = \"UI.Button\",\n    href = \"#docs/button\",\n    onTap = \"docs.open-button\",\n}",
-    "signature": "UI.Link(input: any): Node",
+    "signature": "UI.Link(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5015,7 +5015,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -5026,7 +5026,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Code for command names, identifiers, property values, and short expressions inside explanatory content. Use UI.CodeBlock for multiline source or commands.",
     "code": "UI.Code { id = \"docs/signature\", code = \"UI.Button { ... }\", language = \"Luau\" }",
-    "signature": "UI.Code(input: any): Node",
+    "signature": "UI.Code(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5156,7 +5156,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -5167,7 +5167,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.CodeBlock for complete snippets, terminal sessions, JSON, or other preformatted material. Keep prose and very short identifiers in UI.Text or UI.Code.",
     "code": "UI.CodeBlock { id = \"docs/example\", code = \"local UI = require(\\\"luastra/ui\\\")\", language = \"Luau\" }",
-    "signature": "UI.CodeBlock(input: any): Node",
+    "signature": "UI.CodeBlock(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5318,7 +5318,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Without label it is decorative; add label only when the divider itself carries meaning.",
@@ -5329,7 +5329,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Divider when grouping is otherwise unclear between neighbouring sections. Mark purely decorative separators accordingly and prefer spacing when separation alone is sufficient.",
     "code": "UI.Divider { id = \"docs/divider\", label = \"API details\" }",
-    "signature": "UI.Divider(input: any): Node",
+    "signature": "UI.Divider(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5421,7 +5421,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Table rows only.",
     "accessibility": "TableRow and TableCell create a real table; header and scope associate headers with columns and rows.",
@@ -5432,7 +5432,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Table for genuinely two-dimensional data where headers identify values across rows or columns. Use List or Grid for collections that do not require table relationships.",
     "code": "UI.Table {\n    id = \"docs/parameters\",\n    label = \"Parameters\",\n    UI.TableRow {\n        id = \"docs/parameters/header\",\n        UI.TableCell {\n            id = \"docs/parameters/name\",\n            text = \"Name\",\n            header = true,\n            scope = \"col\",\n        },\n    },\n}",
-    "signature": "UI.Table(input: any): Node",
+    "signature": "UI.Table(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5613,7 +5613,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Table cells only.",
     "accessibility": "Does not create a separate accessible name; its header cells establish the row meaning.",
@@ -5624,7 +5624,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.TableRow only as a direct child of UI.Table, once per header or data row. Keep every row's cell structure consistent with the table headers.",
     "code": "UI.TableRow {\n    id = \"docs/row\",\n    UI.TableCell {\n        id = \"docs/row/name\",\n        text = \"width\",\n        header = true,\n        scope = \"row\",\n    },\n}",
-    "signature": "UI.TableRow(input: any): Node",
+    "signature": "UI.TableRow(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5758,7 +5758,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Optional nested nodes instead of short text.",
     "accessibility": "For a header, set header=true and the appropriate scope=col or scope=row.",
@@ -5769,7 +5769,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.TableCell only inside UI.TableRow. Mark cells as headers when they label a row or column; use ordinary cells for values.",
     "code": "UI.TableCell { id = \"docs/cell\", text = \"full | content | wide\" }",
-    "signature": "UI.TableCell(input: any): Node",
+    "signature": "UI.TableCell(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -5925,7 +5925,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "First child is the front and second is the back; FlipCard owns the size.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -5936,7 +5936,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.FlipCard for reveal interactions where two complete visual trees occupy one card-sized area. Use Layer inside either face when that face needs an image, shape, and overlaid text.",
     "code": "UI.FlipCard {\n    id = \"game/card\",\n    width = 274,\n    height = 382,\n    motion = Motion.flip { fromDeg = revealed and 0 or 180, toDeg = revealed and 180 or 0, durationMs = 500 },\n    UI.Image { id = \"game/card/back\", source = cardBack, label = \"Hidden card\" },\n    UI.Shape { id = \"game/card/color\", shape = \"roundedRectangle\", width = 274, height = 382, fill = hiddenColor },\n}",
-    "signature": "UI.FlipCard(input: any): Node",
+    "signature": "UI.FlipCard(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -6031,7 +6031,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "label is required; use an empty string only for a genuinely decorative image.",
@@ -6042,7 +6042,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Image for packaged PNG, JPEG, WebP, or AVIF artwork. Use UI.Shape for scalable geometry that does not need an asset, and supply a meaningful label unless the image is genuinely decorative.",
     "code": "local Assets = require(\"luastra/assets\")\n\nUI.Image {\n    id = \"card/back\",\n    source = Assets.uri(Assets.image(\"image/card-back\")),\n    width = 274,\n    height = 382,\n    fit = \"cover\",\n    label = \"Card back\",\n}",
-    "signature": "UI.Image(input: any): Node",
+    "signature": "UI.Image(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -6151,7 +6151,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "The first child defines the bounds; later children overlay the same area.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -6162,7 +6162,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Layer for text over artwork, badges, card faces, and other overlapping compositions. Put the size-defining background first and wrap overlay content in a full-size Column or Row when it needs predictable alignment.",
     "code": "UI.Layer {\n    id = \"welcome/layer\",\n    width = 280,\n    height = 380,\n    UI.Shape { id = \"welcome/background\", shape = \"roundedRectangle\", width = 280, height = 380, fill = \"surface\" },\n    UI.Column { id = \"welcome/content\", width = \"full\", align = \"center\", justify = \"center\",\n        UI.Text { id = \"welcome/title\", width = \"full\", textAlign = \"center\", text = \"Welcome\" },\n    },\n}",
-    "signature": "UI.Layer(input: any): Node",
+    "signature": "UI.Layer(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -6349,7 +6349,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -6360,7 +6360,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Shape for rectangles, circles, polygons, stars, outlines, and colored card faces. Use UI.Image when the visual contains texture or detail that geometry cannot represent.",
     "code": "UI.Shape {\n    id = \"status/star\",\n    shape = \"star\",\n    width = 96,\n    height = 96,\n    fill = \"warning\",\n    stroke = \"accent\",\n    strokeWidth = 2,\n    label = \"Achievement\",\n}",
-    "signature": "UI.Shape(input: any): Node",
+    "signature": "UI.Shape(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -6479,7 +6479,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "label is required. required, disabled, and errorId expose state to screen readers; an error hint should be a visible role=alert.",
@@ -6490,7 +6490,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.TextInput for editable text, email, password, search, telephone, or numeric entry. Update its state from onInput and return the new value on the following render; use a custom component only for unsupported multiline editing.",
     "code": "UI.TextInput {\n    id = \"form/email\",\n    label = \"Email\",\n    value = email,\n    onInput = \"form.email-change\",\n    inputType = \"email\",\n    inputMode = \"email\",\n    enterKeyHint = \"next\",\n    required = true,\n}",
-    "signature": "UI.TextInput(input: any): Node",
+    "signature": "UI.TextInput(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -6642,7 +6642,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "List items only.",
     "accessibility": "Creates a real list; provide label when a nearby heading does not make the list purpose clear.",
@@ -6653,7 +6653,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.List when sibling items form one meaningful sequence or set. Use Column for unrelated blocks and Table for values with row-and-column relationships.",
     "code": "UI.List {\n    id = \"checklist\",\n    label = \"Release checklist\",\n    UI.ListItem { id = \"checklist/check\", text = \"Run luastra check\" },\n    UI.ListItem { id = \"checklist/test\", text = \"Run luastra test\" },\n}",
-    "signature": "UI.List(input: any): Node",
+    "signature": "UI.List(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -6834,7 +6834,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Must be a direct child of UI.List to preserve correct list semantics.",
@@ -6845,7 +6845,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.ListItem only as a direct child of UI.List, once per conceptual item. Put buttons, links, and descriptive content inside the item when they belong to that entry.",
     "code": "UI.ListItem {\n    id = \"steps/build\",\n    text = \"Build the web target\",\n}",
-    "signature": "UI.ListItem(input: any): Node",
+    "signature": "UI.ListItem(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7026,7 +7026,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Heading, content, and close action.",
     "accessibility": "The host traps focus inside the open dialog, Escape invokes onDismiss, and closing restores focus to the trigger.",
@@ -7037,7 +7037,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Modal for short blocking decisions or focused information that must be handled before returning to the page. Use an ordinary routed screen for long, independently navigable workflows.",
     "code": "UI.Modal {\n    id = \"help/modal\",\n    open = helpOpen,\n    label = \"Help\",\n    onDismiss = \"help.close\",\n    UI.Text { id = \"help/title\", text = \"Help\", variant = \"heading\" },\n    UI.Button { id = \"help/close\", text = \"Close\", onTap = \"help.close\" },\n}",
-    "signature": "UI.Modal(input: any): Node",
+    "signature": "UI.Modal(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7180,7 +7180,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Orbit experience content with at least one constellation.",
     "accessibility": "The host preserves one semantic model across spatial and list presentations and isolates every inactive constellation from interaction.",
@@ -7191,7 +7191,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Orbit when an application benefits from spatial discovery while still requiring a complete list fallback, stable navigation state, keyboard access, and identical meaning across host presentations.",
     "code": "UI.Orbit {\n    id = \"map\",\n    label = \"Application map\",\n    UI.Constellation {\n        id = \"map/root\",\n        UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n        UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n    },\n}",
-    "signature": "UI.Orbit(input: any): Node",
+    "signature": "UI.Orbit(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7399,7 +7399,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Return controls, current depth, and stable Orbit preferences.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -7410,7 +7410,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.OrbitPath for ancestor return controls, the current depth label, and Orbit-wide preferences that must remain available without being duplicated inside every constellation.",
     "code": "UI.OrbitPath {\n    id = \"map/path\",\n    label = \"Orbit path\",\n    UI.OrbitReturn { id = \"map/back\", text = \"Back\", onTap = \"back\" },\n    UI.Text { id = \"map/current\", text = \"Build\" },\n}",
-    "signature": "UI.OrbitPath(input: any): Node",
+    "signature": "UI.OrbitPath(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7596,7 +7596,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "The generated result summary is a live status; Escape clears a non-empty query before it performs Orbit return navigation.",
@@ -7607,7 +7607,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.OrbitSearch when the active constellation can become difficult to scan. Keep the query in Luau state, preserve stable node IDs, and hide non-matching nodes instead of creating a parallel result model.",
     "code": "UI.OrbitSearch {\n    id = \"map/search\",\n    query = query,\n    resultCount = resultCount,\n    totalCount = #nodes,\n    onInput = \"search\",\n}",
-    "signature": "UI.OrbitSearch(input: any): Node",
+    "signature": "UI.OrbitSearch(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7726,7 +7726,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Complete content of this navigation depth.",
     "accessibility": "Only the active layer remains interactive and exposed to assistive technology; source order remains the list and reading order.",
@@ -7737,7 +7737,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Constellation for each root or nested content space in an Orbit. Keep inactive neighbours as behind or ahead only when they are needed for bounded transitions.",
     "code": "UI.Constellation {\n    id = \"map/root\",\n    layerState = \"active\",\n    UI.OrbitCenter { id = \"map/root/center\", title = \"My app\" },\n    UI.OrbitNode { id = \"map/start\", title = \"Start\", onTap = \"start\" },\n}",
-    "signature": "UI.Constellation(input: any): Node",
+    "signature": "UI.Constellation(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7827,7 +7827,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -7838,7 +7838,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.OrbitCenter exactly once in each UI.Constellation to name the current semantic space. Do not use it as an action or encode application coordinates in its content.",
     "code": "UI.OrbitCenter {\n    id = \"map/root/center\",\n    title = \"My app\",\n    description = \"Choose a direction.\",\n}",
-    "signature": "UI.OrbitCenter(input: any): Node",
+    "signature": "UI.OrbitCenter(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -7943,7 +7943,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "The complete title, description, status, relationships, and native button semantics remain accessible at every semantic zoom tier.",
@@ -7954,7 +7954,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.OrbitNode for every individually actionable concept in a constellation. Supply stable meaning and state; let the host select coordinates and the visible Signal, Identity, or Preview tier.",
     "code": "UI.OrbitNode {\n    id = \"map/build\",\n    title = \"Build\",\n    description = \"Compose the interface.\",\n    nodeKind = \"constellation\",\n    signalIcon = \"spark\",\n    priority = 1,\n    onTap = \"open-build\",\n}",
-    "signature": "UI.OrbitNode(input: any): Node",
+    "signature": "UI.OrbitNode(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -8122,7 +8122,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "The group title and item count form one accessible button name; cluster membership and navigation remain application-authored.",
@@ -8133,7 +8133,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.OrbitCluster when several nodes have a real domain grouping and a local destination constellation. Do not group items only because their current screen coordinates happen to be close.",
     "code": "UI.OrbitCluster {\n    id = \"map/examples\",\n    title = \"Examples\",\n    count = 48,\n    signalIcon = \"grid\",\n    onTap = \"open-examples\",\n}",
-    "signature": "UI.OrbitCluster(input: any): Node",
+    "signature": "UI.OrbitCluster(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -8283,7 +8283,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "FocusHeader followed by full leaf content.",
     "accessibility": "The host names the dialog from its visible heading, traps focus, supports Escape, and restores focus to the originating node.",
@@ -8294,7 +8294,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.FocusSurface for focused leaf content that belongs to the current Orbit route. Keep open state and dismissal in Luau navigation so Back, direct links, and visible controls reach the same outcome.",
     "code": "UI.FocusSurface {\n    id = \"map/focus\",\n    label = \"Build details\",\n    open = focused,\n    onDismiss = \"close-focus\",\n    UI.FocusHeader {\n        id = \"map/focus/header\",\n        UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n        UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n    },\n}",
-    "signature": "UI.FocusSurface(input: any): Node",
+    "signature": "UI.FocusSurface(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -8415,7 +8415,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Sticky visible identity and return action.",
     "accessibility": "The heading precedes the available return button in reading and focus order even while the header remains visually sticky.",
@@ -8426,7 +8426,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.FocusHeader at the beginning of every scrollable Focus Surface so the current leaf title and explicit return action remain visible without changing dialog focus order.",
     "code": "UI.FocusHeader {\n    id = \"map/focus/header\",\n    UI.Text { id = \"map/focus/title\", text = \"Build\", variant = \"heading\" },\n    UI.Button { id = \"map/focus/close\", text = \"Back\", onTap = \"close-focus\" },\n}",
-    "signature": "UI.FocusHeader(input: any): Node",
+    "signature": "UI.FocusHeader(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -8612,7 +8612,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Experimental Constellation Orbit API in 0.2.0-alpha. Verify it against the selected SDK before depending on its shape.",
+    "availability": "Experimental Constellation Orbit API in 0.2.1-alpha. Verify it against the selected SDK before depending on its shape.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
     "accessibility": "Uses native button semantics and the same Luau action that the host invokes for an eligible Escape return.",
@@ -8623,7 +8623,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.OrbitReturn for returning from a nested constellation. Disable the root control when no ancestor exists, and do not add a second hidden Back implementation.",
     "code": "UI.OrbitReturn {\n    id = \"map/back\",\n    text = \"Back\",\n    onTap = \"back\",\n    disabled = atRoot,\n}",
-    "signature": "UI.OrbitReturn(input: any): Node",
+    "signature": "UI.OrbitReturn(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -8744,7 +8744,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Vertical stack; semantically equivalent to Column.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -8755,7 +8755,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Stack for straightforward vertical groups where the semantic name improves readability. Use UI.Column when you want the canonical general-purpose vertical container or need examples shared across all hosts.",
     "code": "UI.Stack {\n    id = \"article/frame\",\n    width = \"wide\",\n    gap = \"lg\",\n    UI.Text { id = \"article/title\", text = \"Guide\", variant = \"title\" },\n    UI.Text { id = \"article/body\", text = \"Readable content\" },\n}",
-    "signature": "UI.Stack(input: any): Node",
+    "signature": "UI.Stack(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -8941,7 +8941,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Cards or other repeated grid items.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -8952,7 +8952,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Grid for galleries, dashboards, feature cards, and repeated items of comparable importance. Use Table for relational data and Row when content must remain one-dimensional.",
     "code": "UI.Grid {\n    id = \"catalog/grid\",\n    width = \"full\",\n    columns = \"adaptive\",\n    gap = \"md\",\n    UI.Card { id = \"catalog/one\", UI.Text { id = \"catalog/one/title\", text = \"One\" } },\n    UI.Card { id = \"catalog/two\", UI.Text { id = \"catalog/two/title\", text = \"Two\" } },\n}",
-    "signature": "UI.Grid(input: any): Node",
+    "signature": "UI.Grid(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -9138,7 +9138,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Content of the scrollable region.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -9149,7 +9149,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Scroll when a specific region—not the whole document—must scroll, such as filter chips, long panels, or media strips. Avoid nested scroll regions unless the interaction genuinely needs independent axes.",
     "code": "UI.Scroll {\n    id = \"filters/scroll\",\n    width = \"full\",\n    scroll = \"horizontal\",\n    UI.Row {\n        id = \"filters/items\",\n        flow = \"nowrap\",\n        UI.Button { id = \"filters/all\", text = \"All\", onTap = \"filter-all\" },\n        UI.Button { id = \"filters/new\", text = \"New\", onTap = \"filter-new\" },\n    },\n}",
-    "signature": "UI.Scroll(input: any): Node",
+    "signature": "UI.Scroll(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -9335,7 +9335,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Content of one visual card.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -9346,7 +9346,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Card to visually group one concept such as a result, article preview, or setting. Use FlipCard for two-sided reveals and plain Column when no surface treatment is needed.",
     "code": "UI.Card {\n    id = \"result/card\",\n    width = \"full\",\n    surface = \"elevated\",\n    padding = \"lg\",\n    gap = \"sm\",\n    UI.Text { id = \"result/title\", text = \"Result\", variant = \"heading\" },\n    UI.Text { id = \"result/value\", text = \"42\" },\n}",
-    "signature": "UI.Card(input: any): Node",
+    "signature": "UI.Card(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -9541,7 +9541,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Related elements of one form field.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -9552,7 +9552,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Field around each form control that needs visible guidance or validation. Keep the input and its related error inside the same field and connect errorId where applicable.",
     "code": "UI.Field {\n    id = \"form/email-field\",\n    label = \"Email field\",\n    gap = \"xs\",\n    UI.Text { id = \"form/email-label\", text = \"Email\" },\n    UI.TextInput { id = \"form/email\", label = \"Email\", value = email, onInput = \"email-change\" },\n}",
-    "signature": "UI.Field(input: any): Node",
+    "signature": "UI.Field(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -9739,7 +9739,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     "expectedOutcome": "A validated declarative node appears after it is returned as part of the current render tree.",
     "failureGuidance": "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
-    "availability": "Public-source alpha API in 0.2.0-alpha. Verify host-specific behavior against the selected release.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
     "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
     "childRules": "Group of primary and secondary actions.",
     "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
@@ -9750,7 +9750,7 @@ export const generatedPages = Object.freeze([
     "callable": true,
     "useWhen": "Use UI.Actions for form submission controls, dialog choices, or page-level action groups. Use Row for horizontal content that is not specifically a set of user actions.",
     "code": "UI.Actions {\n    id = \"dialog/actions\",\n    gap = \"sm\",\n    UI.Button { id = \"dialog/cancel\", text = \"Cancel\", appearance = \"secondary\", onTap = \"cancel\" },\n    UI.Button { id = \"dialog/confirm\", text = \"Confirm\", onTap = \"confirm\" },\n}",
-    "signature": "UI.Actions(input: any): Node",
+    "signature": "UI.Actions(input: Input): Node",
     "parameters": [
       {
         "name": "id",
@@ -9912,7 +9912,7 @@ export const generatedPages = Object.freeze([
       "description": "This checked recipe uses UI.Actions inside complete authored files with the required manifest, test, and run steps."
     },
     "previousPageId": "ui/item-38",
-    "nextPageId": null,
+    "nextPageId": "ui/item-40",
     "relatedPageIds": [
       "ui/item-8",
       "ui/item-9",
@@ -9922,6 +9922,529 @@ export const generatedPages = Object.freeze([
       "prerequisite",
       "companion",
       "companion"
+    ]
+  },
+  {
+    "id": "ui/item-40",
+    "routeSlug": "input",
+    "routeId": "ui/input",
+    "kind": "type",
+    "sectionId": "ui",
+    "sectionTitle": "Interface components",
+    "module": "luastra/ui",
+    "beforeYouUse": "Add luastra/ui to this module's dependencies in luastra.json, then import it with require(\"luastra/ui\"). The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.",
+    "lifecycle": "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type.",
+    "expectedOutcome": "A checked annotation that matches the exact exported declaration.",
+    "failureGuidance": "If the annotation fails, compare the value with the exact declaration and the producing or consuming function.",
+    "availability": "Public-source alpha API in 0.2.1-alpha. Verify host-specific behavior against the selected release.",
+    "mentalModel": "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    "childRules": "This component does not accept arbitrary child nodes; named parameters provide its content.",
+    "accessibility": "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
+    "commonMistakes": [
+      "Using a duplicate id or an uppercase path segment.",
+      "Passing a shared-group parameter that is not listed on this component page."
+    ],
+    "callable": false,
+    "useWhen": "Use UI.Input for a reusable constructor table. Known field types and the required id are checked statically; component-specific properties, vocabularies, numeric bounds, motion descriptors and child structure are validated at runtime. An explicit any value bypasses static checking.",
+    "code": "export type Input = {\n    [number]: Node,\n    id: string,\n    accentColor: string?,\n    align: string?,\n    appearance: string?,\n    aspectRatio: number?,\n    autoComplete: string?,\n    backgroundColor: string?,\n    busy: boolean?,\n    className: string?,\n    code: string?,\n    columns: string?,\n    cornerRadius: number?,\n    count: number?,\n    dangerColor: string?,\n    depth: number?,\n    description: string?,\n    disabled: boolean?,\n    documentDescription: string?,\n    documentLanguage: string?,\n    documentTitle: string?,\n    enterKeyHint: string?,\n    errorId: string?,\n    external: boolean?,\n    fill: string?,\n    fit: string?,\n    flow: string?,\n    gap: string?,\n    header: boolean?,\n    height: number?,\n    hidden: boolean?,\n    href: string?,\n    icon: string?,\n    inputMode: string?,\n    inputType: string?,\n    justify: string?,\n    label: string?,\n    language: string?,\n    layerState: string?,\n    margin: string?,\n    marginBottom: string?,\n    marginEnd: string?,\n    marginStart: string?,\n    marginTop: string?,\n    marginX: string?,\n    marginY: string?,\n    maxVisible: number?,\n    motion: unknown,\n    mutedColor: string?,\n    nodeKind: string?,\n    onDismiss: string?,\n    onInput: string?,\n    onTap: string?,\n    open: boolean?,\n    orbitMotion: string?,\n    orbitTheme: string?,\n    padding: string?,\n    paddingBottom: string?,\n    paddingEnd: string?,\n    paddingStart: string?,\n    paddingTop: string?,\n    paddingX: string?,\n    paddingY: string?,\n    placeholder: string?,\n    presentation: string?,\n    priority: number?,\n    query: string?,\n    relatedTo: { string }?,\n    required: boolean?,\n    responsive: boolean?,\n    resultCount: number?,\n    ring: number?,\n    role: string?,\n    scope: string?,\n    scroll: string?,\n    selected: boolean?,\n    shape: string?,\n    signalIcon: string?,\n    source: string?,\n    status: string?,\n    statusTone: string?,\n    stroke: string?,\n    strokeWidth: number?,\n    successColor: string?,\n    surface: string?,\n    surfaceColor: string?,\n    text: string?,\n    textAlign: string?,\n    textColor: string?,\n    theme: Theme?,\n    title: string?,\n    tone: string?,\n    totalCount: number?,\n    value: string?,\n    variant: string?,\n    warningColor: string?,\n    width: (string | number)?,\n}",
+    "signature": "export type Input = {\n    [number]: Node,\n    id: string,\n    accentColor: string?,\n    align: string?,\n    appearance: string?,\n    aspectRatio: number?,\n    autoComplete: string?,\n    backgroundColor: string?,\n    busy: boolean?,\n    className: string?,\n    code: string?,\n    columns: string?,\n    cornerRadius: number?,\n    count: number?,\n    dangerColor: string?,\n    depth: number?,\n    description: string?,\n    disabled: boolean?,\n    documentDescription: string?,\n    documentLanguage: string?,\n    documentTitle: string?,\n    enterKeyHint: string?,\n    errorId: string?,\n    external: boolean?,\n    fill: string?,\n    fit: string?,\n    flow: string?,\n    gap: string?,\n    header: boolean?,\n    height: number?,\n    hidden: boolean?,\n    href: string?,\n    icon: string?,\n    inputMode: string?,\n    inputType: string?,\n    justify: string?,\n    label: string?,\n    language: string?,\n    layerState: string?,\n    margin: string?,\n    marginBottom: string?,\n    marginEnd: string?,\n    marginStart: string?,\n    marginTop: string?,\n    marginX: string?,\n    marginY: string?,\n    maxVisible: number?,\n    motion: unknown,\n    mutedColor: string?,\n    nodeKind: string?,\n    onDismiss: string?,\n    onInput: string?,\n    onTap: string?,\n    open: boolean?,\n    orbitMotion: string?,\n    orbitTheme: string?,\n    padding: string?,\n    paddingBottom: string?,\n    paddingEnd: string?,\n    paddingStart: string?,\n    paddingTop: string?,\n    paddingX: string?,\n    paddingY: string?,\n    placeholder: string?,\n    presentation: string?,\n    priority: number?,\n    query: string?,\n    relatedTo: { string }?,\n    required: boolean?,\n    responsive: boolean?,\n    resultCount: number?,\n    ring: number?,\n    role: string?,\n    scope: string?,\n    scroll: string?,\n    selected: boolean?,\n    shape: string?,\n    signalIcon: string?,\n    source: string?,\n    status: string?,\n    statusTone: string?,\n    stroke: string?,\n    strokeWidth: number?,\n    successColor: string?,\n    surface: string?,\n    surfaceColor: string?,\n    text: string?,\n    textAlign: string?,\n    textColor: string?,\n    theme: Theme?,\n    title: string?,\n    tone: string?,\n    totalCount: number?,\n    value: string?,\n    variant: string?,\n    warningColor: string?,\n    width: (string | number)?,\n}",
+    "parameters": [
+      {
+        "name": "[number]",
+        "values": "Node",
+        "description": "Index signature mapping Node; every key and value must satisfy this contract."
+      },
+      {
+        "name": "id",
+        "values": "string",
+        "description": "Stable identifier used to correlate or address this value across operations."
+      },
+      {
+        "name": "accentColor",
+        "values": "string?",
+        "description": "Checked accentColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "align",
+        "values": "string?",
+        "description": "Checked align field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "appearance",
+        "values": "string?",
+        "description": "Checked appearance field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "aspectRatio",
+        "values": "number?",
+        "description": "Checked aspectRatio field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "autoComplete",
+        "values": "string?",
+        "description": "Checked autoComplete field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "backgroundColor",
+        "values": "string?",
+        "description": "Checked backgroundColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "busy",
+        "values": "boolean?",
+        "description": "Checked busy field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "className",
+        "values": "string?",
+        "description": "Checked className field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "code",
+        "values": "string?",
+        "description": "Stable machine-readable failure code suitable for branching and diagnostics."
+      },
+      {
+        "name": "columns",
+        "values": "string?",
+        "description": "Checked columns field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "cornerRadius",
+        "values": "number?",
+        "description": "Checked cornerRadius field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "count",
+        "values": "number?",
+        "description": "Checked count field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "dangerColor",
+        "values": "string?",
+        "description": "Checked dangerColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "depth",
+        "values": "number?",
+        "description": "Checked depth field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "description",
+        "values": "string?",
+        "description": "Checked description field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "disabled",
+        "values": "boolean?",
+        "description": "Checked disabled field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "documentDescription",
+        "values": "string?",
+        "description": "Checked documentDescription field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "documentLanguage",
+        "values": "string?",
+        "description": "Checked documentLanguage field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "documentTitle",
+        "values": "string?",
+        "description": "Checked documentTitle field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "enterKeyHint",
+        "values": "string?",
+        "description": "Checked enterKeyHint field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "errorId",
+        "values": "string?",
+        "description": "Checked errorId field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "external",
+        "values": "boolean?",
+        "description": "Checked external field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "fill",
+        "values": "string?",
+        "description": "Checked fill field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "fit",
+        "values": "string?",
+        "description": "Checked fit field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "flow",
+        "values": "string?",
+        "description": "Checked flow field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "gap",
+        "values": "string?",
+        "description": "Checked gap field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "header",
+        "values": "boolean?",
+        "description": "Checked header field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "height",
+        "values": "number?",
+        "description": "Checked height field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "hidden",
+        "values": "boolean?",
+        "description": "Checked hidden field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "href",
+        "values": "string?",
+        "description": "Checked href field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "icon",
+        "values": "string?",
+        "description": "Checked icon field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "inputMode",
+        "values": "string?",
+        "description": "Checked inputMode field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "inputType",
+        "values": "string?",
+        "description": "Checked inputType field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "justify",
+        "values": "string?",
+        "description": "Checked justify field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "label",
+        "values": "string?",
+        "description": "Checked label field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "language",
+        "values": "string?",
+        "description": "Checked language field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "layerState",
+        "values": "string?",
+        "description": "Checked layerState field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "margin",
+        "values": "string?",
+        "description": "Checked margin field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "marginBottom",
+        "values": "string?",
+        "description": "Checked marginBottom field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "marginEnd",
+        "values": "string?",
+        "description": "Checked marginEnd field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "marginStart",
+        "values": "string?",
+        "description": "Checked marginStart field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "marginTop",
+        "values": "string?",
+        "description": "Checked marginTop field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "marginX",
+        "values": "string?",
+        "description": "Checked marginX field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "marginY",
+        "values": "string?",
+        "description": "Checked marginY field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "maxVisible",
+        "values": "number?",
+        "description": "Checked maxVisible field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "motion",
+        "values": "unknown",
+        "description": "Checked motion field of UI.Input; its exact admitted type is unknown."
+      },
+      {
+        "name": "mutedColor",
+        "values": "string?",
+        "description": "Checked mutedColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "nodeKind",
+        "values": "string?",
+        "description": "Checked nodeKind field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "onDismiss",
+        "values": "string?",
+        "description": "Checked onDismiss field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "onInput",
+        "values": "string?",
+        "description": "Checked onInput field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "onTap",
+        "values": "string?",
+        "description": "Checked onTap field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "open",
+        "values": "boolean?",
+        "description": "Checked open field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "orbitMotion",
+        "values": "string?",
+        "description": "Checked orbitMotion field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "orbitTheme",
+        "values": "string?",
+        "description": "Checked orbitTheme field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "padding",
+        "values": "string?",
+        "description": "Checked padding field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "paddingBottom",
+        "values": "string?",
+        "description": "Checked paddingBottom field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "paddingEnd",
+        "values": "string?",
+        "description": "Checked paddingEnd field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "paddingStart",
+        "values": "string?",
+        "description": "Checked paddingStart field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "paddingTop",
+        "values": "string?",
+        "description": "Checked paddingTop field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "paddingX",
+        "values": "string?",
+        "description": "Checked paddingX field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "paddingY",
+        "values": "string?",
+        "description": "Checked paddingY field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "placeholder",
+        "values": "string?",
+        "description": "Checked placeholder field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "presentation",
+        "values": "string?",
+        "description": "Checked presentation field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "priority",
+        "values": "number?",
+        "description": "Checked priority field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "query",
+        "values": "string?",
+        "description": "Decoded query values associated with a route entry."
+      },
+      {
+        "name": "relatedTo",
+        "values": "{ string }?",
+        "description": "Checked relatedTo field of UI.Input; its exact admitted type is { string }?."
+      },
+      {
+        "name": "required",
+        "values": "boolean?",
+        "description": "Checked required field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "responsive",
+        "values": "boolean?",
+        "description": "Checked responsive field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "resultCount",
+        "values": "number?",
+        "description": "Checked resultCount field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "ring",
+        "values": "number?",
+        "description": "Checked ring field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "role",
+        "values": "string?",
+        "description": "Checked role field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "scope",
+        "values": "string?",
+        "description": "Checked scope field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "scroll",
+        "values": "string?",
+        "description": "Checked scroll field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "selected",
+        "values": "boolean?",
+        "description": "Checked selected field of UI.Input; its exact admitted type is boolean?."
+      },
+      {
+        "name": "shape",
+        "values": "string?",
+        "description": "Checked shape field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "signalIcon",
+        "values": "string?",
+        "description": "Checked signalIcon field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "source",
+        "values": "string?",
+        "description": "Checked source field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "status",
+        "values": "string?",
+        "description": "Checked status field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "statusTone",
+        "values": "string?",
+        "description": "Checked statusTone field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "stroke",
+        "values": "string?",
+        "description": "Checked stroke field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "strokeWidth",
+        "values": "number?",
+        "description": "Checked strokeWidth field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "successColor",
+        "values": "string?",
+        "description": "Checked successColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "surface",
+        "values": "string?",
+        "description": "Checked surface field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "surfaceColor",
+        "values": "string?",
+        "description": "Checked surfaceColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "text",
+        "values": "string?",
+        "description": "Checked text field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "textAlign",
+        "values": "string?",
+        "description": "Checked textAlign field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "textColor",
+        "values": "string?",
+        "description": "Checked textColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "theme",
+        "values": "Theme?",
+        "description": "Checked theme field of UI.Input; its exact admitted type is Theme?."
+      },
+      {
+        "name": "title",
+        "values": "string?",
+        "description": "Checked title field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "tone",
+        "values": "string?",
+        "description": "Checked tone field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "totalCount",
+        "values": "number?",
+        "description": "Checked totalCount field of UI.Input; its exact admitted type is number?."
+      },
+      {
+        "name": "value",
+        "values": "string?",
+        "description": "Validated value available on the successful result branch."
+      },
+      {
+        "name": "variant",
+        "values": "string?",
+        "description": "Checked variant field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "warningColor",
+        "values": "string?",
+        "description": "Checked warningColor field of UI.Input; its exact admitted type is string?."
+      },
+      {
+        "name": "width",
+        "values": "(string | number)?",
+        "description": "Checked width field of UI.Input; its exact admitted type is (string | number)?."
+      }
+    ],
+    "returns": "UI.Node — a declarative node in the new render tree.",
+    "name": "UI.Input",
+    "description": "The author-facing constructor table combines a required semantic id, ordered UI.Node children and typed optional properties. Runtime validation additionally checks whether each property and child is supported by the selected component.",
+    "previousPageId": "ui/item-39",
+    "nextPageId": null,
+    "relatedPageIds": [
+      "ui/item-3"
+    ],
+    "relatedPageRoles": [
+      "prerequisite"
     ]
   },
   {
@@ -10394,7 +10917,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Easing when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Easing = \"linear\" | \"easeOutCubic\" | \"easeInOutCubic\"",
@@ -10426,7 +10949,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.TweenOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type TweenOptions = {\n    from: number,\n    to: number,\n    durationMs: number,\n    easing: Easing?,\n}",
@@ -10473,7 +10996,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Tween when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Tween = {\n    kind: \"tween\",\n    from: number,\n    to: number,\n    durationMs: number,\n    easing: Easing,\n}",
@@ -10525,7 +11048,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Wait when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Wait = { kind: \"wait\", durationMs: number }",
@@ -10562,7 +11085,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Sequence when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Sequence = { kind: \"sequence\", steps: { Tween | Wait }, iterations: number }",
@@ -10604,7 +11127,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.Descriptor when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type Descriptor = Tween | Sequence",
@@ -10636,7 +11159,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Motion types describe immutable timing data and are erased after analysis.",
     "expectedOutcome": "A checked descriptor, sequence, channel map, or easing value.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": false,
     "useWhen": "Use Motion.MotionMap when declaring motion separately from UI layout and assigning it to a component's motion property. Keep the value deterministic and within the documented channels so every host can reproduce the same transition.",
     "code": "export type MotionMap = { [string]: Descriptor }",
@@ -10674,7 +11197,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.tween when you need direct control of one opacity, translation, scale, or rotation channel. Prefer a named preset when it already expresses the intended interaction and respect reduced-motion behavior supplied by the host.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal grow = Motion.tween { from = 1, to = 1.08, durationMs = 300, easing = \"easeOutCubic\" }",
@@ -10732,7 +11255,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.wait between sequence steps when timing is part of the visual story, such as holding a revealed state before returning. Use Timer instead when the delay must change application state or dispatch application logic.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal pause = Motion.wait(500)",
@@ -10764,7 +11287,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.sequence for multi-stage motion of one property, such as fade-hold-fade or rotate-return. It is not a MotionMap by itself: assign the Sequence as a channel value inside the component's motion table.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal reveal = Motion.sequence({\n    Motion.wait(300),\n    Motion.tween { from = 0, to = 180, durationMs = 500 },\n}, 1)\nlocal motion = { rotationYDeg = reveal }",
@@ -10805,7 +11328,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.fadeIn for newly appearing supporting content when opacity communicates entry without changing layout. Avoid it for essential immediate feedback or when reduced motion should present the final state instantly.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.fadeIn { durationMs = 240 }",
@@ -10847,7 +11370,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.slideIn to introduce a panel, card, or route whose direction reinforces where it came from. Do not use it to repair layout spacing, and keep the distance modest for frequently repeated elements.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.slideIn { y = 24, durationMs = 300 }",
@@ -10899,7 +11422,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.scaleIn for a newly created card, badge, or focused object when gentle emphasis helps orientation. Avoid scaling dense text or controls so often that reading and targeting become unstable.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.scaleIn { from = 0.92, durationMs = 220 }",
@@ -10946,7 +11469,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.sway for occasional ambient motion on a decorative or game-like object, such as a hidden card. Keep the angle small, stop it when the object is inactive, and rely on host reduced-motion handling.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.sway { angleDeg = 2, durationMs = 2400, iterations = 0 }",
@@ -10998,7 +11521,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.pulse sparingly for a current target, waiting object, or time-sensitive affordance. Do not run it continuously on many elements or use motion as the only way to convey status.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.pulse { scale = 1.05, durationMs = 1800, iterations = 0 }",
@@ -11055,7 +11578,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.shake after a rejected guess or invalid action when the UI also exposes an accessible text or status explanation. Do not use it for ordinary errors that have not yet been caused by user action.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.shake { distance = 8, durationMs = 360 }",
@@ -11102,7 +11625,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
     "expectedOutcome": "A descriptor or MotionMap ready to attach to a supported UI node.",
     "failureGuidance": "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; presentation follows host and reduced-motion policy.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; presentation follows host and reduced-motion policy.",
     "callable": true,
     "useWhen": "Use Motion.flip only with UI.FlipCard when application state changes which of its two children is visible. Update the state and angle together; use a general rotation tween for single-sided objects.",
     "code": "local Motion = require(\"luastra/motion\")\nlocal motion = Motion.flip { fromDeg = 0, toDeg = 180, durationMs = 500 }",
@@ -11154,7 +11677,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
     "expectedOutcome": "A type-safe image, audio, font, or union reference.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Image when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Image = { kind: \"image\", id: string, uri: string }",
@@ -11196,7 +11719,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
     "expectedOutcome": "A type-safe image, audio, font, or union reference.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Audio when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Audio = { kind: \"audio\", id: string, uri: string }",
@@ -11238,7 +11761,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
     "expectedOutcome": "A type-safe image, audio, font, or union reference.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Font when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Font = { kind: \"font\", id: string, uri: string }",
@@ -11280,7 +11803,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Asset types describe checked references and are erased after Luau analysis.",
     "expectedOutcome": "A type-safe image, audio, font, or union reference.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": false,
     "useWhen": "Use Assets.Reference when annotating values that cross the public luastra/assets boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Reference = Image | Audio | Font",
@@ -11312,7 +11835,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
     "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.image at module initialization or in a small asset helper when UI.Image needs packaged artwork. The identifier must match an admitted image asset; this function does not load arbitrary files or remote URLs.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal cardBack = Assets.image(\"image/card-back\")",
@@ -11350,7 +11873,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
     "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.audio when building Media.QueueItem values for sounds shipped with the application. Use a trusted HTTPS source only where the media contract explicitly admits one; do not disguise a filesystem path as an asset ID.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal intro = Assets.audio(\"audio/intro\")",
@@ -11388,7 +11911,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
     "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.font when a supported styling or host workflow requests a packaged font reference. Keep font licensing and the manifest declaration alongside the asset; creating the reference alone does not apply the font to text.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal displayFont = Assets.font(\"font/display\")",
@@ -11420,7 +11943,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The constructor validates an asset id and returns a typed reference synchronously. It does not read a file. Assets.uri exposes the packaged asset URI for a consuming UI or Media API.",
     "expectedOutcome": "A checked reference or canonical asset URI that a compatible API can consume.",
     "failureGuidance": "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font is packaged and typed, but this candidate has no public text-style consumer for custom fonts yet.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; supported consumers vary by asset kind.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; supported consumers vary by asset kind.",
     "callable": true,
     "useWhen": "Use Assets.uri at the final SDK boundary that expects a URI string, such as UI.Image.source or a media queue item. Keep the typed reference until that boundary so asset kinds remain checked for as long as possible.",
     "code": "local Assets = require(\"luastra/assets\")\nlocal source = Assets.uri(Assets.audio(\"audio/intro\"))",
@@ -11462,7 +11985,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.ValidationError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type ValidationError = {\n    code: string,\n    path: string,\n}",
@@ -11574,7 +12097,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Success after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type Success = { success: true, value: any, error: nil }",
@@ -11620,7 +12143,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Failure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type Failure = { success: false, value: nil, error: ValidationError }",
@@ -11737,7 +12260,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Result at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type Result = Success | Failure",
@@ -11848,7 +12371,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.StringOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type StringOptions = { minBytes: number?, maxBytes: number?, trim: boolean? }",
@@ -11894,7 +12417,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.NumberOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type NumberOptions = { integer: boolean?, min: number?, max: number? }",
@@ -11936,7 +12459,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.ArrayOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type ArrayOptions = { minItems: number?, maxItems: number? }",
@@ -11973,7 +12496,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.ObjectOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type ObjectOptions = { exact: boolean? }",
@@ -12005,7 +12528,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The exported type describes schemas or the tagged success/failure result returned by Data.decode.",
     "expectedOutcome": "A checked schema/result annotation.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": false,
     "useWhen": "Use Data.Schema when annotating values that cross the public luastra/data boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Schema = {\n    kind: string,\n    optional: boolean?,\n    options: { [string]: any }?,\n    item: Schema?,\n    fields: { [string]: Schema }?,\n}",
@@ -12057,7 +12580,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.string for form fields, URL parameters, storage fields, or server properties that must be text at runtime. Add the narrowest useful byte bounds at the untrusted boundary; this alpha has no pattern option, so validate application-specific formats separately.",
     "code": "local Data = require(\"luastra/data\")\nlocal title = Data.string { minBytes = 1, maxBytes = 80, trim = true }",
@@ -12118,7 +12641,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.number whenever an external value becomes a score, index, duration, amount, or other numeric application value. Constrain the range before using it in layout, navigation, persistence, or calculations.",
     "code": "local Data = require(\"luastra/data\")\nlocal score = Data.number { integer = true, min = 0, max = 100 }",
@@ -12165,7 +12688,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.boolean for persisted toggles and server fields whose wire contract is genuinely Boolean. Normalize legacy encodings before this boundary or migrate them explicitly rather than relying on implicit coercion.",
     "code": "local Data = require(\"luastra/data\")\nlocal enabled = Data.boolean()",
@@ -12191,7 +12714,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.array for ordered JSON-style collections with contiguous indexes and one element contract. Use Data.object for named fields or a custom migration when the input is a sparse keyed map.",
     "code": "local Data = require(\"luastra/data\")\nlocal tags = Data.array(Data.string { maxBytes = 40 }, { maxItems = 12 })",
@@ -12242,7 +12765,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.object at storage, server, or form boundaries where several named values must be accepted together. Declare all trusted fields explicitly and decide deliberately whether unknown fields should be rejected.",
     "code": "local Data = require(\"luastra/data\")\nlocal form = Data.object({ name = Data.string { minBytes = 1 }, active = Data.boolean() })",
@@ -12290,7 +12813,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "This pure constructor returns an immutable schema synchronously; Data.decode performs the actual validation later.",
     "expectedOutcome": "An immutable schema ready to compose or pass to Data.decode.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.optional for fields that may be absent by design, not merely because validation is inconvenient. Keep required identifiers, security decisions, and version fields non-optional.",
     "code": "local Data = require(\"luastra/data\")\nlocal note = Data.optional(Data.string { maxBytes = 240 })",
@@ -12326,7 +12849,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Data.decode validates an untrusted value synchronously. Branch on result.success before reading result.value or result.error.",
     "expectedOutcome": "A tagged success containing a trusted value, or a failure containing a bounded code and path.",
     "failureGuidance": "Ordinary invalid input is a Data.decode failure, not an exception. Invalid schema options are programmer errors and fail immediately. String bounds count UTF-8 bytes; Data.string has no pattern option in this alpha.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; host-independent and synchronous.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; host-independent and synchronous.",
     "callable": true,
     "useWhen": "Use Data.decode immediately after receiving untrusted form, URL, storage, or server data and before casting it to an application type. Branch on result.success and present or log only appropriate bounded failure details.",
     "code": "local Data = require(\"luastra/data\")\nlocal validatedScore: number? = nil\nlocal result = Data.decode(\n    Data.number { integer = true, min = 0 },\n    42\n)\nif result.success then\n    validatedScore = result.value\nend",
@@ -12375,7 +12898,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.Fields when annotating values that cross the public luastra/state boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Fields = { [string]: string }",
@@ -12407,7 +12930,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeError = { code: string }",
@@ -12480,7 +13003,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type DecodeSuccess = { success: true, version: number, fields: Fields, error: nil }",
@@ -12533,7 +13056,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeFailure = { success: false, version: nil, fields: nil, error: DecodeError }",
@@ -12621,7 +13144,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.DecodeResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type DecodeResult = DecodeSuccess | DecodeFailure",
@@ -12694,7 +13217,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type MigrationError = { code: string }",
@@ -12777,7 +13300,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type MigrationSuccess = { success: true, version: number, fields: Fields, encoded: string, error: nil }",
@@ -12837,7 +13360,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type MigrationFailure = { success: false, version: nil, fields: nil, encoded: nil, error: MigrationError }",
@@ -12940,7 +13463,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.MigrationResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type MigrationResult = MigrationSuccess | MigrationFailure",
@@ -13019,7 +13542,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes string fields, migration functions, or tagged decode/migration results.",
     "expectedOutcome": "A checked snapshot or result annotation.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": false,
     "useWhen": "Use State.Migration when annotating values that cross the public luastra/state boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Migration = (fields: Fields) -> Fields",
@@ -13051,7 +13574,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
     "expectedOutcome": "A deterministic encoded snapshot or a tagged success/failure result.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": true,
     "useWhen": "Use State.encode immediately before Host.storageSet when small application state must survive restarts. Persist only bounded non-secret data and increment the version whenever the stored schema changes incompatibly.",
     "code": "local State = require(\"luastra/state\")\nlocal snapshot = State.encode(1, { score = tostring(score), screen = \"game\" })",
@@ -13094,7 +13617,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
     "expectedOutcome": "A deterministic encoded snapshot or a tagged success/failure result.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": true,
     "useWhen": "Use State.decode after reading storage when only the current snapshot version is accepted. Branch on success before restoring fields; use State.migrate when older admitted versions must be upgraded.",
     "code": "local State = require(\"luastra/state\")\nlocal restored = State.decode(snapshot, 1)\nif restored.success then score = tonumber(restored.fields.score) or 0 end",
@@ -13137,7 +13660,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "State operations run synchronously over bounded string fields. Encode before storage; after a read, decode or migrate and branch on success before mutating trusted application state.",
     "expectedOutcome": "A deterministic encoded snapshot or a tagged success/failure result.",
     "failureGuidance": "Malformed data, wrong versions, missing migration steps, excessive size, or non-string fields remain explicit failure branches. Do not silently replace corrupt security- or domain-sensitive values with defaults.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; persistence support is host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; persistence support is host-dependent.",
     "callable": true,
     "useWhen": "Use State.migrate during application startup when released versions must preserve user state across schema changes. Keep every migration deterministic, test each supported starting version, and never silently reinterpret unknown future data.",
     "code": "local State = require(\"luastra/state\")\nlocal result = State.migrate(oldSnapshot, 2, { [1] = function(fields) return { score = fields.score or \"0\" } end })",
@@ -13179,7 +13702,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.Snapshot when annotating values that cross the public luastra/navigation boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type Snapshot = { version: number, routes: { string } }",
@@ -13224,7 +13747,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RestoreError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type RestoreError = { code: string }",
@@ -13286,7 +13809,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RestoreResult for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.",
     "code": "export type RestoreResult = { success: boolean, error: RestoreError? }",
@@ -13353,7 +13876,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.Options when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type Options = { routes: { string }, initial: string, maximumDepth: number? }",
@@ -13401,7 +13924,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.Stack as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.",
     "code": "export type Stack = {\n    current: () -> string,\n    canBack: () -> boolean,\n    push: (route: string) -> boolean,\n    replace: (route: string) -> boolean,\n    back: () -> boolean,\n    snapshot: () -> Snapshot,\n    restore: (snapshot: any) -> RestoreResult,\n}",
@@ -13469,7 +13992,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteError on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type RouteError = { code: string }",
@@ -13540,7 +14063,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteEntry when annotating values that cross the public luastra/navigation boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type RouteEntry = { name: string, params: { [string]: any }, query: { [string]: any } }",
@@ -13592,7 +14115,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteResult for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.",
     "code": "export type RouteResult = { success: boolean, entry: RouteEntry?, location: string?, error: RouteError? }",
@@ -13678,7 +14201,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.RouteCompiler as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.",
     "code": "export type RouteCompiler = {\n    match: (location: string) -> RouteResult,\n    generate: (entry: any) -> RouteResult,\n    canonicalize: (location: string) -> RouteResult,\n}",
@@ -13730,7 +14253,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.EntrySnapshot when annotating values that cross the public luastra/navigation boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type EntrySnapshot = { version: number, entries: { RouteEntry } }",
@@ -13767,7 +14290,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.MutationResult for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.",
     "code": "export type MutationResult = { success: boolean, changed: boolean, error: RouteError? }",
@@ -13852,7 +14375,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes a route, stack, compiler, or checked result used by navigation operations.",
     "expectedOutcome": "A checked route/navigation annotation.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": false,
     "useWhen": "Use Navigation.EntryStack as long-lived application state when navigation must survive repeated renders. Create it once, mutate it through its public methods, and render from its current route rather than rebuilding it on every render.",
     "code": "export type EntryStack = {\n    current: () -> RouteEntry,\n    currentLocation: () -> string,\n    canBack: () -> boolean,\n    push: (entry: any) -> MutationResult,\n    pushLocation: (location: string) -> MutationResult,\n    replace: (entry: any) -> MutationResult,\n    replaceLocation: (location: string) -> MutationResult,\n    back: () -> boolean,\n    snapshot: () -> EntrySnapshot,\n    encode: () -> string,\n    restore: (snapshot: any) -> RestoreResult,\n    restoreEncoded: (value: string) -> RestoreResult,\n}",
@@ -13949,7 +14472,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
     "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.decideBack inside a system_back handler when several layers may consume Back. Execute the returned decision explicitly—close a modal, pop a route, delegate to history, acknowledge handled, or request exit.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal decision = Navigation.decideBack { modalOpen = helpOpen, canBack = navigation.canBack() }",
@@ -14005,7 +14528,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
     "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.create for an application whose routes can be represented by stable names and optional state tokens without typed path parameters. Render from stack.current() and mutate the same stack in Application.handle.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal navigation = Navigation.create {\n    routes = { \"home\", \"game\" },\n    initial = \"home\",\n}\nnavigation.push(\"game\")",
@@ -14060,7 +14583,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
     "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.createRouter when each history entry needs typed route data that can later be compiled to or restored from a location. Prefer Navigation.create for a simpler name-only stack.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal router = Navigation.createRouter {\n    compiler = compiler,\n    initial = {\n        name = \"home\",\n        params = {},\n        query = {},\n    },\n}",
@@ -14121,7 +14644,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
     "expectedOutcome": "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
     "failureGuidance": "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; URL integration is a separate host capability.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; URL integration is a separate host capability.",
     "callable": true,
     "useWhen": "Use Navigation.compile once at module initialization when web URLs or deep links must share one source of truth with application routes. Generate links through the compiler and validate incoming locations before changing the navigation stack.",
     "code": "local Navigation = require(\"luastra/navigation\")\nlocal compiler = Navigation.compile {\n    { name = \"home\", path = \"/\" },\n    { name = \"card\", path = \"/card/:id\" },\n}",
@@ -14167,7 +14690,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Timer types describe the options or acknowledgement identifier.",
     "expectedOutcome": "A checked timer option or acknowledgement annotation.",
     "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; exact background timing remains host-dependent.",
     "callable": false,
     "useWhen": "Use Timer.RequestId when recording the acknowledgement returned by start, restart, or cancel. Do not wait for Application.resolve: the timer expiry is delivered as a timer event to Application.handle.",
     "code": "export type RequestId = number",
@@ -14207,7 +14730,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Timer types describe the options or acknowledgement identifier.",
     "expectedOutcome": "A checked timer option or acknowledgement annotation.",
     "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; exact background timing remains host-dependent.",
     "callable": false,
     "useWhen": "Use Timer.StartOptions when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type StartOptions = {\n    id: string,\n    delayMs: number,\n    value: string?,\n}",
@@ -14255,7 +14778,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
     "expectedOutcome": "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
     "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; exact background timing remains host-dependent.",
     "callable": true,
     "useWhen": "Use Timer.start for delayed transitions, temporary feedback, debouncing, or advancing a game after the user has had time to see a result. Choose a stable purpose-specific ID and handle repeated starts deliberately rather than creating unbounded timers.",
     "code": "local Timer = require(\"luastra/timer\")\nTimer.start { id = \"game/next-card\", delayMs = 1500, value = \"advance\" }",
@@ -14314,7 +14837,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
     "expectedOutcome": "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
     "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; exact background timing remains host-dependent.",
     "callable": true,
     "useWhen": "Use Timer.restart for inactivity deadlines, search debounce, and any timeout whose countdown must begin again after a new event. Use start for a new logical timer and cancel when the pending work is no longer relevant.",
     "code": "local Timer = require(\"luastra/timer\")\nTimer.restart { id = \"game/next-card\", delayMs = 1500, value = \"advance\" }",
@@ -14367,7 +14890,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
     "expectedOutcome": "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
     "failureGuidance": "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; exact background timing remains host-dependent.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; exact background timing remains host-dependent.",
     "callable": true,
     "useWhen": "Use Timer.cancel when leaving the owning screen, completing work early, or replacing an automatic transition with a user decision. Cancellation should be safe even if application state has already moved on.",
     "code": "local Timer = require(\"luastra/timer\")\nTimer.cancel(\"game/next-card\")",
@@ -14407,7 +14930,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Host.RequestId is an opaque correlation value for one asynchronous host operation.",
     "expectedOutcome": "An opaque positive request identifier used only for correlation.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": false,
     "useWhen": "Use Host.RequestId as the key in a pending-operation map after starting an asynchronous Host request. Match and remove that key in Application.resolve instead of relying on completion order.",
     "code": "export type RequestId = number",
@@ -14439,7 +14962,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.storageGet during startup or on demand for small persisted application data. Record the RequestId before returning, distinguish missing data from other failures, and decode the payload before trusting it.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.storageGet(\"game-state\")",
@@ -14477,7 +15000,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.storageSet after State.encode or another explicit serialization step. Track the RequestId when UI must report save progress or failure, and never store credentials merely because the API accepts a string.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.storageSet(\"game-state\", snapshot)",
@@ -14520,7 +15043,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.launchUrl during startup when a deep link or host-provided launch location must select initial application state. Save the RequestId, validate the resolve payload before routing, and use UI.Link—not Host.launchUrl—to open a visible external HTTPS link.",
     "code": "local Host = require(\"luastra/host\")\nlocal launchRequestId = Host.launchUrl()\n\nfunction Application.resolve(id: number, success: boolean, payload: string)\n    if id == launchRequestId and success then applyLaunchLocation(payload) end\nend",
@@ -14546,7 +15069,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.clipboardWrite after a clear user action such as Copy code or Copy link. Confirm success accessibly when useful and avoid copying secrets or personal data without an explicit user expectation.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.clipboardWrite(\"luastra check\")",
@@ -14578,7 +15101,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyPush when application navigation should create a Back destination without changing the visible URL. Prefer historyPushLocation when the route also has a canonical location.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyPush(router.encode())",
@@ -14614,7 +15137,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyReplace when correcting or initializing the current entry so Back should not revisit the previous state. Use push for a user-visible navigation step.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyReplace(router.encode())",
@@ -14646,7 +15169,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyPushLocation after a successful typed route mutation that should be reversible with Back. Generate the location through Navigation.compile rather than concatenating untrusted path or query fragments.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyPushLocation(\"#/card/red\", router.encode())",
@@ -14693,7 +15216,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyReplaceLocation for redirects, canonicalization, and restoring the initial route when the obsolete location should not remain reachable through Back.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyReplaceLocation(\"#/\", router.encode())",
@@ -14740,7 +15263,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyBack after Navigation.decideBack delegates to browser history or when a UI Back control intentionally mirrors browser Back. Do not also pop application state independently unless the history event contract requires it.",
     "code": "local Host = require(\"luastra/host\")\nHost.historyBack()",
@@ -14766,7 +15289,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.historyCurrent at startup or after an external history change when the application must match the browser's current entry. Validate and compile the returned location before rendering a route.",
     "code": "local Host = require(\"luastra/host\")\nlocal requestId = Host.historyCurrent()",
@@ -14792,7 +15315,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.systemBackHandled after closing an open modal or handling Back entirely in application state. Call it once for the current intent after the state change has been accepted.",
     "code": "local Host = require(\"luastra/host\")\nHost.systemBackHandled(intentId)",
@@ -14824,7 +15347,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.systemBackHistory when Navigation.decideBack determines that browser or host history owns the next Back step. Do not use it when an application modal or local route must close first.",
     "code": "local Host = require(\"luastra/host\")\nHost.systemBackHistory(intentId)",
@@ -14862,7 +15385,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
     "expectedOutcome": "A RequestId now, followed later by one matching Application.resolve completion.",
     "failureGuidance": "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
-    "availability": "Public-source alpha capability API in 0.2.0-alpha; verify each claimed host independently.",
+    "availability": "Public-source alpha capability API in 0.2.1-alpha; verify each claimed host independently.",
     "callable": true,
     "useWhen": "Use Host.systemBackExit only when no modal, local route, or history entry can consume Back and the platform permits root exit. Desktop and web hosts may interpret this boundary differently.",
     "code": "local Host = require(\"luastra/host\")\nHost.systemBackExit(intentId)",
@@ -14900,7 +15423,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
     "expectedOutcome": "A checked request/result annotation.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.RequestId as the key in a pending-operation map after starting an asynchronous Server request. Match and remove that key in Application.resolve instead of relying on completion order.",
     "code": "export type RequestId = number",
@@ -14938,7 +15461,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
     "expectedOutcome": "A checked request/result annotation.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.Options when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.",
     "code": "export type Options = { deadlineMs: number?, idempotencyKey: string?, retry: boolean? }",
@@ -14986,7 +15509,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
     "expectedOutcome": "A checked request/result annotation.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.DecodeSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type DecodeSuccess = { success: true, fields: { [string]: string }, error: nil }",
@@ -15038,7 +15561,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
     "expectedOutcome": "A checked request/result annotation.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.DecodeFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeFailure = { success: false, fields: nil, error: string }",
@@ -15111,7 +15634,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes request options or the tagged envelope-decoding result.",
     "expectedOutcome": "A checked request/result annotation.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": false,
     "useWhen": "Use Server.DecodeResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type DecodeResult = DecodeSuccess | DecodeFailure",
@@ -15176,7 +15699,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Server.call starts asynchronous trusted work. Application.resolve reports transport success or failure; decode a successful payload with Server.decode and then validate operation-specific fields.",
     "expectedOutcome": "A RequestId now, then one resolve completion from the configured backend.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": true,
     "useWhen": "Use Server.call for declared backend work that cannot safely or reliably run in the client, such as privileged data access. Track the RequestId, handle transport failure in Application.resolve, and validate successful payloads before use.",
     "code": "local Server = require(\"luastra/server\")\nlocal requestId = Server.call(\"records.list.v1\", { cursor = \"\" }, { deadlineMs = 3000, retry = true })",
@@ -15245,7 +15768,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Server.decode synchronously validates only the Luastra response envelope and returns fields on success; it does not validate your domain model.",
     "expectedOutcome": "A tagged result containing result.fields or a bounded decode error.",
     "failureGuidance": "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; production backend deployment remains application-owned.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; production backend deployment remains application-owned.",
     "callable": true,
     "useWhen": "Use Server.decode on a successful server resolve payload before reading operation data. Treat decode failure as an untrusted or incompatible response and keep application state unchanged or move to an explicit error state.",
     "code": "local Server = require(\"luastra/server\")\nlocal result = Server.decode(payload)\nif result.success then records = result.fields else errorMessage = result.error end",
@@ -15293,7 +15816,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.RequestId as the key in a pending-operation map after starting an asynchronous Media request. Match and remove that key in Application.resolve instead of relying on completion order.",
     "code": "export type RequestId = number",
@@ -15333,7 +15856,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.QueueItem when annotating values that cross the public luastra/media boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type QueueItem = { id: string, source: string, title: string, artist: string }",
@@ -15394,7 +15917,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use this type after a media event reports a playback failure. Branch only on codes explicitly documented by the active host or target, show a safe message, and keep playback state recoverable.",
     "code": "export type MediaError = { code: string, message: string }",
@@ -15436,7 +15959,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.State when annotating values that cross the public luastra/media boundary or when exporting helpers built on that module. The type documents the exact checked shape and prevents unrelated tables from being substituted accidentally.",
     "code": "export type State = {\n    revision: number, status: string, itemId: string, title: string, artist: string,\n    positionMs: number, durationMs: number, bufferedMs: number, queueIndex: number, queueCount: number,\n    background: boolean, interruption: string, route: string, error: MediaError?,\n}",
@@ -15549,7 +16072,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.DecodeSuccess after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.",
     "code": "export type DecodeSuccess = { success: true, state: State, error: nil }",
@@ -15601,7 +16124,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.DecodeFailure on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.",
     "code": "export type DecodeFailure = { success: false, state: nil, error: string }",
@@ -15676,7 +16199,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The type describes queue input, live playback state, or the tagged state-decoding result.",
     "expectedOutcome": "A checked media input/state/result annotation.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": false,
     "useWhen": "Use Media.DecodeResult at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.",
     "code": "export type DecodeResult = DecodeSuccess | DecodeFailure",
@@ -15743,7 +16266,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.setQueue before play when the application owns a new playlist, meditation sequence, or sound set. Keep stable item IDs, validate the selected index, and avoid rebuilding an unchanged queue on every render.",
     "code": "local Media = require(\"luastra/media\")\nMedia.setQueue({ { id = \"intro\", source = \"asset:audio/intro\", title = \"Intro\", artist = \"Luastra\" } })",
@@ -15816,7 +16339,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.play after a user action or admitted autoplay decision when a queue item is selected. Update visible controls from decoded media state rather than assuming the command succeeded immediately.",
     "code": "local Media = require(\"luastra/media\")\nMedia.play()",
@@ -15856,7 +16379,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.pause when the user temporarily stops listening or application lifecycle policy requires a resumable pause. Use stop when position should return to the beginning.",
     "code": "local Media = require(\"luastra/media\")\nMedia.pause()",
@@ -15894,7 +16417,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.stop when the session ends but the same queue may be played again. Use pause for a resumable interruption and unload when the queue is no longer needed.",
     "code": "local Media = require(\"luastra/media\")\nMedia.stop()",
@@ -15926,7 +16449,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.unload when leaving the media feature, signing out, or replacing the session with unrelated content. Do not unload for a brief pause because it discards resumable host state.",
     "code": "local Media = require(\"luastra/media\")\nMedia.unload()",
@@ -15960,7 +16483,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.next for an explicit Next control or a policy that advances after completion. Disable or explain the control when decoded media state shows that no next item is available.",
     "code": "local Media = require(\"luastra/media\")\nMedia.next()",
@@ -15992,7 +16515,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.previous for an explicit Previous control and derive availability from decoded media state. Define separately whether a near-start press should restart the current item in application UX.",
     "code": "local Media = require(\"luastra/media\")\nMedia.previous()",
@@ -16022,7 +16545,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.state to initialize controls after startup, restoration, or a suspected missed event. Prefer live media_state events for routine updates instead of polling continuously.",
     "code": "local Media = require(\"luastra/media\")\nlocal requestId = Media.state()",
@@ -16058,7 +16581,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     "expectedOutcome": "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.seek for a user-operated scrubber, skip control, or explicit chapter jump. Base the target on decoded duration and position, and do not issue a request for every unthrottled pointer movement.",
     "code": "local Media = require(\"luastra/media\")\nMedia.seek(30_000)",
@@ -16100,7 +16623,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state.",
     "expectedOutcome": "A tagged result containing result.state or a bounded decode error.",
     "failureGuidance": "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
-    "availability": "Public-source alpha API in 0.2.0-alpha; background playback and system controls require target-specific verification.",
+    "availability": "Public-source alpha API in 0.2.1-alpha; background playback and system controls require target-specific verification.",
     "callable": true,
     "useWhen": "Use Media.decodeState for every media_state event and successful Media.state response before updating controls, lock-screen-facing state, or persistence. Preserve the previous known state when decoding fails.",
     "code": "local Media = require(\"luastra/media\")\nlocal result = Media.decodeState(payload)\nif result.success then positionMs = result.state.positionMs else errorMessage = result.error end",
@@ -16148,7 +16671,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
     "expectedOutcome": "A prefixed diagnostic appears in the active host's development log.",
     "failureGuidance": "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
-    "availability": "Public-source alpha diagnostic API in 0.2.0-alpha.",
+    "availability": "Public-source alpha diagnostic API in 0.2.1-alpha.",
     "callable": true,
     "useWhen": "Use Debug.log for temporary progress, state-transition, and correlation diagnostics during local development. Remove noisy calls before release and never include credentials, tokens, personal data, or complete sensitive payloads.",
     "code": "local Debug = require(\"luastra/debug\")\nDebug.log(\"game\", \"round started\")",
@@ -16180,7 +16703,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
     "expectedOutcome": "A prefixed diagnostic appears in the active host's development log.",
     "failureGuidance": "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
-    "availability": "Public-source alpha diagnostic API in 0.2.0-alpha.",
+    "availability": "Public-source alpha diagnostic API in 0.2.1-alpha.",
     "callable": true,
     "useWhen": "Use Debug.warn when the application can continue but a fallback, stale value, or unusual branch deserves developer attention. User-correctable validation belongs in the UI, not only in the debug console.",
     "code": "local Debug = require(\"luastra/debug\")\nDebug.warn(\"storage\", \"snapshot was empty\")",
@@ -16212,7 +16735,7 @@ export const generatedPages = Object.freeze([
     "lifecycle": "The call writes a synchronous development diagnostic. It neither changes application state nor throws merely because the error log level is used.",
     "expectedOutcome": "A prefixed diagnostic appears in the active host's development log.",
     "failureGuidance": "Never include secrets or personal data. Logging is not telemetry, recovery, or user-facing error handling, and host presentation may differ.",
-    "availability": "Public-source alpha diagnostic API in 0.2.0-alpha.",
+    "availability": "Public-source alpha diagnostic API in 0.2.1-alpha.",
     "callable": true,
     "useWhen": "Use Debug.error when an operation reaches a failure branch that should be conspicuous during development. Still update user-visible state and handle the Result or resolve failure explicitly; do not use logging as control flow.",
     "code": "local Debug = require(\"luastra/debug\")\nDebug.error(\"server\", \"request failed\")",
@@ -16478,7 +17001,7 @@ export const generatedPages = Object.freeze([
       },
       {
         "name": "Public release",
-        "values": "0.2.0-alpha",
+        "values": "0.2.1-alpha",
         "description": "Pre-release APIs may change. The public installer exposes bundle and web builds; native packaging remains a separately evidenced source workflow."
       }
     ],
@@ -16660,7 +17183,7 @@ export const generatedPages = Object.freeze([
     "callable": false,
     "useWhen": "Read this when selecting a downloadable release or checking what stability and compatibility the source alpha promises.",
     "code": null,
-    "signature": "0.2.0-alpha",
+    "signature": "0.2.1-alpha",
     "parameters": [],
     "returns": null,
     "name": "Releases",

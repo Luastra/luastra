@@ -856,6 +856,9 @@ function Application.render(): UI.Node
     if showingLanding then return Landing.render() end
     targetPages = {}
     targetSections = {}
+    local page = selectedPage()
+    local section = sectionById(selectedSection) or ReferenceData.sections[1]
+    local documentName = if page ~= nil then page.name else section.title
     return UI.Screen {
         id = "docs/root",
         theme = darkMode and darkTheme or lightTheme,
@@ -863,7 +866,7 @@ function Application.render(): UI.Node
         width = "full",
         padding = "none",
         gap = "none",
-        documentTitle = "Luastra — Build apps like games",
+        documentTitle = string.sub(documentName, 1, 120) .. " — Luastra SDK Reference",
         documentDescription = "Version-bound Luastra documentation, tutorials, and live examples.",
         documentLanguage = "en",
 

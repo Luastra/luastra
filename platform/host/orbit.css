@@ -508,3 +508,14 @@ body:has(.luastra-orbit) .luastra-preview-shell { max-width: 80rem; }
   #host-root .luastra-focus-surface .luastra-button:focus-visible { outline-color: Highlight; }
   .luastra-focus-transition-copy { color: CanvasText; background: Canvas; }
 }
+
+/* A list has room for its complete introduction; spatial nodes stay bounded. */
+#host-root .luastra-orbit[data-luastra-orbit-mode="list"] .luastra-orbit-center > * {
+  width: min(100%, 48rem);
+}
+#host-root .luastra-orbit[data-luastra-orbit-mode="list"] .luastra-orbit-center .luastra-text:last-child:not(:first-child) {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  overflow-wrap: anywhere;
+}
