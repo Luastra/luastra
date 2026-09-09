@@ -8,7 +8,7 @@
     "contract": 1
   },
   "web": {
-    "title": "Luastra — Build apps like games",
+    "title": "Luastra \u2014 Build apps like games",
     "description": "Luastra is a Luau-first cross-platform application framework for building web, desktop, and mobile apps with a game-like development loop.",
     "canonicalUrl": "https://luastra.dev/",
     "index": true
@@ -39,12 +39,17 @@
     {
       "id": "app/examples",
       "source": "src/examples.luau",
-      "dependencies": ["luastra/ui"]
+      "dependencies": [
+        "luastra/ui"
+      ]
     },
     {
       "id": "app/landing",
       "source": "src/landing.luau",
-      "dependencies": ["app/reference-data", "luastra/ui"]
+      "dependencies": [
+        "app/reference-data",
+        "luastra/ui"
+      ]
     },
     {
       "id": "app/reference-data",
@@ -54,27 +59,46 @@
     {
       "id": "app/tests/smoke",
       "source": "tests/smoke.luau",
-      "dependencies": ["app/main"]
+      "dependencies": [
+        "app/main"
+      ]
     },
     {
       "id": "app/tests/landing",
       "source": "tests/landing.luau",
-      "dependencies": ["app/landing", "luastra/ui"]
+      "dependencies": [
+        "app/landing",
+        "luastra/ui"
+      ]
     },
     {
       "id": "app/tests/reference-data",
       "source": "tests/reference-data.luau",
-      "dependencies": ["app/reference-data"]
+      "dependencies": [
+        "app/reference-data"
+      ]
     },
     {
       "id": "app/tests/routes",
       "source": "tests/routes.luau",
-      "dependencies": ["app/main"]
+      "dependencies": [
+        "app/main"
+      ]
     },
     {
       "id": "app/tests/preferences",
       "source": "tests/preferences.luau",
-      "dependencies": ["app/main"]
+      "dependencies": [
+        "app/main"
+      ]
+    },
+    {
+      "id": "app/startup",
+      "source": "src/startup.luau",
+      "dependencies": [
+        "luastra/assets",
+        "luastra/ui"
+      ]
     }
   ],
   "tests": [
@@ -83,5 +107,15 @@
     "app/tests/reference-data",
     "app/tests/routes",
     "app/tests/preferences"
+  ],
+  "startup": {
+    "entry": "app/startup"
+  },
+  "assets": [
+    {
+      "id": "image/luastra-mark",
+      "source": "assets/luastra-mark.png",
+      "mediaType": "image/png"
+    }
   ]
 }

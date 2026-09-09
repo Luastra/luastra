@@ -12,9 +12,9 @@ import { buildRuntimePackage, verifyRuntimePackage } from "./package-runtime-sdk
 const archiveSetIdentity = "luastra-runtime-archives/phase5-alpha-3";
 const packagingRoot = dirname(fileURLToPath(import.meta.url));
 const admissionPath = resolve(packagingRoot, "runtime-archive-admission.v1.json");
-const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-8";
-const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-8";
-const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-8";
+const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-9";
+const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-9";
+const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-9";
 const targets = Object.freeze([
   Object.freeze({ id: "darwin-x64", platform: "darwin", architecture: "x64" }),
   Object.freeze({ id: "darwin-arm64", platform: "darwin", architecture: "arm64" }),
@@ -45,7 +45,7 @@ function parseArguments(values) {
   if (!output) fail("usage: build-runtime-archives.mjs --output <new-directory>");
   return { output };
 }
-function archiveRoot(targetId) { return `luastra-runtime-sdk-phase5-alpha-8-${targetId}`; }
+function archiveRoot(targetId) { return `luastra-runtime-sdk-phase5-alpha-9-${targetId}`; }
 function archiveFilename(targetId) { return `${archiveRoot(targetId)}.tar.gz`; }
 function expectedPackagePaths(targetId) {
   const extension = targetId === "win32-x64" ? ".exe" : "";

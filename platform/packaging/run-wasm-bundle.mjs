@@ -27,7 +27,12 @@ export async function runWasmBundle({
   requireRendererTree = false,
   dispatches = [],
   capabilityHandler = null,
+  executionProfile = "application",
 }) {
+  if (!["application", "startup"].includes(executionProfile)) fail("unknown VM execution profile");
+  if (executionProfile === "startup" && (allowedCapabilities.some(item => item !== "ui.render") || dispatches.length || capabilityHandler || cycles !== 1)) {
+    fail("startup execution forbids host capabilities, dispatches and repeated cycles");
+  }
   if (!Number.isInteger(cycles) || cycles < 1 || cycles > 1000) {
     fail("cycles must be an integer from 1 to 1000");
   }
@@ -45,7 +50,10 @@ export async function runWasmBundle({
 
   const version = runtime.cwrap("luastra_vm_wasm_version", "string", []);
   const memoryBytes = runtime.cwrap("luastra_vm_wasm_memory_bytes", "number", []);
-  const createSession = runtime.cwrap("luastra_vm_session_create", "number", []);
+  if (executionProfile === "startup" && typeof runtime._luastra_vm_session_create_startup !== "function") {
+    fail("runtime does not support restricted startup execution");
+  }
+  const createSession = runtime.cwrap(executionProfile === "startup" ? "luastra_vm_session_create_startup" : "luastra_vm_session_create", "number", []);
   const addModule = runtime.cwrap("luastra_vm_session_add_module", "string", [
     "number",
     "string",

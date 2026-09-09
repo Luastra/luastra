@@ -8,9 +8,9 @@ import { loadRuntimeArchiveAdmission, readVerifiedRuntimeArchivePackage } from "
 import { verifyRuntimePackage } from "./package-runtime-sdk.mjs";
 
 const installationIdentity = "luastra-runtime-installation/phase5-alpha-2";
-const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-8";
-const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-8";
-const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-8";
+const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-9";
+const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-9";
+const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-9";
 const archiveSetIdentity = "luastra-runtime-archives/phase5-alpha-3";
 const installationAdmissionPath = resolve(dirname(fileURLToPath(import.meta.url)), "runtime-installation-admission.v1.json");
 

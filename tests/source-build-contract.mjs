@@ -8,7 +8,7 @@ import { verifySourceBuildContract } from "../platform/source-build/verify-sourc
 
 test("source-build contract admits exact sources, toolchains and multi-host matrix", async () => {
   const result = await verifySourceBuildContract();
-  assert.equal(result.contract.identity, "luastra-runtime-source-build/phase5-alpha-8");
+  assert.equal(result.contract.identity, "luastra-runtime-source-build/phase5-alpha-9");
   assert.equal(result.contract.luau.commit, "f8ca77acdcb50241e3da21af663f8ef97b4b5ce4");
   assert.equal(result.contract.emscripten.version, "6.0.6");
   assert.equal(result.sourceFiles.length, 4);

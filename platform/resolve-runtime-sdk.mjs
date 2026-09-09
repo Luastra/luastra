@@ -49,8 +49,8 @@ export async function verifyRuntimeSdk(manifestPath = defaultManifest, expectedH
   const absoluteManifest = resolve(manifestPath);
   const manifest = JSON.parse(await readFile(absoluteManifest, "utf8"));
   if (!exactKeys(manifest, ["schemaVersion", "identity", "sourceBuildIdentity", "artifactMatrix", "supportedHosts", "portableTarget"]) ||
-      manifest.schemaVersion !== 2 || manifest.identity !== "luastra-runtime-sdk/phase5-alpha-8" ||
-      manifest.sourceBuildIdentity !== "luastra-runtime-source-build/phase5-alpha-8") fail("invalid runtime SDK manifest");
+      manifest.schemaVersion !== 2 || manifest.identity !== "luastra-runtime-sdk/phase5-alpha-9" ||
+      manifest.sourceBuildIdentity !== "luastra-runtime-source-build/phase5-alpha-9") fail("invalid runtime SDK manifest");
   if (!exactKeys(manifest.artifactMatrix, ["path", "bytes", "sha256"]) || typeof manifest.artifactMatrix.path !== "string" ||
       isAbsolute(manifest.artifactMatrix.path) || !Number.isSafeInteger(manifest.artifactMatrix.bytes) ||
       !/^[0-9a-f]{64}$/.test(manifest.artifactMatrix.sha256)) fail("invalid runtime SDK artifact-matrix admission");

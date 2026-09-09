@@ -3,8 +3,8 @@
 local ReferenceData = require("app/reference-data")
 
 assert(type(ReferenceData.release.version) == "string")
-assert(ReferenceData.release.version == "0.3.0-alpha")
-assert(ReferenceData.release.publishedVersion == "0.3.0-alpha")
+assert(ReferenceData.release.version == "0.4.0-alpha")
+assert(ReferenceData.release.publishedVersion == "0.4.0-alpha")
 assert(string.match(ReferenceData.release.sourceSdk :: string, "^Source SDK contract [0-9]+$") ~= nil)
 assert(string.match(ReferenceData.release.runtimeSdk :: string, "^Runtime SDK alpha [0-9]+$") ~= nil)
 assert(string.match(ReferenceData.release.luauVersion :: string, "^[0-9]+%.[0-9]+$") ~= nil)

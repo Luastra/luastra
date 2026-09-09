@@ -27,7 +27,7 @@ export async function renderDocumentationDOM({ output, shell, route, dark = fals
   });
   assert.equal(result.pendingRequests, 0);
   const { document } = parseHTML(shell);
-  for (const element of document.querySelectorAll("script,noscript")) element.remove();
+  for (const element of document.querySelectorAll('script,noscript,[data-luastra-startup-host],link[href="./startup.css"]')) element.remove();
   const adapter = new DomAdapter(document.getElementById("host-root"), { dispatch: () => { throw new Error("No events during prerender"); } });
   adapter.applyBatch(reconcile(null, materializeRendererTree(result.renderTree)));
   assert.ok(document.getElementById("docs/root"), `Not a documentation route: ${route}`);

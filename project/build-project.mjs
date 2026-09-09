@@ -14,6 +14,9 @@ import { resolveSourceSdk } from "../sdk/resolve-source-sdk.mjs";
 import { prepareGeneratedOutput } from "./generated-output.mjs";
 import { withGeneratedOutput } from "./output-transaction.mjs";
 import { loadProject } from "./load-project.mjs";
+import { runStartupBundle } from "../platform/packaging/run-startup-bundle.mjs";
+import { buildStartupFailure } from "../platform/packaging/build-startup-failure.mjs";
+import { renderStartupHtml } from "../platform/packaging/startup-html.mjs";
 
 function fail(message) { throw new Error(message); }
 const prototype = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -81,9 +84,9 @@ function selectModules(project, sourceSdk, roots) {
   return { selected, order };
 }
 
-async function stage(project, sourceSdk, { entry, roots }) {
-  const temporary = await mkdtemp(resolve(tmpdir(), "luastra-project-v2-"));
+async function stage(project, sourceSdk, { entry, roots, capabilities = project.capabilities }) {
   const { selected, order } = selectModules(project, sourceSdk, roots);
+  const temporary = await mkdtemp(resolve(tmpdir(), "luastra-project-v2-"));
   const modules = [];
   for (const id of order) {
     const module = selected.get(id);
@@ -97,7 +100,7 @@ async function stage(project, sourceSdk, { entry, roots }) {
     schemaVersion: 1,
     project: { id: project.id, entry },
     compatibility: sourceSdk.compatibility,
-    capabilities: [...project.capabilities].sort(),
+    capabilities: [...capabilities].sort(),
     modules,
   };
   const manifestPath = resolve(temporary, "luastra.json");
@@ -119,7 +122,12 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
   const selectedRoots = roots ?? [selectedEntry];
   if (!Array.isArray(selectedRoots) || selectedRoots.length === 0 || selectedRoots.some((id) => !project.modules.has(id))) fail("build roots must be declared project modules");
   const staged = await stage(project, sourceSdk, { entry: selectedEntry, roots: selectedRoots });
+  let startupStage = null;
   try {
+    if (target === "web" && project.startup) {
+      if (staged.modules.some(module => module.id === project.startup.entry)) fail("application dependencies must not include the startup entry");
+      startupStage = await stage(project, sourceSdk, { entry: project.startup.entry, roots: [project.startup.entry, "luastra/ui"], capabilities: ["ui.render"] });
+    }
     return await withGeneratedOutput(outputDirectory, target, async (candidate) => {
       const output = target === "bundle" ? await prepareGeneratedOutput(candidate, "bundle") : candidate;
       const base = target === "web"
@@ -161,8 +169,26 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
       }
       const packagedAssets = await packageProjectAssets(project, output);
       await writeFile(resolve(output, "project-typography.css"), projectTypographyCss(packagedAssets.entries));
-      const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries);
+      let startupContentSha256 = null;
+      if (startupStage) {
+        const startupOutput = resolve(startupStage.temporary, "compiled");
+        const startupBundle = await buildBundle({ manifestPath: startupStage.manifestPath, outputDirectory: startupOutput,
+          analyzerPath: binarySdk.artifacts.analyzer, compilerPath: binarySdk.artifacts.compiler });
+        const startupTree = await runStartupBundle({ bundlePath: resolve(startupOutput, "luastra.bundle.json"),
+          runtimeModulePath: binarySdk.artifacts.runtimeJavaScript });
+        const failure = await buildStartupFailure(startupStage, binarySdk.artifacts);
+        const rendered = renderStartupHtml(startupTree, packagedAssets.entries, { failureTree: failure.tree });
+        const layout = '[data-luastra-startup-host="v1"]{position:fixed;inset:0;z-index:2147483000;overflow:auto;background:var(--luastra-color-bg)}\n[data-luastra-startup-host="v1"] > .luastra-screen,[data-startup-failure] > .luastra-screen{min-height:100vh}\n[data-startup-failure]{display:none}\n[data-luastra-startup-host="v1"][data-startup-state="failed"] > .luastra-screen{display:none}\n[data-luastra-startup-host="v1"][data-startup-state="failed"]{background:#f4efe3;color:#16342e}\n[data-startup-state="failed"] > [data-startup-failure]{display:block;min-height:100%}\n#host-root [data-startup-no-script]{margin:0;padding:1rem;background:#f4efe3;color:#16342e;border-bottom:1px solid #526a64}\n';
+        await writeFile(resolve(output, "startup.css"), layout + rendered.css);
+        const htmlPath = resolve(output, "index.html");
+        const html = await readFile(htmlPath, "utf8");
+        await writeFile(htmlPath, html.replace("  </head>", '    <link rel="stylesheet" href="./startup.css" />\n  </head>')
+          .replace('<div id="host-root"></div>', () => `<div id="host-root">${rendered.html}</div>`));
+        startupContentSha256 = sha256(canonicalJson({ entry: project.startup.entry, bundle: startupBundle.contentSha256, failureBundle: failure.contentSha256, html: rendered.html, css: layout + rendered.css }));
+      }
+      const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries, startupContentSha256);
       let result = { ...base, bundleContentSha256, projectContentSha256, projectAssets: packagedAssets.entries.length, projectAssetLedgerSha256: packagedAssets.ledgerSha256 };
+      if (startupContentSha256) result = { ...result, startupContentSha256 };
       if (target === "web") {
         const assets = await fileLedger(output);
         const webLedger = {
@@ -192,5 +218,6 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
     });
   } finally {
     await rm(staged.temporary, { recursive: true, force: true });
+    if (startupStage) await rm(startupStage.temporary, { recursive: true, force: true });
   }
 }

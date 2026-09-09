@@ -53,6 +53,16 @@ function fail(message) {
   throw new Error(message);
 }
 
+// Shared by the DOM host and build-time HTML export; never accept raw CSS.
+export function rendererStyleDeclarations(name, value) {
+  if (!dynamicStyleAttributes[name]) return [];
+  const [propertyValue, format] = dynamicStyleAttributes[name];
+  const properties = Array.isArray(propertyValue) ? propertyValue : [propertyValue];
+  const declarations = properties.map(property => [property, format(value)]);
+  if (name === "data-luastra-theme-accent") declarations.push(["--luastra-color-on-accent", onAccentColor(value)]);
+  return declarations;
+}
+
 export class DomAdapter {
   #document;
   #nodes = new Map();
@@ -261,10 +271,7 @@ export class DomAdapter {
       return;
     }
     if (dynamicStyleAttributes[name]) {
-      const [propertyValue, format] = dynamicStyleAttributes[name];
-      const properties = Array.isArray(propertyValue) ? propertyValue : [propertyValue];
-      for (const property of properties) target.style.setProperty(property, format(value));
-      if (name === "data-luastra-theme-accent") target.style.setProperty("--luastra-color-on-accent", onAccentColor(value));
+      for (const [property, formatted] of rendererStyleDeclarations(name, value)) target.style.setProperty(property, formatted);
       target.setAttribute(name, value);
       return;
     }

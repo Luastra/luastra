@@ -1,7 +1,7 @@
 # Luastra architecture
 
-This document describes the public architectural boundary planned for Luastra
-`0.2.0-alpha`. It is a map of responsibilities, not a promise that every
+This document describes the Luastra source architecture, including the
+`0.4.0-alpha` release. It is a map of responsibilities, not a promise that every
 possible host or integration is already supported.
 
 ## Design objective

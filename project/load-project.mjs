@@ -50,7 +50,7 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
   if (!manifestInfo?.isFile()) fail(`project manifest not found: ${manifestPath}`);
   const projectRoot = await realpath(dirname(manifestPath));
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  objectShape(manifest, ["schemaVersion", "project", "sdk", "capabilities", "modules"], ["assets", "tests", "backend", "web"], "manifest");
+  objectShape(manifest, ["schemaVersion", "project", "sdk", "capabilities", "modules"], ["assets", "tests", "backend", "web", "startup"], "manifest");
   if (manifest.schemaVersion !== 2) fail("project schemaVersion must be 2");
   exactObject(manifest.project, ["id", "entry"], "project");
   if (!projectIdPattern.test(manifest.project.id ?? "")) fail("invalid project.id");
@@ -84,6 +84,13 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
     modules.set(module.id, Object.freeze({ id: module.id, source: normalizedSource, sourcePath, dependencies: Object.freeze([...dependencies]) }));
   }
   if (!modules.has(manifest.project.entry)) fail(`project entry is not declared: ${manifest.project.entry}`);
+  let startup = null;
+  if (manifest.startup !== undefined) {
+    exactObject(manifest.startup, ["entry"], "startup");
+    if (!moduleIdPattern.test(manifest.startup.entry ?? "") || !modules.has(manifest.startup.entry)) fail("startup.entry must name a declared project module");
+    if (manifest.startup.entry === manifest.project.entry) fail("startup.entry must differ from the application entry");
+    startup = Object.freeze({ entry: manifest.startup.entry });
+  }
   if (!Array.isArray(manifest.assets ?? [])) fail("assets must be an array");
   if ((manifest.assets ?? []).length > 256) fail("assets may contain at most 256 entries");
   const assets = [];
@@ -228,6 +235,7 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
     projectRoot,
     id: manifest.project.id,
     entry: manifest.project.entry,
+    startup,
     sdkContract: manifest.sdk.contract,
     capabilities: Object.freeze([...manifest.capabilities]),
     modules,

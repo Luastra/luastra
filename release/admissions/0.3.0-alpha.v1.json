@@ -1,0 +1,55 @@
+{
+  "assets": [
+    {
+      "bytes": 1516,
+      "filename": "luastra-0.3.0-alpha-RELEASE_NOTES.md",
+      "sha256": "be9e213a62b586418fb2e10ff0cdf2b639c19e968935588af1e462060301f9f1"
+    },
+    {
+      "bytes": 21667,
+      "filename": "luastra-install.mjs",
+      "sha256": "60d3ace667691eaf98e58f14625400d39b2f2c6592c2c423aa9658bc942d9200"
+    },
+    {
+      "bytes": 8735408,
+      "filename": "luastra-sdk-0.3.0-alpha-darwin-arm64.tar.gz",
+      "sha256": "4e6f21fc1d58b1cfcafbe121cd1e75c7bbdcb6b4b3521dd4e9011440c9771de7"
+    },
+    {
+      "bytes": 9066697,
+      "filename": "luastra-sdk-0.3.0-alpha-darwin-x64.tar.gz",
+      "sha256": "2ee961ea761b673f4132b620341ca744cdc6ed62b96333efcd84b03648a6e811"
+    },
+    {
+      "bytes": 88092,
+      "filename": "luastra-sdk-0.3.0-alpha-licenses.tar.gz",
+      "sha256": "2110361556b2692330befad4aea6be3567237cd15a3af9a2a3c34a5424245a89"
+    },
+    {
+      "bytes": 9649398,
+      "filename": "luastra-sdk-0.3.0-alpha-linux-x64.tar.gz",
+      "sha256": "420753a57be554ff5eb4bd422c7d31a1e5ba401f1f5235862c781df41cec3ace"
+    },
+    {
+      "bytes": 1491,
+      "filename": "luastra-sdk-0.3.0-alpha-THIRD_PARTY_NOTICES.md",
+      "sha256": "33d741c78de0a7cf8795b90459bb9c9784a89898722de14add30762d7054a4a6"
+    },
+    {
+      "bytes": 5441462,
+      "filename": "luastra-sdk-0.3.0-alpha-win32-x64.tar.gz",
+      "sha256": "fcfe97c60840f14e2c686c7cbf4a3b276c7c0675e274bc567ba0508fad5f88c0"
+    },
+    {
+      "bytes": 1819,
+      "filename": "luastra-sdk-0.3.0-alpha.spdx.json",
+      "sha256": "2f02b34836ed55171eeff93f5532c02461f97acb279ce8fce794289afd3d1aa0"
+    }
+  ],
+  "checksumsSha256": "e5112400a5a4880eed8eb6d8c5ced456f6edd5e7e815ca60a7f0d16da81a730d",
+  "contentSha256": "13fe091f660d69eea028bf5510ebd266daa11b989f7ccf60772e92189c8505e6",
+  "identity": "luastra-sdk-release-admission/v1",
+  "manifestSha256": "ded141a0d012f5c0d8d9e35c8946a21e87caf369771b50f355473dcd9fdcc72e",
+  "schemaVersion": 1,
+  "version": "0.3.0-alpha"
+}

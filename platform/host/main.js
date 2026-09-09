@@ -323,6 +323,7 @@ async function start() {
     eventQueue: hostEvents,
   });
   await lifecycle.start();
+  document.querySelector('[data-luastra-startup-host="v1"]')?.remove();
   status.textContent = "Luastra preview ready";
   status.classList.add("pass");
   publishState();
@@ -350,10 +351,11 @@ async function start() {
 }
 
 function showFailure(error) {
-  status.hidden = false;
+  const startupFailed = window.__luastraFailStartup?.() ?? false;
+  status.hidden = startupFailed;
   status.textContent = "Luastra preview failed";
   status.classList.add("fail");
-  errorOutput.hidden = false;
+  errorOutput.hidden = startupFailed;
   const message = String(error?.message ?? error);
   const stack = String(error?.stack ?? "");
   errorOutput.textContent = stack && !stack.startsWith(message) ? `${message}\n\n${stack}` : stack || message;

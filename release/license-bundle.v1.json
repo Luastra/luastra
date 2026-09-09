@@ -48,8 +48,8 @@
   "webRuntime": {
     "generatedJavaScriptLicenseHeader": {
       "required": "SPDX-License-Identifier: MIT",
-      "artifactBytes": 26435,
-      "artifactSha256": "f0ef7e8d096aa7760c366ef8203fd8d985baf7ce6927b67524278252568c5400"
+      "artifactBytes": 26392,
+      "artifactSha256": "137bd026d98675a302ca9ec24229bc73d7e68e6fc2d7b16b82e15e11a74b2c7b"
     },
     "boundary": "The bundle conservatively includes the pinned Emscripten toolchain runtime-library license set used by the C++/exceptions build. Optional Closure Compiler, OpenMP, mimalloc, WebGL and filesystem components are not enabled by the admitted recipe."
   }
