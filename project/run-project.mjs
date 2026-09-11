@@ -307,10 +307,17 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
     throw error;
   }
   const eventClients = new Set();
+  let expectedAuthority = null;
+  let expectedOrigin = null;
   const server = createServer(async (request, response) => {
     try {
       if (!request.url) { response.writeHead(400).end(); return; }
-      const pathname = new URL(request.url, "http://127.0.0.1").pathname;
+      if (expectedAuthority === null || expectedOrigin === null || request.headers.host !== expectedAuthority ||
+          (request.headers.origin !== undefined && request.headers.origin !== expectedOrigin)) {
+        response.writeHead(421, { "Cache-Control": "no-store" }).end("Misdirected request");
+        return;
+      }
+      const pathname = new URL(request.url, expectedOrigin).pathname;
       if (pathname === "/__luastra/logs") {
         if (request.method !== "POST") { response.writeHead(405).end(); return; }
         if (!String(request.headers["content-type"] ?? "").startsWith("application/json")) { response.writeHead(415).end(); return; }
@@ -438,7 +445,12 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
       }
       if (pathname === "/" || pathname === "/index.html") {
         const html = (await readFile(staticFiles.get("/"), "utf8")).replace("</head>", '<link rel="stylesheet" href="/project-typography.css" /></head>');
-        response.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" });
+        response.writeHead(200, {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store",
+          "Content-Security-Policy": "frame-ancestors 'none'",
+          "X-Frame-Options": "DENY",
+        });
         response.end(request.method === "HEAD" ? undefined : html);
         return;
       }
@@ -477,7 +489,9 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
   }
   const address = server.address();
   const actualPort = typeof address === "object" && address ? address.port : port;
-  const url = `http://127.0.0.1:${actualPort}/`;
+  expectedAuthority = `127.0.0.1:${actualPort}`;
+  expectedOrigin = `http://${expectedAuthority}`;
+  const url = `${expectedOrigin}/`;
   onEvent({
     command: "run",
     result: "READY",

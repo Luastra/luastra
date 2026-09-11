@@ -11,14 +11,14 @@
       "sha256": "60d3ace667691eaf98e58f14625400d39b2f2c6592c2c423aa9658bc942d9200"
     },
     {
-      "bytes": 9108169,
+      "bytes": 9107657,
       "filename": "luastra-sdk-0.5.0-alpha-darwin-arm64.tar.gz",
-      "sha256": "9615337e06ac46b33356c056b81788a6eeefdb6252640ced8c51dfe385bf7788"
+      "sha256": "b1079532af01fbb039040ea00c2cef5c9e36168e6bf93593faccf4c2e478d732"
     },
     {
-      "bytes": 9439463,
+      "bytes": 9438951,
       "filename": "luastra-sdk-0.5.0-alpha-darwin-x64.tar.gz",
-      "sha256": "6032a93c62b2e136886ea1bec573ce6f24200c91e7fe4b2bf4cdaa700cb3c74e"
+      "sha256": "30d6e1e5c5c8869f97677bae7bcc179f6e3fb228a1ceaaf3c40f6dc26a81978a"
     },
     {
       "bytes": 88092,
@@ -26,9 +26,9 @@
       "sha256": "8578a10c54294e519056b7ce57fb75f4555c72c8b095d1d2bb8cf12f18533666"
     },
     {
-      "bytes": 10021647,
+      "bytes": 10021135,
       "filename": "luastra-sdk-0.5.0-alpha-linux-x64.tar.gz",
-      "sha256": "81426a174834ef7a926049bb07155999e389360dcdd97c313552638d00bdd78a"
+      "sha256": "a026ab5f012362d69159cd342f92090f195796bb80401ff4753136919764e6b9"
     },
     {
       "bytes": 1704,
@@ -36,9 +36,9 @@
       "sha256": "ac56bc1c94649515147992135d881c8f547f00c9c14e275de031e205a36dcdc8"
     },
     {
-      "bytes": 5814223,
+      "bytes": 5813711,
       "filename": "luastra-sdk-0.5.0-alpha-win32-x64.tar.gz",
-      "sha256": "1441c31b98a0d459197a185efdb5b431aa258688a9bf8641c91cbf4c9c9cdb77"
+      "sha256": "1b34fb0b72696591a19ed6588da9a386fe49c38bd326cc373da3690430f5d8d3"
     },
     {
       "bytes": 2218,
@@ -46,10 +46,10 @@
       "sha256": "b5eadcee28454dceb0fffd03091210bb8712e690d6cef9a3e19b4ed1e5c6d9de"
     }
   ],
-  "checksumsSha256": "012d55ee269671b33f6e56729d593d8ec4de43ad0982b5fdea21b150c3e83073",
-  "contentSha256": "97e2a80881835599e9935fabfbb936ebdf994d5aefafcbf8e2df8257b68e9acb",
+  "checksumsSha256": "708b28ec36fc6702707d674549af3279e9a7ea7636aa9d08d39657557a73e8be",
+  "contentSha256": "ac7b2a5d73701a9d460fa758044638b8c94a75d7ff591e6b62c6210da3ccdf95",
   "identity": "luastra-sdk-release-admission/v1",
-  "manifestSha256": "9a302c3d0d6ddee458021deae0e49f0aab47915f71951743afcfb65ac12444b1",
+  "manifestSha256": "676f831f7e50971293629e45f7e3a010074742fbd4514ebe7f0367662606732c",
   "schemaVersion": 1,
   "version": "0.5.0-alpha"
 }

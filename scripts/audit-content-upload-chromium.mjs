@@ -59,8 +59,21 @@ async function waitFor(client, expression, label) {
   fail(`timeout waiting for ${label}`);
 }
 async function click(client, id) {
-  const clicked = await evaluate(client, `(() => { const node = document.getElementById(${JSON.stringify(id)}); if (!node) return false; node.click(); return true; })()`);
-  if (!clicked) fail(`missing control: ${id}`);
+  const globalObject = await client.send("Runtime.evaluate", { expression: "globalThis" });
+  const objectId = globalObject.result?.objectId;
+  if (!objectId) fail("browser global object is unavailable");
+  try {
+    const result = await client.send("Runtime.callFunctionOn", {
+      objectId,
+      functionDeclaration: "function (controlId) { const node = this.document.getElementById(controlId); if (!node) return false; node.click(); return true; }",
+      arguments: [{ value: id }],
+      returnByValue: true,
+    });
+    if (result.exceptionDetails) fail(`browser click failed: ${result.exceptionDetails.exception?.description ?? result.exceptionDetails.text}`);
+    if (!result.result?.value) fail(`missing control: ${id}`);
+  } finally {
+    await client.send("Runtime.releaseObject", { objectId }).catch(() => {});
+  }
 }
 
 const temporary = await mkdtemp(resolve(tmpdir(), "luastra-content-upload-browser-"));

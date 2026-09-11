@@ -1,5 +1,5 @@
 {
-  "contentSha256": "9eb3e47130d66a010970ce8fc26e794a9c9e1e3496b027ff7f62fc415da5b9aa",
+  "contentSha256": "26e99c56c7a16ee5031ebdbdf2253abf2d19921de1007c888c8222c1e74b6b27",
   "files": [
     {
       "bytes": 182,
@@ -362,10 +362,10 @@
       "sha256": "8819df6e30c3e14087f058e623312c16263e60aa165d1f8b054abf3e66baa490"
     },
     {
-      "bytes": 6675,
+      "bytes": 6840,
       "mode": 420,
       "path": "docs/content-uploads.md",
-      "sha256": "85e10708ec0f8dfc3ee97b47a53f1f9109ca60ad82ee906c121e8ff6851e4eb9"
+      "sha256": "b429e44ffdd75ebde8de9544c4cfef831f12713202f1e80aa57063ef5488832b"
     },
     {
       "bytes": 2877,
@@ -428,10 +428,10 @@
       "sha256": "f6147059b0efeb5ed0cb4acf8d9fde8933e3ba24afdc8a1afb0f8b864db80829"
     },
     {
-      "bytes": 5156,
+      "bytes": 5542,
       "mode": 420,
       "path": "docs/security/content-upload-threat-model.md",
-      "sha256": "1ed6ea8868a6ba612bc8fed1dc68b48a52e9ef90d2d526d75d86d736f837aefb"
+      "sha256": "40db3638de5037f96a1a5ce900168d70648fe051cee9d82c0068ac5b785eccaf"
     },
     {
       "bytes": 4477,
@@ -2204,10 +2204,10 @@
       "sha256": "3934242fdc162c9932c143952c7eba1b4511a878149fe5faaf240db955b98433"
     },
     {
-      "bytes": 21083,
+      "bytes": 20045,
       "mode": 420,
       "path": "platform/host/main.js",
-      "sha256": "bc72ff13cff71052f19e1197b1e5a863366c05ecaf72d0bb7b36ce19b65f43fa"
+      "sha256": "6c5771ed6aa079b831c41982043cc3a0c6c92dd90525d1e968565f9cedd61b6f"
     },
     {
       "bytes": 15537,
@@ -2630,10 +2630,10 @@
       "sha256": "e24e71c04def6267fbd03a8740fef516d599491c754a680874fd56fdb5460e99"
     },
     {
-      "bytes": 31996,
+      "bytes": 32595,
       "mode": 420,
       "path": "project/run-project.mjs",
-      "sha256": "1afb4b2b0e4cc5dc91dca2e80707cd768259a826801bade87d42dc5994747a8b"
+      "sha256": "36f3901997d012355cad7c0e8e851c9f668cf389ff9d89e0a8c3dd3badc469e9"
     },
     {
       "bytes": 2231,
@@ -2981,7 +2981,7 @@
       "bytes": 1030,
       "mode": 420,
       "path": "release-artifacts/0.5.0-alpha/SHA256SUMS",
-      "sha256": "012d55ee269671b33f6e56729d593d8ec4de43ad0982b5fdea21b150c3e83073"
+      "sha256": "708b28ec36fc6702707d674549af3279e9a7ea7636aa9d08d39657557a73e8be"
     },
     {
       "bytes": 2834,
@@ -2999,7 +2999,7 @@
       "bytes": 3004,
       "mode": 420,
       "path": "release-artifacts/0.5.0-alpha/luastra-release.v1.json",
-      "sha256": "9a302c3d0d6ddee458021deae0e49f0aab47915f71951743afcfb65ac12444b1"
+      "sha256": "676f831f7e50971293629e45f7e3a010074742fbd4514ebe7f0367662606732c"
     },
     {
       "bytes": 1704,
@@ -3008,16 +3008,16 @@
       "sha256": "ac56bc1c94649515147992135d881c8f547f00c9c14e275de031e205a36dcdc8"
     },
     {
-      "bytes": 9108169,
+      "bytes": 9107657,
       "mode": 420,
       "path": "release-artifacts/0.5.0-alpha/luastra-sdk-0.5.0-alpha-darwin-arm64.tar.gz",
-      "sha256": "9615337e06ac46b33356c056b81788a6eeefdb6252640ced8c51dfe385bf7788"
+      "sha256": "b1079532af01fbb039040ea00c2cef5c9e36168e6bf93593faccf4c2e478d732"
     },
     {
-      "bytes": 9439463,
+      "bytes": 9438951,
       "mode": 420,
       "path": "release-artifacts/0.5.0-alpha/luastra-sdk-0.5.0-alpha-darwin-x64.tar.gz",
-      "sha256": "6032a93c62b2e136886ea1bec573ce6f24200c91e7fe4b2bf4cdaa700cb3c74e"
+      "sha256": "30d6e1e5c5c8869f97677bae7bcc179f6e3fb228a1ceaaf3c40f6dc26a81978a"
     },
     {
       "bytes": 88092,
@@ -3026,16 +3026,16 @@
       "sha256": "8578a10c54294e519056b7ce57fb75f4555c72c8b095d1d2bb8cf12f18533666"
     },
     {
-      "bytes": 10021647,
+      "bytes": 10021135,
       "mode": 420,
       "path": "release-artifacts/0.5.0-alpha/luastra-sdk-0.5.0-alpha-linux-x64.tar.gz",
-      "sha256": "81426a174834ef7a926049bb07155999e389360dcdd97c313552638d00bdd78a"
+      "sha256": "a026ab5f012362d69159cd342f92090f195796bb80401ff4753136919764e6b9"
     },
     {
-      "bytes": 5814223,
+      "bytes": 5813711,
       "mode": 420,
       "path": "release-artifacts/0.5.0-alpha/luastra-sdk-0.5.0-alpha-win32-x64.tar.gz",
-      "sha256": "1441c31b98a0d459197a185efdb5b431aa258688a9bf8641c91cbf4c9c9cdb77"
+      "sha256": "1b34fb0b72696591a19ed6588da9a386fe49c38bd326cc373da3690430f5d8d3"
     },
     {
       "bytes": 2218,
@@ -3191,7 +3191,7 @@
       "bytes": 1988,
       "mode": 420,
       "path": "release/sdk-release-admission.v1.json",
-      "sha256": "6427875931e2b6bce2b2f28aebae0bd680abb0dc7c475715d8c32214734a06c1"
+      "sha256": "d4a7888b8df6361c75606685076fd8790b2672310eb26649626b67c7ba4d10c3"
     },
     {
       "bytes": 1574,
@@ -3224,10 +3224,10 @@
       "sha256": "d9a2b5e7dbcb01db0d3924a230a6ca907662996654b43e0f42ddddf27838cf82"
     },
     {
-      "bytes": 6040,
+      "bytes": 6649,
       "mode": 420,
       "path": "scripts/audit-content-upload-chromium.mjs",
-      "sha256": "02e05a8881fda3ca12624d5263b65f911466fec3517dc4151835e6f0bf377cd8"
+      "sha256": "61168f9107ba5e5b85eeddc5110e5d533149b347bf9eeba21ef74673d3bdd0e4"
     },
     {
       "bytes": 11189,
@@ -3740,10 +3740,10 @@
       "sha256": "cebc3c32a296ce7f7f904373d148dfd15fbfaa1e97f595ba6fa3a86f1fcdaf43"
     },
     {
-      "bytes": 15227,
+      "bytes": 17555,
       "mode": 420,
       "path": "tests/backend-foundation.mjs",
-      "sha256": "fb89910d331e0c7ce108ad949c32ca44197a454af2d804e982e6341deb46bb0d"
+      "sha256": "a260aa7ceb7421cf42a23b9af5cce9ace8c29b6df473ef49c341df9e332464ff"
     },
     {
       "bytes": 12226,
@@ -3770,10 +3770,10 @@
       "sha256": "037c3377958f7a3632fcf5e2c8e243885411e06f2077b7169a5a0893f06746db"
     },
     {
-      "bytes": 10083,
+      "bytes": 9931,
       "mode": 420,
       "path": "tests/capacitor-host-closure.mjs",
-      "sha256": "beef6d1bfbbc93351a43f90ad6df97032ad3a8556565fff29eeadce7042df958"
+      "sha256": "7509609d2d2a52072c9998ea77e8f87b99bc7fb6bf50b77d6088efcbb673827a"
     },
     {
       "bytes": 28846,

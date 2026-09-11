@@ -356,25 +356,6 @@ async function start() {
   status.textContent = "Luastra preview ready";
   status.classList.add("pass");
   publishState();
-  const shouldSelfTest = new URLSearchParams(location.search).get("luastraSelfTest") === "interaction";
-  if (shouldSelfTest) {
-    if (nativePlatform) await new Promise((accept) => setTimeout(accept, 500));
-    const control = hostRoot.querySelector("button");
-    if (!control) fail("host interaction self-test found no button");
-    if (nativePlatform) {
-      for (let attempt = 0; control.disabled && attempt < 100; attempt += 1) {
-        await new Promise((accept) => setTimeout(accept, 50));
-      }
-    }
-    if (control.disabled) fail("host interaction self-test found no enabled primary button");
-    const initialSequence = response.renderSequence;
-    control.click();
-    for (let attempt = 0; response.renderSequence === initialSequence && attempt < 40; attempt += 1) {
-      await new Promise((accept) => setTimeout(accept, 50));
-    }
-    if (response.renderSequence <= initialSequence) fail("host interaction self-test did not advance the render sequence");
-    status.textContent = "Luastra host self-test passed";
-  }
   // Do not run manual pagehide cleanup. A discarded document releases its
   // complete JS/Wasm realm, while a BFCache document must remain resumable.
 }

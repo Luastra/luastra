@@ -90,8 +90,10 @@ uploadRequestId = Content.upload(selectedImage, result.handle)
 ```
 
 The browser streams the original `File` with `XMLHttpRequest` to the same-origin
-`/__luastra/upload/<opaque-token>` route, outside the RPC envelope. The host
-adds its existing Luastra session authorization; Luau cannot read that token.
+`/__luastra/upload/<opaque-token>` route, outside the RPC envelope. The host reads
+the project-scoped opaque Luastra session bearer from host storage and adds it to
+the transfer. Application Luau can store and restore this bearer through
+`Host.storageSet` and `Host.storageGet`; treat it as sensitive application state.
 Provider upload URLs, object paths, credentials, Supabase access tokens, and
 Supabase refresh tokens remain backend-only.
 

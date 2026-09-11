@@ -62,10 +62,9 @@ test("Phase 5 owns exact relative Capacitor host locks", async () => {
   assert.equal(lockText.includes("/Users/"), false);
 });
 
-test("native host never mutates application UI unless interaction self-test is explicit", async () => {
+test("host never derives application interaction from navigation state", async () => {
   const main = await readFile(resolve(prototype, "platform/host/main.js"), "utf8");
-  assert.match(main, /const shouldSelfTest = new URLSearchParams\(location\.search\)\.get\("luastraSelfTest"\) === "interaction";/);
-  assert.doesNotMatch(main, /shouldSelfTest[^;]*\|\|[^;]*isNativePlatform/);
+  assert.doesNotMatch(main, /luastraSelfTest|shouldSelfTest|\.click\(\)/);
 });
 
 test("iOS closure pins Swift package and required Luastra host declarations", async () => {

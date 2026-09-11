@@ -27,6 +27,7 @@ Luau and ordinary application logs.
 
 | Threat | Required control and evidence |
 | --- | --- |
+| DNS rebinding, foreign browser origin, or framed navigation | Bind the development server to loopback and require its exact runtime `Host` authority. When a browser sends `Origin`, require the matching loopback origin before routing any request. Serve development HTML with effective anti-framing response headers, and never derive synthetic application interaction from URL state. |
 | Path traversal, overwrite, and enumeration | Ignore client filenames. Generate random object identifiers and reconstruct provider paths from an admitted purpose, authenticated principal, and server-owned identifier. Reject unknown purposes and identifiers before provider access. |
 | Cross-user upload, commit, read, or delete | Bind every intent to the authenticated principal and purpose. Re-check the principal at upload, commit, display, and delete. Provider policies are defense in depth, not the only authorization layer. |
 | Forged, replayed, or expired handle | Use high-entropy opaque handles, single successful upload and commit transitions, short local intent expiry, constant-shape errors, and remove terminal intents immediately. |
