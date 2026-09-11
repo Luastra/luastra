@@ -64,7 +64,7 @@ test("Orbit composes stable semantic primitives without application-owned coordi
   assert.equal(orbit.tag, "section");
   assert.equal(node.tag, "button");
   assert.equal(node.attributes["data-luastra-orbit-signal-icon"], "rocket");
-  assert.throws(() => component("Button", { id: "orbit/root/invalid", orbitSignalIcon: "letter-s" }), /invalid Orbit signal icon/);
+  assert.throws(() => component("Button", { id: "orbit/root/invalid", label: "Invalid", orbitSignalIcon: "letter-s" }), /invalid Orbit signal icon/);
   assert.equal(Object.keys(node.attributes).some((name) => name.includes("orbit-x")), false);
   assert.doesNotThrow(() => reconcile(null, orbit));
 });

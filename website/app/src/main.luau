@@ -3,11 +3,12 @@
 local Examples = require("app/examples")
 local Landing = require("app/landing")
 local ReferenceData = require("app/reference-data")
+local App = require("luastra/app")
 local Host = require("luastra/host")
 local Navigation = require("luastra/navigation")
 local UI = require("luastra/ui")
 
-local Application = {}
+local Root = {}
 
 local lightTheme: UI.Theme = {
     backgroundColor = "#F4EFE3",
@@ -852,7 +853,7 @@ local function renderContent(): UI.Node
     return renderOverview(section)
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     if showingLanding then return Landing.render() end
     targetPages = {}
     targetSections = {}
@@ -896,7 +897,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "lifecycle" and target == "app" and value == "launch" and launchUrlRequest == nil then
         launchUrlRequest = Host.launchUrl()
         historyCurrentRequest = Host.historyCurrent()
@@ -991,7 +992,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(id: number, success: boolean, _payload: string, _code: string, _message: string)
+function Root.resolve(id: number, success: boolean, _payload: string, _code: string, _message: string)
     if launchUrlRequest == id then
         launchUrlRequest = nil
         launchResolved = true
@@ -1023,7 +1024,7 @@ function Application.resolve(id: number, success: boolean, _payload: string, _co
     copyStatusByTarget[statusTarget] = success and "Example copied." or "Could not copy the example."
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return {
         route = navigation.current().name,
         location = navigation.currentLocation(),
@@ -1040,4 +1041,9 @@ function Application.snapshot()
     }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}

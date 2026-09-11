@@ -1,4 +1,4 @@
-# Luastra `0.2.0-alpha` compatibility
+# Luastra `0.5.0-alpha` compatibility
 
 This matrix distinguishes verified source-alpha evidence from distribution or
 production claims. `Verified` means the named path passed the repository's
@@ -18,7 +18,7 @@ The immutable runtime SDK selects only the following admitted host identities:
 
 Node.js 24 or newer is required by the source and contributor workflow.
 Linux ARM, Windows ARM, and other host combinations are not admitted in
-`0.2.0-alpha` even if an upstream tool happens to provide binaries for them.
+`0.5.0-alpha` even if an upstream tool happens to provide binaries for them.
 
 ## Application targets
 
@@ -41,6 +41,22 @@ Available in bounded alpha form:
 - validation, versioned state, routes, browser history, and lifecycle events;
 - typed server functions, local data, and provider-neutral identity/data seams;
 - media queues, background playback adapters, and system media controls;
+- browser PNG/JPEG selection, opaque previews, bounded upload progress and
+  cancellation, and provider-neutral private-image commit/open/delete;
+- local reusable-library source and immutable archive admission, exact project
+  locks, transactional install/update/removal, offline reinstall, conformance
+  tests, and deterministic attribution/SBOM output;
+- feature composition with unambiguous asynchronous request ownership;
+- bounded Resource and PagedCollection state machines with stale-result
+  suppression, bidirectional cursors, stable item keys, anchors, and eviction;
+- opt-in windowed `UI.List` rendering with variable-height measurement, focus
+  pinning, edge backpressure, anchor restoration, and an accessible fallback;
+- backend v2 nested records and structured validation plus declarative local and
+  Supabase record collections;
+- one typed `UI.Image` path for packaged assets, protected same-origin delivery,
+  and host-local previews;
+- `UI.Icon`, input completion semantics, explicit button states, modal focus
+  relationships, and reusable safe-area, sticky, and overflow layout tokens;
 - deterministic SDK packaging, archives, checksums, notices, and SBOMs.
 
 Partial or intentionally bounded:
@@ -51,7 +67,16 @@ Partial or intentionally bounded:
 - remote identity evidence is bounded and does not promise a hosted Luastra
   service;
 - private protected media is online-only with short-lived grants;
+- image selection/upload is web-only; native camera/library adapters, resumable
+  transfer, EXIF stripping, and multi-instance upload intents are not admitted;
+- Supabase upload evidence uses contract mocks; a real deployed project and RLS
+  policy remain a production certification gate;
 - external media accessories and broad device/OS coverage are not certified;
+- manual VoiceOver and NVDA certification for image selection remains deferred;
+- remote library registries, dependency solving, publisher signatures, install
+  hooks, and native binary libraries are not admitted;
+- inline video, autoplay policy, caption tracks, and decoder lifecycle are
+  deferred to a separately admitted release;
 - HTTPS App Links and Universal Links are not part of the alpha claim.
 
 Deferred beyond this alpha:
@@ -61,6 +86,7 @@ Deferred beyond this alpha:
 - Payments;
 - visual builders and AI application generation;
 - a public marketplace;
+- a remote reusable-library resolver or publisher trust service;
 - production multi-tenant Luastra Cloud;
 - arbitrary remote executable Luau.
 

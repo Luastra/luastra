@@ -2,6 +2,7 @@
 
 local Model = require("app/model")
 local ServerFunctions = require("app/server-functions")
+local App = require("luastra/app")
 local UI = require("luastra/ui")
 
 type RetryAction = { kind: string, id: string?, title: string?, details: string?, key: string? }
@@ -19,7 +20,7 @@ local requestSequence = 0
 local launched = false
 local disposed = false
 
-local Application = {}
+local Root = {}
 
 local function clearDraft()
     editingId = nil
@@ -84,7 +85,7 @@ local function recordView(record: ServerFunctions.Record): UI.Node
     }
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local recordViews: { UI.Node } = {}
     for _, record in records do table.insert(recordViews, recordView(record)) end
     if #recordViews == 0 then
@@ -166,7 +167,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "lifecycle" and target == "app" then
         if value == "launch" and not launched then launched = true issue({ kind = "list" }, false)
         elseif value == "online" then connectivity = "Online"
@@ -203,7 +204,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(requestId: number, success: boolean, payload: string, errorCode: string, errorMessage: string)
+function Root.resolve(requestId: number, success: boolean, payload: string, errorCode: string, errorMessage: string)
     local action = pending[requestId]
     if action == nil then return end
     pending[requestId] = nil
@@ -236,8 +237,13 @@ function Application.resolve(requestId: number, success: boolean, payload: strin
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { records = table.clone(records), editingId = editingId, draftTitle = draftTitle, draftDetails = draftDetails, titleError = titleError, status = status, connectivity = connectivity, busy = busy(), retry = retryAction ~= nil, disposed = disposed }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}

@@ -47,7 +47,7 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     const manifest = JSON.parse(await readFile(resolve(project, "luastra.json"), "utf8"));
     assert.equal(manifest.schemaVersion, 2);
     assert.deepEqual(manifest.modules.map((module) => module.id), ["app/main", "app/tests/smoke"]);
-    assert.deepEqual(manifest.modules[0].dependencies, ["luastra/ui"]);
+    assert.deepEqual(manifest.modules[0].dependencies, ["luastra/app", "luastra/ui"]);
     const coverBytes = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=", "base64");
     await writeFile(resolve(project, "assets/cover.png"), coverBytes);
     manifest.assets = [{ id: "catalogue/cover", source: "assets/cover.png", mediaType: "image/png" }];
@@ -56,7 +56,7 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     const beforeCheck = await inventory(project);
     const checked = JSON.parse(run(["check", `--project=${project}`]).stdout);
     assert.equal(checked.result, "PASS");
-    assert.equal(checked.modules, 4);
+    assert.equal(checked.modules, 6);
     assert.equal(checked.projectAssets, 1);
     assert.match(checked.sourceSdkIdentity, /^luastra-source-sdk\//);
     assert.deepEqual(await inventory(project), beforeCheck, "check mutated the user project");
@@ -66,7 +66,7 @@ test("create, check and deterministic bundle/web builds use the central SDK", as
     assert.equal(bundleA.contentSha256, bundleB.contentSha256);
     assert.deepEqual(await readFile(resolve(project, "dist/bundle-a/luastra.bundle.json")), await readFile(resolve(project, "dist/bundle-b/luastra.bundle.json")));
     const builtBundle = JSON.parse(await readFile(resolve(project, "dist/bundle-a/luastra.bundle.json"), "utf8"));
-    assert.deepEqual(builtBundle.modules.map((module) => module.id), ["luastra/assets", "luastra/ui", "app/main"]);
+    assert.deepEqual(builtBundle.modules.map((module) => module.id), ["luastra/app", "luastra/assets", "luastra/content", "luastra/ui", "app/main"]);
     assert.equal(builtBundle.modules.some((module) => module.source.startsWith("sources/luastra/")), true);
     assert.equal(builtBundle.modules.some((module) => module.id.includes("tests")), false, "production bundle contains tests");
     const assetLedger = JSON.parse(await readFile(resolve(project, "dist/bundle-a/project-assets.json"), "utf8"));
@@ -168,12 +168,12 @@ test("animated catalogue resolves its SDK closure and renders through Wasm", asy
   const project = resolve(prototype, "examples/animated-catalogue");
   const checked = JSON.parse(run(["check", `--project=${project}`]).stdout);
   assert.equal(checked.result, "PASS");
-  assert.equal(checked.modules, 9);
+  assert.equal(checked.modules, 11);
   const output = await mkdtemp(resolve(tmpdir(), "luastra-catalogue-bundle-"));
   try {
     run(["build", "bundle", `--project=${project}`, `--out=${output}`]);
     const bundle = JSON.parse(await readFile(resolve(output, "luastra.bundle.json"), "utf8"));
-    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/host", "luastra/motion", "luastra/navigation", "luastra/state", "luastra/assets", "luastra/ui", "app/main"]);
+    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/app", "luastra/host", "luastra/motion", "luastra/navigation", "luastra/state", "luastra/assets", "luastra/content", "luastra/ui", "app/main"]);
     const executed = await runWasmBundle({
       bundlePath: resolve(output, "luastra.bundle.json"),
       runtimeModulePath: resolve(prototype, "platform/artifacts/vm-wasm/luastra-vm.js"),
@@ -216,6 +216,17 @@ test("project schema exposes the bounded web metadata contract", async () => {
   assert.equal(schema.properties.web.properties.description.maxLength, 320);
   assert.equal(schema.properties.web.properties.canonicalUrl.pattern, "^https://");
   assert.equal(schema.properties.web.properties.index.type, "boolean");
+});
+
+test("project schema exposes bounded declarative record collections", async () => {
+  const schema = JSON.parse(await readFile(resolve(prototype, "project/luastra-project.schema.v2.json"), "utf8"));
+  const records = schema.properties.backend.properties.records;
+  assert.equal(records.minProperties, 1);
+  assert.equal(records.maxProperties, 32);
+  assert.deepEqual(records.additionalProperties.required, ["provider"]);
+  assert.deepEqual(records.additionalProperties.properties.provider.enum, ["local", "supabase"]);
+  assert.equal(records.additionalProperties.properties.maximumLimit.maximum, 128);
+  assert.equal(records.additionalProperties.properties.sorts.additionalProperties.maxItems, 4);
 });
 
 test("project v2 rejects reserved SDK modules, missing dependencies and escaping sources", async () => {

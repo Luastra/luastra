@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "types": {},
+  "functions": {
+    "content.upload.create.v1": {
+      "clientName": "createUpload",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": { "purpose": "string", "mediaType": "string", "bytes": "number", "width": "number", "height": "number" },
+      "result": { "handle": "string", "expiresAt": "number" }
+    },
+    "content.upload.commit.v1": {
+      "clientName": "commitUpload",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": { "handle": "string" },
+      "result": { "objectId": "string", "source": "string", "mediaType": "string", "bytes": "number", "width": "number", "height": "number", "orientation": "string" }
+    },
+    "content.upload.delete.v1": {
+      "clientName": "deleteUpload",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "input": { "purpose": "string", "objectId": "string", "mediaType": "string", "bytes": "number", "width": "number", "height": "number" },
+      "result": { "deleted": "boolean" }
+    }
+  }
+}

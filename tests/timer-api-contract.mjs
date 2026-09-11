@@ -9,7 +9,7 @@ import { buildProject } from "../project/build-project.mjs";
 
 const prototype = resolve(import.meta.dirname, "..");
 
-test("typed Timer request is acknowledged without Application.resolve and expiry reaches handle", async () => {
+test("typed Timer request is acknowledged without app.resolve and expiry reaches handle", async () => {
   const workspace = await mkdtemp(resolve(tmpdir(), "luastra-timer-api-"));
   const requests = [];
   try {

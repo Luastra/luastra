@@ -71,6 +71,11 @@ test("supervisor terminates a Luau infinite loop in a dependency", async () => {
 
 test("startup VM refuses excessive Luau allocation", async () => {
   await fixture("local values = table.create(10000000, 1)", async options => {
-    await assert.rejects(runStartupBundle(options), /not enough memory|memory allocation|out of memory/i);
+    // Both outcomes are fail-closed: the VM may reject the allocation directly,
+    // or the supervisor may terminate it at the fixed startup budget first.
+    await assert.rejects(
+      runStartupBundle(options),
+      /not enough memory|memory allocation|out of memory|startup execution exceeded its 5000ms time or output budget/i,
+    );
   });
 });

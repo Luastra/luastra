@@ -16,6 +16,7 @@
       "id": "app/main",
       "source": "src/main.luau",
       "dependencies": [
+        "luastra/app",
         "luastra/ui",
         "luastra/motion",
         "luastra/navigation",

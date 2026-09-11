@@ -9,12 +9,12 @@ import { canonicalJson } from "../../assets/package-assets.mjs";
 import { verifyRuntimeSdk } from "../resolve-runtime-sdk.mjs";
 import { buildRuntimePackage, verifyRuntimePackage } from "./package-runtime-sdk.mjs";
 
-const archiveSetIdentity = "luastra-runtime-archives/phase5-alpha-3";
+const archiveSetIdentity = "luastra-runtime-archives/phase5-alpha-4";
 const packagingRoot = dirname(fileURLToPath(import.meta.url));
 const admissionPath = resolve(packagingRoot, "runtime-archive-admission.v1.json");
-const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-9";
-const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-9";
-const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-9";
+const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-10";
+const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-10";
+const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-10";
 const targets = Object.freeze([
   Object.freeze({ id: "darwin-x64", platform: "darwin", architecture: "x64" }),
   Object.freeze({ id: "darwin-arm64", platform: "darwin", architecture: "arm64" }),
@@ -45,7 +45,7 @@ function parseArguments(values) {
   if (!output) fail("usage: build-runtime-archives.mjs --output <new-directory>");
   return { output };
 }
-function archiveRoot(targetId) { return `luastra-runtime-sdk-phase5-alpha-9-${targetId}`; }
+function archiveRoot(targetId) { return `luastra-runtime-sdk-phase5-alpha-10-${targetId}`; }
 function archiveFilename(targetId) { return `${archiveRoot(targetId)}.tar.gz`; }
 function expectedPackagePaths(targetId) {
   const extension = targetId === "win32-x64" ? ".exe" : "";
@@ -242,7 +242,7 @@ async function verifyAdmission(manifest, manifestBytes, checksumsBytes) {
 export async function loadRuntimeArchiveAdmission() {
   const admission = JSON.parse(await readFile(admissionPath, "utf8"));
   if (!exactKeys(admission, ["schemaVersion", "identity", "archiveSetIdentity", "contentSha256", "manifestSha256", "checksumsSha256", "targets"]) ||
-      admission.schemaVersion !== 1 || admission.identity !== "luastra-runtime-archive-admission/phase5-alpha-3" ||
+      admission.schemaVersion !== 1 || admission.identity !== "luastra-runtime-archive-admission/phase5-alpha-4" ||
       admission.archiveSetIdentity !== archiveSetIdentity || !/^[0-9a-f]{64}$/.test(admission.contentSha256) ||
       !/^[0-9a-f]{64}$/.test(admission.manifestSha256) || !/^[0-9a-f]{64}$/.test(admission.checksumsSha256) ||
       !Array.isArray(admission.targets) || admission.targets.length !== targets.length) fail("invalid runtime archive admission contract");

@@ -4,7 +4,8 @@
 
 | Version | Security status |
 |---|---|
-| `0.4.0-alpha` | Current published pre-release; not supported for production use |
+| `0.5.0-alpha` | Current published pre-release; not supported for production use |
+| `0.4.0-alpha` | Historical pre-release; upgrade to the current alpha for fixes |
 | `0.3.0-alpha` | Historical pre-release; upgrade to the current alpha for fixes |
 | `0.2.x-alpha` | Historical releases; upgrade to the current alpha for fixes |
 | `0.1.0-alpha` | Retained for rollback; upgrade to the current alpha for fixes |
@@ -48,3 +49,8 @@ dependencies remain separate responsibility boundaries.
 
 See [`ARCHITECTURE.md`](./ARCHITECTURE.md) and
 [`COMPATIBILITY.md`](./COMPATIBILITY.md) for the admitted design and claims.
+The image-selection and upload boundary is documented separately in
+[`docs/security/content-upload-threat-model.md`](./docs/security/content-upload-threat-model.md).
+Reusable source and archive admission, lock integrity, dependency confusion,
+capability containment, transactional installation, and attribution are covered
+by [`docs/security/library-package-threat-model.md`](./docs/security/library-package-threat-model.md).

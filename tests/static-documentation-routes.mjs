@@ -7,7 +7,7 @@ import { generatedPages } from "../website/site/generated-reference-data.js";
 test("static documentation inventory covers real content and preserves existing links", () => {
   const routes = documentationRoutes({ sections, pages: generatedPages });
   assert.equal(routes.length, sections.length + generatedPages.length);
-  assert.equal(routes.filter((route) => route.kind === "section").length, 40);
+  assert.equal(routes.filter((route) => route.kind === "section").length, 44);
   assert.ok(routes.some(route => route.path === "/docs/startup-screens/"));
   const button = routes.find((route) => route.path === "/reference/ui/button/");
   assert.equal(button.canonical, "https://luastra.dev/reference/ui/button/");

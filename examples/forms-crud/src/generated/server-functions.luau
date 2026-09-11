@@ -4,6 +4,7 @@
 local Server = require("luastra/server")
 
 export type RequestOptions = Server.Options
+export type Error = Server.Error
 
 export type Record = { details: string, id: string, title: string }
 
@@ -33,6 +34,7 @@ local function exact(fields: { [string]: string }, used: { [string]: boolean }):
 end
 
 local Api = {}
+Api.decodeError = Server.decodeError
 
 function Api.adminReport(input: AdminReportInput, options: Server.Options?): number
     return Server.call("records.admin.v1", {  }, options)

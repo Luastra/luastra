@@ -4,6 +4,7 @@
 local Server = require("luastra/server")
 
 export type RequestOptions = Server.Options
+export type Error = Server.Error
 
 export type Meditation = { accessible: boolean, description: string, durationMs: number, favorite: boolean, id: string, locked: boolean, title: string }
 
@@ -35,6 +36,7 @@ local function exact(fields: { [string]: string }, used: { [string]: boolean }):
 end
 
 local Api = {}
+Api.decodeError = Server.decodeError
 
 function Api.login(input: LoginInput, options: Server.Options?): number
     return Server.call("auth.login.v1", { ["email"] = input.email, ["password"] = input.password }, options)

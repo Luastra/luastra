@@ -54,11 +54,11 @@ manifest rejection tests and rollback checks. The example at
 `examples/startup-screen` has been checked in a browser both without the main
 module and with the running counter after startup removal.
 
-The 0.4.0-alpha SDK admits the startup-capable phase5-alpha-9 runtime.
+The current source SDK admits the startup-capable phase5-alpha-10 runtime.
 The normal CLI works with the repository runtime or an independently installed
 and verified runtime. The temporary `startupRuntimeModulePath` injection has
-been removed. Published 0.3 SDK archives have not changed and do not include
-this feature. See [runtime admission](runtime-startup-admission.md).
+been removed. Published SDK archives remain unchanged. See
+[runtime admission](runtime-startup-admission.md).
 
 ```sh
 node cli/luastra.mjs build web --project=examples/startup-screen/luastra.json

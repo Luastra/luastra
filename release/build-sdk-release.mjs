@@ -17,7 +17,7 @@ const admissionPath = resolve(releaseRoot, "sdk-release-admission.v1.json");
 const archivedAdmissionsRoot = resolve(releaseRoot, "admissions");
 const sourceVersion = JSON.parse(await readFile(resolve(prototypeRoot, "package.json"), "utf8")).version;
 if (!/^[0-9]+\.[0-9]+\.[0-9]+-alpha$/u.test(sourceVersion)) throw new Error("invalid source alpha version");
-const productDirectories = Object.freeze(["assets", "backend", "cli", "host", "platform", "project", "sdk", "templates"]);
+const productDirectories = Object.freeze(["assets", "backend", "cli", "host", "libraries", "platform", "project", "sdk", "templates"]);
 const legalFiles = Object.freeze(["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "TRADEMARKS.md"]);
 const hosts = Object.freeze([
   Object.freeze({ id: "darwin-arm64", platform: "darwin", architecture: "arm64" }),
@@ -117,6 +117,7 @@ function generateSdkSbom(version) {
   const packages = [
     ["luastra-core", "Luastra SDK and CLI", version, "Apache-2.0"],
     ["luastra-templates", "Luastra starter templates", version, "0BSD"],
+    ["luastra-universal-blocks", "Luastra universal composition library", "1.0.0", "Apache-2.0"],
     ["luau", "Luau", "0.731+f8ca77acdcb50241e3da21af663f8ef97b4b5ce4", "MIT"],
     ["emscripten-runtime", "Emscripten generated runtime", "6.0.6", "(MIT OR NCSA)"],
   ].map(([id, name, versionInfo, license]) => ({ SPDXID: `SPDXRef-${id}`, name, versionInfo, downloadLocation: "NOASSERTION",
@@ -156,8 +157,13 @@ async function loadAdmission(version) {
 }
 function verifySbom(bytes, version) {
   const sbom = JSON.parse(bytes);
+  const expectedPackages = version === sourceVersion ? 5 : 4;
+  const hasUniversalBlocks = Array.isArray(sbom.packages) &&
+    sbom.packages.some((item) => item.SPDXID === "SPDXRef-luastra-universal-blocks");
   if (sbom.spdxVersion !== "SPDX-2.3" || sbom.name !== `Luastra SDK ${version} release inventory` ||
-      !Array.isArray(sbom.packages) || sbom.packages.length !== 4 || sbom.packages.some((item) => item.licenseDeclared === "NOASSERTION")) {
+      !Array.isArray(sbom.packages) || sbom.packages.length !== expectedPackages ||
+      (version === sourceVersion && !hasUniversalBlocks) ||
+      sbom.packages.some((item) => item.licenseDeclared === "NOASSERTION")) {
     fail("SDK release SBOM is incomplete");
   }
   if (!bytes.equals(Buffer.from(canonicalJson(sbom)))) fail("SDK release SBOM is not canonical");

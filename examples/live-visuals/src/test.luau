@@ -1,12 +1,12 @@
 --!strict
 
-local Application = require("app/main")
+local application = require("app/main")
 
-local initial = Application.snapshot()
+local initial = application.snapshot()
 assert(initial.revealed == false)
 assert(initial.hasFlipped == false)
 
-local tree = Application.render()
+local tree = application.render()
 assert(tree.type == "Screen")
 assert(tree.properties.backgroundColor == "#F4EFE3")
 assert(tree.properties.textColor == "#16342E")
@@ -18,12 +18,12 @@ assert(string.find(title.properties.className, "luastra-text-align-center", 1, t
 assert(title.properties.textColor == "accent")
 assert(title.properties.backgroundColor == "surface")
 
-Application.handle("flip-card", "live-visuals/flip", "")
-local revealed = Application.snapshot()
+application.handle("flip-card", "live-visuals/flip", "")
+local revealed = application.snapshot()
 assert(revealed.revealed == true)
 assert(revealed.hasFlipped == true)
 
-Application.handle("flip-card", "live-visuals/flip", "")
-assert(Application.snapshot().revealed == false)
+application.handle("flip-card", "live-visuals/flip", "")
+assert(application.snapshot().revealed == false)
 
 return true

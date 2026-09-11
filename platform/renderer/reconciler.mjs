@@ -8,6 +8,7 @@ const componentTags = Object.freeze({
   Column: "section",
   Divider: "hr",
   FlipCard: "div",
+  Icon: "span",
   Image: "img",
   Layer: "div",
   Link: "a",
@@ -25,13 +26,15 @@ const componentTags = Object.freeze({
 });
 const idPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const assetImagePattern = /^asset:image\/[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const dynamicImagePattern = /^(content|preview):[A-Za-z0-9_-]{32,256}$/;
+const imageMediaTypes = new Set(["image/avif", "image/jpeg", "image/png", "image/webp"]);
 const colorPattern = /^#[0-9a-fA-F]{6}$/;
 const colorTokens = new Set(["accent", "danger", "muted", "surface", "success", "text", "transparent", "warning"]);
 const fragmentPattern = /^#[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const routeFragmentPattern = /^#[A-Za-z0-9%._~!$&'()*+,;=:@/?-]+$/;
 const languagePattern = /^[A-Za-z0-9_+.-]{1,32}$/;
 const orbitIdentifierPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
-const buttonIcons = new Set(["activity", "palette", "pause"]);
+const icons = new Set(["activity", "arrow-left", "check", "close", "home", "list", "palette", "pause", "plus", "retry", "search", "settings", "user"]);
 const screenThemeAttributes = Object.freeze({
   accentColor: "data-luastra-theme-accent",
   backgroundColor: "data-luastra-theme-background",
@@ -77,20 +80,41 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   if (typeof id !== "string" || !idPattern.test(id)) fail(`invalid component ID: ${id}`);
   if (!Array.isArray(children)) fail(`children must be an array: ${id}`);
   if (typeof resolveAsset !== "function") fail("asset resolver must be a function");
-  if (["Code", "CodeBlock", "Divider", "Image", "Link", "Shape"].includes(type) && children.length !== 0) fail(`${type} does not accept children`);
+  if (["Code", "CodeBlock", "Divider", "Icon", "Image", "Link", "Shape"].includes(type) && children.length !== 0) fail(`${type} does not accept children`);
   if (type === "FlipCard" && children.length !== 2) fail("FlipCard requires exactly two children");
   const attributes = { ...(properties.attributes ?? {}) };
   const events = {};
   if (properties.onTap !== undefined) events.click = String(properties.onTap);
   if (properties.onInput !== undefined) events.input = String(properties.onInput);
   if (properties.onDismiss !== undefined) events.dismiss = String(properties.onDismiss);
-  if (type === "Button") attributes.type ??= "button";
+  if (properties.onStartReached !== undefined) events.startReached = String(properties.onStartReached);
+  if (properties.onEndReached !== undefined) events.endReached = String(properties.onEndReached);
+  if (properties.onError !== undefined) events.error = String(properties.onError);
+  if (properties.onLoad !== undefined) events.load = String(properties.onLoad);
+  if (properties.onSubmit !== undefined) events.submit = String(properties.onSubmit);
+  if (type === "Button") {
+    if (!((typeof properties.text === "string" && properties.text.length > 0) || children.length > 0 ||
+        (typeof properties.label === "string" && properties.label.length >= 1 && properties.label.length <= 160))) {
+      fail("Button requires text, child content, or a label containing 1 to 160 characters");
+    }
+    attributes.type ??= "button";
+  }
   if (properties.icon !== undefined) {
-    if (!buttonIcons.has(properties.icon)) fail("Button has an invalid icon");
-    if ((properties.text === undefined || properties.text === "") && (typeof properties.label !== "string" || properties.label.length < 1 || properties.label.length > 160)) {
+    if (!icons.has(properties.icon) || !["Button", "Icon"].includes(type)) fail(`${type} has an invalid icon`);
+    if (type === "Button" && (properties.text === undefined || properties.text === "") && (typeof properties.label !== "string" || properties.label.length < 1 || properties.label.length > 160)) {
       fail("An icon-only Button requires a label containing 1 to 160 characters");
     }
     attributes["data-luastra-icon"] = properties.icon;
+  }
+  if (type === "Icon") {
+    if (typeof properties.decorative !== "boolean") fail("Icon decorative must be a boolean");
+    if (properties.decorative) {
+      if (properties.label !== undefined && properties.label !== "") fail("A decorative Icon must not have a label");
+      attributes["aria-hidden"] = "true";
+    } else {
+      if (typeof properties.label !== "string" || properties.label.length < 1 || properties.label.length > 160) fail("An informative Icon requires a label containing 1 to 160 characters");
+      attributes.role = "img";
+    }
   }
   if (type === "Link") {
     if (!safeHref(properties.href) || typeof properties.text !== "string") fail("Link requires string text and a safe fragment, hash route, or HTTPS href");
@@ -109,6 +133,7 @@ export function component(type, properties = {}, children = [], { resolveAsset =
     }
   }
   if (type === "TextInput") {
+    if (typeof properties.label !== "string" || properties.label.length < 1 || properties.label.length > 160) fail("TextInput requires a label containing 1 to 160 characters");
     if (properties.inputType !== undefined && !new Set(["email", "password", "text"]).has(properties.inputType)) fail("TextInput has an invalid inputType");
     if (properties.inputMode !== undefined && !new Set(["decimal", "email", "numeric", "search", "tel", "text", "url"]).has(properties.inputMode)) fail("TextInput has an invalid inputMode");
     if (properties.enterKeyHint !== undefined && !new Set(["done", "enter", "go", "next", "previous", "search", "send"]).has(properties.enterKeyHint)) fail("TextInput has an invalid enterKeyHint");
@@ -117,6 +142,11 @@ export function component(type, properties = {}, children = [], { resolveAsset =
     if (properties.inputMode !== undefined) attributes.inputmode = properties.inputMode;
     if (properties.enterKeyHint !== undefined) attributes.enterkeyhint = properties.enterKeyHint;
     if (properties.autoComplete !== undefined) attributes.autocomplete = properties.autoComplete;
+    if (properties.maximumLength !== undefined) {
+      if (!Number.isInteger(properties.maximumLength) || properties.maximumLength < 1 || properties.maximumLength > 4096) fail("TextInput has an invalid maximumLength");
+      attributes.maxlength = String(properties.maximumLength);
+    }
+    if (properties.multiline !== undefined && typeof properties.multiline !== "boolean") fail("TextInput multiline must be a boolean");
     if (properties.placeholder !== undefined) {
       if (typeof properties.placeholder !== "string" || new TextEncoder().encode(properties.placeholder).byteLength > 160) fail("TextInput has an invalid placeholder");
       attributes.placeholder = properties.placeholder;
@@ -138,7 +168,32 @@ export function component(type, properties = {}, children = [], { resolveAsset =
     if (type !== "Button" || !icons.has(properties.orbitSignalIcon)) fail("Button has an invalid Orbit signal icon");
     attributes["data-luastra-orbit-signal-icon"] = properties.orbitSignalIcon;
   }
-  if (properties.busy !== undefined) attributes["aria-busy"] = properties.busy ? "true" : "false";
+  if (properties.busy !== undefined || properties.startBusy === true || properties.endBusy === true) {
+    attributes["aria-busy"] = properties.busy === true || properties.startBusy === true || properties.endBusy === true ? "true" : "false";
+  }
+  if (type === "Button") {
+    if (properties.pressed !== undefined && properties.selected !== undefined) fail("Button cannot be both pressed and selected");
+    if (properties.pressed !== undefined) {
+      if (typeof properties.pressed !== "boolean") fail("Button pressed must be a boolean");
+      attributes["aria-pressed"] = String(properties.pressed);
+    }
+    if (properties.selected !== undefined) {
+      if (typeof properties.selected !== "boolean") fail("Button selected must be a boolean");
+      attributes["aria-current"] = properties.selected ? "page" : "false";
+      attributes["data-luastra-selected"] = String(properties.selected);
+    }
+    if (properties.busy === true) attributes.disabled = "true";
+  }
+  if (type === "Modal") {
+    if (properties.initialFocus !== undefined) {
+      if (typeof properties.initialFocus !== "string" || !idPattern.test(properties.initialFocus)) fail("Modal initialFocus is invalid");
+      attributes["data-luastra-initial-focus"] = properties.initialFocus;
+    }
+    if (properties.descriptionId !== undefined) {
+      if (typeof properties.descriptionId !== "string" || !idPattern.test(properties.descriptionId)) fail("Modal descriptionId is invalid");
+      attributes["aria-describedby"] = properties.descriptionId;
+    }
+  }
   if (properties.errorId !== undefined) {
     attributes["aria-invalid"] = "true";
     attributes["aria-describedby"] = properties.errorId;
@@ -149,10 +204,34 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   if (properties.role !== undefined) attributes.role = properties.role;
   if (properties.value !== undefined) attributes.value = String(properties.value);
   if (type === "Image") {
-    if (!assetImagePattern.test(properties.source ?? "") || typeof properties.label !== "string") fail("Image requires an admitted source and string label");
+    const packaged = assetImagePattern.test(properties.source ?? "");
+    const dynamic = dynamicImagePattern.test(properties.source ?? "");
+    if ((!packaged && !dynamic) || typeof properties.label !== "string") fail("Image requires an admitted source and string label");
+    if (dynamic) {
+      if (!imageMediaTypes.has(properties.mediaType) || !Number.isSafeInteger(properties.contentBytes) || properties.contentBytes < 4 || properties.contentBytes > 25 * 1024 * 1024 ||
+          !Number.isSafeInteger(properties.pixelWidth) || properties.pixelWidth < 1 || properties.pixelWidth > 8192 ||
+          !Number.isSafeInteger(properties.pixelHeight) || properties.pixelHeight < 1 || properties.pixelHeight > 8192 ||
+          properties.pixelWidth * properties.pixelHeight > 40 * 1024 * 1024 ||
+          (properties.orientation !== undefined && !["normal", "rotate90", "rotate180", "rotate270"].includes(properties.orientation))) fail("Dynamic Image metadata is invalid or exceeds its budget");
+      attributes["data-luastra-image-media-type"] = properties.mediaType;
+      attributes["data-luastra-image-content-bytes"] = String(properties.contentBytes);
+      attributes["data-luastra-image-pixel-width"] = String(properties.pixelWidth);
+      attributes["data-luastra-image-pixel-height"] = String(properties.pixelHeight);
+      if (properties.orientation !== undefined) attributes["data-luastra-image-orientation"] = properties.orientation;
+    } else if (["mediaType", "contentBytes", "pixelWidth", "pixelHeight", "orientation"].some((name) => properties[name] !== undefined)) fail("Packaged Image does not accept dynamic content metadata");
     const resolved = resolveAsset(properties.source, "image");
     if (typeof resolved !== "string" || resolved.length < 1 || resolved.length > 4096) fail("Image asset resolver returned an invalid URL");
     attributes.src = resolved;
+    if (properties.placeholder !== undefined) {
+      if (!assetImagePattern.test(properties.placeholder)) fail("Image placeholder must be a packaged image source");
+      const placeholder = resolveAsset(properties.placeholder, "image");
+      if (typeof placeholder !== "string" || placeholder.length < 1 || placeholder.length > 4096) fail("Image placeholder resolver returned an invalid URL");
+      attributes["data-luastra-image-placeholder-src"] = placeholder;
+    }
+    if (properties.placeholderColor !== undefined) {
+      if (!colorPattern.test(properties.placeholderColor)) fail("Image placeholderColor is invalid");
+      attributes["data-luastra-image-placeholder-color"] = properties.placeholderColor;
+    }
     attributes.alt = properties.label;
     attributes.loading = "lazy";
     attributes.decoding = "async";
@@ -176,6 +255,27 @@ export function component(type, properties = {}, children = [], { resolveAsset =
     if (properties.scope !== undefined) {
       if (properties.header !== true || !["col", "row"].includes(properties.scope)) fail("TableCell has an invalid scope");
       attributes.scope = properties.scope;
+    }
+  }
+  if (type === "List") {
+    if (!children.every((child) => child.type === "ListItem")) fail("List children must be ListItem nodes");
+    const windowProperties = ["endBusy", "estimatedItemSize", "itemCount", "itemOffset", "onEndReached", "onStartReached", "overscan", "startBusy"];
+    if (properties.mode === undefined) {
+      if (windowProperties.some((name) => properties[name] !== undefined)) fail("List window properties require mode=windowed");
+    } else {
+      if (properties.mode !== "windowed") fail("List has an invalid mode");
+      if (!Number.isInteger(properties.estimatedItemSize) || properties.estimatedItemSize < 16 || properties.estimatedItemSize > 4096) fail("List has an invalid estimatedItemSize");
+      if (!Number.isInteger(properties.overscan) || properties.overscan < 1 || properties.overscan > 64) fail("List has an invalid overscan");
+      if (typeof properties.startBusy !== "boolean" || typeof properties.endBusy !== "boolean") fail("List edge busy states must be booleans");
+      if (!Number.isSafeInteger(properties.itemOffset) || properties.itemOffset < 0 || properties.itemOffset > 1_000_000_000) fail("List has an invalid itemOffset");
+      if (properties.itemCount !== undefined && (!Number.isSafeInteger(properties.itemCount) || properties.itemCount < properties.itemOffset + children.length || properties.itemCount > 1_000_000_000)) fail("List has an invalid itemCount");
+      attributes["data-luastra-list-mode"] = "windowed";
+      attributes["data-luastra-list-estimated-item-size"] = String(properties.estimatedItemSize);
+      attributes["data-luastra-list-overscan"] = String(properties.overscan);
+      attributes["data-luastra-list-start-busy"] = String(properties.startBusy);
+      attributes["data-luastra-list-end-busy"] = String(properties.endBusy);
+      attributes["data-luastra-list-item-offset"] = String(properties.itemOffset);
+      if (properties.itemCount !== undefined) attributes["data-luastra-list-item-count"] = String(properties.itemCount);
     }
   }
   if (["Button", "Code", "CodeBlock", "Column", "Layer", "Link", "List", "ListItem", "Modal", "Row", "Table", "TableCell", "Text"].includes(type)) {
@@ -220,6 +320,7 @@ export function component(type, properties = {}, children = [], { resolveAsset =
   if (type === "Text" && properties.variant === "heading") tag = "h2";
   if (type === "Text" && properties.variant === "subheading") tag = "h3";
   if (type === "TableCell" && properties.header === true) tag = "th";
+  if (type === "TextInput" && properties.multiline === true) tag = "textarea";
   return Object.freeze({
     id,
     type,

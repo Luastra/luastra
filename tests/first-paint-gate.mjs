@@ -21,4 +21,26 @@ test("native work waits for two animation frames so WebKit can paint once", asyn
 
 test("first-paint gate rejects an unavailable frame scheduler", () => {
   assert.throws(() => waitForFirstPaint(null), /requires requestAnimationFrame/);
+  assert.throws(() => waitForFirstPaint(() => {}, { timeoutMs: 0 }), /fallback is invalid/);
+});
+
+test("web first-paint gate has a bounded fallback when frames are throttled", async () => {
+  let fallback = null;
+  let cancelled = false;
+  const waiting = waitForFirstPaint(() => {}, {
+    timeoutMs: 1_000,
+    scheduleTimeout(callback, milliseconds) {
+      assert.equal(milliseconds, 1_000);
+      fallback = callback;
+      return 7;
+    },
+    cancelTimeout(handle) {
+      assert.equal(handle, 7);
+      cancelled = true;
+    },
+  });
+  assert.equal(typeof fallback, "function");
+  fallback();
+  await waiting;
+  assert.equal(cancelled, true);
 });

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { request as httpRequest } from "node:http";
 import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
@@ -10,6 +11,7 @@ import { buildProject } from "../project/build-project.mjs";
 import { loadProject } from "../project/load-project.mjs";
 import { runProject } from "../project/run-project.mjs";
 import { createMemoryDatabase } from "../backend/database.mjs";
+import { createDeclaredRecordCollections } from "../backend/records.mjs";
 import { createBackendRuntime, handleServerCapability } from "../backend/runtime.mjs";
 import { createSessionStore } from "../backend/session.mjs";
 import { decodeWire, encodeWire } from "../backend/wire.mjs";
@@ -32,6 +34,18 @@ function request(fields, deadlineMs = 1000) {
   };
 }
 function rpc(handled) { return handled.response.payload; }
+
+function rawHttpRequest(url, { method = "GET", headers = {}, body = "" } = {}) {
+  return new Promise((resolveRequest, rejectRequest) => {
+    const request = httpRequest(url, { method, headers }, (response) => {
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => resolveRequest({ status: response.statusCode, body: Buffer.concat(chunks).toString("utf8") }));
+    });
+    request.once("error", rejectRequest);
+    request.end(body);
+  });
+}
 
 test("session store issues opaque bounded credentials, restores principals and revokes or expires sessions", () => {
   let current = 1000;
@@ -80,8 +94,9 @@ async function fixtureRuntime() {
   const project = await loadProject(manifestPath);
   const database = createMemoryDatabase();
   const implementation = await import(`${pathToFileURL(project.backend.handlerPath).href}?test=${Date.now()}-${Math.random()}`);
-  const handlers = implementation.createHandlers({ database });
-  return { project, database, handlers, runtime: createBackendRuntime({ contract: project.backend.declaration.value, handlers, database }) };
+  const records = createDeclaredRecordCollections({ declarations: project.backend.records, database, identityProvider: project.backend.identity.provider });
+  const handlers = implementation.createHandlers({ database, records });
+  return { project, database, records, handlers, runtime: createBackendRuntime({ contract: project.backend.declaration.value, handlers, database, records }) };
 }
 
 test("backend runtime enforces auth, authorization, typed results and idempotent mutations", async () => {
@@ -130,6 +145,7 @@ test("backend runtime enforces auth, authorization, typed results and idempotent
   const invalidRuntime = createBackendRuntime({
     contract: invalidFixture.project.backend.declaration.value,
     database: invalidFixture.database,
+    records: invalidFixture.records,
     handlers: { ...invalidFixture.handlers, "records.list.v1": async () => ({ records: [{ id: 7, title: "wrong", details: "shape" }] }) },
   });
   const invalidResult = rpc(await handleServerCapability(request({ function: "records.list.v1", retry: "false" }), { runtime: invalidRuntime, principal: user }));
@@ -249,6 +265,43 @@ test("local development server executes an authenticated project backend over HT
     const handled = await result.json();
     assert.equal(handled.response.payload.success, true);
     assert.equal(decodeWire(handled.response.payload.data.payload)["result.records.length"], "2");
+  } finally {
+    await controller.close();
+  }
+});
+
+test("local development server rejects foreign HTTP authority before backend dispatch", async () => {
+  const controller = await runProject({ manifestPath, port: 0, watch: false });
+  try {
+    const endpoint = new URL("/__luastra/rpc", controller.url);
+    const directNavigation = await fetch(controller.url);
+    assert.equal(directNavigation.status, 200);
+    assert.equal(directNavigation.headers.get("content-security-policy"), "frame-ancestors 'none'");
+    assert.equal(directNavigation.headers.get("x-frame-options"), "DENY");
+    assert.doesNotMatch(await directNavigation.text(), /luastraSelfTest/);
+    const capability = JSON.stringify(request({ function: "records.list.v1", retry: "true" }));
+    const commonHeaders = { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(capability) };
+    const foreignHost = await rawHttpRequest(endpoint, {
+      method: "POST",
+      headers: { ...commonHeaders, Host: `attacker.example:${endpoint.port}` },
+      body: capability,
+    });
+    assert.deepEqual(foreignHost, { status: 421, body: "Misdirected request" });
+
+    const foreignOrigin = await rawHttpRequest(endpoint, {
+      method: "POST",
+      headers: { ...commonHeaders, Host: endpoint.host, Origin: `http://attacker.example:${endpoint.port}` },
+      body: capability,
+    });
+    assert.deepEqual(foreignOrigin, { status: 421, body: "Misdirected request" });
+
+    const localOrigin = await rawHttpRequest(endpoint, {
+      method: "POST",
+      headers: { ...commonHeaders, Host: endpoint.host, Origin: endpoint.origin },
+      body: capability,
+    });
+    assert.equal(localOrigin.status, 200);
+    assert.equal(JSON.parse(localOrigin.body).response.payload.success, true);
   } finally {
     await controller.close();
   }

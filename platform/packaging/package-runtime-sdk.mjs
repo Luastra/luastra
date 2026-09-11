@@ -5,7 +5,7 @@ import { basename, dirname, isAbsolute, relative, resolve, sep } from "node:path
 import { canonicalJson } from "../../assets/package-assets.mjs";
 import { verifyRuntimeSdk } from "../resolve-runtime-sdk.mjs";
 
-const packageIdentity = "luastra-runtime-package/phase5-alpha-2";
+const packageIdentity = "luastra-runtime-package/phase5-alpha-3";
 const roles = Object.freeze(["analyzer", "compiler", "runtimeJavaScript", "runtimeWasm"]);
 const targets = Object.freeze({
   "darwin-x64": Object.freeze({ platform: "darwin", architecture: "x64", extension: "" }),
@@ -46,8 +46,8 @@ export async function verifyRuntimePackage(packageRoot) {
   const root = await realpath(resolve(packageRoot));
   const manifest = JSON.parse(await readFile(resolve(root, "runtime-package.v1.json"), "utf8"));
   if (!exactKeys(manifest, ["schemaVersion", "identity", "sdkIdentity", "sourceBuildIdentity", "artifactMatrixIdentity", "target", "artifacts", "contentSha256"]) ||
-      manifest.schemaVersion !== 1 || manifest.identity !== packageIdentity || manifest.sdkIdentity !== "luastra-runtime-sdk/phase5-alpha-9" ||
-      manifest.sourceBuildIdentity !== "luastra-runtime-source-build/phase5-alpha-9" || manifest.artifactMatrixIdentity !== "luastra-artifact-matrix/phase5-alpha-9") fail("invalid runtime package manifest");
+      manifest.schemaVersion !== 1 || manifest.identity !== packageIdentity || manifest.sdkIdentity !== "luastra-runtime-sdk/phase5-alpha-10" ||
+      manifest.sourceBuildIdentity !== "luastra-runtime-source-build/phase5-alpha-10" || manifest.artifactMatrixIdentity !== "luastra-artifact-matrix/phase5-alpha-10") fail("invalid runtime package manifest");
   const admittedTarget = targets[manifest.target?.id];
   if (!admittedTarget || !exactKeys(manifest.target, ["id", "platform", "architecture"]) ||
       manifest.target.platform !== admittedTarget.platform || manifest.target.architecture !== admittedTarget.architecture) fail("invalid runtime package target");

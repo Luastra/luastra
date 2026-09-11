@@ -5,6 +5,7 @@ const tablePattern = /^[a-z][a-z0-9_]{0,62}[a-z0-9]$/;
 const fieldPattern = /^[a-z][a-z0-9_]{0,62}$/;
 const recordIdPattern = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
 const contentIdPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
+const uploadObjectNamePattern = /^[A-Za-z0-9_-]{32,256}\.(png|jpg)$/;
 const bucketPattern = /^[a-z0-9][a-z0-9._-]{0,62}[a-z0-9]$/;
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const rolePattern = /^[a-z][a-z0-9_-]{0,31}$/;
@@ -19,6 +20,7 @@ const maximumRefreshTokenBytes = 4096;
 const minimumRefreshTokenBytes = 8;
 const minimumSignedDeliveryTtlSeconds = 10;
 const maximumSignedDeliveryTtlSeconds = 60;
+const maximumStorageUploadTimeoutMs = 15 * 60 * 1000;
 const signOutScopes = new Set(["global", "local", "others"]);
 
 function byteLength(value) { return encoder.encode(value).byteLength; }
@@ -77,6 +79,52 @@ function validJson(value, depth = 0) {
 function admittedRecord(value, code = "MALFORMED_RESPONSE") {
   if (!record(value) || !recordIdPattern.test(value.id ?? "") || !validJson(value)) fail(code, code === "VALIDATION" ? "Invalid record" : "Supabase returned an invalid record");
   return Object.freeze(structuredClone(value));
+}
+function admittedQueryConfiguration(value) {
+  if (value === undefined) return null;
+  if (!record(value) || Object.keys(value).some((key) => !["equalityFields", "sorts"].includes(key))) fail("CONFIGURATION", "Supabase record query mapping is invalid");
+  const equalityFields = value.equalityFields ?? [];
+  if (!Array.isArray(equalityFields) || equalityFields.length > 16 || new Set(equalityFields).size !== equalityFields.length || !equalityFields.every((field) => fieldPattern.test(field))) fail("CONFIGURATION", "Supabase record query mapping is invalid");
+  if (!record(value.sorts) || Object.keys(value.sorts).length < 1 || Object.keys(value.sorts).length > 16) fail("CONFIGURATION", "Supabase record query mapping is invalid");
+  const sorts = {};
+  for (const [name, order] of Object.entries(value.sorts)) {
+    if (!/^[a-z][A-Za-z0-9_-]{0,63}$/.test(name) || !Array.isArray(order) || order.length < 1 || order.length > 4 || new Set(order.map((item) => item?.field)).size !== order.length || !order.every((item) => record(item) && Object.keys(item).sort().join("\n") === "direction\nfield" && fieldPattern.test(item.field ?? "") && ["asc", "desc"].includes(item.direction)) || order.at(-1).field !== "id") fail("CONFIGURATION", "Supabase record query mapping is invalid");
+    sorts[name] = Object.freeze(order.map((item) => Object.freeze({ ...item })));
+  }
+  return Object.freeze({ equalityFields: Object.freeze([...equalityFields]), sorts: Object.freeze(sorts) });
+}
+function queryLiteral(value) {
+  if (typeof value === "number" && Number.isFinite(value)) return String(value);
+  if (typeof value === "boolean") return value ? "true" : "false";
+  if (typeof value === "string" && boundedString(value, 4096)) return `"${value.replaceAll("\\", "\\\\").replaceAll('"', '\\"')}"`;
+  fail("VALIDATION", "Invalid record query value");
+}
+function admittedRecordQuery(value, configuration) {
+  if (!configuration || !record(value) || Object.keys(value).sort().join("\n") !== "boundary\ndirection\nequality\nlimit\norder\nsort" || !Number.isSafeInteger(value.limit) || value.limit < 1 || value.limit > 128 || !["forward", "backward"].includes(value.direction) || !Object.hasOwn(configuration.sorts, value.sort) || !record(value.equality) || (value.boundary !== null && !Array.isArray(value.boundary))) fail("VALIDATION", "Invalid record query");
+  const allowedEquality = new Set(configuration.equalityFields);
+  if (Object.entries(value.equality).some(([field, item]) => !allowedEquality.has(field) || !["string", "number", "boolean"].includes(typeof item) || (typeof item === "number" && !Number.isFinite(item)))) fail("VALIDATION", "Invalid record query");
+  const order = configuration.sorts[value.sort];
+  const invalidOrder = !Array.isArray(value.order) || value.order.length !== order.length || value.order.some((item, index) => item?.field !== order[index].field || item?.direction !== order[index].direction);
+  const invalidBoundary = value.boundary !== null && (value.boundary.length !== order.length || value.boundary.some((item) => !["string", "number", "boolean"].includes(typeof item) || (typeof item === "number" && !Number.isFinite(item))));
+  if (invalidOrder || invalidBoundary) fail("VALIDATION", "Invalid record query");
+  return { ...value, order };
+}
+function queriedRecordPath(table, query) {
+  const parameters = new URLSearchParams({ select: "*" });
+  for (const [field, value] of Object.entries(query.equality)) parameters.set(field, `eq.${queryLiteral(value)}`);
+  if (query.boundary !== null) {
+    const alternatives = query.order.map((item, index) => {
+      const parts = query.order.slice(0, index).map((prefix, prefixIndex) => `${prefix.field}.eq.${queryLiteral(query.boundary[prefixIndex])}`);
+      const after = query.direction === "forward" ? item.direction === "asc" : item.direction !== "asc";
+      parts.push(`${item.field}.${after ? "gt" : "lt"}.${queryLiteral(query.boundary[index])}`);
+      return parts.length === 1 ? parts[0] : `and(${parts.join(",")})`;
+    });
+    parameters.set("or", `(${alternatives.join(",")})`);
+  }
+  const requestOrder = query.direction === "forward" ? query.order : query.order.map((item) => ({ field: item.field, direction: item.direction === "asc" ? "desc" : "asc" }));
+  parameters.set("order", requestOrder.map((item) => `${item.field}.${item.direction}`).join(","));
+  parameters.set("limit", String(query.limit + 1));
+  return `/rest/v1/${table}?${parameters.toString()}`;
 }
 function decodeJwtPayload(token) {
   if (!jwtPattern.test(token) || byteLength(token) > maximumAccessTokenBytes) fail("MALFORMED_RESPONSE", "Supabase returned an invalid access token");
@@ -254,8 +302,9 @@ export function createSupabaseRecordProvider({ url, publishableKey: keyValue, ta
   for (const [collection, specification] of Object.entries(tables)) {
     const table = typeof specification === "string" ? specification : specification?.table;
     const updateFields = typeof specification === "string" || specification?.updateFields === undefined ? null : specification.updateFields;
+    const query = typeof specification === "string" ? null : admittedQueryConfiguration(specification?.query);
     if (!collectionPattern.test(collection) || !tablePattern.test(table ?? "") || admittedTables.has(collection) || (updateFields !== null && (!Array.isArray(updateFields) || updateFields.length < 1 || updateFields.length > 32 || new Set(updateFields).size !== updateFields.length || updateFields.includes("id") || !updateFields.every((field) => fieldPattern.test(field))))) fail("CONFIGURATION", "Supabase record table mapping is invalid");
-    admittedTables.set(collection, Object.freeze({ table, updateFields: updateFields === null ? null : Object.freeze([...updateFields]) }));
+    admittedTables.set(collection, Object.freeze({ table, updateFields: updateFields === null ? null : Object.freeze([...updateFields]), query }));
   }
   const send = transport({ baseUrl, key, fetchImpl, timeoutMs });
   const table = (name) => {
@@ -270,8 +319,8 @@ export function createSupabaseRecordProvider({ url, publishableKey: keyValue, ta
     if (Object.keys(patch).length === 0) fail("VALIDATION", "Record update contains no admitted fields");
     return patch;
   };
-  const rows = (value) => {
-    if (!Array.isArray(value) || value.length > 128) fail("MALFORMED_RESPONSE", "Supabase returned an invalid record set");
+  const rows = (value, maximum = 128) => {
+    if (!Array.isArray(value) || value.length > maximum) fail("MALFORMED_RESPONSE", "Supabase returned an invalid record set");
     return Object.freeze(value.map(admittedRecord));
   };
   const recordPath = (collection, id = null) => {
@@ -281,7 +330,14 @@ export function createSupabaseRecordProvider({ url, publishableKey: keyValue, ta
     return `${target}?id=eq.${encodeURIComponent(id)}&select=*&limit=1`;
   };
   return Object.freeze({
-    async list(collection, accessToken, { signal = null } = {}) { return rows(await send(recordPath(collection), { accessToken, operation: "data", signal })); },
+    async list(collection, accessToken, { signal = null, query: queryValue = null } = {}) {
+      if (queryValue === null) return rows(await send(recordPath(collection), { accessToken, operation: "data", signal }));
+      const specification = admittedTables.get(collection);
+      const query = admittedRecordQuery(queryValue, specification?.query);
+      let items = rows(await send(queriedRecordPath(specification.table, query), { accessToken, operation: "data", signal }), query.limit + 1);
+      if (query.direction === "backward") items = Object.freeze([...items].reverse());
+      return Object.freeze({ items, hasMore: items.length > query.limit });
+    },
     async get(collection, id, accessToken, { signal = null } = {}) {
       const result = rows(await send(recordPath(collection, id), { accessToken, operation: "data", signal }));
       return result[0] ?? null;
@@ -309,33 +365,112 @@ export function createSupabaseRecordProvider({ url, publishableKey: keyValue, ta
   });
 }
 
-export function createSupabaseStorageProvider({ url, publishableKey: keyValue, items, fetchImpl = globalThis.fetch, now = () => Date.now(), timeoutMs = 5000 } = {}) {
+export function createSupabaseStorageProvider({ url, publishableKey: keyValue, items = [], uploads = [], fetchImpl = globalThis.fetch, now = () => Date.now(), timeoutMs = 5000 } = {}) {
   const baseUrl = endpoint(url);
   const key = publishableKey(keyValue);
-  if (!Array.isArray(items) || items.length < 1 || items.length > 64 || typeof now !== "function") fail("CONFIGURATION", "Supabase Storage items are invalid");
+  if (!Array.isArray(items) || items.length > 64 || !Array.isArray(uploads) || uploads.length > 32 || items.length + uploads.length < 1 || typeof now !== "function" || !Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 30_000) fail("CONFIGURATION", "Supabase Storage configuration is invalid");
   const byId = new Map();
   for (const item of items) {
     if (!record(item) || !contentIdPattern.test(item.id ?? "") || !bucketPattern.test(item.bucket ?? "") || byId.has(item.id)) fail("CONFIGURATION", "Supabase Storage item is invalid or duplicated");
     const encodedPath = pathSegments(item.path, "Supabase Storage object path");
     byId.set(item.id, Object.freeze({ id: item.id, bucket: item.bucket, encodedPath }));
   }
+  const uploadsById = new Map();
+  for (const upload of uploads) {
+    if (!record(upload) || !collectionPattern.test(upload.id ?? "") || uploadsById.has(upload.id) || !bucketPattern.test(upload.bucket ?? "")) fail("CONFIGURATION", "Supabase Storage upload declaration is invalid or duplicated");
+    pathSegments(upload.prefix, "Supabase Storage upload prefix");
+    uploadsById.set(upload.id, Object.freeze({ id: upload.id, bucket: upload.bucket, prefix: upload.prefix }));
+  }
   const send = transport({ baseUrl, key, fetchImpl, timeoutMs });
+  const object = (value) => {
+    if (!record(value) || !collectionPattern.test(value.uploadId ?? "") || !bucketPattern.test(value.bucket ?? "")) fail("VALIDATION", "Invalid Supabase Storage object");
+    const upload = uploadsById.get(value.uploadId);
+    const suffix = typeof value.path === "string" && upload ? value.path.slice(upload.prefix.length + 1).split("/") : [];
+    if (!upload || value.bucket !== upload.bucket || !value.path.startsWith(`${upload.prefix}/`) || suffix.length !== 2 || !uuidPattern.test(suffix[0]) || !uploadObjectNamePattern.test(suffix[1])) fail("VALIDATION", "Supabase Storage object is outside its upload declaration");
+    return { bucket: value.bucket, encodedPath: pathSegments(value.path, "Supabase Storage object path") };
+  };
+  const signedDelivery = async (item, accessToken, ttlSeconds, signal) => {
+    if (!Number.isSafeInteger(ttlSeconds) || ttlSeconds < minimumSignedDeliveryTtlSeconds || ttlSeconds > maximumSignedDeliveryTtlSeconds) fail("VALIDATION", "Invalid signed delivery TTL");
+    const value = await send(`/storage/v1/object/sign/${encodeURIComponent(item.bucket)}/${item.encodedPath}`, { method: "POST", accessToken, body: { expiresIn: ttlSeconds }, operation: "storage", signal });
+    if (!record(value) || !boundedString(value.signedURL, 4096)) fail("MALFORMED_RESPONSE", "Supabase Storage returned an invalid signed URL");
+    let delivery;
+    try {
+      const signedPath = value.signedURL.startsWith("/object/sign/") ? `/storage/v1${value.signedURL}` : value.signedURL;
+      delivery = new URL(signedPath, baseUrl);
+    } catch { fail("MALFORMED_RESPONSE", "Supabase Storage returned an invalid signed URL"); }
+    if (delivery.origin !== baseUrl.origin || delivery.username || delivery.password || delivery.protocol !== baseUrl.protocol || !delivery.pathname.startsWith("/storage/v1/object/sign/")) fail("MALFORMED_RESPONSE", "Supabase Storage signed URL escaped the admitted origin");
+    return Object.freeze({ deliveryUrl: delivery.href, expiresAt: now() + ttlSeconds * 1000 });
+  };
+  const raw = async (urlValue, { method, accessToken, mediaType = null, body = undefined, signal = null, maximumBytes = 25 * 1024 * 1024, deadlineMs = timeoutMs } = {}) => {
+    if (!Number.isSafeInteger(deadlineMs) || deadlineMs < 1 || deadlineMs > maximumStorageUploadTimeoutMs) fail("VALIDATION", "Invalid Supabase Storage deadline");
+    const controller = new AbortController();
+    let timedOut = false;
+    const timer = setTimeout(() => { timedOut = true; controller.abort(); }, deadlineMs);
+    const abort = () => controller.abort();
+    const cleanup = () => { clearTimeout(timer); signal?.removeEventListener?.("abort", abort); };
+    if (signal?.aborted) controller.abort(); else signal?.addEventListener?.("abort", abort, { once: true });
+    const headers = { apikey: key, Authorization: `Bearer ${bearer(accessToken)}` };
+    if (mediaType) headers["Content-Type"] = mediaType;
+    let response;
+    try { response = await fetchImpl(urlValue, { method, headers, body, duplex: body === undefined ? undefined : "half", redirect: "error", signal: controller.signal }); }
+    catch {
+      cleanup();
+      if (timedOut) fail("TIMEOUT", "Supabase Storage request timed out");
+      if (controller.signal.aborted) fail("CANCELLED", "Supabase Storage request was cancelled");
+      fail("NETWORK", "Supabase Storage request failed");
+    }
+    if (!response || !Number.isInteger(response.status)) { cleanup(); fail("MALFORMED_RESPONSE", "Supabase Storage transport returned an invalid response"); }
+    if (response.status < 200 || response.status >= 300) { cleanup(); statusFailure(response.status, "storage"); }
+    const chunks = [];
+    let total = 0;
+    try {
+      if (method !== "HEAD") for await (const chunkValue of response.body ?? []) {
+        const chunk = Buffer.from(chunkValue);
+        total += chunk.byteLength;
+        if (total > maximumBytes) fail("MALFORMED_RESPONSE", "Supabase Storage object exceeds the size limit", response.status);
+        chunks.push(chunk);
+      }
+    } catch (error) {
+      cleanup();
+      if (error instanceof SupabaseProviderError) throw error;
+      if (timedOut) fail("TIMEOUT", "Supabase Storage request timed out");
+      if (controller.signal.aborted) fail("CANCELLED", "Supabase Storage request was cancelled");
+      fail("NETWORK", "Supabase Storage response failed");
+    }
+    cleanup();
+    return Object.freeze({ bytes: Buffer.concat(chunks), mediaType: (response.headers.get("content-type") ?? "").split(";", 1)[0].trim().toLowerCase() });
+  };
   return Object.freeze({
     async createSignedDelivery(id, accessToken, { ttlSeconds = 60, signal = null } = {}) {
       const item = byId.get(id);
       if (!item) fail("VALIDATION", "Unknown protected content item");
-      if (!Number.isSafeInteger(ttlSeconds) || ttlSeconds < minimumSignedDeliveryTtlSeconds || ttlSeconds > maximumSignedDeliveryTtlSeconds) fail("VALIDATION", "Invalid signed delivery TTL");
-      const value = await send(`/storage/v1/object/sign/${encodeURIComponent(item.bucket)}/${item.encodedPath}`, { method: "POST", accessToken, body: { expiresIn: ttlSeconds }, operation: "storage", signal });
-      if (!record(value) || !boundedString(value.signedURL, 4096)) fail("MALFORMED_RESPONSE", "Supabase Storage returned an invalid signed URL");
-      let delivery;
-      try {
-        const signedPath = value.signedURL.startsWith("/object/sign/") ? `/storage/v1${value.signedURL}` : value.signedURL;
-        delivery = new URL(signedPath, baseUrl);
-      } catch { fail("MALFORMED_RESPONSE", "Supabase Storage returned an invalid signed URL"); }
-      if (delivery.origin !== baseUrl.origin || delivery.username || delivery.password || delivery.protocol !== baseUrl.protocol || !delivery.pathname.startsWith("/storage/v1/object/sign/")) fail("MALFORMED_RESPONSE", "Supabase Storage signed URL escaped the admitted origin");
-      return Object.freeze({ deliveryUrl: delivery.href, expiresAt: now() + ttlSeconds * 1000 });
+      return signedDelivery(item, accessToken, ttlSeconds, signal);
+    },
+    createSignedDeliveryForObject(value, accessToken, { ttlSeconds = 60, signal = null } = {}) {
+      return signedDelivery(object(value), accessToken, ttlSeconds, signal);
+    },
+    async uploadObject(value, accessToken, { mediaType, body, signal = null } = {}) {
+      const item = object(value);
+      const signed = await send(`/storage/v1/object/upload/sign/${encodeURIComponent(item.bucket)}/${item.encodedPath}`, { method: "POST", accessToken, body: {}, operation: "storage", signal });
+      const rawUrl = record(signed) ? signed.url ?? signed.signedURL ?? signed.signedUrl : null;
+      if (!boundedString(rawUrl, 4096)) fail("MALFORMED_RESPONSE", "Supabase Storage returned an invalid signed upload URL");
+      let uploadUrl;
+      try { uploadUrl = new URL(rawUrl.startsWith("/object/upload/sign/") ? `/storage/v1${rawUrl}` : rawUrl, baseUrl); }
+      catch { fail("MALFORMED_RESPONSE", "Supabase Storage returned an invalid signed upload URL"); }
+      if (uploadUrl.origin !== baseUrl.origin || uploadUrl.protocol !== baseUrl.protocol || uploadUrl.username || uploadUrl.password || !uploadUrl.pathname.startsWith("/storage/v1/object/upload/sign/")) fail("MALFORMED_RESPONSE", "Supabase Storage signed upload URL escaped the admitted origin");
+      await raw(uploadUrl, { method: "PUT", accessToken, mediaType, body, signal, maximumBytes: maximumResponseBytes, deadlineMs: maximumStorageUploadTimeoutMs });
+      return true;
+    },
+    async readObject(value, accessToken, { signal = null, maximumBytes = 25 * 1024 * 1024 } = {}) {
+      const delivery = await signedDelivery(object(value), accessToken, 10, signal);
+      return raw(delivery.deliveryUrl, { method: "GET", accessToken, signal, maximumBytes });
+    },
+    async deleteObject(value, accessToken, { signal = null } = {}) {
+      const item = object(value);
+      await send(`/storage/v1/object/${encodeURIComponent(item.bucket)}/${item.encodedPath}`, { method: "DELETE", accessToken, operation: "storage", signal });
+      return true;
     },
   });
 }
 
-export const supabaseProviderLimits = Object.freeze({ maximumResponseBytes, maximumAccessTokenBytes, maximumRefreshTokenBytes, minimumRefreshTokenBytes, minimumSignedDeliveryTtlSeconds, maximumSignedDeliveryTtlSeconds });
+export const supabaseProviderLimits = Object.freeze({ maximumResponseBytes, maximumAccessTokenBytes, maximumRefreshTokenBytes, minimumRefreshTokenBytes, minimumSignedDeliveryTtlSeconds, maximumSignedDeliveryTtlSeconds, maximumStorageUploadTimeoutMs });

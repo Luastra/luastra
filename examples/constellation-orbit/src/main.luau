@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Host = require("luastra/host")
 local Navigation = require("luastra/navigation")
 local Timer = require("luastra/timer")
@@ -327,9 +328,9 @@ local function focusContent(focusTitle: string): { UI.Node }
     return output
 end
 
-local Application = {}
+local Root = {}
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local depth = currentDepth()
     local section = currentSection()
     local selectedNode = focusedNode()
@@ -382,7 +383,7 @@ function Application.render(): UI.Node
     elseif retainedSection == "examples" then
         table.insert(orbitChildren, UI.Constellation {
             id = "orbit/examples",
-            label = "Application example galaxy",
+            label = "Root example galaxy",
             depth = 1,
             layerState = section == "examples" and "active" or "ahead",
             UI.OrbitCenter { id = "orbit/examples/center", title = "Examples", description = "48 ideas, one semantic system." },
@@ -423,7 +424,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "lifecycle" and target == "app" and _value == "launch" and launchUrlRequest == nil then
         launchUrlRequest = Host.launchUrl()
         historyCurrentRequest = Host.historyCurrent()
@@ -478,7 +479,7 @@ function Application.handle(action: string, target: string, _value: string)
     end
 end
 
-function Application.resolve(requestId: number, success: boolean, payload: string, _errorCode: string, _errorMessage: string)
+function Root.resolve(requestId: number, success: boolean, payload: string, _errorCode: string, _errorMessage: string)
     if launchUrlRequest == requestId then
         launchUrlRequest = nil
         launchResolved = true
@@ -499,7 +500,7 @@ function Application.resolve(requestId: number, success: boolean, payload: strin
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return {
         route = navigation.current().name,
         location = navigation.currentLocation(),
@@ -517,4 +518,9 @@ function Application.snapshot()
     }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}

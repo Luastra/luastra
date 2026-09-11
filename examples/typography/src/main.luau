@@ -1,12 +1,13 @@
 --!strict
+local App = require("luastra/app")
 local UI = require("luastra/ui")
 local Assets = require("luastra/assets")
 local license = require("app/font-license")
-local Application = {}
+local Root = {}
 local branded = true
 local large = false
 local showLicense = false
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local heading: UI.TextStyle = { size = if large then 48 else 32, weight = 400, lineHeight = 1.25, fallback = "serif" }
     if branded then heading.font = Assets.font("font/atkinson-regular") end
     return UI.Screen { id = "app", padding = "lg", gap = "lg",
@@ -22,9 +23,16 @@ function Application.render(): UI.Node
         },
     }
 end
-function Application.handle(action: string, _target: string, _value: string)
+function Root.handle(action: string, _target: string, _value: string)
     if action == "font.toggle" then branded = not branded
     elseif action == "size.toggle" then large = not large
     elseif action == "license.toggle" then showLicense = not showLicense end
 end
-return Application
+function Root.snapshot()
+    return table.freeze({ branded = branded, large = large, showLicense = showLicense })
+end
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}

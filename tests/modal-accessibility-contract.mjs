@@ -17,6 +17,7 @@ class FakeElement {
     this.isConnected = true;
   }
   setAttribute(name, value) { this.attributes.set(name, value); }
+  getAttribute(name) { return this.attributes.get(name) ?? null; }
   removeAttribute(name) { this.attributes.delete(name); }
   toggleAttribute(name, enabled) { if (enabled) this.attributes.set(name, ""); else this.attributes.delete(name); }
   addEventListener(name, listener) { this.listeners.set(name, listener); }
@@ -27,7 +28,17 @@ class FakeElement {
     child.parentElement = this;
   }
   append(child) { this.insertBefore(child, null); }
-  querySelectorAll() { return []; }
+  querySelectorAll(selector) {
+    const matches = [];
+    const visit = (node) => {
+      for (const child of node.children) {
+        if (selector === "[data-luastra-id]" && child.dataset?.luastraId) matches.push(child);
+        visit(child);
+      }
+    };
+    visit(this);
+    return matches;
+  }
   showModal() { this.open = true; }
   close() { this.open = false; }
   focus() { this.ownerDocument.activeElement = this; }
@@ -123,4 +134,25 @@ test("deferred modal close observes content before the closing render is applied
 
   assert.equal(titleAtClose, "Interface", "the host must be able to snapshot the last open content");
   assert.equal(adapter.node("details/title").textContent, "Selection", "semantic content still updates immediately");
+});
+
+test("Modal moves focus to its declared initial child after insertion", () => {
+  const document = new FakeDocument();
+  const root = new FakeElement(document, "div");
+  const origin = new FakeElement(document, "button");
+  document.activeElement = origin;
+  const adapter = new DomAdapter(root);
+  const open = component("Modal", {
+    id: "edit/modal",
+    label: "Edit",
+    open: true,
+    initialFocus: "edit/name",
+    descriptionId: "edit/help",
+  }, [
+    component("Text", { id: "edit/help", text: "Update the name." }),
+    component("Button", { id: "edit/name", text: "Save" }),
+  ]);
+  adapter.applyBatch(reconcile(null, open));
+  assert.equal(document.activeElement, adapter.node("edit/name"));
+  assert.equal(adapter.node("edit/modal").attributes.get("aria-describedby"), "edit/help");
 });

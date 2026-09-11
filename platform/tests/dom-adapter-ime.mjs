@@ -165,6 +165,24 @@ input.emit("keydown", { key: "Enter", keyCode: 13, isComposing: false });
 assert.equal(input.blurCount, 1, "removed Done attribute retained the Done handler");
 
 adapter.applyBatch([
+  { kind: "create", target: "message", name: "", value: "textarea" },
+  { kind: "event", target: "message", name: "submit", value: "submit-message" },
+  { kind: "place", target: "host-root", name: "message", value: "" },
+]);
+const message = adapter.node("message");
+const beforeSubmit = dispatched.length;
+message.emit("keydown", { key: "Enter", keyCode: 229, isComposing: true });
+message.emit("keydown", { key: "Enter", keyCode: 13, isComposing: false, shiftKey: true });
+assert.equal(dispatched.length, beforeSubmit, "IME or Shift+Enter submitted multiline input");
+const submit = message.emit("keydown", { key: "Enter", keyCode: 13, isComposing: false, shiftKey: false });
+assert.equal(submit.defaultPrevented, true, "submitted Enter was not consumed");
+assert.deepEqual(
+  { action: dispatched.at(-1).action, target: dispatched.at(-1).target },
+  { action: "submit-message", target: "message" },
+  "TextInput submit action was not dispatched",
+);
+
+adapter.applyBatch([
   { kind: "create", target: "next-page", name: "", value: "a" },
   { kind: "attribute", target: "next-page", name: "href", value: "#/reference/tutorial%2Fitem-2" },
   { kind: "event", target: "next-page", name: "click", value: "open-page" },

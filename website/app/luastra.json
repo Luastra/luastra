@@ -30,6 +30,7 @@
         "app/examples",
         "app/landing",
         "app/reference-data",
+        "luastra/app",
         "luastra/host",
         "luastra/navigation",
         "luastra/timer",

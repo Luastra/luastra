@@ -26,10 +26,10 @@ after(async () => {
 
 test("runtime installer materializes every admitted target with an exact receipt", async () => {
   const targets = [
-    { id: "darwin-x64", platform: "darwin", architecture: "x64", contentSha256: "730a340754c583a8a9749d59f125170c6f9d771b29d769a659a4af9be460d9d0" },
-    { id: "darwin-arm64", platform: "darwin", architecture: "arm64", contentSha256: "65cf9070638a2739835d67749040010c9e5edc1e284291f61a31eebb2b3b22cc" },
-    { id: "linux-x64", platform: "linux", architecture: "x64", contentSha256: "60ea14b26567057c11163761669d1ad6c5a1511f642a8a399c3f597cbc2b0527" },
-    { id: "win32-x64", platform: "win32", architecture: "x64", contentSha256: "90e7c20256435598bcbeb1610781554f29b6e45774c5e7f52d76c392d0f99527" },
+    { id: "darwin-x64", platform: "darwin", architecture: "x64", contentSha256: "7502b23a2d16d5e270531113c5edcad9e7459f9ccd85a82aa40e15e441fb9ad3" },
+    { id: "darwin-arm64", platform: "darwin", architecture: "arm64", contentSha256: "d9b92e4dc9de27dfe28992ad40c727b453e9d92661d39f958f4e635b65ad85d0" },
+    { id: "linux-x64", platform: "linux", architecture: "x64", contentSha256: "6d2839a670c09839ec8d12b05acd0401b51cd8f28a42ee003f53eb462344b9c2" },
+    { id: "win32-x64", platform: "win32", architecture: "x64", contentSha256: "1ed1ff778186fdd68f83cd13a8af0543f5f2bb95c02f4c29dc510eff29baf8cb" },
   ];
   const identities = new Set();
   for (const target of targets) {
@@ -55,8 +55,8 @@ test("runtime installer atomically materializes and resolves the current host SD
   const output = resolve(temporary, "installed-current");
   const installed = await installRuntimeSdk({ archiveSet, output });
   assert.equal(installed.result, "PASS");
-  assert.equal(installed.identity, "luastra-runtime-installation/phase5-alpha-2");
-  assert.equal(installed.sdkIdentity, "luastra-runtime-sdk/phase5-alpha-9");
+  assert.equal(installed.identity, "luastra-runtime-installation/phase5-alpha-3");
+  assert.equal(installed.sdkIdentity, "luastra-runtime-sdk/phase5-alpha-10");
   assert.equal(installed.targetId, `${process.platform}-${process.arch}`);
   const verified = await verifyInstalledRuntimeSdk(output);
   assert.equal(verified.origin, "installation");
@@ -75,7 +75,7 @@ test("runtime installer atomically materializes and resolves the current host SD
   assert.equal(execution.status, 0, execution.stderr || execution.stdout);
   const result = JSON.parse(execution.stdout);
   assert.equal(result.binarySdkOrigin, "installation");
-  assert.equal(result.binarySdkIdentity, "luastra-runtime-sdk/phase5-alpha-9");
+  assert.equal(result.binarySdkIdentity, "luastra-runtime-sdk/phase5-alpha-10");
 
   const startupOutput = resolve(temporary, "installed-startup-web");
   const startupBuild = spawnSync(process.execPath, ["cli/luastra.mjs", "build", "web",

@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Assets = require("luastra/assets")
 local Motion = require("luastra/motion")
 local UI = require("luastra/ui")
@@ -7,7 +8,7 @@ local UI = require("luastra/ui")
 local revealed = false
 local hasFlipped = false
 local selection = "Calm green"
-local Application = {}
+local Root = {}
 
 local function cardMotion(): Motion.MotionMap
     if revealed then
@@ -37,7 +38,7 @@ local function specimen(id: string, shape: string, width: number, height: number
     }
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "live-visuals",
         width = "wide",
@@ -156,15 +157,19 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "flip-card" and target == "live-visuals/flip" then
         revealed = not revealed
         hasFlipped = true
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { revealed = revealed, hasFlipped = hasFlipped, selection = selection }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}

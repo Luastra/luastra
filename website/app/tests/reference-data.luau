@@ -3,8 +3,8 @@
 local ReferenceData = require("app/reference-data")
 
 assert(type(ReferenceData.release.version) == "string")
-assert(ReferenceData.release.version == "0.4.0-alpha")
-assert(ReferenceData.release.publishedVersion == "0.4.0-alpha")
+assert(ReferenceData.release.version == "0.5.0-alpha")
+assert(ReferenceData.release.publishedVersion == "0.5.0-alpha")
 assert(string.match(ReferenceData.release.sourceSdk :: string, "^Source SDK contract [0-9]+$") ~= nil)
 assert(string.match(ReferenceData.release.runtimeSdk :: string, "^Runtime SDK alpha [0-9]+$") ~= nil)
 assert(string.match(ReferenceData.release.luauVersion :: string, "^[0-9]+%.[0-9]+$") ~= nil)
@@ -21,7 +21,7 @@ for _, section in ReferenceData.sections do
     )
     ids[section.id] = true
 end
-for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "recipe-server", "recipe-media", "recipe-orbit", "events-errors", "policies" } do
+for _, required in { "installation", "quickstart", "learning-path", "beginner-tutorial", "advanced-tutorial", "recipes", "recipe-timer", "recipe-navigation", "recipe-storage", "recipe-history", "recipe-form-modal", "recipe-assets-visuals", "recipe-motion", "recipe-server", "recipe-media", "recipe-orbit", "app-composition", "resource", "collection", "events-errors", "policies" } do
     assert(ids[required] == true, `{required} section is missing`)
 end
 
@@ -92,7 +92,7 @@ assert(pageByName["State.DecodeResult"].consumerPageIds[1] == pageByName["State.
 assert(pageByName["Media.MediaError"].errorCodes == nil)
 assert(string.find(pageByName["Media.MediaError"].errorCodeNote :: string, "host-specific", 1, true) ~= nil)
 
-for _, name in { "Application.handle", "Application.resolve", "State.encode", "Navigation.compile" } do
+for _, name in { "app.handle", "app.resolve", "State.encode", "Navigation.compile" } do
     local page = pageByName[name]
     assert(page ~= nil, `{name} page is missing`)
     assert(page.callable == true, `{name} is not marked callable`)
@@ -107,8 +107,8 @@ for _, name in { "1. Create the project", "2. Replace luastra.json", "3. Replace
     assert(beginnerPages[name] ~= nil, `{name} beginner tutorial page is missing`)
 end
 assert(string.find(beginnerPages["2. Replace luastra.json"].code, '"tests": ["app/tests/counter"]', 1, true) ~= nil)
-assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function Application.handle", 1, true) ~= nil)
-assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function Application.snapshot", 1, true) ~= nil)
+assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "return App.compose", 1, true) ~= nil)
+assert(string.find(beginnerPages["3. Replace src/main.luau"].code, "function Root.snapshot", 1, true) ~= nil)
 assert(string.find(beginnerPages["4. Replace tests/smoke.luau"].code, "another/control", 1, true) ~= nil)
 assert(type(beginnerPages["7. Make one safe change"].points) == "table" and #beginnerPages["7. Make one safe change"].points >= 4)
 
@@ -122,7 +122,7 @@ end
 assert(string.find(advancedPages["2. Replace luastra.json"].code, '"storage.get"', 1, true) ~= nil)
 assert(string.find(advancedPages["3. Replace src/main.luau"].code, "router.restoreEncoded", 1, true) ~= nil)
 assert(string.find(advancedPages["3. Replace src/main.luau"].code, "Data.decode", 1, true) ~= nil)
-assert(string.find(advancedPages["3. Replace src/main.luau"].code, "function Application.resolve", 1, true) ~= nil)
+assert(string.find(advancedPages["3. Replace src/main.luau"].code, "resolve = Root.resolve", 1, true) ~= nil)
 assert(string.find(advancedPages["4. Replace tests/smoke.luau"].code, "invalid restore changed the route", 1, true) ~= nil)
 
 assert(pageByName["Type casts with ::"] ~= nil)
@@ -171,7 +171,7 @@ for moduleName, items in ReferenceData.inventoryPages do
         end
     end
 end
-assert(inventoryCount == 95)
+assert(inventoryCount == 115)
 
 local linkedRecipes: {[string]: boolean} = {}
 for _, page in ReferenceData.pages do
@@ -212,6 +212,6 @@ for moduleName, items in ReferenceData.typeInventoryPages do
         assert(type(page.availability) == "string" and #page.availability > 0)
     end
 end
-assert(typeInventoryCount == 62)
+assert(typeInventoryCount == 100)
 
 return true

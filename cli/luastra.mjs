@@ -14,6 +14,7 @@ import { testProject } from "../project/test-project.mjs";
 import { installRuntimeSdk } from "../platform/packaging/install-runtime-sdk.mjs";
 import { productVersion } from "../platform/product-version.mjs";
 import { doctorSdk, installSdkRelease, listSdkVersions, removeSdkVersion, useSdkVersion } from "../release/luastra-install.mjs";
+import { checkLibrary, installLibrary, packLibrary, removeLibrary } from "../project/library-packages.mjs";
 
 const prototype = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const template = resolve(prototype, "templates/starter");
@@ -76,6 +77,7 @@ async function checkProject(path) {
       contentSha256: result.projectContentSha256,
       bundleContentSha256: result.bundleContentSha256,
       projectAssets: result.projectAssets,
+      projectLibraries: result.projectLibraries,
       sourceSdkIdentity: result.sourceSdkIdentity,
       binarySdkIdentity: result.binarySdkIdentity,
       binarySdkOrigin: result.binarySdkOrigin,
@@ -102,6 +104,33 @@ async function main() {
   if (command === "create") {
     if (positional.length !== 1 || Object.keys(options).length !== 0) fail("usage: luastra create <directory>");
     return print(await createProject(positional[0]));
+  }
+  if (command === "library") {
+    const action = positional[0];
+    if (action === "check") {
+      if (positional.length > 2 || Object.keys(options).length !== 0) fail("usage: luastra library check [source-or-package]");
+      return print({ command: "library check", ...await checkLibrary(positional[1] ?? ".") });
+    }
+    if (action === "pack") {
+      if (positional.length > 2 || Object.keys(options).some((name) => name !== "out") || (options.out !== undefined && typeof options.out !== "string")) fail("usage: luastra library pack [source] [--out=<package>]");
+      return print({ command: "library pack", ...await packLibrary(positional[1] ?? ".", options.out) });
+    }
+    fail("usage: luastra library <check|pack>");
+  }
+  if (command === "add" || command === "update") {
+    const allowed = command === "update" ? new Set(["project", "to"]) : new Set(["project"]);
+    if (positional.length !== 1 || Object.keys(options).some((name) => !allowed.has(name)) ||
+        (options.project !== undefined && options.project !== true && typeof options.project !== "string") ||
+        (command === "update" && typeof options.to !== "string")) {
+      fail(command === "add" ? "usage: luastra add <source-or-package> [--project=<path>]" : "usage: luastra update <source-or-package> --to=<version> [--project=<path>]");
+    }
+    const targetManifest = await manifestPath(options.project === true ? "." : options.project ?? ".");
+    return print({ command, ...await installLibrary({ project: dirname(targetManifest), source: positional[0], expectedVersion: command === "update" ? options.to : null, update: command === "update" }) });
+  }
+  if (command === "remove") {
+    if (positional.length !== 1 || Object.keys(options).some((name) => name !== "project") || (options.project !== undefined && options.project !== true && typeof options.project !== "string")) fail("usage: luastra remove <library> [--project=<path>]");
+    const targetManifest = await manifestPath(options.project === true ? "." : options.project ?? ".");
+    return print({ command: "remove", ...await removeLibrary({ project: dirname(targetManifest), id: positional[0] }) });
   }
   if (command === "sdk") {
     const action = positional[0];
@@ -152,7 +181,7 @@ async function main() {
     }
     return print(await doctorSdk(typeof options.root === "string" ? options.root : undefined));
   }
-  if (!new Set(["generate", "check", "test", "conformance", "build", "run"]).has(command)) fail("usage: luastra <version|create|sdk|doctor|generate|check|test|conformance|build|run>");
+  if (!new Set(["generate", "check", "test", "conformance", "build", "run"]).has(command)) fail("usage: luastra <version|create|sdk|doctor|library|add|update|remove|generate|check|test|conformance|build|run>");
   const projectOption = options.project === true ? "." : options.project ?? ".";
   const manifest = await manifestPath(projectOption);
   if (command === "generate") {

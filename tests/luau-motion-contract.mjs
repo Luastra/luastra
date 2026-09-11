@@ -11,6 +11,7 @@ const hostTarget = `${process.platform}-${process.arch}`;
 const executableExtension = process.platform === "win32" ? ".exe" : "";
 const analyzer = resolve(platform, `artifacts/${hostTarget}/luastra_analyze${executableExtension}`);
 const compiler = resolve(platform, `artifacts/${hostTarget}/luastra_compile${executableExtension}`);
+const applicationSource = resolve(prototype, "sdk/luastra/app.luau");
 const dataSource = resolve(prototype, "sdk/luastra/data.luau");
 const hostSource = resolve(prototype, "sdk/luastra/host.luau");
 const motionSource = resolve(prototype, "sdk/luastra/motion.luau");
@@ -24,12 +25,14 @@ function analyze(entrySource) {
   return spawnSync(analyzer, [
     "--entry=app/main",
     `app/main=${entrySource}`,
+    `luastra/app=${applicationSource}`,
     `luastra/host=${hostSource}`,
     `luastra/motion=${motionSource}`,
     `luastra/navigation=${navigationSource}`,
     `luastra/state=${stateSource}`,
     `luastra/ui=${uiSource}`,
     `luastra/assets=${resolve(prototype, "sdk/luastra/assets.luau")}`,
+    `luastra/content=${resolve(prototype, "sdk/luastra/content.luau")}`,
   ], { encoding: "utf8" });
 }
 
@@ -53,7 +56,7 @@ test("Luau analyzer rejects an unsupported easing at the application boundary", 
 test("pinned Luau compiler accepts both public Motion and reference app modules", async () => {
   const temporary = await mkdtemp(resolve(tmpdir(), "luastra-motion-"));
   try {
-    for (const [name, source] of [["data", dataSource], ["host", hostSource], ["motion", motionSource], ["navigation", navigationSource], ["state", stateSource], ["ui", uiSource], ["catalogue", appSource]]) {
+    for (const [name, source] of [["app", applicationSource], ["data", dataSource], ["host", hostSource], ["motion", motionSource], ["navigation", navigationSource], ["state", stateSource], ["ui", uiSource], ["catalogue", appSource]]) {
       const result = spawnSync(compiler, [source, resolve(temporary, `${name}.luauc`)], { encoding: "utf8" });
       assert.equal(result.status, 0, result.stderr || result.stdout);
     }

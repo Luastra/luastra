@@ -4,6 +4,8 @@ import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 
 import { admitAsset, maximumProjectAssetBytes } from "../assets/asset-policy.mjs";
 import { loadBackendContract } from "../backend/contract.mjs";
+import { normalizeRecordDeclarations } from "../backend/records.mjs";
+import { loadLockedLibraries } from "./library-packages.mjs";
 
 const moduleIdPattern = /^[a-z][a-z0-9_-]*(\/[a-z][a-z0-9_-]*)*$/;
 const projectIdPattern = /^[a-z][a-z0-9-]*(\.[a-z][a-z0-9-]*)+$/;
@@ -58,6 +60,7 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
   exactObject(manifest.sdk, ["contract"], "sdk");
   if (manifest.sdk.contract !== 1) fail(`unsupported SDK contract: ${manifest.sdk.contract}`);
   uniqueStrings(manifest.capabilities, capabilityPattern, "capabilities");
+  const libraries = await loadLockedLibraries(projectRoot, { sdkContract: manifest.sdk.contract, capabilities: manifest.capabilities });
   if (!Array.isArray(manifest.modules) || manifest.modules.length < 1 || manifest.modules.length > 256) fail("modules must contain 1 to 256 entries");
 
   const modules = new Map();
@@ -84,10 +87,15 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
     modules.set(module.id, Object.freeze({ id: module.id, source: normalizedSource, sourcePath, dependencies: Object.freeze([...dependencies]) }));
   }
   if (!modules.has(manifest.project.entry)) fail(`project entry is not declared: ${manifest.project.entry}`);
+  const projectModuleIds = new Set(modules.keys());
+  for (const module of libraries.modules) {
+    if (modules.has(module.id)) fail(`library module collides with another module: ${module.id}`);
+    modules.set(module.id, module);
+  }
   let startup = null;
   if (manifest.startup !== undefined) {
     exactObject(manifest.startup, ["entry"], "startup");
-    if (!moduleIdPattern.test(manifest.startup.entry ?? "") || !modules.has(manifest.startup.entry)) fail("startup.entry must name a declared project module");
+    if (!moduleIdPattern.test(manifest.startup.entry ?? "") || !projectModuleIds.has(manifest.startup.entry)) fail("startup.entry must name a declared project module");
     if (manifest.startup.entry === manifest.project.entry) fail("startup.entry must differ from the application entry");
     startup = Object.freeze({ entry: manifest.startup.entry });
   }
@@ -129,8 +137,24 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
       sha256: createHash("sha256").update(bytes).digest("hex"),
     }));
   }
-  const tests = uniqueStrings(manifest.tests ?? [], moduleIdPattern, "tests");
-  if (tests.length > 64) fail("tests may contain at most 64 entries");
+  for (const asset of libraries.assets) {
+    if (assetIds.has(asset.id)) fail(`library asset collides with another asset: ${asset.id}`);
+    if (assetSources.has(asset.source)) fail(`library asset source collides with another asset: ${asset.source}`);
+    if (assetOutputs.has(asset.outputPath)) fail(`library asset output collides with another asset: ${asset.outputPath}`);
+    assetIds.add(asset.id);
+    assetSources.add(asset.source);
+    assetOutputs.add(asset.outputPath);
+    totalAssetBytes += asset.bytes;
+    if (totalAssetBytes > maximumProjectAssetBytes) fail(`project and library assets exceed ${maximumProjectAssetBytes} bytes`);
+    assets.push(asset);
+  }
+  const projectTests = uniqueStrings(manifest.tests ?? [], moduleIdPattern, "tests");
+  const tests = [...projectTests];
+  for (const test of libraries.tests) {
+    if (tests.includes(test)) fail(`library test collides with another test: ${test}`);
+    tests.push(test);
+  }
+  if (tests.length > 128) fail("project and library tests may contain at most 128 entries");
   for (const test of tests) {
     if (!modules.has(test)) fail(`test module is not declared: ${test}`);
     if (test === manifest.project.entry) fail(`application entry cannot also be a test: ${test}`);
@@ -150,7 +174,7 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
   }
   let backend = null;
   if (manifest.backend !== undefined) {
-    objectShape(manifest.backend, ["declaration", "handler", "generatedClient", "generatedModule"], ["authentication", "database", "content", "identity"], "backend");
+    objectShape(manifest.backend, ["declaration", "handler", "generatedClient", "generatedModule"], ["authentication", "database", "content", "identity", "records", "uploads"], "backend");
     const authentication = manifest.backend.authentication ?? "development";
     if (!["development", "session"].includes(authentication)) fail("backend.authentication must be development or session");
     let database = Object.freeze({ provider: "memory", path: null });
@@ -181,15 +205,27 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
       if (manifest.backend.identity.provider === "supabase" && authentication !== "session") fail("supabase identity requires session authentication");
       identity = Object.freeze({ provider: manifest.backend.identity.provider });
     }
+    const records = normalizeRecordDeclarations(manifest.backend.records, { identityProvider: identity.provider });
     if (!Array.isArray(manifest.backend.content ?? []) || (manifest.backend.content ?? []).length > 64) fail("backend.content must contain at most 64 items");
     const content = [];
     const contentIds = new Set();
     const contentSources = new Set();
     let totalContentBytes = 0;
     for (const item of manifest.backend.content ?? []) {
-      exactObject(item, ["id", "source", "mediaType"], `backend content ${item?.id ?? "?"}`);
+      const remote = item?.provider === "supabase";
+      exactObject(item, remote ? ["id", "provider", "bucket", "path", "mediaType", "bytes", "width", "height"] : ["id", "source", "mediaType"], `backend content ${item?.id ?? "?"}`);
       if (!moduleIdPattern.test(item.id ?? "") || contentIds.has(item.id)) fail(`invalid or duplicate backend content ID: ${item.id}`);
       contentIds.add(item.id);
+      if (remote) {
+        if (identity.provider !== "supabase") fail("Supabase content requires Supabase identity");
+        if (!/^[a-z0-9][a-z0-9._-]{0,62}[a-z0-9]$/.test(item.bucket ?? "")) fail(`backend content ${item.id} has an invalid Supabase bucket`);
+        if (typeof item.path !== "string" || item.path.length < 1 || item.path.length > 1024 || item.path.split("/").some((part) => part === "" || part === "." || part === "..")) fail(`backend content ${item.id} has an invalid Supabase object path`);
+        if (!["image/avif", "image/jpeg", "image/png", "image/webp"].includes(item.mediaType) || !Number.isSafeInteger(item.bytes) || item.bytes < 4 || item.bytes > 25 * 1024 * 1024 || !Number.isSafeInteger(item.width) || item.width < 1 || item.width > 8192 || !Number.isSafeInteger(item.height) || item.height < 1 || item.height > 8192 || item.width * item.height > 40 * 1024 * 1024) fail(`backend content ${item.id} has invalid image metadata`);
+        totalContentBytes += item.bytes;
+        if (totalContentBytes > maximumProjectAssetBytes) fail(`backend content exceeds ${maximumProjectAssetBytes} bytes`);
+        content.push(Object.freeze({ ...item }));
+        continue;
+      }
       if (typeof item.source !== "string" || isAbsolute(item.source)) fail(`backend content ${item.id} source must be relative`);
       const normalizedSource = item.source.split("\\").join("/");
       if (!normalizedSource.startsWith("content/") || normalizedSource.split("/").some((part) => part === "" || part === "." || part === "..") || contentSources.has(normalizedSource)) fail(`backend content ${item.id} must use a unique safe content/ source path`);
@@ -201,7 +237,26 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
       admitAsset({ id: item.id, source: normalizedSource, mediaType: item.mediaType, bytes });
       totalContentBytes += bytes.byteLength;
       if (totalContentBytes > maximumProjectAssetBytes) fail(`backend content exceeds ${maximumProjectAssetBytes} bytes`);
-      content.push(Object.freeze({ id: item.id, source: normalizedSource, path: sourcePath, mediaType: item.mediaType, bytes: bytes.byteLength, sha256: createHash("sha256").update(bytes).digest("hex") }));
+      content.push(Object.freeze({ id: item.id, provider: "local", source: normalizedSource, path: sourcePath, mediaType: item.mediaType, bytes: bytes.byteLength, sha256: createHash("sha256").update(bytes).digest("hex") }));
+    }
+    if (!Array.isArray(manifest.backend.uploads ?? []) || (manifest.backend.uploads ?? []).length > 32) fail("backend.uploads must contain at most 32 declarations");
+    const uploads = [];
+    const uploadIds = new Set();
+    for (const item of manifest.backend.uploads ?? []) {
+      const remote = item?.provider === "supabase";
+      exactObject(item, remote
+        ? ["id", "provider", "bucket", "prefix", "mediaTypes", "maximumBytes", "maximumWidth", "maximumHeight"]
+        : ["id", "provider", "mediaTypes", "maximumBytes", "maximumWidth", "maximumHeight"], `backend upload ${item?.id ?? "?"}`);
+      if (!/^[a-z][a-z0-9_-]{0,63}$/.test(item.id ?? "") || uploadIds.has(item.id)) fail(`invalid or duplicate backend upload ID: ${item.id}`);
+      uploadIds.add(item.id);
+      if (!Array.isArray(item.mediaTypes) || item.mediaTypes.length < 1 || item.mediaTypes.length > 2 || new Set(item.mediaTypes).size !== item.mediaTypes.length || !item.mediaTypes.every((value) => ["image/jpeg", "image/png"].includes(value))) fail(`backend upload ${item.id} has invalid media types`);
+      if (!Number.isSafeInteger(item.maximumBytes) || item.maximumBytes < 14 || item.maximumBytes > 25 * 1024 * 1024 || !Number.isSafeInteger(item.maximumWidth) || item.maximumWidth < 1 || item.maximumWidth > 8192 || !Number.isSafeInteger(item.maximumHeight) || item.maximumHeight < 1 || item.maximumHeight > 8192) fail(`backend upload ${item.id} has invalid limits`);
+      if (remote) {
+        if (identity.provider !== "supabase") fail("Supabase uploads require Supabase identity");
+        if (!/^[a-z0-9][a-z0-9._-]{0,62}[a-z0-9]$/.test(item.bucket ?? "")) fail(`backend upload ${item.id} has an invalid Supabase bucket`);
+        if (typeof item.prefix !== "string" || item.prefix.length < 1 || item.prefix.length > 256 || item.prefix.split("/").some((part) => part === "" || part === "." || part === ".." || !/^[A-Za-z0-9_-]+$/.test(part))) fail(`backend upload ${item.id} has an invalid Supabase prefix`);
+      }
+      uploads.push(Object.freeze({ ...item, mediaTypes: Object.freeze([...item.mediaTypes]), maximumPixels: Math.min(40 * 1024 * 1024, item.maximumWidth * item.maximumHeight), intentTtlMs: 5 * 60 * 1000 }));
     }
     for (const name of ["declaration", "handler", "generatedClient"]) {
       const value = manifest.backend[name];
@@ -227,7 +282,9 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
       authentication,
       database,
       identity,
+      records,
       content: Object.freeze(content),
+      uploads: Object.freeze(uploads),
     });
   }
   return Object.freeze({
@@ -241,6 +298,8 @@ export async function loadProject(manifestValue, { allowMissingGenerated = false
     modules,
     assets: Object.freeze(assets),
     tests: Object.freeze([...tests]),
+    libraries: libraries.closure,
+    libraryLockPath: libraries.lockPath,
     web,
     backend,
   });

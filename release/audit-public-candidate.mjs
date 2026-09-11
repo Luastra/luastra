@@ -39,8 +39,9 @@ function generated(path) {
   if (path === ".git" || path.startsWith(".git/")) return true;
   if (path === ".local-development" || path.startsWith(".local-development/")) return true;
   const segments = path.split("/");
-  return segments.includes("node_modules") || segments.includes(".luastra") || segments.includes("target") ||
-    /^examples\/[^/]+\/dist(?:\/|$)/.test(path) || path.startsWith("website/app/dist/") || path.startsWith("website/luastra-site/") ||
+  const admittedLibraryFixture = /^test-fixtures\/(?:library-catalogue|library-activity-log)\/\.luastra(?:\/libraries(?:\/.*)?)?$/.test(path);
+  return segments.includes("node_modules") || (segments.includes(".luastra") && !admittedLibraryFixture) || segments.includes("target") ||
+    /^examples\/[^/]+\/dist(?:\/|$)/.test(path) || /^test-fixtures\/[^/]+\/dist(?:\/|$)/.test(path) || path.startsWith("website/app/dist/") || path.startsWith("website/luastra-site/") ||
     path.startsWith("hosts/tauri/www/") || /(?:^|\/)src-tauri\/gen(?:\/|$)/.test(path);
 }
 

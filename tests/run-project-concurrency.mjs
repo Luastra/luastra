@@ -14,18 +14,22 @@ test("concurrent previews of one project keep independent bundles", async () => 
   await writeFile(source, `--!strict
 
 local UI = require("luastra/ui")
-local Application = {}
-function Application.render(): UI.Node
-    return UI.Screen { id = "concurrent-preview" }
-end
-return Application
+local App = require("luastra/app")
+return App.compose {
+    render = function(_outputs): UI.Node
+        return UI.Screen { id = "concurrent-preview" }
+    end,
+    snapshot = function()
+        return {}
+    end,
+}
 `, "utf8");
   await writeFile(manifest, `${JSON.stringify({
     schemaVersion: 2,
     project: { id: "dev.luastra.concurrent-preview", entry: "app/main" },
     sdk: { contract: 1 },
     capabilities: ["ui.render"],
-    modules: [{ id: "app/main", source: "src/main.luau", dependencies: ["luastra/ui"] }],
+    modules: [{ id: "app/main", source: "src/main.luau", dependencies: ["luastra/app", "luastra/ui"] }],
     tests: [],
   }, null, 2)}\n`, "utf8");
 

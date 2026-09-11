@@ -7,12 +7,16 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { buildProject } from "./build-project.mjs";
 import { loadProject } from "./load-project.mjs";
 import { createMemoryDatabase, createSqliteDatabase } from "../backend/database.mjs";
+import { createDeclaredRecordCollections, createLocalRecordProvider, createRecordCollection, createSupabaseRecordCollectionProvider } from "../backend/records.mjs";
 import { createBackendRuntime, handleServerCapability } from "../backend/runtime.mjs";
 import { createContentGrantStore } from "../backend/content.mjs";
+import { createContentUploadStore } from "../backend/uploads.mjs";
 import { createLocalPasswordIdentity } from "../backend/identity.mjs";
 import { createLocalIdentityService } from "../backend/local-identity-service.mjs";
 import { createSupabaseIdentityBoundary } from "../backend/provider-environment.mjs";
 import { createSessionStore } from "../backend/session.mjs";
+import { inspectRasterImage } from "../platform/content/image-admission.mjs";
+import { encodeMediaWire } from "../platform/media/media-wire.mjs";
 
 const projectModuleRoot = resolve(dirname(fileURLToPath(import.meta.url)));
 const platformRoot = resolve(projectModuleRoot, "../platform");
@@ -44,14 +48,18 @@ const staticFiles = new Map([
   ["/platform/host/platform-capabilities.mjs", resolve(platformRoot, "host/platform-capabilities.mjs")],
   ["/platform/host/rpc-capabilities.mjs", resolve(platformRoot, "host/rpc-capabilities.mjs")],
   ["/platform/host/media-capabilities.mjs", resolve(platformRoot, "host/media-capabilities.mjs")],
+  ["/platform/host/content-capabilities.mjs", resolve(platformRoot, "host/content-capabilities.mjs")],
   ["/platform/host/timer-capabilities.mjs", resolve(platformRoot, "host/timer-capabilities.mjs")],
   ["/platform/host/asset-registry.mjs", resolve(platformRoot, "host/asset-registry.mjs")],
+  ["/platform/host/content-source-registry.mjs", resolve(platformRoot, "host/content-source-registry.mjs")],
   ["/platform/media/media-wire.mjs", resolve(platformRoot, "media/media-wire.mjs")],
   ["/platform/media/media-state-machine.mjs", resolve(platformRoot, "media/media-state-machine.mjs")],
+  ["/platform/content/image-admission.mjs", resolve(platformRoot, "content/image-admission.mjs")],
   ["/platform/host/lifecycle-bridge.mjs", resolve(platformRoot, "host/lifecycle-bridge.mjs")],
   ["/platform/host/keyboard-viewport-manager.mjs", resolve(platformRoot, "host/keyboard-viewport-manager.mjs")],
   ["/platform/host/first-paint-gate.mjs", resolve(platformRoot, "host/first-paint-gate.mjs")],
   ["/platform/host/orbit-controller.mjs", resolve(platformRoot, "host/orbit-controller.mjs")],
+  ["/platform/host/windowed-list-controller.mjs", resolve(platformRoot, "host/windowed-list-controller.mjs")],
   ["/platform/host/orbit.css", resolve(platformRoot, "host/orbit.css")],
   ["/platform/host/controls.css", resolve(platformRoot, "host/controls.css")],
   ["/platform/phase5-ui.css", resolve(phase5Host, "phase5-ui.css")],
@@ -84,19 +92,112 @@ function sessionBoundary(project, { environment, providerFetch, now }) {
   return Object.freeze({ sessions, identity: null, close() {} });
 }
 
-async function projectBackend(project, boundary) {
+async function projectBackend(project, boundary, { now }) {
   if (!project.backend) return null;
   const implementation = await import(`${pathToFileURL(project.backend.handlerPath).href}?sha=${project.backend.handlerSha256}`);
   if (typeof implementation.createHandlers !== "function") fail("backend handler must export createHandlers");
   const database = project.backend.database.provider === "sqlite" ? createSqliteDatabase({ path: project.backend.database.path }) : createMemoryDatabase();
-  const content = createContentGrantStore({ items: project.backend.content });
+  const remoteItems = project.backend.content.filter((item) => item.provider === "supabase");
+  const remoteUploads = project.backend.uploads.filter((item) => item.provider === "supabase");
+  let remoteStorage = null;
+  if (remoteItems.length > 0 || remoteUploads.length > 0) {
+    if (typeof boundary.createStorageProvider !== "function" || typeof boundary.accessTokenForPrincipal !== "function") fail("Supabase content requires the Supabase identity boundary");
+    remoteStorage = boundary.createStorageProvider({ items: remoteItems.map(({ id, bucket, path }) => ({ id, bucket, path })), uploads: remoteUploads.map(({ id, bucket, prefix }) => ({ id, bucket, prefix })) });
+  }
+  const content = createContentGrantStore({
+    items: project.backend.content,
+    now,
+    createRemoteDelivery: remoteStorage === null ? null : async (item, { ttlMs, principal, signal }) => {
+      const accessToken = await boundary.accessTokenForPrincipal(principal, { signal });
+      const options = { ttlSeconds: Math.floor(ttlMs / 1000), signal };
+      return item.uploadId
+        ? remoteStorage.createSignedDeliveryForObject(item, accessToken, options)
+        : remoteStorage.createSignedDelivery(item.id, accessToken, options);
+    },
+  });
+  const remoteObject = (intent) => ({
+    uploadId: intent.declaration.id,
+    bucket: intent.declaration.bucket,
+    path: `${intent.declaration.prefix}/${intent.principal.id}/${intent.objectId}${intent.metadata.mediaType === "image/png" ? ".png" : ".jpg"}`,
+  });
+  const remoteAdapter = remoteStorage === null ? null : Object.freeze({
+    async upload(intent, { principal, mediaType, body, signal }) {
+      const accessToken = await boundary.accessTokenForPrincipal(principal, { signal });
+      await remoteStorage.uploadObject(remoteObject(intent), accessToken, { mediaType, body, signal });
+      return Object.freeze({ ...intent.metadata, orientation: "normal" });
+    },
+    async inspect(intent, { principal, signal }) {
+      const accessToken = await boundary.accessTokenForPrincipal(principal, { signal });
+      const value = await remoteStorage.readObject(remoteObject(intent), accessToken, { signal, maximumBytes: intent.declaration.maximumBytes });
+      const metadata = inspectRasterImage(value.bytes, {
+        declaredMediaType: value.mediaType, maximumBytes: intent.declaration.maximumBytes,
+        maximumWidth: intent.declaration.maximumWidth, maximumHeight: intent.declaration.maximumHeight, maximumPixels: intent.declaration.maximumPixels,
+      });
+      if (metadata.mediaType !== intent.metadata.mediaType || metadata.bytes !== intent.metadata.bytes || metadata.width !== intent.metadata.width || metadata.height !== intent.metadata.height) fail("uploaded object metadata does not match its intent");
+      return metadata;
+    },
+    async delete(intent, { principal, signal } = {}) {
+      const accessToken = await boundary.accessTokenForPrincipal(principal ?? intent.principal, { signal });
+      return remoteStorage.deleteObject(remoteObject(intent), accessToken, { signal });
+    },
+  });
+  const uploads = createContentUploadStore({
+    declarations: project.backend.uploads,
+    localRoot: resolve(project.projectRoot, ".luastra/data/uploads"),
+    content,
+    remote: remoteAdapter,
+    now,
+  });
   const localIdentity = project.backend.identity.provider === "local-password" ? createLocalPasswordIdentity({ database }) : null;
   const identity = localIdentity ? createLocalIdentityService({ identity: localIdentity, sessions: boundary.sessions }) : boundary.identity;
   try {
-    const handlers = await implementation.createHandlers({ database, identity: localIdentity });
-    const runtime = createBackendRuntime({ contract: project.backend.declaration.value, handlers, database, sessions: boundary.sessions, content, identity });
-    return Object.freeze({ runtime, content, dispose() { content.dispose(); database.close(); } });
+    const createSupabaseRecordCollection = (options) => {
+      if (typeof boundary.createRecordProvider !== "function") fail("Supabase record providers require backend.identity.provider to be supabase");
+      if (typeof boundary.accessTokenForPrincipal !== "function") fail("Supabase record providers require backend.identity.provider to be supabase");
+      if (!options || typeof options !== "object" || Array.isArray(options)) fail("Supabase record collection configuration is invalid");
+      const { table, timeoutMs, ...configuration } = options;
+      const provider = boundary.createRecordProvider({
+        tables: {
+          [configuration.collection]: {
+            table,
+            updateFields: configuration.mutableFields?.length > 0 ? configuration.mutableFields : undefined,
+            query: { equalityFields: configuration.equalityFields ?? [], sorts: configuration.sorts },
+          },
+        },
+        timeoutMs,
+      });
+      return createRecordCollection({
+        ...configuration,
+        provider: createSupabaseRecordCollectionProvider({
+          provider,
+          collection: configuration.collection,
+          accessTokenForPrincipal: boundary.accessTokenForPrincipal,
+        }),
+      });
+    };
+    const createRecordCollections = implementation.createRecordCollections;
+    if (project.backend.records !== null && typeof createRecordCollections === "function") fail("backend.records cannot be combined with createRecordCollections");
+    let records = null;
+    if (project.backend.records !== null) {
+      records = createDeclaredRecordCollections({
+        declarations: project.backend.records,
+        database,
+        identityProvider: project.backend.identity.provider,
+        createSupabaseRecordCollection,
+      });
+    } else if (typeof createRecordCollections === "function") {
+      records = await createRecordCollections(Object.freeze({
+        database,
+        createLocalRecordProvider,
+        createRecordCollection,
+        createSupabaseRecordCollection,
+      }));
+    }
+    const handlers = await implementation.createHandlers({ database, identity: localIdentity, records });
+    const runtime = createBackendRuntime({ contract: project.backend.declaration.value, handlers, database, records, sessions: boundary.sessions, content, uploads, identity });
+    return Object.freeze({ runtime, content, uploads, dispose() { void uploads.dispose(); content.dispose(); database.close(); } });
   } catch (error) {
+    await uploads.dispose();
     content.dispose();
     database.close();
     throw error;
@@ -182,7 +283,7 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
       const built = await buildProject({ manifestPath: project.manifestPath, outputDirectory: candidate, target: "bundle" });
       const nextProject = await loadProject(project.manifestPath);
       if ((nextProject.backend?.identity.provider ?? "none") !== initialIdentityProvider) fail("backend.identity.provider change requires restarting Luastra run");
-      nextBackend = await projectBackend(nextProject, boundary);
+      nextBackend = await projectBackend(nextProject, boundary, { now });
       const previous = activeBundle;
       const previousBackend = activeBackend;
       activeBundle = candidate;
@@ -206,10 +307,17 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
     throw error;
   }
   const eventClients = new Set();
+  let expectedAuthority = null;
+  let expectedOrigin = null;
   const server = createServer(async (request, response) => {
     try {
       if (!request.url) { response.writeHead(400).end(); return; }
-      const pathname = new URL(request.url, "http://127.0.0.1").pathname;
+      if (expectedAuthority === null || expectedOrigin === null || request.headers.host !== expectedAuthority ||
+          (request.headers.origin !== undefined && request.headers.origin !== expectedOrigin)) {
+        response.writeHead(421, { "Cache-Control": "no-store" }).end("Misdirected request");
+        return;
+      }
+      const pathname = new URL(request.url, expectedOrigin).pathname;
       if (pathname === "/__luastra/logs") {
         if (request.method !== "POST") { response.writeHead(405).end(); return; }
         if (!String(request.headers["content-type"] ?? "").startsWith("application/json")) { response.writeHead(415).end(); return; }
@@ -244,10 +352,70 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
         response.writeHead(200, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" }).end(JSON.stringify(handled));
         return;
       }
+      const uploadMatch = /^\/__luastra\/upload\/([A-Za-z0-9_-]{32,256})$/.exec(pathname);
+      if (uploadMatch) {
+        if (request.method !== "PUT") { response.writeHead(405).end(); return; }
+        if (!activeBackend?.uploads) { response.writeHead(404).end("Not found"); return; }
+        const mediaType = String(request.headers["content-type"] ?? "").split(";", 1)[0].trim().toLowerCase();
+        const contentLength = Number(request.headers["content-length"]);
+        if (!["image/jpeg", "image/png"].includes(mediaType) || !Number.isSafeInteger(contentLength) || contentLength < 14 || contentLength > 25 * 1024 * 1024) { response.writeHead(400, { "Cache-Control": "no-store" }).end("Upload rejected"); return; }
+        const principal = project.backend.authentication === "session"
+          ? boundary.sessions.resolveAuthorization(request.headers.authorization)
+          : { id: "local-user", roles: ["user"], session: "local-development" };
+        if (!principal) { response.writeHead(401, { "Cache-Control": "no-store" }).end("Upload rejected"); return; }
+        const controller = new AbortController();
+        request.once("aborted", () => controller.abort());
+        try {
+          const uploaded = await activeBackend.uploads.receive(uploadMatch[1], { principal, mediaType, contentLength, body: request, signal: controller.signal });
+          response.writeHead(200, { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" }).end(encodeMediaWire({ bytes: String(uploaded.bytes), status: uploaded.status }));
+        } catch {
+          response.writeHead(controller.signal.aborted ? 499 : 400, { "Cache-Control": "no-store" }).end("Upload rejected");
+        }
+        return;
+      }
       const contentMatch = /^\/__luastra\/content\/([A-Za-z0-9_-]{32,256})$/.exec(pathname);
       if (contentMatch) {
         if (!new Set(["GET", "HEAD"]).has(request.method ?? "")) { response.writeHead(405).end(); return; }
         const item = activeBackend?.content.resolve(contentMatch[1]);
+        if (item?.provider === "supabase") {
+          const range = byteRange(request.headers.range, item.bytes);
+          if (range === false) { response.writeHead(416, { "Content-Range": `bytes */${item.bytes}` }).end(); return; }
+          let upstream;
+          try {
+            const headers = range ? { Range: `bytes=${range.start}-${range.end}` } : {};
+            upstream = await providerFetch(item.deliveryUrl, { method: request.method, headers, redirect: "error" });
+          } catch {
+            response.writeHead(502, { "Cache-Control": "no-store" }).end("Content temporarily unavailable");
+            return;
+          }
+          if (!upstream || (range ? upstream.status !== 206 : upstream.status !== 200)) { response.writeHead(upstream?.status === 404 ? 404 : 502, { "Cache-Control": "no-store" }).end("Content unavailable"); return; }
+          const mediaType = (upstream.headers.get("content-type") ?? "").split(";", 1)[0].trim().toLowerCase();
+          const declaredLength = Number(upstream.headers.get("content-length"));
+          const expectedLength = range ? range.end - range.start + 1 : item.bytes;
+          if (mediaType !== item.mediaType || (Number.isFinite(declaredLength) && (!Number.isSafeInteger(declaredLength) || declaredLength !== expectedLength))) { response.writeHead(502, { "Cache-Control": "no-store" }).end("Invalid content response"); return; }
+          const headers = { "Content-Type": item.mediaType, "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Accept-Ranges": "bytes" };
+          if (upstream.status === 206) {
+            const contentRange = upstream.headers.get("content-range");
+            const match = /^bytes ([0-9]+)-([0-9]+)\/([0-9]+)$/.exec(contentRange ?? "");
+            const returnedRange = match ? { start: Number(match[1]), end: Number(match[2]), total: Number(match[3]) } : null;
+            if (!returnedRange || !Object.values(returnedRange).every(Number.isSafeInteger) || returnedRange.start !== range.start || returnedRange.end !== range.end || returnedRange.total !== item.bytes) { response.writeHead(502, { "Cache-Control": "no-store" }).end("Invalid content response"); return; }
+            headers["Content-Range"] = contentRange;
+          }
+          if (request.method === "HEAD") { if (Number.isSafeInteger(declaredLength)) headers["Content-Length"] = declaredLength; response.writeHead(upstream.status, headers).end(); return; }
+          const chunks = [];
+          let bytes = 0;
+          try {
+            for await (const chunk of upstream.body ?? []) {
+              bytes += chunk.byteLength;
+              if (bytes > item.bytes) throw new Error("remote content exceeds its admitted byte size");
+              chunks.push(Buffer.from(chunk));
+            }
+          } catch { response.writeHead(502, { "Cache-Control": "no-store" }).end("Invalid content response"); return; }
+          if (bytes !== expectedLength) { response.writeHead(502, { "Cache-Control": "no-store" }).end("Invalid content response"); return; }
+          headers["Content-Length"] = bytes;
+          response.writeHead(upstream.status, headers).end(Buffer.concat(chunks));
+          return;
+        }
         const fileInfo = item ? await stat(item.path).catch(() => null) : null;
         if (!item || !fileInfo?.isFile() || fileInfo.size !== item.bytes) { response.writeHead(404).end("Not found"); return; }
         response.setHeader("Content-Type", item.mediaType);
@@ -277,7 +445,12 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
       }
       if (pathname === "/" || pathname === "/index.html") {
         const html = (await readFile(staticFiles.get("/"), "utf8")).replace("</head>", '<link rel="stylesheet" href="/project-typography.css" /></head>');
-        response.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" });
+        response.writeHead(200, {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store",
+          "Content-Security-Policy": "frame-ancestors 'none'",
+          "X-Frame-Options": "DENY",
+        });
         response.end(request.method === "HEAD" ? undefined : html);
         return;
       }
@@ -316,7 +489,9 @@ export async function runProject({ manifestPath, port = 4175, watch = true, onEv
   }
   const address = server.address();
   const actualPort = typeof address === "object" && address ? address.port : port;
-  const url = `http://127.0.0.1:${actualPort}/`;
+  expectedAuthority = `127.0.0.1:${actualPort}`;
+  expectedOrigin = `http://${expectedAuthority}`;
+  const url = `${expectedOrigin}/`;
   onEvent({
     command: "run",
     result: "READY",

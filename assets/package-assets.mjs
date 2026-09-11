@@ -42,6 +42,9 @@ export function projectContentDigest(project, bundleContentSha256, assets, start
       identity: project.backend.identity.provider,
       content: project.backend.content.map(({ id, mediaType, bytes, sha256: digest }) => ({ id, mediaType, bytes, sha256: digest })),
     } : null,
+    libraries: project.libraries.map(({ id, version, contentSha256, capabilities, dependencies, license, notice }) => ({
+      id, version, contentSha256, capabilities: [...capabilities].sort(), dependencies, license, notice,
+    })),
     assets: assets.map(({ id, kind, path, mediaType, bytes, sha256: digest }) => ({ id, kind, path, mediaType, bytes, sha256: digest })),
   }));
 }

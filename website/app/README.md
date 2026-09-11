@@ -1,7 +1,7 @@
 # Luastra SDK Reference dogfood application
 
 Source for the English Luastra-native documentation application for
-`0.2.0-alpha`. It deliberately uses the same SDK that it documents and serves
+`0.5.0-alpha`. It deliberately uses the same SDK that it documents and serves
 as both the `luastra.dev` source and a web-application dogfood fixture. The
 immutable `0.1.0-alpha` release remains available as a separate historical
 rollback boundary.
@@ -23,7 +23,7 @@ rollback boundary.
   public SDK symbol without exactly one complete detail page. It also emits
   bounded related-page and same-section sequence metadata; weak inferred
   relationships are omitted instead of padding the list with unrelated links.
-- `tests/reference-data.luau` protects the 95-function/component and 60-exported-type inventories, candidate SDK
+- `tests/reference-data.luau` protects the 115-function/component and 100-exported-type inventories, candidate SDK
   identities, tutorials, learning path, and per-component page contract.
 
 Each public UI component has its own page with a signature, purpose and mental

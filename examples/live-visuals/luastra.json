@@ -19,7 +19,7 @@
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/assets", "luastra/motion", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/assets", "luastra/motion", "luastra/ui"]
     },
     {
       "id": "app/tests/live-visuals",

@@ -163,7 +163,7 @@ test("run serves the project, atomically rebuilds, reports errors and emits relo
     const rebuiltBundle = await (await fetch(new URL("bundle/luastra.bundle.json", ready.url))).json();
     assert.equal(rebuiltBundle.contentSha256, rebuilt.bundleContentSha256);
 
-    await writeFile(mainPath, valid.replace("return Application", "local broken: string = 42\n\nreturn Application"));
+    await writeFile(mainPath, valid.replace("local interactions = 0", "local interactions: string = 42"));
     const failed = await processState.waitFor((event) => event.result === "BUILD_ERROR");
     assert.match(failed.error, /Expected this to be 'string', but got 'number'/);
     const survivingBundle = await (await fetch(new URL("bundle/luastra.bundle.json", ready.url))).json();

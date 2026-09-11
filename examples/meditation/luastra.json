@@ -27,7 +27,7 @@
     ]
   },
   "modules": [
-    { "id": "app/main", "source": "src/main.luau", "dependencies": ["app/server-functions", "luastra/host", "luastra/media", "luastra/ui"] },
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["app/server-functions", "luastra/app", "luastra/host", "luastra/media", "luastra/ui"] },
     { "id": "app/server-functions", "source": "src/generated/server-functions.luau", "dependencies": ["luastra/server"] },
     { "id": "app/tests/flow", "source": "src/test-flow.luau", "dependencies": ["app/main"] }
   ],

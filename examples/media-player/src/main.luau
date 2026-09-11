@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Assets = require("luastra/assets")
 local Media = require("luastra/media")
 local UI = require("luastra/ui")
@@ -13,7 +14,7 @@ local queue: { Media.QueueItem } = {
     { id = "rest", source = Assets.uri(Assets.audio("audio/rest")), title = "Rest sample", artist = "Luastra" },
 }
 
-local Application = {}
+local Root = {}
 local function request(id: number, label: string) pending[id] = label message = label .. " requested" end
 local function apply(payload: string, nextMessage: string?)
     local decoded = Media.decodeState(payload)
@@ -22,7 +23,7 @@ local function apply(payload: string, nextMessage: string?)
     if nextMessage ~= nil then message = nextMessage end
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local progress = tostring(math.floor(state.positionMs / 1000)) .. "s / " .. tostring(math.floor(state.durationMs / 1000)) .. "s"
     return UI.Screen { id = "media", width = "content", padding = "responsive",
         UI.Stack { id = "media/shell", gap = "lg",
@@ -47,7 +48,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, _target: string, value: string)
+function Root.handle(action: string, _target: string, value: string)
     if action == "lifecycle" then
         if value == "launch" then request(Media.setQueue(queue, 1), "Queue load")
         elseif value == "background" then state.background = true
@@ -60,7 +61,7 @@ function Application.handle(action: string, _target: string, value: string)
     elseif action == "media-previous" then request(Media.previous(), "Previous") end
 end
 
-function Application.resolve(requestId: number, success: boolean, payload: string, code: string, errorMessage: string)
+function Root.resolve(requestId: number, success: boolean, payload: string, code: string, errorMessage: string)
     local label = pending[requestId]
     pending[requestId] = nil
     if label == nil then return end
@@ -68,4 +69,15 @@ function Application.resolve(requestId: number, success: boolean, payload: strin
     apply(payload, label .. " completed")
 end
 
-return Application
+function Root.snapshot()
+    local pendingCount = 0
+    for _ in pending do pendingCount += 1 end
+    return { state = state, message = message, pendingCount = pendingCount }
+end
+
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}

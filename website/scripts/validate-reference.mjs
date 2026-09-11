@@ -13,8 +13,12 @@ import sourceBuildContract from "../../platform/source-build/source-build-contra
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const candidateSdk = resolve(root, "..", "sdk", "luastra");
 const namespaceByModule = Object.freeze({
+  "luastra/app": "App",
+  "luastra/resource": "Resource",
+  "luastra/collection": "Collection",
   "luastra/ui": "UI",
   "luastra/assets": "Assets",
+  "luastra/content": "Content",
   "luastra/data": "Data",
   "luastra/debug": "Debug",
   "luastra/timer": "Timer",
@@ -186,7 +190,7 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
   const namespace = namespaceByModule[moduleId];
   const pattern = moduleId === "luastra/ui"
     ? /^UI\.([A-Za-z][A-Za-z0-9]*)\s*=\s*function/gm
-    : new RegExp(`^function ${namespace}\\.([A-Za-z][A-Za-z0-9]*)\\s*\\(`, "gm");
+    : new RegExp(`^function ${namespace}\\.([A-Za-z][A-Za-z0-9]*)(?:<[^>\\n]+>)?\\s*\\(`, "gm");
   const shippedNames = [...source.matchAll(pattern)].map((match) => match[1]).sort();
   const expectedNames = [...documentedNames].sort();
   if (!same(shippedNames, expectedNames)) {
@@ -211,7 +215,7 @@ for (const [moduleId, documentedNames] of Object.entries(sdkInventory)) {
       if (typeof page[field] !== "string" || page[field].length < 40) fail(`${qualified} lacks operational ${field} guidance`);
     }
   }
-  const shippedTypes = [...source.matchAll(/^export type ([A-Za-z][A-Za-z0-9]*)\s*=/gm)].map((match) => match[1]).sort();
+  const shippedTypes = [...source.matchAll(/^export type ([A-Za-z][A-Za-z0-9]*)(?:<[^>]+>)?\s*=/gm)].map((match) => match[1]).sort();
   const documentedTypes = [...(sdkTypeInventory[moduleId] ?? [])].sort();
   if (!same(shippedTypes, documentedTypes)) {
     fail(`${moduleId} type inventory mismatch: shipped=${shippedTypes.join(",")} documented=${documentedTypes.join(",")}`);
@@ -269,6 +273,7 @@ for (const page of generatedPages.filter((item) => item.kind !== "parameter-grou
 if (!pageByName.get("Motion.slideIn")?.code.includes("y = 24") || pageByName.get("Motion.slideIn")?.code.includes("fromY")) fail("Motion.slideIn example is stale");
 if (!pageByName.get("Motion.sway")?.code.includes("angleDeg = 2") || pageByName.get("Motion.sway")?.code.includes("rotationDeg = 2")) fail("Motion.sway example is stale");
 if (!pageByName.get("Server.decode")?.code.includes("result.fields") || pageByName.get("Server.decode")?.code.includes("result.value")) fail("Server.decode example reads the wrong success field");
+if (!pageByName.get("Server.decodeError")?.code.includes("decoded.fields.title")) fail("Server.decodeError example does not use structured field codes");
 if (!pageByName.get("Media.decodeState")?.code.includes("result.state.positionMs")) fail("Media.decodeState example reads the wrong success field");
 if (!pageByName.get("Host.launchUrl")?.description.includes("never opens an external destination")) fail("Host.launchUrl purpose is stale");
 for (const name of ["Timer.start", "Timer.restart"]) {
@@ -277,7 +282,7 @@ for (const name of ["Timer.start", "Timer.restart"]) {
 }
 for (const name of ["Timer.start", "Timer.restart", "Timer.cancel"]) {
   const returns = pageByName.get(name)?.returns ?? "";
-  if (!returns.includes("do not enter Application.resolve") || returns.includes("correlate the asynchronous completion")) {
+  if (!returns.includes("do not enter app.resolve") || returns.includes("correlate the asynchronous completion")) {
     fail(`${name} return guidance contradicts timer lifecycle semantics`);
   }
 }

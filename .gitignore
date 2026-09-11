@@ -4,6 +4,14 @@ node_modules/
 .env.*
 !.env.example
 **/.luastra/
+!test-fixtures/library-catalogue/.luastra/
+test-fixtures/library-catalogue/.luastra/*
+!test-fixtures/library-catalogue/.luastra/libraries/
+!test-fixtures/library-catalogue/.luastra/libraries/**
+!test-fixtures/library-activity-log/.luastra/
+test-fixtures/library-activity-log/.luastra/*
+!test-fixtures/library-activity-log/.luastra/libraries/
+!test-fixtures/library-activity-log/.luastra/libraries/**
 **/dist/
 !native/capacitor-media/dist/
 !native/capacitor-media/dist/**

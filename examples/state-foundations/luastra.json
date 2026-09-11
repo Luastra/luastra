@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "dev.luastra.state-foundations",
+    "entry": "app/main"
+  },
+  "sdk": {
+    "contract": 1
+  },
+  "capabilities": ["storage.get", "ui.render"],
+  "modules": [
+    {
+      "id": "app/contract",
+      "source": "src/app-contract.luau",
+      "dependencies": [
+        "luastra/app",
+        "luastra/ui"
+      ]
+    },
+    {
+      "id": "app/collection-contract",
+      "source": "src/collection-contract.luau",
+      "dependencies": [
+        "luastra/app",
+        "luastra/collection",
+        "luastra/resource",
+        "luastra/ui"
+      ]
+    },
+    {
+      "id": "app/main",
+      "source": "src/main.luau",
+      "dependencies": [
+        "luastra/app",
+        "luastra/collection",
+        "luastra/resource",
+        "luastra/host",
+        "luastra/ui"
+      ]
+    }
+  ],
+  "tests": []
+}
