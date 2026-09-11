@@ -7,11 +7,11 @@ import { canonicalJson } from "../../assets/package-assets.mjs";
 import { loadRuntimeArchiveAdmission, readVerifiedRuntimeArchivePackage } from "./build-runtime-archives.mjs";
 import { verifyRuntimePackage } from "./package-runtime-sdk.mjs";
 
-const installationIdentity = "luastra-runtime-installation/phase5-alpha-2";
-const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-9";
-const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-9";
-const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-9";
-const archiveSetIdentity = "luastra-runtime-archives/phase5-alpha-3";
+const installationIdentity = "luastra-runtime-installation/phase5-alpha-3";
+const sdkIdentity = "luastra-runtime-sdk/phase5-alpha-10";
+const sourceBuildIdentity = "luastra-runtime-source-build/phase5-alpha-10";
+const artifactMatrixIdentity = "luastra-artifact-matrix/phase5-alpha-10";
+const archiveSetIdentity = "luastra-runtime-archives/phase5-alpha-4";
 const installationAdmissionPath = resolve(dirname(fileURLToPath(import.meta.url)), "runtime-installation-admission.v1.json");
 
 function fail(message) { throw new Error(message); }
@@ -70,7 +70,7 @@ async function inventory(root, directory = root) {
 async function loadInstallationAdmission() {
   const admission = JSON.parse(await readFile(installationAdmissionPath, "utf8"));
   if (!exactKeys(admission, ["schemaVersion", "identity", "installationIdentity", "sdkIdentity", "archiveSetIdentity", "targets"]) ||
-      admission.schemaVersion !== 1 || admission.identity !== "luastra-runtime-installation-admission/phase5-alpha-2" ||
+      admission.schemaVersion !== 1 || admission.identity !== "luastra-runtime-installation-admission/phase5-alpha-3" ||
       admission.installationIdentity !== installationIdentity || admission.sdkIdentity !== sdkIdentity || admission.archiveSetIdentity !== archiveSetIdentity ||
       !Array.isArray(admission.targets) || admission.targets.length !== 4) fail("invalid runtime installation admission contract");
   const expectedTargetIds = ["darwin-x64", "darwin-arm64", "linux-x64", "win32-x64"];
@@ -114,7 +114,7 @@ export async function proposeRuntimeInstallationAdmission(archiveSet) {
   }
   return Object.freeze({
     schemaVersion: 1,
-    identity: "luastra-runtime-installation-admission/phase5-alpha-2",
+    identity: "luastra-runtime-installation-admission/phase5-alpha-3",
     installationIdentity,
     sdkIdentity,
     archiveSetIdentity,

@@ -16,7 +16,7 @@ web hosts, or internal platform files.
 - images, shapes, and a two-sided `UI.FlipCard`;
 - declarative `Motion.sway`, `Motion.pulse`, and `Motion.flip`;
 - navigation between the welcome screen and the game;
-- input handling through `Application.handle`;
+- input handling through the composed `app.handle`;
 - one-shot `Timer.start`, chained timer events, and timer cancellation;
 - strict Luau types and two automated tests.
 
@@ -32,7 +32,7 @@ luastra.json                 modules, capabilities, assets, and tests
 
 ## Requirements
 
-Requirements: Node.js 24 or newer and an installed Luastra 0.2.0-alpha SDK. Run the following commands from this application directory.
+Requirements: Node.js 24 or newer and an installed Luastra 0.5.0-alpha SDK. Run the following commands from this application directory.
 
 ## Check and test
 

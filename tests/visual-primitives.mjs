@@ -90,9 +90,9 @@ test("buttons admit bounded host-rendered icons with accessible icon-only contro
   const node = materializeRendererTree(iconButton);
   assert.equal(node.attributes["data-luastra-icon"], "palette");
   assert.equal(node.attributes["aria-label"], "Choose a theme");
-  assert.throws(() => materializeRendererTree({ ...iconButton, properties: { ...iconButton.properties, icon: "moon" } }), /invalid icon/);
+  assert.throws(() => materializeRendererTree({ ...iconButton, properties: { ...iconButton.properties, icon: "moon" } }), /invalid (?:property: )?icon/);
   const { label: _label, ...unlabelledProperties } = iconButton.properties;
-  assert.throws(() => materializeRendererTree({ ...iconButton, properties: unlabelledProperties }), /icon-only Button requires a label/);
+  assert.throws(() => materializeRendererTree({ ...iconButton, properties: unlabelledProperties }), /Button requires text, child content, or a label/);
 });
 
 test("materialization resolves admitted images and emits safe visual attributes", () => {

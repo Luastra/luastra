@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local UI = require("luastra/ui")
 
 local name = ""
@@ -10,9 +11,9 @@ local emailError: string? = nil
 local status = "Ready for accessibility and keyboard checks"
 local modalOpen = false
 
-local Application = {}
+local Root = {}
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "accessibility",
         width = "wide",
@@ -116,7 +117,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "change-name" and target == "accessibility/name-input" then name = value status = "Name updated" return end
     if action == "change-email" and target == "accessibility/email-input" then email = value emailError = nil status = "Email updated" return end
     if action == "change-composed" and target == "accessibility/composed-input" then composed = value status = "Composed text committed" return end
@@ -130,4 +131,12 @@ function Application.handle(action: string, target: string, value: string)
     if action == "close-modal" and (target == "accessibility/modal-close" or target == "accessibility/modal") then modalOpen = false status = "Information closed" return end
 end
 
-return Application
+function Root.snapshot()
+    return table.freeze({ status = status, modalOpen = modalOpen, emailError = emailError })
+end
+
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}

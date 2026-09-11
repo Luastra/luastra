@@ -67,7 +67,7 @@ async function buildWeb({ manifestPath, outputDirectory, rpcProof }) {
   });
 
   const hostHtmlSource = await readFile(resolve(platformRoot, "host/index.html"), "utf8");
-  const csp = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
+  const csp = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
   const hostHtml = hostHtmlSource
     .replace("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />", `<meta name="viewport" content="width=device-width, initial-scale=1" />\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`)
     .replace("<title>Luastra Preview</title>", "<title>Luastra Application</title>");
@@ -106,6 +106,7 @@ async function buildWeb({ manifestPath, outputDirectory, rpcProof }) {
     [resolve(platformRoot, "host/controls.css"), "platform/host/controls.css"],
     [resolve(platformRoot, "host/orbit.css"), "platform/host/orbit.css"],
     [resolve(platformRoot, "host/orbit-controller.mjs"), "platform/host/orbit-controller.mjs"],
+    [resolve(platformRoot, "host/windowed-list-controller.mjs"), "platform/host/windowed-list-controller.mjs"],
     [resolve(brandAssets, "favicon.svg"), "brand/favicon.svg"],
     [resolve(brandAssets, "app-icon.svg"), "brand/app-icon.svg"],
     [resolve(brandAssets, "lockup-light.svg"), "brand/luastra-lockup.svg"],
@@ -127,10 +128,13 @@ async function buildWeb({ manifestPath, outputDirectory, rpcProof }) {
     [resolve(platformRoot, "host/platform-capabilities.mjs"), "platform/host/platform-capabilities.mjs"],
     [resolve(platformRoot, "host/rpc-capabilities.mjs"), "platform/host/rpc-capabilities.mjs"],
     [resolve(platformRoot, "host/media-capabilities.mjs"), "platform/host/media-capabilities.mjs"],
+    [resolve(platformRoot, "host/content-capabilities.mjs"), "platform/host/content-capabilities.mjs"],
     [resolve(platformRoot, "host/timer-capabilities.mjs"), "platform/host/timer-capabilities.mjs"],
     [resolve(platformRoot, "host/asset-registry.mjs"), "platform/host/asset-registry.mjs"],
+    [resolve(platformRoot, "host/content-source-registry.mjs"), "platform/host/content-source-registry.mjs"],
     [resolve(platformRoot, "media/media-wire.mjs"), "platform/media/media-wire.mjs"],
     [resolve(platformRoot, "media/media-state-machine.mjs"), "platform/media/media-state-machine.mjs"],
+    [resolve(platformRoot, "content/image-admission.mjs"), "platform/content/image-admission.mjs"],
     [resolve(platformRoot, "host/lifecycle-bridge.mjs"), "platform/host/lifecycle-bridge.mjs"],
     [resolve(platformRoot, "host/keyboard-viewport-manager.mjs"), "platform/host/keyboard-viewport-manager.mjs"],
     [resolve(platformRoot, "host/first-paint-gate.mjs"), "platform/host/first-paint-gate.mjs"],

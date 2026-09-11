@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import test from "node:test";
 
 import { createSupabaseIdentityBoundary, readSupabaseIdentityEnvironment, supabaseIdentityEnvironment } from "../backend/provider-environment.mjs";
+import { createRecordCollection, createSupabaseRecordCollectionProvider } from "../backend/records.mjs";
 import { decodeWire, encodeWire } from "../backend/wire.mjs";
 import { buildProject } from "../project/build-project.mjs";
 import { loadProject } from "../project/load-project.mjs";
@@ -73,6 +74,55 @@ test("remote identity boundary persists only managed session state and retains n
   }
 });
 
+test("remote identity boundary binds Supabase records to an encrypted authenticated session", async (t) => {
+  const root = await mkdtemp(resolve(tmpdir(), "luastra-remote-record-session-"));
+  const current = 1_800_000_000_000;
+  const providerToken = jwt(current, 120);
+  const calls = [];
+  const boundary = createSupabaseIdentityBoundary({
+    projectRoot: root,
+    environment: validEnvironment,
+    now: () => current,
+    async fetchImpl(url, options) {
+      calls.push({ url, options });
+      if (url.searchParams.get("grant_type") === "password") {
+        return new Response(JSON.stringify({ access_token: providerToken, refresh_token: "remote-refresh-token-00000000", token_type: "bearer", expires_in: 120, user: { id: userId, email: "person@example.test", app_metadata: { roles: ["user"] } } }), { status: 200, headers: { "content-type": "application/json" } });
+      }
+      if (url.pathname === "/rest/v1/app_notes") {
+        return new Response(JSON.stringify([{ id: "note-1", owner_id: userId, created_at: 10, title: "Bound note", status: "open" }]), { status: 200, headers: { "content-type": "application/json" } });
+      }
+      throw new Error("unexpected provider request");
+    },
+  });
+  t.after(async () => { boundary.close(); await rm(root, { recursive: true, force: true }); });
+  const issued = await boundary.identity.signInWithPassword("person@example.test", "password");
+  const principal = boundary.sessions.resolve(issued.token);
+  const provider = boundary.createRecordProvider({
+    tables: {
+      notes: {
+        table: "app_notes",
+        updateFields: ["title", "status"],
+        query: { equalityFields: ["status"], sorts: { newest: [{ field: "created_at", direction: "desc" }, { field: "id", direction: "desc" }] } },
+      },
+    },
+  });
+  const records = createRecordCollection({
+    provider: createSupabaseRecordCollectionProvider({ provider, collection: "notes", accessTokenForPrincipal: boundary.accessTokenForPrincipal }),
+    collection: "notes",
+    equalityFields: ["status"],
+    mutableFields: ["title", "status"],
+    insertFields: ["id", "owner_id", "created_at", "title", "status"],
+    sorts: { newest: [{ field: "created_at", direction: "desc" }, { field: "id", direction: "desc" }] },
+    defaultSort: "newest",
+    maximumLimit: 10,
+  });
+  const page = await records.list({ equal: { status: "open" }, limit: 5 }, principal);
+  assert.deepEqual(page.items.map((item) => item.id), ["note-1"]);
+  assert.equal(calls[1].options.headers.Authorization, `Bearer ${providerToken}`);
+  assert.equal(JSON.stringify(page).includes(providerToken), false);
+  await assert.rejects(() => records.list({ limit: 5 }, null), (error) => error.code === "UNAUTHORIZED");
+});
+
 test("remote identity managed session path rejects a symlinked parent outside the project", async (t) => {
   const root = await mkdtemp(resolve(tmpdir(), "luastra-remote-identity-containment-"));
   const project = resolve(root, "project");
@@ -115,7 +165,32 @@ test("remote manifest drives opaque HTTP login and logout without provider mater
   const path = resolve(copied, "luastra.json");
   const manifest = JSON.parse(await readFile(path, "utf8"));
   manifest.backend.identity = { provider: "supabase" };
+  manifest.backend.records = {
+    catalogue: {
+      provider: "supabase",
+      table: "app_meditations",
+      insertFields: ["id", "title", "description", "durationMs", "locked", "accessible", "favorite"],
+      maximumLimit: 10,
+    },
+  };
   await writeFile(path, `${JSON.stringify(manifest, null, 2)}\n`);
+  const handlerPath = resolve(copied, manifest.backend.handler);
+  let handler = await readFile(handlerPath, "utf8");
+  handler = handler.replace("export function createHandlers({ database, identity })", "export function createHandlers({ database, identity, records })");
+  handler = handler.replace(
+    `    async "catalog.list.v1"(_input, context) {
+      const principalId = context.principal?.id;
+      return { meditations: catalogue.map((meditation) => {
+        const preference = principalId ? database.get("preferences", preferenceId(principalId, meditation.id)) : null;
+        return { id: meditation.id, title: meditation.title, description: meditation.description, durationMs: meditation.durationMs, locked: meditation.locked, accessible: allowed(meditation, principalId), favorite: preference?.favorite === true };
+      }) };
+    },`,
+    `    async "catalog.list.v1"(_input, context) {
+      const page = await records.catalogue.list({ limit: 10 }, context.principal, { signal: context.signal });
+      return { meditations: page.items };
+    },`,
+  );
+  await writeFile(handlerPath, handler);
   const current = 1_800_000_000_000;
   const providerToken = jwt(current, 120);
   const calls = [];
@@ -124,6 +199,9 @@ test("remote manifest drives opaque HTTP login and logout without provider mater
     if (url.searchParams.get("grant_type") === "password") {
       if (JSON.parse(options.body).password === "wrong password") return new Response(JSON.stringify({ message: "private upstream diagnostic" }), { status: 400, headers: { "content-type": "application/json" } });
       return new Response(JSON.stringify({ access_token: providerToken, refresh_token: "remote-refresh-token-00000000", token_type: "bearer", expires_in: 120, user: { id: userId, email: "person@example.test", app_metadata: { roles: ["user"] } } }), { status: 200, headers: { "content-type": "application/json" } });
+    }
+    if (url.pathname === "/rest/v1/app_meditations") {
+      return new Response(JSON.stringify([{ id: "remote-focus", title: "Remote focus", description: "Loaded through the bound record adapter.", durationMs: 9000, locked: false, accessible: true, favorite: false }]), { status: 200, headers: { "content-type": "application/json" } });
     }
     if (url.pathname.endsWith("/logout")) return new Response(null, { status: 204 });
     throw new Error("unexpected provider request");
@@ -150,11 +228,18 @@ test("remote manifest drives opaque HTTP login and logout without provider mater
   controller = await runProject({ manifestPath: path, port: 0, watch: false, environment: validEnvironment, providerFetch, now: () => current });
   const restored = decodeWire((await invoke({ function: "auth.session.v1", retry: "false" }, opaque)).data.payload);
   assert.equal(restored["result.userName"], "person@example.test");
+  const catalogue = decodeWire((await invoke({ function: "catalog.list.v1", retry: "false" }, opaque)).data.payload);
+  assert.equal(catalogue["result.meditations.1.id"], "remote-focus");
   const logout = await invoke({ function: "auth.logout.v1", retry: "false", idempotency: "remote-logout-0001" }, opaque);
   assert.equal(decodeWire(logout.data.payload)["result.revoked"], "true");
   const stale = await invoke({ function: "auth.session.v1", retry: "false" }, opaque);
   assert.equal(stale.error.code, "UNAUTHORIZED");
-  assert.deepEqual(calls, ["POST /auth/v1/token?grant_type=password", "POST /auth/v1/token?grant_type=password", "POST /auth/v1/logout?scope=local"]);
+  assert.deepEqual(calls, [
+    "POST /auth/v1/token?grant_type=password",
+    "POST /auth/v1/token?grant_type=password",
+    "GET /rest/v1/app_meditations?select=*&order=id.asc&limit=11",
+    "POST /auth/v1/logout?scope=local",
+  ]);
 
   await buildProject({ manifestPath: path, outputDirectory: output, target: "web" });
   for (const file of await files(output)) {

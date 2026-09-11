@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.content-upload-browser", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["content.pick", "content.upload", "rpc.call", "ui.render"],
+  "backend": {
+    "declaration": "backend/functions.json",
+    "handler": "backend/handlers.mjs",
+    "generatedClient": "src/generated/server-functions.luau",
+    "generatedModule": "app/generated/server-functions",
+    "authentication": "development",
+    "uploads": [
+      { "id": "profile-image", "provider": "local", "mediaTypes": ["image/png", "image/jpeg"], "maximumBytes": 1048576, "maximumWidth": 2048, "maximumHeight": 2048 }
+    ]
+  },
+  "modules": [
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["app/generated/server-functions", "luastra/app", "luastra/content", "luastra/ui"] },
+    { "id": "app/generated/server-functions", "source": "src/generated/server-functions.luau", "dependencies": ["luastra/server"] }
+  ],
+  "tests": []
+}

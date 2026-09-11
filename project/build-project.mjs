@@ -17,6 +17,7 @@ import { loadProject } from "./load-project.mjs";
 import { runStartupBundle } from "../platform/packaging/run-startup-bundle.mjs";
 import { buildStartupFailure } from "../platform/packaging/build-startup-failure.mjs";
 import { renderStartupHtml } from "../platform/packaging/startup-html.mjs";
+import { packageLibraryCompliance } from "./library-packages.mjs";
 
 function fail(message) { throw new Error(message); }
 const prototype = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -168,6 +169,7 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
         }
       }
       const packagedAssets = await packageProjectAssets(project, output);
+      const packagedLibraries = await packageLibraryCompliance(project, output);
       await writeFile(resolve(output, "project-typography.css"), projectTypographyCss(packagedAssets.entries));
       let startupContentSha256 = null;
       if (startupStage) {
@@ -187,7 +189,8 @@ export async function buildProject({ manifestPath, outputDirectory, target = "bu
         startupContentSha256 = sha256(canonicalJson({ entry: project.startup.entry, bundle: startupBundle.contentSha256, failureBundle: failure.contentSha256, html: rendered.html, css: layout + rendered.css }));
       }
       const projectContentSha256 = projectContentDigest(project, bundleContentSha256, packagedAssets.entries, startupContentSha256);
-      let result = { ...base, bundleContentSha256, projectContentSha256, projectAssets: packagedAssets.entries.length, projectAssetLedgerSha256: packagedAssets.ledgerSha256 };
+      let result = { ...base, bundleContentSha256, projectContentSha256, projectAssets: packagedAssets.entries.length, projectAssetLedgerSha256: packagedAssets.ledgerSha256, projectLibraries: packagedLibraries.libraries };
+      if (packagedLibraries.libraries > 0) result = { ...result, libraryManifestSha256: packagedLibraries.manifestSha256, libraryNoticesSha256: packagedLibraries.noticesSha256, librarySbomSha256: packagedLibraries.sbomSha256 };
       if (startupContentSha256) result = { ...result, startupContentSha256 };
       if (target === "web") {
         const assets = await fileLedger(output);

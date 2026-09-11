@@ -67,9 +67,9 @@ local details: {[string]: any} = {
     ["landing/why"] = {
         title = "Build apps like games",
         summary = "Luastra applies a tight create, verify, run, observe, and refine loop to application development.",
-        body = "Application code owns strict Luau state and returns semantic UI. The runtime dispatches explicit events, while hosts render the current tree and provide bounded platform capabilities. This keeps product logic out of platform-specific glue without hiding the platform boundary.",
+        body = "App code owns strict Luau state and returns semantic UI through App.compose. The runtime dispatches explicit events, while hosts render the current tree and provide bounded platform capabilities. This keeps product logic out of platform-specific glue without hiding the platform boundary.",
         sections = {
-            { title = "The application contract", text = "Application.render returns the complete UI.Screen for current state. Application.handle receives controls and host events. Application.resolve correlates asynchronous Host, Server, and Media completions by RequestId." },
+            { title = "The app contract", text = "App.compose receives render, handle, resolve, and snapshot callbacks and returns the checked host entry. Reusable features own their asynchronous RequestIds explicitly." },
             { title = "The game-like loop", text = "Edit a small piece of strict Luau, run luastra check and luastra test, preview it with luastra run, observe the visible state and diagnostics, then refine. Stable IDs and deterministic state make each iteration inspectable." },
             { title = "What the slogan does not promise", text = "Build apps like games does not mean redrawing every screen continuously or treating ordinary UI as a canvas. Luastra reconciles semantic changes, and motion schedules frames only while an admitted effect is active." },
         },
@@ -79,7 +79,7 @@ local details: {[string]: any} = {
     ["landing/targets"] = {
         title = "One semantic application",
         summary = "The same Luau state, stable IDs, events, routes, and semantic UI tree can adapt to different screens and supported hosts.",
-        body = "Responsive presentation belongs to the host. Application code describes intent rather than desktop, mobile, or browser coordinates, but each host still has its own packaging, permission, lifecycle, and evidence boundary.",
+        body = "Responsive presentation belongs to the host. App code describes intent rather than desktop, mobile, or browser coordinates, but each host still has its own packaging, permission, lifecycle, and evidence boundary.",
         sections = {
             { title = "Web artifact", text = "luastra build web creates a static application containing the compiled Luau bundle, compatible Wasm VM, browser host and renderer, HTML, CSS, JavaScript, and declared assets. Serve it over HTTP or deploy it to static hosting." },
             { title = "Desktop and mobile today", text = "The current Tauri and Capacitor targets package that web artifact. Native adapters implement selected capability boundaries such as media or secure credentials; current application UI is not translated into platform-native widgets." },
@@ -241,7 +241,7 @@ local productDetails: {[string]: any} = {
     ["landing/product/ui"] = {
         title = "Semantic UI",
         summary = "Describe the meaning and state of an interface in Luau while the host owns its accessible presentation.",
-        body = "Application.render returns a complete semantic tree built from checked UI components. Stable IDs let the renderer reconcile changes, route events to Application.handle, restore focus, and animate admitted properties without requiring application-owned DOM, CSS, coordinates, or a permanent frame loop.",
+        body = "The render callback passed to App.compose returns a complete semantic tree built from checked UI components. Stable IDs let the renderer reconcile changes, route events to the app handler, restore focus, and animate admitted properties without requiring application-owned DOM, CSS, coordinates, or a permanent frame loop.",
         sections = {
             { title = "Ordinary application surfaces", text = "Screens, rows, columns, text, inputs, buttons, links, lists, tables, images, modals, and validation metadata express familiar interface intent across supported hosts." },
             { title = "Game-like presentation without canvas UI", text = "Shapes, layers, flip cards, declarative motion, and Constellation Orbit add visual and spatial behavior while retaining semantic DOM, keyboard access, list fallback, and reduced-motion outcomes." },
@@ -263,7 +263,7 @@ local productDetails: {[string]: any} = {
     ["landing/product/hosts"] = {
         title = "Host capabilities",
         summary = "Cross browser, desktop, mobile, storage, network, timer, and media boundaries through declared bounded APIs.",
-        body = "Application code requests trusted platform work through Host, Server, and Media modules instead of importing environment-specific APIs. Every required capability appears in luastra.json, requests carry stable IDs, and asynchronous results return through the documented resolve or event boundary.",
+        body = "App code requests trusted platform work through Host, Server, and Media modules instead of importing environment-specific APIs. Every required capability appears in luastra.json, requests carry stable IDs, and asynchronous results return through the App.compose resolve or feature-ownership boundary.",
         sections = {
             { title = "Fail closed", text = "Undeclared capabilities, malformed payloads, unsafe URLs, unknown assets, stale generated clients, oversized values, and unsupported host operations are rejected with bounded errors." },
             { title = "Keep secrets behind the boundary", text = "Server handlers, identity-provider material, database credentials, and trusted storage implementations stay outside the public application bundle. Generated Luau clients expose only admitted function contracts." },

@@ -13,7 +13,7 @@ function numberedIdentity(identity, pattern, label) {
 export const release = Object.freeze({
   version: packageManifest.version,
   publishedVersion: releaseAdmission.version,
-  date: "2026-09-09",
+  date: "2026-09-11",
   sourceSdk: numberedIdentity(sourceManifest.identity, /\/phase5-contract-(\d+)$/u, "Source SDK contract"),
   runtimeSdk: numberedIdentity(runtimeManifest.identity, /\/phase5-alpha-(\d+)$/u, "Runtime SDK alpha"),
   luauVersion: sourceBuildContract.luau.tag,
@@ -21,18 +21,25 @@ export const release = Object.freeze({
 });
 
 export const sdkInventory = Object.freeze({
-  "luastra/ui": ["Screen", "Column", "Row", "Text", "Button", "Link", "Code", "CodeBlock", "Divider", "Table", "TableRow", "TableCell", "FlipCard", "Image", "Layer", "Shape", "TextInput", "List", "ListItem", "Modal", "Orbit", "OrbitPath", "OrbitSearch", "Constellation", "OrbitCenter", "OrbitNode", "OrbitCluster", "FocusSurface", "FocusHeader", "OrbitReturn", "Stack", "Grid", "Scroll", "Card", "Field", "Actions"],
-  "luastra/assets": ["image", "audio", "font", "uri"], "luastra/data": ["string", "number", "boolean", "array", "object", "optional", "decode"],
+  "luastra/app": ["compose"],
+  "luastra/resource": ["error", "new", "newMutation"],
+  "luastra/collection": ["new"],
+  "luastra/ui": ["Screen", "Column", "Row", "Text", "Button", "Icon", "Link", "Code", "CodeBlock", "Divider", "Table", "TableRow", "TableCell", "FlipCard", "Image", "Layer", "Shape", "TextInput", "List", "ListItem", "Modal", "Orbit", "OrbitPath", "OrbitSearch", "Constellation", "OrbitCenter", "OrbitNode", "OrbitCluster", "FocusSurface", "FocusHeader", "OrbitReturn", "Stack", "Grid", "Scroll", "Card", "Field", "Actions"],
+  "luastra/assets": ["image", "audio", "font", "uri"], "luastra/content": ["image", "uri", "pickImage", "decodePick", "release", "upload", "cancelUpload", "decodeUpload", "decodeProgress"], "luastra/data": ["string", "number", "boolean", "array", "object", "optional", "decode"],
   "luastra/debug": ["log", "warn", "error"], "luastra/timer": ["start", "restart", "cancel"],
   "luastra/motion": ["tween", "wait", "sequence", "fadeIn", "slideIn", "scaleIn", "sway", "pulse", "shake", "flip"],
   "luastra/navigation": ["decideBack", "create", "createRouter", "compile"], "luastra/state": ["encode", "decode", "migrate"],
   "luastra/host": ["storageGet", "storageSet", "launchUrl", "clipboardWrite", "historyPush", "historyReplace", "historyPushLocation", "historyReplaceLocation", "historyBack", "historyCurrent", "systemBackHandled", "systemBackHistory", "systemBackExit"],
-  "luastra/server": ["call", "decode"], "luastra/media": ["setQueue", "play", "pause", "stop", "unload", "next", "previous", "state", "seek", "decodeState"],
+  "luastra/server": ["call", "callV2", "decode", "decodeV2", "decodeError", "nullValue", "value"], "luastra/media": ["setQueue", "play", "pause", "stop", "unload", "next", "previous", "state", "seek", "decodeState"],
 });
 
 export const sdkTypeInventory = Object.freeze({
+  "luastra/app": ["Context", "Feature", "ComposeOptions", "Diagnostics", "Instance"],
+  "luastra/resource": ["Error", "ReadStatus", "MutationStatus", "ReadMode", "Ticket", "ReadOptions", "ReadSnapshot", "ReadState", "OptimisticChange", "MutationOptions", "MutationStartOptions", "MutationSnapshot", "MutationState"],
+  "luastra/collection": ["Error", "Direction", "Status", "Page", "Ticket", "Options", "Snapshot", "ResolveResult", "State"],
   "luastra/ui": ["Properties", "Theme", "Node", "Input", "TextStyle"],
   "luastra/assets": ["Image", "Audio", "Font", "Reference"],
+  "luastra/content": ["ImageMetadata", "Image", "PickOptions", "PickSelected", "PickCancelled", "PickResult", "UploadProgress", "UploadResult"],
   "luastra/data": ["ValidationError", "Success", "Failure", "Result", "StringOptions", "NumberOptions", "ArrayOptions", "ObjectOptions", "Schema"],
   "luastra/debug": [],
   "luastra/timer": ["RequestId", "StartOptions"],
@@ -40,16 +47,16 @@ export const sdkTypeInventory = Object.freeze({
   "luastra/navigation": ["Snapshot", "RestoreError", "RestoreResult", "Options", "Stack", "RouteError", "RouteEntry", "RouteResult", "RouteCompiler", "EntrySnapshot", "MutationResult", "EntryStack"],
   "luastra/state": ["Fields", "DecodeError", "DecodeSuccess", "DecodeFailure", "DecodeResult", "MigrationError", "MigrationSuccess", "MigrationFailure", "MigrationResult", "Migration"],
   "luastra/host": ["RequestId"],
-  "luastra/server": ["RequestId", "Options", "DecodeSuccess", "DecodeFailure", "DecodeResult"],
+  "luastra/server": ["RequestId", "Options", "V2Limits", "DecodeSuccess", "DecodeFailure", "DecodeResult", "Nullable", "Error"],
   "luastra/media": ["RequestId", "QueueItem", "MediaError", "State", "DecodeSuccess", "DecodeFailure", "DecodeResult"],
 });
 
 export const navigationGroups = Object.freeze([
   { label: "Start", items: [["overview", "Overview"], ["installation", "Installation"], ["quickstart", "Quick start"], ["workflow", "CLI workflow"]] },
-  { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "Application contract"], ["events-errors", "Events and errors"]] },
+  { label: "Learn", items: [["learning-path", "Interactive learning path"], ["luau-types", "Luau typing"], ["beginner-tutorial", "Beginner tutorial"], ["advanced-tutorial", "Advanced tutorial"], ["first-app", "Complete mini-app"], ["application", "App contract"], ["app-composition", "luastra/app"], ["events-errors", "Events and errors"]] },
   { label: "Build recipes", items: [["recipes", "How to use recipes"], ["recipe-timer", "Delayed action"], ["recipe-navigation", "Typed navigation"], ["recipe-storage", "Persist state"], ["recipe-history", "Browser and system Back"], ["recipe-form-modal", "Form and modal"], ["recipe-assets-visuals", "Assets and visuals"], ["recipe-motion", "Declarative motion"], ["recipe-server", "Server function"], ["recipe-media", "Audio playback"], ["recipe-orbit", "Constellation Orbit"]] },
   { label: "Interface", items: [["ui", "luastra/ui"], ["ui-properties", "UI parameters"], ["visuals", "Images and shapes"], ["startup-screens", "Startup screens"], ["motion", "luastra/motion"]] },
-  { label: "Data and state", items: [["assets", "luastra/assets"], ["data", "luastra/data"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
+  { label: "Data and state", items: [["assets", "luastra/assets"], ["content", "luastra/content"], ["data", "luastra/data"], ["resource", "luastra/resource"], ["collection", "luastra/collection"], ["state", "luastra/state"], ["navigation", "luastra/navigation"]] },
   { label: "Host capabilities", items: [["timer", "luastra/timer"], ["host", "luastra/host"], ["server", "luastra/server"], ["media", "luastra/media"]] },
   { label: "Tools", items: [["debug", "luastra/debug"], ["cli", "CLI"], ["manifest", "luastra.json"], ["support", "Support and boundaries"], ["policies", "Project policies"]] },
 ]);
@@ -65,8 +72,8 @@ const entry = (name, signature, description, options = {}) => ({
 const publicPrefix = (moduleName) => moduleName === "luastra/ui" ? "UI" : `${moduleName[8].toUpperCase()}${moduleName.slice(9)}`;
 const typePurpose = (moduleName, name) => {
   const qualified = `${publicPrefix(moduleName)}.${name}`;
-  if (name === "RequestId" && moduleName === "luastra/timer") return `${qualified} is the numeric acknowledgement returned by a timer control call. It confirms that the command crossed the SDK boundary, while the stable string timer ID identifies the later expiry delivered to Application.handle.`;
-  if (name === "RequestId") return `${qualified} is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so Application.resolve can correlate out-of-order completions without inspecting payload text.`;
+  if (name === "RequestId" && moduleName === "luastra/timer") return `${qualified} is the numeric acknowledgement returned by a timer control call. It confirms that the command crossed the SDK boundary, while the stable string timer ID identifies the later expiry delivered to app.handle.`;
+  if (name === "RequestId") return `${qualified} is an opaque numeric identifier allocated for one asynchronous operation. Store it with the operation's purpose so app.resolve can correlate out-of-order completions without inspecting payload text.`;
   if (name.endsWith("Options")) return `${qualified} is the checked configuration record accepted by the related SDK operation. Required fields establish the minimum contract, while optional fields preserve documented defaults when omitted.`;
   if (name.endsWith("Error") || name.endsWith("Failure")) return `${qualified} represents the unsuccessful branch of a bounded operation. Its stable code and structured context support control flow and safe diagnostics without parsing an exception message.`;
   if (name.endsWith("Success")) return `${qualified} represents the successful branch of a discriminated SDK result. Its value and success-specific fields are safe to read only after the shared success tag has narrowed the union.`;
@@ -78,19 +85,19 @@ const typePurpose = (moduleName, name) => {
   if (name === "Input") return "The author-facing constructor table combines a required semantic id, ordered UI.Node children and typed optional properties. Runtime validation additionally checks whether each property and child is supported by the selected component.";
   if (name === "Properties") return "UI.Properties is the validated map stored on a declarative UI node after constructor checks. It carries only serializable, admitted property values that host renderers can interpret consistently.";
   if (name.includes("Stack") || name.includes("Compiler")) return `${qualified} is a stateful navigation contract that owns route history or translates between route entries and canonical locations. Its public methods validate mutations and return bounded results instead of exposing internal tables.`;
-  if (["Tween", "Wait", "Sequence", "Descriptor", "MotionMap", "Easing"].includes(name)) return `${qualified} is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning Application.render for every animation frame.`;
+  if (["Tween", "Wait", "Sequence", "Descriptor", "MotionMap", "Easing"].includes(name)) return `${qualified} is part of the declarative motion model consumed by supported UI motion properties. It describes deterministic values and timing; the host scheduler applies frames without rerunning app.render for every animation frame.`;
   return `${qualified} is an exported, statically checked data contract of ${moduleName}. Its exact declaration documents the fields or alternatives accepted at the module boundary and is erased after Luau analysis.`;
 };
 const typeUseWhen = (moduleName, name) => {
   const qualified = `${publicPrefix(moduleName)}.${name}`;
-  if (name === "RequestId" && moduleName === "luastra/timer") return `Use ${qualified} when recording the acknowledgement returned by start, restart, or cancel. Do not wait for Application.resolve: the timer expiry is delivered as a timer event to Application.handle.`;
-  if (name === "RequestId") return `Use ${qualified} as the key in a pending-operation map after starting an asynchronous ${publicPrefix(moduleName)} request. Match and remove that key in Application.resolve instead of relying on completion order.`;
+  if (name === "RequestId" && moduleName === "luastra/timer") return `Use ${qualified} when recording the acknowledgement returned by start, restart, or cancel. Do not wait for app.resolve: the timer expiry is delivered as a timer event to app.handle.`;
+  if (name === "RequestId") return `Use ${qualified} as the key in a pending-operation map after starting an asynchronous ${publicPrefix(moduleName)} request. Match and remove that key in app.resolve instead of relying on completion order.`;
   if (name.endsWith("Options")) return `Use ${qualified} when a reusable variable or helper passes configuration to the related SDK operation. The exported type keeps optional and required fields aligned with the checked public contract.`;
   if (name.endsWith("Error") || name.endsWith("Failure")) return `Use ${qualified} on the unsuccessful branch of the related result. Read its stable fields for control flow or diagnostics; do not parse human-readable assertion or error text.`;
   if (name.endsWith("Success")) return `Use ${qualified} after narrowing the related result with success == true. Only this branch guarantees access to the decoded value and other success-specific fields.`;
   if (name.endsWith("Result") && moduleName === "luastra/navigation") return `Use ${qualified} for checked navigation operations. Test result.success first, then explicitly verify the optional field needed by that branch; do not assume the boolean field narrows this record as a tagged union.`;
   if (name.endsWith("Result")) return `Use ${qualified} at the boundary where untrusted or versioned input is decoded. Branch on result.success before reading value or error so both outcomes remain explicit and type-safe.`;
-  if (name === "Node") return "Use UI.Node as the return type of helpers that construct interface fragments and as the required return type of Application.render. Application code should create nodes through UI constructors rather than assembling raw node tables.";
+  if (name === "Node") return "Use UI.Node as the return type of helpers that construct interface fragments and as the required return type of app.render. Application code should create nodes through UI constructors rather than assembling raw node tables.";
   if (name === "Theme") return "Use UI.Theme to define one reusable palette and pass it to multiple UI.Screen roots. Override only the colors your product owns; omitted fields intentionally retain Luastra's accessible defaults.";
   if (name === "TextStyle") return "Use textStyle on Text, Button, Link, TextInput, Code or CodeBlock. Font references come from Assets.font; size is an integer 8–128 in sixteenths of a rem, weight is 100–900 in steps of 100, and lineHeight is 1–3 in steps of 0.01. Fallback is sans, serif or mono. Styles are local to the text component; omitted fields keep existing defaults.";
   if (name === "Input") return "Use UI.Input for a reusable constructor table. Known field types and the required id are checked statically; component-specific properties, vocabularies, numeric bounds, motion descriptors and child structure are validated at runtime. An explicit any value bypasses static checking.";
@@ -102,11 +109,12 @@ const typeUseWhen = (moduleName, name) => {
 const typeCards = (moduleName) => sdkTypeInventory[moduleName].map((name) => entry(`${publicPrefix(moduleName)}.${name}`, `export type ${name}`, typePurpose(moduleName, name), { kind: "type", useWhen: typeUseWhen(moduleName, name) }));
 
 const uiGuidance = {
-  Screen: ["Creates the single root of a rendered interface. It establishes document metadata, the content-width policy, and the inherited color theme that descendants use unless they provide a local override.", "Use UI.Screen exactly once at the root of Application.render. Choose it when starting a page or route; use Column, Row, or another container for every nested region."],
+  Screen: ["Creates the single root of a rendered interface. It establishes document metadata, the content-width policy, and the inherited color theme that descendants use unless they provide a local override.", "Use UI.Screen exactly once at the root of app.render. Choose it when starting a page or route; use Column, Row, or another container for every nested region."],
   Column: ["Arranges child nodes vertically in source order and applies gap, cross-axis alignment, main-axis distribution, spacing, and inherited colors to that group. Its measured size participates in the surrounding layout.", "Use UI.Column for forms, articles, settings, and other top-to-bottom flows. Choose Layer instead when children must overlap, or Row when the primary flow is horizontal."],
   Row: ["Arranges child nodes horizontally and can wrap or switch to a narrow-screen layout when configured as responsive. align controls the vertical cross axis while justify distributes space along the horizontal main axis.", "Use UI.Row for toolbars, compact metadata, button groups, and side-by-side content. Enable wrapping or responsive behavior when the combined child widths may exceed a phone viewport."],
   Text: ["Renders selectable semantic text with body or heading meaning, line alignment, status roles, and inherited or local foreground and background colors. Width controls the box in which textAlign operates.", "Use UI.Text for every visible label, paragraph, heading, status announcement, or validation message that is not the built-in label of another control. Pick a heading variant only when it represents the document hierarchy."],
-  Button: ["Creates an accessible native action that supports pointer, touch, keyboard, disabled state, appearance semantics, and a bounded host-rendered icon vocabulary. Activation sends its declared onTap action and stable component ID to Application.handle.", "Use UI.Button when the user initiates an operation or changes application state. Icon-only buttons require a descriptive label. Use UI.Link for navigation to a location; do not simulate a button by making a Shape clickable."],
+  Button: ["Creates an accessible native action with pointer, touch, keyboard, disabled, busy, pressed, selected, appearance, and bounded icon semantics. Busy actions are disabled so repeated activation cannot duplicate work.", "Use UI.Button when the user initiates an operation or changes application state. Icon-only buttons require a descriptive label. Use pressed for a toggle and selected for the current navigation destination, never both."],
+  Icon: ["Renders one glyph from Luastra's bounded theme-aware icon set without adding a renderer component per glyph. Informative icons require a label; decorative icons are hidden from assistive technology.", "Use UI.Icon for non-interactive status or supporting imagery. Put an icon on UI.Button when it participates in an action, and use UI.Image for detailed or application-owned artwork."],
   Link: ["Creates a semantic link for an admitted node fragment, canonical hash route, or safe external HTTPS location. Hosts preserve link navigation and accessibility behavior instead of treating it as a generic tap action.", "Use UI.Link when activation changes location or opens a documented resource. Use a canonical #/ route for application navigation, a # fragment for one rendered node, and UI.Button when the action only modifies current state."],
   Code: ["Renders a short inline literal with code semantics and a monospace presentation while preserving surrounding text flow. The value remains selectable and accessible as text.", "Use UI.Code for command names, identifiers, property values, and short expressions inside explanatory content. Use UI.CodeBlock for multiline source or commands."],
   CodeBlock: ["Renders multiline literal source in a scrollable, selectable code region without interpreting markup. It preserves line breaks and supports long examples within bounded page width.", "Use UI.CodeBlock for complete snippets, terminal sessions, JSON, or other preformatted material. Keep prose and very short identifiers in UI.Text or UI.Code."],
@@ -115,13 +123,13 @@ const uiGuidance = {
   TableRow: ["Defines one semantic row inside UI.Table and restricts its direct children to TableCell nodes. Source order becomes the accessible column order.", "Use UI.TableRow only as a direct child of UI.Table, once per header or data row. Keep every row's cell structure consistent with the table headers."],
   TableCell: ["Creates a data cell or a scoped row or column header within a TableRow. Header scope lets assistive technology announce the correct relationship while users move through the table.", "Use UI.TableCell only inside UI.TableRow. Mark cells as headers when they label a row or column; use ordinary cells for values."],
   FlipCard: ["Creates a fixed two-sided 3D surface whose first child is the front and second child is the back. A rotationY motion from Motion.flip controls which face is visible while both sides share the same bounds.", "Use UI.FlipCard for reveal interactions where two complete visual trees occupy one card-sized area. Use Layer inside either face when that face needs an image, shape, and overlaid text."],
-  Image: ["Displays an image admitted by luastra.json through a typed Assets.Image reference and URI. Explicit dimensions, aspect ratio, fit, clipping, accessible label, and motion keep rendering deterministic across hosts.", "Use UI.Image for packaged PNG, JPEG, WebP, or AVIF artwork. Use UI.Shape for scalable geometry that does not need an asset, and supply a meaningful label unless the image is genuinely decorative."],
+  Image: ["Displays packaged Assets.Image and dynamic Content.Image references through one component. Bounded metadata, placeholders, load/error actions, fit, clipping, and an accessible label stay independent of the storage provider.", "Use UI.Image for packaged, protected, or host-local preview PNG, JPEG, WebP, or AVIF content. Use UI.Shape for scalable geometry, refresh expired content after onError, and supply a meaningful label unless the image is genuinely decorative."],
   Layer: ["Places all children in the same coordinate space instead of adding their sizes sequentially. The first child establishes the layer bounds; later children are overlaid and aligned within those bounds.", "Use UI.Layer for text over artwork, badges, card faces, and other overlapping compositions. Put the size-defining background first and wrap overlay content in a full-size Column or Row when it needs predictable alignment."],
   Shape: ["Draws a bounded host-native geometric figure with explicit size, fill, outline, corner radius, label, and optional motion. It avoids shipping an image for simple scalable artwork.", "Use UI.Shape for rectangles, circles, polygons, stars, outlines, and colored card faces. Use UI.Image when the visual contains texture or detail that geometry cannot represent."],
-  TextInput: ["Creates a controlled single-line text field with native keyboard hints, autofill metadata, validation semantics, and composition-safe input delivery. The displayed value always comes from application state.", "Use UI.TextInput for editable text, email, password, search, telephone, or numeric entry. Update its state from onInput and return the new value on the following render; use a custom component only for unsupported multiline editing."],
-  List: ["Creates an ordered or unordered semantic collection whose direct children are ListItem nodes. It preserves collection boundaries and item count for assistive technology.", "Use UI.List when sibling items form one meaningful sequence or set. Use Column for unrelated blocks and Table for values with row-and-column relationships."],
+  TextInput: ["Creates a controlled single-line or multiline field with maximum length, submit action, keyboard hints, autofill metadata, validation semantics, selection preservation, and composition-safe delivery.", "Use UI.TextInput for editable text, email, password, search, telephone, numeric, or multiline entry. Update state from onInput; onSubmit ignores active IME composition and Shift+Enter preserves a multiline line break."],
+  List: ["Creates a semantic collection whose direct children are ListItem nodes. Optional windowed mode realizes a bounded vertical viewport without introducing a feed-specific component.", "Use UI.List when sibling items form one meaningful sequence or set. Add mode=windowed for a bounded retained collection; use Column for unrelated blocks and Table for row-and-column relationships."],
   ListItem: ["Defines one semantic member of a UI.List while allowing structured content inside the item. The host keeps the item associated with its parent collection.", "Use UI.ListItem only as a direct child of UI.List, once per conceptual item. Put buttons, links, and descriptive content inside the item when they belong to that entry."],
-  Modal: ["Creates an accessible dialog above the current screen, moves focus into it, traps navigation within its boundary, and restores focus after dismissal. onDismiss connects host dismissal gestures to application state.", "Use UI.Modal for short blocking decisions or focused information that must be handled before returning to the page. Use an ordinary routed screen for long, independently navigable workflows."],
+  Modal: ["Creates an accessible dialog above the current screen, moves focus to an optional declared child, relates visible descriptive text, traps navigation, and restores the originating focus after dismissal.", "Use UI.Modal for short blocking decisions or focused information that must be handled before returning to the page. Declare initialFocus and descriptionId when the default focus order or label needs explicit relationships."],
   Orbit: ["Creates the bounded root for Constellation Orbit navigation and delegates geometry, semantic zoom, focus movement, inactive-depth isolation, themes, and reduced-motion behavior to the host.", "Use UI.Orbit when an application benefits from spatial discovery while still requiring a complete list fallback, stable navigation state, keyboard access, and identical meaning across host presentations."],
   OrbitPath: ["Creates the stable navigation and preference rail above an Orbit, containing only semantic buttons and text while the active constellation and Focus Surface change beneath it.", "Use UI.OrbitPath for ancestor return controls, the current depth label, and Orbit-wide preferences that must remain available without being duplicated inside every constellation."],
   OrbitSearch: ["Creates a controlled local-constellation search input plus a live result summary. The application owns filtering and supplies both the current result count and total count.", "Use UI.OrbitSearch when the active constellation can become difficult to scan. Keep the query in Luau state, preserve stable node IDs, and hide non-matching nodes instead of creating a parallel result model."],
@@ -140,16 +148,38 @@ const uiGuidance = {
   Actions: ["Arranges a related set of buttons or links as a wrapping action region with consistent spacing and inherited alignment. It communicates that the controls complete or advance the same local task.", "Use UI.Actions for form submission controls, dialog choices, or page-level action groups. Use Row for horizontal content that is not specifically a set of user actions."],
 };
 const uiProps = {
-  Screen: ["layout", "theme", "semantic"], Column: ["layout", "text-style", "semantic"], Row: ["layout", "text-style", "semantic"], Text: ["text-style", "semantic", "motion"], Button: ["action", "text-style", "semantic"], Link: ["action", "text-style", "semantic"], Code: ["text-style", "semantic"], CodeBlock: ["layout", "text-style", "semantic"], Divider: ["layout", "semantic"], Table: ["layout", "text-style", "semantic"], TableRow: ["layout", "text-style", "semantic"], TableCell: ["layout", "text-style", "semantic"], FlipCard: ["visual", "motion"], Image: ["visual", "label", "motion"], Layer: ["layout", "text-style", "semantic", "motion"], Shape: ["visual", "label", "motion"], TextInput: ["input", "semantic"], List: ["label", "layout", "semantic"], ListItem: ["text", "layout", "semantic"], Modal: ["modal", "semantic"], Orbit: ["layout", "semantic"], OrbitPath: ["layout", "semantic"], OrbitSearch: ["semantic"], Constellation: ["semantic"], OrbitCenter: ["semantic"], OrbitNode: ["action", "semantic"], OrbitCluster: ["action", "semantic"], FocusSurface: ["modal", "semantic"], FocusHeader: ["layout", "semantic"], OrbitReturn: ["action", "semantic"], Stack: ["layout", "semantic"], Grid: ["layout", "columns", "semantic"], Scroll: ["layout", "scroll", "semantic"], Card: ["layout", "surface", "motion", "semantic"], Field: ["layout", "label", "semantic"], Actions: ["layout", "semantic"],
+  Screen: ["layout", "theme", "semantic"], Column: ["layout", "text-style", "semantic"], Row: ["layout", "text-style", "semantic"], Text: ["text-style", "semantic", "motion"], Button: ["action", "text-style", "semantic"], Icon: ["semantic", "motion"], Link: ["action", "text-style", "semantic"], Code: ["text-style", "semantic"], CodeBlock: ["layout", "text-style", "semantic"], Divider: ["layout", "semantic"], Table: ["layout", "text-style", "semantic"], TableRow: ["layout", "text-style", "semantic"], TableCell: ["layout", "text-style", "semantic"], FlipCard: ["visual", "motion"], Image: ["visual", "label", "motion"], Layer: ["layout", "text-style", "semantic", "motion"], Shape: ["visual", "label", "motion"], TextInput: ["input", "semantic"], List: ["label", "layout", "semantic"], ListItem: ["text", "layout", "semantic"], Modal: ["modal", "semantic"], Orbit: ["layout", "semantic"], OrbitPath: ["layout", "semantic"], OrbitSearch: ["semantic"], Constellation: ["semantic"], OrbitCenter: ["semantic"], OrbitNode: ["action", "semantic"], OrbitCluster: ["action", "semantic"], FocusSurface: ["modal", "semantic"], FocusHeader: ["layout", "semantic"], OrbitReturn: ["action", "semantic"], Stack: ["layout", "semantic"], Grid: ["layout", "columns", "semantic"], Scroll: ["layout", "scroll", "semantic"], Card: ["layout", "surface", "motion", "semantic"], Field: ["layout", "label", "semantic"], Actions: ["layout", "semantic"],
 };
 const uiCards = [...typeCards("luastra/ui").filter((card) => !["UI.Input", "UI.TextStyle"].includes(card.name)), ...sdkInventory["luastra/ui"].map((item) => entry(`UI.${item}`, `UI.${item} { ... } -> UI.Node`, uiGuidance[item][0], { useWhen: uiGuidance[item][1], props: uiProps[item] })), ...typeCards("luastra/ui").filter((card) => ["UI.Input", "UI.TextStyle"].includes(card.name))];
 
 const apiGuidance = {
+  "luastra/app": {
+    compose: ["Builds the single application object consumed by every Luastra host from a small root contract and optional reusable features. It routes namespaced events and owned asynchronous completions while preserving one ordinary render, handle, resolve, and snapshot surface.", "Use App.compose in the entry module when an application contains reusable feature controllers or simply needs one transparent place to expose render and snapshot. Keep feature IDs disjoint, claim request IDs immediately, and return the composed instance directly."],
+  },
+  "luastra/resource": {
+    error: ["Creates an admitted immutable error record with a stable uppercase code, an explicit retry decision, and optional field-specific codes. Bounds keep failure state safe to inspect and render without depending on provider messages.", "Use Resource.error when rejecting a read or mutation ticket after translating transport, validation, or domain failure into application-owned codes. Do not copy credentials, raw response bodies, or human-readable provider messages into fields."],
+    new: ["Creates a reusable controller for one asynchronously loaded value. Tickets and generations reject late completions, while snapshots distinguish initial load, refresh, retry, empty data, stale data with an error, cancellation, and invalidation.", "Use Resource.new for profiles, settings, documents, or any other single logical value that may be loaded and refreshed. Store the returned controller outside render, start work from event logic, and render only from its immutable snapshot."],
+    newMutation: ["Creates a controller for one non-concurrent mutation with explicit submission, success, failure, cancellation, optional optimistic apply and rollback callbacks, and an idempotency requirement whenever retry is enabled.", "Use Resource.newMutation for create, update, delete, upload-commit, or similar writes that need visible progress and safe late-result suppression. Enable retry only when the backend accepts the supplied stable idempotency key."],
+  },
+  "luastra/collection": {
+    new: ["Creates a bounded bidirectional page controller whose snapshots expose a flat ordered item window. Stable keys, tickets, cursors, anchor-aware eviction, duplicate rejection, edge-specific failures, and maximum page and item counts make long feeds predictable.", "Use Collection.new for timelines, catalogues, messages, logs, or any collection that can outgrow memory. Load pages from explicit events or viewport signals, keep an anchor near the user's position, and render snapshot.items with their stable keys."],
+  },
   "luastra/assets": {
     image: ["Creates a typed reference to an image declared in luastra.json. Construction validates the asset identifier and preserves its media kind so an image cannot be passed accidentally where audio or a font is required.", "Use Assets.image at module initialization or in a small asset helper when UI.Image needs packaged artwork. The identifier must match an admitted image asset; this function does not load arbitrary files or remote URLs."],
     audio: ["Creates a typed reference to an admitted audio asset while retaining the asset kind and canonical asset URI. The reference can be stored safely before a media queue is assembled.", "Use Assets.audio when building Media.QueueItem values for sounds shipped with the application. Use a trusted HTTPS source only where the media contract explicitly admits one; do not disguise a filesystem path as an asset ID."],
     font: ["Creates a typed reference to a font declared by the project manifest. The result distinguishes font resources from images and audio before a host attempts to consume them.", "Use Assets.font when a supported styling or host workflow requests a packaged font reference. Keep font licensing and the manifest declaration alongside the asset; creating the reference alone does not apply the font to text."],
     uri: ["Returns the canonical asset URI carried by a typed Image, Audio, Font, or general Reference. The URI is host-neutral and points only to a resource already admitted by the project manifest.", "Use Assets.uri at the final SDK boundary that expects a URI string, such as UI.Image.source or a media queue item. Keep the typed reference until that boundary so asset kinds remain checked for as long as possible."],
+  },
+  "luastra/content": {
+    image: ["Creates a typed image reference from an opaque protected or host-local preview handle and bounded media metadata. The handle remains provider-neutral and cannot contain a URL, path, raw bytes, or bucket name.", "Use Content.image after a generated backend result or admitted picker returns a content: or preview: handle with validated metadata. Pass the result directly to UI.Image and refresh it after onError when appropriate."],
+    uri: ["Returns the opaque host-neutral handle carried by a Content.Image without resolving it to a provider or filesystem location.", "Use Content.uri only at an SDK boundary that still expects the canonical handle string. Prefer passing Content.Image directly to UI.Image so its image kind and metadata remain checked."],
+    pickImage: ["Requests one host-selected PNG or JPEG and returns an opaque request ID. The web host validates magic bytes, byte limits, and decoded pixel dimensions before it returns an inaccessible preview handle to Luau.", "Use Content.pickImage from an explicit user action after declaring content.pick, save the returned request ID with its purpose, and decode only its matching completion in application/app resolve."],
+    decodePick: ["Validates a picker completion and returns a tagged result containing either one checked Content.Image preview or explicit cancellation. Malformed fields and invented handles fail at this boundary.", "Use Content.decodePick only for the completion correlated with Content.pickImage, branch on result.status, then render result.image or create an upload intent without guessing from raw payload text."],
+    release: ["Requests release of one selected preview and its inaccessible host File. Rendered blob resources are independently reference-counted, while release ends the reusable selection lifetime.", "Use Content.release after a successful server commit, when the user discards a selected preview, or before replacing an abandoned selection so its bytes do not remain in host memory until expiry."],
+    upload: ["Streams a selected preview to a server-created opaque upload intent through the same-origin host route, outside the bounded Luau RPC envelope and without exposing provider authorization.", "Use Content.upload only after an authenticated declared backend function returns an upload: handle bound to the selected type, bytes, dimensions, principal, purpose, and short expiry."],
+    cancelUpload: ["Requests cancellation of one active host upload by its request ID. The cancellation request and the original transfer each complete through resolve, so both results remain explicitly correlated.", "Use Content.cancelUpload while the matching upload is active when the user leaves or presses Cancel, then handle the original request's CANCELLED failure without treating it as a server commit."],
+    decodeUpload: ["Validates the bounded transfer acknowledgement returned only after every admitted byte reaches the trusted same-origin upload route. It does not claim that the server has committed the object.", "Use Content.decodeUpload for the matching successful Content.upload completion before calling an application-owned backend commit operation; keep transfer success and commit success as separate states."],
+    decodeProgress: ["Validates a coalesced content_progress host event and returns the upload request ID, loaded bytes, and total bytes with bounded integer relationships suitable for visible progress.", "Use Content.decodeProgress in application/app handle for content_progress events, ignore request IDs that no longer own active UI state, and derive presentation without persisting the event payload."],
   },
   "luastra/data": {
     string: ["Builds a runtime schema for string input with optional UTF-8 byte-length bounds and trimming defined by Data.StringOptions. The schema is a description only; validation occurs later through Data.decode.", "Use Data.string for form fields, URL parameters, storage fields, or server properties that must be text at runtime. Add the narrowest useful byte bounds at the untrusted boundary; this alpha has no pattern option, so validate application-specific formats separately."],
@@ -166,7 +196,7 @@ const apiGuidance = {
     error: ["Emits an error-level diagnostic without replacing structured application error handling or automatically terminating execution. The message is intended for developers observing a failing operation.", "Use Debug.error when an operation reaches a failure branch that should be conspicuous during development. Still update user-visible state and handle the Result or resolve failure explicitly; do not use logging as control flow."],
   },
   "luastra/timer": {
-    start: ["Registers a one-shot timer under the supplied stable string ID and returns an acknowledgement RequestId. After the delay, Luastra sends handle(\"timer\", id, value); it does not call Application.resolve for expiry.", "Use Timer.start for delayed transitions, temporary feedback, debouncing, or advancing a game after the user has had time to see a result. Choose a stable purpose-specific ID and handle repeated starts deliberately rather than creating unbounded timers."],
+    start: ["Registers a one-shot timer under the supplied stable string ID and returns an acknowledgement RequestId. After the delay, Luastra sends handle(\"timer\", id, value); it does not call app.resolve for expiry.", "Use Timer.start for delayed transitions, temporary feedback, debouncing, or advancing a game after the user has had time to see a result. Choose a stable purpose-specific ID and handle repeated starts deliberately rather than creating unbounded timers."],
     restart: ["Replaces the pending one-shot timer with the same ID and schedules a fresh delay and value. This makes repeated input postpone one logical deadline instead of allowing several expiries to race.", "Use Timer.restart for inactivity deadlines, search debounce, and any timeout whose countdown must begin again after a new event. Use start for a new logical timer and cancel when the pending work is no longer relevant."],
     cancel: ["Cancels the pending timer identified by the stable string ID and returns a request acknowledgement. A successfully cancelled timer will not later emit its timer event.", "Use Timer.cancel when leaving the owning screen, completing work early, or replacing an automatic transition with a user decision. Cancellation should be safe even if application state has already moved on."],
   },
@@ -184,7 +214,7 @@ const apiGuidance = {
   },
   "luastra/navigation": {
     decideBack: ["Evaluates the current modal, application stack, browser history, and root-exit conditions and returns the bounded Back action the application should take. It centralizes priority so platform Back behaves consistently.", "Use Navigation.decideBack inside a system_back handler when several layers may consume Back. Execute the returned decision explicitly—close a modal, pop a route, delegate to history, acknowledge handled, or request exit."],
-    create: ["Creates a named-route stack initialized from Navigation.Options and exposes operations such as current, push, replace, back, encode, and restore. The stack is ordinary application state and survives renders when created once at module scope.", "Use Navigation.create for an application whose routes can be represented by stable names and optional state tokens without typed path parameters. Render from stack.current() and mutate the same stack in Application.handle."],
+    create: ["Creates a named-route stack initialized from Navigation.Options and exposes operations such as current, push, replace, back, encode, and restore. The stack is ordinary application state and survives renders when created once at module scope.", "Use Navigation.create for an application whose routes can be represented by stable names and optional state tokens without typed path parameters. Render from stack.current() and mutate the same stack in app.handle."],
     createRouter: ["Creates an entry-based navigation stack whose entries carry a route name, parameters, query values, and optional state. Mutations return structured results rather than relying on unchecked table shapes.", "Use Navigation.createRouter when each history entry needs typed route data that can later be compiled to or restored from a location. Prefer Navigation.create for a simpler name-only stack."],
     compile: ["Compiles route definitions into a RouteCompiler that generates canonical locations and matches incoming path and query strings back to typed route entries. Invalid definitions and malformed locations produce bounded route errors.", "Use Navigation.compile once at module initialization when web URLs or deep links must share one source of truth with application routes. Generate links through the compiler and validate incoming locations before changing the navigation stack."],
   },
@@ -194,11 +224,11 @@ const apiGuidance = {
     migrate: ["Decodes a snapshot and applies explicitly ordered Migration functions until it reaches the requested target version. The result records structured failure if a step is missing, invalid, or does not advance correctly.", "Use State.migrate during application startup when released versions must preserve user state across schema changes. Keep every migration deterministic, test each supported starting version, and never silently reinterpret unknown future data."],
   },
   "luastra/host": {
-    storageGet: ["Starts an asynchronous read of the named host storage entry and returns a RequestId. Completion arrives in Application.resolve with the stored string or a bounded failure code.", "Use Host.storageGet during startup or on demand for small persisted application data. Record the RequestId before returning, distinguish missing data from other failures, and decode the payload before trusting it."],
+    storageGet: ["Starts an asynchronous read of the named host storage entry and returns a RequestId. Completion arrives in app.resolve with the stored string or a bounded failure code.", "Use Host.storageGet during startup or on demand for small persisted application data. Record the RequestId before returning, distinguish missing data from other failures, and decode the payload before trusting it."],
     storageSet: ["Starts an asynchronous write of a bounded string to the named host storage entry and returns a RequestId. Resolve confirms whether the host committed the value.", "Use Host.storageSet after State.encode or another explicit serialization step. Track the RequestId when UI must report save progress or failure, and never store credentials merely because the API accepts a string."],
-    launchUrl: ["Requests the URL or fragment with which the host launched the application and returns a RequestId. The host answers through Application.resolve; this function reads launch context and never opens an external destination.", "Use Host.launchUrl during startup when a deep link or host-provided launch location must select initial application state. Save the RequestId, validate the resolve payload before routing, and use UI.Link—not Host.launchUrl—to open a visible external HTTPS link."],
+    launchUrl: ["Requests the URL or fragment with which the host launched the application and returns a RequestId. The host answers through app.resolve; this function reads launch context and never opens an external destination.", "Use Host.launchUrl during startup when a deep link or host-provided launch location must select initial application state. Save the RequestId, validate the resolve payload before routing, and use UI.Link—not Host.launchUrl—to open a visible external HTTPS link."],
     clipboardWrite: ["Requests that the host place a bounded string on the system clipboard and returns a RequestId for completion. Clipboard access remains an explicit capability rather than a hidden side effect.", "Use Host.clipboardWrite after a clear user action such as Copy code or Copy link. Confirm success accessibly when useful and avoid copying secrets or personal data without an explicit user expectation."],
-    historyPush: ["Adds a new browser-history entry with the supplied opaque application state token while retaining the current location. The asynchronous acknowledgement is delivered through Application.resolve.", "Use Host.historyPush when application navigation should create a Back destination without changing the visible URL. Prefer historyPushLocation when the route also has a canonical location."],
+    historyPush: ["Adds a new browser-history entry with the supplied opaque application state token while retaining the current location. The asynchronous acknowledgement is delivered through app.resolve.", "Use Host.historyPush when application navigation should create a Back destination without changing the visible URL. Prefer historyPushLocation when the route also has a canonical location."],
     historyReplace: ["Replaces the current browser-history state token without adding a new Back entry. It keeps the current location and returns a RequestId for host acknowledgement.", "Use Host.historyReplace when correcting or initializing the current entry so Back should not revisit the previous state. Use push for a user-visible navigation step."],
     historyPushLocation: ["Adds a browser-history entry containing both a canonical location and an opaque application state token, then returns the document viewport to its start. This keeps the address bar, deep-link representation, application stack, and newly opened page position synchronized.", "Use Host.historyPushLocation after a successful typed route mutation that should be reversible with Back. Generate the location through Navigation.compile rather than concatenating untrusted path or query fragments."],
     historyReplaceLocation: ["Replaces the current browser-history location and state token without extending the Back stack, then returns the document viewport to its start. The host validates and acknowledges the requested history mutation asynchronously.", "Use Host.historyReplaceLocation for redirects, canonicalization, and restoring the initial route when the obsolete location should not remain reachable through Back."],
@@ -209,8 +239,13 @@ const apiGuidance = {
     systemBackExit: ["Acknowledges a root-level system-Back intent by requesting the host's admitted exit behavior. The intent ID correlates the decision with the exact pending Back event.", "Use Host.systemBackExit only when no modal, local route, or history entry can consume Back and the platform permits root exit. Desktop and web hosts may interpret this boundary differently."],
   },
   "luastra/server": {
-    call: ["Starts a versioned request to a trusted backend operation with a bounded string map and optional request settings, returning a RequestId. Server authentication, authorization, validation, and secrets remain outside client Luau.", "Use Server.call for declared backend work that cannot safely or reliably run in the client, such as privileged data access. Track the RequestId, handle transport failure in Application.resolve, and validate successful payloads before use."],
-    decode: ["Parses the bounded payload returned by a Luastra server operation into a discriminated DecodeResult. It separates envelope validity from the transport success reported to Application.resolve.", "Use Server.decode on a successful server resolve payload before reading operation data. Treat decode failure as an untrusted or incompatible response and keep application state unchanged or move to an explicit error state."],
+    call: ["Starts a versioned request to a trusted backend operation with a bounded string map and optional request settings, returning a RequestId. Server authentication, authorization, validation, and secrets remain outside client Luau.", "Use Server.call for declared backend work that cannot safely or reliably run in the client, such as privileged data access. Track the RequestId, handle transport failure in app.resolve, and validate successful payloads before use."],
+    callV2: ["Carries fields produced by a schema-v2 generated client through the existing bounded server capability and returns a RequestId. It does not expose a second transport or provider API.", "Prefer the generated operation function instead of calling Server.callV2 directly. Use this helper only when maintaining generated-client infrastructure, and preserve the declaration limits."],
+    decode: ["Parses the bounded payload returned by a Luastra server operation into a discriminated DecodeResult. It separates envelope validity from the transport success reported to app.resolve.", "Use Server.decode on a successful server resolve payload before reading operation data. Treat decode failure as an untrusted or incompatible response and keep application state unchanged or move to an explicit error state."],
+    decodeV2: ["Parses the deterministic bounded envelope returned by a schema-v2 operation into a discriminated DecodeResult. The generated operation decoder then validates result version, shape, types, and exact field consumption.", "Prefer the generated operation decoder instead of reading Server.decodeV2 fields directly. Treat failure as an incompatible or untrusted result and leave domain state unchanged."],
+    decodeError: ["Validates a public backend failure and returns its original message plus an optional bounded map of stable field codes. Generated clients expose the same decoder as Api.decodeError.", "Use Server.decodeError in app.resolve when success is false. Pass decoded.fields into Resource.error or map its stable codes to field-specific UI without inspecting provider text."],
+    nullValue: ["Creates the frozen tagged value used by generated schema-v2 clients to distinguish an explicit null from an omitted optional field.", "Use the generated Api.nullValue alias when a nullable field must be explicit null. Omit an optional field when it should be absent."],
+    value: ["Creates the frozen value branch of Server.Nullable so generated schema-v2 clients can carry a non-null value without confusing it with absence.", "Use the generated Api.value alias when a nullable field contains a value. Pass ordinary values directly only to non-nullable fields."],
   },
   "luastra/media": {
     setQueue: ["Replaces the host playback queue with validated QueueItem values and optionally selects a one-based item, returning a RequestId. The host reports later playback changes through media_state events.", "Use Media.setQueue before play when the application owns a new playlist, meditation sequence, or sound set. Keep stable item IDs, validate the selected index, and avoid rebuilding an unchanged queue on every render."],
@@ -237,22 +272,81 @@ const uiTables = [
   { id: "ui-properties-text-style", title: "Text and local colors", rows: [row("textAlign", "start | center | end", "Aligns lines within Text width."), row("textColor", "token | #RRGGBB", "Local or inherited foreground."), row("backgroundColor", "token | #RRGGBB", "Component-box background."), row("Color tokens", "accent | danger | muted | surface | success | text | transparent | warning", "Current Screen theme colors.")] },
   { id: "ui-properties-theme", title: "UI.Screen theme", rows: [row("theme", "UI.Theme", "Reusable optional colors; direct fields win."), ...["background", "text", "accent", "danger", "muted", "surface", "success", "warning"].map((name) => row(`${name}Color`, "#RRGGBB", `${name} theme color.`))] },
   { id: "ui-properties-input", title: "TextInput", rows: [row("inputType", "text | email | password", "Native field type."), row("inputMode", "decimal | email | numeric | search | tel | text | url", "Preferred mobile keyboard."), row("enterKeyHint", "done | enter | go | next | previous | search | send", "Enter-key behavior."), row("autoComplete", "supported token", "Autofill hint."), row("placeholder", "string", "Short hint shown while the controlled value is empty."), row("value", "string", "Controlled value."), row("onInput", "action string", "Committed IME update action.")] },
-  { id: "ui-properties-events", title: "Events and motion", rows: [row("onTap", "action string", "Activation action."), row("onInput", "action string", "Input action."), row("onDismiss", "action string", "Modal dismissal action."), row("motion", "{ [property]: Tween | Sequence }", "Opacity, rotation, scale, and translation channels.")] },
-  { id: "ui-properties-visual", title: "Image, Shape, and FlipCard", rows: [row("source", "asset:image/...", "Typed image URI."), row("fit", "contain | cover | fill | none | scaleDown", "Image scaling."), row("width / height", "1…4096", "CSS-pixel size."), row("aspectRatio", "0.05…20", "Aspect ratio."), row("cornerRadius", "0…2048", "Corner radius."), row("shape", "rectangle | roundedRectangle | circle | oval | triangle | diamond | pentagon | hexagon | star", "Shape geometry."), row("fill / stroke", "token | #RRGGBB", "Fill and outline."), row("strokeWidth", "0…64", "Outline thickness.")] },
+  { id: "ui-properties-events", title: "Events and motion", rows: [row("onTap", "action string", "Activation action."), row("onInput", "action string", "Input action."), row("onDismiss", "action string", "Modal dismissal action."), row("onLoad / onError", "action string", "Image load or failure action."), row("motion", "{ [property]: Tween | Sequence }", "Opacity, rotation, scale, and translation channels.")] },
+  { id: "ui-properties-visual", title: "Image, Shape, and FlipCard", rows: [row("source", "Assets.Image | Content.Image", "Typed packaged or dynamic image."), row("placeholder", "Assets.Image", "Packaged image shown behind loading content."), row("placeholderColor", "#RRGGBB", "Stable loading background color."), row("fit", "contain | cover | fill | none | scaleDown", "Image scaling."), row("width / height", "1…4096", "CSS-pixel size."), row("aspectRatio", "0.05…20", "Aspect ratio."), row("cornerRadius", "0…2048", "Corner radius."), row("shape", "rectangle | roundedRectangle | circle | oval | triangle | diamond | pentagon | hexagon | star", "Shape geometry."), row("fill / stroke", "token | #RRGGBB", "Fill and outline."), row("strokeWidth", "0…64", "Outline thickness.")] },
 ];
 const moduleNarrative = {
-  "luastra/motion": ["Declares host-neutral transitions and reusable animation presets without putting a frame loop in application code. Motion values are attached to supported UI properties; host schedulers interpolate them independently and honor reduced-motion preferences.", ["Build a Tween for one numeric channel, combine Tween and Wait steps with Sequence, or use a preset that returns a complete MotionMap.", "Motion changes presentation, not application state. Use Timer and Application.handle when a delay must advance game logic or replace content."]],
+  "luastra/app": ["Composes one transparent host-facing application object from a root contract and optional reusable features. Namespaced event routing and request ownership let independent blocks cooperate without becoming framework-level product widgets.", ["Give every feature one disjoint lowercase path ID, keep its state inside its module, and claim each asynchronous request before a completion can arrive.", "The returned instance still has the ordinary render, handle, resolve, snapshot, and inspect methods; composition does not add a second application lifecycle."]],
+  "luastra/resource": ["Models bounded asynchronous reads and mutations as small explicit state machines. Generation tickets suppress stale results, immutable snapshots drive UI, and application-owned errors preserve retry and field context without leaking provider details.", ["Create controllers once outside render, begin an operation when the host request starts, and settle only the matching ticket from resolve.", "Use one read controller per logical value and one mutation controller per non-concurrent write workflow; compose them in application or feature state rather than subclassing them."]],
+  "luastra/collection": ["Maintains a bounded window over a cursor-paginated collection while presenting one flat ordered snapshot to UI. It supports loading in both directions, explicit refresh, stable local edits, anchor-aware eviction, and edge-specific retry state.", ["Translate each backend page into items plus opaque previous and next cursors, then settle the exact ticket returned by begin.", "Set the anchor to a visible stable item before extending the window so eviction prefers pages farther from the user's current position."]],
+  "luastra/motion": ["Declares host-neutral transitions and reusable animation presets without putting a frame loop in application code. Motion values are attached to supported UI properties; host schedulers interpolate them independently and honor reduced-motion preferences.", ["Build a Tween for one numeric channel, combine Tween and Wait steps with Sequence, or use a preset that returns a complete MotionMap.", "Motion changes presentation, not application state. Use Timer and app.handle when a delay must advance game logic or replace content."]],
   "luastra/assets": ["Turns manifest-declared project files into kind-safe references and canonical host-neutral URIs. This keeps arbitrary paths and asset-kind mistakes out of UI and media APIs.", ["Declare every packaged file in luastra.json, create the matching Image, Audio, or Font reference, and convert it to a URI only at the consuming SDK boundary.", "Asset references do not download remote content and do not grant filesystem access."]],
+  "luastra/content": ["Selects, transfers, and displays bounded images through opaque handles without exposing storage-provider URLs, bucket paths, local paths, filenames, or raw bytes to Luau.", ["Request a browser image, render the returned Content.Image with UI.Image, create an intent in a declared backend function, stream it, then commit before storing the opaque object ID.", "Treat content and upload handles as ephemeral private state: release previews, refresh display grants after an error, and never persist or log handles."]],
   "luastra/data": ["Builds composable runtime schemas for values that static Luau types cannot trust, then returns structured success or failure from decoding. Nested object and array schemas retain an exact path to invalid data.", ["Create schemas once near the application boundary and decode values arriving from forms, storage, locations, or servers before assigning them to typed state.", "Schemas validate runtime data; they do not replace useful Luau annotations inside trusted application code."]],
   "luastra/state": ["Encodes small deterministic snapshots with explicit schema versions, decodes current snapshots, and migrates supported older versions through ordered functions. It separates serialization compatibility from the host used to persist the resulting string.", ["Keep snapshot fields bounded and free of secrets, store the encoded string through Host.storageSet, and check every DecodeResult or MigrationResult before restoring state.", "Changing stored meaning requires a new version and tested migrations rather than an unchecked cast."]],
-  "luastra/navigation": ["Maintains application-owned route history and optionally compiles typed route entries to canonical path and query locations. Named stacks, entry stacks, and browser-history integration remain explicit rather than hidden in the renderer.", ["Create the chosen stack once in module scope, mutate it in Application.handle, and select the rendered screen from its current entry.", "Use the compiler for deep links and visible URLs; use decideBack to resolve modal, local-stack, browser-history, and root-exit priority."]],
-  "luastra/timer": ["Schedules cancellable one-shot application deadlines identified by stable strings. Expiry enters Application.handle as a timer event, allowing ordinary state transitions and a following render without exposing a platform timer object.", ["Start or restart a timer after a state change, handle only the expected ID, and cancel it when the owning workflow ends.", "Use Motion.wait for a visual pause inside one animation channel; use Timer when application logic must run after the delay."]],
-  "luastra/host": ["Exposes bounded asynchronous capabilities supplied by the current host, including storage, clipboard, external launch, browser history, and system-Back decisions. Every request returns an opaque RequestId and completes through Application.resolve.", ["Declare the corresponding capability in luastra.json, save each RequestId with its purpose, then validate the completion before changing application state.", "Host support and user permission may vary, so a valid call is not proof of successful completion."]],
-  "luastra/server": ["Calls declared versioned operations implemented by a trusted backend and decodes their bounded response envelopes. Client Luau supplies ordinary input data but never receives server credentials or authorization authority.", ["Use a backend operation for privileged data access or secrets, validate inputs again on the server, and correlate the RequestId in Application.resolve.", "A successful transport response still requires Server.decode and operation-specific data validation before use."]],
+  "luastra/navigation": ["Maintains application-owned route history and optionally compiles typed route entries to canonical path and query locations. Named stacks, entry stacks, and browser-history integration remain explicit rather than hidden in the renderer.", ["Create the chosen stack once in module scope, mutate it in app.handle, and select the rendered screen from its current entry.", "Use the compiler for deep links and visible URLs; use decideBack to resolve modal, local-stack, browser-history, and root-exit priority."]],
+  "luastra/timer": ["Schedules cancellable one-shot application deadlines identified by stable strings. Expiry enters app.handle as a timer event, allowing ordinary state transitions and a following render without exposing a platform timer object.", ["Start or restart a timer after a state change, handle only the expected ID, and cancel it when the owning workflow ends.", "Use Motion.wait for a visual pause inside one animation channel; use Timer when application logic must run after the delay."]],
+  "luastra/host": ["Exposes bounded asynchronous capabilities supplied by the current host, including storage, clipboard, external launch, browser history, and system-Back decisions. Every request returns an opaque RequestId and completes through app.resolve.", ["Declare the corresponding capability in luastra.json, save each RequestId with its purpose, then validate the completion before changing application state.", "Host support and user permission may vary, so a valid call is not proof of successful completion."]],
+  "luastra/server": ["Calls declared versioned operations implemented by a trusted backend and decodes bounded success and validation-error envelopes. Generated schema-v2 clients add nested records, arrays, enums, optional fields, explicit null values, and field errors without exposing provider objects to Luau.", ["Use generated operation functions and Api.decodeError for schema-v2 work; use Server.call and Server.decode for schema-v1 low-level string maps.", "A successful transport response still requires the matching generated decoder before domain data is used."]],
   "luastra/media": ["Controls a bounded audio queue through asynchronous commands and reports live playback through typed media-state events. Queue selection, command acknowledgement, and actual playback state remain separate so web and native hosts can implement the same contract.", ["Set a stable queue, issue commands from explicit user or lifecycle actions, and render controls from Media.decodeState output rather than optimistic assumptions.", "Background playback, hardware controls, and packaging are host evidence boundaries; verify them on each claimed target before release."]],
   "luastra/debug": ["Emits bounded development diagnostics at log, warning, and error levels through the active host. Debug output is intentionally separate from UI status, structured Results, and production telemetry.", ["Use concise category and context values while diagnosing local behavior, then remove noisy output before release.", "Never log tokens, credentials, personal data, or full sensitive storage and server payloads."]],
 };
 const moduleExamples = Object.freeze({
+  "luastra/app": `local App = require("luastra/app")
+local UI = require("luastra/ui")
+
+local count = 0
+
+return App.compose {
+    render = function()
+        return UI.Screen {
+            id = "app",
+            UI.Text {
+                id = "counter/value",
+                text = tostring(count),
+            },
+        }
+    end,
+    handle = function(action: string)
+        if action == "counter.increment" then count += 1 end
+    end,
+    snapshot = function()
+        return { count = count }
+    end,
+}`,
+  "luastra/resource": `local Resource = require("luastra/resource")
+
+local profile = Resource.new {
+    isEmpty = function(value: { name: string }): boolean
+        return value.name == ""
+    end,
+}
+
+local ticket = profile.begin(requestId, "load")
+if result ~= nil then
+    profile.resolve(ticket, result)
+else
+    profile.reject(ticket, Resource.error("NOT_FOUND", false))
+end
+
+local snapshot = profile.snapshot()`,
+  "luastra/collection": `local Collection = require("luastra/collection")
+
+local feed = Collection.new {
+    key = function(item: { id: string }): string
+        return item.id
+    end,
+    maxItems = 200,
+    maxPages = 8,
+}
+
+local ticket = feed.begin("initial", requestId)
+feed.resolve(ticket, {
+    items = pageItems,
+    nextCursor = nextCursor,
+})
+
+local snapshot = feed.snapshot()`,
   "luastra/ui": `local UI = require("luastra/ui")
 
 return UI.Screen {
@@ -302,6 +396,22 @@ return UI.Image {
     width = 274,
     height = 382,
 }`,
+  "luastra/content": `local Content = require("luastra/content")
+local UI = require("luastra/ui")
+
+local cover = Content.image(result.source, {
+    mediaType = result.mediaType,
+    bytes = result.bytes,
+    width = result.width,
+    height = result.height,
+})
+
+return UI.Image {
+    id = "article/cover",
+    source = cover,
+    label = "Article cover",
+    onError = "cover.refresh",
+}`,
   "luastra/data": `local Data = require("luastra/data")
 
 local profileSchema = Data.object({
@@ -346,7 +456,7 @@ Timer.start {
     value = "reveal-complete",
 }
 
-function Application.handle(action: string, target: string, value: string)
+local function handle(action: string, target: string, value: string)
     if action == "timer" and target == "game/next-card" then
         showNextCard(value)
     end
@@ -357,7 +467,7 @@ local pending: { [number]: string } = {}
 local requestId = Host.storageGet("game-state")
 pending[requestId] = "restore"
 
-function Application.resolve(
+local function resolve(
     id: number,
     success: boolean,
     payload: string,
@@ -378,7 +488,7 @@ local requestId = Server.call(
 )
 pending[requestId] = "list-records"
 
--- In Application.resolve, decode a successful payload first.
+-- In app.resolve, decode a successful payload first.
 local decoded = Server.decode(payload)
 if decoded.success then
     consumeRecordFields(decoded.fields)
@@ -417,7 +527,7 @@ export const sections = Object.freeze([
     hero: true,
     badges: [release.sourceSdk, release.runtimeSdk, `Luau ${release.luauVersion}`, "Web · Tauri · Capacitor"],
     guide: [
-      "The mental model is state → Application.render → semantic UI. A button or host event enters Application.handle, asynchronous capability work completes in Application.resolve, and Luastra renders the new state.",
+      "The mental model is state → app.render → semantic UI. A button or host event enters app.handle, asynchronous capability work completes in app.resolve, and Luastra renders the new state.",
       "New here? Follow Installation, Quick start, and Beginner tutorial in that order. Use API pages after the first app runs, and read Support and boundaries before choosing a production target.",
     ],
     notes: [
@@ -497,9 +607,9 @@ node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
     guide: ["Complete Installation and confirm luastra doctor reports PASS before starting.", "Run the commands from the project directory. The CLI prints one JSON object per completed command; result=PASS means the step succeeded, while failures begin with Luastra: on stderr."],
     cards: [
       entry("1. Create and enter a project", "luastra create hello-luastra", "Creates a missing or empty directory, copies the starter, and derives a project id from the directory name.", { language: "Shell", code: `luastra create hello-luastra\ncd hello-luastra`, useWhen: "Start here once Luastra is installed and doctor passes.", points: ["The created tree contains luastra.json, src/main.luau, tests/smoke.luau, assets/, and the starter license.", "Open src/main.luau first: it owns state, event handling, and the rendered screen.", "luastra.json declares which modules may be imported and which host capabilities the app may use."] }),
-      entry("2. Make a visible change", "edit src/main.luau", "Change the starter title before running it so you can see the connection between Luau source and host UI.", { language: "Luau", code: `UI.Text {\n    id = "title",\n    text = \`Hello from my first Luastra app: {interactions}\`,\n    variant = "title",\n}`, useWhen: "Use this after project creation to replace the existing UI.Text block inside Application.render." }),
+      entry("2. Make a visible change", "edit src/main.luau", "Change the starter title before running it so you can see the connection between Luau source and host UI.", { language: "Luau", code: `UI.Text {\n    id = "title",\n    text = \`Hello from my first Luastra app: {interactions}\`,\n    variant = "title",\n}`, useWhen: "Use this after project creation to replace the existing UI.Text block inside app.render." }),
       entry("3. Check and test", "luastra check · luastra test", "check validates strict Luau, the module graph, manifest, assets, capabilities, and SDK identity; test executes the test modules declared in luastra.json.", { language: "Shell", code: `luastra check\nluastra test`, useWhen: "Run this after each small source or manifest change and before previewing or building.", points: ["Both commands should emit JSON with result set to PASS.", "A check failure names the source or manifest problem; fix that first instead of continuing to preview.", "The generated smoke test checks SDK construction, not every interaction you add later."] }),
-      entry("4. Preview and interact", "luastra run", "Starts a watch-mode server on 127.0.0.1, prints the authoritative READY URL, and rebuilds after saved changes.", { language: "Shell", code: `luastra run\n# Open the READY URL, press Continue, then stop with Ctrl+C.`, useWhen: "Use this during development after check and test pass.", points: ["The page should show your edited title and a Continue button.", "Each press updates module state through Application.handle and the next render shows a larger interaction count.", "Keep the terminal open while previewing; Ctrl+C stops the local server."] }),
+      entry("4. Preview and interact", "luastra run", "Starts a watch-mode server on 127.0.0.1, prints the authoritative READY URL, and rebuilds after saved changes.", { language: "Shell", code: `luastra run\n# Open the READY URL, press Continue, then stop with Ctrl+C.`, useWhen: "Use this during development after check and test pass.", points: ["The page should show your edited title and a Continue button.", "Each press updates module state through app.handle and the next render shows a larger interaction count.", "Keep the terminal open while previewing; Ctrl+C stops the local server."] }),
       entry("5. Build the web target", "luastra build web", "Creates the production-style static artifact in dist/web by default.", { language: "Shell", code: `luastra build web\n# Output: ./dist/web`, useWhen: "Use this after the interactive preview works and you need a deployable web artifact.", points: ["The command should emit JSON with result=PASS and the output directory.", "The installed CLI builds web and host-neutral bundle targets; application-facing desktop/mobile packaging is not yet a CLI command.", "Serve dist/web through an HTTP server or hosting provider. Opening index.html through file:// is unsupported."] }),
     ],
     example: `luastra create hello-luastra\ncd hello-luastra\n# Edit src/main.luau, then run:\nluastra check\nluastra test\nluastra run`,
@@ -533,7 +643,7 @@ node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
         useWhen: "Use this order when you have no particular feature in mind yet.",
         points: [
           "Complete mini-app teaches render and handle.",
-          "Delayed action adds a host event without Application.resolve.",
+          "Delayed action adds a host event without app.resolve.",
           "Typed navigation adds checked route state and Back behavior.",
           "Storage and History add asynchronous host acknowledgements and platform-owned navigation.",
           "The Form and modal recipe adds controlled input, validation, and accessible focus behavior.",
@@ -550,11 +660,11 @@ node ./luastra-install.mjs --manifest=./luastra-release.v1.json`,
   {
     id: "recipe-timer",
     title: "Recipe: run a delayed action",
-    module: "luastra/timer · Application.handle · about 10 minutes",
+    module: "luastra/timer · app.handle · about 10 minutes",
     summary: "Start a one-shot timer from a button and update visible state when its event arrives.",
     guide: [
       "You will build a page whose status starts at 0:waiting. Press Start and, after 25 ms, expect 1:next.",
-      "This recipe demonstrates the timer exception: start returns an acknowledgement RequestId, but expiry enters Application.handle and never Application.resolve.",
+      "This recipe demonstrates the timer exception: start returns an acknowledgement RequestId, but expiry enters app.handle and never app.resolve.",
     ],
     cards: [
       entry("1. Create the project", "luastra create timer-recipe", "Start from a normal generated project, then replace its manifest, entry module, and smoke test with the three complete files below.", {
@@ -579,7 +689,7 @@ cd timer-recipe`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/timer", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/timer", "luastra/ui"]
     },
     {
       "id": "app/tests/timer",
@@ -598,11 +708,12 @@ cd timer-recipe`,
 local Timer = require("luastra/timer")
 local UI = require("luastra/ui")
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local elapsed = 0
 local lastValue = "waiting"
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "timer-lab",
         UI.Text { id = "timer/status", text = \`{elapsed}:{lastValue}\` },
@@ -614,7 +725,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "start-timer" and target == "timer/start" then
         Timer.start { id = "timer/next-card", delayMs = 25, value = "next" }
     elseif action == "timer" and target == "timer/next-card" then
@@ -623,26 +734,30 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { elapsed = elapsed, value = lastValue }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the entire generated src/main.luau file so every referenced name and lifecycle callback is present.",
       }),
       entry("4. Replace tests/smoke.luau", "deterministic state-transition test", "The test invokes the same timer event that the host delivers and verifies the state read by the following render.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
-local initial = Application.snapshot()
+local initial = app.snapshot()
 assert(initial.elapsed == 0, "timer recipe must start at zero")
 assert(initial.value == "waiting", "timer recipe initial value is invalid")
 
-Application.handle("timer", "timer/next-card", "next")
+app.handle("timer", "timer/next-card", "next")
 
-local elapsed = Application.snapshot()
+local elapsed = app.snapshot()
 assert(elapsed.elapsed == 1, "timer event did not advance state")
 assert(elapsed.value == "next", "timer event did not preserve its value")
 
@@ -664,7 +779,7 @@ luastra run
         points: ["Use restart to replace the delay for the same id.", "Use cancel when the owning screen or state is no longer active.", "Treat an unexpected late timer event as stale instead of applying it to unrelated state.", "Keep delays at or below 60,000 ms; use persisted time or a backend scheduler for longer durable work."],
       }),
     ],
-    callout: "Do not add Application.resolve for timer expiry. Timer control acknowledgements are consumed by the runtime; only the expiry event is application-visible.",
+    callout: "Do not add app.resolve for timer expiry. Timer control acknowledgements are consumed by the runtime; only the expiry event is application-visible.",
   },
   {
     id: "recipe-navigation",
@@ -698,7 +813,7 @@ cd navigation-recipe`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/navigation", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/navigation", "luastra/ui"]
     },
     {
       "id": "app/tests/routing",
@@ -738,9 +853,10 @@ local router = Navigation.createRouter {
     initial = { name = "home", params = {}, query = {} },
 }
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local current = router.current()
     return UI.Screen {
         id = "routing-lab",
@@ -769,7 +885,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "open-workspace" and target == "routing/workspace" then
         router.push { name = "workspace", params = { workspace_id = 7 }, query = {} }
     elseif action == "open-document" and target == "routing/document" then
@@ -783,37 +899,41 @@ function Application.handle(action: string, target: string, _value: string)
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return {
         name = router.current().name,
         location = router.currentLocation(),
     }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the entire generated src/main.luau file; the compact layout intentionally omits host History so the router contract is visible first.",
       }),
       entry("4. Replace tests/smoke.luau", "route sequence test", "The test drives the same actions as the buttons and checks every canonical location without needing a browser.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
-assert(Application.snapshot().location == "/", "recipe did not start at home")
+assert(app.snapshot().location == "/", "recipe did not start at home")
 
-Application.handle("open-workspace", "routing/workspace", "")
-assert(Application.snapshot().location == "/workspaces/7", "workspace route failed")
+app.handle("open-workspace", "routing/workspace", "")
+assert(app.snapshot().location == "/workspaces/7", "workspace route failed")
 
-Application.handle("open-document", "routing/document", "")
-local document = Application.snapshot()
+app.handle("open-document", "routing/document", "")
+local document = app.snapshot()
 assert(document.name == "document", "document route name is invalid")
 assert(
     document.location == "/workspaces/7/documents/release-notes?mode=edit",
     "document location is invalid"
 )
 
-Application.handle("back", "routing/back", "")
-assert(Application.snapshot().location == "/workspaces/7", "Back failed")
+app.handle("back", "routing/back", "")
+assert(app.snapshot().location == "/workspaces/7", "Back failed")
 
 return true`,
         useWhen: "Replace the generated smoke test so luastra test verifies the route transitions that the preview exposes.",
@@ -841,11 +961,11 @@ luastra run
   {
     id: "recipe-storage",
     title: "Recipe: persist and restore state",
-    module: "luastra/state · luastra/host · Application.resolve · about 15 minutes",
+    module: "luastra/state · luastra/host · app.resolve · about 15 minutes",
     summary: "Save a versioned counter snapshot, restore it asynchronously, and reject malformed stored data without losing current state.",
     guide: [
       "You will increment a counter, save it, change it again, then load the saved value. Reload the preview and load again to verify host persistence.",
-      "State.encode/decode is synchronous and deterministic; Host storage is asynchronous, so every request is correlated in Application.resolve.",
+      "State.encode/decode is synchronous and deterministic; Host storage is asynchronous, so every request is correlated in app.resolve.",
     ],
     cards: [
       entry("1. Create the project", "luastra create storage-recipe", "Create a starter, then replace its manifest, entry module, and smoke test with the complete files below.", { language: "Shell", code: `luastra create storage-recipe\ncd storage-recipe`, useWhen: "Run this in the directory that should contain the new project." }),
@@ -860,7 +980,7 @@ luastra run
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/host", "luastra/state", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/host", "luastra/state", "luastra/ui"]
     },
     {
       "id": "app/tests/storage",
@@ -880,7 +1000,8 @@ local Host = require("luastra/host")
 local State = require("luastra/state")
 local UI = require("luastra/ui")
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local count = 0
 local message = "Nothing saved yet"
 local pending: { [number]: string } = {}
@@ -889,7 +1010,7 @@ local function track(id: number, operation: string)
     pending[id] = operation
 end
 
-function Application.restore(payload: string): boolean
+function Root.restore(payload: string): boolean
     local decoded = State.decode(payload, 1)
     if not decoded.success then return false end
     local restored = tonumber(decoded.fields.count)
@@ -898,7 +1019,7 @@ function Application.restore(payload: string): boolean
     return true
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "storage-recipe",
         UI.Text { id = "counter/title", text = "Persistent counter", variant = "title" },
@@ -913,7 +1034,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "counter.add" and target == "counter/add" then
         count += 1
     elseif action == "counter.save" and target == "counter/save" then
@@ -923,10 +1044,12 @@ function Application.handle(action: string, target: string, _value: string)
     elseif action == "counter.load" and target == "counter/load" then
         track(Host.storageGet("counter-state"), "load")
         message = "Loading…"
+    elseif action == "counter.restore" and target == "app" then
+        message = if Root.restore(_value) then "Loaded" else "Stored state is invalid"
     end
 end
 
-function Application.resolve(
+function Root.resolve(
     id: number,
     success: boolean,
     payload: string,
@@ -938,33 +1061,39 @@ function Application.resolve(
     if operation == nil then return end
     if not success then message = operation .. " failed: " .. code return end
     if operation == "save" then message = "Saved"
-    elseif Application.restore(payload) then message = "Loaded"
+    elseif Root.restore(payload) then message = "Loaded"
     else message = "Stored state is invalid" end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { count = count, message = message }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the entire entry module. Keep restore separate so malformed persisted data can be tested without a real host request.",
       }),
       entry("4. Replace tests/smoke.luau", "round-trip and rejection test", "The test proves valid state restoration and confirms malformed data leaves the current counter unchanged.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 local State = require("luastra/state")
 
-Application.handle("counter.add", "counter/add", "")
-assert(Application.snapshot().count == 1, "counter action failed")
+app.handle("counter.add", "counter/add", "")
+assert(app.snapshot().count == 1, "counter action failed")
 
 local snapshot = State.encode(1, { count = "7" })
-assert(Application.restore(snapshot), "valid snapshot was rejected")
-assert(Application.snapshot().count == 7, "valid count was not restored")
+app.handle("counter.restore", "app", snapshot)
+assert(app.snapshot().count == 7, "valid count was not restored")
 
-assert(not Application.restore("v=1&count=invalid"), "invalid count was accepted")
-assert(Application.snapshot().count == 7, "invalid restore changed current state")
+app.handle("counter.restore", "app", "v=1&count=invalid")
+assert(app.snapshot().message == "Stored state is invalid", "invalid count was accepted")
+assert(app.snapshot().count == 7, "invalid restore changed current state")
 
 return true`,
         useWhen: "Replace the generated smoke test so test covers both the successful and rejected restore paths.",
@@ -1009,7 +1138,7 @@ luastra run
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/host", "luastra/navigation", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/host", "luastra/navigation", "luastra/ui"]
     },
     {
       "id": "app/tests/history",
@@ -1037,20 +1166,21 @@ local router = Navigation.createRouter {
     compiler = routes,
     initial = { name = "home", params = {}, query = {} },
 }
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local message = "At home"
 
 local function location(): string
     return "#" .. router.currentLocation()
 end
 
-function Application.restoreHistory(value: string): boolean
+function Root.restoreHistory(value: string): boolean
     local result = router.restoreEncoded(value)
     if result.success then message = "History restored" end
     return result.success
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "history-recipe",
         UI.Text { id = "history/title", text = "Route: " .. router.current().name, variant = "title" },
@@ -1060,7 +1190,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "lifecycle" and target == "app" and value == "launch" then
         Host.historyReplaceLocation(location(), router.encode())
     elseif action == "route.open" and target == "history/open" then
@@ -1070,7 +1200,7 @@ function Application.handle(action: string, target: string, value: string)
             message = "Detail opened"
         end
     elseif action == "history" and target == "app" then
-        if not Application.restoreHistory(value) then message = "Rejected history state" end
+        if not Root.restoreHistory(value) then message = "Rejected history state" end
     elseif action == "system_back" and target == "app" then
         local intent = tonumber(string.match(value, "^([1-9][0-9]*):[01]$"))
         if intent ~= nil then
@@ -1080,7 +1210,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(
+function Root.resolve(
     _id: number,
     success: boolean,
     _payload: string,
@@ -1092,18 +1222,23 @@ function Application.resolve(
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { name = router.current().name, location = location() }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the complete entry module. resolve reports rejected host requests; only history events restore router state, and only system_back events carry platform Back intents.",
       }),
       entry("4. Replace tests/smoke.luau", "valid and invalid history restoration", "The test supplies encoded router state directly and proves malformed history cannot replace the current route.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 local Navigation = require("luastra/navigation")
 
 local routes = Navigation.compile {
@@ -1115,10 +1250,11 @@ local source = Navigation.createRouter {
     initial = { name = "home", params = {}, query = {} },
 }
 assert(source.push { name = "detail", params = {}, query = {} }.success)
-assert(Application.restoreHistory(source.encode()), "valid history was rejected")
-assert(Application.snapshot().location == "#/detail", "detail history was not restored")
-assert(not Application.restoreHistory("invalid"), "malformed history was accepted")
-assert(Application.snapshot().location == "#/detail", "failed restore changed the route")
+app.handle("history", "app", source.encode())
+assert(app.snapshot().location == "#/detail", "detail history was not restored")
+app.handle("history", "app", "invalid")
+assert(app.snapshot().location == "#/detail", "malformed history was accepted")
+assert(app.snapshot().location == "#/detail", "failed restore changed the route")
 assert(Navigation.decideBack { modalOpen = false, canBack = true } == "history")
 
 return true`,
@@ -1169,7 +1305,7 @@ cd form-modal-recipe`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/data", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/data", "luastra/ui"]
     },
     {
       "id": "app/tests/form-modal",
@@ -1191,7 +1327,8 @@ local UI = require("luastra/ui")
 local nameSchema = Data.string { minBytes = 2, maxBytes = 60, trim = true }
 local emailSchema = Data.string { minBytes = 3, maxBytes = 160, trim = true }
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local name = ""
 local email = ""
 local nameError: string? = nil
@@ -1225,7 +1362,7 @@ local function validate(): boolean
     return true
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "profile",
         width = "content",
@@ -1331,7 +1468,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "form.name" and target == "profile/name" then
         name = value
         nameError = nil
@@ -1351,7 +1488,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return {
         name = name,
         email = email,
@@ -1363,14 +1500,18 @@ function Application.snapshot()
     }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the complete entry module. Keep modal visibility in state and use the same dismissal action for Escape, backdrop dismissal, and the visible cancel button.",
       }),
       entry("4. Replace tests/smoke.luau", "invalid → corrected → dismissed → confirmed", "The test drives the same actions as the controls and inspects both application state and accessible render properties.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
 local function find(node: any, id: string): any?
     if node.id == id then return node end
@@ -1381,28 +1522,28 @@ local function find(node: any, id: string): any?
     return nil
 end
 
-Application.handle("form.review", "profile/review", "")
-local invalidTree = Application.render()
-assert(Application.snapshot().modalOpen == false, "invalid form opened the modal")
+app.handle("form.review", "profile/review", "")
+local invalidTree = app.render()
+assert(app.snapshot().modalOpen == false, "invalid form opened the modal")
 assert((find(invalidTree, "profile/name") :: any).properties.errorId == "profile/name-error")
 assert((find(invalidTree, "profile/email-error") :: any).properties.role == "alert")
 
-Application.handle("form.name", "profile/name", "  Ada  ")
-Application.handle("form.email", "profile/email", "not-an-email")
-Application.handle("form.review", "profile/review", "")
-assert(Application.snapshot().emailError ~= nil, "invalid email was accepted")
+app.handle("form.name", "profile/name", "  Ada  ")
+app.handle("form.email", "profile/email", "not-an-email")
+app.handle("form.review", "profile/review", "")
+assert(app.snapshot().emailError ~= nil, "invalid email was accepted")
 
-Application.handle("form.email", "profile/email", "ada@example.test")
-Application.handle("form.review", "profile/review", "")
-assert(Application.snapshot().modalOpen == true, "valid form did not open the modal")
-assert(Application.snapshot().name == "Ada", "validated name was not trimmed")
-assert((find(Application.render(), "profile/confirm-modal") :: any).properties.open == true)
+app.handle("form.email", "profile/email", "ada@example.test")
+app.handle("form.review", "profile/review", "")
+assert(app.snapshot().modalOpen == true, "valid form did not open the modal")
+assert(app.snapshot().name == "Ada", "validated name was not trimmed")
+assert((find(app.render(), "profile/confirm-modal") :: any).properties.open == true)
 
-Application.handle("form.cancel-review", "profile/confirm-modal", "escape")
-assert(Application.snapshot().modalOpen == false, "modal dismissal was ignored")
-Application.handle("form.review", "profile/review", "")
-Application.handle("form.confirm", "profile/confirm", "")
-assert(Application.snapshot().submittedName == "Ada", "confirmation was not recorded")
+app.handle("form.cancel-review", "profile/confirm-modal", "escape")
+assert(app.snapshot().modalOpen == false, "modal dismissal was ignored")
+app.handle("form.review", "profile/review", "")
+app.handle("form.confirm", "profile/confirm", "")
+assert(app.snapshot().submittedName == "Ada", "confirmation was not recorded")
 
 return true`,
         useWhen: "Replace the generated smoke test to cover invalid input, normalization, both modal exit paths, and confirmation.",
@@ -1480,7 +1621,7 @@ curl -fL https://raw.githubusercontent.com/Luastra/luastra/main/examples/live-vi
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/assets", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/assets", "luastra/ui"]
     },
     {
       "id": "app/tests/visuals",
@@ -1502,9 +1643,10 @@ local UI = require("luastra/ui")
 local mark = Assets.image("image/luastra-mark")
 local markSource = Assets.uri(mark)
 local cover = false
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "visuals",
         width = "content",
@@ -1561,24 +1703,28 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "visuals.toggle-fit" and target == "visuals/toggle-fit" then
         cover = not cover
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { source = markSource, cover = cover }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the complete entry module. Keep the typed reference at module scope and convert it to a URI only at the consuming SDK boundary.",
       }),
       entry("4. Replace tests/smoke.luau", "asset identity + render semantics + interaction", "The test verifies the typed asset contract, image accessibility, decorative geometry, meaningful geometry, and fit toggle.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 local Assets = require("luastra/assets")
 
 local function find(node: any, id: string): any?
@@ -1595,7 +1741,7 @@ assert(reference.kind == "image")
 assert(reference.id == "image/luastra-mark")
 assert(Assets.uri(reference) == "asset:image/luastra-mark")
 
-local initial = Application.render()
+local initial = app.render()
 local image = find(initial, "visuals/mark") :: any
 assert(image.properties.source == "asset:image/luastra-mark")
 assert(image.properties.label == "Luastra orbit mark")
@@ -1603,9 +1749,9 @@ assert(string.find(tostring(image.properties.className), "luastra-fit-contain", 
 assert((find(initial, "visuals/decoration") :: any).properties.label == "")
 assert((find(initial, "visuals/featured") :: any).properties.label == "Featured visual")
 
-Application.handle("visuals.toggle-fit", "visuals/toggle-fit", "")
-assert(Application.snapshot().cover == true)
-local changedImage = find(Application.render(), "visuals/mark") :: any
+app.handle("visuals.toggle-fit", "visuals/toggle-fit", "")
+assert(app.snapshot().cover == true)
+local changedImage = find(app.render(), "visuals/mark") :: any
 assert(string.find(tostring(changedImage.properties.className), "luastra-fit-cover", 1, true) ~= nil)
 
 return true`,
@@ -1646,7 +1792,7 @@ luastra run
     summary: "Animate a card from alternating directions without a frame loop, layout mutation, timer, or animation state in application code.",
     guide: [
       "You will render one stable card, replay its entrance from the opposite side after each button press, and keep the visible run count in ordinary Luau state.",
-      "Motion descriptors declare presentation. The host scheduler owns frames and easing; Application.handle changes only meaningful state and the next render supplies the new descriptor.",
+      "Motion descriptors declare presentation. The host scheduler owns frames and easing; app.handle changes only meaningful state and the next render supplies the new descriptor.",
     ],
     cards: [
       entry("1. Create the project", "luastra create motion-recipe", "Start from the generated project, then replace its manifest, entry module, and smoke test.", {
@@ -1666,7 +1812,7 @@ cd motion-recipe`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/motion", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/motion", "luastra/ui"]
     },
     {
       "id": "app/tests/motion",
@@ -1685,7 +1831,8 @@ cd motion-recipe`,
 local Motion = require("luastra/motion")
 local UI = require("luastra/ui")
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local run = 0
 local fromLeft = true
 
@@ -1707,7 +1854,7 @@ local function entrance(): Motion.MotionMap
     }
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local side = if fromLeft then "left" else "right"
     local nextSide = if fromLeft then "right" else "left"
     return UI.Screen {
@@ -1740,25 +1887,29 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "motion.replay" and target == "motion/replay" then
         run += 1
         fromLeft = not fromLeft
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { run = run, fromLeft = fromLeft }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the complete entry module. Keep the card ID stable: a descriptor change restarts the affected channels without discarding semantic identity.",
       }),
       entry("4. Replace tests/smoke.luau", "descriptor contract + one state transition", "The test verifies the initial descriptors, drives the real button action, and proves the changed direction with the same node ID.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
 local function find(node: any, id: string): any?
     if node.id == id then return node end
@@ -1769,7 +1920,7 @@ local function find(node: any, id: string): any?
     return nil
 end
 
-local initialCard = find(Application.render(), "motion/card") :: any
+local initialCard = find(app.render(), "motion/card") :: any
 local initialMotion = initialCard.properties.motion :: any
 local initialOpacity = initialMotion.opacity :: any
 local initialTranslation = initialMotion.translateX :: any
@@ -1779,11 +1930,11 @@ assert(initialOpacity.from == 0 and initialOpacity.to == 1)
 assert(initialTranslation.from == -28)
 assert(initialTranslation.to == 0)
 
-Application.handle("motion.replay", "motion/replay", "")
-local snapshot = Application.snapshot()
+app.handle("motion.replay", "motion/replay", "")
+local snapshot = app.snapshot()
 assert(snapshot.run == 1 and snapshot.fromLeft == false)
 
-local changedCard = find(Application.render(), "motion/card") :: any
+local changedCard = find(app.render(), "motion/card") :: any
 local changedMotion = changedCard.properties.motion :: any
 local changedTranslation = changedMotion.translateX :: any
 assert(changedCard.id == initialCard.id)
@@ -1803,7 +1954,7 @@ luastra run
         useWhen: "Run from motion-recipe after all three files are saved.",
         points: [
           "check and test must report PASS with one passing test.",
-          "Each press updates Luau once; Application.render is not called for every animation frame.",
+          "Each press updates Luau once; app.render is not called for every animation frame.",
           "Enable reduced motion in the operating system or browser and reload: content must appear immediately in its final position.",
           "The animation must never be the only indication of the run or direction; the status text carries the same meaning.",
         ],
@@ -1856,7 +2007,7 @@ mkdir backend`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["app/server-functions", "luastra/ui"]
+      "dependencies": ["app/server-functions", "luastra/app", "luastra/ui"]
     },
     {
       "id": "app/server-functions",
@@ -1913,7 +2064,7 @@ mkdir backend`,
         useWhen: "Create this trusted local-backend module. Keep secrets and privileged provider calls here, never in generated or handwritten client Luau.",
         points: [
           "The operation key must exactly match the declaration.",
-          "context.reject produces a bounded failure code and message for Application.resolve.",
+          "context.reject produces a bounded failure code and message for app.resolve.",
           "Luastra validates the returned object against the declared result before it crosses the RPC boundary.",
         ],
       }),
@@ -1935,7 +2086,8 @@ mkdir backend`,
 local ServerFunctions = require("app/server-functions")
 local UI = require("luastra/ui")
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local name = "Ada"
 local status = "Ready"
 local pending: {[number]: boolean} = {}
@@ -1944,7 +2096,7 @@ local function busy(): boolean
     return next(pending) ~= nil
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "server-recipe",
         width = "content",
@@ -1982,7 +2134,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "greeting.name" and target == "greeting/name" then
         name = value
         status = "Ready"
@@ -1993,7 +2145,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(
+function Root.resolve(
     requestId: number,
     success: boolean,
     payload: string,
@@ -2014,18 +2166,23 @@ function Application.resolve(
     status = result.message
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { name = name, status = status, busy = busy() }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the entry module after generation. This is the complete asynchronous client lifecycle rather than a synchronous function return.",
       }),
       entry("7. Replace tests/smoke.luau", "generated decoder + controlled UI", "The smoke test proves the offline contracts without pretending that its isolated VM owns a live backend.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 local ServerFunctions = require("app/server-functions")
 
 local decoded = ServerFunctions.decodeGreet("v=1&result.message=Hello%2C%20Ada%21")
@@ -2033,12 +2190,12 @@ assert(decoded ~= nil and decoded.message == "Hello, Ada!")
 assert(ServerFunctions.decodeGreet("v=1") == nil)
 assert(ServerFunctions.decodeGreet("v=1&result.message=Hello&extra=value") == nil)
 
-local initial = Application.snapshot()
+local initial = app.snapshot()
 assert(initial.name == "Ada" and initial.status == "Ready" and not initial.busy)
-Application.handle("greeting.name", "greeting/name", "Grace")
-local changed = Application.snapshot()
+app.handle("greeting.name", "greeting/name", "Grace")
+local changed = app.snapshot()
 assert(changed.name == "Grace" and changed.status == "Ready")
-assert(Application.render().type == "Screen")
+assert(app.render().type == "Screen")
 
 return true`,
         useWhen: "Replace the smoke test so checkable decoder and UI behavior stay deterministic without introducing a fake network response.",
@@ -2066,7 +2223,7 @@ luastra run
           "greet encodes declared input and returns a RequestId immediately.",
           "The host sends server.call.v1 to the local RPC endpoint with the operation name and deadline.",
           "The backend selects greeting.message.v1, enforces authorization, validates input, and validates its result.",
-          "Application.resolve matches the RequestId and separates transport failure from successful payload decoding.",
+          "app.resolve matches the RequestId and separates transport failure from successful payload decoding.",
           "decodeGreet admits only the exact declared result before status changes.",
         ],
       }),
@@ -2091,7 +2248,7 @@ luastra run
     summary: "Load one packaged WAV file, control playback, and render only decoded host state without polling or an application-owned progress loop.",
     guide: [
       "You will copy one audio fixture, install it as a one-item queue at launch, and expose Play and Pause controls whose enabled state follows the host.",
-      "Media commands return RequestId values and complete in Application.resolve. Ongoing playback truth arrives as media_state events in Application.handle; both payload paths use Media.decodeState.",
+      "Media commands return RequestId values and complete in app.resolve. Ongoing playback truth arrives as media_state events in app.handle; both payload paths use Media.decodeState.",
     ],
     cards: [
       entry("1. Create the project and copy audio", "starter + admitted WAV fixture", "Start from a normal project and copy the recipe fixture into its assets directory.", {
@@ -2123,7 +2280,7 @@ cd media-recipe
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/assets", "luastra/media", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/assets", "luastra/media", "luastra/ui"]
     },
     {
       "id": "app/tests/media",
@@ -2161,7 +2318,8 @@ local media: Media.State = {
 }
 local pending: {[number]: string} = {}
 local message = "Waiting for launch"
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 
 local queue: {Media.QueueItem} = {
     {
@@ -2188,7 +2346,7 @@ local function applyState(payload: string, nextMessage: string?): boolean
     return true
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local elapsed = math.floor(media.positionMs / 1000)
     local duration = math.floor(media.durationMs / 1000)
     return UI.Screen {
@@ -2239,7 +2397,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "lifecycle" and target == "app" and value == "launch" then
         if media.queueCount == 0 then track(Media.setQueue(queue, 1), "Queue load") end
     elseif action == "media_state" then
@@ -2251,7 +2409,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(
+function Root.resolve(
     requestId: number,
     success: boolean,
     payload: string,
@@ -2268,18 +2426,23 @@ function Application.resolve(
     applyState(payload, label .. " completed")
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { status = media.status, title = media.title, message = message }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the complete entry module. Do not add a timer or frame loop: the host emits bounded progress and lifecycle updates.",
       }),
       entry("4. Replace tests/smoke.luau", "valid event + malformed state rejection", "The smoke test drives the same media_state path as the host without pretending to play audio in the isolated test VM.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 local Media = require("luastra/media")
 
 local ready = table.concat({
@@ -2303,15 +2466,15 @@ local ready = table.concat({
 
 local decoded = Media.decodeState(ready)
 assert(decoded.success and decoded.state.title == "Focus sample")
-Application.handle("media_state", "player", ready)
-local current = Application.snapshot()
+app.handle("media_state", "player", ready)
+local current = app.snapshot()
 assert(current.status == "ready" and current.title == "Focus sample")
 
-Application.handle("media_state", "player", "v=2&status=playing")
-local rejected = Application.snapshot()
+app.handle("media_state", "player", "v=2&status=playing")
+local rejected = app.snapshot()
 assert(rejected.status == "ready")
 assert(rejected.message == "Rejected media state: invalid_wire")
-assert(Application.render().type == "Screen")
+assert(app.render().type == "Screen")
 
 return true`,
         useWhen: "Replace the generated smoke test so state admission and rejection are verified independently of browser audio policy.",
@@ -2328,7 +2491,7 @@ luastra run
         points: [
           "check and test must report PASS with one passing test.",
           "Play begins only after an explicit user action, which satisfies common browser autoplay policy.",
-          "The progress text should advance from host events; Application.render does not run on an application timer.",
+          "The progress text should advance from host events; app.render does not run on an application timer.",
           "If decoding or playback fails, keep the last admitted state and show a bounded message.",
         ],
       }),
@@ -2337,7 +2500,7 @@ luastra run
         useWhen: "Read this when controls appear to lag, playback changes outside the app, or command success conflicts with a later media event.",
         points: [
           "setQueue, play, and pause return RequestId immediately; store it only for command correlation.",
-          "Application.resolve reports whether that command completed and may carry a decodable state snapshot.",
+          "app.resolve reports whether that command completed and may carry a decodable state snapshot.",
           "media_state reports later changes such as progress, ending, buffering, interruption, route, and errors.",
           "Render from the newest decoded Media.State rather than assuming that a pressed button already changed playback.",
           "Ignore unknown RequestIds and reject malformed state payloads without erasing the last valid UI state.",
@@ -2395,7 +2558,7 @@ cd orbit-recipe`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/ui"]
     },
     {
       "id": "app/tests/orbit",
@@ -2413,7 +2576,8 @@ cd orbit-recipe`,
 
 local UI = require("luastra/ui")
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local depth = "root"
 local visitedBuild = false
 local selected: string? = nil
@@ -2435,7 +2599,7 @@ local function titleFor(id: string?): string
     return "Node details"
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local focusTitle = titleFor(selected)
     local children: {UI.Node} = {
         UI.OrbitPath {
@@ -2581,7 +2745,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "open-build" and target == "orbit/build" then
         depth = "build"
         visitedBuild = true
@@ -2596,18 +2760,22 @@ function Application.handle(action: string, target: string, _value: string)
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { depth = depth, visitedBuild = visitedBuild, selected = selected }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the complete entry module. Keep the component IDs stable: relationships, selection, focus restoration, tests, and future routes all depend on semantic identity.",
       }),
       entry("4. Replace tests/smoke.luau", "root → nested depth → focus → return", "The test follows the meaningful interaction states without asserting host-calculated coordinates or animation frames.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
 local function byId(node: any, id: string): any
     if node.id == id then return node end
@@ -2622,32 +2790,32 @@ local function hasClass(node: any, name: string): boolean
     return string.find(" " .. node.properties.className .. " ", " " .. name .. " ", 1, true) ~= nil
 end
 
-local initial = Application.render()
+local initial = app.render()
 assert(initial.type == "Screen")
 assert(hasClass(byId(initial, "orbit"), "luastra-orbit"))
 assert(hasClass(byId(initial, "orbit/root"), "luastra-constellation-state-active"))
 assert(byId(initial, "orbit/build-space") == nil)
 assert(byId(initial, "orbit/build").properties.orbitRelatedTo == "orbit/learn")
 
-Application.handle("open-build", "orbit/build", "")
-local nested = Application.render()
+app.handle("open-build", "orbit/build", "")
+local nested = app.render()
 assert(hasClass(byId(nested, "orbit/root"), "luastra-constellation-state-behind"))
 assert(hasClass(byId(nested, "orbit/build-space"), "luastra-constellation-state-active"))
 
-Application.handle("open-focus", "orbit/build/interface", "")
-local focused = Application.render()
+app.handle("open-focus", "orbit/build/interface", "")
+local focused = app.render()
 assert(byId(focused, "orbit/focus").properties.open == true)
 assert(hasClass(byId(focused, "orbit/build/interface"), "luastra-orbit-selected"))
 assert(byId(focused, "orbit/focus/title").properties.text == "Interface")
 
-Application.handle("close-focus", "orbit/focus/close", "")
-assert(byId(Application.render(), "orbit/focus").properties.open == false)
+app.handle("close-focus", "orbit/focus/close", "")
+assert(byId(app.render(), "orbit/focus").properties.open == false)
 
-Application.handle("return-root", "orbit/path/root", "")
-local returned = Application.render()
+app.handle("return-root", "orbit/path/root", "")
+local returned = app.render()
 assert(hasClass(byId(returned, "orbit/root"), "luastra-constellation-state-active"))
 assert(hasClass(byId(returned, "orbit/build-space"), "luastra-constellation-state-ahead"))
-assert(Application.snapshot().depth == "root")
+assert(app.snapshot().depth == "root")
 
 return true`,
         useWhen: "Replace the smoke test. Test semantic states and contracts in Luau; verify actual layout, motion, focus order, and list fallback separately in supported hosts.",
@@ -3047,7 +3215,7 @@ assert(state.count == 1)`,
   {
     id: "beginner-tutorial",
     title: "Beginner tutorial: build an accessible counter",
-    module: "luastra/ui · Application.render · Application.handle · about 15 minutes",
+    module: "luastra/ui · app.render · app.handle · about 15 minutes",
     summary: "Create, understand, test, run, and safely change one complete Luastra application.",
     guide: [
       "Start here after Installation and Quick start. You need only basic Luau tables, functions, if statements, and local variables.",
@@ -3078,7 +3246,7 @@ cd beginner-counter`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/ui"]
     },
     {
       "id": "app/tests/counter",
@@ -3097,10 +3265,11 @@ cd beginner-counter`,
 
 local UI = require("luastra/ui")
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local count: number = 0
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "counter",
         documentTitle = "Beginner counter",
@@ -3145,7 +3314,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "counter.add" and target == "counter/add" then
         count += 1
     elseif action == "counter.reset" and target == "counter/reset" then
@@ -3153,34 +3322,38 @@ function Application.handle(action: string, target: string, _value: string)
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { count = count }
 end
 
-return Application`,
-        useWhen: "Replace the complete generated entry module; do not paste only render or handle because the imports, state, snapshot, and returned Application table belong to the same file.",
-        points: ["--!strict lets luastra check analyze this entire module.", "Application.render has no side effects: it returns a fresh description of UI from count.", "onTap contains an action name; the clicked component's stable id arrives separately as target.", "role=status announces the changed count without moving keyboard focus.", "snapshot is a small test seam used by tests/smoke.luau; the host never calls it."],
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}`,
+        useWhen: "Replace the complete generated entry module; do not paste only render or handle because the imports, state, snapshot, and returned App.compose instance belong to the same file.",
+        points: ["--!strict lets luastra check analyze this entire module.", "app.render has no side effects: it returns a fresh description of UI from count.", "onTap contains an action name; the clicked component's stable id arrives separately as target.", "role=status announces the changed count without moving keyboard focus.", "snapshot is a small test seam used by tests/smoke.luau; the host never calls it."],
       }),
       entry("4. Replace tests/smoke.luau", "deterministic interaction test", "The test imports the real entry module, exercises the same actions emitted by the buttons, and proves that an unrelated target cannot mutate state.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
-assert(Application.snapshot().count == 0, "counter must start at zero")
+assert(app.snapshot().count == 0, "counter must start at zero")
 
-local initialTree = Application.render()
+local initialTree = app.render()
 assert(initialTree.type == "Screen", "render must return one Screen root")
 assert(initialTree.id == "counter", "screen id must remain stable")
 
-Application.handle("counter.add", "counter/add", "")
-assert(Application.snapshot().count == 1, "Add one must increment the count")
+app.handle("counter.add", "counter/add", "")
+assert(app.snapshot().count == 1, "Add one must increment the count")
 
-Application.handle("counter.add", "another/control", "")
-assert(Application.snapshot().count == 1, "an unrelated target must not change state")
+app.handle("counter.add", "another/control", "")
+assert(app.snapshot().count == 1, "an unrelated target must not change state")
 
-Application.handle("counter.reset", "counter/reset", "")
-assert(Application.snapshot().count == 0, "Reset must restore zero")
+app.handle("counter.reset", "counter/reset", "")
+assert(app.snapshot().count == 0, "Reset must restore zero")
 
 return true`,
         useWhen: "Replace the generated smoke test so luastra test verifies this application's behavior instead of only constructing an unrelated SDK node.",
@@ -3217,8 +3390,8 @@ luastra test`,
       rows: [
         row("1. Declare", "UI.Button onTap=counter.add", "render describes an accessible action and its stable target id."),
         row("2. Activate", "pointer, touch, Enter, or Space", "the host emits the admitted action and target without embedding application logic."),
-        row("3. Update", "Application.handle", "the application validates both strings and changes count."),
-        row("4. Render", "Application.render", "Luastra requests the complete current tree again."),
+        row("3. Update", "app.handle", "the application validates both strings and changes count."),
+        row("4. Render", "app.render", "Luastra requests the complete current tree again."),
         row("5. Reconcile", "stable node ids", "the host updates the count and disabled state without replacing unrelated UI."),
       ],
     }],
@@ -3258,7 +3431,14 @@ cd routed-reading-list`,
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/data", "luastra/host", "luastra/navigation", "luastra/state", "luastra/ui"]
+      "dependencies": [
+        "luastra/app",
+        "luastra/data",
+        "luastra/host",
+        "luastra/navigation",
+        "luastra/state",
+        "luastra/ui"
+      ]
     },
     {
       "id": "app/tests/reading-list",
@@ -3300,7 +3480,8 @@ local snapshotSchema = Data.object({
     filter = Data.string({ minBytes = 3, maxBytes = 9 }),
 })
 
-local Application = {}
+local App = require("luastra/app")
+local Root = {}
 local filter = "all"
 local message = "Nothing saved yet"
 local pending: { [number]: string } = {}
@@ -3316,7 +3497,7 @@ local function track(id: number, operation: string)
     pending[id] = operation
 end
 
-function Application.restore(payload: string): boolean
+function Root.restore(payload: string): boolean
     local decoded = State.decode(payload, 1)
     if not decoded.success then return false end
 
@@ -3331,7 +3512,7 @@ function Application.restore(payload: string): boolean
     return true
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local current = router.current()
     local location = router.currentLocation()
     return UI.Screen {
@@ -3367,7 +3548,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "reading.open" and target == "reading/open" then
         local result = router.push { name = "note", params = { note_id = 7 }, query = {} }
         message = result.success and "Opened note 7" or "Could not open note"
@@ -3382,10 +3563,12 @@ function Application.handle(action: string, target: string, _value: string)
     elseif action == "reading.load" and target == "reading/load" then
         track(Host.storageGet("reading-list-view"), "load")
         message = "Loading…"
+    elseif action == "reading.restore" and target == "app" then
+        message = if Root.restore(_value) then "View restored" else "Saved view is invalid"
     end
 end
 
-function Application.resolve(
+function Root.resolve(
     id: number,
     success: boolean,
     payload: string,
@@ -3397,11 +3580,11 @@ function Application.resolve(
     if operation == nil then return end
     if not success then message = operation .. " failed: " .. code return end
     if operation == "save" then message = "View saved"
-    elseif Application.restore(payload) then message = "View restored"
+    elseif Root.restore(payload) then message = "View restored"
     else message = "Saved view is invalid" end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return {
         name = router.current().name,
         location = router.currentLocation(),
@@ -3411,38 +3594,44 @@ function Application.snapshot()
     }
 end
 
-return Application`,
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}`,
         useWhen: "Replace the entire generated entry module. Keep encode and restore near each other so snapshot version, fields, validation, and route restoration remain auditable.",
-        points: ["Navigation.compile validates note_id before a route can enter the stack.", "State.decode checks framing and version; Data.decode then checks the decoded field shapes; the application finally admits only known filter values.", "router.restoreEncoded validates every restored route before replacing the active stack.", "Application.resolve ignores unknown RequestIds and clears known requests before applying their result.", "Rendering reads current state; storage effects start only from admitted button actions."],
+        points: ["Navigation.compile validates note_id before a route can enter the stack.", "State.decode checks framing and version; Data.decode then checks the decoded field shapes; the application finally admits only known filter values.", "router.restoreEncoded validates every restored route before replacing the active stack.", "app.resolve ignores unknown RequestIds and clears known requests before applying their result.", "Rendering reads current state; storage effects start only from admitted button actions."],
       }),
       entry("4. Replace tests/smoke.luau", "route, round-trip, and rejection test", "The deterministic test drives route and filter actions, restores their saved snapshot, and proves malformed external data cannot replace current state.", {
         wide: true,
         code: `--!strict
 
-local Application = require("app/main")
+local app = require("app/main")
 
-local initial = Application.snapshot()
+local initial = app.snapshot()
 assert(initial.location == "/", "application must start at the library")
 assert(initial.filter == "all", "application must start with the all filter")
 
-Application.handle("reading.open", "reading/open", "")
-Application.handle("reading.filter", "reading/filter-toggle", "")
-local saved = Application.snapshot()
+app.handle("reading.open", "reading/open", "")
+app.handle("reading.filter", "reading/filter-toggle", "")
+local saved = app.snapshot()
 assert(saved.location == "/notes/7", "note route was not generated")
 assert(saved.filter == "favorites", "filter did not change")
 
-Application.handle("reading.back", "reading/back", "")
-Application.handle("reading.filter", "reading/filter-toggle", "")
-assert(Application.snapshot().location == "/", "Back did not return to the library")
-assert(Application.snapshot().filter == "all", "filter did not return to all")
+app.handle("reading.back", "reading/back", "")
+app.handle("reading.filter", "reading/filter-toggle", "")
+assert(app.snapshot().location == "/", "Back did not return to the library")
+assert(app.snapshot().filter == "all", "filter did not return to all")
 
-assert(Application.restore(saved.encoded), "valid snapshot was rejected")
-assert(Application.snapshot().location == "/notes/7", "saved route was not restored")
-assert(Application.snapshot().filter == "favorites", "saved filter was not restored")
+app.handle("reading.restore", "app", saved.encoded)
+assert(app.snapshot().location == "/notes/7", "saved route was not restored")
+assert(app.snapshot().filter == "favorites", "saved filter was not restored")
 
-local beforeInvalid = Application.snapshot()
-assert(not Application.restore("v=1&filter=unknown&navigation=invalid"), "invalid snapshot was accepted")
-local afterInvalid = Application.snapshot()
+local beforeInvalid = app.snapshot()
+app.handle("reading.restore", "app", "v=1&filter=unknown&navigation=invalid")
+assert(app.snapshot().message == "Saved view is invalid", "invalid snapshot was accepted")
+local afterInvalid = app.snapshot()
 assert(afterInvalid.location == beforeInvalid.location, "invalid restore changed the route")
 assert(afterInvalid.filter == beforeInvalid.filter, "invalid restore changed the filter")
 
@@ -3467,7 +3656,7 @@ luastra test`,
 # Reload the page, press Restore view again, and expect the same saved view.
 # Stop the preview with Ctrl+C.`,
         useWhen: "Run only after check and test pass; keep the terminal open while verifying the current browser host.",
-        points: ["Saving… and Loading… are immediate application states; View saved or View restored arrives through Application.resolve.", "Restoring before the first save may fail or return empty data; the current route and filter must remain usable.", "A browser-host pass does not prove storage behavior in every desktop or mobile host."],
+        points: ["Saving… and Loading… are immediate application states; View saved or View restored arrives through app.resolve.", "Restoring before the first save may fail or return empty data; the current route and filter must remain usable.", "A browser-host pass does not prove storage behavior in every desktop or mobile host."],
       }),
       entry("7. Understand the trust boundaries", "route model → snapshot → transport → validated restore", "Each layer solves one problem; keeping them separate makes failures recoverable and tests meaningful.", {
         kind: "guide",
@@ -3523,9 +3712,9 @@ luastra test`,
         kind: "guide",
         useWhen: "Use this when choosing the first extension to your counter.",
         points: [
-          "Delayed action teaches timer events delivered to Application.handle.",
+          "Delayed action teaches timer events delivered to app.handle.",
           "Typed navigation teaches named routes and validated canonical locations.",
-          "Persist state teaches versioned snapshots plus asynchronous Host requests and Application.resolve.",
+          "Persist state teaches versioned snapshots plus asynchronous Host requests and app.resolve.",
           "Return to the API reference only after the matching recipe works, then use symbol pages for exact signatures and edge cases.",
         ],
       }),
@@ -3558,21 +3747,21 @@ return {
 }`,
     })],
   },
-  { id: "application", title: "Application contract", module: "app/main", summary: "render is always required; handle is required when events can arrive; resolve is required when non-timer capability requests can complete.", guide: ["The entry module creates and returns an Application table. Initial render describes the screen without side effects; later handle or resolve calls update module state, then Luastra renders again.", "Implement handle before declaring controls, timers, lifecycle behavior, history, or media-state events. Implement resolve before starting Host, Server, or Media requests. Timer acknowledgements do not enter resolve; timer expiry enters handle."], cards: [entry("Application.render", "Application.render() -> UI.Node", "Returns the complete current interface as exactly one UI.Screen root.", { kind: "function", returns: "UI.Node — exactly one UI.Screen root.", useWhen: "Implement render in every application entry module; it is the required source of the complete current host-neutral UI tree.", code: `function Application.render(): UI.Node\n    return UI.Screen {\n        id = "app",\n    }\nend` }), entry("Application.handle", "Application.handle(action: string, target: string, value: string)", "Receives admitted UI and host events before the next render.", { kind: "function", parameters: [row("action", "string", "An onTap/onInput/onDismiss action or a host event such as lifecycle, timer, history, open_url, system_back, or media_state."), row("target", "string", "The stable component ID or host target such as app or browser."), row("value", "string", "The committed input value or bounded event payload; it may be empty.")], returns: "Nothing. State changes become visible in the render that follows the handler.", useWhen: "Implement handle when the application reacts to controls, input, timers, navigation, lifecycle, media state, or other admitted host events.", code: `function Application.handle(\n    action: string,\n    target: string,\n    value: string\n)\n    -- Validate the event and update module state.\nend` }), entry("Application.resolve", "Application.resolve(id: number, success: boolean, payload: string, code: string, message: string)", "Receives the bounded completion of an asynchronous Host, Server, or Media request.", { kind: "function", parameters: [row("id", "number", "The RequestId returned when the operation started."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The successful bounded payload, or an empty string after failure."), row("code", "string", "The stable failure code, or an empty string after success."), row("message", "string", "The bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Clear the matching pending operation and update state for the following render.", useWhen: "Implement resolve when the application starts asynchronous Host, Server, or Media operations and must correlate their results by RequestId.", code: `function Application.resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    message: string\n)\n    -- Match id, clear pending work, then update state.\nend` })], callout: "Keep Application.render deterministic: describe UI from current state, and start timers, storage, media, or server work from initialization or event logic—not as a render side effect." },
+  { id: "application", title: "App contract", module: "app/main", summary: "render is always required; handle is required when events can arrive; resolve is required when non-timer capability requests can complete.", guide: ["The entry module returns one instance from App.compose. Initial render describes the screen without side effects; later handle or resolve calls update module state, then Luastra renders again.", "Implement handle before declaring controls, timers, lifecycle behavior, history, or media-state events. Implement resolve before starting Host, Server, or Media requests. Timer acknowledgements do not enter resolve; timer expiry enters handle."], cards: [entry("app.render", "app.render() -> UI.Node", "Returns the complete current interface as exactly one UI.Screen root.", { kind: "function", returns: "UI.Node — exactly one UI.Screen root.", useWhen: "Implement render in every application entry module; it is the required source of the complete current host-neutral UI tree.", code: `local function render(): UI.Node\n    return UI.Screen {\n        id = "app",\n    }\nend` }), entry("app.handle", "app.handle(action: string, target: string, value: string)", "Receives admitted UI and host events before the next render.", { kind: "function", parameters: [row("action", "string", "An onTap/onInput/onDismiss action or a host event such as lifecycle, timer, history, open_url, system_back, or media_state."), row("target", "string", "The stable component ID or host target such as app or browser."), row("value", "string", "The committed input value or bounded event payload; it may be empty.")], returns: "Nothing. State changes become visible in the render that follows the handler.", useWhen: "Implement handle when the application reacts to controls, input, timers, navigation, lifecycle, media state, or other admitted host events.", code: `local function handle(\n    action: string,\n    target: string,\n    value: string\n)\n    -- Validate the event and update module state.\nend` }), entry("app.resolve", "app.resolve(id: number, success: boolean, payload: string, code: string, message: string)", "Receives the bounded completion of an asynchronous Host, Server, or Media request.", { kind: "function", parameters: [row("id", "number", "The RequestId returned when the operation started."), row("success", "boolean", "Whether the operation completed successfully."), row("payload", "string", "The successful bounded payload, or an empty string after failure."), row("code", "string", "The stable failure code, or an empty string after success."), row("message", "string", "The bounded diagnostic message, or an empty string after success.")], returns: "Nothing. Clear the matching pending operation and update state for the following render.", useWhen: "Implement resolve when the application starts asynchronous Host, Server, or Media operations and must correlate their results by RequestId.", code: `local function resolve(\n    id: number,\n    success: boolean,\n    payload: string,\n    code: string,\n    message: string\n)\n    -- Match id, clear pending work, then update state.\nend` })], callout: "Keep app.render deterministic: describe UI from current state, and start timers, storage, media, or server work from initialization or event logic—not as a render side effect." },
   {
     id: "events-errors",
     title: "Events and errors",
-    module: "Application.handle · Application.resolve · exact host payloads",
-    summary: "Route UI and host events through Application.handle, correlate asynchronous capability completions in Application.resolve, and recover without replacing valid state with malformed external data.",
+    module: "app.handle · app.resolve · exact host payloads",
+    summary: "Route UI and host events through app.handle, correlate asynchronous capability completions in app.resolve, and recover without replacing valid state with malformed external data.",
     guide: [
-      "Application.handle receives admitted UI actions and host events before the next render. Always match the action and the expected stable target before mutating state.",
-      "Application.resolve completes Host, Server, and Media requests. Save the operation under the returned RequestId, remove it before applying the completion, and ignore unknown or stale IDs.",
+      "app.handle receives admitted UI actions and host events before the next render. Always match the action and the expected stable target before mutating state.",
+      "app.resolve completes Host, Server, and Media requests. Save the operation under the returned RequestId, remove it before applying the completion, and ignore unknown or stale IDs.",
       "Timer expiry and ongoing media state are events, not resolve completions. Decode structured strings with their SDK decoder and preserve the last valid application state when decoding fails.",
     ],
     cards: [
       entry("Route handle events explicitly", "action + target + value", "One callback may receive unrelated UI, lifecycle, navigation, timer, and media events, so every mutation needs a narrow branch.", {
         wide: true,
-        code: `function Application.handle(action: string, target: string, value: string)
+        code: `local function handle(action: string, target: string, value: string)
     if action == "counter.add" and target == "counter/add" then
         count += 1
     elseif action == "lifecycle" and target == "app" then
@@ -3660,7 +3849,7 @@ end`,
 local requestId = Host.storageGet("app-state")
 pending[requestId] = "restore"
 
-function Application.resolve(
+local function resolve(
     id: number,
     success: boolean,
     payload: string,
@@ -3721,11 +3910,15 @@ end`,
     ],
     callout: "Never log secrets, tokens, personal data, complete storage snapshots, server payloads, or system Back intent details while diagnosing an error.",
   },
-  { id: "ui", title: "Interface components", module: "luastra/ui", summary: "Builds a complete host-neutral semantic interface tree from validated components with stable lowercase IDs. Current web, Tauri, and Capacitor hosts render the tree as accessible semantic DOM and update it after application events.", guide: ["Named fields configure one node, while numeric table entries are its ordered children. Application.render must return exactly one UI.Screen root and may compose any supported containers, content, controls, and visual nodes beneath it.", "Each component card below contains the complete parameter set supported by that component. Shared groups remain available as conceptual explanations, but they are no longer a substitute for the component-specific table."], cards: uiCards, example: moduleExamples["luastra/ui"], callout: "Every render-tree ID must be unique and use lowercase path segments. Native adapters currently serve capability boundaries rather than replacing the semantic DOM renderer with platform-native widgets." },
+  { id: "ui", title: "Interface components", module: "luastra/ui", summary: "Builds a complete host-neutral semantic interface tree from validated components with stable lowercase IDs. Current web, Tauri, and Capacitor hosts render the tree as accessible semantic DOM and update it after application events.", guide: ["Named fields configure one node, while numeric table entries are its ordered children. app.render must return exactly one UI.Screen root and may compose any supported containers, content, controls, and visual nodes beneath it.", "Each component card below contains the complete parameter set supported by that component. Shared groups remain available as conceptual explanations, but they are no longer a substitute for the component-specific table."], cards: uiCards, example: moduleExamples["luastra/ui"], callout: "Every render-tree ID must be unique and use lowercase path segments. Native adapters currently serve capability boundaries rather than replacing the semantic DOM renderer with platform-native widgets." },
   { id: "ui-properties", title: "UI parameters", module: "luastra/ui", summary: "Bounded design-system values fail clearly when invalid.", tables: uiTables },
   { id: "visuals", title: "Images, shapes, layers, and flip cards", module: "luastra/ui · luastra/assets · luastra/motion", summary: "Typed assets and host-native geometry compose into live visuals.", cards: [entry("Admitted image", "Assets.image → Assets.uri → UI.Image", "check verifies the file before display.", { useWhen: "Use an admitted image when application artwork must be packaged, integrity-checked, and rendered without accepting an arbitrary path or URL.", code: `local source = Assets.uri(Assets.image("image/card-back"))\n\nUI.Image {\n    id = "card/back",\n    source = source,\n    label = "Card back",\n}` }), entry("Shape overlay", "UI.Layer { base, overlay }", "The first child defines shared bounds.", { useWhen: "Use a Layer when later children must occupy the same visual bounds as the first child, such as text or status content over a Shape.", code: `UI.Layer {\n    id = "answer",\n    UI.Shape {\n        id = "answer/base",\n        shape = "circle",\n        width = 96,\n        height = 96,\n    },\n    UI.Text {\n        id = "answer/text",\n        text = "Correct",\n    },\n}` })] },
+  moduleSection("app-composition", "Application composition", "luastra/app", "Composes reusable features into one transparent app contract.", ["Feature IDs own event namespaces and claimed asynchronous completions."]),
+  moduleSection("resource", "Asynchronous resources", "luastra/resource", "Explicit read and mutation state machines with stale-result suppression.", ["Settle only the exact generation ticket returned by begin."]),
+  moduleSection("collection", "Bounded paged collections", "luastra/collection", "A reusable bidirectional window for feeds and other large collections.", ["Stable keys and anchors keep eviction predictable while old pages leave memory."]),
   moduleSection("motion", "Declarative motion", "luastra/motion", "Tween, Sequence, and predefined MotionMaps.", ["A sequence is one channel value and accepts only Tween or Wait steps."]),
   moduleSection("assets", "Typed assets", "luastra/assets", "Prevents mixing asset kinds and rejects arbitrary paths.", ["Declare, create a typed reference, then use Assets.uri."]),
+  moduleSection("content", "Dynamic content", "luastra/content", "Typed protected and host-local image handles.", ["Receive a bounded handle and metadata, then pass Content.Image to UI.Image."]),
   moduleSection("data", "Runtime data validation", "luastra/data", "Validates user, storage, and server values.", ["Build a Schema, decode, and branch on result.success."]),
   moduleSection("state", "Versioned state", "luastra/state", "Deterministic small snapshots with explicit migrations.", ["Persist encoded strings through Host storage."]),
   moduleSection("navigation", "Navigation and routes", "luastra/navigation", "Named stacks or typed canonical routes.", ["Keep the stack in module state and select the screen from current()."]),
@@ -3813,9 +4006,9 @@ end`,
       "description": "Explicit host privileges.",
       "useWhen": "Read this page when you need to apply Capabilities, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
       "language": "JSON",
-      "code": "\"capabilities\": [\n  \"ui.render\",\n  \"storage.get\",\n  \"storage.set\"\n]",
+      "code": "\"capabilities\": [\n  \"ui.render\",\n  \"content.pick\",\n  \"content.upload\"\n]",
       "points": [
-        "Required array of unique host capability names. ui.render permits rendering; storage.get and storage.set permit storage operations.",
+        "Required array of unique host capability names. ui.render permits rendering; content.pick and content.upload permit the bounded host-owned image workflow; storage.get and storage.set permit storage operations.",
         "Importing luastra/host does not grant privileges; listing a capability does not import a module or guarantee target-host support.",
         "Startup rendering uses a separate restricted ui.render-only profile and does not inherit application capabilities."
       ]
@@ -3826,13 +4019,15 @@ end`,
       "description": "Trusted operations and generated clients.",
       "useWhen": "Read this page when you need to apply Backend, verify its exact contract, and adapt the example without bypassing validation or host boundaries.",
       "language": "JSON",
-      "code": "\"backend\": {\n  \"declaration\": \"backend/functions.json\",\n  \"handler\": \"backend/handlers.mjs\",\n  \"generatedClient\": \"src/generated/server-functions.luau\",\n  \"generatedModule\": \"app/server-functions\"\n}",
+      "code": "\"backend\": {\n  \"declaration\": \"backend/functions.json\",\n  \"handler\": \"backend/handlers.mjs\",\n  \"generatedClient\": \"src/generated/server-functions.luau\",\n  \"generatedModule\": \"app/server-functions\",\n  \"records\": {\n    \"notes\": {\n      \"provider\": \"local\",\n      \"authorization\": { \"mode\": \"owner\", \"field\": \"ownerId\" },\n      \"mutableFields\": [\"title\"],\n      \"insertFields\": [\"id\", \"ownerId\", \"title\"]\n    }\n  }\n}",
       "points": [
         "Optional object. declaration (.json), handler (.mjs), generatedClient (.luau) and generatedModule are required; file paths must stay inside the project.",
         "generatedModule must appear in modules with source matching generatedClient and dependencies including luastra/server. Importers must declare that dependency. Use luastra backend generate to generate or refresh the client.",
         "authentication: development (default) or session. database: omitted for memory, or { \"provider\": \"sqlite\", \"path\": \"data/app.sqlite\" } for a safe relative persistent .sqlite path.",
         "identity: optional { \"provider\": \"local-password\" } (requires SQLite), or { \"provider\": \"supabase\" } (requires session authentication). Keep provider credentials out of the public manifest.",
+        "records: optional named local or Supabase collections. Local collections require an explicit public, authenticated or immutable-owner authorization mode. Supabase collections require Supabase identity and database grants/RLS; URLs, keys and session tokens never belong in the manifest.",
         "content: optional array of at most 64 entries, each with id, source under content/ and an admitted image/audio mediaType. Server content is distinct from client assets; fonts are not admitted here.",
+        "uploads: optional array of at most 32 reusable upload purposes. Each local or Supabase declaration narrows PNG/JPEG media types, byte size, dimensions, and provider location; application handlers create and commit opaque intents through context.content.",
         "A backend declaration does not deploy a production service. See the server recipes and host configuration."
       ]
     },
@@ -3853,7 +4048,7 @@ end`,
     {
       "name": "Startup configuration",
       "signature": "startup.entry",
-      "description": "Build-time loading and failure screens (0.4.0-alpha).",
+      "description": "Build-time loading and failure screens (introduced in 0.4.0-alpha).",
       "useWhen": "Use this when opting a web project into prebuilt startup screens and wiring the separate startup module.",
       "kind": "guide",
       "language": "JSON",

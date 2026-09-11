@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Navigation = require("luastra/navigation")
 local UI = require("luastra/ui")
 
@@ -24,9 +25,9 @@ local router = Navigation.createRouter {
     initial = { name = "home", params = {}, query = {} },
 }
 
-local Application = {}
+local Root = {}
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local current = router.current()
     return UI.Screen {
         id = "routing-lab",
@@ -49,7 +50,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, _value: string)
+function Root.handle(action: string, target: string, _value: string)
     if action == "open-workspace" and target == "routing/workspace" then
         router.push { name = "workspace", params = { workspace_id = 7 }, query = {} }
     elseif action == "open-document" and target == "routing/document" then
@@ -59,8 +60,12 @@ function Application.handle(action: string, target: string, _value: string)
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return { name = router.current().name, location = router.currentLocation(), navigation = router.encode() }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}

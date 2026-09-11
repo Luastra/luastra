@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "identity": "luastra-source-sdk/phase5-contract-15",
+  "identity": "luastra-source-sdk/phase5-contract-19",
   "compatibility": {
     "analyzer": "luau-analysis/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
     "compiler": "luau/0.731;commit/f8ca77acdcb50241e3da21af663f8ef97b4b5ce4",
@@ -9,11 +9,34 @@
   },
   "modules": [
     {
+      "id": "luastra/app",
+      "source": "luastra/app.luau",
+      "dependencies": [],
+      "bytes": 11801,
+      "sha256": "eecef0e73092cb638ea1d5e52c647f76bdf84d68fbe55092159920586a1c2706"
+    },
+    {
       "id": "luastra/assets",
       "source": "luastra/assets.luau",
       "dependencies": [],
       "bytes": 1300,
       "sha256": "6787c85d5569d06005e93af88137efed77aaed2fd465cb998edab3fa950464e9"
+    },
+    {
+      "id": "luastra/collection",
+      "source": "luastra/collection.luau",
+      "dependencies": [
+        "luastra/resource"
+      ],
+      "bytes": 20456,
+      "sha256": "de72855ebc5af403023b618bd0f44bb93313372da4031258bf5fc3c32fa4c3a3"
+    },
+    {
+      "id": "luastra/content",
+      "source": "luastra/content.luau",
+      "dependencies": [],
+      "bytes": 11398,
+      "sha256": "8c017df18c2e70d1f848ca23320f9b5e8378f508565c98e1dd39af4c4f4d1321"
     },
     {
       "id": "luastra/data",
@@ -58,11 +81,18 @@
       "sha256": "f8fa5eb649130644a1a7b776a79033b30ee1d35672b31df552b9d1a16f95d3c3"
     },
     {
+      "id": "luastra/resource",
+      "source": "luastra/resource.luau",
+      "dependencies": [],
+      "bytes": 11767,
+      "sha256": "e2eb36a555e1b47b2d7a38bf4ae6af456bc3f0a1a4ff7f042d6866b81f1a8b2f"
+    },
+    {
       "id": "luastra/server",
       "source": "luastra/server.luau",
       "dependencies": [],
-      "bytes": 5247,
-      "sha256": "c9d894b7cdde5ecf015add2258f42f40fdddba3e7b2b21194f84d587f7a2f8f1"
+      "bytes": 10699,
+      "sha256": "0f02a67abf0454c1cb3fd4f4c1c16396157c4333b95816248b78dae8cd41a5a3"
     },
     {
       "id": "luastra/state",
@@ -82,10 +112,11 @@
       "id": "luastra/ui",
       "source": "luastra/ui.luau",
       "dependencies": [
-        "luastra/assets"
+        "luastra/assets",
+        "luastra/content"
       ],
-      "bytes": 42615,
-      "sha256": "da84a3e756b749dbdfc8a36de666e9778a0dd9746258933e1a283f69669ccd0c"
+      "bytes": 50872,
+      "sha256": "89f34b3def64c214fcd4284a70903c4b4c0a1276b3d609eac7cfba268c1674c2"
     }
   ]
 }

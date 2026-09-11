@@ -5,7 +5,7 @@
   "sdk": { "contract": 1 },
   "capabilities": ["ui.render"],
   "modules": [
-    { "id": "app/main", "source": "src/main.luau", "dependencies": ["luastra/ui"] },
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["luastra/app", "luastra/ui"] },
     { "id": "app/startup", "source": "src/startup.luau", "dependencies": ["luastra/ui"] }
   ]
 }

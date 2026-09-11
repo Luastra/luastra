@@ -12,7 +12,15 @@
     "declaration": "backend/functions.json",
     "handler": "backend/handlers.mjs",
     "generatedClient": "src/generated/server-functions.luau",
-    "generatedModule": "app/server-functions"
+    "generatedModule": "app/server-functions",
+    "records": {
+      "records": {
+        "provider": "local",
+        "authorization": { "mode": "owner", "field": "ownerId" },
+        "mutableFields": ["title", "details"],
+        "insertFields": ["id", "ownerId", "title", "details"]
+      }
+    }
   },
   "modules": [
     {
@@ -23,7 +31,7 @@
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["app/model", "app/server-functions", "luastra/ui"]
+      "dependencies": ["app/model", "app/server-functions", "luastra/app", "luastra/ui"]
     },
     {
       "id": "app/server-functions",

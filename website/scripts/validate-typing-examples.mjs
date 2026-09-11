@@ -18,14 +18,18 @@ function applicationSuffix(requiredModule) {
   return `
 
 local UI = require("luastra/ui")
+local App = require("luastra/app")
 local checkedExample = require(${JSON.stringify(requiredModule)})
 assert(checkedExample ~= nil)
 
-local Application = {}
-function Application.render(): UI.Node
-    return UI.Screen { id = "typing-example" }
-end
-return Application
+return App.compose {
+    render = function(_outputs): UI.Node
+        return UI.Screen { id = "typing-example" }
+    end,
+    snapshot = function()
+        return {}
+    end,
+}
 `;
 }
 
@@ -56,7 +60,7 @@ try {
       await writeFile(resolve(project, "src/main.luau"), `${parts[1]}${applicationSuffix("app/cards")}`, "utf8");
       await writeFile(resolve(project, "luastra.json"), `${manifest([
         { id: "app/cards", source: "src/cards.luau", dependencies: [] },
-        { id: "app/main", source: "src/main.luau", dependencies: ["app/cards", "luastra/ui"] },
+        { id: "app/main", source: "src/main.luau", dependencies: ["app/cards", "luastra/app", "luastra/ui"] },
       ])}\n`, "utf8");
     } else {
       if (!card.code.startsWith("--!strict\n")) throw new Error(`${card.name} is not a self-contained strict example`);
@@ -64,7 +68,7 @@ try {
       await writeFile(resolve(project, "src/main.luau"), applicationSuffix("example/snippet").trimStart(), "utf8");
       await writeFile(resolve(project, "luastra.json"), `${manifest([
         { id: "example/snippet", source: "src/example.luau", dependencies: [] },
-        { id: "app/main", source: "src/main.luau", dependencies: ["example/snippet", "luastra/ui"] },
+        { id: "app/main", source: "src/main.luau", dependencies: ["example/snippet", "luastra/app", "luastra/ui"] },
       ])}\n`, "utf8");
     }
 

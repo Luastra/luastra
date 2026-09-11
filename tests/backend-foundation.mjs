@@ -10,6 +10,7 @@ import { buildProject } from "../project/build-project.mjs";
 import { loadProject } from "../project/load-project.mjs";
 import { runProject } from "../project/run-project.mjs";
 import { createMemoryDatabase } from "../backend/database.mjs";
+import { createDeclaredRecordCollections } from "../backend/records.mjs";
 import { createBackendRuntime, handleServerCapability } from "../backend/runtime.mjs";
 import { createSessionStore } from "../backend/session.mjs";
 import { decodeWire, encodeWire } from "../backend/wire.mjs";
@@ -80,8 +81,9 @@ async function fixtureRuntime() {
   const project = await loadProject(manifestPath);
   const database = createMemoryDatabase();
   const implementation = await import(`${pathToFileURL(project.backend.handlerPath).href}?test=${Date.now()}-${Math.random()}`);
-  const handlers = implementation.createHandlers({ database });
-  return { project, database, handlers, runtime: createBackendRuntime({ contract: project.backend.declaration.value, handlers, database }) };
+  const records = createDeclaredRecordCollections({ declarations: project.backend.records, database, identityProvider: project.backend.identity.provider });
+  const handlers = implementation.createHandlers({ database, records });
+  return { project, database, records, handlers, runtime: createBackendRuntime({ contract: project.backend.declaration.value, handlers, database, records }) };
 }
 
 test("backend runtime enforces auth, authorization, typed results and idempotent mutations", async () => {
@@ -130,6 +132,7 @@ test("backend runtime enforces auth, authorization, typed results and idempotent
   const invalidRuntime = createBackendRuntime({
     contract: invalidFixture.project.backend.declaration.value,
     database: invalidFixture.database,
+    records: invalidFixture.records,
     handlers: { ...invalidFixture.handlers, "records.list.v1": async () => ({ records: [{ id: 7, title: "wrong", details: "shape" }] }) },
   });
   const invalidResult = rpc(await handleServerCapability(request({ function: "records.list.v1", retry: "false" }), { runtime: invalidRuntime, principal: user }));

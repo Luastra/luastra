@@ -1,6 +1,7 @@
 --!strict
 
 local Assets = require("luastra/assets")
+local Content = require("luastra/content")
 
 export type Properties = { [string]: any }
 export type Theme = {
@@ -48,12 +49,16 @@ export type Input = {
     count: number?,
     dangerColor: string?,
     depth: number?,
+    decorative: boolean?,
     description: string?,
+    descriptionId: string?,
     disabled: boolean?,
     documentDescription: string?,
     documentLanguage: string?,
     documentTitle: string?,
     enterKeyHint: string?,
+    endBusy: boolean?,
+    estimatedItemSize: number?,
     errorId: string?,
     external: boolean?,
     fill: string?,
@@ -65,8 +70,11 @@ export type Input = {
     hidden: boolean?,
     href: string?,
     icon: string?,
+    initialFocus: string?,
     inputMode: string?,
     inputType: string?,
+    itemCount: number?,
+    itemOffset: number?,
     justify: string?,
     label: string?,
     language: string?,
@@ -79,15 +87,23 @@ export type Input = {
     marginX: string?,
     marginY: string?,
     maxVisible: number?,
+    maximumLength: number?,
+    mode: string?,
+    multiline: boolean?,
     motion: unknown,
     mutedColor: string?,
     nodeKind: string?,
     onDismiss: string?,
+    onEndReached: string?,
     onInput: string?,
+    onSubmit: string?,
+    onStartReached: string?,
     onTap: string?,
     open: boolean?,
     orbitMotion: string?,
     orbitTheme: string?,
+    overscan: number?,
+    overflow: string?,
     padding: string?,
     paddingBottom: string?,
     paddingEnd: string?,
@@ -95,8 +111,10 @@ export type Input = {
     paddingTop: string?,
     paddingX: string?,
     paddingY: string?,
-    placeholder: string?,
+    placeholder: (string | Assets.Image)?,
+    placeholderColor: string?,
     presentation: string?,
+    pressed: boolean?,
     priority: number?,
     query: string?,
     relatedTo: { string }?,
@@ -110,9 +128,13 @@ export type Input = {
     selected: boolean?,
     shape: string?,
     signalIcon: string?,
-    source: string?,
+    source: (string | Assets.Image | Content.Image)?,
+    onError: string?,
+    onLoad: string?,
     status: string?,
     statusTone: string?,
+    startBusy: boolean?,
+    sticky: string?,
     stroke: string?,
     strokeWidth: number?,
     successColor: string?,
@@ -142,6 +164,7 @@ local defaultClasses: { [string]: string } = {
     CodeBlock = "luastra-code-block",
     Divider = "luastra-divider",
     FlipCard = "luastra-flip-card",
+    Icon = "luastra-icon",
     Image = "luastra-image",
     Layer = "luastra-layer",
     Link = "luastra-link",
@@ -187,6 +210,8 @@ local styleOptions: { [string]: { [string]: string } } = {
         primary = "luastra-action-primary", secondary = "luastra-action-secondary",
         danger = "luastra-action-danger", ghost = "luastra-action-ghost",
     },
+    overflow = { visible = "luastra-overflow-visible", clip = "luastra-overflow-clip", scroll = "luastra-overflow-scroll" },
+    sticky = { top = "luastra-sticky-top", bottom = "luastra-sticky-bottom" },
     fit = {
         contain = "luastra-fit-contain", cover = "luastra-fit-cover", fill = "luastra-fit-fill",
         none = "luastra-fit-none", scaleDown = "luastra-fit-scale-down",
@@ -218,17 +243,26 @@ local scopedColorComponents: { [string]: boolean } = {
     Code = true, CodeBlock = true, Column = true, Layer = true, Link = true, List = true,
     ListItem = true, Modal = true, Row = true, Table = true, TableCell = true, Text = true,
 }
-local eventProperties: { [string]: boolean } = { onDismiss = true, onInput = true, onTap = true }
+local eventProperties: { [string]: boolean } = {
+    onDismiss = true,
+    onEndReached = true,
+    onInput = true,
+    onStartReached = true,
+    onTap = true,
+    onError = true,
+    onLoad = true,
+    onSubmit = true,
+}
 local colorTokens: { [string]: boolean } = {
     accent = true, danger = true, muted = true, surface = true, success = true,
     text = true, transparent = true, warning = true,
 }
-local buttonIcons: { [string]: boolean } = {
-    activity = true,
-    palette = true,
-    pause = true,
+local icons: { [string]: boolean } = {
+    activity = true, ["arrow-left"] = true, check = true, close = true, home = true,
+    list = true, palette = true, pause = true, plus = true, retry = true,
+    search = true, settings = true, user = true,
 }
-table.freeze(buttonIcons)
+table.freeze(icons)
 local textAlignClasses: { [string]: string } = {
     start = "luastra-text-align-start",
     center = "luastra-text-align-center",
@@ -474,13 +508,33 @@ UI.Row = function(input: Input): Node return make("Row", input) end
 UI.Text = function(input: Input): Node return make("Text", input) end
 UI.Button = function(input: Input): Node
     assert(type(input) == "table", "Button requires a table")
+    local hasText = type(input.text) == "string" and #input.text >= 1
+    local hasLabel = type(input.label) == "string" and #input.label >= 1 and #input.label <= 160
+    local hasChildContent = input[1] ~= nil
+    assert(hasText or hasLabel or hasChildContent, "Button requires text, child content, or a label containing 1 to 160 bytes")
     if input.icon ~= nil then
-        assert(type(input.icon) == "string" and buttonIcons[input.icon] == true, "Button icon must be activity, palette or pause")
-        if input.text == nil or input.text == "" then
-            assert(type(input.label) == "string" and #input.label >= 1 and #input.label <= 160, "An icon-only Button requires a label containing 1 to 160 bytes")
-        end
+        assert(type(input.icon) == "string" and icons[input.icon] == true, "Button icon is not supported")
     end
-    return make("Button", input)
+    assert(input.pressed == nil or type(input.pressed) == "boolean", "Button pressed must be a boolean")
+    assert(input.selected == nil or type(input.selected) == "boolean", "Button selected must be a boolean")
+    assert(not (input.pressed ~= nil and input.selected ~= nil), "Button cannot be both pressed and selected")
+    assert(input.busy == nil or type(input.busy) == "boolean", "Button busy must be a boolean")
+    local normalized: any = table.clone(input)
+    if normalized.busy == true then normalized.disabled = true end
+    return make("Button", normalized)
+end
+UI.Icon = function(input: Input): Node
+    assert(type(input) == "table", "Icon requires a table")
+    assert(type(input.icon) == "string" and icons[input.icon] == true, "Icon name is not supported")
+    assert(type(input.decorative) == "boolean", "Icon decorative must be a boolean")
+    if input.decorative then
+        assert(input.label == nil or input.label == "", "A decorative Icon must not have a label")
+    else
+        assert(type(input.label) == "string" and #input.label >= 1 and #input.label <= 160, "An informative Icon requires a label containing 1 to 160 bytes")
+    end
+    local node = make("Icon", input)
+    assert(#node.children == 0, "Icon does not accept children")
+    return node
 end
 UI.Link = function(input: Input): Node
     assert(type(input) == "table", "Link requires a table")
@@ -500,9 +554,42 @@ UI.Divider = function(input: Input): Node
 end
 UI.Image = function(input: Input): Node
     assert(type(input) == "table", "Image requires a table")
-    assert(type(input.source) == "string" and string.match(input.source, "^asset:image/[a-z][a-z0-9_/%-]*$") ~= nil, "Image requires an admitted image source")
+    local normalized: any = table.clone(input)
+    local source: any = input.source
+    if type(source) == "table" then
+        assert(source.kind == "image" and type(source.uri) == "string", "Image source must be an Assets.Image or Content.Image")
+        normalized.source = source.uri
+        if source.metadata ~= nil then
+            assert(type(source.metadata) == "table", "Image content metadata is invalid")
+            local metadata: any = source.metadata
+            normalized.mediaType = metadata.mediaType
+            normalized.contentBytes = metadata.bytes
+            normalized.pixelWidth = metadata.width
+            normalized.pixelHeight = metadata.height
+            normalized.orientation = metadata.orientation
+            if normalized.placeholderColor == nil then normalized.placeholderColor = metadata.placeholderColor end
+        end
+    end
+    local uri = normalized.source
+    local dynamicSeparator = if type(uri) == "string" then string.find(uri, ":", 1, true) else nil
+    local dynamicScope = if dynamicSeparator ~= nil then string.sub(uri, 1, dynamicSeparator - 1) else ""
+    local dynamicToken = if dynamicSeparator ~= nil then string.sub(uri, dynamicSeparator + 1) else ""
+    local dynamic = (dynamicScope == "content" or dynamicScope == "preview") and #dynamicToken >= 32 and #dynamicToken <= 256 and string.match(dynamicToken, "^[A-Za-z0-9_-]+$") ~= nil
+    assert(type(uri) == "string" and (string.match(uri, "^asset:image/[a-z][a-z0-9_/%-]*$") ~= nil or dynamic), "Image requires an admitted image source")
+    if string.sub(uri, 1, 6) ~= "asset:" then
+        assert(type(normalized.mediaType) == "string" and type(normalized.contentBytes) == "number" and type(normalized.pixelWidth) == "number" and type(normalized.pixelHeight) == "number", "Dynamic Image sources require Content.image metadata")
+    end
+    local placeholder: any = input.placeholder
+    if type(placeholder) == "table" then
+        assert(placeholder.kind == "image" and type(placeholder.uri) == "string", "Image placeholder must be an Assets.Image")
+        normalized.placeholder = placeholder.uri
+    end
+    if normalized.placeholder ~= nil then
+        assert(type(normalized.placeholder) == "string" and string.match(normalized.placeholder, "^asset:image/[a-z][a-z0-9_/%-]*$") ~= nil, "Image placeholder must be a packaged image")
+    end
+    if normalized.placeholderColor ~= nil then assert(validHexColor(normalized.placeholderColor), "Image placeholderColor must be #RRGGBB") end
     assert(type(input.label) == "string", "Image requires a string label; use an empty label for decorative images")
-    local node = make("Image", input)
+    local node = make("Image", normalized)
     assert(#node.children == 0, "Image does not accept children")
     return node
 end
@@ -521,8 +608,52 @@ UI.FlipCard = function(input: Input): Node
     assert(#node.children == 2, "FlipCard requires exactly two children: front and back")
     return node
 end
-UI.TextInput = function(input: Input): Node return make("TextInput", input) end
-UI.List = function(input: Input): Node return make("List", input) end
+UI.TextInput = function(input: Input): Node
+    assert(type(input) == "table", "TextInput requires a table")
+    assert(type(input.label) == "string" and #input.label >= 1 and #input.label <= 160, "TextInput requires a label containing 1 to 160 bytes")
+    assert(input.multiline == nil or type(input.multiline) == "boolean", "TextInput multiline must be a boolean")
+    if input.maximumLength ~= nil then assert(type(input.maximumLength) == "number" and input.maximumLength % 1 == 0 and input.maximumLength >= 1 and input.maximumLength <= 4096, "TextInput maximumLength must be an integer from 1 to 4096") end
+    if input.onSubmit ~= nil then assert(validAction(input.onSubmit), "TextInput onSubmit is invalid") end
+    return make("TextInput", input)
+end
+UI.List = function(input: Input): Node
+    assert(type(input) == "table", "List requires a table")
+    local windowProperties = {
+        "endBusy", "estimatedItemSize", "itemCount", "itemOffset",
+        "onEndReached", "onStartReached", "overscan", "startBusy",
+    }
+    if input.mode == nil then
+        for _, property in windowProperties do
+            assert((input :: any)[property] == nil, "List " .. property .. " requires mode = windowed")
+        end
+    else
+        assert(input.mode == "windowed", "List mode must be windowed")
+    end
+
+    local normalized: any = table.clone(input)
+    if normalized.mode == "windowed" then
+        if normalized.estimatedItemSize == nil then normalized.estimatedItemSize = 72 end
+        if normalized.overscan == nil then normalized.overscan = 6 end
+        if normalized.startBusy == nil then normalized.startBusy = false end
+        if normalized.endBusy == nil then normalized.endBusy = false end
+        if normalized.itemOffset == nil then normalized.itemOffset = 0 end
+        assert(type(normalized.estimatedItemSize) == "number" and normalized.estimatedItemSize % 1 == 0 and normalized.estimatedItemSize >= 16 and normalized.estimatedItemSize <= 4096, "List estimatedItemSize must be an integer from 16 to 4096")
+        assert(type(normalized.overscan) == "number" and normalized.overscan % 1 == 0 and normalized.overscan >= 1 and normalized.overscan <= 64, "List overscan must be an integer from 1 to 64")
+        assert(type(normalized.startBusy) == "boolean", "List startBusy must be a boolean")
+        assert(type(normalized.endBusy) == "boolean", "List endBusy must be a boolean")
+        assert(type(normalized.itemOffset) == "number" and normalized.itemOffset % 1 == 0 and normalized.itemOffset >= 0 and normalized.itemOffset <= 1000000000, "List itemOffset must be an integer from 0 to 1000000000")
+        if normalized.itemCount ~= nil then
+            assert(type(normalized.itemCount) == "number" and normalized.itemCount % 1 == 0 and normalized.itemCount >= 0 and normalized.itemCount <= 1000000000, "List itemCount must be an integer from 0 to 1000000000")
+        end
+    end
+
+    local node = make("List", normalized)
+    for _, child in node.children do assert(child.type == "ListItem", "List children must be ListItem nodes") end
+    if normalized.itemCount ~= nil then
+        assert(normalized.itemOffset + #node.children <= normalized.itemCount, "List itemCount must cover itemOffset and every retained child")
+    end
+    return node
+end
 UI.ListItem = function(input: Input): Node return make("ListItem", input) end
 UI.Table = function(input: Input): Node
     local node = make("Table", input)
@@ -540,7 +671,12 @@ UI.TableCell = function(input: Input): Node
     if input.scope ~= nil then assert(input.header == true and (input.scope == "col" or input.scope == "row"), "TableCell scope requires a header cell and must be col or row") end
     return make("TableCell", input)
 end
-UI.Modal = function(input: Input): Node return make("Modal", input) end
+UI.Modal = function(input: Input): Node
+    assert(type(input) == "table", "Modal requires a table")
+    if input.initialFocus ~= nil then assert(validIdentifier(input.initialFocus), "Modal initialFocus must be a component ID") end
+    if input.descriptionId ~= nil then assert(validIdentifier(input.descriptionId), "Modal descriptionId must be a component ID") end
+    return make("Modal", input)
+end
 local function addSemanticClass(input: any, semanticClass: string): any
     assert(type(input) == "table", "semantic UI component requires a table")
     local customClass = input.className

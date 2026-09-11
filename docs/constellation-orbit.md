@@ -350,7 +350,7 @@ rather than the browser under audit.
 
 Run `npm run audit:luastra-dev:public-baseline` while the published site is
 reachable to compare cold Chromium navigation and the documentation handoff
-between `https://luastra.dev/` and the current private source candidate. The
+between `https://luastra.dev/` and the current release candidate. The
 report separates encoded transfer bytes from decoded resource bytes because
 GitHub Pages applies HTTP compression while the local preview does not. It also
 records DOM, JavaScript heap, style, layout, and task measurements. Navigation

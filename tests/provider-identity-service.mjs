@@ -61,6 +61,22 @@ test("provider identity login returns only an opaque Luastra bearer and persists
   assert.deepEqual(fx.service.resolveAuthorization(`Bearer ${issued.token}`).roles, ["user"]);
   const used = await fx.service.useProviderSession(issued.token, ({ accessToken, providerUserId }) => ({ accessToken, providerUserId }));
   assert.deepEqual(used, { accessToken: "access.jwt.one", providerUserId: userId });
+  const principal = fx.service.resolve(issued.token);
+  const usedByPrincipal = await fx.service.useProviderPrincipal(principal, ({ accessToken, providerUserId }) => ({ accessToken, providerUserId }));
+  assert.deepEqual(usedByPrincipal, { accessToken: "access.jwt.one", providerUserId: userId });
+});
+
+test("provider identity binds provider access to the authenticated principal and fails closed on mismatch", async (t) => {
+  const fx = await fixture(t, {
+    async signInWithPassword() { return identity(fx.now() + 120_000); },
+    async refreshSession() { throw new Error("unexpected refresh"); },
+    async signOut() { return true; },
+  });
+  const issued = await fx.service.signInWithPassword("person@example.test", "password");
+  const principal = fx.service.resolve(issued.token);
+  await code(fx.service.useProviderPrincipal({ ...principal, id: "different-user" }, () => true), "UNAUTHORIZED");
+  assert.equal(fx.service.resolve(issued.token), null, "a principal mismatch did not revoke the provider session");
+  await code(fx.service.useProviderPrincipal(null, () => true), "UNAUTHORIZED");
 });
 
 test("provider identity exposes bounded recovery results without returning provider material", async (t) => {
@@ -92,6 +108,21 @@ test("provider identity refresh rotates material and authoritative app roles bef
   assert.equal(refreshToken, "refresh-token-one-00000000");
   assert.equal(access, "access.jwt.two");
   assert.deepEqual(fx.service.resolve(issued.token).roles, ["admin"]);
+});
+
+test("provider identity refreshes by authenticated session ID without exposing the opaque bearer", async (t) => {
+  let refreshToken;
+  const fx = await fixture(t, {
+    async signInWithPassword() { return identity(fx.now() + 20_000); },
+    async refreshSession(value) { refreshToken = value; return identity(fx.now() + 180_000, "principal-two"); },
+    async signOut() { return true; },
+  });
+  const issued = await fx.service.signInWithPassword("person@example.test", "password");
+  const principal = fx.service.resolve(issued.token);
+  const accessToken = await fx.service.useProviderPrincipal(principal, ({ accessToken: value }) => value);
+  assert.equal(refreshToken, "refresh-token-one-00000000");
+  assert.equal(accessToken, "access.jwt.principal-two");
+  assert.equal(JSON.stringify(principal).includes(issued.token), false);
 });
 
 test("provider identity exposes a bounded retry state while another connection owns refresh", async (t) => {

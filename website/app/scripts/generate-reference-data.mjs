@@ -46,10 +46,18 @@ function exportedTypes(source) {
   const lines = source.split("\n");
   const declarations = {};
   for (let index = 0; index < lines.length; index += 1) {
-    const match = lines[index].match(/^export type ([A-Za-z][A-Za-z0-9]*)\s*=/);
+    const match = lines[index].match(/^export type ([A-Za-z][A-Za-z0-9]*)(?:<[^>]+>)?\s*=/);
     if (!match) continue;
     const declaration = [lines[index]];
     let depth = (lines[index].match(/{/g) ?? []).length - (lines[index].match(/}/g) ?? []).length;
+    if (depth === 0 && lines[index].trimEnd().endsWith("=") && index + 1 < lines.length) {
+      index += 1;
+      declaration.push(lines[index]);
+      while (index + 1 < lines.length && /^\s+\|\s/u.test(lines[index + 1])) {
+        index += 1;
+        declaration.push(lines[index]);
+      }
+    }
     while (depth > 0 && index + 1 < lines.length) {
       index += 1;
       declaration.push(lines[index]);
@@ -69,7 +77,7 @@ function exportedFunctions(moduleName, source) {
     return declarations;
   }
   const namespace = publicName(moduleName, "").slice(0, -1);
-  for (const match of source.matchAll(new RegExp(`^function ${namespace}\\.([A-Za-z][A-Za-z0-9]*)\\(([^\\n]*)\\)(?::\\s*([^\\n]+?))?(?:\\s+return|\\s*$)`, "gm"))) {
+  for (const match of source.matchAll(new RegExp(`^function ${namespace}\\.([A-Za-z][A-Za-z0-9]*)(?:<[^>\\n]+>)?\\(([^\\n]*)\\)(?::\\s*([^\\n]+?))?(?:\\s+return|\\s*$)`, "gm"))) {
     declarations[match[1]] = `${namespace}.${match[1]}(${match[2]}): ${match[3]?.trim() ?? "nil"}`;
   }
   return declarations;
@@ -115,6 +123,15 @@ const sdkParameterGuidance = Object.freeze({
   "Assets.audio": { id: "Manifest asset ID whose declared media type is admitted audio." },
   "Assets.font": { id: "Manifest asset ID whose declared media type is an admitted font." },
   "Assets.uri": { value: "Typed asset reference whose canonical host-neutral URI is required." },
+  "Content.image": { handle: "Opaque content: or preview: handle returned by a trusted boundary.", metadata: "Bounded media type, bytes, pixel dimensions, orientation, and optional placeholder color." },
+  "Content.uri": { value: "Typed Content.Image whose opaque host-neutral handle is required." },
+  "Content.pickImage": { options: "Optional byte and pixel limits that can only narrow the host ceilings." },
+  "Content.decodePick": { payload: "Completion payload from the matching Content.pickImage request." },
+  "Content.release": { image: "Selected preview image whose inaccessible host file is no longer needed." },
+  "Content.upload": { image: "Selected preview image returned by Content.pickImage.", intent: "Opaque upload: handle created by an authenticated backend function." },
+  "Content.cancelUpload": { requestId: "Active Content.upload request identifier." },
+  "Content.decodeUpload": { payload: "Successful transfer acknowledgement from Content.upload." },
+  "Content.decodeProgress": { payload: "Value from a content_progress host event." },
   "Data.string": { optionsValue: "Optional length, trimming, and pattern constraints for accepted strings." },
   "Data.number": { optionsValue: "Optional finite range and integer constraints for accepted numbers." },
   "Data.array": { item: "Schema applied independently to every dense array element.", optionsValue: "Optional minimum and maximum item counts." },
@@ -152,7 +169,11 @@ const sdkParameterGuidance = Object.freeze({
   "Host.systemBackHistory": { intentId: "ID of the pending system-Back intent delegated to host history." },
   "Host.systemBackExit": { intentId: "ID of the pending root-level system-Back intent requesting exit." },
   "Server.call": { operation: "Declared, versioned backend operation name.", input: "Bounded string map sent as operation input; never include client-side secrets.", options: "Optional deadline and retry policy for the request." },
+  "Server.callV2": { operation: "Declared schema-v2 backend operation name.", inputFields: "Typed flat fields produced by the generated operation encoder.", options: "Optional deadline, idempotency key, and retry policy.", limitsValue: "Validated payload and field ceilings supplied by the generated client." },
   "Server.decode": { value: "Successful transport payload whose server envelope must still be validated." },
+  "Server.decodeV2": { value: "Successful transport payload whose schema-v2 envelope and operation result must still be validated." },
+  "Server.decodeError": { code: "Stable public error code received by app.resolve.", message: "Bounded public error message received by app.resolve; generated clients may carry field codes inside its admitted envelope." },
+  "Server.value": { value: "Non-null value wrapped for a nullable schema-v2 field." },
   "Media.setQueue": { items: "Bounded ordered QueueItem values with stable IDs and admitted sources.", selectedIndex: "Optional one-based item selected after the queue is installed." },
   "Media.seek": { positionMs: "Requested non-negative position in milliseconds within the selected item." },
   "Media.decodeState": { payload: "Untrusted media-state event or state-response payload." },
@@ -250,6 +271,13 @@ const sdkExpandedParameters = Object.freeze({
     { name: "options.idempotencyKey", values: "string (8..128 bytes)?", description: "Optional stable idempotency key for operations that may be retried." },
     { name: "options.retry", values: "boolean?", description: "Allows the host's bounded retry policy when true; defaults to false." },
   ],
+  "Server.callV2": [
+    { name: "options.deadlineMs", values: "integer (1..30000)?", description: "Optional request deadline; defaults to 3000 ms." },
+    { name: "options.idempotencyKey", values: "string (8..128 bytes)?", description: "Optional stable idempotency key admitted by the selected operation." },
+    { name: "options.retry", values: "boolean?", description: "Allows the host's bounded retry policy when true; defaults to false." },
+    { name: "limitsValue.maximumBytes", values: "integer (1024..4096)", description: "Complete encoded payload ceiling copied from the validated declaration." },
+    { name: "limitsValue.maximumFields", values: "integer (1..256)", description: "Encoded field ceiling copied from the validated declaration." },
+  ],
   "Media.setQueue": [
     { name: "items[].id", values: "string (1..128 bytes)", description: "Stable application-owned item identifier." },
     { name: "items[].source", values: "asset:* | content:*", description: "Admitted project asset URI or scoped content grant." },
@@ -280,11 +308,11 @@ function declarationReturn(signature, publicName) {
   if (close < 0) return null;
   const type = signature.slice(close + 2).trim();
   if (type === "RequestId" && publicName.startsWith("Timer.")) {
-    return "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter Application.resolve; an uncancelled expiry arrives through Application.handle.";
+    return "RequestId — an opaque acknowledgement token for the timer control request. Timer acknowledgements do not enter app.resolve; an uncancelled expiry arrives through app.handle.";
   }
   const descriptions = {
     Node: "a validated declarative UI node that becomes part of the next host-neutral render tree",
-    RequestId: "an opaque request identifier used to correlate the asynchronous completion in Application.resolve",
+    RequestId: "an opaque request identifier used to correlate the asynchronous completion in app.resolve",
     MotionMap: "a complete property-to-motion map that can be assigned directly to a supported component motion field",
     Tween: "an immutable descriptor for one bounded numeric transition",
     Wait: "an immutable delay step for a motion sequence",
@@ -319,7 +347,7 @@ function typeFieldDescription(publicName, name, values) {
     "UI.Theme.textColor": "Default inherited foreground color for text-bearing components.",
     "UI.Theme.accentColor": "Accent color used by primary controls, outlines, and emphasis tokens.",
     "Timer.StartOptions.id": "Stable logical timer ID later delivered as the timer event target.",
-    "Timer.StartOptions.delayMs": "Non-negative one-shot delay before Application.handle receives the event.",
+    "Timer.StartOptions.delayMs": "Non-negative one-shot delay before app.handle receives the event.",
     "Timer.StartOptions.value": "Optional bounded value delivered with the timer event.",
     "Media.QueueItem.source": "Admitted asset or supported media source consumed by the host player.",
     "Media.QueueItem.title": "User-visible track title exposed by playback surfaces and host controls.",
@@ -483,7 +511,7 @@ UI.Screen { id = "app/root", theme = appTheme }`,
 
 UI.Image {
     id = "card/back",
-    source = Assets.uri(Assets.image("image/card-back")),
+    source = Assets.image("image/card-back"),
     width = 274,
     height = 382,
     fit = "cover",
@@ -565,10 +593,16 @@ UI.Image {
     required = true,
 }`,
   "UI.List": `UI.List {
-    id = "checklist",
-    label = "Release checklist",
-    UI.ListItem { id = "checklist/check", text = "Run luastra check" },
-    UI.ListItem { id = "checklist/test", text = "Run luastra test" },
+    id = "results",
+    label = "Search results",
+    mode = "windowed",
+    estimatedItemSize = 72,
+    overscan = 6,
+    itemCount = 1000,
+    itemOffset = 200,
+    endBusy = loadingNext,
+    onEndReached = "results.next",
+    table.unpack(retainedItems),
 }`,
   "UI.ListItem": `UI.ListItem {
     id = "steps/build",
@@ -660,6 +694,22 @@ const apiExamples = Object.freeze({
   "Assets.audio": `local Assets = require("luastra/assets")\nlocal intro = Assets.audio("audio/intro")`,
   "Assets.font": `local Assets = require("luastra/assets")\nlocal displayFont = Assets.font("font/display")`,
   "Assets.uri": `local Assets = require("luastra/assets")\nlocal source = Assets.uri(Assets.audio("audio/intro"))`,
+  "Content.image": `local Content = require("luastra/content")
+
+local cover = Content.image(result.source, {
+    mediaType = result.mediaType,
+    bytes = result.bytes,
+    width = result.width,
+    height = result.height,
+})`,
+  "Content.uri": `local Content = require("luastra/content")\nlocal handle = Content.uri(cover)`,
+  "Content.pickImage": `local Content = require("luastra/content")\nlocal requestId = Content.pickImage { maximumBytes = 5 * 1024 * 1024 }`,
+  "Content.decodePick": `local Content = require("luastra/content")\nlocal result = Content.decodePick(payload)\nif result.status == "selected" then selected = result.image end`,
+  "Content.release": `local releaseRequestId = Content.release(selected)`,
+  "Content.upload": `local uploadRequestId = Content.upload(selected, intent.handle)`,
+  "Content.cancelUpload": `local cancelRequestId = Content.cancelUpload(uploadRequestId)`,
+  "Content.decodeUpload": `local transferred = Content.decodeUpload(payload)`,
+  "Content.decodeProgress": `local progress = Content.decodeProgress(value)`,
   "Data.string": `local Data = require("luastra/data")\nlocal title = Data.string { minBytes = 1, maxBytes = 80, trim = true }`,
   "Data.number": `local Data = require("luastra/data")\nlocal score = Data.number { integer = true, min = 0, max = 100 }`,
   "Data.boolean": `local Data = require("luastra/data")\nlocal enabled = Data.boolean()`,
@@ -720,7 +770,7 @@ local router = Navigation.createRouter {
   "Host.launchUrl": `local Host = require("luastra/host")
 local launchRequestId = Host.launchUrl()
 
-function Application.resolve(id: number, success: boolean, payload: string)
+local function resolve(id: number, success: boolean, payload: string)
     if id == launchRequestId and success then applyLaunchLocation(payload) end
 end`,
   "Host.clipboardWrite": `local Host = require("luastra/host")\nlocal requestId = Host.clipboardWrite("luastra check")`,
@@ -734,9 +784,17 @@ end`,
   "Host.systemBackHistory": `local Host = require("luastra/host")\nHost.systemBackHistory(intentId)`,
   "Host.systemBackExit": `local Host = require("luastra/host")\nHost.systemBackExit(intentId)`,
   "Server.call": `local Server = require("luastra/server")\nlocal requestId = Server.call("records.list.v1", { cursor = "" }, { deadlineMs = 3000, retry = true })`,
+  "Server.callV2": `-- Generated clients call this helper after validating typed input.\nlocal requestId = Server.callV2("records.page.v2", typedFields, options, limits)`,
   "Server.decode": `local Server = require("luastra/server")
 local result = Server.decode(payload)
 if result.success then records = result.fields else errorMessage = result.error end`,
+  "Server.decodeV2": `-- Prefer the operation-specific generated decoder.\nlocal decoded = Server.decodeV2(payload)\nif not decoded.success then status = "invalid" end`,
+  "Server.decodeError": `local decoded = Api.decodeError(errorCode, errorMessage)
+if decoded ~= nil and decoded.fields ~= nil then
+    titleError = decoded.fields.title
+end`,
+  "Server.nullValue": `local Api = require("app/generated/server-functions")\nlocal cursor = Api.nullValue()`,
+  "Server.value": `local Api = require("app/generated/server-functions")\nlocal cursor = Api.value("cursor-2")`,
   "Media.setQueue": `local Media = require("luastra/media")\nMedia.setQueue({ { id = "intro", source = "asset:audio/intro", title = "Intro", artist = "Luastra" } })`,
   "Media.play": `local Media = require("luastra/media")\nMedia.play()`,
   "Media.pause": `local Media = require("luastra/media")\nMedia.pause()`,
@@ -754,7 +812,7 @@ if result.success then positionMs = result.state.positionMs else errorMessage = 
 const layoutParameters = [
   "gap", "padding", "margin", "paddingX / paddingY", "paddingTop / paddingBottom / paddingStart / paddingEnd",
   "marginX / marginY", "marginTop / marginBottom / marginStart / marginEnd", "surface", "width", "align",
-  "justify", "flow", "responsive", "className",
+  "justify", "flow", "responsive", "sticky", "overflow", "className",
 ];
 const semanticParameters = ["tone", "appearance", "variant", "role", "label", "hidden", "disabled", "busy", "required", "errorId"];
 const colorParameters = ["textAlign", "textColor", "backgroundColor", "Color tokens"];
@@ -778,11 +836,12 @@ const uiAllowedInheritedParameters = Object.freeze({
   "UI.Field": containerParameters,
   "UI.Actions": containerParameters,
   "UI.Layer": [...containerParameters, ...motionParameters],
-  "UI.Image": [...framedParameters, "source", "fit", "width / height", "aspectRatio", "cornerRadius", "label", "hidden", ...motionParameters],
+  "UI.Image": [...framedParameters, "source", "placeholder", "placeholderColor", "onLoad", "onError", "fit", "width / height", "aspectRatio", "cornerRadius", "label", "hidden", ...motionParameters],
   "UI.Shape": [...framedParameters, "width / height", "cornerRadius", "shape", "fill / stroke", "strokeWidth", "label", "hidden", ...motionParameters],
   "UI.FlipCard": [...framedParameters, "width / height", "aspectRatio", "label", "role", "hidden", ...motionParameters],
   "UI.Text": [...boxParameters, ...colorParameters, "tone", "variant", "role", "label", "hidden", "busy", ...motionParameters],
-  "UI.Button": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "icon", "onTap", "appearance", "label", "hidden", "disabled", "busy", ...motionParameters],
+  "UI.Button": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "icon", "onTap", "appearance", "pressed", "selected", "label", "hidden", "disabled", "busy", ...motionParameters],
+  "UI.Icon": [...framedParameters, "icon", "decorative", "label", "hidden", ...motionParameters],
   "UI.Link": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "onTap", "label", "hidden", "busy", ...motionParameters],
   "UI.Code": [...boxParameters, "textColor", "backgroundColor", "Color tokens", "role", "label", "hidden", ...motionParameters],
   "UI.CodeBlock": [...layoutParameters, "textColor", "backgroundColor", "Color tokens", "role", "label", "hidden"],
@@ -790,10 +849,10 @@ const uiAllowedInheritedParameters = Object.freeze({
   "UI.Table": [...containerParameters],
   "UI.TableRow": [...layoutParameters, "textColor", "backgroundColor", "Color tokens", "hidden"],
   "UI.TableCell": [...layoutParameters, "textColor", "backgroundColor", "Color tokens", "role", "hidden"],
-  "UI.TextInput": [...boxParameters, "inputType", "inputMode", "enterKeyHint", "autoComplete", "value", "onInput", "label", "hidden", "disabled", "busy", "required", "errorId", ...motionParameters],
-  "UI.List": [...containerParameters],
+  "UI.TextInput": [...boxParameters, "inputType", "inputMode", "enterKeyHint", "autoComplete", "value", "multiline", "maximumLength", "onInput", "onSubmit", "label", "hidden", "disabled", "busy", "required", "errorId", ...motionParameters],
+  "UI.List": [...containerParameters, "mode", "estimatedItemSize", "overscan", "itemCount", "itemOffset", "startBusy", "endBusy", "onStartReached", "onEndReached"],
   "UI.ListItem": [...containerParameters],
-  "UI.Modal": [...boxParameters, "onDismiss", "label", "hidden", "busy", "textColor", "backgroundColor", "Color tokens", ...motionParameters],
+  "UI.Modal": [...boxParameters, "onDismiss", "initialFocus", "descriptionId", "label", "hidden", "busy", "textColor", "backgroundColor", "Color tokens", ...motionParameters],
   "UI.Orbit": [...containerParameters],
   "UI.OrbitPath": [...containerParameters],
   "UI.OrbitSearch": [...boxParameters, "hidden"],
@@ -813,7 +872,7 @@ const uiDirectParameters = Object.freeze({
     direct("documentTitle", "string 1…160 bytes", "Document or window title; by default the host preserves its own title."),
     direct("documentDescription", "string 1…320 bytes", "Optional page description for web metadata."),
     direct("documentLanguage", "language tag", "Optional document language, for example en or en-US."),
-    direct("children", "UI.Node[]", "Screen content. Application.render returns exactly one Screen."),
+    direct("children", "UI.Node[]", "Screen content. app.render returns exactly one Screen."),
   ],
   "UI.Column": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.Node[]", "Items are arranged from top to bottom.")],
   "UI.Row": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.Node[]", "Items flow from left to right and may wrap.")],
@@ -824,11 +883,12 @@ const uiDirectParameters = Object.freeze({
   "UI.Field": [direct("id", "lowercase path, required", "Unique field-group ID."), direct("children", "label + input + hint/error", "Related elements of one form field.")],
   "UI.Actions": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "Button | Link[]", "Group of primary and secondary actions.")],
   "UI.Layer": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.Node[]", "The first child defines the bounds; later children overlay the same area.")],
-  "UI.Image": [direct("id", "lowercase path, required", "Unique ID."), direct("source", "asset:image/... required", "URI from Assets.uri(Assets.image(...))."), direct("label", "string, required", "Accessible description; an empty string marks a decorative image.")],
+  "UI.Image": [direct("id", "lowercase path, required", "Unique ID."), direct("source", "Assets.Image | Content.Image | legacy asset URI", "Typed packaged, protected, or host-local preview image."), direct("placeholder", "Assets.Image?", "Optional packaged image shown behind loading content."), direct("onLoad / onError", "action string?", "Dynamic image lifecycle actions."), direct("label", "string, required", "Accessible description; an empty string marks a decorative image.")],
   "UI.Shape": [direct("id", "lowercase path, required", "Unique ID."), direct("shape", "supported shape, required", "Shape geometry."), direct("width", "number 1…4096, required", "Width in CSS pixels."), direct("height", "number 1…4096, required", "Height in CSS pixels.")],
   "UI.FlipCard": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "exactly 2 UI.Node", "First child is the front and second is the back; FlipCard owns the size.")],
   "UI.Text": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string, required", "Visible text; use \\n for an explicit line break.")],
-  "UI.Button": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Visible button label; may be omitted when icon and label are provided."), direct("icon", "activity | palette | pause?", "Host-rendered semantic icon. An icon-only button requires label."), direct("onTap", "action string, required", "Action delivered to Application.handle after activation.")],
+  "UI.Button": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Visible button label; may be omitted when icon and label are provided."), direct("icon", "bounded icon name?", "Host-rendered semantic icon. An icon-only button requires label."), direct("pressed / selected", "boolean?", "Mutually exclusive toggle or current-navigation state."), direct("onTap", "action string, required", "Action delivered to app.handle after activation.")],
+  "UI.Icon": [direct("id", "lowercase path, required", "Unique ID."), direct("icon", "bounded icon name, required", "Theme-aware glyph selected from the built-in set."), direct("decorative", "boolean, required", "Hides decorative glyphs from assistive technology."), direct("label", "string?", "Required for an informative icon and forbidden for a decorative icon.")],
   "UI.Link": [direct("id", "lowercase path, required", "Unique link ID."), direct("text", "string, required", "Visible link text."), direct("href", "#fragment | #/route | HTTPS URL, required", "Safe internal fragment, canonical application hash route, or external HTTPS destination."), direct("external", "boolean?", "Opens an external destination according to host policy."), direct("onTap", "action string?", "Optional admitted action delivered when the link is activated.")],
   "UI.Code": [direct("id", "lowercase path, required", "Unique ID."), direct("code", "string ≤ 4096 bytes, required", "Inline source text rendered without interpretation."), direct("language", "safe language name?", "Optional source-language label.")],
   "UI.CodeBlock": [direct("id", "lowercase path, required", "Unique ID."), direct("code", "string ≤ 4096 bytes, required", "Multiline source text rendered without interpretation."), direct("language", "safe language name?", "Optional source-language label.")],
@@ -836,10 +896,20 @@ const uiDirectParameters = Object.freeze({
   "UI.Table": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.TableRow[]", "Table rows only.")],
   "UI.TableRow": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.TableCell[]", "Table cells only.")],
   "UI.TableCell": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Short cell text when nested content is unnecessary."), direct("header", "boolean?", "Marks this cell as a row or column header."), direct("scope", "col | row?", "Associates a header cell with its column or row."), direct("children", "UI.Node[]", "Optional nested nodes instead of short text.")],
-  "UI.TextInput": [direct("id", "lowercase path, required", "Unique field ID."), direct("label", "string, required", "Accessible field name."), direct("value", "string, required", "Controlled value from application state."), direct("onInput", "action string, required", "Receives committed composition-safe input in Application.handle.")],
-  "UI.List": [direct("id", "lowercase path, required", "Unique ID."), direct("children", "UI.ListItem[]", "List items only.")],
+  "UI.TextInput": [direct("id", "lowercase path, required", "Unique field ID."), direct("label", "string, required", "Accessible field name."), direct("value", "string, required", "Controlled value from application state."), direct("multiline", "boolean?", "Uses a multiline host control when true."), direct("maximumLength", "integer 1…4096?", "Native and protocol-enforced text length ceiling."), direct("onInput", "action string, required", "Receives committed composition-safe input in app.handle."), direct("onSubmit", "action string?", "Receives non-composing Enter; Shift+Enter remains a multiline line break.")],
+  "UI.List": [
+    direct("id", "lowercase path, required", "Unique ID."),
+    direct("mode", "windowed?", "Enables host-owned vertical windowing; omit it for an ordinary complete list."),
+    direct("estimatedItemSize", "integer 16…4096?", "Estimated vertical block advance; defaults to 72 in windowed mode."),
+    direct("overscan", "integer 1…64?", "Extra items realized before and after the viewport; defaults to 6."),
+    direct("itemCount", "non-negative integer?", "Optional known logical total."),
+    direct("itemOffset", "non-negative integer?", "Zero-based logical position of the first retained child."),
+    direct("startBusy / endBusy", "boolean?", "Independent edge backpressure."),
+    direct("onStartReached / onEndReached", "action string?", "Deduplicated edge actions; provider cursors stay in application state."),
+    direct("children", "UI.ListItem[]", "Bounded retained list items with stable IDs."),
+  ],
   "UI.ListItem": [direct("id", "lowercase path, required", "Unique ID."), direct("text", "string?", "Short text; children may be supplied instead.")],
-  "UI.Modal": [direct("id", "lowercase path, required", "Unique dialog ID."), direct("open", "boolean, required", "Shows or hides the modal."), direct("label", "string, required", "Accessible dialog name."), direct("children", "UI.Node[]", "Heading, content, and close action.")],
+  "UI.Modal": [direct("id", "lowercase path, required", "Unique dialog ID."), direct("open", "boolean, required", "Shows or hides the modal."), direct("label", "string, required", "Accessible dialog name."), direct("initialFocus", "component ID?", "Optional focusable descendant to focus after insertion."), direct("descriptionId", "component ID?", "Optional visible descriptive descendant."), direct("children", "UI.Node[]", "Heading, content, and close action.")],
   "UI.Orbit": [direct("id", "lowercase path, required", "Unique Orbit ID."), direct("presentation", "auto | spatial | list?", "Preferred presentation; unsafe spatial geometry still falls back to list."), direct("orbitTheme", "built-in theme ID?", "One of the curated Orbit themes."), direct("orbitMotion", "system | off?", "Orbit-owned motion preference."), direct("maxVisible", "integer 4…32?", "Density bound before list fallback."), direct("children", "OrbitPath | OrbitSearch | Constellation | FocusSurface[]", "Orbit experience content with at least one constellation.")],
   "UI.OrbitPath": [direct("id", "lowercase path, required", "Unique path ID."), direct("children", "Button | Text[]", "Return controls, current depth, and stable Orbit preferences.")],
   "UI.OrbitSearch": [direct("id", "lowercase path, required", "Unique search ID."), direct("query", "string ≤ 160 bytes?", "Controlled local query."), direct("resultCount", "non-negative integer, required", "Visible matching node count."), direct("totalCount", "integer ≥ resultCount, required", "Total node count before filtering."), direct("label", "string?", "Accessible input name."), direct("placeholder", "string?", "Visible empty-query hint."), direct("onInput", "action string, required", "Committed query action.")],
@@ -860,6 +930,7 @@ const uiAccessibility = Object.freeze({
   "UI.Screen": "Creates the main landmark and owns document language and metadata. Keep one meaningful h1 on each page.",
   "UI.Text": "variant creates the real h1/h2/h3 hierarchy; textAlign changes visual alignment only, not reading order.",
   "UI.Button": "Keeps native button semantics, keyboard activation, and visible focus. Do not replace it with a tappable Shape.",
+  "UI.Icon": "Informative icons expose a role and label; decorative icons are hidden. An Icon is never an action by itself.",
   "UI.Link": "Keeps native link semantics. Its visible text should explain the destination without relying on surrounding prose.",
   "UI.TextInput": "label is required. required, disabled, and errorId expose state to screen readers; an error hint should be a visible role=alert.",
   "UI.Image": "label is required; use an empty string only for a genuinely decorative image.",
@@ -875,7 +946,7 @@ const uiAccessibility = Object.freeze({
   "UI.Table": "TableRow and TableCell create a real table; header and scope associate headers with columns and rows.",
   "UI.TableRow": "Does not create a separate accessible name; its header cells establish the row meaning.",
   "UI.TableCell": "For a header, set header=true and the appropriate scope=col or scope=row.",
-  "UI.List": "Creates a real list; provide label when a nearby heading does not make the list purpose clear.",
+  "UI.List": "Creates a real list; provide label when a nearby heading does not make the list purpose clear. Windowed mode preserves logical positions and keeps a focused item realized.",
   "UI.ListItem": "Must be a direct child of UI.List to preserve correct list semantics.",
   "UI.Divider": "Without label it is decorative; add label only when the divider itself carries meaning.",
 });
@@ -885,13 +956,15 @@ const uiMistakes = Object.freeze({
   "UI.Column": ["Confusing align with vertical alignment: Column uses justify on its vertical axis.", "Expecting Text to center without giving it available width."],
   "UI.Row": ["Confusing align with horizontal alignment: Row uses justify on its horizontal axis.", "Forgetting responsive=true for narrow phones."],
   "UI.Layer": ["Leaving the first child unsized while expecting a stable shared frame.", "Expecting padding on one overlay child to constrain every sibling."],
-  "UI.Image": ["Passing a filesystem path or URL instead of an admitted asset URI.", "Omitting the required label."],
+  "UI.Image": ["Passing a filesystem path, arbitrary URL, provider-signed URL, or raw blob instead of a typed image reference.", "Omitting the required label or failing to refresh an expired dynamic handle after onError."],
   "UI.Shape": ["Using Shape as a button and losing button semantics.", "Omitting the required width and height."],
   "UI.FlipCard": ["Passing anything other than exactly two sides.", "Sizing only a child Shape instead of the FlipCard itself."],
   "UI.Text": ["Treating textAlign=center as node positioning; it aligns lines only within Text width.", "Creating a visual heading without the matching variant."],
   "UI.Button": ["Using uppercase letters or spaces in the onTap action.", "Duplicating the same id across render branches."],
+  "UI.Icon": ["Using an arbitrary glyph name.", "Giving a decorative icon a label or leaving an informative icon unnamed."],
   "UI.TextInput": ["Changing value outside application state.", "Treating intermediate IME composition as committed text."],
   "UI.Modal": ["Removing the close button and relying only on Escape.", "Rendering interactive content outside and above an open modal."],
+  "UI.List": ["Rendering an unbounded provider result instead of a bounded retained page.", "Changing ListItem IDs when the same logical item is re-rendered."],
   "UI.Orbit": ["Adding application-owned absolute coordinates.", "Assuming spatial mode is guaranteed when bounds require the list fallback."],
   "UI.OrbitSearch": ["Filtering only the visual layer while leaving hidden nodes interactive.", "Putting the query into host-only state instead of Luau state."],
   "UI.Constellation": ["Rendering more than one center.", "Referencing a related node outside the same constellation."],
@@ -913,7 +986,7 @@ function uiGuidance(name) {
   const directParameters = uiDirectParameters[name] ?? [];
   const children = directParameters.find((parameter) => parameter.name === "children");
   return {
-    mentalModel: "This is a declarative node: Application.render describes it again from current state, while the host matches its stable id to the existing view.",
+    mentalModel: "This is a declarative node: app.render describes it again from current state, while the host matches its stable id to the existing view.",
     childRules: children?.description ?? "This component does not accept arbitrary child nodes; named parameters provide its content.",
     accessibility: uiAccessibility[name] ?? "A stable id, logical render-tree order, and visible labels preserve predictable keyboard and screen-reader navigation.",
     commonMistakes: uiMistakes[name] ?? ["Using a duplicate id or an uppercase path segment.", "Passing a shared-group parameter that is not listed on this component page."],
@@ -940,11 +1013,32 @@ function operationalGuidance(name, moduleName, kind) {
   if (typeof moduleName !== "string" || !moduleName.startsWith("luastra/")) return {};
   const dependency = `Add ${moduleName} to this module's dependencies in luastra.json, then import it with require(\"${moduleName}\").`;
   const typePage = kind === "type";
+  if (moduleName === "luastra/app") return {
+    beforeYouUse: `${dependency} Return exactly one App.compose instance from the entry module. Feature IDs must be disjoint lowercase paths, and a feature must claim each asynchronous request ID before its completion can be routed.`,
+    lifecycle: typePage ? "App types describe the root composition contract, feature hooks, request-ownership context, diagnostics, and returned instance. Static types are erased after analysis." : "App.compose validates the complete feature registry once and returns the ordinary host-facing app object. Events route by target namespace; claimed completions route by request ownership and generation; lifecycle dispose invalidates every outstanding claim.",
+    expectedOutcome: typePage ? "A checked application-composition annotation that matches the exported contract." : "One frozen application instance exposing render, handle, resolve, snapshot, and inspect without adding a second host lifecycle.",
+    failureGuidance: "Duplicate or overlapping feature IDs, invalid event bounds, duplicate request ownership, and malformed compose options fail immediately. Late, cancelled, unknown, or post-dispose completions are suppressed or delegated only through the explicitly configured root path.",
+    availability: `Public-source alpha composition API in ${release.publishedVersion}; host-independent except for the capabilities used by composed features.`,
+  };
+  if (moduleName === "luastra/resource") return {
+    beforeYouUse: `${dependency} Create each controller once outside app.render. Record the exact ticket returned by begin, correlate it with the host RequestId, and settle only that ticket from app.resolve or another admitted completion boundary.`,
+    lifecycle: typePage ? "Resource types describe read and mutation states, immutable snapshots, generation tickets, optimistic callbacks, and application-owned errors." : "Constructors and transitions are synchronous. begin creates a new generation ticket; resolve, reject, and cancel accept only the active ticket; snapshot returns the current frozen view used by render.",
+    expectedOutcome: typePage ? "A checked resource-state annotation for one explicit asynchronous workflow." : "A reusable read or mutation controller whose snapshot represents loading, success, empty, stale failure, retry, cancellation, or submission state.",
+    failureGuidance: "Invalid options and programmer contract violations fail immediately. A stale ticket returns false without overwriting current state. Translate provider failures to bounded Resource.Error codes and keep raw messages, payloads, tokens, and credentials outside the controller.",
+    availability: `Public-source alpha state API in ${release.publishedVersion}; host-independent and designed to compose with any asynchronous capability.`,
+  };
+  if (moduleName === "luastra/collection") return {
+    beforeYouUse: `${dependency} Choose a stable bounded key for every item and explicit maxItems, maxPages, and maxPageItems values appropriate to the screen. Provider cursors remain application state and must never be used as UI node IDs.`,
+    lifecycle: typePage ? "Collection types describe pages, directions, tickets, bounded snapshots, results, and the state controller contract." : "Collection.new creates one long-lived controller. begin admits one page request at a time, resolve validates its exact ticket and page, and the controller evicts distant pages while preserving a flat snapshot and visible anchor when possible.",
+    expectedOutcome: typePage ? "A checked page-window annotation for cursor-based ordered data." : "A bounded bidirectional collection window ready to feed UI.List or another renderer without retaining every item ever loaded.",
+    failureGuidance: "Duplicate or malformed keys, oversized pages, repeated cursors, stale tickets, or invalid bounds are rejected without silently corrupting order. Edge failures remain separate so the existing window stays usable while the user retries only the failed direction.",
+    availability: `Public-source alpha collection API in ${release.publishedVersion}; fetching and viewport triggers remain explicit application and host concerns.`,
+  };
   if (moduleName === "luastra/ui") return {
-    beforeYouUse: `${dependency} The project must declare the ui.render capability. Application.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.`,
+    beforeYouUse: `${dependency} The project must declare the ui.render capability. app.render must return one UI.Screen root; place this node inside that tree rather than invoking it for a hidden side effect.`,
     lifecycle: typePage
-      ? "This type exists during Luau analysis and documents values used by UI constructors or Application.render. It is erased from the runtime bundle as a static type."
-      : "The constructor validates its fields immediately and returns a UI.Node. After Application.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
+      ? "This type exists during Luau analysis and documents values used by UI constructors or app.render. It is erased from the runtime bundle as a static type."
+      : "The constructor validates its fields immediately and returns a UI.Node. After app.render returns, the host reconciles that node by stable id with the current semantic DOM-based interface. Current desktop and mobile hosts package the same web artifact; native adapters are used at capability boundaries.",
     expectedOutcome: typePage ? "A checked annotation that matches the exact exported declaration." : "A validated declarative node appears after it is returned as part of the current render tree.",
     failureGuidance: typePage ? "If the annotation fails, compare the value with the exact declaration and the producing or consuming function." : "Invalid fields, duplicate IDs, unsupported child combinations, or a missing ui.render capability fail during check, render-tree validation, or host startup.",
     availability: name.startsWith("UI.Orbit") || name === "UI.Constellation" || name === "UI.FocusSurface" || name === "UI.FocusHeader"
@@ -957,6 +1051,13 @@ function operationalGuidance(name, moduleName, kind) {
     expectedOutcome: typePage ? "A type-safe image, audio, font, or union reference." : "A checked reference or canonical asset URI that a compatible API can consume.",
     failureGuidance: "A malformed id, missing manifest entry, wrong media kind, unsupported media type, or missing source file fails during project checking or packaging. Assets.font can be applied through UI.TextStyle in the 0.3 source SDK. A missing or wrong-kind font fails when the rendered tree resolves its asset; a failed browser font decode/load retains the selected fallback.",
     availability: `Public-source alpha API in ${release.publishedVersion}; supported consumers vary by asset kind.`,
+  };
+  if (moduleName === "luastra/content") return {
+    beforeYouUse: `${dependency} Declare content.pick for browser selection and content.upload for transfer. Upload requires a server-created intent from an authenticated declared backend function. Application code must never construct a provider URL, file path, data URL, blob URL, bucket path, or upload handle.`,
+    lifecycle: typePage ? "Content types describe checked ephemeral image references and asynchronous selection/upload results; they are erased after Luau analysis." : "Image construction and decoders are synchronous. Selection, release, upload, and cancellation return request IDs and complete through application/app resolve; progress enters application/app handle as content_progress.",
+    expectedOutcome: typePage ? "A type-safe dynamic image, selection, transfer, or progress annotation." : "A bounded image lifecycle that keeps local files and provider credentials outside Luau while reusing UI.Image.",
+    failureGuidance: "Cancellation, malformed or expired handles, unsupported media types, excessive bytes or dimensions, offline transfer, authorization denial, and decode failure remain explicit branches. Release previews, request fresh display grants after UI.Image.onError, and never persist or log upload/content handles.",
+    availability: `Private source foundation after ${release.publishedVersion}; browser PNG/JPEG selection and upload are automated, while camera and native picker certification remain later evidence gates.`,
   };
   if (moduleName === "luastra/data") return {
     beforeYouUse: `${dependency} No host capability is required. Define schemas outside render when they are reused.`,
@@ -973,22 +1074,22 @@ function operationalGuidance(name, moduleName, kind) {
     availability: `Public-source alpha diagnostic API in ${release.publishedVersion}.`,
   };
   if (moduleName === "luastra/timer") return {
-    beforeYouUse: `${dependency} Declare timer.control in luastra.json and implement Application.handle for timer events. The maximum delay is 60,000 ms.`,
-    lifecycle: typePage ? "Timer types describe the options or acknowledgement identifier." : "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to Application.resolve. A one-shot expiry arrives later as Application.handle(\"timer\", timerId, value).",
+    beforeYouUse: `${dependency} Declare timer.control in luastra.json and implement app.handle for timer events. The maximum delay is 60,000 ms.`,
+    lifecycle: typePage ? "Timer types describe the options or acknowledgement identifier." : "start, restart, and cancel return an acknowledgement RequestId, but timer.control completions are intentionally not delivered to app.resolve. A one-shot expiry arrives later as app.handle(\"timer\", timerId, value).",
     expectedOutcome: typePage ? "A checked timer option or acknowledgement annotation." : "The requested timer operation is acknowledged; an uncancelled start or restart later emits one timer event.",
     failureGuidance: "Missing timer.control, an invalid lowercase timer id, a delay outside 0..60000, or an oversized value fails before a timer event is scheduled. Treat late events as stale if the owning state has already changed.",
     availability: `Public-source alpha API in ${release.publishedVersion}; exact background timing remains host-dependent.`,
   };
   if (moduleName === "luastra/motion") return {
     beforeYouUse: `${dependency} Motion itself needs no capability; a visible result requires ui.render and a component that accepts the returned descriptor through its motion field.`,
-    lifecycle: typePage ? "Motion types describe immutable timing data and are erased after analysis." : "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning Application.render on every frame.",
+    lifecycle: typePage ? "Motion types describe immutable timing data and are erased after analysis." : "The function returns immutable motion data synchronously. Assign a preset MotionMap directly, or place Tween/Sequence values under supported motion channel names; the host animates without rerunning app.render on every frame.",
     expectedOutcome: typePage ? "A checked descriptor, sequence, channel map, or easing value." : "A descriptor or MotionMap ready to attach to a supported UI node.",
     failureGuidance: "Unknown options, invalid bounds, or unsupported channels fail validation. Motion must not drive application logic; use Timer for state changes, and rely on the host to present the final state when reduced motion is enabled.",
     availability: `Public-source alpha API in ${release.publishedVersion}; presentation follows host and reduced-motion policy.`,
   };
   if (moduleName === "luastra/navigation") return {
     beforeYouUse: `${dependency} No host capability is required for in-memory navigation. Browser URL/history synchronization additionally needs luastra/host and navigation.history.`,
-    lifecycle: typePage ? "The type describes a route, stack, compiler, or checked result used by navigation operations." : "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside Application.render, inspect every result.success field, then render from the accepted current entry.",
+    lifecycle: typePage ? "The type describes a route, stack, compiler, or checked result used by navigation operations." : "The operation updates or creates application-owned navigation state synchronously. Keep stacks and compilers outside app.render, inspect every result.success field, then render from the accepted current entry.",
     expectedOutcome: typePage ? "A checked route/navigation annotation." : "A validated compiler, stack, decision, or result record; host history changes only when the application requests them separately.",
     failureGuidance: "Invalid definitions, unknown routes, malformed parameters, excessive history depth, or incompatible snapshots return bounded errors or fail construction. Navigation result records use success:boolean with optional fields, so verify the field you need after checking success.",
     availability: `Public-source alpha API in ${release.publishedVersion}; URL integration is a separate host capability.`,
@@ -1003,23 +1104,23 @@ function operationalGuidance(name, moduleName, kind) {
   if (moduleName === "luastra/host") {
     const capability = hostCapabilities[name] ?? "the capability named on the function page";
     return {
-      beforeYouUse: `${dependency} Declare ${capability} in luastra.json. Save the returned RequestId with its purpose and implement Application.resolve.`,
-      lifecycle: typePage ? "Host.RequestId is an opaque correlation value for one asynchronous host operation." : "The function starts an asynchronous host request and returns immediately. Application.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
-      expectedOutcome: typePage ? "An opaque positive request identifier used only for correlation." : "A RequestId now, followed later by one matching Application.resolve completion.",
+      beforeYouUse: `${dependency} Declare ${capability} in luastra.json. Save the returned RequestId with its purpose and implement app.resolve.`,
+      lifecycle: typePage ? "Host.RequestId is an opaque correlation value for one asynchronous host operation." : "The function starts an asynchronous host request and returns immediately. app.resolve receives its success payload or stable failure code; availability and permission can vary by host.",
+      expectedOutcome: typePage ? "An opaque positive request identifier used only for correlation." : "A RequestId now, followed later by one matching app.resolve completion.",
       failureGuidance: "Undeclared capability, unavailable host support, denied permission, invalid input, deadline, network, or internal failure reaches the bounded failure path. Public completion codes are CANCELLED, DEADLINE, FORBIDDEN, INTERNAL, NETWORK, UNAUTHORIZED, and VALIDATION.",
       availability: `Public-source alpha capability API in ${release.publishedVersion}; verify each claimed host independently.`,
     };
   }
   if (moduleName === "luastra/server") return {
-    beforeYouUse: `${dependency} Declare rpc.call in luastra.json. Server.call also requires a declared backend operation and deployed trusted handler; save its RequestId and implement Application.resolve.`,
-    lifecycle: typePage ? "The type describes request options or the tagged envelope-decoding result." : name === "Server.call" ? "Server.call starts asynchronous trusted work. Application.resolve reports transport success or failure; decode a successful payload with Server.decode and then validate operation-specific fields." : "Server.decode synchronously validates only the Luastra response envelope and returns fields on success; it does not validate your domain model.",
-    expectedOutcome: typePage ? "A checked request/result annotation." : name === "Server.call" ? "A RequestId now, then one resolve completion from the configured backend." : "A tagged result containing result.fields or a bounded decode error.",
+    beforeYouUse: `${dependency} Declare rpc.call in luastra.json and configure a declared backend operation with a deployed trusted handler. Application code should prefer its generated operation function and decoder.`,
+    lifecycle: typePage ? "The type describes request options, v2 limits, nullable values, public errors, or the tagged envelope-decoding result." : (name === "Server.call" || name === "Server.callV2") ? `${name} starts asynchronous trusted work; app.resolve later reports transport success or failure.` : (name === "Server.decode" || name === "Server.decodeV2") ? `${name} synchronously checks the matching bounded success envelope; schema-v2 domain decoding remains operation-specific and generated.` : name === "Server.decodeError" ? "Server.decodeError synchronously validates a plain public failure or its bounded field-code envelope and performs no host work." : `${name} creates a frozen tagged nullable value synchronously and performs no host work.`,
+    expectedOutcome: typePage ? "A checked request, result, limit, nullable-value, or public-error annotation." : (name === "Server.call" || name === "Server.callV2") ? "A RequestId now, then one resolve completion from the configured backend." : (name === "Server.decode" || name === "Server.decodeV2") ? "A tagged result containing result.fields or a bounded decode error." : name === "Server.decodeError" ? "A frozen public error with its original message and optional stable field-code map, or nil for malformed input." : "A frozen tagged null or non-null value accepted by a generated schema-v2 encoder.",
     failureGuidance: "Handle transport failure, envelope decode failure, and domain validation failure separately. The static web build does not deploy trusted backend handlers, credentials, or production operations for you.",
     availability: `Public-source alpha API in ${release.publishedVersion}; production backend deployment remains application-owned.`,
   };
   if (moduleName === "luastra/media") return {
-    beforeYouUse: `${dependency} Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both Application.resolve and media_state handling.`,
-    lifecycle: typePage ? "The type describes queue input, live playback state, or the tagged state-decoding result." : name === "Media.decodeState" ? "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state." : "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through Application.handle(\"media_state\", target, payload) and must be decoded before rendering.",
+    beforeYouUse: `${dependency} Declare media.command in luastra.json. Set an admitted queue before playback, start playback from an explicit user action where required, and implement both app.resolve and media_state handling.`,
+    lifecycle: typePage ? "The type describes queue input, live playback state, or the tagged state-decoding result." : name === "Media.decodeState" ? "Media.decodeState synchronously validates a media_state or Media.state payload. On success, playback fields are under result.state." : "The command returns a RequestId for acknowledgement. Actual playback truth arrives independently through app.handle(\"media_state\", target, payload) and must be decoded before rendering.",
     expectedOutcome: typePage ? "A checked media input/state/result annotation." : name === "Media.decodeState" ? "A tagged result containing result.state or a bounded decode error." : "A RequestId now, then command completion and subsequent decoded live-state updates when playback changes.",
     failureGuidance: "Missing capability, absent queue, invalid asset/content URI, autoplay policy, interruption, unsupported background behavior, or host failure must remain visible state. Do not optimistically treat command acknowledgement as playback success.",
     availability: `Public-source alpha API in ${release.publishedVersion}; background playback and system controls require target-specific verification.`,
@@ -1162,7 +1263,8 @@ const typeFlowFamilies = Object.freeze([
   { types: ["Navigation.RestoreError", "Navigation.RestoreResult"], producedBy: ["Navigation.create", "Navigation.createRouter"] },
   { types: ["Navigation.RouteError", "Navigation.RouteResult"], producedBy: ["Navigation.compile"] },
   { types: ["Navigation.MutationResult"], producedBy: ["Navigation.createRouter"] },
-  { types: ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult"], producedBy: ["Server.decode"] },
+  { types: ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult"], producedBy: ["Server.decode", "Server.decodeV2"] },
+  { types: ["Server.Error"], producedBy: ["Server.decodeError"] },
   { types: ["Media.MediaError", "Media.DecodeSuccess", "Media.DecodeFailure", "Media.DecodeResult"], producedBy: ["Media.decodeState"] },
 ]);
 
@@ -1280,8 +1382,10 @@ const relatedFamilies = [
   ["UI.Orbit", "UI.OrbitPath", "UI.OrbitSearch", "UI.Constellation", "UI.OrbitCenter", "UI.OrbitNode"],
   ["UI.OrbitNode", "UI.OrbitCluster", "UI.FocusSurface", "UI.FocusHeader", "UI.OrbitReturn"],
   ["Timer.RequestId", "Timer.StartOptions", "Timer.start", "Timer.restart", "Timer.cancel"],
-  ["Server.RequestId", "Server.Options", "Server.call", "Server.decode"],
-  ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult", "Server.decode"],
+  ["Server.RequestId", "Server.Options", "Server.V2Limits", "Server.call", "Server.callV2"],
+  ["Server.DecodeSuccess", "Server.DecodeFailure", "Server.DecodeResult", "Server.decode", "Server.decodeV2"],
+  ["Server.Error", "Server.decodeError"],
+  ["Server.Nullable", "Server.nullValue", "Server.value"],
   ["Media.RequestId", "Media.QueueItem", "Media.State", "Media.setQueue", "Media.state"],
   ["Media.play", "Media.pause", "Media.stop", "Media.unload", "Media.seek"],
   ["Media.next", "Media.previous", "Media.State", "Media.state"],

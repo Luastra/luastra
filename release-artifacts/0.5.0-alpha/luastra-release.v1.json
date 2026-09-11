@@ -1,0 +1,86 @@
+{
+  "channel": "alpha",
+  "compliance": {
+    "licenseBundle": {
+      "bytes": 88092,
+      "filename": "luastra-sdk-0.5.0-alpha-licenses.tar.gz",
+      "sha256": "8578a10c54294e519056b7ce57fb75f4555c72c8b095d1d2bb8cf12f18533666"
+    },
+    "notices": {
+      "bytes": 1704,
+      "filename": "luastra-sdk-0.5.0-alpha-THIRD_PARTY_NOTICES.md",
+      "sha256": "ac56bc1c94649515147992135d881c8f547f00c9c14e275de031e205a36dcdc8"
+    },
+    "sbom": {
+      "bytes": 2218,
+      "filename": "luastra-sdk-0.5.0-alpha.spdx.json",
+      "sha256": "b5eadcee28454dceb0fffd03091210bb8712e690d6cef9a3e19b4ed1e5c6d9de"
+    }
+  },
+  "contentSha256": "97e2a80881835599e9935fabfbb936ebdf994d5aefafcbf8e2df8257b68e9acb",
+  "hosts": [
+    {
+      "architecture": "arm64",
+      "archive": {
+        "bytes": 9108169,
+        "filename": "luastra-sdk-0.5.0-alpha-darwin-arm64.tar.gz",
+        "sha256": "9615337e06ac46b33356c056b81788a6eeefdb6252640ced8c51dfe385bf7788"
+      },
+      "id": "darwin-arm64",
+      "platform": "darwin",
+      "root": "luastra-sdk-0.5.0-alpha-darwin-arm64",
+      "sdkContentSha256": "811a668dc7bc413cd0473368581c6a51565e6d266c9dc6e30015d67189f51025"
+    },
+    {
+      "architecture": "x64",
+      "archive": {
+        "bytes": 9439463,
+        "filename": "luastra-sdk-0.5.0-alpha-darwin-x64.tar.gz",
+        "sha256": "6032a93c62b2e136886ea1bec573ce6f24200c91e7fe4b2bf4cdaa700cb3c74e"
+      },
+      "id": "darwin-x64",
+      "platform": "darwin",
+      "root": "luastra-sdk-0.5.0-alpha-darwin-x64",
+      "sdkContentSha256": "3e8431eb7f17d06a367d1dff98079569b7ff987ba872bbc3367669e96f90e082"
+    },
+    {
+      "architecture": "x64",
+      "archive": {
+        "bytes": 10021647,
+        "filename": "luastra-sdk-0.5.0-alpha-linux-x64.tar.gz",
+        "sha256": "81426a174834ef7a926049bb07155999e389360dcdd97c313552638d00bdd78a"
+      },
+      "id": "linux-x64",
+      "platform": "linux",
+      "root": "luastra-sdk-0.5.0-alpha-linux-x64",
+      "sdkContentSha256": "f3dc146c0ec0d039c74dcf691992a7c17761409ef4a25bd3ee8009cf6bac88a7"
+    },
+    {
+      "architecture": "x64",
+      "archive": {
+        "bytes": 5814223,
+        "filename": "luastra-sdk-0.5.0-alpha-win32-x64.tar.gz",
+        "sha256": "1441c31b98a0d459197a185efdb5b431aa258688a9bf8641c91cbf4c9c9cdb77"
+      },
+      "id": "win32-x64",
+      "platform": "win32",
+      "root": "luastra-sdk-0.5.0-alpha-win32-x64",
+      "sdkContentSha256": "a2a0178ff214dbd018f5471be18622cf07f3b37c8e0882903cfcf65ea0d8bdff"
+    }
+  ],
+  "identity": "luastra-sdk-release/0.5.0-alpha",
+  "installer": {
+    "bytes": 21667,
+    "filename": "luastra-install.mjs",
+    "sha256": "60d3ace667691eaf98e58f14625400d39b2f2c6592c2c423aa9658bc942d9200"
+  },
+  "node": ">=24",
+  "publication": "PUBLIC_SOURCE_ALPHA",
+  "releaseNotes": {
+    "bytes": 2834,
+    "filename": "luastra-0.5.0-alpha-RELEASE_NOTES.md",
+    "sha256": "2f7dc266902c687f925448f94007f5ffa20c81e38636fee2fb2aca7d491f367e"
+  },
+  "schemaVersion": 1,
+  "version": "0.5.0-alpha"
+}

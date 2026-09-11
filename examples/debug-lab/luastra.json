@@ -12,7 +12,7 @@
     {
       "id": "app/main",
       "source": "src/main.luau",
-      "dependencies": ["luastra/debug", "luastra/ui"]
+      "dependencies": ["luastra/app", "luastra/debug", "luastra/ui"]
     }
   ],
   "tests": []

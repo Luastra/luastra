@@ -17,12 +17,15 @@ import { EventFrameScheduler } from "/platform/scheduler/event-frame-scheduler.m
 import { createPlatformCapabilities } from "/platform/host/platform-capabilities.mjs";
 import { createRpcCapabilities } from "/platform/host/rpc-capabilities.mjs";
 import { createMediaCapabilities } from "/platform/host/media-capabilities.mjs";
+import { createContentCapabilities } from "/platform/host/content-capabilities.mjs";
 import { createTimerCapabilities } from "/platform/host/timer-capabilities.mjs";
 import { createProjectAssetRegistry } from "/platform/host/asset-registry.mjs";
+import { createContentSourceRegistry } from "/platform/host/content-source-registry.mjs";
 import { createLifecycleBridge, createSerializedEventQueue } from "/platform/host/lifecycle-bridge.mjs";
 import { createKeyboardViewportManager } from "/platform/host/keyboard-viewport-manager.mjs";
 import { waitForFirstPaint } from "/platform/host/first-paint-gate.mjs";
 import { createOrbitController } from "/platform/host/orbit-controller.mjs";
+import { createWindowedListController } from "/platform/host/windowed-list-controller.mjs";
 
 const status = document.querySelector("#status");
 const errorOutput = document.querySelector("#error");
@@ -127,8 +130,17 @@ async function start() {
   const { bundle, modules } = await loadBundle(version());
   const assetRegistry = createProjectAssetRegistry();
   await assetRegistry.load();
+  const platformCapabilities = createPlatformCapabilities(bundle.project.id);
+  const contentCapabilities = createContentCapabilities({ authorizationToken: () => platformCapabilities.cached("session.token") });
+  const contentSources = createContentSourceRegistry({
+    assetRegistry,
+    baseUrl: location.href,
+    resolvePreview(reference) {
+      return contentCapabilities.resolvePreview(reference) ?? globalThis.__luastraResolvePreviewContent?.(reference) ?? null;
+    },
+  });
   const materialize = (renderTree) => materializeRendererTree(renderTree, {
-    resolveAsset: (reference, kind) => assetRegistry.resolveLoaded(reference, kind).url,
+    resolveAsset: contentSources.resolve,
   });
   document.documentElement.dataset.luastraProject = bundle.project.id;
   const handle = createSession();
@@ -158,8 +170,8 @@ async function start() {
   let adapter;
   let motionSession;
   let orbitController;
+  let windowedListController;
   const ledger = new RequestLedger();
-  const platformCapabilities = createPlatformCapabilities(bundle.project.id);
   const rpcCapabilities = createRpcCapabilities({ authorizationToken: () => platformCapabilities.cached("session.token") });
   const mediaCapabilities = createMediaCapabilities();
   const timerCapabilities = createTimerCapabilities();
@@ -182,7 +194,7 @@ async function start() {
       if (taken.request === null) return;
       const request = taken.request;
       if (!validateCapabilityRequest(request)) fail("VM emitted invalid capability request");
-      const capabilityHandler = globalThis.__luastraCapabilityHandler ?? (request.kind === "rpc.call" ? rpcCapabilities.handle : request.kind === "media.command" ? mediaCapabilities.handle : request.kind === "timer.control" ? timerCapabilities.handle : platformCapabilities.handle);
+      const capabilityHandler = globalThis.__luastraCapabilityHandler ?? (request.kind === "rpc.call" ? rpcCapabilities.handle : request.kind === "media.command" ? mediaCapabilities.handle : request.kind === "content.pick" || request.kind === "content.upload" ? contentCapabilities.handle : request.kind === "timer.control" ? timerCapabilities.handle : platformCapabilities.handle);
       const begun = ledger.begin(request, performance.now());
       if (!begun.accepted) fail(`host ledger rejected request: ${begun.reason}`);
       const handled = await capabilityHandler(request);
@@ -211,6 +223,8 @@ async function start() {
     }
   };
   adapter = new DomAdapter(hostRoot, {
+    retainResource: contentSources.retain,
+    releaseResource: contentSources.release,
     deferModalClose: (surface, complete) => orbitController?.deferFocusSurfaceClose(surface, complete) ?? false,
     dispatch({ action, target, value }) {
       try {
@@ -218,6 +232,11 @@ async function start() {
         processRequests().catch(showFailure);
       } catch (error) { showFailure(error); }
     },
+  });
+  windowedListController = createWindowedListController({
+    root: hostRoot,
+    resolveNode: (id) => adapter.node(id),
+    dispatch: (id, eventName, value) => adapter.dispatchHostEvent(id, eventName, value),
   });
   const keyboardViewport = createKeyboardViewportManager({ root: hostRoot });
   const diagnosticsEnabled = new URLSearchParams(location.search).get("luastraDiagnostics") === "1";
@@ -248,6 +267,7 @@ async function start() {
           wasmMemoryBytes: memoryBytes(),
           domNodeCount: hostRoot.querySelectorAll("*").length,
           orbitLayout: orbitController.diagnostics(),
+          windowedLists: windowedListController.diagnostics(),
         });
       },
     });
@@ -255,13 +275,15 @@ async function start() {
   }
   motionSession = new MotionRendererSession({
     render(nextTree) {
+      windowedListController.prepare();
       const patches = reconcile(tree, nextTree);
       adapter.applyBatch(patches);
       tree = nextTree;
+      windowedListController.sync(nextTree);
       orbitController.sync();
       return patches;
     },
-    dispose() { scheduler.dispose(); },
+    dispose() { windowedListController.dispose(); scheduler.dispose(); contentSources.dispose(); },
   }, motion);
   const nativePlatform = globalThis.Capacitor?.isNativePlatform?.() === true;
   const deferInitialMotion = nativePlatform && globalThis.Capacitor?.getPlatform?.() === "ios";
@@ -283,7 +305,7 @@ async function start() {
   // Capacitor's iOS bridge may use a JS prompt. WebKit blanks a page when a
   // prompt arrives before its first paint, so let the initial semantic UI
   // commit before any application request or native subscription can bridge.
-  await waitForFirstPaint();
+  await waitForFirstPaint(requestAnimationFrame, { timeoutMs: nativePlatform ? null : 1_000 });
   await processRequests();
   const hostEvents = createSerializedEventQueue({
     async dispatch(event) {
@@ -309,6 +331,13 @@ async function start() {
   const unsubscribeMedia = mediaCapabilities.subscribe((value) => {
     try {
       renderResponse(JSON.parse(dispatchSession(handle, "media_state", "app", value)));
+      processRequests().catch(showFailure);
+    }
+    catch (error) { showFailure(error); }
+  });
+  const unsubscribeContent = contentCapabilities.subscribe((value) => {
+    try {
+      renderResponse(JSON.parse(dispatchSession(handle, "content_progress", "app", value)));
       processRequests().catch(showFailure);
     }
     catch (error) { showFailure(error); }

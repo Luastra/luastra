@@ -26,8 +26,18 @@ const colorTokens = Object.freeze({
 });
 const buttonIconPaths = Object.freeze({
   activity: ["M3 12h4l2.5-7 5 14 2.5-7h4"],
+  "arrow-left": ["M19 12H5", "M12 19l-7-7 7-7"],
+  check: ["m5 12 4 4L19 6"],
+  close: ["M6 6l12 12M18 6 6 18"],
+  home: ["m3 11 9-8 9 8", "M5 10v10h14V10", "M9 20v-6h6v6"],
+  list: ["M8 6h13M8 12h13M8 18h13", "M3 6h.01M3 12h.01M3 18h.01"],
   palette: ["M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.6-3.2 2 2 0 0 1 1.6-3.2H18A3 3 0 0 0 21 12a9 9 0 0 0-9-9Z", "M7.5 10h.01M9.5 6.5h.01M14.5 6.5h.01M17 10h.01"],
   pause: ["M9 5v14M15 5v14"],
+  plus: ["M12 5v14M5 12h14"],
+  retry: ["M20 11a8 8 0 1 0-2.34 5.66", "M20 4v7h-7"],
+  search: ["m21 21-4.35-4.35", "M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"],
+  settings: ["M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z", "M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2 3.46-.08-.02a1.7 1.7 0 0 0-1.8-.65l-.04.02a1.7 1.7 0 0 0-1.15 1.5V21h-4v-.09a1.7 1.7 0 0 0-1.15-1.5l-.04-.02a1.7 1.7 0 0 0-1.8.65l-.08.02-2-3.46.06-.06A1.7 1.7 0 0 0 6 14.66v-.05a1.7 1.7 0 0 0-1.42-1.12H4.5v-4h.08A1.7 1.7 0 0 0 6 8.37v-.05a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2-3.46.08.02a1.7 1.7 0 0 0 1.8.65l.04-.02a1.7 1.7 0 0 0 1.15-1.5V2h4v.09a1.7 1.7 0 0 0 1.15 1.5l.04.02a1.7 1.7 0 0 0 1.8-.65l.08-.02 2 3.46-.06.06A1.7 1.7 0 0 0 19.4 8.34v.05a1.7 1.7 0 0 0 1.42 1.12h.08v4h-.08a1.7 1.7 0 0 0-1.42 1.12Z"],
+  user: ["M20 21a8 8 0 0 0-16 0", "M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"],
 });
 
 function colorValue(value) { return colorTokens[value] ?? value; }
@@ -67,6 +77,7 @@ export class DomAdapter {
   #document;
   #nodes = new Map();
   #listeners = new Map();
+  #hostEvents = new Map();
   #composing = new WeakSet();
   #enterKeyListeners = new WeakMap();
   #modalState = new WeakMap();
@@ -75,8 +86,10 @@ export class DomAdapter {
   #dispatch;
   #deferModalClose;
   #initialMetadata;
+  #retainResource;
+  #releaseResource;
 
-  constructor(root, { dispatch = null, deferModalClose = null } = {}) {
+  constructor(root, { dispatch = null, deferModalClose = null, retainResource = null, releaseResource = null } = {}) {
     if (!root?.ownerDocument) fail("DOM root is required");
     this.#document = root.ownerDocument;
     this.#initialMetadata = {
@@ -86,13 +99,27 @@ export class DomAdapter {
     };
     if (dispatch !== null && typeof dispatch !== "function") fail("DOM event dispatch must be a function");
     if (deferModalClose !== null && typeof deferModalClose !== "function") fail("Deferred modal close handler must be a function");
+    if (retainResource !== null && typeof retainResource !== "function") fail("Resource retain handler must be a function");
+    if (releaseResource !== null && typeof releaseResource !== "function") fail("Resource release handler must be a function");
     this.#dispatch = dispatch;
     this.#deferModalClose = deferModalClose;
+    this.#retainResource = retainResource;
+    this.#releaseResource = releaseResource;
     this.#nodes.set("host-root", root);
   }
 
   node(id) {
     return this.#nodes.get(id) ?? null;
+  }
+
+  dispatchHostEvent(targetId, eventName, value = "") {
+    if (!new Set(["startReached", "endReached"]).has(eventName)) fail("unsupported host event");
+    if (typeof value !== "string" || new TextEncoder().encode(value).byteLength > 4096) fail("host event value is invalid");
+    const action = this.#hostEvents.get(`${targetId}:${eventName}`);
+    if (!action) return false;
+    if (!this.#dispatch) fail("DOM event dispatch is unavailable");
+    this.#dispatch({ action, target: targetId, value, nativeEvent: null });
+    return true;
   }
 
   applyBatch(patches) {
@@ -186,11 +213,13 @@ export class DomAdapter {
       if (!child || (patch.value !== "" && !before)) fail("unknown DOM placement node");
       target.insertBefore(child, before);
       this.#activatePendingModals(child);
+      if (this.#modalState.get(target) === "open") this.#focusModalInitial(target);
     } else if (patch.kind === "append") {
       const child = this.#nodes.get(patch.value);
       if (!child) fail(`unknown DOM child: ${patch.value}`);
       target.append(child);
       this.#activatePendingModals(child);
+      if (this.#modalState.get(target) === "open") this.#focusModalInitial(target);
     } else if (patch.kind === "remove") {
       this.#drop(target);
       target.remove();
@@ -242,13 +271,21 @@ export class DomAdapter {
   #openModal(target) {
     if (typeof target.showModal !== "function") {
       target.setAttribute("open", "");
-      return;
+    } else if (!target.open) {
+      try {
+        target.showModal();
+      } catch (error) {
+        if (error?.name !== "InvalidStateError") throw error;
+      }
     }
-    if (target.open) return;
-    try {
-      target.showModal();
-    } catch (error) {
-      if (error?.name !== "InvalidStateError") throw error;
+    this.#focusModalInitial(target);
+  }
+
+  #focusModalInitial(target) {
+    const initialFocus = target.getAttribute?.("data-luastra-initial-focus");
+    if (initialFocus) {
+      const candidate = [...(target.querySelectorAll?.("[data-luastra-id]") ?? [])].find((item) => item.dataset?.luastraId === initialFocus);
+      if (candidate && typeof candidate.focus === "function") candidate.focus({ preventScroll: true });
     }
   }
 
@@ -260,6 +297,20 @@ export class DomAdapter {
   }
 
   #setAttribute(target, name, value) {
+    if (name === "src" || name === "data-luastra-image-placeholder-src") {
+      const previous = target.getAttribute?.(name);
+      if (previous === value) return;
+      if (previous) this.#releaseResource?.(previous);
+      this.#retainResource?.(value);
+      target.setAttribute(name, value);
+      if (name === "data-luastra-image-placeholder-src" && target.style) target.style.backgroundImage = `url(${JSON.stringify(value)})`;
+      return;
+    }
+    if (name === "data-luastra-image-placeholder-color") {
+      target.setAttribute(name, value);
+      if (target.style) target.style.backgroundColor = value;
+      return;
+    }
     if (name === "data-luastra-icon") {
       target.setAttribute(name, value);
       this.#syncButtonIcon(target);
@@ -341,7 +392,13 @@ export class DomAdapter {
   }
 
   #removeAttribute(target, name) {
-    if (name === "data-luastra-icon") target.querySelector?.(":scope > .luastra-button-icon")?.remove();
+    if (name === "src" || name === "data-luastra-image-placeholder-src") {
+      const previous = target.getAttribute?.(name);
+      if (previous) this.#releaseResource?.(previous);
+      if (name === "data-luastra-image-placeholder-src" && target.style) target.style.backgroundImage = "";
+    }
+    if (name === "data-luastra-image-placeholder-color" && target.style) target.style.backgroundColor = "";
+    if (name === "data-luastra-icon") target.querySelector?.(":scope > .luastra-icon-glyph")?.remove();
     if (name === "enterkeyhint") this.#removeEnterKeyListener(target);
     if (dynamicStyleAttributes[name]) {
       const propertyValue = dynamicStyleAttributes[name][0];
@@ -356,7 +413,7 @@ export class DomAdapter {
   #syncButtonIcon(target) {
     const iconName = target.dataset?.luastraIcon ?? "";
     const paths = buttonIconPaths[iconName];
-    const previous = target.querySelector?.(":scope > .luastra-button-icon");
+    const previous = target.querySelector?.(":scope > .luastra-icon-glyph");
     if (!paths) {
       previous?.remove();
       return;
@@ -364,7 +421,7 @@ export class DomAdapter {
     if (previous?.dataset?.icon === iconName) return;
     previous?.remove();
     const icon = this.#document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    icon.classList.add("luastra-button-icon");
+    icon.classList.add("luastra-icon-glyph", "luastra-button-icon");
     icon.dataset.icon = iconName;
     icon.setAttribute("viewBox", "0 0 24 24");
     icon.setAttribute("aria-hidden", "true");
@@ -411,7 +468,14 @@ export class DomAdapter {
   }
 
   #setEvent(target, targetId, eventName, action) {
+    if (eventName === "startReached" || eventName === "endReached") {
+      const key = `${targetId}:${eventName}`;
+      this.#hostEvents.delete(key);
+      if (action !== "") this.#hostEvents.set(key, action);
+      return;
+    }
     const nativeEvents = eventName === "input" ? ["input", "compositionstart", "compositionend"]
+      : eventName === "submit" ? ["keydown"]
       : eventName === "dismiss" ? ["cancel"] : [eventName];
     for (const nativeEvent of nativeEvents) {
       const key = `${targetId}:${nativeEvent}`;
@@ -423,6 +487,22 @@ export class DomAdapter {
     if (!this.#dispatch) fail("DOM event dispatch is unavailable");
     const listener = (event) => {
       if (eventName === "input" && (event.isComposing === true || this.#composing.has(event.currentTarget))) return;
+      if (eventName === "submit") {
+        if (event.key !== "Enter" || event.shiftKey === true || event.isComposing === true || event.keyCode === 229 || this.#composing.has(event.currentTarget)) return;
+        event.preventDefault();
+      }
+      if (eventName === "load" && event.currentTarget?.tagName?.toLowerCase() === "img") {
+        const expectedWidth = Number(event.currentTarget.getAttribute?.("data-luastra-image-pixel-width"));
+        const expectedHeight = Number(event.currentTarget.getAttribute?.("data-luastra-image-pixel-height"));
+        const actualWidth = Number(event.currentTarget.naturalWidth);
+        const actualHeight = Number(event.currentTarget.naturalHeight);
+        if (Number.isSafeInteger(expectedWidth) && expectedWidth > 0 && Number.isSafeInteger(expectedHeight) && expectedHeight > 0 &&
+            Number.isSafeInteger(actualWidth) && actualWidth > 0 && Number.isSafeInteger(actualHeight) && actualHeight > 0 &&
+            (actualWidth !== expectedWidth || actualHeight !== expectedHeight)) {
+          this.#listeners.get(`${targetId}:error`)?.({ currentTarget: event.currentTarget, nativeEvent: event });
+          return;
+        }
+      }
       if (eventName === "dismiss") event.preventDefault();
       if (eventName === "click" && event.currentTarget?.tagName?.toLowerCase() === "a") {
         const modified = event.metaKey === true || event.ctrlKey === true || event.shiftKey === true || event.altKey === true;
@@ -433,7 +513,7 @@ export class DomAdapter {
       const value = "value" in event.currentTarget ? String(event.currentTarget.value) : "";
       this.#dispatch({ action, target: targetId, value, nativeEvent: event });
     };
-    const dispatchedEvent = eventName === "dismiss" ? "cancel" : eventName;
+    const dispatchedEvent = eventName === "dismiss" ? "cancel" : eventName === "submit" ? "keydown" : eventName;
     target.addEventListener(dispatchedEvent, listener);
     this.#listeners.set(`${targetId}:${dispatchedEvent}`, listener);
     if (eventName === "input") {
@@ -456,7 +536,14 @@ export class DomAdapter {
     for (const key of [...this.#listeners.keys()]) {
       if (removedIds.some((id) => key.startsWith(`${id}:`))) this.#listeners.delete(key);
     }
+    for (const key of [...this.#hostEvents.keys()]) {
+      if (removedIds.some((id) => key.startsWith(`${id}:`))) this.#hostEvents.delete(key);
+    }
     for (const removed of [node, ...descendants]) {
+      for (const name of ["src", "data-luastra-image-placeholder-src"]) {
+        const resource = removed.getAttribute?.(name);
+        if (resource) this.#releaseResource?.(resource);
+      }
       const pending = this.#pendingModalClosures.get(removed);
       if (pending) {
         this.#pendingModalClosures.delete(removed);

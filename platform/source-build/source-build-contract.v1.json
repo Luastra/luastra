@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "identity": "luastra-runtime-source-build/phase5-alpha-9",
+  "identity": "luastra-runtime-source-build/phase5-alpha-10",
   "sourceDateEpoch": 1787529600,
   "luau": {
     "tag": "0.731",
@@ -40,8 +40,8 @@
   "protocolFiles": [
     {
       "path": "protocol.hpp",
-      "bytes": 6990,
-      "sha256": "87147b9e5fe62fc2ff327479e2718cc953c5383dbd5a2de6fd32bdf9ec71bf0d"
+      "bytes": 7676,
+      "sha256": "afe671ed8f8359cd2622dd41ef29bde89b5a47f214dbe1f0885ad1384ef8bfcd"
     }
   ],
   "targets": [

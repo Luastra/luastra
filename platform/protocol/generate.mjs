@@ -168,17 +168,30 @@ function validMotion(value) {
 
 function validComponentProperty(componentName, name, value) {
   if (name === "motion") return validMotion(value);
-  if (["busy", "disabled", "external", "header", "hidden", "open", "required"].includes(name)) return typeof value === "boolean";
+  if (["busy", "decorative", "disabled", "endBusy", "external", "header", "hidden", "multiline", "open", "pressed", "required", "selected", "startBusy"].includes(name)) return typeof value === "boolean";
   if (["width", "height"].includes(name)) return Number.isFinite(value) && value >= 1 && value <= 4096;
   if (name === "aspectRatio") return Number.isFinite(value) && value >= 0.05 && value <= 20;
   if (name === "cornerRadius") return Number.isFinite(value) && value >= 0 && value <= 2048;
   if (name === "strokeWidth") return Number.isFinite(value) && value >= 0 && value <= 64;
+  if (name === "estimatedItemSize") return Number.isInteger(value) && value >= 16 && value <= 4096;
+  if (name === "overscan") return Number.isInteger(value) && value >= 1 && value <= 64;
+  if (name === "maximumLength") return Number.isInteger(value) && value >= 1 && value <= 4096;
+  if (["itemCount", "itemOffset"].includes(name)) return Number.isSafeInteger(value) && value >= 0 && value <= 1_000_000_000;
+  if (name === "contentBytes") return Number.isSafeInteger(value) && value >= 4 && value <= 25 * 1024 * 1024;
+  if (["pixelWidth", "pixelHeight"].includes(name)) return Number.isSafeInteger(value) && value >= 1 && value <= 8192;
+  if (name === "mode") return value === "windowed";
   if (["fill", "stroke"].includes(name)) return typeof value === "string" && (/^#[0-9a-fA-F]{6}$/.test(value) || ["accent", "danger", "muted", "surface", "success", "text", "transparent", "warning"].includes(value));
   if (["textColor", "backgroundColor", "accentColor", "dangerColor", "mutedColor", "surfaceColor", "successColor", "warningColor"].includes(name)) {
     if (componentName === "Screen") return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
     return typeof value === "string" && (/^#[0-9a-fA-F]{6}$/.test(value) || ["accent", "danger", "muted", "surface", "success", "text", "transparent", "warning"].includes(value));
   }
-  if (name === "source") return typeof value === "string" && /^asset:image\\/[a-z][a-z0-9_-]*(\\/[a-z][a-z0-9_-]*)*$/.test(value);
+  if (componentName === "Image" && (name === "source" || name === "placeholder")) return typeof value === "string" && (
+    /^asset:image\\/[a-z][a-z0-9_-]*(\\/[a-z][a-z0-9_-]*)*$/.test(value) ||
+    (name === "source" && /^(content|preview):[A-Za-z0-9_-]{32,256}$/.test(value))
+  );
+  if (name === "placeholderColor") return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+  if (name === "mediaType") return ["image/avif", "image/jpeg", "image/png", "image/webp"].includes(value);
+  if (name === "orientation") return ["normal", "rotate90", "rotate180", "rotate270"].includes(value);
   if (name === "href") {
     if (typeof value !== "string" || encoder.encode(value).byteLength > 2048) return false;
     if (/^#[a-z][a-z0-9_-]*(\\/[a-z][a-z0-9_-]*)*$/.test(value)) return true;
@@ -200,7 +213,8 @@ function validComponentProperty(componentName, name, value) {
   if (name === "inputMode") return ["decimal", "email", "numeric", "search", "tel", "text", "url"].includes(value);
   if (name === "enterKeyHint") return ["done", "enter", "go", "next", "previous", "search", "send"].includes(value);
   if (name === "autoComplete") return ["current-password", "email", "name", "new-password", "off", "on", "one-time-code", "username"].includes(value);
-  if (["onDismiss", "onTap", "onInput"].includes(name)) return typeof value === "string" && /^[a-z][a-z0-9._-]*$/.test(value) && encoder.encode(value).byteLength <= 64;
+  if (name === "icon") return ["activity", "arrow-left", "check", "close", "home", "list", "palette", "pause", "plus", "retry", "search", "settings", "user"].includes(value);
+  if (["onDismiss", "onEndReached", "onError", "onLoad", "onTap", "onInput", "onStartReached", "onSubmit"].includes(name)) return typeof value === "string" && /^[a-z][a-z0-9._-]*$/.test(value) && encoder.encode(value).byteLength <= 64;
   return boundedString(value);
 }
 

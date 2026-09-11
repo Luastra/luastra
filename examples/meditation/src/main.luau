@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Host = require("luastra/host")
 local Media = require("luastra/media")
 local ServerFunctions = require("app/server-functions")
@@ -22,7 +23,7 @@ local restoredPosition = false
 local disposed = false
 local media: Media.State = { revision = 0, status = "idle", itemId = "", title = "", artist = "", positionMs = 0, durationMs = 0, bufferedMs = 0, queueIndex = -1, queueCount = 0, background = false, interruption = "none", route = "default", error = nil }
 
-local Application = {}
+local Root = {}
 
 local function key(kind: string): string
     sequence += 1
@@ -77,7 +78,7 @@ local function meditationCard(item: ServerFunctions.Meditation): UI.Node
     }
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     local cards: { UI.Node } = {}
     for _, item in meditations do table.insert(cards, meditationCard(item)) end
     if #cards == 0 then table.insert(cards, UI.ListItem { id = "meditation/empty", text = status, tone = "muted" }) end
@@ -120,7 +121,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "lifecycle" then
         if value == "launch" then track(Host.storageGet("session.token"), { kind = "storage-restore" })
         elseif value == "online" then connectivity = "Online"
@@ -173,7 +174,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(requestId: number, success: boolean, payload: string, errorCode: string, errorMessage: string)
+function Root.resolve(requestId: number, success: boolean, payload: string, errorCode: string, errorMessage: string)
     local action = pending[requestId]
     pending[requestId] = nil
     if action == nil or disposed then return end
@@ -228,10 +229,15 @@ function Application.resolve(requestId: number, success: boolean, payload: strin
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     local count = 0
     for _ in pending do count += 1 end
     return { authenticated = authenticated, userName = userName, status = status, connectivity = connectivity, loginEmail = loginEmail, hasLoginPassword = loginPassword ~= "", catalogueCount = #meditations, pendingCount = count, selectedId = selectedId, disposed = disposed }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}

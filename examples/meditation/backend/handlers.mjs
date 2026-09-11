@@ -50,7 +50,7 @@ export function createHandlers({ database, identity }) {
       if (!allowed(meditation, context.principal?.id)) context.reject("FORBIDDEN", "This meditation requires an entitlement");
       if (!context.content) throw new Error("protected content service is unavailable");
       const progress = context.principal?.id ? database.get("progress", preferenceId(context.principal.id, meditation.id)) : null;
-      const grant = context.content.issue(meditation.contentId, { ttlMs: 60 * 1000 });
+      const grant = await context.content.issue(meditation.contentId, { ttlMs: 60 * 1000 });
       return { itemId: meditation.id, source: grant.source, title: meditation.title, artist: "Luastra reference", resumePositionMs: progress?.positionMs ?? 0, downloadAllowed: false };
     },
     async "library.favorite.v1"(input, context) {

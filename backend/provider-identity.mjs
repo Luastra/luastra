@@ -27,8 +27,48 @@ export class ProviderIdentityError extends Error {
 
 export function createProviderIdentityService({ authProvider, sessions, sessionTtlMs = 30 * 24 * 60 * 60 * 1000, refreshWithinMs = 60_000, refreshLeaseMs = 15_000 } = {}) {
   for (const name of ["signInWithPassword", "refreshSession", "requestPasswordRecovery", "updatePassword", "signOut"]) method(authProvider, name);
-  for (const name of ["issue", "resolve", "resolveAuthorization", "readProvider", "readProviderSession", "beginRefresh", "completeRefresh", "abortRefresh", "revoke"]) method(sessions, name);
+  for (const name of ["issue", "resolve", "resolveAuthorization", "readProvider", "readProviderSession", "beginRefresh", "beginRefreshSession", "completeRefresh", "abortRefresh", "revoke"]) method(sessions, name);
   if (!Number.isSafeInteger(sessionTtlMs) || sessionTtlMs < 1000 || sessionTtlMs > 90 * 24 * 60 * 60 * 1000 || !Number.isSafeInteger(refreshWithinMs) || refreshWithinMs < 0 || refreshWithinMs > 60 * 60 * 1000 || !Number.isSafeInteger(refreshLeaseMs) || refreshLeaseMs < 1000 || refreshLeaseMs > 60_000) fail("CONFIGURATION", "Provider identity timing is invalid");
+  const useProvider = async ({ begin, read, revoke, principalId = null }, operation, { signal = null } = {}) => {
+    if (typeof operation !== "function") fail("VALIDATION", "Provider session operation is required");
+    let refresh;
+    try { refresh = begin(); }
+    catch {
+      revoke();
+      fail("UNAVAILABLE", "Provider session could not be read");
+    }
+    if (refresh.state === "invalid") fail("UNAUTHORIZED", "Luastra session is invalid or expired");
+    if (refresh.state === "busy") fail("REFRESH_BUSY", "Provider session refresh is already in progress");
+    let material = refresh.provider;
+    if (principalId !== null && material.providerUserId !== principalId) {
+      sessions.revoke(material.sessionId);
+      fail("UNAUTHORIZED", "Provider session does not match the authenticated principal");
+    }
+    if (refresh.state === "acquired") {
+      let identity;
+      try { identity = await authProvider.refreshSession(material.refreshToken, { signal }); }
+      catch (error) {
+        sessions.abortRefresh(material.sessionId, refresh.lease);
+        const exposed = mapped(error);
+        if (exposed.code === "UNAUTHORIZED") sessions.revoke(material.sessionId);
+        throw exposed;
+      }
+      let committed;
+      try {
+        const next = providerMaterial(identity);
+        committed = sessions.completeRefresh(material.sessionId, refresh.lease, next, { principal: { id: identity.providerUserId, name: identity.name ?? identity.email, roles: identity.roles } });
+      }
+      catch { sessions.abortRefresh(material.sessionId, refresh.lease); fail("UNAVAILABLE", "Provider session rotation was rejected"); }
+      if (!committed) fail("REFRESH_BUSY", "Provider session rotation lost its lease");
+      material = read();
+      if (!material) fail("UNAUTHORIZED", "Luastra session was revoked during refresh");
+      if (principalId !== null && material.providerUserId !== principalId) {
+        sessions.revoke(material.sessionId);
+        fail("UNAUTHORIZED", "Provider session does not match the authenticated principal");
+      }
+    }
+    return operation(Object.freeze({ provider: material.provider, providerUserId: material.providerUserId, accessToken: material.accessToken, expiresAt: material.expiresAt }), { signal });
+  };
   return Object.freeze({
     async requestPasswordRecovery(email, { redirectTo = null, signal = null } = {}) {
       try { await authProvider.requestPasswordRecovery(email, { redirectTo, signal }); return Object.freeze({ accepted: true }); }
@@ -51,37 +91,20 @@ export function createProviderIdentityService({ authProvider, sessions, sessionT
     resolve(token) { return sessions.resolve(token); },
     resolveAuthorization(header) { return sessions.resolveAuthorization(header); },
     async useProviderSession(token, operation, { signal = null } = {}) {
-      if (typeof operation !== "function") fail("VALIDATION", "Provider session operation is required");
-      let refresh;
-      try { refresh = sessions.beginRefresh(token, { refreshWithinMs, leaseMs: refreshLeaseMs }); }
-      catch {
-        const owner = sessions.resolve(token);
-        if (owner) sessions.revoke(owner.session);
-        fail("UNAVAILABLE", "Provider session could not be read");
-      }
-      if (refresh.state === "invalid") fail("UNAUTHORIZED", "Luastra session is invalid or expired");
-      if (refresh.state === "busy") fail("REFRESH_BUSY", "Provider session refresh is already in progress");
-      let material = refresh.provider;
-      if (refresh.state === "acquired") {
-        let identity;
-        try { identity = await authProvider.refreshSession(material.refreshToken, { signal }); }
-        catch (error) {
-          sessions.abortRefresh(material.sessionId, refresh.lease);
-          const exposed = mapped(error);
-          if (exposed.code === "UNAUTHORIZED") sessions.revoke(material.sessionId);
-          throw exposed;
-        }
-        let committed;
-        try {
-          const next = providerMaterial(identity);
-          committed = sessions.completeRefresh(material.sessionId, refresh.lease, next, { principal: { id: identity.providerUserId, name: identity.name ?? identity.email, roles: identity.roles } });
-        }
-        catch { sessions.abortRefresh(material.sessionId, refresh.lease); fail("UNAVAILABLE", "Provider session rotation was rejected"); }
-        if (!committed) fail("REFRESH_BUSY", "Provider session rotation lost its lease");
-        material = sessions.readProvider(token);
-        if (!material) fail("UNAUTHORIZED", "Luastra session was revoked during refresh");
-      }
-      return operation(Object.freeze({ provider: material.provider, providerUserId: material.providerUserId, accessToken: material.accessToken, expiresAt: material.expiresAt }), { signal });
+      return useProvider({
+        begin: () => sessions.beginRefresh(token, { refreshWithinMs, leaseMs: refreshLeaseMs }),
+        read: () => sessions.readProvider(token),
+        revoke: () => { const owner = sessions.resolve(token); if (owner) sessions.revoke(owner.session); },
+      }, operation, { signal });
+    },
+    async useProviderPrincipal(principal, operation, { signal = null } = {}) {
+      if (!principal || typeof principal !== "object" || typeof principal.id !== "string" || typeof principal.session !== "string") fail("UNAUTHORIZED", "Authenticated provider session is required");
+      return useProvider({
+        begin: () => sessions.beginRefreshSession(principal.session, { refreshWithinMs, leaseMs: refreshLeaseMs }),
+        read: () => sessions.readProviderSession(principal.session),
+        revoke: () => sessions.revoke(principal.session),
+        principalId: principal.id,
+      }, operation, { signal });
     },
     async signOut(token, { signal = null } = {}) {
       const owner = sessions.resolve(token);

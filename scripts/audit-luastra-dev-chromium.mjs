@@ -283,7 +283,7 @@ async function main() {
       center: document.querySelector('[data-luastra-id="landing/root/center"]')?.textContent?.trim() ?? null,
       errors: [...(window.__luastraSiteAudit?.errors ?? [])],
     }))()`);
-    await route(client, "#/about/why", "location.hash === '#/about/why' && document.querySelector('[data-luastra-id=\"landing/focus/section-1/body\"]')?.textContent?.includes('Application.render')");
+    await route(client, "#/about/why", "location.hash === '#/about/why' && document.querySelector('[data-luastra-id=\"landing/focus/section-1/body\"]')?.textContent?.includes('App.compose')");
     const productWhy = await evaluate(client, `(() => ({
       contract: document.querySelector('[data-luastra-id="landing/focus/section-1/body"]')?.textContent?.trim() ?? null,
       sloganBoundary: document.querySelector('[data-luastra-id="landing/focus/section-3/body"]')?.textContent?.trim() ?? null,
@@ -515,7 +515,7 @@ async function main() {
         exampleDetailContent.files?.includes("examples/routing-lab/src/main.luau") && exampleDetailContent.capabilities === "ui.render" &&
         exampleDetailContent.evidence?.includes("navigation.history") && exampleDetailContent.docs === "Read the documentation" &&
         exampleDetailContent.source === "https://github.com/Luastra/luastra/tree/main/examples/routing-lab",
-      productPages: productRoot.center?.includes("New here?") && productWhy.contract?.includes("Application.render") &&
+      productPages: productRoot.center?.includes("New here?") && productWhy.contract?.includes("App.compose") &&
         productWhy.sloganBoundary?.includes("does not mean redrawing") && productWhy.evidence?.includes("does not yet prove broad market demand") &&
         productTargets.webArtifact?.includes("Wasm VM") && productTargets.currentHosts?.includes("Tauri and Capacitor") &&
         productWhyScrolled && productTargets.openedAtTop && productTargets.currentHosts?.includes("not translated into platform-native widgets") &&
@@ -546,7 +546,7 @@ async function main() {
         documentationDetail.relatedCount >= 1 && documentationDetail.relatedCount <= 4 && documentationDetail.relatedCanonical &&
         documentationDetail.relatedTitle === "Continue learning" && documentationDetail.companionTitle === "Companions" &&
         documentationDetail.nextStepTitle === "Next steps" && documentationDetail.inventory === "#/docs/ui" &&
-        documentationDetail.previous === "#/reference/ui/text" && documentationDetail.next === "#/reference/ui/link" &&
+        documentationDetail.previous === "#/reference/ui/text" && documentationDetail.next === "#/reference/ui/icon" &&
         documentationDetail.parametersScrollContained && documentationDetail.detailOpenedAtTop && documentationDetail.verticalWheelEscapesTable &&
         legacyReferenceRedirect.hash === "#/reference/ui/button" && legacyReferenceRedirect.title === "UI.Button" &&
         recipeHover.hovered && recipeHover.contrast >= 4.5,

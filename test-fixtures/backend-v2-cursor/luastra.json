@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 2,
+  "project": { "id": "dev.luastra.backend-v2-cursor", "entry": "app/main" },
+  "sdk": { "contract": 1 },
+  "capabilities": ["rpc.call", "ui.render"],
+  "backend": {
+    "declaration": "backend/functions.json",
+    "handler": "backend/handlers.mjs",
+    "generatedClient": "src/generated/server-functions.luau",
+    "generatedModule": "app/generated/server-functions"
+  },
+  "modules": [
+    { "id": "app/generated/server-functions", "source": "src/generated/server-functions.luau", "dependencies": ["luastra/server"] },
+    { "id": "app/main", "source": "src/main.luau", "dependencies": ["app/generated/server-functions", "luastra/app", "luastra/ui"] }
+  ],
+  "tests": []
+}

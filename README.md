@@ -7,17 +7,19 @@ mobile applications from one host-neutral project. Application code owns the
 UI tree, state, routes, events, timers, media commands, and server declarations;
 Luastra supplies the checked SDK, runtime, renderer, and admitted host adapters.
 
-> **Release status:** `0.4.0-alpha` is an early public-source release. APIs may
+> **Release status:** `0.5.0-alpha` is an early public-source release. APIs may
 > change, and no signed installer, store release, production service, or
 > production-stability guarantee is included.
 >
-> The immutable `0.1.0-alpha` release remains available as a historical
-> rollback boundary; its assets are never replaced by this release.
+> Earlier immutable alpha releases remain available as historical rollback
+> boundaries; their assets are never replaced by this release.
 
-**0.4.0-alpha** adds loading
-and failure screens authored in Luau and rendered to HTML/CSS during web builds.
-See [the development plan](docs/0.4.0-alpha-plan.md) and
-[startup screens](docs/startup-screens.md).
+**0.5.0-alpha** adds feature composition, bounded resources and paged
+collections, backend v2 and provider-neutral records, windowed lists, typed
+dynamic images, browser image uploads, reusable library packages, and the
+remaining non-video UI primitives. Inline video is deliberately deferred.
+See the [migration guide](docs/migration-0.5.0-alpha.md) and
+[release verification contract](docs/release-verification.md).
 
 ## Why Luastra
 
@@ -36,40 +38,42 @@ See [the development plan](docs/0.4.0-alpha-plan.md) and
 ```luau
 --!strict
 
+local App = require("luastra/app")
 local UI = require("luastra/ui")
 
 local interactions = 0
-local Application = {}
+return App.compose {
+    features = {},
+    render = function()
+        return UI.Screen {
+            id = "app",
 
-function Application.render()
-    return UI.Screen {
-        id = "app",
+            UI.Column {
+                id = "welcome",
 
-        UI.Column {
-            id = "welcome",
+                UI.Text {
+                    id = "title",
+                    text = `Build apps like games. Interactions: {interactions}`,
+                    variant = "title",
+                },
 
-            UI.Text {
-                id = "title",
-                text = `Build apps like games. Interactions: {interactions}`,
-                variant = "title",
+                UI.Button {
+                    id = "continue",
+                    text = "Continue",
+                    onTap = "increment",
+                },
             },
-
-            UI.Button {
-                id = "continue",
-                text = "Continue",
-                onTap = "increment",
-            },
-        },
-    }
-end
-
-function Application.handle(action: string, target: string, _value: string)
-    if action == "increment" and target == "continue" then
-        interactions += 1
-    end
-end
-
-return Application
+        }
+    end,
+    handle = function(action: string, target: string, _value: string)
+        if action == "increment" and target == "continue" then
+            interactions += 1
+        end
+    end,
+    snapshot = function()
+        return table.freeze({ interactions = interactions })
+    end,
+}
 ```
 
 ## Quick start
@@ -78,9 +82,9 @@ Luastra requires Node.js 24 or newer. Download the bootstrap installer and let
 it select and verify the SDK archive for the current host:
 
 ```sh
-curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.4.0-alpha/luastra-install.mjs
+curl -fsSLO https://github.com/Luastra/luastra/releases/download/v0.5.0-alpha/luastra-install.mjs
 node luastra-install.mjs \
-  --manifest=https://github.com/Luastra/luastra/releases/download/v0.4.0-alpha/luastra-release.v1.json
+  --manifest=https://github.com/Luastra/luastra/releases/download/v0.5.0-alpha/luastra-release.v1.json
 ```
 
 Add `~/.luastra/bin` to `PATH` if necessary, then use the installed CLI without
@@ -104,6 +108,15 @@ The complete version-bound SDK reference, Luau onboarding, tutorials, and live
 examples are published at [luastra.dev](https://luastra.dev). The website is
 itself a Luastra application built from
 [`website/app`](https://github.com/Luastra/luastra/tree/main/website/app).
+The private backend-v2 foundation is documented in
+[`docs/backend-v2.md`](./docs/backend-v2.md), and the trusted-handler record
+contract in
+[`docs/provider-neutral-records.md`](./docs/provider-neutral-records.md).
+The private dynamic-image and protected object-read contract is documented in
+[`docs/dynamic-images.md`](./docs/dynamic-images.md), and the browser selection
+and upload lifecycle in [`docs/content-uploads.md`](./docs/content-uploads.md).
+Backend v1 remains supported while the richer typed contract proceeds toward
+windowed collection and deployment-evidence gates.
 
 ## Alpha scope
 
@@ -114,8 +127,14 @@ The bounded source alpha includes:
   motion, timers, accessibility, and IME-safe inputs;
 - routes, browser history, versioned persisted state, and lifecycle events;
 - typed data validation and project-owned server-function declarations;
-- local data providers plus a bounded Supabase adapter boundary;
+- declarative provider-neutral record collections with bounded local and
+  Supabase adapters;
+- one typed image component for packaged assets, protected object reads, and
+  host-local preview handles;
+- browser PNG/JPEG selection and provider-neutral, intent-bound image uploads;
 - media queues, background-audio adapters, and host media controls;
+- checked reusable Luau libraries with exact locks, offline installation,
+  conformance tests, attribution, and deterministic build evidence;
 - deterministic runtime packages, archives, checksums, SBOMs, and notices;
 - web, Tauri desktop, and Capacitor mobile host sources and validation evidence.
 
@@ -130,6 +149,13 @@ See [compatibility and limitations](./COMPATIBILITY.md) before adopting it.
 - [`COMPATIBILITY.md`](./COMPATIBILITY.md) — exact alpha host and feature matrix.
 - [`ROADMAP.md`](./ROADMAP.md) — ordered work after the first source alpha.
 - [`docs/constellation-orbit.md`](./docs/constellation-orbit.md) — experimental spatial UI components and performance contract.
+- [`docs/windowed-lists.md`](./docs/windowed-lists.md) — reusable `UI.List` windowing, edge backpressure, anchoring, and accessibility fallback.
+- [`docs/dynamic-images.md`](./docs/dynamic-images.md) — reusable typed image sources, protected delivery, placeholders, and resource lifecycle.
+- [`docs/content-uploads.md`](./docs/content-uploads.md) — reusable web selection, upload intents, progress, commit, display, deletion, and cleanup.
+- [`docs/libraries.md`](./docs/libraries.md) — reusable library authoring, checking, packing, exact locks, offline installation, updates, removal, and build attribution.
+- [`docs/diagnostics.md`](./docs/diagnostics.md) — stable failure-code families, bounded diagnostic surfaces, and redaction rules.
+- [`docs/migration-0.5.0-alpha.md`](./docs/migration-0.5.0-alpha.md) — additive migration and rollback from 0.4.0-alpha.
+- [`docs/release-verification.md`](./docs/release-verification.md) — exact candidate, browser, host, security, and publication evidence layers.
 - [`CHANGELOG.md`](./CHANGELOG.md) — public release-facing changes.
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md) — contribution workflow and validation rules.
 - [`SECURITY.md`](./SECURITY.md) — supported versions and vulnerability reporting.
@@ -138,7 +164,8 @@ See [compatibility and limitations](./COMPATIBILITY.md) before adopting it.
 - [`PRIVACY.md`](./PRIVACY.md) — website and direct-contact privacy notice.
 
 The repository uses product-oriented directories such as `cli/`, `sdk/`,
-`platform/`, `hosts/`, `templates/`, `examples/`, `docs/`, and `tests/`.
+`platform/`, `hosts/`, `libraries/`, `templates/`, `examples/`, `docs/`, and
+`tests/`.
 Internal research phases, planning records, private evidence, and owner-only
 dogfood work are not part of that public tree. This repository starts from one
 reviewed, deterministic export rather than exposing private research history.

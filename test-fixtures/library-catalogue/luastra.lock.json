@@ -1,0 +1,37 @@
+{
+  "libraries": [
+    {
+      "contentSha256": "af4e3f1575cd6fa8a1585d4a72913c6030088d5cf2a920489004762b4644777b",
+      "files": [
+        {
+          "bytes": 562,
+          "path": "LICENSE",
+          "sha256": "3559137023aa4e1484304bf88af0cb3dcf5b72fe5bb40856ff3cdd148b10ce08"
+        },
+        {
+          "bytes": 166,
+          "path": "NOTICE",
+          "sha256": "d02aed5ab01ebe502b9ed782ca8518ad9d8b9e64c307a525ac4ab38a834812a8"
+        },
+        {
+          "bytes": 779,
+          "path": "luastra-library.json",
+          "sha256": "d2a7f3b05a183c036045bf17f6afa04141259fd13f4371c5d6e7284cf3db7fb1"
+        },
+        {
+          "bytes": 6250,
+          "path": "source/init.luau",
+          "sha256": "ca7f2e5d8420b8ad4819c25cd4039b8d2fcd3cee5f457bc4edf7fab49c300108"
+        },
+        {
+          "bytes": 1455,
+          "path": "source/test.luau",
+          "sha256": "954b1cc80f6873b00cb3a7bd4039a99bad08666165ab1d3fa58a1730ecfc752a"
+        }
+      ],
+      "id": "dev.luastra.universal-blocks",
+      "version": "1.0.0"
+    }
+  ],
+  "schemaVersion": 1
+}

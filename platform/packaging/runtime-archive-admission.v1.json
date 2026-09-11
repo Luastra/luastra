@@ -1,46 +1,46 @@
 {
-  "archiveSetIdentity": "luastra-runtime-archives/phase5-alpha-3",
-  "checksumsSha256": "f3d0964607733b6ffb06e846b8f6a2989e97fff73f32ebbb99474753131d4f70",
-  "contentSha256": "16a52ab7670047bc2badc9279fd0461193dec716af47a67f7c1b2386b0f30131",
-  "identity": "luastra-runtime-archive-admission/phase5-alpha-3",
-  "manifestSha256": "51dc6705734e664c5301218656784dc49ba3446b57a50e780958830726c72a9e",
+  "archiveSetIdentity": "luastra-runtime-archives/phase5-alpha-4",
+  "checksumsSha256": "af36c48b73957e8140b8ef95c83aa4013769ad738ec6d51db607163ebf5fa4f0",
+  "contentSha256": "a471c31d6916d61de5b849ec8e2ee82035588cb6209dbbcd3e5c0a67dc8f6d09",
+  "identity": "luastra-runtime-archive-admission/phase5-alpha-4",
+  "manifestSha256": "023c1ebe4ca1af1cbc5daa306360d08154661e4342993f0699e94d5a77f81f76",
   "schemaVersion": 1,
   "targets": [
     {
       "architecture": "x64",
       "bytes": 7993972,
-      "filename": "luastra-runtime-sdk-phase5-alpha-9-darwin-x64.tar.gz",
+      "filename": "luastra-runtime-sdk-phase5-alpha-10-darwin-x64.tar.gz",
       "id": "darwin-x64",
-      "packageContentSha256": "55c9aa4e454a384a182035bc55605959cff86fd387d0f4e388c865a5ab64ef23",
+      "packageContentSha256": "2712118bac8c4be76406944c716733dd82422e8af4fa24115e02e2ea62c62b56",
       "platform": "darwin",
-      "sha256": "6952f66b7ff73dca4714d4717e4b207361c4515e47696f810e93c0e249d498f7"
+      "sha256": "fbf0e02aa0f3073021592f479d98f4d4a5c82ae9ef67e8e9e24995e4287eeb0c"
     },
     {
       "architecture": "arm64",
       "bytes": 7662683,
-      "filename": "luastra-runtime-sdk-phase5-alpha-9-darwin-arm64.tar.gz",
+      "filename": "luastra-runtime-sdk-phase5-alpha-10-darwin-arm64.tar.gz",
       "id": "darwin-arm64",
-      "packageContentSha256": "6c82aff116ef3188711036c746a5ac51c7268b0a776da8fd3cb05f11f5c20914",
+      "packageContentSha256": "864eb1bc35356ec0da6068bec3eb1aebfe129c29c2c9854e34067c19d98a9d40",
       "platform": "darwin",
-      "sha256": "888c89a0094efce830af8d04f1c72dbb57d90d06e91b0af57a0019e2da92b864"
+      "sha256": "566355c326f626106501b8e8e8b1e314212f1220971985a82e33eae21a583f8b"
     },
     {
       "architecture": "x64",
       "bytes": 8576673,
-      "filename": "luastra-runtime-sdk-phase5-alpha-9-linux-x64.tar.gz",
+      "filename": "luastra-runtime-sdk-phase5-alpha-10-linux-x64.tar.gz",
       "id": "linux-x64",
-      "packageContentSha256": "8fcea0443486bc7045109ee9b03ae8a07ea3385855e91b795b872fc2a23b912d",
+      "packageContentSha256": "aeab5cdebfcbffa8a664e08b911141f19e55a4f48ab3e33383f1952acc765151",
       "platform": "linux",
-      "sha256": "19808b397a01405599369d9fc1b58bf44c0c8499c17f0b801828c0031599046f"
+      "sha256": "7e10c657dd1d4f361f98f1fff7902e2593a2190b236a3bb8d2059f22491ed731"
     },
     {
       "architecture": "x64",
       "bytes": 4368737,
-      "filename": "luastra-runtime-sdk-phase5-alpha-9-win32-x64.tar.gz",
+      "filename": "luastra-runtime-sdk-phase5-alpha-10-win32-x64.tar.gz",
       "id": "win32-x64",
-      "packageContentSha256": "8969db79d26e1d25e92a13fed9dc52b9fdc84d8dce6b18ab426468d9625578ab",
+      "packageContentSha256": "275d9f13c60d75b9e8948297e293d85ddf200aded13d7f1976700e7e401c7285",
       "platform": "win32",
-      "sha256": "086c133d4cbbd30cdf5276929371684074fcff8ad141f40f69668d35cd975358"
+      "sha256": "2c439bd764495992046ec733577e24f475ca47220b7aee161aaf19b8e5a5ee6c"
     }
   ]
 }

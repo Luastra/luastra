@@ -132,6 +132,20 @@ export function createProviderSessionStore({ path, encryptionKey, now = () => Da
     if (Number(row.session_expires_at) <= now()) { removeId.run(row.session_id); return null; }
     return row;
   };
+  const beginRefreshForRow = (row, { refreshWithinMs, leaseMs }) => {
+    if (!row) return Object.freeze({ state: "invalid" });
+    const material = Object.freeze({ sessionId: row.session_id, revision: Number(row.revision), ...decrypt(key, row.session_id, row) });
+    const current = now();
+    if (material.expiresAt > current + refreshWithinMs) return Object.freeze({ state: "fresh", provider: material });
+    if (row.refresh_lease_until !== null && Number(row.refresh_lease_until) > current) return Object.freeze({ state: "busy" });
+    const lease = token(randomToken(), "generated provider refresh lease");
+    const changed = Number(acquireLease.run(digest(lease), current + leaseMs, row.session_id, Number(row.revision), current).changes);
+    return changed === 1 ? Object.freeze({ state: "acquired", lease, provider: material }) : Object.freeze({ state: "busy" });
+  };
+  const refreshOptions = ({ refreshWithinMs = 60_000, leaseMs = 15_000 } = {}) => {
+    if (!Number.isSafeInteger(refreshWithinMs) || refreshWithinMs < 0 || refreshWithinMs > 60 * 60 * 1000 || !Number.isSafeInteger(leaseMs) || leaseMs < 1000 || leaseMs > 60_000) throw new Error("invalid provider refresh lease");
+    return { refreshWithinMs, leaseMs };
+  };
   const resolvePrincipal = (opaqueToken) => {
     const row = activeRow(opaqueToken);
     return row ? Object.freeze({ id: row.principal_id, name: row.principal_name, roles: safeRoles(row.roles_json), session: row.session_id, expiresAt: Number(row.session_expires_at) }) : null;
@@ -164,18 +178,13 @@ export function createProviderSessionStore({ path, encryptionKey, now = () => Da
     },
     beginRefresh(opaqueToken, { refreshWithinMs = 60_000, leaseMs = 15_000 } = {}) {
       open();
-      if (!Number.isSafeInteger(refreshWithinMs) || refreshWithinMs < 0 || refreshWithinMs > 60 * 60 * 1000 || !Number.isSafeInteger(leaseMs) || leaseMs < 1000 || leaseMs > 60_000) throw new Error("invalid provider refresh lease");
-      return transaction(() => {
-        const row = activeRow(opaqueToken);
-        if (!row) return Object.freeze({ state: "invalid" });
-        const material = Object.freeze({ sessionId: row.session_id, revision: Number(row.revision), ...decrypt(key, row.session_id, row) });
-        const current = now();
-        if (material.expiresAt > current + refreshWithinMs) return Object.freeze({ state: "fresh", provider: material });
-        if (row.refresh_lease_until !== null && Number(row.refresh_lease_until) > current) return Object.freeze({ state: "busy" });
-        const lease = token(randomToken(), "generated provider refresh lease");
-        const changed = Number(acquireLease.run(digest(lease), current + leaseMs, row.session_id, Number(row.revision), current).changes);
-        return changed === 1 ? Object.freeze({ state: "acquired", lease, provider: material }) : Object.freeze({ state: "busy" });
-      });
+      const options = refreshOptions({ refreshWithinMs, leaseMs });
+      return transaction(() => beginRefreshForRow(activeRow(opaqueToken), options));
+    },
+    beginRefreshSession(sessionId, { refreshWithinMs = 60_000, leaseMs = 15_000 } = {}) {
+      open();
+      const options = refreshOptions({ refreshWithinMs, leaseMs });
+      return transaction(() => beginRefreshForRow(activeSession(sessionId), options));
     },
     completeRefresh(sessionId, lease, providerValue, { principal: principalValue = null } = {}) {
       open(); token(sessionId, "provider session ID"); token(lease, "provider refresh lease");

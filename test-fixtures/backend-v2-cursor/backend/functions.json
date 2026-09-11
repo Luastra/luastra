@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 2,
+  "limits": {
+    "maximumDepth": 8,
+    "maximumFields": 128,
+    "maximumItems": 16,
+    "maximumStringBytes": 1024,
+    "maximumPayloadBytes": 4096
+  },
+  "enums": {
+    "PageDirection": ["forward", "backward"]
+  },
+  "types": {
+    "Record": {
+      "id": { "type": "string", "maximumBytes": 64 },
+      "title": { "type": "string", "maximumBytes": 256 },
+      "tags": { "type": "string", "array": true, "maximumItems": 4 }
+    },
+    "RecordPage": {
+      "items": { "type": "Record", "array": true, "maximumItems": 3 },
+      "previousCursor": { "type": "string", "optional": true, "nullable": true, "maximumBytes": 128 },
+      "nextCursor": { "type": "string", "optional": true, "nullable": true, "maximumBytes": 128 },
+      "revision": { "type": "string", "maximumBytes": 64 }
+    }
+  },
+  "functions": {
+    "records.page.v2": {
+      "clientName": "pageRecords",
+      "authorization": "user",
+      "mutation": false,
+      "idempotency": "none",
+      "resultVersion": 1,
+      "input": {
+        "cursor": { "type": "string", "optional": true, "nullable": true, "maximumBytes": 128 },
+        "direction": { "type": "PageDirection" },
+        "limit": { "type": "number" }
+      },
+      "result": {
+        "page": { "type": "RecordPage" }
+      }
+    },
+    "records.rename.v2": {
+      "clientName": "renameRecord",
+      "authorization": "user",
+      "mutation": true,
+      "idempotency": "required",
+      "resultVersion": 1,
+      "input": {
+        "id": { "type": "string", "maximumBytes": 64 },
+        "title": { "type": "string", "maximumBytes": 256 }
+      },
+      "result": {
+        "record": { "type": "Record" }
+      }
+    }
+  }
+}

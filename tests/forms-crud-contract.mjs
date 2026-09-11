@@ -11,6 +11,7 @@ import { buildProject } from "../project/build-project.mjs";
 import { testProject } from "../project/test-project.mjs";
 import { loadProject } from "../project/load-project.mjs";
 import { createMemoryDatabase } from "../backend/database.mjs";
+import { createDeclaredRecordCollections } from "../backend/records.mjs";
 import { createBackendRuntime, handleServerCapability } from "../backend/runtime.mjs";
 
 const prototype = resolve(import.meta.dirname, "..");
@@ -51,8 +52,9 @@ async function backendFixture() {
   const loaded = await loadProject(project);
   const database = createMemoryDatabase();
   const implementation = await import(`${pathToFileURL(loaded.backend.handlerPath).href}?forms-contract=${Date.now()}-${Math.random()}`);
-  const handlers = implementation.createHandlers({ database });
-  const backend = createBackendRuntime({ contract: loaded.backend.declaration.value, handlers, database });
+  const records = createDeclaredRecordCollections({ declarations: loaded.backend.records, database, identityProvider: loaded.backend.identity.provider });
+  const handlers = implementation.createHandlers({ database, records });
+  const backend = createBackendRuntime({ contract: loaded.backend.declaration.value, handlers, database, records });
   return (request) => handleServerCapability(request, { runtime: backend, principal: { id: "local-user", roles: ["user"] } });
 }
 
@@ -61,7 +63,7 @@ test("forms fixture performs validated create, read, update and delete through W
   try {
     const built = await buildProject({ manifestPath: project, outputDirectory: workspace, target: "bundle" });
     const bundle = JSON.parse(await readFile(resolve(workspace, "luastra.bundle.json"), "utf8"));
-    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/data", "app/model", "luastra/server", "app/server-functions", "luastra/assets", "luastra/ui", "app/main"]);
+    assert.deepEqual(bundle.modules.map((module) => module.id), ["luastra/data", "app/model", "luastra/server", "app/server-functions", "luastra/app", "luastra/assets", "luastra/content", "luastra/ui", "app/main"]);
     const capabilityHandler = await backendFixture();
 
     const invalid = await execute(built.bundlePath, [{ action: "save-record", target: "crud/save", value: "" }]);

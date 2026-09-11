@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Host = require("luastra/host")
 local Motion = require("luastra/motion")
 local Navigation = require("luastra/navigation")
@@ -63,7 +64,7 @@ local saveRequests: { [number]: boolean } = {}
 local modalOpen = false
 local disposed = false
 local stateRewriteRequired = false
-local Application = { cards = table.freeze(cards) }
+local Root = { cards = table.freeze(cards) }
 
 local function cardById(id: string): CatalogueCard?
     for _, card in cards do if card.id == id then return card end end
@@ -284,7 +285,7 @@ local function detailView(): UI.Node
     }
 end
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "catalogue",
         width = "wide",
@@ -320,7 +321,7 @@ function Application.render(): UI.Node
     }
 end
 
-function Application.handle(action: string, target: string, value: string)
+function Root.handle(action: string, target: string, value: string)
     if action == "lifecycle" and target == "app" then
         if value == "launch" and restoreRequest == nil and not disposed then
             lifecycleStatus = "Launching"
@@ -379,7 +380,7 @@ function Application.handle(action: string, target: string, value: string)
     end
 end
 
-function Application.resolve(requestId: number, success: boolean, payload: string, errorCode: string, errorMessage: string)
+function Root.resolve(requestId: number, success: boolean, payload: string, errorCode: string, errorMessage: string)
     if restoreRequest == requestId then
         restoreRequest = nil
         restoreResolved = true
@@ -402,8 +403,9 @@ function Application.resolve(requestId: number, success: boolean, payload: strin
     end
 end
 
-function Application.snapshot()
+function Root.snapshot()
     return {
+        cards = Root.cards,
         selected = selected,
         route = navigation.current().name,
         canBack = navigation.canBack(),
@@ -416,4 +418,9 @@ function Application.snapshot()
     }
 end
 
-return Application
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    resolve = Root.resolve,
+    snapshot = Root.snapshot,
+}

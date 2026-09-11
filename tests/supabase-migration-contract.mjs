@@ -22,6 +22,13 @@ async function coordinationMigrations() {
   return Promise.all(files.map((file) => readFile(resolve(supabaseRoot, "migrations", file), "utf8")));
 }
 
+async function uploadMigration() {
+  const files = (await readdir(resolve(supabaseRoot, "migrations"))).filter((file) => file.endsWith("_luastra_content_upload_foundation.sql"));
+  assert.equal(files.length, 1, "content upload foundation must have exactly one CLI-generated migration");
+  assert.match(files[0], /^\d{14}_luastra_content_upload_foundation\.sql$/);
+  return readFile(resolve(supabaseRoot, "migrations", files[0]), "utf8");
+}
+
 test("Supabase workspace pins the stable CLI and hardened local Auth defaults", async () => {
   const packageJson = JSON.parse(await readFile(resolve(prototype, "package.json"), "utf8"));
   const packageLock = JSON.parse(await readFile(resolve(prototype, "package-lock.json"), "utf8"));
@@ -72,6 +79,18 @@ test("Supabase private media policy is entitlement-bound and has no authenticate
   assert.match(sql, /create policy luastra_private_media_select on storage\.objects\n\s+for select to authenticated/);
   assert.doesNotMatch(sql, /create policy .*storage\.objects[\s\S]{0,120}for (?:insert|update|delete) to authenticated/i);
   assert.doesNotMatch(sql, /grant\s+(?:insert|update|delete).*storage\.objects.*authenticated/i);
+});
+
+test("Supabase user-image writes are create-once and owner-scoped by authenticated path", async () => {
+  const sql = await uploadMigration();
+  assert.match(sql, /'luastra-user-images',[\s\S]*?false,[\s\S]*?26214400,[\s\S]*?array\['image\/png', 'image\/jpeg'\]/);
+  assert.match(sql, /create policy luastra_user_images_insert_own on storage\.objects\n\s+for insert to authenticated/);
+  assert.match(sql, /split_part\(name, '\/', 2\) = \(select auth\.uid\(\)\)::text/);
+  assert.match(sql, /owner_id = \(select auth\.uid\(\)::text\)/);
+  assert.match(sql, /create policy luastra_user_images_select_own on storage\.objects\n\s+for select to authenticated/);
+  assert.match(sql, /create policy luastra_user_images_delete_own on storage\.objects\n\s+for delete to authenticated/);
+  assert.doesNotMatch(sql, /for update to authenticated/i);
+  assert.doesNotMatch(sql, /to anon/i);
 });
 
 test("Supabase server RPCs coordinate refresh and erase completed revocation material", async () => {

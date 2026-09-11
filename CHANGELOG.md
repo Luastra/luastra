@@ -6,15 +6,62 @@ semantic versioning where the `0.x` series remains explicitly unstable.
 
 ## [Unreleased]
 
+No changes yet.
+
+## [0.5.0-alpha] - 2026-09-11
+
+### Added
+
+- Local reusable-library source and canonical `.luastra-library` archives with
+  exact lockfiles, transactional install/update/removal, offline verification,
+  capability and dependency admission, library conformance tests, notices, and
+  SPDX evidence.
+- A domain-neutral `universal-blocks` library reused unchanged by catalogue and
+  activity-log fixtures without application-specific core APIs or host CSS.
+- One bounded `UI.Icon` primitive plus multiline/submit/maximum-length input,
+  pressed/selected/busy button, modal initial-focus/description, and reusable
+  sticky/overflow layout semantics.
+- Feature composition with explicit request ownership, reusable Resource and
+  PagedCollection state machines, and bounded framework diagnostics.
+- Backend v2 typed nested records and validation fields plus provider-neutral
+  local and Supabase record collections.
+- Windowed `UI.List` rendering with variable heights, focus pinning,
+  bidirectional edge loading, anchor restoration, and bounded retained DOM.
+- Typed packaged, protected, and preview images plus browser PNG/JPEG selection,
+  intent-bound uploads, progress, cancellation, commit, deletion, and cleanup.
+- Version-bound diagnostics, migration, compatibility, installation, and
+  release-verification documentation.
+
+The source SDK advances to contract 19. The Wasm runtime and its immutable
+source-build, artifact, archive, and installation admissions advance to
+`phase5-alpha-10` for the expanded semantic protocol. Earlier published release
+artifacts remain unchanged.
+No inline video, hydration, or universal application-to-HTML export is included.
+
+## [0.4.0-alpha] - 2026-09-09
+
+### Added
+
+- Project-authored loading and failure screens rendered through Luastra during
+  web builds, with a restricted build-time VM, bounded static component subset,
+  explicit retry action, declared assets, and accessible host fallback.
+- Reference-site startup screens and version-bound authoring documentation.
+
+### Fixed
+
+- Preserve literal replacement characters during startup HTML insertion and
+  readable centered Orbit focus labels.
+
+## [0.3.0-alpha] - 2026-09-09
+
 ### Added
 
 - Standalone HTML documentation generated from the shared reference source,
-  including navigation, canonical metadata, a sitemap and responsive reading styles.
-- Bounded `UI.TextStyle` with packaged WOFF2 fonts, system fallbacks, size, weight
-  and line height; a licensed typography example demonstrates live style changes.
-
-The source SDK advances to contract 15; the runtime binary remains unchanged.
-No hydration or universal application-to-HTML export is included.
+  including navigation, canonical metadata, a sitemap, responsive reading
+  styles, and compatibility redirects from earlier hash routes.
+- Bounded `UI.TextStyle` with packaged WOFF2 fonts, system fallbacks, size,
+  weight, and line height; a licensed typography example demonstrates live
+  style changes.
 
 ## [0.2.1-alpha] - 2026-09-09
 
@@ -121,7 +168,10 @@ explicit historical scope.
 - Deterministic runtime packages, archives, immutable installation receipts,
   checksums, SBOMs, notices, and clean-export controls.
 
-[Unreleased]: https://github.com/Luastra/luastra/compare/v0.2.1-alpha...HEAD
+[Unreleased]: https://github.com/Luastra/luastra/compare/v0.5.0-alpha...HEAD
+[0.5.0-alpha]: https://github.com/Luastra/luastra/compare/v0.4.0-alpha...v0.5.0-alpha
+[0.4.0-alpha]: https://github.com/Luastra/luastra/compare/v0.3.0-alpha...v0.4.0-alpha
+[0.3.0-alpha]: https://github.com/Luastra/luastra/compare/v0.2.1-alpha...v0.3.0-alpha
 [0.2.1-alpha]: https://github.com/Luastra/luastra/compare/v0.2.0-alpha...v0.2.1-alpha
 [0.2.0-alpha]: https://github.com/Luastra/luastra/compare/v0.1.0-alpha...v0.2.0-alpha
 [0.1.0-alpha]: https://github.com/Luastra/luastra/releases/tag/v0.1.0-alpha

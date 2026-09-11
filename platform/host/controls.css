@@ -9,7 +9,7 @@
   content: none;
 }
 
-.luastra-button-icon {
+.luastra-button-icon, .luastra-icon-glyph {
   width: 1.35rem;
   height: 1.35rem;
   flex: 0 0 auto;
@@ -17,5 +17,5 @@
 }
 
 @media (forced-colors: active) {
-  .luastra-button-icon { stroke: ButtonText; }
+  .luastra-button-icon, .luastra-icon-glyph { stroke: ButtonText; }
 }

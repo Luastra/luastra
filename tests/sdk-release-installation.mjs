@@ -85,6 +85,11 @@ test("current admitted SDK installs, reports its version, and passes doctor", { 
   assert.equal(installed.result, "PASS");
   assert.equal(installed.version, packageManifest.version);
   assert.equal((await doctorSdk(managerRoot)).version, packageManifest.version);
+  assert.equal((await stat(resolve(managerRoot, `sdk/${packageManifest.version}/libraries/universal-blocks/luastra-library.json`))).isFile(), true);
+  const releaseManifest = JSON.parse(await readFile(resolve(currentReleaseSet, "luastra-release.v1.json"), "utf8"));
+  const releaseSbom = JSON.parse(await readFile(resolve(currentReleaseSet, releaseManifest.compliance.sbom.filename), "utf8"));
+  assert.equal(releaseSbom.packages.some((item) => item.name === "Luastra universal composition library" &&
+    item.versionInfo === "1.0.0" && item.licenseDeclared === "Apache-2.0"), true);
   const executable = process.platform === "win32" ? resolve(managerRoot, "bin/luastra.cmd") : resolve(managerRoot, "bin/luastra");
   assert.deepEqual(run(executable, ["version"], temporary), {
     command: "version",

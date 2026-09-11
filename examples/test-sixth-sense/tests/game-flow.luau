@@ -23,7 +23,7 @@ environment.HostCapability = {
 }
 
 -- The application must be required after HostCapability is replaced.
-local Application = require("app/main")
+local application = require("app/main")
 
 -- Find a component by ID anywhere in the UI tree.
 local function findNode(node: any, id: string): any?
@@ -43,7 +43,7 @@ local function findNode(node: any, id: string): any?
 end
 
 -- The application starts on the welcome page.
-local welcome = Application.render()
+local welcome = application.render()
 
 assert(
     welcome.id == "welcome-page",
@@ -51,9 +51,9 @@ assert(
 )
 
 -- Start the game.
-Application.handle("go-game", "start-game-btn", "")
+application.handle("go-game", "start-game-btn", "")
 
-local game = Application.render()
+local game = application.render()
 
 assert(
     game.id == "game-page",
@@ -61,7 +61,7 @@ assert(
 )
 
 -- Choose red.
-Application.handle("red-chosen", "red-color", "")
+application.handle("red-chosen", "red-color", "")
 
 assert(
     #requests == 1
@@ -69,7 +69,7 @@ assert(
     "choice must schedule reveal delay"
 )
 
-local revealed = Application.render()
+local revealed = application.render()
 local redButton = findNode(revealed, "red-color")
 
 assert(
@@ -79,7 +79,7 @@ assert(
 )
 
 -- Deliver timer events manually instead of waiting for real time.
-Application.handle(
+application.handle(
     "timer",
     "game/next-card",
     "flip-back"
@@ -91,13 +91,13 @@ assert(
     "first timer must schedule the return delay"
 )
 
-Application.handle(
+application.handle(
     "timer",
     "game/next-card",
     "wait-flip-back"
 )
 
-local nextCard = Application.render()
+local nextCard = application.render()
 local enabledButton = findNode(nextCard, "red-color")
 
 assert(
@@ -129,14 +129,14 @@ assert(
 
 -- Advance the game to its end manually.
 for _ = 2, 10 do
-    Application.handle(
+    application.handle(
         "timer",
         "game/next-card",
         "wait-flip-back"
     )
 end
 
-local finished = Application.render()
+local finished = application.render()
 local ending = findNode(finished, "the-end")
 
 assert(
@@ -146,7 +146,7 @@ assert(
 )
 
 -- Verify navigation home and timer cancellation.
-Application.handle(
+application.handle(
     "go-home",
     "return-back-btn",
     ""
@@ -159,7 +159,7 @@ assert(
 )
 
 assert(
-    Application.render().id == "welcome-page",
+    application.render().id == "welcome-page",
     "back button must return home"
 )
 

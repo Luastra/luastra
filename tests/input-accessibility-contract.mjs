@@ -44,10 +44,10 @@ test("TextInput carries bounded native keyboard and credential hints", () => {
 });
 
 test("TextInput rejects unsupported host keyboard hints", () => {
-  assert.throws(() => component("TextInput", { id: "form/value", inputMode: "arbitrary" }), /invalid inputMode/);
-  assert.throws(() => component("TextInput", { id: "form/value", enterKeyHint: "arbitrary" }), /invalid enterKeyHint/);
-  assert.throws(() => component("TextInput", { id: "form/value", autoComplete: "arbitrary" }), /invalid autoComplete/);
-  assert.throws(() => component("TextInput", { id: "form/value", placeholder: "x".repeat(161) }), /invalid placeholder/);
+  assert.throws(() => component("TextInput", { id: "form/value", label: "Value", inputMode: "arbitrary" }), /invalid inputMode/);
+  assert.throws(() => component("TextInput", { id: "form/value", label: "Value", enterKeyHint: "arbitrary" }), /invalid enterKeyHint/);
+  assert.throws(() => component("TextInput", { id: "form/value", label: "Value", autoComplete: "arbitrary" }), /invalid autoComplete/);
+  assert.throws(() => component("TextInput", { id: "form/value", label: "Value", placeholder: "x".repeat(161) }), /invalid placeholder/);
 });
 
 test("preview shell leaves the single main landmark to the Luastra Screen", async () => {

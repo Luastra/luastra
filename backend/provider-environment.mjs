@@ -3,7 +3,7 @@ import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 
 import { createProviderIdentityService } from "./provider-identity.mjs";
 import { createProviderSessionStore } from "./provider-session.mjs";
-import { createSupabaseAuthProvider } from "./providers/supabase-http.mjs";
+import { createSupabaseAuthProvider, createSupabaseRecordProvider, createSupabaseStorageProvider } from "./providers/supabase-http.mjs";
 
 const keyPattern = /^[A-Za-z0-9_-]{43}$/;
 const environmentNames = Object.freeze({
@@ -52,7 +52,23 @@ export function createSupabaseIdentityBoundary({ projectRoot, environment = proc
     const authProvider = createSupabaseAuthProvider({ url: configuration.url, publishableKey: configuration.publishableKey, fetchImpl, now });
     sessions = createProviderSessionStore({ path: managedSessionPath(projectRoot), encryptionKey: configuration.encryptionKey, now });
     const identity = createProviderIdentityService({ authProvider, sessions });
-    return Object.freeze({ sessions, identity, close() { sessions.close(); } });
+    return Object.freeze({
+      sessions,
+      identity,
+      createRecordProvider({ tables, timeoutMs } = {}) {
+        return createSupabaseRecordProvider({ url: configuration.url, publishableKey: configuration.publishableKey, tables, fetchImpl, timeoutMs });
+      },
+      createStorageProvider({ items, uploads, timeoutMs } = {}) {
+        return createSupabaseStorageProvider({ url: configuration.url, publishableKey: configuration.publishableKey, items, uploads, fetchImpl, now, timeoutMs });
+      },
+      accessTokenForPrincipal(principal, { signal = null } = {}) {
+        return identity.useProviderPrincipal(principal, (material) => {
+          if (material.provider !== "supabase") throw new Error("provider session is not a Supabase session");
+          return material.accessToken;
+        }, { signal });
+      },
+      close() { sessions.close(); },
+    });
   } catch (error) {
     sessions?.close();
     throw error;

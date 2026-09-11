@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
-  "identity": "luastra-runtime-sdk/phase5-alpha-9",
-  "sourceBuildIdentity": "luastra-runtime-source-build/phase5-alpha-9",
+  "identity": "luastra-runtime-sdk/phase5-alpha-10",
+  "sourceBuildIdentity": "luastra-runtime-source-build/phase5-alpha-10",
   "artifactMatrix": {
     "path": "artifact-matrix.v1.json",
-    "bytes": 3031,
-    "sha256": "216e20b0267d4361738e662d086a0344900c175e4dae1754ed1495b07be96887"
+    "bytes": 3034,
+    "sha256": "eb96176ae0c78837c75695d2dda66f38d0be6037e311119d706c958a05366801"
   },
   "supportedHosts": [
     {

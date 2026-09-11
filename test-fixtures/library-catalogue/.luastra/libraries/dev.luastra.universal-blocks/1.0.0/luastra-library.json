@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "library": {
+    "id": "dev.luastra.universal-blocks",
+    "version": "1.0.0"
+  },
+  "compatibility": {
+    "sdkContract": {
+      "minimum": 1,
+      "maximum": 1
+    }
+  },
+  "capabilities": [],
+  "dependencies": [],
+  "exports": [
+    "universal-blocks"
+  ],
+  "modules": [
+    {
+      "id": "universal-blocks",
+      "source": "source/init.luau",
+      "dependencies": [
+        "luastra/ui"
+      ]
+    },
+    {
+      "id": "universal-blocks/test",
+      "source": "source/test.luau",
+      "dependencies": [
+        "universal-blocks",
+        "luastra/ui"
+      ]
+    }
+  ],
+  "assets": [],
+  "tests": [
+    "universal-blocks/test"
+  ],
+  "license": {
+    "spdx": "Apache-2.0",
+    "file": "LICENSE"
+  },
+  "notice": {
+    "file": "NOTICE"
+  }
+}

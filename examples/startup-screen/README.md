@@ -5,8 +5,9 @@ It returns a table with a `render()` function, just like an application. During
 web build this function runs in the restricted startup VM; only HTML and CSS
 are shipped. The interactive counter comes from a separate application entry.
 
-This example requires Luastra 0.4.0-alpha with the startup-capable
-phase5-alpha-9 runtime; earlier published SDK archives do not include it.
+This example requires the 0.5.0-alpha SDK with the startup-capable
+phase5-alpha-10 runtime. Earlier published SDK archives remain
+immutable and do not contain this runtime revision.
 
 From the repository root:
 

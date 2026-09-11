@@ -1,6 +1,6 @@
 # Development and release checks
 
-This release targets 0.4.0-alpha. `release/published-release.v1.json` records
+This release targets 0.5.0-alpha. `release/published-release.v1.json` records
 the documentation installation target independently from the development
 candidate admission. Its tag is immutable after publication.
 
@@ -11,8 +11,10 @@ lag behind a release; its name alone is not evidence of the current baseline.
 Keep changes on a separate development branch and inspect the complete diff.
 Private research and operational notes must remain outside the public candidate.
 
-Run `npm test`, `npm run docs:check`, the website's `reference:build`, and
-`npm run alpha:audit`. Regenerate the clean export manifest after adding files.
+Run `npm test`, `npm run docs:check`, the website's `reference:build`, the
+applicable real-browser audits, and `npm run alpha:audit`. Regenerate the clean
+export manifest after adding files. The complete evidence order and platform
+boundaries are defined in [`release-verification.md`](./release-verification.md).
 After product changes, build a new candidate SDK set, verify its admission and
 install it into a clean temporary SDK root. Never rebuild published archives in
 place. Local archive verification does not establish native device behavior.

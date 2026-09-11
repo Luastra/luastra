@@ -18,7 +18,7 @@ test("runtime packager materializes every admitted host with the shared portable
       const verified = await verifyRuntimePackage(output);
       assert.equal(built.contentSha256, verified.manifest.contentSha256);
       assert.equal(verified.manifest.target.id, targetId);
-      assert.equal(verified.manifest.sdkIdentity, "luastra-runtime-sdk/phase5-alpha-9");
+      assert.equal(verified.manifest.sdkIdentity, "luastra-runtime-sdk/phase5-alpha-10");
       wasmHashes.add(verified.manifest.artifacts.runtimeWasm.sha256);
       if (process.platform !== "win32" && targetId !== "win32-x64") assert.notEqual((await stat(verified.artifacts.analyzer)).mode & 0o111, 0);
     }

@@ -2,16 +2,37 @@ import { createHash } from "node:crypto";
 
 import { validateCapabilityRequest, validateRpcRequest } from "../platform/protocol/generated/protocol.mjs";
 import { decodeWire, encodeWire } from "./wire.mjs";
-import { validateTypedObject } from "./contract.mjs";
+import { decodeBackendV2Request, encodeBackendV2Result } from "./wire-v2.mjs";
+import { validateBackendObject } from "./contract.mjs";
+import { RecordProviderError } from "./records.mjs";
 
 const publicCodes = new Set(["CANCELLED", "DEADLINE", "FORBIDDEN", "INTERNAL", "NETWORK", "UNAUTHORIZED", "VALIDATION"]);
 const functionPattern = /^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)+\.v[1-9][0-9]*$/;
 const idempotencyPattern = /^[A-Za-z0-9][A-Za-z0-9_:%-]{7,127}$/;
 const maximumIdempotencyEntries = 256;
 const idempotencyTtlMs = 5 * 60 * 1000;
+const maximumPublicErrorBytes = 512;
+const maximumPublicErrorFields = 32;
+const maximumPublicErrorFieldBytes = 128;
+const maximumPublicErrorCodeBytes = 64;
+const errorFieldPattern = /^[A-Za-z_][A-Za-z0-9_.\[\]-]*$/;
+const errorCodePattern = /^[A-Z][A-Z0-9_]*$/;
+const encoder = new TextEncoder();
 
-function publicError(traceId, code, message) {
-  return { version: 1, success: false, data: null, error: { code, message }, traceId };
+function encodedPublicErrorMessage(message, fields) {
+  if (fields === null) return message;
+  const entries = Object.entries(fields).sort(([left], [right]) => left.localeCompare(right));
+  const wire = { error: "fields", "field.length": String(entries.length), message };
+  entries.forEach(([name, fieldCode], index) => {
+    wire[`field.${index + 1}.code`] = fieldCode;
+    wire[`field.${index + 1}.name`] = name;
+  });
+  const encoded = encodeWire(wire);
+  if (encoder.encode(encoded).byteLength > maximumPublicErrorBytes) throw new Error("public backend error exceeds its encoded size limit");
+  return encoded;
+}
+function publicError(traceId, code, message, fields = null) {
+  return { version: 1, success: false, data: null, error: { code, message: encodedPublicErrorMessage(message, fields) }, traceId };
 }
 function success(traceId, payload) { return { version: 1, success: true, data: { payload }, error: null, traceId }; }
 function capabilityResponse(request, payload) { return { accepted: true, response: { version: 1, requestId: request.requestId, traceId: request.traceId, status: "ok", payload } }; }
@@ -27,6 +48,15 @@ function authorized(principal, policy) {
   const admitted = roles(principal);
   if (policy === "admin") return admitted.has("admin");
   return admitted.has("user") || admitted.has("admin");
+}
+function admittedRecords(value) {
+  if (value === null) return null;
+  if (!value || typeof value !== "object" || Array.isArray(value) || Object.keys(value).length > 32) throw new Error("invalid backend records configuration");
+  for (const [name, collection] of Object.entries(value)) {
+    if (!/^[a-z][a-z0-9_-]{0,63}$/.test(name)) throw new Error("invalid backend record collection name");
+    for (const method of ["list", "get", "insert", "update", "delete"]) if (typeof collection?.[method] !== "function") throw new Error("invalid backend record collection");
+  }
+  return Object.freeze({ ...value });
 }
 function convertScalar(type, value) {
   if (type === "string") return value;
@@ -78,15 +108,30 @@ function encodeResult(definition, value, types) {
 }
 
 export class BackendPublicError extends Error {
-  constructor(code, message) {
+  constructor(code, message, fields = null) {
     super(message);
-    if (!publicCodes.has(code) || code === "INTERNAL") throw new Error("invalid public backend error code");
+    if (!publicCodes.has(code) || code === "INTERNAL" || typeof message !== "string" || message.length < 1 || encoder.encode(message).byteLength > maximumPublicErrorBytes) throw new Error("invalid public backend error");
+    if (fields !== null) {
+      if (code !== "VALIDATION" || !fields || typeof fields !== "object" || Array.isArray(fields)) throw new Error("public backend error fields require a validation error");
+      const entries = Object.entries(fields);
+      if (entries.length < 1 || entries.length > maximumPublicErrorFields || entries.some(([name, fieldCode]) =>
+        !errorFieldPattern.test(name) || encoder.encode(name).byteLength > maximumPublicErrorFieldBytes ||
+        typeof fieldCode !== "string" || fieldCode.length > maximumPublicErrorCodeBytes || !errorCodePattern.test(fieldCode))) {
+        throw new Error("invalid public backend error fields");
+      }
+      fields = Object.freeze(Object.fromEntries(entries.sort(([left], [right]) => left.localeCompare(right))));
+      encodedPublicErrorMessage(message, fields);
+    }
     this.code = code;
+    this.fields = fields;
   }
 }
 
-export function createBackendRuntime({ contract, handlers, database = null, sessions = null, content = null, identity = null, now = () => Date.now() }) {
+export function createBackendRuntime({ contract, handlers, database = null, records = null, sessions = null, content = null, uploads = null, identity = null, now = () => Date.now() }) {
   if (!contract?.functions || !contract?.types || !handlers || typeof handlers !== "object") throw new Error("invalid backend runtime configuration");
+  const schemaVersion = contract.schemaVersion ?? 1;
+  if (schemaVersion !== 1 && schemaVersion !== 2) throw new Error("unsupported backend runtime contract");
+  const recordCollections = admittedRecords(records);
   const idempotency = new Map();
   const prune = () => {
     const current = now();
@@ -102,7 +147,23 @@ export function createBackendRuntime({ contract, handlers, database = null, sess
       revokeCurrent() { return typeof principal?.session === "string" && sessions.revoke(principal.session); },
     }) : null;
     const contentApi = content ? Object.freeze({
-      issue(id, options) { return content.issue(id, options); },
+      issue(id, options) { return content.issue(id, { ...options, principal, signal }); },
+      createUploadIntent(purpose, metadata, options) {
+        if (!uploads) throw new BackendPublicError("FORBIDDEN", "Content uploads are not configured");
+        return uploads.createIntent(purpose, metadata, { ...options, principal, signal });
+      },
+      commitUpload(handle) {
+        if (!uploads) throw new BackendPublicError("FORBIDDEN", "Content uploads are not configured");
+        return uploads.commit(handle, { principal, signal });
+      },
+      openUploaded(purpose, objectId, metadata) {
+        if (!uploads) throw new BackendPublicError("FORBIDDEN", "Content uploads are not configured");
+        return uploads.openUploaded(purpose, objectId, metadata, { principal, signal });
+      },
+      deleteUploaded(purpose, objectId, metadata) {
+        if (!uploads) throw new BackendPublicError("FORBIDDEN", "Content uploads are not configured");
+        return uploads.deleteUploaded(purpose, objectId, metadata, { principal, signal });
+      },
     }) : null;
     const identityApi = identity ? Object.freeze({
       async signInWithPassword(email, password) {
@@ -120,35 +181,48 @@ export function createBackendRuntime({ contract, handlers, database = null, sess
         return identity.signOutCurrent(principal.session, { signal });
       },
     }) : null;
-    const result = await handler(Object.freeze({ ...input }), Object.freeze({
-      traceId,
-      principal: principal ? Object.freeze({ ...principal, roles: Object.freeze([...(principal.roles ?? [])]) }) : null,
-      signal,
-      database,
-      sessions: sessionApi,
-      content: contentApi,
-      identity: identityApi,
-      reject(code, message) { throw new BackendPublicError(code, message); },
-    }));
-    if (signal?.aborted) throw new BackendPublicError("CANCELLED", "Request cancelled");
-    if (!validateTypedObject(definition.result, result, contract.types)) throw new Error("invalid backend handler result");
-    return encodeResult(definition.result, result, contract.types);
-  };
-  const call = async ({ payload, principal = null, signal = null, traceId }) => {
+    let result;
     try {
-      const fields = decodeWire(payload);
-      const operation = fields.function;
+      result = await handler(Object.freeze({ ...input }), Object.freeze({
+        traceId,
+        principal: principal ? Object.freeze({ ...principal, roles: Object.freeze([...(principal.roles ?? [])]) }) : null,
+        signal,
+        database,
+        records: recordCollections,
+        sessions: sessionApi,
+        content: contentApi,
+        identity: identityApi,
+        reject(code, message, fields = null) { throw new BackendPublicError(code, message, fields); },
+      }));
+    } catch (error) {
+      if (error instanceof RecordProviderError) throw new BackendPublicError(error.code, error.message);
+      throw error;
+    }
+    if (signal?.aborted) throw new BackendPublicError("CANCELLED", "Request cancelled");
+    if (!validateBackendObject(definition.result, result, contract)) throw new Error("invalid backend handler result");
+    return schemaVersion === 2 ? encodeBackendV2Result(definition, result, contract) : encodeResult(definition.result, result, contract.types);
+  };
+  const call = async ({ payload, principal = null, signal = null, traceId, wireVersion = schemaVersion }) => {
+    try {
+      if (wireVersion !== schemaVersion) return publicError(traceId, "VALIDATION", "Backend contract version mismatch");
+      let decodedV2 = null;
+      if (schemaVersion === 2) {
+        try { decodedV2 = decodeBackendV2Request(payload, contract); }
+        catch { return publicError(traceId, "VALIDATION", "Invalid server function input"); }
+      }
+      const fields = decodedV2 === null ? decodeWire(payload) : null;
+      const operation = decodedV2?.operation ?? fields.function;
       if (!functionPattern.test(operation ?? "") || !contract.functions[operation]) return publicError(traceId, "VALIDATION", "Unknown server function");
       const definition = contract.functions[operation];
       if (!authorized(principal, definition.authorization)) {
         const authenticated = Array.isArray(principal?.roles) && principal.roles.length > 0;
         return publicError(traceId, authenticated ? "FORBIDDEN" : "UNAUTHORIZED", authenticated ? "You do not have permission for this operation" : "Authentication required");
       }
-      const input = decodeInput(fields, definition);
-      if (!input || !validateTypedObject(definition.input, input, contract.types)) return publicError(traceId, "VALIDATION", "Invalid server function input");
-      const retry = fields.retry === "true";
-      if (fields.retry !== "true" && fields.retry !== "false") return publicError(traceId, "VALIDATION", "Invalid retry policy");
-      const key = fields.idempotency;
+      const input = decodedV2?.input ?? decodeInput(fields, definition);
+      if (!input || !validateBackendObject(definition.input, input, contract)) return publicError(traceId, "VALIDATION", "Invalid server function input");
+      const retry = decodedV2?.retry ?? fields.retry === "true";
+      if (decodedV2 === null && fields.retry !== "true" && fields.retry !== "false") return publicError(traceId, "VALIDATION", "Invalid retry policy");
+      const key = decodedV2 === null ? fields.idempotency : decodedV2.idempotencyKey;
       if (key !== undefined && !idempotencyPattern.test(key)) return publicError(traceId, "VALIDATION", "Invalid idempotency key");
       if (definition.idempotency === "required" && key === undefined) return publicError(traceId, "VALIDATION", "Idempotency key required");
       if (definition.idempotency === "none" && key !== undefined) return publicError(traceId, "VALIDATION", "Idempotency key is not allowed");
@@ -169,17 +243,17 @@ export function createBackendRuntime({ contract, handlers, database = null, sess
       try { return success(traceId, await promise); }
       catch (error) { idempotency.delete(cacheKey); throw error; }
     } catch (error) {
-      if (error instanceof BackendPublicError) return publicError(traceId, error.code, error.message);
+      if (error instanceof BackendPublicError) return publicError(traceId, error.code, error.message, error.fields);
       return publicError(traceId, "INTERNAL", "The request could not be completed");
     }
   };
-  return Object.freeze({ call, get idempotencyEntries() { prune(); return idempotency.size; } });
+  return Object.freeze({ call, schemaVersion, get idempotencyEntries() { prune(); return idempotency.size; } });
 }
 
 export async function handleServerCapability(request, { runtime, principal = null, signal = null } = {}) {
   if (!validateCapabilityRequest(request) || request.kind !== "rpc.call" || !validateRpcRequest(request.payload) || request.payload.operation !== "server.call.v1") {
     return { accepted: false, reason: "INVALID_SERVER_CAPABILITY_REQUEST" };
   }
-  const rpc = await runtime.call({ payload: request.payload.input, principal, signal, traceId: request.traceId });
+  const rpc = await runtime.call({ payload: request.payload.input, principal, signal, traceId: request.traceId, wireVersion: runtime.schemaVersion });
   return capabilityResponse(request, rpc);
 }

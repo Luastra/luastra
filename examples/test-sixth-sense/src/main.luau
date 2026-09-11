@@ -1,13 +1,14 @@
 --!strict
 -- SPDX-License-Identifier: 0BSD
 
+local App = require("luastra/app")
 local UI = require("luastra/ui")
 local Motion = require("luastra/motion")
 local Navigation = require("luastra/navigation")
 local Assets = require("luastra/assets")
 local Timer = require("luastra/timer")
 
-local Application = {}
+local Root = {}
 local nav = Navigation.create {
     routes = {
         "welcome",
@@ -305,7 +306,7 @@ local function gamePage(): UI.Node
     }
 end
 
-function Application.render() : UI.Node
+function Root.render() : UI.Node
     local curPage = nav.current()
 
     if curPage == "welcome" then
@@ -326,7 +327,7 @@ local function initCards(): ()
     end
 end
 
-function Application.handle(action: string, target: string, value: string): ()
+function Root.handle(action: string, target: string, value: string): ()
     -- print(`action={action}, target={target}, value={value}`)
     if action == "go-game" and target == "start-game-btn" then
         initCards()
@@ -356,4 +357,12 @@ function Application.handle(action: string, target: string, value: string): ()
     end
 end
 
-return Application
+function Root.snapshot()
+    return table.freeze({ route = nav.current(), card = gameData.curCardNum })
+end
+
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    handle = Root.handle,
+    snapshot = Root.snapshot,
+}

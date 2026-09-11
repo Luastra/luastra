@@ -1,5 +1,6 @@
 --!strict
 
+local App = require("luastra/app")
 local Debug = require("luastra/debug")
 local UI = require("luastra/ui")
 
@@ -7,14 +8,14 @@ Debug.log("debug lab", 7, true)
 Debug.warn("warning example")
 Debug.error("error example")
 
-local Application = {}
+local Root = {}
 local appTheme: UI.Theme = {
     backgroundColor = "#F4EFE3",
     textColor = "#16342E",
     accentColor = "#2F7568",
 }
 
-function Application.render(): UI.Node
+function Root.render(): UI.Node
     return UI.Screen {
         id = "debug-lab",
         theme = appTheme,
@@ -23,4 +24,11 @@ function Application.render(): UI.Node
     }
 end
 
-return Application
+function Root.snapshot()
+    return table.freeze({ status = "emitted" })
+end
+
+return App.compose {
+    render = function(_outputs) return Root.render() end,
+    snapshot = Root.snapshot,
+}
